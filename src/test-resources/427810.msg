@@ -28,20 +28,20 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>21</code>
     <level>2</level>
     <line>9</line>
-    <column>3</column>
+    <column>2</column>
     <text><![CDATA[<wbr> is not approved by W3C]]></text>
   </message>
   <message>
     <code>21</code>
     <level>2</level>
     <line>10</line>
-    <column>3</column>
+    <column>2</column>
     <text><![CDATA[<nobr> is not approved by W3C]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>14</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML proprietary]]></text>
   </message>
@@ -56,7 +56,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
   <message>
     <code>4</code>
     <level>0</level>
-    <line>14</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[You are recommended to use CSS to control line wrapping.
 Use "white-space: nowrap" to inhibit wrapping in place

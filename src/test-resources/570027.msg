@@ -14,7 +14,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>29</code>
     <level>2</level>
     <line>1</line>
-    <column>24</column>
+    <column>11</column>
     <text><![CDATA[adjacent hyphens within comment]]></text>
   </message>
   <message>
@@ -49,27 +49,27 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>1</code>
     <level>2</level>
     <line>22</line>
-    <column>65</column>
+    <column>33</column>
     <text><![CDATA[Warning: entity "&nbsp" doesn't end in ';']]></text>
   </message>
   <message>
     <code>65</code>
     <level>2</level>
     <line>27</line>
-    <column>87</column>
+    <column>44</column>
     <text><![CDATA[<a> discarding newline in URI reference]]></text>
   </message>
   <message>
     <code>21</code>
     <level>2</level>
     <line>29</line>
-    <column>81</column>
+    <column>42</column>
     <text><![CDATA[<o:p> is not approved by W3C]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>35</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML proprietary]]></text>
   </message>

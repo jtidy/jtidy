@@ -28,21 +28,21 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>11</code>
     <level>2</level>
     <line>11</line>
-    <column>5</column>
+    <column>3</column>
     <text><![CDATA[<body> isn't allowed in <body> elements]]></text>
   </message>
   <message>
     <code>11</code>
     <level>2</level>
     <line>13</line>
-    <column>5</column>
+    <column>3</column>
     <text><![CDATA[<frame> isn't allowed in <body> elements]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>13</line>
-    <column>5</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 4.01 Frameset]]></text>
   </message>
   <message>

@@ -14,7 +14,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>21</code>
     <level>2</level>
     <line>7</line>
-    <column>100</column>
+    <column>57</column>
     <text><![CDATA[<o:p> is not approved by W3C]]></text>
   </message>
   <message>

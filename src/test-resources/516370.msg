@@ -48,14 +48,14 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
   <message>
     <code>110</code>
     <level>0</level>
-    <line>18</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Doctype given is "-//W3C//DTD XHTML 1.1//EN"]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>18</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like XHTML 1.0 Strict]]></text>
   </message>

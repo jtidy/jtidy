@@ -21,21 +21,21 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>34</code>
     <level>2</level>
     <line>9</line>
-    <column>13</column>
+    <column>7</column>
     <text><![CDATA[<!DOCTYPE> isn't allowed after elements]]></text>
   </message>
   <message>
     <code>110</code>
     <level>0</level>
-    <line>12</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Doctype given is ""]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>12</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 3.2]]></text>
   </message>
   <message>

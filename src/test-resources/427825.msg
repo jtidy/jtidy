@@ -21,13 +21,13 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>21</code>
     <level>2</level>
     <line>7</line>
-    <column>20</column>
+    <column>11</column>
     <text><![CDATA[<lm:xcode> is not approved by W3C]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>10</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML proprietary]]></text>
   </message>

@@ -14,48 +14,48 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>10</code>
     <level>2</level>
     <line>8</line>
-    <column>10</column>
+    <column>6</column>
     <text><![CDATA[replacing unexpected </i> by </u>]]></text>
   </message>
   <message>
     <code>23</code>
     <level>2</level>
     <line>8</line>
-    <column>10</column>
+    <column>6</column>
     <text><![CDATA[trimming empty <u>]]></text>
   </message>
   <message>
     <code>24</code>
     <level>1</level>
     <line>8</line>
-    <column>52</column>
+    <column>30</column>
     <text><![CDATA[<i> is probably intended as </i>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>8</line>
-    <column>51</column>
+    <column>28</column>
     <text><![CDATA[discarding unexpected </u>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>8</line>
-    <column>57</column>
+    <column>32</column>
     <text><![CDATA[discarding unexpected </i>]]></text>
   </message>
   <message>
     <code>110</code>
     <level>0</level>
-    <line>11</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Doctype given is "-//W3C//DTD HTML 4.01 Transitional//EN"]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>11</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 4.01 Transitional]]></text>
   </message>

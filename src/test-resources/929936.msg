@@ -70,28 +70,28 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>4</code>
     <level>2</level>
     <line>12</line>
-    <column>24</column>
+    <column>13</column>
     <text><![CDATA[Warning: unescaped & which should be written as &amp;]]></text>
   </message>
   <message>
     <code>64</code>
     <level>2</level>
     <line>12</line>
-    <column>24</column>
+    <column>13</column>
     <text><![CDATA[<a> escaping malformed URI reference]]></text>
   </message>
   <message>
     <code>110</code>
     <level>0</level>
-    <line>14</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Doctype given is "-//W3C//DTD HTML 3.2//EN"]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>14</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 3.2]]></text>
   </message>
   <message>
@@ -105,8 +105,8 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
   <message>
     <code>76</code>
     <level>0</level>
-    <line>14</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[It is unlikely that vendor-specific, system-dependent encodings
 work widely enough on the World Wide Web; you should avoid using the 
 specified character encoding, instead you are recommended to
@@ -116,8 +116,8 @@ use named entities, e.g. &trade;.
   <message>
     <code>77</code>
     <level>0</level>
-    <line>14</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[Character codes 128 to 159 (U+0080 to U+009F) are not allowed in HTML;
 even if they were, they would likely be unprintable control characters.
 Tidy assumed you wanted to refer to a character with the same byte value in the 
@@ -127,8 +127,8 @@ specified encoding and replaced that reference with the Unicode equivalent.
   <message>
     <code>78</code>
     <level>0</level>
-    <line>14</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[Character codes for UTF-8 must be in the range: U+0000 to U+10FFFF.
 The definition of UTF-8 in Annex D of ISO/IEC 10646-1:2000 also
 allows for the use of five- and six-byte sequences to encode
@@ -143,8 +143,8 @@ http://www.unicode.org/unicode and http://www.cl.cam.ac.uk/~mgk25/unicode.html
   <message>
     <code>79</code>
     <level>0</level>
-    <line>14</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[Character codes for UTF-16 must be in the range: U+0000 to U+10FFFF.
 The definition of UTF-16 in Annex C of ISO/IEC 10646-1:2000 does not allow the
 mapping of unpaired surrogates. For more information please refer to
@@ -154,8 +154,8 @@ http://www.unicode.org/unicode and http://www.cl.cam.ac.uk/~mgk25/unicode.html
   <message>
     <code>81</code>
     <level>0</level>
-    <line>14</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[URIs must be properly escaped, they must not contain unescaped
 characters below U+0021 including the space character and not
 above U+007E. Tidy escapes the URI for you as recommended by

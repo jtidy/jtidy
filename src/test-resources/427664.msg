@@ -48,7 +48,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
   <message>
     <code>111</code>
     <level>0</level>
-    <line>10</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 3.2]]></text>
   </message>

@@ -35,49 +35,49 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>49</code>
     <level>2</level>
     <line>7</line>
-    <column>8</column>
+    <column>5</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>8</line>
-    <column>8</column>
+    <column>5</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>11</code>
     <level>2</level>
     <line>8</line>
-    <column>74</column>
+    <column>41</column>
     <text><![CDATA[<hr> isn't allowed in <dt> elements]]></text>
   </message>
   <message>
     <code>7</code>
     <level>2</level>
     <line>9</line>
-    <column>16</column>
+    <column>9</column>
     <text><![CDATA[missing </center> before <h1>]]></text>
   </message>
   <message>
     <code>23</code>
     <level>2</level>
     <line>9</line>
-    <column>16</column>
+    <column>9</column>
     <text><![CDATA[trimming empty <center>]]></text>
   </message>
   <message>
     <code>23</code>
     <level>2</level>
     <line>9</line>
-    <column>16</column>
+    <column>9</column>
     <text><![CDATA[trimming empty <dl>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>9</line>
-    <column>44</column>
+    <column>23</column>
     <text><![CDATA[discarding unexpected </center>]]></text>
   </message>
   <message>
@@ -98,21 +98,21 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>49</code>
     <level>2</level>
     <line>11</line>
-    <column>8</column>
+    <column>5</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>12</line>
-    <column>8</column>
+    <column>5</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>11</code>
     <level>2</level>
     <line>12</line>
-    <column>74</column>
+    <column>41</column>
     <text><![CDATA[<hr> isn't allowed in <dt> elements]]></text>
   </message>
   <message>

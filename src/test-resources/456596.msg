@@ -21,27 +21,27 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>69</code>
     <level>2</level>
     <line>6</line>
-    <column>10</column>
+    <column>6</column>
     <text><![CDATA[<font> unexpected =, expected attribute name]]></text>
   </message>
   <message>
     <code>59</code>
     <level>2</level>
     <line>6</line>
-    <column>10</column>
+    <column>6</column>
     <text><![CDATA[<font> unexpected or duplicate quote mark]]></text>
   </message>
   <message>
     <code>58</code>
     <level>2</level>
     <line>6</line>
-    <column>10</column>
+    <column>6</column>
     <text><![CDATA[<font> attribute with missing trailing quote mark]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>9</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 3.2]]></text>
   </message>
@@ -56,7 +56,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
   <message>
     <code>8</code>
     <level>0</level>
-    <line>9</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[You are recommended to use CSS to specify the font and
 properties such as its size and color. This will reduce

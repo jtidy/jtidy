@@ -28,756 +28,756 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>32</code>
     <level>2</level>
     <line>39</line>
-    <column>108</column>
+    <column>53</column>
     <text><![CDATA['<' + '/' + letter not allowed here]]></text>
   </message>
   <message>
     <code>4</code>
     <level>2</level>
     <line>39</line>
-    <column>114</column>
+    <column>57</column>
     <text><![CDATA[Warning: unescaped & which should be written as &amp;]]></text>
   </message>
   <message>
     <code>3</code>
     <level>2</level>
     <line>39</line>
-    <column>115</column>
+    <column>58</column>
     <text><![CDATA[Warning: unescaped & or unknown entity "&parent.frames.length"]]></text>
   </message>
   <message>
     <code>4</code>
     <level>2</level>
     <line>43</line>
-    <column>30</column>
+    <column>15</column>
     <text><![CDATA[Warning: unescaped & which should be written as &amp;]]></text>
   </message>
   <message>
     <code>3</code>
     <level>2</level>
     <line>43</line>
-    <column>31</column>
+    <column>16</column>
     <text><![CDATA[Warning: unescaped & or unknown entity "&d.all"]]></text>
   </message>
   <message>
     <code>4</code>
     <level>2</level>
     <line>43</line>
-    <column>92</column>
+    <column>47</column>
     <text><![CDATA[Warning: unescaped & which should be written as &amp;]]></text>
   </message>
   <message>
     <code>3</code>
     <level>2</level>
     <line>43</line>
-    <column>93</column>
+    <column>48</column>
     <text><![CDATA[Warning: unescaped & or unknown entity "&i"]]></text>
   </message>
   <message>
     <code>11</code>
     <level>2</level>
     <line>43</line>
-    <column>93</column>
+    <column>48</column>
     <text><![CDATA[plain text isn't allowed in <head> elements]]></text>
   </message>
   <message>
     <code>48</code>
     <level>2</level>
     <line>43</line>
-    <column>97</column>
+    <column>51</column>
     <text><![CDATA[unknown attribute "i++)"]]></text>
   </message>
   <message>
     <code>4</code>
     <level>2</level>
     <line>45</line>
-    <column>24</column>
+    <column>13</column>
     <text><![CDATA[Warning: unescaped & which should be written as &amp;]]></text>
   </message>
   <message>
     <code>3</code>
     <level>2</level>
     <line>45</line>
-    <column>25</column>
+    <column>14</column>
     <text><![CDATA[Warning: unescaped & or unknown entity "&d.layers"]]></text>
   </message>
   <message>
     <code>4</code>
     <level>2</level>
     <line>45</line>
-    <column>42</column>
+    <column>23</column>
     <text><![CDATA[Warning: unescaped & which should be written as &amp;]]></text>
   </message>
   <message>
     <code>3</code>
     <level>2</level>
     <line>45</line>
-    <column>43</column>
+    <column>24</column>
     <text><![CDATA[Warning: unescaped & or unknown entity "&i"]]></text>
   </message>
   <message>
     <code>52</code>
     <level>3</level>
     <line>45</line>
-    <column>43</column>
+    <column>24</column>
     <text><![CDATA[<d.forms.length> missing '>' for end of tag]]></text>
   </message>
   <message>
     <code>51</code>
     <level>2</level>
     <line>45</line>
-    <column>43</column>
+    <column>24</column>
     <text><![CDATA[<d.forms.length> attribute "for(i" has invalid value "0;!x&&d.layers&&i"]]></text>
   </message>
   <message>
     <code>22</code>
     <level>3</level>
     <line>45</line>
-    <column>43</column>
+    <column>24</column>
     <text><![CDATA[<d.forms.length> is not recognized!]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>45</line>
-    <column>43</column>
+    <column>24</column>
     <text><![CDATA[discarding unexpected <d.forms.length>]]></text>
   </message>
   <message>
     <code>48</code>
     <level>2</level>
     <line>45</line>
-    <column>46</column>
+    <column>26</column>
     <text><![CDATA[unknown attribute "i++)"]]></text>
   </message>
   <message>
     <code>48</code>
     <level>2</level>
     <line>45</line>
-    <column>46</column>
+    <column>26</column>
     <text><![CDATA[unknown attribute "x;"]]></text>
   </message>
   <message>
     <code>48</code>
     <level>2</level>
     <line>45</line>
-    <column>46</column>
+    <column>26</column>
     <text><![CDATA[unknown attribute "}"]]></text>
   </message>
   <message>
     <code>48</code>
     <level>2</level>
     <line>45</line>
-    <column>46</column>
+    <column>26</column>
     <text><![CDATA[unknown attribute "mm_swapimage()"]]></text>
   </message>
   <message>
     <code>48</code>
     <level>2</level>
     <line>45</line>
-    <column>46</column>
+    <column>26</column>
     <text><![CDATA[unknown attribute "{"]]></text>
   </message>
   <message>
     <code>48</code>
     <level>2</level>
     <line>45</line>
-    <column>46</column>
+    <column>26</column>
     <text><![CDATA[unknown attribute "//v3.0"]]></text>
   </message>
   <message>
     <code>51</code>
     <level>2</level>
     <line>45</line>
-    <column>46</column>
+    <column>26</column>
     <text><![CDATA[<d.layers.length> attribute "i,j" has invalid value "0,x,a=MM_swapImage.arguments;"]]></text>
   </message>
   <message>
     <code>48</code>
     <level>2</level>
     <line>45</line>
-    <column>46</column>
+    <column>26</column>
     <text><![CDATA[unknown attribute "array;"]]></text>
   </message>
   <message>
     <code>52</code>
     <level>3</level>
     <line>45</line>
-    <column>46</column>
+    <column>26</column>
     <text><![CDATA[<d.layers.length> missing '>' for end of tag]]></text>
   </message>
   <message>
     <code>51</code>
     <level>2</level>
     <line>45</line>
-    <column>46</column>
+    <column>26</column>
     <text><![CDATA[<d.layers.length> attribute "for(i" has invalid value "0;i"]]></text>
   </message>
   <message>
     <code>22</code>
     <level>3</level>
     <line>45</line>
-    <column>46</column>
+    <column>26</column>
     <text><![CDATA[<d.layers.length> is not recognized!]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>45</line>
-    <column>46</column>
+    <column>26</column>
     <text><![CDATA[discarding unexpected <d.layers.length>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>61</line>
-    <column>3</column>
+    <column>1</column>
     <text><![CDATA[discarding unexpected </script>]]></text>
   </message>
   <message>
     <code>11</code>
     <level>2</level>
     <line>63</line>
-    <column>3</column>
+    <column>1</column>
     <text><![CDATA[</head> isn't allowed in <body> elements]]></text>
   </message>
   <message>
     <code>11</code>
     <level>2</level>
     <line>65</line>
-    <column>3</column>
+    <column>2</column>
     <text><![CDATA[<body> isn't allowed in <body> elements]]></text>
   </message>
   <message>
     <code>23</code>
     <level>2</level>
     <line>70</line>
-    <column>5</column>
-    <text><![CDATA[trimming empty <center>]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>72</line>
-    <column>284</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>72</line>
-    <column>717</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>72</line>
-    <column>933</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>72</line>
-    <column>1382</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>72</line>
-    <column>1821</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>51</code>
-    <level>2</level>
-    <line>74</line>
-    <column>49</column>
-    <text><![CDATA[<img> attribute "align" has invalid value "abscenter"]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>74</line>
-    <column>49</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>54</code>
-    <level>2</level>
-    <line>74</line>
-    <column>434</column>
-    <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>74</line>
-    <column>434</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>51</code>
-    <level>2</level>
-    <line>75</line>
-    <column>15</column>
-    <text><![CDATA[<img> attribute "align" has invalid value "abscenter"]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>75</line>
-    <column>15</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>54</code>
-    <level>2</level>
-    <line>75</line>
-    <column>366</column>
-    <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>75</line>
-    <column>366</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>51</code>
-    <level>2</level>
-    <line>75</line>
-    <column>585</column>
-    <text><![CDATA[<img> attribute "align" has invalid value "abscenter"]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>75</line>
-    <column>585</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>54</code>
-    <level>2</level>
-    <line>75</line>
-    <column>938</column>
-    <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>75</line>
-    <column>938</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>51</code>
-    <level>2</level>
-    <line>75</line>
-    <column>1141</column>
-    <text><![CDATA[<img> attribute "align" has invalid value "abscenter"]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>75</line>
-    <column>1141</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>54</code>
-    <level>2</level>
-    <line>75</line>
-    <column>1222</column>
-    <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>75</line>
-    <column>1222</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>51</code>
-    <level>2</level>
-    <line>75</line>
-    <column>1431</column>
-    <text><![CDATA[<img> attribute "align" has invalid value "abscenter"]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>75</line>
-    <column>1431</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>54</code>
-    <level>2</level>
-    <line>75</line>
-    <column>1803</column>
-    <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>75</line>
-    <column>1803</column>
-    <text><![CDATA[<img> lacks "alt" attribute]]></text>
-  </message>
-  <message>
-    <code>23</code>
-    <level>2</level>
-    <line>80</line>
     <column>1</column>
     <text><![CDATA[trimming empty <center>]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
+    <line>72</line>
+    <column>145</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>72</line>
+    <column>368</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>72</line>
+    <column>481</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>72</line>
+    <column>712</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>72</line>
+    <column>938</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>51</code>
+    <level>2</level>
+    <line>74</line>
+    <column>27</column>
+    <text><![CDATA[<img> attribute "align" has invalid value "abscenter"]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>74</line>
+    <column>27</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>54</code>
+    <level>2</level>
+    <line>74</line>
+    <column>226</column>
+    <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>74</line>
+    <column>226</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>51</code>
+    <level>2</level>
+    <line>75</line>
+    <column>8</column>
+    <text><![CDATA[<img> attribute "align" has invalid value "abscenter"]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>75</line>
+    <column>8</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>54</code>
+    <level>2</level>
+    <line>75</line>
+    <column>189</column>
+    <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>75</line>
+    <column>189</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>51</code>
+    <level>2</level>
+    <line>75</line>
+    <column>303</column>
+    <text><![CDATA[<img> attribute "align" has invalid value "abscenter"]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>75</line>
+    <column>303</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>54</code>
+    <level>2</level>
+    <line>75</line>
+    <column>485</column>
+    <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>75</line>
+    <column>485</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>51</code>
+    <level>2</level>
+    <line>75</line>
+    <column>591</column>
+    <text><![CDATA[<img> attribute "align" has invalid value "abscenter"]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>75</line>
+    <column>591</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>54</code>
+    <level>2</level>
+    <line>75</line>
+    <column>635</column>
+    <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>75</line>
+    <column>635</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>51</code>
+    <level>2</level>
+    <line>75</line>
+    <column>743</column>
+    <text><![CDATA[<img> attribute "align" has invalid value "abscenter"]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>75</line>
+    <column>743</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>54</code>
+    <level>2</level>
+    <line>75</line>
+    <column>935</column>
+    <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>75</line>
+    <column>935</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>80</line>
+    <column>-1</column>
+    <text><![CDATA[trimming empty <center>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
     <line>82</line>
-    <column>9</column>
+    <column>5</column>
     <text><![CDATA[<table> lacks "summary" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>84</line>
-    <column>107</column>
+    <column>57</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>84</line>
-    <column>107</column>
+    <column>57</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>64</code>
     <level>2</level>
     <line>84</line>
-    <column>257</column>
+    <column>138</column>
     <text><![CDATA[<a> escaping malformed URI reference]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>86</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>86</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>88</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>88</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>90</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>90</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>64</code>
     <level>2</level>
     <line>90</line>
-    <column>176</column>
+    <column>94</column>
     <text><![CDATA[<a> escaping malformed URI reference]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>92</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>92</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>64</code>
     <level>2</level>
     <line>92</line>
-    <column>176</column>
+    <column>94</column>
     <text><![CDATA[<a> escaping malformed URI reference]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>94</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>94</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>64</code>
     <level>2</level>
     <line>94</line>
-    <column>176</column>
+    <column>94</column>
     <text><![CDATA[<a> escaping malformed URI reference]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>96</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>96</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>64</code>
     <level>2</level>
     <line>96</line>
-    <column>176</column>
+    <column>94</column>
     <text><![CDATA[<a> escaping malformed URI reference]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>98</line>
-    <column>102</column>
+    <column>55</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>98</line>
-    <column>102</column>
+    <column>55</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>99</line>
-    <column>67</column>
+    <column>35</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>99</line>
-    <column>67</column>
+    <column>35</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>101</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>101</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>103</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>103</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>105</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>105</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>106</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>106</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>107</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>107</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>108</line>
-    <column>102</column>
+    <column>55</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>108</line>
-    <column>102</column>
+    <column>55</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>110</line>
-    <column>49</column>
+    <column>26</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>110</line>
-    <column>49</column>
+    <column>26</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>112</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>112</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>113</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>113</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>64</code>
     <level>2</level>
     <line>113</line>
-    <column>176</column>
+    <column>94</column>
     <text><![CDATA[<a> escaping malformed URI reference]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>115</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>115</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>116</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>116</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>54</code>
     <level>2</level>
     <line>118</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> proprietary attribute value "absmiddle"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>118</line>
-    <column>27</column>
+    <column>14</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
@@ -798,42 +798,42 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>12</code>
     <level>2</level>
     <line>186</line>
-    <column>5</column>
+    <column>3</column>
     <text><![CDATA[missing <dd>]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>187</line>
-    <column>117</column>
+    <column>63</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>23</code>
     <level>2</level>
     <line>189</line>
-    <column>89</column>
+    <column>47</column>
     <text><![CDATA[trimming empty <font>]]></text>
   </message>
   <message>
     <code>23</code>
     <level>2</level>
     <line>189</line>
-    <column>96</column>
+    <column>50</column>
     <text><![CDATA[trimming empty <div>]]></text>
   </message>
   <message>
     <code>23</code>
     <level>2</level>
     <line>190</line>
-    <column>82</column>
+    <column>42</column>
     <text><![CDATA[trimming empty <font>]]></text>
   </message>
   <message>
     <code>23</code>
     <level>2</level>
     <line>190</line>
-    <column>94</column>
+    <column>49</column>
     <text><![CDATA[trimming empty <div>]]></text>
   </message>
   <message>
@@ -854,76 +854,76 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>48</code>
     <level>2</level>
     <line>202</line>
-    <column>102</column>
+    <column>53</column>
     <text><![CDATA[unknown attribute "v:shapes"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>202</line>
-    <column>102</column>
+    <column>53</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>22</code>
     <level>3</level>
     <line>204</line>
-    <column>148</column>
+    <column>75</column>
     <text><![CDATA[<o:p> is not recognized!]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>204</line>
-    <column>148</column>
+    <column>75</column>
     <text><![CDATA[discarding unexpected <o:p>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>204</line>
-    <column>152</column>
+    <column>76</column>
     <text><![CDATA[discarding unexpected </o:p>]]></text>
   </message>
   <message>
     <code>23</code>
     <level>2</level>
     <line>204</line>
-    <column>162</column>
+    <column>82</column>
     <text><![CDATA[trimming empty <span>]]></text>
   </message>
   <message>
     <code>22</code>
     <level>3</level>
     <line>206</line>
-    <column>148</column>
+    <column>75</column>
     <text><![CDATA[<o:p> is not recognized!]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>206</line>
-    <column>148</column>
+    <column>75</column>
     <text><![CDATA[discarding unexpected <o:p>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>206</line>
-    <column>152</column>
+    <column>76</column>
     <text><![CDATA[discarding unexpected </o:p>]]></text>
   </message>
   <message>
     <code>23</code>
     <level>2</level>
     <line>206</line>
-    <column>162</column>
+    <column>82</column>
     <text><![CDATA[trimming empty <span>]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>1037</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML proprietary]]></text>
   </message>
@@ -948,7 +948,7 @@ using HTML Tidy to generate a tidied up version.
   <message>
     <code>76</code>
     <level>0</level>
-    <line>1037</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[It is unlikely that vendor-specific, system-dependent encodings
 work widely enough on the World Wide Web; you should avoid using the 
@@ -959,7 +959,7 @@ use named entities, e.g. &trade;.
   <message>
     <code>77</code>
     <level>0</level>
-    <line>1037</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[Character codes 128 to 159 (U+0080 to U+009F) are not allowed in HTML;
 even if they were, they would likely be unprintable control characters.
@@ -970,7 +970,7 @@ specified encoding and replaced that reference with the Unicode equivalent.
   <message>
     <code>78</code>
     <level>0</level>
-    <line>1037</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[Character codes for UTF-8 must be in the range: U+0000 to U+10FFFF.
 The definition of UTF-8 in Annex D of ISO/IEC 10646-1:2000 also
@@ -986,7 +986,7 @@ http://www.unicode.org/unicode and http://www.cl.cam.ac.uk/~mgk25/unicode.html
   <message>
     <code>79</code>
     <level>0</level>
-    <line>1037</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[Character codes for UTF-16 must be in the range: U+0000 to U+10FFFF.
 The definition of UTF-16 in Annex C of ISO/IEC 10646-1:2000 does not allow the
@@ -997,7 +997,7 @@ http://www.unicode.org/unicode and http://www.cl.cam.ac.uk/~mgk25/unicode.html
   <message>
     <code>81</code>
     <level>0</level>
-    <line>1037</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[URIs must be properly escaped, they must not contain unescaped
 characters below U+0021 including the space character and not
@@ -1012,7 +1012,7 @@ http://www.w3.org/International/O-URL-and-ident.html
   <message>
     <code>4</code>
     <level>0</level>
-    <line>1037</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[The table summary attribute should be used to describe
 the table structure. It is very helpful for people using
@@ -1025,7 +1025,7 @@ a meaningful context for each cell.
   <message>
     <code>1</code>
     <level>0</level>
-    <line>1037</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[The alt attribute should be used to give a short description
 of an image; longer descriptions should be given with the
@@ -1036,7 +1036,7 @@ These measures are needed for people using non-graphical browsers.
   <message>
     <code>112</code>
     <level>0</level>
-    <line>1037</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[For further advice on how to make your pages accessible
 see "http://www.w3.org/WAI/GL". You may also want to try
@@ -1047,7 +1047,7 @@ service for checking URLs for accessibility.
   <message>
     <code>8</code>
     <level>0</level>
-    <line>1037</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[You are recommended to use CSS to specify the font and
 properties such as its size and color. This will reduce

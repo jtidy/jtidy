@@ -21,70 +21,70 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>29</code>
     <level>2</level>
     <line>2</line>
-    <column>24</column>
+    <column>11</column>
     <text><![CDATA[adjacent hyphens within comment]]></text>
   </message>
   <message>
     <code>7</code>
     <level>2</level>
     <line>10</line>
-    <column>56</column>
+    <column>33</column>
     <text><![CDATA[missing </font> before <p>]]></text>
   </message>
   <message>
     <code>23</code>
     <level>2</level>
     <line>10</line>
-    <column>56</column>
+    <column>33</column>
     <text><![CDATA[trimming empty <font>]]></text>
   </message>
   <message>
     <code>7</code>
     <level>2</level>
     <line>10</line>
-    <column>56</column>
+    <column>33</column>
     <text><![CDATA[missing </u> before <p>]]></text>
   </message>
   <message>
     <code>23</code>
     <level>2</level>
     <line>10</line>
-    <column>56</column>
+    <column>33</column>
     <text><![CDATA[trimming empty <u>]]></text>
   </message>
   <message>
     <code>7</code>
     <level>2</level>
     <line>10</line>
-    <column>56</column>
+    <column>33</column>
     <text><![CDATA[missing </b> before <p>]]></text>
   </message>
   <message>
     <code>23</code>
     <level>2</level>
     <line>10</line>
-    <column>56</column>
+    <column>33</column>
     <text><![CDATA[trimming empty <b>]]></text>
   </message>
   <message>
     <code>15</code>
     <level>2</level>
     <line>10</line>
-    <column>60</column>
+    <column>36</column>
     <text><![CDATA[inserting implicit <b>]]></text>
   </message>
   <message>
     <code>15</code>
     <level>2</level>
     <line>10</line>
-    <column>60</column>
+    <column>36</column>
     <text><![CDATA[inserting implicit <u>]]></text>
   </message>
   <message>
     <code>15</code>
     <level>2</level>
     <line>10</line>
-    <column>60</column>
+    <column>36</column>
     <text><![CDATA[inserting implicit <font>]]></text>
   </message>
   <message>
@@ -98,14 +98,14 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>8</code>
     <level>2</level>
     <line>11</line>
-    <column>4</column>
+    <column>1</column>
     <text><![CDATA[discarding unexpected </u>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>11</line>
-    <column>11</column>
+    <column>5</column>
     <text><![CDATA[discarding unexpected </font>]]></text>
   </message>
   <message>
@@ -126,7 +126,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>15</code>
     <level>2</level>
     <line>12</line>
-    <column>6</column>
+    <column>4</column>
     <text><![CDATA[inserting implicit <font>]]></text>
   </message>
   <message>
@@ -139,8 +139,8 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
   <message>
     <code>111</code>
     <level>0</level>
-    <line>14</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 3.2]]></text>
   </message>
   <message>
@@ -154,8 +154,8 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
   <message>
     <code>8</code>
     <level>0</level>
-    <line>14</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[You are recommended to use CSS to specify the font and
 properties such as its size and color. This will reduce
 the size of HTML files and make them easier to maintain

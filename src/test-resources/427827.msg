@@ -14,28 +14,28 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>7</code>
     <level>2</level>
     <line>7</line>
-    <column>38</column>
+    <column>21</column>
     <text><![CDATA[missing </a> before <a>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>8</line>
-    <column>13</column>
+    <column>6</column>
     <text><![CDATA[discarding unexpected </a>]]></text>
   </message>
   <message>
     <code>110</code>
     <level>0</level>
-    <line>10</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Doctype given is "-//W3C//DTD HTML 3.2//EN"]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>10</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 3.2]]></text>
   </message>
   <message>

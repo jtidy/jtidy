@@ -14,14 +14,14 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>11</code>
     <level>2</level>
     <line>7</line>
-    <column>5</column>
+    <column>3</column>
     <text><![CDATA[<input> isn't allowed in <body> elements]]></text>
   </message>
   <message>
     <code>15</code>
     <level>2</level>
     <line>7</line>
-    <column>5</column>
+    <column>3</column>
     <text><![CDATA[inserting implicit <form>]]></text>
   </message>
   <message>
@@ -34,15 +34,15 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
   <message>
     <code>110</code>
     <level>0</level>
-    <line>12</line>
-    <column>2</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Doctype given is "-//W3C//DTD HTML 4.01 Transitional//EN"]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>12</line>
-    <column>2</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 4.01 Transitional]]></text>
   </message>
   <message>

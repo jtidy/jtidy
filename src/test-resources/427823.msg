@@ -21,14 +21,14 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>27</code>
     <level>2</level>
     <line>13</line>
-    <column>3</column>
+    <column>1</column>
     <text><![CDATA[content occurs after end of body]]></text>
   </message>
   <message>
     <code>20</code>
     <level>2</level>
     <line>13</line>
-    <column>3</column>
+    <column>1</column>
     <text><![CDATA[replacing element <body> by <div>]]></text>
   </message>
   <message>
@@ -62,8 +62,8 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
   <message>
     <code>111</code>
     <level>0</level>
-    <line>19</line>
-    <column>2</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 4.01 Frameset]]></text>
   </message>
   <message>

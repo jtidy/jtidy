@@ -28,35 +28,35 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>8</code>
     <level>2</level>
     <line>8</line>
-    <column>48</column>
+    <column>26</column>
     <text><![CDATA[discarding unexpected <font>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>8</line>
-    <column>87</column>
+    <column>46</column>
     <text><![CDATA[discarding unexpected </font>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>12</line>
-    <column>48</column>
+    <column>26</column>
     <text><![CDATA[discarding unexpected <font>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>12</line>
-    <column>85</column>
+    <column>45</column>
     <text><![CDATA[discarding unexpected </font>]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>17</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 3.2]]></text>
   </message>
   <message>

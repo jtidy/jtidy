@@ -34,7 +34,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
   <message>
     <code>111</code>
     <level>0</level>
-    <line>11</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 4.01 Transitional]]></text>
   </message>
@@ -49,7 +49,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
   <message>
     <code>8</code>
     <level>0</level>
-    <line>11</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[You are recommended to use CSS to specify the font and
 properties such as its size and color. This will reduce

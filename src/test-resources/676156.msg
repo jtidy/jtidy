@@ -35,13 +35,13 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>29</code>
     <level>2</level>
     <line>3</line>
-    <column>46</column>
+    <column>22</column>
     <text><![CDATA[adjacent hyphens within comment]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>6</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 3.2]]></text>
   </message>

@@ -21,13 +21,13 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>40</code>
     <level>2</level>
     <line>6</line>
-    <column>53</column>
+    <column>28</column>
     <text><![CDATA[nested q elements, possible typo]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>9</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 4.01 Transitional]]></text>
   </message>

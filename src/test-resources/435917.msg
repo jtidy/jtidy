@@ -14,20 +14,20 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>58</code>
     <level>2</level>
     <line>11</line>
-    <column>3</column>
+    <column>2</column>
     <text><![CDATA[<input> attribute with missing trailing quote mark]]></text>
   </message>
   <message>
     <code>110</code>
     <level>0</level>
-    <line>15</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Doctype given is "-//W3C//DTD HTML 4.01 Transitional//EN"]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>15</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 4.01 Transitional]]></text>
   </message>

@@ -21,21 +21,21 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>11</code>
     <level>2</level>
     <line>6</line>
-    <column>3</column>
+    <column>2</column>
     <text><![CDATA[<body> isn't allowed in <body> elements]]></text>
   </message>
   <message>
     <code>110</code>
     <level>0</level>
-    <line>9</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Doctype given is "-//W3C//DTD HTML 4.01 Transitional//EN"]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>9</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 4.01 Transitional]]></text>
   </message>
   <message>

@@ -28,14 +28,14 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>23</code>
     <level>2</level>
     <line>11</line>
-    <column>4</column>
+    <column>1</column>
     <text><![CDATA[trimming empty <ul>]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>14</line>
-    <column>14</column>
+    <line>1</line>
+    <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 4.01]]></text>
   </message>
   <message>

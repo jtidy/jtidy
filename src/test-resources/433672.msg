@@ -21,41 +21,41 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>7</code>
     <level>2</level>
     <line>6</line>
-    <column>27</column>
+    <column>15</column>
     <text><![CDATA[missing </a> before <h2>]]></text>
   </message>
   <message>
     <code>15</code>
     <level>2</level>
     <line>6</line>
-    <column>33</column>
+    <column>19</column>
     <text><![CDATA[inserting implicit <a>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>6</line>
-    <column>67</column>
+    <column>35</column>
     <text><![CDATA[discarding unexpected </a>]]></text>
   </message>
   <message>
     <code>7</code>
     <level>2</level>
     <line>9</line>
-    <column>29</column>
+    <column>16</column>
     <text><![CDATA[missing </a> before <center>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>9</line>
-    <column>118</column>
+    <column>62</column>
     <text><![CDATA[discarding unexpected </a>]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>13</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 3.2]]></text>
   </message>

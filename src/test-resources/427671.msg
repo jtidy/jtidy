@@ -21,62 +21,62 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>8</code>
     <level>2</level>
     <line>8</line>
-    <column>8</column>
+    <column>5</column>
     <text><![CDATA[discarding unexpected <frame>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>8</line>
-    <column>42</column>
+    <column>22</column>
     <text><![CDATA[discarding unexpected </frame>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>9</line>
-    <column>8</column>
+    <column>5</column>
     <text><![CDATA[discarding unexpected <frameset>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>9</line>
-    <column>53</column>
+    <column>28</column>
     <text><![CDATA[discarding unexpected </frameset>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>10</line>
-    <column>8</column>
+    <column>5</column>
     <text><![CDATA[discarding unexpected <optgroup>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>10</line>
-    <column>53</column>
+    <column>28</column>
     <text><![CDATA[discarding unexpected </optgroup>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>11</line>
-    <column>8</column>
+    <column>5</column>
     <text><![CDATA[discarding unexpected <option>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>11</line>
-    <column>45</column>
+    <column>24</column>
     <text><![CDATA[discarding unexpected </option>]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>16</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML proprietary]]></text>
   </message>

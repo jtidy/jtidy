@@ -21,48 +21,48 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>59</code>
     <level>2</level>
     <line>6</line>
-    <column>27</column>
+    <column>15</column>
     <text><![CDATA[<spanstyle> unexpected or duplicate quote mark]]></text>
   </message>
   <message>
     <code>58</code>
     <level>2</level>
     <line>6</line>
-    <column>27</column>
+    <column>15</column>
     <text><![CDATA[<spanstyle> attribute with missing trailing quote mark]]></text>
   </message>
   <message>
     <code>22</code>
     <level>3</level>
     <line>6</line>
-    <column>27</column>
+    <column>15</column>
     <text><![CDATA[<spanstyle> is not recognized!]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>6</line>
-    <column>27</column>
+    <column>15</column>
     <text><![CDATA[discarding unexpected <spanstyle>]]></text>
   </message>
   <message>
     <code>8</code>
     <level>2</level>
     <line>6</line>
-    <column>84</column>
+    <column>44</column>
     <text><![CDATA[discarding unexpected </span>]]></text>
   </message>
   <message>
     <code>59</code>
     <level>2</level>
     <line>6</line>
-    <column>99</column>
+    <column>53</column>
     <text><![CDATA[<a> unexpected or duplicate quote mark]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>9</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 2.0]]></text>
   </message>

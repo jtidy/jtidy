@@ -21,7 +21,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>49</code>
     <level>2</level>
     <line>9</line>
-    <column>16</column>
+    <column>9</column>
     <text><![CDATA[<table> lacks "summary" attribute]]></text>
   </message>
   <message>
@@ -42,34 +42,34 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>55</code>
     <level>2</level>
     <line>17</line>
-    <column>308</column>
+    <column>156</column>
     <text><![CDATA[<img> dropping value "0" for repeated attribute "border"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>17</line>
-    <column>528</column>
+    <column>273</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>55</code>
     <level>2</level>
     <line>18</line>
-    <column>310</column>
+    <column>157</column>
     <text><![CDATA[<img> dropping value "0" for repeated attribute "border"]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>18</line>
-    <column>530</column>
+    <column>274</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
     <code>111</code>
     <level>0</level>
-    <line>26</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[InputStream: Document content looks like HTML 4.01 Transitional]]></text>
   </message>
@@ -84,7 +84,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
   <message>
     <code>4</code>
     <level>0</level>
-    <line>26</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[The table summary attribute should be used to describe
 the table structure. It is very helpful for people using
@@ -97,7 +97,7 @@ a meaningful context for each cell.
   <message>
     <code>1</code>
     <level>0</level>
-    <line>26</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[The alt attribute should be used to give a short description
 of an image; longer descriptions should be given with the
@@ -108,7 +108,7 @@ These measures are needed for people using non-graphical browsers.
   <message>
     <code>112</code>
     <level>0</level>
-    <line>26</line>
+    <line>1</line>
     <column>1</column>
     <text><![CDATA[For further advice on how to make your pages accessible
 see "http://www.w3.org/WAI/GL". You may also want to try

@@ -14,7 +14,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <code>29</code>
     <level>2</level>
     <line>1</line>
-    <column>24</column>
+    <column>11</column>
     <text><![CDATA[adjacent hyphens within comment]]></text>
   </message>
   <message>
