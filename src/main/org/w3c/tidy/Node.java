@@ -174,41 +174,41 @@ public class Node
      */
     protected int end;
 
-    protected byte[] textarray;
-
     /**
      * the text array.
      */
-    protected short type;
+    protected byte[] textarray;
 
     /**
      * TextNode, StartTag, EndTag etc.
      */
-    protected boolean closed;
+    protected short type;
 
     /**
      * true if closed by explicit end tag.
      */
-    protected boolean implicit;
+    protected boolean closed;
 
     /**
      * true if inferred.
      */
-    protected boolean linebreak;
+    protected boolean implicit;
 
     /**
      * true if followed by a line break.
      */
-    protected Dict was;
+    protected boolean linebreak;
 
     /**
      * old tag when it was changed.
      */
-    protected Dict tag;
+    protected Dict was;
 
     /**
      * tag's dictionary definition.
      */
+    protected Dict tag;
+
     protected String element;
 
     /**
