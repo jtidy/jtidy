@@ -56,9 +56,11 @@ public final class AllWorkingTests
         suite.addTest(new TidyOutputBugsTest("test438650"));
         suite.addTest(new TidyOutputBugsTest("test438658"));
         suite.addTest(new TidyOutputBugsTest("test470688"));
+        suite.addTest(new TidyOutputBugsTest("test471264"));
         suite.addTest(new TidyOutputBugsTest("test531964"));
         suite.addTest(new TidyOutputBugsTest("test456596"));
         suite.addTest(new TidyOutputBugsTest("test480406"));
+        suite.addTest(new TidyOutputBugsTest("test487204"));
         suite.addTest(new TidyOutputBugsTest("test603128"));
         suite.addTest(new TidyOutputBugsTest("test616744"));
 

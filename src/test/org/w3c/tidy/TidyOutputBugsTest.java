@@ -636,9 +636,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [471264] : Reduce blank lines in output. @todo HIGH PRIORITY (needed for comparing files in
-     * tests).
-     * 
+     * test for Tidy [471264] : Reduce blank lines in output.
      * @throws Exception any exception generated during the test
      */
     public void test471264() throws Exception
@@ -684,8 +682,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [487204] : Duplicate DIV style attribute generated. @todo HIGH PRIORITY.
-     * 
+     * test for Tidy [487204] : Duplicate DIV style attribute generated.
      * @throws Exception any exception generated during the test
      */
     public void test487204() throws Exception

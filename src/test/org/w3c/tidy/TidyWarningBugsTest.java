@@ -338,6 +338,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
         assertLogContains("XHTML 1.0 Transitional");
     }
+
     /**
      * test for Tidy [450389] : Color attval check allows only black/#.
      * @throws Exception any exception generated during the test
@@ -397,6 +398,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
         executeTidyTest("516370.xhtml");
         assertWarnings(4);
+        assertLogContains("XML ID syntax");
     }
 
     /**
