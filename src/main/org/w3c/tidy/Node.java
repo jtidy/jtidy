@@ -231,6 +231,15 @@ public class Node
         this(TEXT_NODE, null, 0, 0);
     }
 
+    /**
+     * Instantiates a new node.
+     * @param type node type: Node.ROOT_NODE | Node.DOCTYPE_TAG | Node.COMMENT_TAG | Node.PROC_INS_TAG | Node.TEXT_NODE |
+     * Node.START_TAG | Node.END_TAG | Node.START_END_TAG | Node.CDATA_TAG | Node.SECTION_TAG | Node. ASP_TAG |
+     * Node.JSTE_TAG | Node.PHP_TAG | Node.XML_DECL
+     * @param textarray array of bytes contained in the Node
+     * @param start start position
+     * @param end end position
+     */
     public Node(short type, byte[] textarray, int start, int end)
     {
         this.parent = null;
@@ -759,7 +768,8 @@ public class Node
                     {
                         last.end -= 1;
 
-                        if (((element.tag.model & Dict.CM_INLINE) != 0) && !((element.tag.model & Dict.CM_FIELD) != 0))
+                        if (TidyUtils.toBoolean(element.tag.model & Dict.CM_INLINE)
+                            && !TidyUtils.toBoolean(element.tag.model & Dict.CM_FIELD))
                         {
                             lexer.insertspace = true;
                         }
@@ -852,8 +862,8 @@ public class Node
         // #427677 - fix by Gary Peskin 31 Oct 00
         if (text.type == TEXT_NODE && text.textarray[text.start] == (byte) ' ' && (text.start < text.end))
         {
-            if (((element.tag.model & Dict.CM_INLINE) != 0)
-                && !((element.tag.model & Dict.CM_FIELD) != 0)
+            if (TidyUtils.toBoolean(element.tag.model & Dict.CM_INLINE)
+                && !TidyUtils.toBoolean(element.tag.model & Dict.CM_FIELD)
                 && element.parent.content != element)
             {
                 prev = element.prev;
@@ -1109,7 +1119,7 @@ public class Node
     {
         if (node != null && node.tag != null)
         {
-            return ((node.tag.model & Dict.CM_NEW) != 0);
+            return TidyUtils.toBoolean(node.tag.model & Dict.CM_NEW);
         }
 
         return true;

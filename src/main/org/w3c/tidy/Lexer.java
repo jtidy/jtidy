@@ -428,6 +428,12 @@ public class Lexer
      */
     private List nodeList;
 
+    /**
+     * Instantiates a new Lexer.
+     * @param in StreamIn
+     * @param configuration configuation instance
+     * @param report report instance, for reporting errors
+     */
     public Lexer(StreamIn in, Configuration configuration, Report report)
     {
         this.report = report;
@@ -443,6 +449,10 @@ public class Lexer
         this.nodeList = new Vector();
     }
 
+    /**
+     * Creates a new node and add it to nodelist.
+     * @return Node
+     */
     public Node newNode()
     {
         Node node = new Node();
@@ -450,6 +460,16 @@ public class Lexer
         return node;
     }
 
+    /**
+     * Creates a new node and add it to nodelist.
+     * @param type node type: Node.ROOT_NODE | Node.DOCTYPE_TAG | Node.COMMENT_TAG | Node.PROC_INS_TAG | Node.TEXT_NODE |
+     * Node.START_TAG | Node.END_TAG | Node.START_END_TAG | Node.CDATA_TAG | Node.SECTION_TAG | Node. ASP_TAG |
+     * Node.JSTE_TAG | Node.PHP_TAG | Node.XML_DECL
+     * @param textarray array of bytes contained in the Node
+     * @param start start position
+     * @param end end position
+     * @return Node
+     */
     public Node newNode(short type, byte[] textarray, int start, int end)
     {
         Node node = new Node(type, textarray, start, end);
@@ -808,7 +828,7 @@ public class Lexer
 
             this.lexsize = start;
 
-            if (ch == 160 && (mode & PREFORMATTED) != 0)
+            if (ch == 160 && TidyUtils.toBoolean(mode & PREFORMATTED))
             {
                 ch = ' ';
             }
@@ -902,31 +922,31 @@ public class Lexer
      */
     public short htmlVersion()
     {
-        if ((versions & Dict.VERS_HTML20) != 0)
+        if (TidyUtils.toBoolean(versions & Dict.VERS_HTML20))
         {
             return Dict.VERS_HTML20;
         }
 
         if (!(this.configuration.xmlOut | this.configuration.xmlTags | this.isvoyager)
-            && (versions & Dict.VERS_HTML32) != 0)
+            && TidyUtils.toBoolean(versions & Dict.VERS_HTML32))
         {
             return Dict.VERS_HTML32;
         }
-        if ((versions & Dict.VERS_XHTML11) != 0)
+        if (TidyUtils.toBoolean(versions & Dict.VERS_XHTML11))
         {
             return Dict.VERS_XHTML11;
         }
-        if ((versions & Dict.VERS_HTML40_STRICT) != 0)
+        if (TidyUtils.toBoolean(versions & Dict.VERS_HTML40_STRICT))
         {
             return Dict.VERS_HTML40_STRICT;
         }
 
-        if ((versions & Dict.VERS_HTML40_LOOSE) != 0)
+        if (TidyUtils.toBoolean(versions & Dict.VERS_HTML40_LOOSE))
         {
             return Dict.VERS_HTML40_LOOSE;
         }
 
-        if ((versions & Dict.VERS_FRAMESET) != 0)
+        if (TidyUtils.toBoolean(versions & Dict.VERS_FRAMESET))
         {
             return Dict.VERS_FRAMESET;
         }
@@ -1233,18 +1253,18 @@ public class Lexer
         if (this.configuration.docTypeMode == Configuration.DOCTYPE_AUTO)
         {
             // see what flavor of XHTML this document matches
-            if ((this.versions & Dict.VERS_HTML40_STRICT) != 0)
+            if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML40_STRICT))
             {
                 // use XHTML strict
                 fpi = "-//W3C//DTD XHTML 1.0 Strict//EN";
                 sysid = VOYAGER_STRICT;
             }
-            else if ((this.versions & Dict.VERS_LOOSE) != 0)
+            else if (TidyUtils.toBoolean(this.versions & Dict.VERS_LOOSE))
             {
                 fpi = "-//W3C//DTD XHTML 1.0 Transitional//EN";
                 sysid = VOYAGER_LOOSE;
             }
-            else if ((this.versions & Dict.VERS_FRAMESET) != 0)
+            else if (TidyUtils.toBoolean(this.versions & Dict.VERS_FRAMESET))
             {
                 // use XHTML frames
                 fpi = "-//W3C//DTD XHTML 1.0 Frameset//EN";
@@ -1366,7 +1386,7 @@ public class Lexer
                 return htmlVersion();
 
             case Dict.VERS_HTML20 :
-                if ((this.versions & Dict.VERS_HTML20) != 0)
+                if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML20))
                 {
                     return Dict.VERS_HTML20;
                 }
@@ -1374,7 +1394,7 @@ public class Lexer
                 break;
 
             case Dict.VERS_HTML32 :
-                if ((this.versions & Dict.VERS_HTML32) != 0)
+                if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML32))
                 {
                     return Dict.VERS_HTML32;
                 }
@@ -1382,7 +1402,7 @@ public class Lexer
                 break; // to replace old version by new
 
             case Dict.VERS_HTML40_STRICT :
-                if ((this.versions & Dict.VERS_HTML40_STRICT) != 0)
+                if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML40_STRICT))
                 {
                     return Dict.VERS_HTML40_STRICT;
                 }
@@ -1390,7 +1410,7 @@ public class Lexer
                 break;
 
             case Dict.VERS_HTML40_LOOSE :
-                if ((this.versions & Dict.VERS_HTML40_LOOSE) != 0)
+                if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML40_LOOSE))
                 {
                     return Dict.VERS_HTML40_LOOSE;
                 }
@@ -1398,7 +1418,7 @@ public class Lexer
                 break; // to replace old version by new
 
             case Dict.VERS_FRAMESET :
-                if ((this.versions & Dict.VERS_FRAMESET) != 0)
+                if (TidyUtils.toBoolean(this.versions & Dict.VERS_FRAMESET))
                 {
                     return Dict.VERS_FRAMESET;
                 }
@@ -1474,7 +1494,7 @@ public class Lexer
                         return false;
 
                     case Dict.VERS_HTML20 :
-                        if ((this.versions & Dict.VERS_HTML20) != 0)
+                        if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML20))
                         {
                             return true;
                         }
@@ -1482,7 +1502,7 @@ public class Lexer
                         break; // to replace old version by new
 
                     case Dict.VERS_HTML32 :
-                        if ((this.versions & Dict.VERS_HTML32) != 0)
+                        if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML32))
                         {
                             return true;
                         }
@@ -1490,7 +1510,7 @@ public class Lexer
                         break; // to replace old version by new
 
                     case Dict.VERS_HTML40_STRICT :
-                        if ((this.versions & Dict.VERS_HTML40_STRICT) != 0)
+                        if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML40_STRICT))
                         {
                             return true;
                         }
@@ -1498,7 +1518,7 @@ public class Lexer
                         break; // to replace old version by new
 
                     case Dict.VERS_HTML40_LOOSE :
-                        if ((this.versions & Dict.VERS_HTML40_LOOSE) != 0)
+                        if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML40_LOOSE))
                         {
                             return true;
                         }
@@ -1506,7 +1526,7 @@ public class Lexer
                         break; // to replace old version by new
 
                     case Dict.VERS_FRAMESET :
-                        if ((this.versions & Dict.VERS_FRAMESET) != 0)
+                        if (TidyUtils.toBoolean(this.versions & Dict.VERS_FRAMESET))
                         {
                             return true;
                         }
@@ -1686,7 +1706,7 @@ public class Lexer
             return true;
         }
 
-        if ((node.tag.model & Dict.CM_EMPTY) != 0)
+        if (TidyUtils.toBoolean(node.tag.model & Dict.CM_EMPTY))
         {
             return false;
         }
@@ -1859,28 +1879,21 @@ public class Lexer
         this.txtstart = this.lexsize;
         this.txtend = this.lexsize;
 
-        while (true)
+        while ((c = this.in.readChar()) != StreamIn.EndOfStream)
         {
-            c = this.in.readChar();
-            if (c == StreamIn.EndOfStream)
-            {
-                break;
-            }
-
             // FG fix for [427846] different from tidy
-            // if (this.insertspace && ((mode & IGNORE_WHITESPACE) != 1))
+            // if (this.insertspace && (!TidyUtils.toBoolean(mode & IGNORE_WHITESPACE)))
             if (this.insertspace && mode != IGNORE_WHITESPACE)
             {
                 addCharToLexer(' ');
             }
-            if (this.insertspace && ((mode & IGNORE_WHITESPACE) != 1))
+            if (this.insertspace && (!TidyUtils.toBoolean(mode & IGNORE_WHITESPACE)))
             {
                 this.waswhite = true;
                 this.insertspace = false;
             }
 
             // treat \r\n as \n and \r as \n
-
             if (c == '\r')
             {
                 c = this.in.readChar();
@@ -2324,7 +2337,7 @@ public class Lexer
                     {
                         constrainVersion(this.token.tag.versions);
 
-                        if ((this.token.tag.versions & Dict.VERS_PROPRIETARY) != 0)
+                        if (TidyUtils.toBoolean(this.token.tag.versions & Dict.VERS_PROPRIETARY))
                         {
                             // #427810 - fix by Gary Deschaines 24 May 00
                             if (this.configuration.makeClean && (this.token.tag != this.configuration.tt.tagNobr && //
@@ -2774,6 +2787,7 @@ public class Lexer
      * tailor the attribute value. Here is an example of a work around for using ASP in attribute values:
      * <code>href='<%=rsSchool.Fields("ID").Value%>'</code> where the ASP that generates the attribute value is
      * masked from Tidy by the quotemarks.
+     * @return parsed Node
      */
     public Node parseAsp()
     {
@@ -2822,6 +2836,7 @@ public class Lexer
 
     /**
      * PHP is like ASP but is based upon XML processing instructions, e.g. <code>&lt;?php ... ?&gt;</code>.
+     * @return parsed Node
      */
     public Node parsePhp()
     {
@@ -2870,6 +2885,9 @@ public class Lexer
     /**
      * consumes the '>' terminating start tags.
      * @param isempty flag is passed as array so it can be modified
+     * @param asp asp Node, passed as array so it can be modified
+     * @param php php Node, passed as array so it can be modified
+     * @return parsed attribute
      */
     public String parseAttribute(boolean[] isempty, Node[] asp, Node[] php)
     {
@@ -3400,7 +3418,11 @@ public class Lexer
         return value;
     }
 
-    // attr must be non-null
+    /**
+     * Check if attr is a valid name.
+     * @param attr String to check, must be non-null
+     * @return <code>true</code> if attr is a valid name.
+     */
     public static boolean isValidAttrName(String attr)
     {
         char c;
@@ -3502,6 +3524,7 @@ public class Lexer
      * generated from the istack) One issue arises with pushing inlines when the tag is already pushed. For instance:
      * <code>&lt;p>&lt;em> text &lt;p>&lt;em> more text</code> Shouldn't be mapped to
      * <code>&lt;p>&lt;em> text &lt;/em>&lt;/p>&lt;p>&lt;em>&lt;em> more text &lt;/em>&lt;/em></code>
+     * @param node Node to be pushed
      */
     public void pushInline(Node node)
     {
@@ -3517,12 +3540,12 @@ public class Lexer
             return;
         }
 
-        if ((node.tag.model & Dict.CM_INLINE) == 0)
+        if (!TidyUtils.toBoolean(node.tag.model & Dict.CM_INLINE))
         {
             return;
         }
 
-        if ((node.tag.model & Dict.CM_OBJECT) != 0)
+        if (TidyUtils.toBoolean(node.tag.model & Dict.CM_OBJECT))
         {
             return;
         }
@@ -3543,7 +3566,10 @@ public class Lexer
         this.istack.push(is);
     }
 
-    // pop inline stack
+    /**
+     * pop a copy of an inline node from the stack.
+     * @param node Node to be popped
+     */
     public void popInline(Node node)
     {
         IStack is;
@@ -3556,12 +3582,12 @@ public class Lexer
                 return;
             }
 
-            if ((node.tag.model & Dict.CM_INLINE) == 0)
+            if (!TidyUtils.toBoolean(node.tag.model & Dict.CM_INLINE))
             {
                 return;
             }
 
-            if ((node.tag.model & Dict.CM_OBJECT) != 0)
+            if (TidyUtils.toBoolean(node.tag.model & Dict.CM_OBJECT))
             {
                 return;
             }
@@ -3597,6 +3623,11 @@ public class Lexer
         }
     }
 
+    /**
+     * Is the node in the stack?
+     * @param node Node
+     * @return <code>true</code> is the node is found in the stack
+     */
     public boolean isPushed(Node node)
     {
         int i;
@@ -3834,7 +3865,7 @@ public class Lexer
     {
         short m = map(c);
 
-        return (m & WHITE) != 0;
+        return TidyUtils.toBoolean(m & WHITE);
     }
 
     protected static boolean isDigit(char c)
@@ -3843,7 +3874,7 @@ public class Lexer
 
         m = map(c);
 
-        return (m & DIGIT) != 0;
+        return TidyUtils.toBoolean(m & DIGIT);
     }
 
     protected static boolean isLetter(char c)
@@ -3852,14 +3883,14 @@ public class Lexer
 
         m = map(c);
 
-        return (m & LETTER) != 0;
+        return TidyUtils.toBoolean(m & LETTER);
     }
 
     protected static boolean isNamechar(char c)
     {
         short map = map(c);
 
-        return (map & NAMECHAR) != 0;
+        return TidyUtils.toBoolean(map & NAMECHAR);
     }
 
     /**
@@ -3871,7 +3902,7 @@ public class Lexer
     {
         short map = map(c);
 
-        return (map & LOWERCASE) != 0;
+        return TidyUtils.toBoolean(map & LOWERCASE);
     }
 
     /**
@@ -3883,7 +3914,7 @@ public class Lexer
     {
         short map = map(c);
 
-        return (map & UPPERCASE) != 0;
+        return TidyUtils.toBoolean(map & UPPERCASE);
     }
 
     /**
@@ -3895,7 +3926,7 @@ public class Lexer
     {
         short m = map(c);
 
-        if ((m & UPPERCASE) != 0)
+        if (TidyUtils.toBoolean(m & UPPERCASE))
         {
             c = (char) (c + 'a' - 'A');
         }
@@ -3912,7 +3943,7 @@ public class Lexer
     {
         short m = map(c);
 
-        if ((m & LOWERCASE) != 0)
+        if (TidyUtils.toBoolean(m & LOWERCASE))
         {
             c = (char) (c + 'A' - 'a');
         }
@@ -3971,7 +4002,7 @@ public class Lexer
 
         if (node.tag == null
             || node.tag == this.configuration.tt.tagP
-            || (node.tag.model & (Dict.CM_INLINE | Dict.CM_NEW)) == 0)
+            || !TidyUtils.toBoolean(node.tag.model & (Dict.CM_INLINE | Dict.CM_NEW)))
         {
             return false;
         }
@@ -4004,6 +4035,13 @@ public class Lexer
          */
         short code;
 
+        /**
+         * Instantiates a new W3CVersionInfo.
+         * @param name version name
+         * @param voyagerName voyager (xhtml) name
+         * @param profile VOYAGER_STRICT | VOYAGER_LOOSE | VOYAGER_FRAMESET
+         * @param code unique code for this version info
+         */
         public W3CVersionInfo(String name, String voyagerName, String profile, short code)
         {
             this.name = name;
