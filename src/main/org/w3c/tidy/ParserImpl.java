@@ -3382,7 +3382,7 @@ public final class ParserImpl
                 html = node;
             }
 
-            if (document.findDocType() == null)
+            if (document.findDocType() == null && !lexer.configuration.bodyOnly)
             {
                 lexer.report.warning(lexer, null, null, Report.MISSING_DOCTYPE);
             }
