@@ -2626,8 +2626,8 @@ public class Lexer
                     if (c != '?')
                     {
                         String name;
-                        MutableObject asp = new MutableObject();
-                        MutableObject php = new MutableObject();
+                        Node[] asp = new Node[1];
+                        Node[] php = new Node[1];
                         AttVal av = new AttVal();
                         int[] pdelim = new int[1];
                         isempty[0] = false;
@@ -2875,15 +2875,15 @@ public class Lexer
      * consumes the '>' terminating start tags.
      * @param isempty flag is passed as array so it can be modified
      */
-    public String parseAttribute(boolean[] isempty, MutableObject asp, MutableObject php)
+    public String parseAttribute(boolean[] isempty, Node[] asp, Node[] php)
     {
         int start = 0;
         String attr;
         int c = 0;
         int lastc = 0;
 
-        asp.setObject(null); // clear asp pointer
-        php.setObject(null); // clear php pointer
+        asp[0] = null; // clear asp pointer
+        php[0] = null; // clear php pointer
         // skip white space before the attribute
 
         for (;;)
@@ -2916,12 +2916,12 @@ public class Lexer
 
                 if (c == '%')
                 {
-                    asp.setObject(parseAsp());
+                    asp[0] = parseAsp();
                     return null;
                 }
                 else if (c == '?')
                 {
-                    php.setObject(parsePhp());
+                    php[0] = parsePhp();
                     return null;
                 }
 
@@ -3440,8 +3440,8 @@ public class Lexer
         AttVal av, list;
         String attribute, value;
         int[] delim = new int[1];
-        MutableObject asp = new MutableObject();
-        MutableObject php = new MutableObject();
+        Node[] asp = new Node[1];
+        Node[] php = new Node[1];
 
         list = null;
 
@@ -3452,17 +3452,17 @@ public class Lexer
             if (attribute == null)
             {
                 // check if attributes are created by ASP markup
-                if (asp.getObject() != null)
+                if (asp[0] != null)
                 {
-                    av = new AttVal(list, null, (Node) asp.getObject(), null, '\0', null, null);
+                    av = new AttVal(list, null, asp[0], null, '\0', null, null);
                     list = av;
                     continue;
                 }
 
                 // check if attributes are created by PHP markup
-                if (php.getObject() != null)
+                if (php[0] != null)
                 {
-                    av = new AttVal(list, null, null, (Node) php.getObject(), '\0', null, null);
+                    av = new AttVal(list, null, null, php[0], '\0', null, null);
                     list = av;
                     continue;
                 }

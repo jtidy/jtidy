@@ -564,7 +564,7 @@ public class Clean
     }
 
     /* used to strip font start and end tags */
-    private void discardContainer(Node element, MutableObject pnode)
+    private void discardContainer(Node element, Node[] pnode)
     {
         Node node;
         Node parent = element.parent;
@@ -598,7 +598,7 @@ public class Clean
                 node.parent = parent;
             }
 
-            pnode.setObject(element.content);
+            pnode[0] = element.content;
         }
         else
         {
@@ -620,7 +620,7 @@ public class Clean
                 parent.content = element.next;
             }
 
-            pnode.setObject(element.next);
+            pnode[0] = element.next;
         }
 
         element.next = null;
@@ -927,7 +927,7 @@ public class Clean
      * <code>&lt;dir> &lt;li></code> to <code>&lt;div></code> with indent. The clean up rules use the pnode argument
      * to return the next node when the original node has been deleted.
      */
-    private boolean dir2Div(Lexer lexer, Node node, MutableObject pnode)
+    private boolean dir2Div(Lexer lexer, Node node, Node[] pnode)
     {
         Node child;
 
@@ -1008,7 +1008,7 @@ public class Clean
      * Action: replace <code>&lt;center></code> by <code>&ltdiv style="text-align: center"></code>
      * </p>
      */
-    private boolean center2Div(Lexer lexer, Node node, MutableObject pnode)
+    private boolean center2Div(Lexer lexer, Node node, Node[] pnode)
     {
         if (node.tag == this.tt.tagCenter)
         {
@@ -1085,7 +1085,7 @@ public class Clean
      * Symptom: <code>&lt;div>&lt;div>...&lt;/div>&lt;/div></code> Action: merge the two divs This is useful after
      * nested &lt;dir>s used by Word for indenting have been converted to &lt;div>s.
      */
-    private boolean mergeDivs(Lexer lexer, Node node, MutableObject pnode)
+    private boolean mergeDivs(Lexer lexer, Node node, Node[] pnode)
     {
         Node child;
 
@@ -1127,7 +1127,7 @@ public class Clean
      * </ul>
      * Action: discard outer list
      */
-    private boolean nestedList(Lexer lexer, Node node, MutableObject pnode)
+    private boolean nestedList(Lexer lexer, Node node, Node[] pnode)
     {
         Node child, list;
 
@@ -1159,7 +1159,7 @@ public class Clean
                 return false;
             }
 
-            pnode.setObject(list); // Set node to resume iteration
+            pnode[0] = list; // Set node to resume iteration
 
             // move inner list node into position of outer node
             list.prev = node.prev;
@@ -1229,8 +1229,9 @@ public class Clean
      * This code also replaces the align attribute by a style attribute. However, to avoid CSS problems with Navigator
      * 4, this isn't done for the elements: caption, tr and table
      * </p>
+     * @param pnode passed as an array to allow modifications
      */
-    private boolean blockStyle(Lexer lexer, Node node, MutableObject pnode)
+    private boolean blockStyle(Lexer lexer, Node node, Node[] pnode)
     {
         Node child;
 
@@ -1289,8 +1290,9 @@ public class Clean
 
     /**
      * the only child of table cell or an inline element such as em.
+     * @param pnode passed as an array to allow modifications
      */
-    private boolean inlineStyle(Lexer lexer, Node node, MutableObject pnode)
+    private boolean inlineStyle(Lexer lexer, Node node, Node[] pnode)
     {
         Node child;
 
@@ -1341,8 +1343,9 @@ public class Clean
     /**
      * Replace font elements by span elements, deleting the font element's attributes and replacing them by a single
      * style attribute.
+     * @param pnode passed as an array to allow modifications
      */
-    private boolean font2Span(Lexer lexer, Node node, MutableObject pnode)
+    private boolean font2Span(Lexer lexer, Node node, Node[] pnode)
     {
         AttVal av, style, next;
 
@@ -1396,15 +1399,15 @@ public class Clean
     private Node cleanNode(Lexer lexer, Node node)
     {
         Node next = null;
-        MutableObject o = new MutableObject();
+        Node[] o = new Node[1];
         boolean b = false;
 
         for (next = node; node != null && node.isElement(); node = next)
         {
-            o.setObject(next);
+            o[0] = next;
 
             b = dir2Div(lexer, node, o);
-            next = (Node) o.getObject();
+            next = o[0];
             if (b)
             {
                 continue;
@@ -1413,42 +1416,42 @@ public class Clean
             // Special case: true result means that arg node and its parent no longer exist.
             // So we must jump back up the CreateStyleProperties() call stack until we have a valid node reference.
             b = nestedList(lexer, node, o);
-            next = (Node) o.getObject();
+            next = o[0];
             if (b)
             {
                 return next;
             }
 
             b = center2Div(lexer, node, o);
-            next = (Node) o.getObject();
+            next = o[0];
             if (b)
             {
                 continue;
             }
 
             b = mergeDivs(lexer, node, o);
-            next = (Node) o.getObject();
+            next = o[0];
             if (b)
             {
                 continue;
             }
 
             b = blockStyle(lexer, node, o);
-            next = (Node) o.getObject();
+            next = o[0];
             if (b)
             {
                 continue;
             }
 
             b = inlineStyle(lexer, node, o);
-            next = (Node) o.getObject();
+            next = o[0];
             if (b)
             {
                 continue;
             }
 
             b = font2Span(lexer, node, o);
-            next = (Node) o.getObject();
+            next = o[0];
             if (b)
             {
                 continue;
@@ -1465,20 +1468,20 @@ public class Clean
      * longer exist. So we must jump back up the CreateStyleProperties() call stack until we have a valid node
      * reference.
      */
-    private Node createStyleProperties(Lexer lexer, Node node, MutableObject prepl)
+    private Node createStyleProperties(Lexer lexer, Node node, Node[] prepl)
     {
         Node child;
 
         if (node.content != null)
         {
-            MutableObject repl = new MutableObject();
-            repl.setObject(node);
+            Node[] repl = new Node[1];
+            repl[0] = node;
             for (child = node.content; child != null; child = child.next)
             {
                 child = createStyleProperties(lexer, child, repl);
-                if (repl.getObject() != node)
+                if (repl[0] != node)
                 {
-                    return (Node) repl.getObject();
+                    return repl[0];
                 }
             }
         }
@@ -1503,8 +1506,8 @@ public class Clean
 
     public void cleanTree(Lexer lexer, Node doc)
     {
-        MutableObject repl = new MutableObject();
-        repl.setObject(doc);
+        Node[] repl = new Node[1];
+        repl[0] = doc;
         doc = createStyleProperties(lexer, doc, repl);
 
         if (!lexer.configuration.makeClean)
@@ -1519,7 +1522,7 @@ public class Clean
      */
     public void nestedEmphasis(Node node)
     {
-        MutableObject o = new MutableObject();
+        Node[] o = new Node[1];
         Node next;
 
         while (node != null)
@@ -1531,9 +1534,9 @@ public class Clean
                 && node.parent.tag == node.tag)
             {
                 /* strip redundant inner element */
-                o.setObject(next);
+                o[0] = next;
                 discardContainer(node, o);
-                next = (Node) o.getObject();
+                next = o[0];
                 node = next;
                 continue;
             }
