@@ -214,7 +214,7 @@
                 messages in your application!
             </action>
         </release>
-        <release version="04aug2000r7" date="August 1, 2001" description="">
+        <release version="04aug2000r7-dev" date="August 1, 2001" description="">
             <action dev="" type="fix">
                 TagTable is no longer a Singleton, which brings us one step closer to having the ability to run multiple
                 JTidy's in a single JVM.

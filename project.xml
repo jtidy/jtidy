@@ -25,6 +25,38 @@ In addition, JTidy provides a DOM interface to the document that is being proces
         <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/${pom.groupId}:${pom.groupId}</connection>
         <url>http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/${pom.groupId}/${pom.groupId}/</url>
     </repository>
+    <versions>
+        <version>
+            <id>04aug2000r2</id>
+            <name>04aug2000r2</name>
+            <tag></tag>
+        </version>
+        <version>
+            <id>04aug2000r3</id>
+            <name>04aug2000r3</name>
+            <tag></tag>
+        </version>
+        <version>
+            <id>04aug2000r4</id>
+            <name>04aug2000r4</name>
+            <tag></tag>
+        </version>
+        <version>
+            <id>04aug2000r5</id>
+            <name>04aug2000r5</name>
+            <tag></tag>
+        </version>
+        <version>
+            <id>04aug2000r6</id>
+            <name>04aug2000r6</name>
+            <tag></tag>
+        </version>
+        <version>
+            <id>04aug2000r7-dev</id>
+            <name>04aug2000r7-dev</name>
+            <tag></tag>
+        </version>
+    </versions>
     <mailingLists>
         <mailingList>
             <name>${pom.name} User Mailing list</name>
