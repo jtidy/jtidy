@@ -964,6 +964,42 @@ public class Lexer
         }
     }
 
+
+    /**
+     * Put DOCTYPE declaration between the &lt:?xml version "1.0" ... ?> declaration, if any, and the <code>html</code>
+     * tag. Should also work for any comments, etc. that may precede the <code>html</code> tag.
+     */
+    Node newXhtmlDocTypeNode(Node root)
+    {
+        Node html = root.findHTML(this.configuration.tt);
+        if (html == null)
+        {
+            return null;
+        }
+
+        Node newdoctype = newNode();
+        newdoctype.setType(Node.DocTypeTag);
+        newdoctype.next = html;
+        newdoctype.parent = root;
+        newdoctype.prev = null;
+
+        if (html == root.content)
+        {
+            // No <?xml ... ?> declaration.
+            root.content.prev = newdoctype;
+            root.content = newdoctype;
+            newdoctype.prev = null;
+        }
+        else
+        {
+            // we have an <?xml ... ?> declaration.
+            newdoctype.prev = html.prev;
+            newdoctype.prev.next = newdoctype;
+        }
+        html.prev = newdoctype;
+        return newdoctype;
+    }
+
     public boolean setXHTMLDocType(Node root)
     {
         String fpi = " ";
@@ -1027,11 +1063,10 @@ public class Lexer
 
         if (doctype == null)
         {
-            doctype = newNode(Node.DocTypeTag, this.lexbuf, 0, 0);
-            doctype.next = root.content;
-            doctype.parent = root;
-            doctype.prev = null;
-            root.content = doctype;
+            if ((doctype = newXhtmlDocTypeNode(root)) == null)
+            {
+                return false;
+            }
         }
 
         if (this.configuration.docTypeMode == Configuration.DOCTYPE_USER && this.configuration.docTypeStr != null)
@@ -1142,11 +1177,6 @@ public class Lexer
             Report.warning(this, null, null, Report.MALFORMED_DOCTYPE);
         }
 
-        if (this.configuration.xmlOut)
-        {
-            return true;
-        }
-
         doctype = root.findDocType();
 
         if (this.configuration.docTypeMode == Configuration.DOCTYPE_OMIT)
@@ -1155,6 +1185,11 @@ public class Lexer
             {
                 Node.discardElement(doctype);
             }
+            return true;
+        }
+
+        if (this.configuration.xmlOut)
+        {
             return true;
         }
 
@@ -1245,25 +1280,28 @@ public class Lexer
                 Node.discardElement(doctype);
             }
 
-            for (i = 0; i < W3CVersion.length; ++i)
-            {
-                if (guessed == W3CVersion[i].code)
-                {
-                    fixHTMLNameSpace(root, W3CVersion[i].profile);
-                    break;
-                }
-            }
+            fixHTMLNameSpace(root, XHTML_NAMESPACE);
 
-            return true;
+            // Namespace is the same for all XHTML variants
+            // Also, don't return yet. Still need to add DOCTYPE declaration.
+            //
+            //          for (i = 0; i < W3CVersion.length; ++i)
+            //            {
+            //                if (guessed == W3CVersion[i].code)
+            //                {
+            //                    fixHTMLNameSpace(root, W3CVersion[i].profile);
+            //                    break;
+            //                }
+            //            }
+            //            return true;
         }
 
         if (doctype == null)
         {
-            doctype = newNode(Node.DocTypeTag, this.lexbuf, 0, 0);
-            doctype.next = root.content;
-            doctype.parent = root;
-            doctype.prev = null;
-            root.content = doctype;
+            if ((doctype = newXhtmlDocTypeNode(root)) == null)
+            {
+                return false;
+            }
         }
 
         this.txtstart = this.lexsize;
