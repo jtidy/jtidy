@@ -55,9 +55,16 @@
       </subsection>
       <subsection name="Testing errors/warning">
         <p>
-          Actually you can use the
+          Call
           <code>executeTidyTest(String fileName)</code>
-          method and check the number of warning/errors on the returned Tidy instance. This is enough to test simple documents (documents you know must throw 1 or none errors).
+          method and check the number of warning/errors on the Tidy instance. 
+          There are a couple of utility methods to test the number of warning of errors reported (<code>
+          	assertNoWarnings(), assertNoErrors(), assertWarnings(int expectedNumber), assertErrors(int expectedNumber)
+          	</code>)
+          This is enough to test simple documents (documents you know must throw 1 or none errors).
+          If you can't have a simple test and you need to test output in error log you can use the <code>
+          	assertLogContains(String expectedString)
+          	</code> method or directly check the out in the errorLog class instance (be careful with internationalization!).
         </p>
       </subsection>
     </section>
