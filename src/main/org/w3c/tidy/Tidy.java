@@ -1662,17 +1662,18 @@ public class Tidy implements Serializable
         if (out != null)
         {
             Out o = new OutImpl(this.configuration, configuration.outCharEncoding);
+            Lexer lexer = new Lexer(null, this.configuration, this.report);
 
             pprint = new PPrint(configuration);
             o.setOut(out);
 
             if (configuration.xmlTags)
             {
-                pprint.printXMLTree(o, (short) 0, 0, null, node);
+                pprint.printXMLTree(o, (short) 0, 0, lexer, node);
             }
             else
             {
-                pprint.printTree(o, (short) 0, 0, null, node);
+                pprint.printTree(o, (short) 0, 0, lexer, node);
             }
 
             pprint.flushLine(o, 0);

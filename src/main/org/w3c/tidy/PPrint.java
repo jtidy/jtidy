@@ -1463,7 +1463,7 @@ public class PPrint
                 wrapLine(fout, indent);
             }
 
-            c = lexer.lexbuf[i] & 0xFF; // Convert to unsigned.
+            c = node.textarray[i] & 0xFF; // Convert to unsigned.
 
             // inDTDSubset?
             if (TidyUtils.toBoolean(mode & CDATA))
@@ -1482,7 +1482,7 @@ public class PPrint
             // look for UTF-8 multibyte character
             if (c > 0x7F)
             {
-                i += getUTF8(lexer.lexbuf, i, ci);
+                i += getUTF8(node.textarray, i, ci);
                 c = ci[0];
             }
 

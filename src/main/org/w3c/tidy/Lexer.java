@@ -1401,8 +1401,12 @@ public class Lexer
 
         this.txtend = this.lexsize;
 
-        doctype.start = this.txtstart;
-        doctype.end = this.txtend;
+        int length = this.txtend - this.txtstart;
+        doctype.textarray = new byte[length];
+
+        System.arraycopy(this.lexbuf, this.txtstart, doctype.textarray, 0, length);
+        doctype.start = 0;
+        doctype.end = length;
 
         return false;
     }
@@ -1670,8 +1674,12 @@ public class Lexer
 
         this.txtend = this.lexsize;
 
-        doctype.start = this.txtstart;
-        doctype.end = this.txtend;
+        int length = this.txtend - this.txtstart;
+        doctype.textarray = new byte[length];
+
+        System.arraycopy(this.lexbuf, this.txtstart, doctype.textarray, 0, length);
+        doctype.start = 0;
+        doctype.end = length;
 
         return true;
     }

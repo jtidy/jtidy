@@ -408,4 +408,14 @@ public class TidyCrashingBugsTest extends TidyTestCase
         assertLogDoesntContains("{");
     }
 
+    /**
+     * test for JTidy [1020806]: NPE when PPPrint'ing changed DOM tree.
+     * @throws Exception any exception generated during the test
+     */
+    public void test1020806() throws Exception
+    {
+        org.w3c.dom.Document doc = parseDomTest("1020806.html");
+        tidy.pprint(doc, System.out);
+    }
+
 }
