@@ -194,15 +194,25 @@ public class Report
         if (tag != null)
         {
             if (tag.type == Node.StartTag)
+            {
                 tidyPrint(lexer.errout, "<" + tag.element + ">");
+            }
             else if (tag.type == Node.EndTag)
+            {
                 tidyPrint(lexer.errout, "</" + tag.element + ">");
+            }
             else if (tag.type == Node.DocTypeTag)
+            {
                 tidyPrint(lexer.errout, "<!DOCTYPE>");
+            }
             else if (tag.type == Node.TextNode)
+            {
                 tidyPrint(lexer.errout, "plain text");
+            }
             else
+            {
                 tidyPrint(lexer.errout, tag.element);
+            }
         }
     }
 
@@ -248,7 +258,9 @@ public class Report
                         new Object[] { currentFile, new Integer(lexer.lines), new Integer(lexer.columns)}));
                 tidyPrint(lexer.errout, " ");
             }
-            else /* traditional format */ {
+            else
+            {
+                // traditional format
                 tidyPrint(
                     lexer.errout,
                     MessageFormat.format(
@@ -345,7 +357,9 @@ public class Report
 
         /* keep quiet after 6 errors */
         if (lexer.errors > 6)
+        {
             return;
+        }
 
         if (lexer.configuration.ShowWarnings)
         {
@@ -556,7 +570,9 @@ public class Report
 
         /* keep quiet after 6 errors */
         if (lexer.errors > 6)
+        {
             return;
+        }
 
         if (lexer.configuration.ShowWarnings)
         {
@@ -709,11 +725,14 @@ public class Report
                         lexer.errout,
                         MessageFormat.format(res.getString("unexpected_endtag"), new Object[] { node.element }));
                     if (element != null)
+                    {
+
                         tidyPrint(
                             lexer.errout,
                             MessageFormat.format(
                                 res.getString("unexpected_endtag_suffix"),
                                 new Object[] { element.element }));
+                    }
                 }
                 catch (MissingResourceException e)
                 {
@@ -728,11 +747,13 @@ public class Report
                         lexer.errout,
                         MessageFormat.format(res.getString("too_many_elements"), new Object[] { node.element }));
                     if (element != null)
+                    {
                         tidyPrint(
                             lexer.errout,
                             MessageFormat.format(
                                 res.getString("too_many_elements_suffix"),
                                 new Object[] { element.element }));
+                    }
                 }
                 catch (MissingResourceException e)
                 {
@@ -805,20 +826,30 @@ public class Report
                 }
 
                 if (node.tag == tt.tagLayer)
+                {
                     lexer.badLayout |= USING_LAYER;
+                }
                 else if (node.tag == tt.tagSpacer)
+                {
                     lexer.badLayout |= USING_SPACER;
+                }
                 else if (node.tag == tt.tagNobr)
+                {
                     lexer.badLayout |= USING_NOBR;
+                }
             }
             else if (code == OBSOLETE_ELEMENT)
             {
                 try
                 {
                     if (element.tag != null && (element.tag.model & Dict.CM_OBSOLETE) != 0)
+                    {
                         tidyPrint(lexer.errout, res.getString("obsolete_element"));
+                    }
                     else
+                    {
                         tidyPrint(lexer.errout, res.getString("replacing_element"));
+                    }
 
                 }
                 catch (MissingResourceException e)
@@ -1021,7 +1052,9 @@ public class Report
 
         /* keep quiet after 6 errors */
         if (lexer.errors > 6)
+        {
             return;
+        }
 
         lexer.errors++;
 
@@ -1077,11 +1110,13 @@ public class Report
                     lexer.errout,
                     MessageFormat.format(res.getString("unexpected_endtag"), new Object[] { node.element }));
                 if (element != null)
+                {
                     tidyPrint(
                         lexer.errout,
                         MessageFormat.format(
                             res.getString("unexpected_endtag_suffix"),
                             new Object[] { element.element }));
+                }
             }
             catch (MissingResourceException e)
             {
@@ -1098,7 +1133,9 @@ public class Report
         if ((lexer.badAccess & (USING_FRAMES | USING_NOFRAMES)) != 0)
         {
             if (!(((lexer.badAccess & USING_FRAMES) != 0) && ((lexer.badAccess & USING_NOFRAMES) == 0)))
+            {
                 lexer.badAccess &= ~(USING_FRAMES | USING_NOFRAMES);
+            }
         }
 
         if (lexer.badChars != 0)
@@ -1384,9 +1421,13 @@ public class Report
                     }
 
                     if (c == '"')
+                    {
                         ++state;
+                    }
                     else if (state == 1)
+                    {
                         errout.print((char) c);
+                    }
                 }
 
                 errout.print('"');

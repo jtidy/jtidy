@@ -63,6 +63,6 @@ package org.w3c.tidy;
 public interface CheckAttribs
 {
 
-    public void check(Lexer lexer, Node node);
+    void check(Lexer lexer, Node node);
 
 }

@@ -725,7 +725,9 @@ public class Tidy implements java.io.Serializable
     public void setDocType(String doctype)
     {
         if (doctype != null)
+        {
             configuration.docTypeStr = configuration.parseDocType(doctype, "doctype");
+        }
     }
 
     public String getDocType()
@@ -908,7 +910,9 @@ public class Tidy implements java.io.Serializable
     public void setInputStreamName(String name)
     {
         if (name != null)
+        {
             inputStreamName = name;
+        }
     }
 
     public String getInputStreamName()
@@ -942,19 +946,27 @@ public class Tidy implements java.io.Serializable
     {
         configuration = new Configuration();
         if (configuration == null)
+        {
             return;
+        }
 
         AttributeTable at = AttributeTable.getDefaultAttributeTable();
         if (at == null)
+        {
             return;
+        }
         TagTable tt = new TagTable();
         if (tt == null)
+        {
             return;
+        }
         tt.setConfiguration(configuration);
         configuration.tt = tt;
         EntityTable et = EntityTable.getDefaultEntityTable();
         if (et == null)
+        {
             return;
+        }
 
         /*
          * Unnecessary - same initial values in Configuration Configuration.XmlTags = false; Configuration.XmlOut =
@@ -1004,10 +1016,14 @@ public class Tidy implements java.io.Serializable
         PPrint pprint;
 
         if (!initialized)
+        {
             return null;
+        }
 
         if (errout == null)
+        {
             return null;
+        }
 
         parseErrors = 0;
         parseWarnings = 0;
@@ -1038,12 +1054,16 @@ public class Tidy implements java.io.Serializable
 
             /* Tidy doesn't alter the doctype for generic XML docs */
             if (configuration.XmlTags)
+            {
                 document = ParserImpl.parseXMLDocument(lexer);
+            }
             else
             {
                 lexer.warnings = 0;
                 if (!configuration.Quiet)
+                {
                     Report.helloMessage(errout, Report.RELEASE_DATE, inputStreamName);
+                }
 
                 document = ParserImpl.parseDocument(lexer);
 
@@ -1064,7 +1084,9 @@ public class Tidy implements java.io.Serializable
 
                 /* replaces i by em and b by strong */
                 if (configuration.LogicalEmphasis)
+                {
                     cleaner.emFromI(document);
+                }
 
                 if (configuration.Word2000 && cleaner.isWord2000(document, configuration.tt))
                 {
@@ -1077,7 +1099,9 @@ public class Tidy implements java.io.Serializable
 
                 /* replaces presentational markup by style rules */
                 if (configuration.MakeClean || configuration.DropFontTags)
+                {
                     cleaner.cleanTree(lexer, document);
+                }
 
                 if (!document.checkNodeIntegrity())
                 {
@@ -1088,17 +1112,25 @@ public class Tidy implements java.io.Serializable
                 if (document.content != null)
                 {
                     if (configuration.xHTML)
+                    {
                         lexer.setXHTMLDocType(document);
+                    }
                     else
+                    {
                         lexer.fixDocType(document);
+                    }
 
                     if (configuration.TidyMark)
+                    {
                         lexer.addGenerator(document);
+                    }
                 }
 
                 /* ensure presence of initial <?XML version="1.0"?> */
                 if (configuration.XmlOut && configuration.XmlPi)
+                {
                     lexer.fixXMLPI(document);
+                }
 
                 if (!configuration.Quiet && document.content != null)
                 {
@@ -1124,7 +1156,9 @@ public class Tidy implements java.io.Serializable
             }
 
             if (lexer.errors > 0)
+            {
                 Report.needsAuthorIntervention(errout);
+            }
 
             o.state = StreamIn.FSM_ASCII;
             o.encoding = configuration.CharEncoding;
@@ -1143,16 +1177,22 @@ public class Tidy implements java.io.Serializable
                     doctype = document.findDocType();
 
                     if (doctype != null)
+                    {
                         Node.discardElement(doctype);
+                    }
 
                     /* slides use transitional features */
                     lexer.versions |= Dict.VERS_HTML40_LOOSE;
 
                     /* and patch up doctype to match */
                     if (configuration.xHTML)
+                    {
                         lexer.setXHTMLDocType(document);
+                    }
                     else
+                    {
                         lexer.fixDocType(document);
+                    }
 
                     /* find the body element which may be implicit */
                     body = document.findBody(configuration.tt);
@@ -1164,7 +1204,9 @@ public class Tidy implements java.io.Serializable
                         pprint.createSlides(lexer, document);
                     }
                     else
+                    {
                         Report.missingBody(errout);
+                    }
                 }
                 else if (configuration.writeback && (file != null))
                 {
@@ -1174,9 +1216,13 @@ public class Tidy implements java.io.Serializable
                         o.out = new FileOutputStream(file);
 
                         if (configuration.XmlTags)
+                        {
                             pprint.printXMLTree(o, (short) 0, 0, lexer, document);
+                        }
                         else
+                        {
                             pprint.printTree(o, (short) 0, 0, lexer, document);
+                        }
 
                         pprint.flushLine(o, 0);
                         o.out.close();
@@ -1192,9 +1238,13 @@ public class Tidy implements java.io.Serializable
                     o.out = out;
 
                     if (configuration.XmlTags)
+                    {
                         pprint.printXMLTree(o, (short) 0, 0, lexer, document);
+                    }
                     else
+                    {
                         pprint.printTree(o, (short) 0, 0, lexer, document);
+                    }
 
                     pprint.flushLine(o, 0);
                 }
@@ -1214,9 +1264,13 @@ public class Tidy implements java.io.Serializable
     {
         Node document = parse(in, out);
         if (document != null)
+        {
             return (org.w3c.dom.Document) document.getAdapter();
+        }
         else
+        {
             return null;
+        }
     }
 
     /**
@@ -1263,9 +1317,13 @@ public class Tidy implements java.io.Serializable
             o.out = out;
 
             if (configuration.XmlTags)
+            {
                 pprint.printXMLTree(o, (short) 0, 0, null, document);
+            }
             else
+            {
                 pprint.printTree(o, (short) 0, 0, null, document);
+            }
 
             pprint.flushLine(o, 0);
         }
@@ -1308,49 +1366,87 @@ public class Tidy implements java.io.Serializable
                 arg = argv[argIndex].substring(1);
 
                 if (arg.length() > 0 && arg.charAt(0) == '-')
+                {
                     arg = arg.substring(1);
+                }
 
                 if (arg.equals("xml"))
+                {
                     configuration.XmlTags = true;
+                }
                 else if (arg.equals("asxml") || arg.equals("asxhtml"))
+                {
                     configuration.xHTML = true;
+                }
                 else if (arg.equals("indent"))
                 {
                     configuration.IndentContent = true;
                     configuration.SmartIndent = true;
                 }
                 else if (arg.equals("omit"))
+                {
                     configuration.HideEndTags = true;
+                }
                 else if (arg.equals("upper"))
+                {
                     configuration.UpperCaseTags = true;
+                }
                 else if (arg.equals("clean"))
+                {
                     configuration.MakeClean = true;
+                }
                 else if (arg.equals("raw"))
+                {
                     configuration.CharEncoding = Configuration.RAW;
+                }
                 else if (arg.equals("ascii"))
+                {
                     configuration.CharEncoding = Configuration.ASCII;
+                }
                 else if (arg.equals("latin1"))
+                {
                     configuration.CharEncoding = Configuration.LATIN1;
+                }
                 else if (arg.equals("utf8"))
+                {
                     configuration.CharEncoding = Configuration.UTF8;
+                }
                 else if (arg.equals("iso2022"))
+                {
                     configuration.CharEncoding = Configuration.ISO2022;
+                }
                 else if (arg.equals("mac"))
+                {
                     configuration.CharEncoding = Configuration.MACROMAN;
+                }
                 else if (arg.equals("numeric"))
+                {
                     configuration.NumEntities = true;
+                }
                 else if (arg.equals("modify"))
+                {
                     configuration.writeback = true;
+                }
                 else if (arg.equals("change")) /* obsolete */
+                {
                     configuration.writeback = true;
+                }
                 else if (arg.equals("update")) /* obsolete */
+                {
                     configuration.writeback = true;
+                }
                 else if (arg.equals("errors"))
+                {
                     configuration.OnlyErrors = true;
+                }
                 else if (arg.equals("quiet"))
+                {
                     configuration.Quiet = true;
+                }
                 else if (arg.equals("slides"))
+                {
                     configuration.BurstSlides = true;
+                }
                 else if (arg.equals("help") || argv[argIndex].charAt(1) == '?' || argv[argIndex].charAt(1) == 'h')
                 {
                     Report.helpText(new PrintWriter(System.out, true), prog);
@@ -1405,21 +1501,37 @@ public class Tidy implements java.io.Serializable
                             configuration.SmartIndent = true;
                         }
                         else if (s.charAt(i) == 'o')
+                        {
                             configuration.HideEndTags = true;
+                        }
                         else if (s.charAt(i) == 'u')
+                        {
                             configuration.UpperCaseTags = true;
+                        }
                         else if (s.charAt(i) == 'c')
+                        {
                             configuration.MakeClean = true;
+                        }
                         else if (s.charAt(i) == 'n')
+                        {
                             configuration.NumEntities = true;
+                        }
                         else if (s.charAt(i) == 'm')
+                        {
                             configuration.writeback = true;
+                        }
                         else if (s.charAt(i) == 'e')
+                        {
                             configuration.OnlyErrors = true;
+                        }
                         else if (s.charAt(i) == 'q')
+                        {
                             configuration.Quiet = true;
+                        }
                         else
+                        {
                             Report.unknownOption(tidy.getErrout(), s.charAt(i));
+                        }
                     }
                 }
 
@@ -1440,7 +1552,9 @@ public class Tidy implements java.io.Serializable
                     /* no so close previous error file */
 
                     if (tidy.getErrout() != tidy.getStderr())
+                    {
                         tidy.getErrout().close();
+                    }
 
                     /* and try to open the new error file */
                     try
@@ -1485,22 +1599,32 @@ public class Tidy implements java.io.Serializable
             ++argIndex;
 
             if (argc <= 1)
+            {
                 break;
+            }
         }
 
         if (totalerrors + totalwarnings > 0)
+        {
             Report.generalInfo(tidy.getErrout());
+        }
 
         if (tidy.getErrout() != tidy.getStderr())
+        {
             tidy.getErrout().close();
+        }
 
         /* return status can be used by scripts */
 
         if (totalerrors > 0)
+        {
             System.exit(2);
+        }
 
         if (totalwarnings > 0)
+        {
             System.exit(1);
+        }
 
         /* 0 signifies all is ok */
         System.exit(0);

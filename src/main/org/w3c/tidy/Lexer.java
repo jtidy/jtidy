@@ -2179,14 +2179,20 @@ public class Lexer
             c = this.in.readChar();
 
             if (c == StreamIn.EndOfStream)
+                {
                 break;
+            }
 
             if (c == '>')
             {
                 if (isrule)
+                    {
                     addCharToLexer(c);
+                }
                 else
+                    {
                     this.in.ungetChar(c);
+                }
 
                 break;
             }
@@ -2198,7 +2204,9 @@ public class Lexer
                 map = MAP((char) c);
 
                 if ((map & WHITE) != 0)
+                    {
                     break;
+                }
             }
 
             addCharToLexer(c);
@@ -2268,7 +2276,9 @@ public class Lexer
             map = MAP((char) c);
 
             if ((map & WHITE) == 0)
+                {
                 break;
+            }
         }
 
         /*
@@ -2296,13 +2306,17 @@ public class Lexer
             map = MAP((char) c);
 
             if ((map & WHITE) == 0)
+                {
                 break;
+            }
         }
 
         /* check for quote marks */
 
         if (c == '"' || c == '\'')
+            {
             delim = c;
+        }
         else if (c == '<')
         {
             start = this.lexsize;
@@ -2313,7 +2327,9 @@ public class Lexer
             return (len > 0 ? getString(this.lexbuf, start, len) : null);
         }
         else
+            {
             this.in.ungetChar(c);
+        }
 
         /*
          * and read the value string check for quote mark if needed
@@ -2380,7 +2396,9 @@ public class Lexer
             }
             else /* delim is '\'' or '"' */ {
                 if (c == delim)
+                    {
                     break;
+                }
 
                 /* treat CRLF, CR and LF as single line break */
 
@@ -2388,16 +2406,22 @@ public class Lexer
                 {
                     c = this.in.readChar();
                     if (c != '\n')
+                        {
                         this.in.ungetChar(c);
+                    }
 
                     c = '\n';
                 }
 
                 if (c == '\n' || c == '<' || c == '>')
+                    {
                     ++quotewarning;
+                }
 
                 if (c == '>')
+                    {
                     seen_gt = true;
+                }
             }
 
             if (c == '&')
@@ -2426,18 +2450,24 @@ public class Lexer
             if ((map & WHITE) != 0)
             {
                 if (delim == (char) 0)
+                {
                     break;
+                }
 
                 if (munge)
                 {
                     c = ' ';
 
                     if (lastc == ' ')
+                        {
                         continue;
+                    }
                 }
             }
             else if (foldCase && (map & UPPERCASE) != 0)
+                {
                 c += ('a' - 'A');
+            }
 
             addCharToLexer(c);
         }
@@ -2459,15 +2489,23 @@ public class Lexer
         this.lexsize = start;
 
         if (len > 0 || delim != 0)
+            {
             value = getString(this.lexbuf, start, len);
+        }
         else
+            {
             value = null;
+        }
 
         /* note delimiter if given */
         if (delim != 0)
+            {
             pdelim.value = delim;
+        }
         else
+            {
             pdelim.value = '"';
+        }
 
         return value;
     }

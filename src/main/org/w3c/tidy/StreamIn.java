@@ -61,31 +61,26 @@ package org.w3c.tidy;
  */
 import java.io.InputStream;
 
-public abstract class StreamIn {
+public abstract class StreamIn
+{
 
     public static final int EndOfStream = -1; // EOF
 
-    /* states for ISO 2022 
+    /*
+     * states for ISO 2022 A document in ISO-2022 based encoding uses some ESC sequences called "designator" to switch
+     * character sets. The designators defined and used in ISO-2022-JP are: "ESC" + "(" + ? for ISO646 variants "ESC" +
+     * "$" + ? and "ESC" + "$" + "(" + ? for multibyte character sets
+     */
 
-     A document in ISO-2022 based encoding uses some ESC sequences called 
-     "designator" to switch character sets. The designators defined and 
-     used in ISO-2022-JP are:
-
-        "ESC" + "(" + ?     for ISO646 variants
-
-        "ESC" + "$" + ?     and
-        "ESC" + "$" + "(" + ?   for multibyte character sets
-    */
-
-    public static final int FSM_ASCII    = 0;
-    public static final int FSM_ESC      = 1;
-    public static final int FSM_ESCD     = 2;
-    public static final int FSM_ESCDP    = 3;
-    public static final int FSM_ESCP     = 4;
+    public static final int FSM_ASCII = 0;
+    public static final int FSM_ESC = 1;
+    public static final int FSM_ESCD = 2;
+    public static final int FSM_ESCDP = 3;
+    public static final int FSM_ESCP = 4;
     public static final int FSM_NONASCII = 5;
 
-    /* non-raw input is cleaned up*/
-    public int state;     /* FSM for ISO2022 */
+    /* non-raw input is cleaned up */
+    public int state; /* FSM for ISO2022 */
     public boolean pushed;
     public int c;
     public int tabs;
@@ -96,7 +91,7 @@ public abstract class StreamIn {
     public int encoding;
     public InputStream stream;
     public boolean endOfStream;
-    public Object lexer;  /* needed for error reporting */
+    public Object lexer; /* needed for error reporting */
 
     /* read char from stream */
     public abstract int readCharFromStream();

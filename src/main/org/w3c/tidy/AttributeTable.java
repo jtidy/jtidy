@@ -125,7 +125,9 @@ public class AttributeTable
         Attribute attrib = lookup(name);
 
         if (attrib == null)
+        {
             attrib = install(new Attribute(name, Dict.VERS_PROPRIETARY, null));
+        }
 
         attrib.literal = true;
     }

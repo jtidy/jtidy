@@ -100,7 +100,9 @@ public class EntityTable
         int c;
 
         if (name.length() <= 1)
+        {
             return 0;
+        }
 
         /* numeric entitity: name = "&#" followed by number */
         if (name.charAt(1) == '#')

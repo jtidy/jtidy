@@ -53,7 +53,6 @@
 */
 package org.w3c.tidy;
 
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -179,235 +178,349 @@ public class Configuration implements java.io.Serializable
 
         value = _properties.getProperty("indent-spaces");
         if (value != null)
+        {
             spaces = parseInt(value, "indent-spaces");
+        }
 
         value = _properties.getProperty("wrap");
         if (value != null)
+        {
             wraplen = parseInt(value, "wrap");
+        }
 
         value = _properties.getProperty("wrap-attributes");
         if (value != null)
+        {
             WrapAttVals = parseBool(value, "wrap-attributes");
+        }
 
         value = _properties.getProperty("wrap-script-literals");
         if (value != null)
+        {
             WrapScriptlets = parseBool(value, "wrap-script-literals");
+        }
 
         value = _properties.getProperty("wrap-sections");
         if (value != null)
+        {
             WrapSection = parseBool(value, "wrap-sections");
+        }
 
         value = _properties.getProperty("wrap-asp");
         if (value != null)
+        {
             WrapAsp = parseBool(value, "wrap-asp");
+        }
 
         value = _properties.getProperty("wrap-jste");
         if (value != null)
+        {
             WrapJste = parseBool(value, "wrap-jste");
+        }
 
         value = _properties.getProperty("wrap-php");
         if (value != null)
+        {
             WrapPhp = parseBool(value, "wrap-php");
+        }
 
         value = _properties.getProperty("literal-attributes");
         if (value != null)
+        {
             LiteralAttribs = parseBool(value, "literal-attributes");
+        }
 
         value = _properties.getProperty("tab-size");
         if (value != null)
+        {
             tabsize = parseInt(value, "tab-size");
+        }
 
         value = _properties.getProperty("markup");
         if (value != null)
+        {
             OnlyErrors = parseInvBool(value, "markup");
+        }
 
         value = _properties.getProperty("quiet");
         if (value != null)
+        {
             Quiet = parseBool(value, "quiet");
+        }
 
         value = _properties.getProperty("tidy-mark");
         if (value != null)
+        {
             TidyMark = parseBool(value, "tidy-mark");
+        }
 
         value = _properties.getProperty("indent");
         if (value != null)
+        {
             IndentContent = parseIndent(value, "indent");
+        }
 
         value = _properties.getProperty("indent-attributes");
         if (value != null)
+        {
             IndentAttributes = parseBool(value, "ident-attributes");
+        }
 
         value = _properties.getProperty("hide-endtags");
         if (value != null)
+        {
             HideEndTags = parseBool(value, "hide-endtags");
+        }
 
         value = _properties.getProperty("input-xml");
         if (value != null)
+        {
             XmlTags = parseBool(value, "input-xml");
+        }
 
         value = _properties.getProperty("output-xml");
         if (value != null)
+        {
             XmlOut = parseBool(value, "output-xml");
+        }
 
         value = _properties.getProperty("output-xhtml");
         if (value != null)
+        {
             xHTML = parseBool(value, "output-xhtml");
+        }
 
         value = _properties.getProperty("add-xml-pi");
         if (value != null)
+        {
             XmlPi = parseBool(value, "add-xml-pi");
+        }
 
         value = _properties.getProperty("add-xml-decl");
         if (value != null)
+        {
             XmlPi = parseBool(value, "add-xml-decl");
+        }
 
         value = _properties.getProperty("assume-xml-procins");
         if (value != null)
+        {
             XmlPIs = parseBool(value, "assume-xml-procins");
+        }
 
         value = _properties.getProperty("raw");
         if (value != null)
+        {
             RawOut = parseBool(value, "raw");
+        }
 
         value = _properties.getProperty("uppercase-tags");
         if (value != null)
+        {
             UpperCaseTags = parseBool(value, "uppercase-tags");
+        }
 
         value = _properties.getProperty("uppercase-attributes");
         if (value != null)
+        {
             UpperCaseAttrs = parseBool(value, "uppercase-attributes");
+        }
 
         value = _properties.getProperty("clean");
         if (value != null)
+        {
             MakeClean = parseBool(value, "clean");
+        }
 
         value = _properties.getProperty("logical-emphasis");
         if (value != null)
+        {
             LogicalEmphasis = parseBool(value, "logical-emphasis");
+        }
 
         value = _properties.getProperty("word-2000");
         if (value != null)
+        {
             Word2000 = parseBool(value, "word-2000");
+        }
 
         value = _properties.getProperty("drop-empty-paras");
         if (value != null)
+        {
             DropEmptyParas = parseBool(value, "drop-empty-paras");
+        }
 
         value = _properties.getProperty("drop-font-tags");
         if (value != null)
+        {
             DropFontTags = parseBool(value, "drop-font-tags");
+        }
 
         value = _properties.getProperty("enclose-text");
         if (value != null)
+        {
             EncloseBodyText = parseBool(value, "enclose-text");
+        }
 
         value = _properties.getProperty("enclose-block-text");
         if (value != null)
+        {
             EncloseBlockText = parseBool(value, "enclose-block-text");
+        }
 
         value = _properties.getProperty("alt-text");
         if (value != null)
+        {
             altText = value;
+        }
 
         value = _properties.getProperty("add-xml-space");
         if (value != null)
+        {
             XmlSpace = parseBool(value, "add-xml-space");
+        }
 
         value = _properties.getProperty("fix-bad-comments");
         if (value != null)
+        {
             FixComments = parseBool(value, "fix-bad-comments");
+        }
 
         value = _properties.getProperty("split");
         if (value != null)
+        {
             BurstSlides = parseBool(value, "split");
+        }
 
         value = _properties.getProperty("break-before-br");
         if (value != null)
+        {
             BreakBeforeBR = parseBool(value, "break-before-br");
+        }
 
         value = _properties.getProperty("numeric-entities");
         if (value != null)
+        {
             NumEntities = parseBool(value, "numeric-entities");
+        }
 
         value = _properties.getProperty("quote-marks");
         if (value != null)
+        {
             QuoteMarks = parseBool(value, "quote-marks");
+        }
 
         value = _properties.getProperty("quote-nbsp");
         if (value != null)
+        {
             QuoteNbsp = parseBool(value, "quote-nbsp");
+        }
 
         value = _properties.getProperty("quote-ampersand");
         if (value != null)
+        {
             QuoteAmpersand = parseBool(value, "quote-ampersand");
+        }
 
         value = _properties.getProperty("write-back");
         if (value != null)
+        {
             writeback = parseBool(value, "write-back");
+        }
 
         value = _properties.getProperty("keep-time");
         if (value != null)
+        {
             KeepFileTimes = parseBool(value, "keep-time");
+        }
 
         value = _properties.getProperty("show-warnings");
         if (value != null)
+        {
             ShowWarnings = parseBool(value, "show-warnings");
+        }
 
         value = _properties.getProperty("error-file");
         if (value != null)
+        {
             errfile = parseName(value, "error-file");
+        }
 
         value = _properties.getProperty("slide-style");
         if (value != null)
+        {
             slidestyle = parseName(value, "slide-style");
+        }
 
         value = _properties.getProperty("new-inline-tags");
         if (value != null)
+        {
             parseInlineTagNames(value, "new-inline-tags");
+        }
 
         value = _properties.getProperty("new-blocklevel-tags");
         if (value != null)
+        {
             parseBlockTagNames(value, "new-blocklevel-tags");
+        }
 
         value = _properties.getProperty("new-empty-tags");
         if (value != null)
+        {
             parseEmptyTagNames(value, "new-empty-tags");
+        }
 
         value = _properties.getProperty("new-pre-tags");
         if (value != null)
+        {
             parsePreTagNames(value, "new-pre-tags");
+        }
 
         value = _properties.getProperty("char-encoding");
         if (value != null)
+        {
             CharEncoding = parseCharEncoding(value, "char-encoding");
+        }
 
         value = _properties.getProperty("doctype");
         if (value != null)
+        {
             docTypeStr = parseDocType(value, "doctype");
+        }
 
         value = _properties.getProperty("fix-backslash");
         if (value != null)
+        {
             FixBackslash = parseBool(value, "fix-backslash");
+        }
 
         value = _properties.getProperty("gnu-emacs");
         if (value != null)
+        {
             Emacs = parseBool(value, "gnu-emacs");
+        }
     }
 
     /* ensure that config is self consistent */
     public void adjust()
     {
         if (EncloseBlockText)
+        {
             EncloseBodyText = true;
+        }
 
         /* avoid the need to set IndentContent when SmartIndent is set */
 
         if (SmartIndent)
+        {
             IndentContent = true;
+        }
 
         /* disable wrapping */
         if (wraplen == 0)
+        {
             wraplen = 0x7FFFFFFF;
+        }
 
         /* Word 2000 needs o:p to be declared as inline */
         if (Word2000)
@@ -460,11 +573,17 @@ public class Configuration implements java.io.Serializable
         {
             char c = s.charAt(0);
             if ((c == 't') || (c == 'T') || (c == 'Y') || (c == 'y') || (c == '1'))
+            {
                 b = true;
+            }
             else if ((c == 'f') || (c == 'F') || (c == 'N') || (c == 'n') || (c == '0'))
+            {
                 b = false;
+            }
             else
+            {
                 Report.badArgument(option);
+            }
         }
         return b;
     }
@@ -476,11 +595,17 @@ public class Configuration implements java.io.Serializable
         {
             char c = s.charAt(0);
             if ((c == 't') || (c == 'T') || (c == 'Y') || (c == 'y'))
+            {
                 b = true;
+            }
             else if ((c == 'f') || (c == 'F') || (c == 'N') || (c == 'n'))
+            {
                 b = false;
+            }
             else
+            {
                 Report.badArgument(option);
+            }
         }
         return !b;
     }
@@ -490,9 +615,13 @@ public class Configuration implements java.io.Serializable
         StringTokenizer t = new StringTokenizer(s);
         String rs = null;
         if (t.countTokens() >= 1)
+        {
             rs = t.nextToken();
+        }
         else
+        {
             Report.badArgument(option);
+        }
         return rs;
     }
 
@@ -501,19 +630,33 @@ public class Configuration implements java.io.Serializable
         int result = ASCII;
 
         if (Lexer.wstrcasecmp(s, "ascii") == 0)
+        {
             result = ASCII;
+        }
         else if (Lexer.wstrcasecmp(s, "latin1") == 0)
+        {
             result = LATIN1;
+        }
         else if (Lexer.wstrcasecmp(s, "raw") == 0)
+        {
             result = RAW;
+        }
         else if (Lexer.wstrcasecmp(s, "utf8") == 0)
+        {
             result = UTF8;
+        }
         else if (Lexer.wstrcasecmp(s, "iso2022") == 0)
+        {
             result = ISO2022;
+        }
         else if (Lexer.wstrcasecmp(s, "mac") == 0)
+        {
             result = MACROMAN;
+        }
         else
+        {
             Report.badArgument(option);
+        }
 
         return result;
     }
@@ -549,7 +692,9 @@ public class Configuration implements java.io.Serializable
             SmartIndent = true;
         }
         else
+        {
             Report.badArgument(option);
+        }
         return b;
     }
 
@@ -609,16 +754,26 @@ public class Configuration implements java.io.Serializable
         String word = "";
         StringTokenizer t = new StringTokenizer(s, " \t\n\r,");
         if (t.hasMoreTokens())
+        {
             word = t.nextToken();
+        }
 
         if (Lexer.wstrcasecmp(word, "omit") == 0)
+        {
             docTypeMode = DOCTYPE_OMIT;
+        }
         else if (Lexer.wstrcasecmp(word, "strict") == 0)
+        {
             docTypeMode = DOCTYPE_STRICT;
+        }
         else if (Lexer.wstrcasecmp(word, "loose") == 0 || Lexer.wstrcasecmp(word, "transitional") == 0)
+        {
             docTypeMode = DOCTYPE_LOOSE;
+        }
         else if (Lexer.wstrcasecmp(word, "auto") == 0)
+        {
             docTypeMode = DOCTYPE_AUTO;
+        }
         else
         {
             docTypeMode = DOCTYPE_AUTO;

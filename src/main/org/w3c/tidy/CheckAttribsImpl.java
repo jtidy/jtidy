@@ -77,7 +77,9 @@ public class CheckAttribsImpl
                 attribute = attval.checkAttribute(lexer, node);
 
                 if (attribute == AttributeTable.attrXmlns)
+                {
                     lexer.isvoyager = true;
+                }
             }
         }
 
@@ -105,14 +107,18 @@ public class CheckAttribsImpl
                 {
                     String str = lang.value;
                     if (str.length() > 10)
+                    {
                         str = str.substring(0, 10);
+                    }
                     if ((Lexer.wstrcasecmp(str, "javascript") == 0) || (Lexer.wstrcasecmp(str, "jscript") == 0))
                     {
                         node.addAttribute("type", "text/javascript");
                     }
                 }
                 else
+                {
                     node.addAttribute("type", "text/javascript");
+                }
             }
         }
 
@@ -134,7 +140,9 @@ public class CheckAttribsImpl
                 attribute = attval.checkAttribute(lexer, node);
 
                 if (attribute == AttributeTable.attrSummary)
+                {
                     hasSummary = true;
+                }
             }
 
             /* suppress warning for missing summary for HTML 2.0 and HTML 3.2 */
@@ -151,7 +159,9 @@ public class CheckAttribsImpl
                 if (attval != null)
                 {
                     if (attval.value == null)
+                    {
                         attval.value = "1";
+                    }
                 }
             }
         }
@@ -180,11 +190,17 @@ public class CheckAttribsImpl
             if (value != null)
             {
                 if (Lexer.wstrcasecmp(value, "left") == 0 || Lexer.wstrcasecmp(value, "right") == 0)
+                {
                     lexer.versions &= (short) (Dict.VERS_HTML40_LOOSE | Dict.VERS_FRAMES);
+                }
                 else if (Lexer.wstrcasecmp(value, "top") == 0 || Lexer.wstrcasecmp(value, "bottom") == 0)
+                {
                     lexer.versions &= Dict.VERS_FROM32;
+                }
                 else
+                {
                     Report.attrError(lexer, node, value, Report.BAD_ATTRIBUTE_VALUE);
+                }
             }
         }
 
@@ -196,7 +212,9 @@ public class CheckAttribsImpl
         public void check(Lexer lexer, Node node)
         {
             if (node.getAttrByName("src") != null)
+            {
                 Report.attrError(lexer, node, "src", Report.PROPRIETARY_ATTR_VALUE);
+            }
         }
     }
 
@@ -220,17 +238,29 @@ public class CheckAttribsImpl
                 attribute = attval.checkAttribute(lexer, node);
 
                 if (attribute == AttributeTable.attrAlt)
+                {
                     hasAlt = true;
+                }
                 else if (attribute == AttributeTable.attrSrc)
+                {
                     hasSrc = true;
+                }
                 else if (attribute == AttributeTable.attrUsemap)
+                {
                     hasUseMap = true;
+                }
                 else if (attribute == AttributeTable.attrIsmap)
+                {
                     hasIsMap = true;
+                }
                 else if (attribute == AttributeTable.attrDatafld)
+                {
                     hasDataFld = true;
+                }
                 else if (attribute == AttributeTable.attrWidth || attribute == AttributeTable.attrHeight)
+                {
                     lexer.versions &= ~Dict.VERS_HTML20;
+                }
             }
 
             if (!hasAlt)
@@ -238,14 +268,20 @@ public class CheckAttribsImpl
                 lexer.badAccess |= Report.MISSING_IMAGE_ALT;
                 Report.attrError(lexer, node, "alt", Report.MISSING_ATTRIBUTE);
                 if (lexer.configuration.altText != null)
+                {
                     node.addAttribute("alt", lexer.configuration.altText);
+                }
             }
 
             if (!hasSrc && !hasDataFld)
+            {
                 Report.attrError(lexer, node, "src", Report.MISSING_ATTRIBUTE);
+            }
 
             if (hasIsMap && !hasUseMap)
+            {
                 Report.attrError(lexer, node, "ismap", Report.MISSING_IMAGEMAP);
+            }
         }
 
     }
@@ -267,9 +303,13 @@ public class CheckAttribsImpl
                 attribute = attval.checkAttribute(lexer, node);
 
                 if (attribute == AttributeTable.attrAlt)
+                {
                     hasAlt = true;
+                }
                 else if (attribute == AttributeTable.attrHref)
+                {
                     hasHref = true;
+                }
             }
 
             if (!hasAlt)
@@ -278,7 +318,9 @@ public class CheckAttribsImpl
                 Report.attrError(lexer, node, "alt", Report.MISSING_ATTRIBUTE);
             }
             if (!hasHref)
+            {
                 Report.attrError(lexer, node, "href", Report.MISSING_ATTRIBUTE);
+            }
         }
 
     }
@@ -330,11 +372,12 @@ public class CheckAttribsImpl
         {
             node.checkUniqueAttributes(lexer);
 
-            /*
-             * HTML4 strict doesn't allow mixed content for elements with %block; as their content model
-             */
+            // HTML4 strict doesn't allow mixed content for elements with %block; as their content model
+
             if (node.getAttrByName("width") != null || node.getAttrByName("height") != null)
+            {
                 lexer.versions &= ~Dict.VERS_HTML40_STRICT;
+            }
         }
     }
 

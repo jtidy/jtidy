@@ -104,13 +104,19 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
         while (node != null)
         {
             if (node.type == Node.DocTypeTag)
+            {
                 break;
+            }
             node = node.next;
         }
         if (node != null)
+        {
             return (org.w3c.dom.DocumentType) node.getAdapter();
+        }
         else
+        {
             return null;
+        }
     }
 
     /**
@@ -131,13 +137,19 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
         while (node != null)
         {
             if (node.type == Node.StartTag || node.type == Node.StartEndTag)
+            {
                 break;
+            }
             node = node.next;
         }
         if (node != null)
+        {
             return (org.w3c.dom.Element) node.getAdapter();
+        }
         else
+        {
             return null;
+        }
     }
 
     /**
@@ -149,11 +161,15 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
         if (node != null)
         {
             if (node.tag == null) // Fix Bug 121206
+            {
                 node.tag = this.tt.xmlTags;
+            }
             return (org.w3c.dom.Element) node.getAdapter();
         }
         else
+        {
             return null;
+        }
     }
 
     /**
@@ -173,9 +189,13 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
         byte[] textarray = Lexer.getBytes(data);
         Node node = new Node(Node.TextNode, textarray, 0, textarray.length);
         if (node != null)
+        {
             return (org.w3c.dom.Text) node.getAdapter();
+        }
         else
+        {
             return null;
+        }
     }
 
     /**
@@ -186,9 +206,13 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
         byte[] textarray = Lexer.getBytes(data);
         Node node = new Node(Node.CommentTag, textarray, 0, textarray.length);
         if (node != null)
+        {
             return (org.w3c.dom.Comment) node.getAdapter();
+        }
         else
+        {
             return null;
+        }
     }
 
     /**

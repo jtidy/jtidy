@@ -80,13 +80,19 @@ public class DOMAttrMapImpl implements org.w3c.dom.NamedNodeMap
         while (att != null)
         {
             if (att.attribute.equals(name))
+            {
                 break;
+            }
             att = att.next;
         }
         if (att != null)
+        {
             return att.getAdapter();
+        }
         else
+        {
             return null;
+        }
     }
 
     /**
@@ -117,14 +123,20 @@ public class DOMAttrMapImpl implements org.w3c.dom.NamedNodeMap
         while (att != null)
         {
             if (i >= index)
+            {
                 break;
+            }
             i++;
             att = att.next;
         }
         if (att != null)
+        {
             return att.getAdapter();
+        }
         else
+        {
             return null;
+        }
     }
 
     /**

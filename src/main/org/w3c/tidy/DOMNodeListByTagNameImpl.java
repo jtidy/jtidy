@@ -86,9 +86,13 @@ public class DOMNodeListByTagNameImpl implements org.w3c.dom.NodeList
         preTraverse(first);
 
         if (currIndex > maxIndex && currNode != null)
+        {
             return currNode.getAdapter();
+        }
         else
+        {
             return null;
+        }
     }
 
     /**
@@ -105,7 +109,9 @@ public class DOMNodeListByTagNameImpl implements org.w3c.dom.NodeList
     protected void preTraverse(Node node)
     {
         if (node == null)
+        {
             return;
+        }
 
         if (node.type == Node.StartTag || node.type == Node.StartEndTag)
         {
@@ -116,7 +122,9 @@ public class DOMNodeListByTagNameImpl implements org.w3c.dom.NodeList
             }
         }
         if (currIndex > maxIndex)
+        {
             return;
+        }
 
         node = node.content;
         while (node != null)

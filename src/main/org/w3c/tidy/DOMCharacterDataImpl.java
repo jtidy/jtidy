@@ -95,7 +95,9 @@ public class DOMCharacterDataImpl extends DOMNodeImpl implements org.w3c.dom.Cha
     {
         int len = 0;
         if (adaptee.textarray != null && adaptee.start < adaptee.end)
+        {
             len = adaptee.end - adaptee.start;
+        }
         return len;
     }
 
@@ -118,7 +120,9 @@ public class DOMCharacterDataImpl extends DOMNodeImpl implements org.w3c.dom.Cha
             }
             len = count;
             if (adaptee.start + offset + len - 1 >= adaptee.end)
+            {
                 len = adaptee.end - adaptee.start - offset;
+            }
 
             value = Lexer.getString(adaptee.textarray, adaptee.start + offset, len);
         }

@@ -111,9 +111,13 @@ public class AttVal extends Object implements Cloneable
             av.next = (AttVal) next.clone();
         }
         if (attribute != null)
+        {
             av.attribute = attribute;
+        }
         if (value != null)
+        {
             av.value = value;
+        }
         av.delim = delim;
         if (asp != null)
         {
@@ -147,31 +151,43 @@ public class AttVal extends Object implements Cloneable
         TagTable tt = lexer.configuration.tt;
 
         if (this.asp == null && this.php == null)
+        {
             this.checkUniqueAttribute(lexer, node);
+        }
 
         Attribute attribute = this.dict;
         if (attribute != null)
         {
             /* title is vers 2.0 for A and LINK otherwise vers 4.0 */
             if (attribute == AttributeTable.attrTitle && (node.tag == tt.tagA || node.tag == tt.tagLink))
+            {
                 lexer.versions &= Dict.VERS_ALL;
+            }
             else if ((attribute.versions & Dict.VERS_XML) != 0)
             {
                 if (!(lexer.configuration.XmlTags || lexer.configuration.XmlOut))
+                {
                     Report.attrError(lexer, node, this.attribute, Report.XML_ATTRIBUTE_VALUE);
+                }
             }
             else
+            {
                 lexer.versions &= attribute.versions;
+            }
 
             if (attribute.attrchk != null)
+            {
                 attribute.attrchk.check(lexer, node, this);
+            }
         }
         else if (
             !lexer.configuration.XmlTags
                 && !(node.tag == null)
                 && this.asp == null
                 && !(node.tag != null && ((node.tag.versions & Dict.VERS_PROPRIETARY) != 0)))
+        {
             Report.attrError(lexer, node, this.attribute, Report.UNKNOWN_ATTRIBUTE);
+        }
 
         return attribute;
     }
@@ -191,11 +207,15 @@ public class AttVal extends Object implements Cloneable
                 && attr.asp == null
                 && attr.php == null
                 && Lexer.wstrcasecmp(this.attribute, attr.attribute) == 0)
+            {
                 ++count;
+            }
         }
 
         if (count > 0)
+        {
             Report.attrError(lexer, node, this.attribute, Report.REPEATED_ATTRIBUTE);
+        }
     }
 
     /* --------------------- DOM ---------------------------- */

@@ -69,8 +69,9 @@ public class OutImpl extends Out
         this.out = null;
     }
 
-    public void outc(byte c) {
-        outc(c & 0xFF);  // Convert to unsigned.
+    public void outc(byte c)
+    {
+        outc(c & 0xFF); // Convert to unsigned.
     }
 
     /* For mac users, should we map Unicode back to MacRoman? */
@@ -78,99 +79,131 @@ public class OutImpl extends Out
     {
         int ch;
 
-        try {
+        try
+        {
             if (this.encoding == Configuration.UTF8)
             {
                 if (c < 128)
+                {
                     this.out.write(c);
+                }
                 else if (c <= 0x7FF)
                 {
-                    ch = (0xC0 | (c >> 6)); this.out.write(ch);
-                    ch = (0x80 | (c & 0x3F)); this.out.write(ch);
+                    ch = (0xC0 | (c >> 6));
+                    this.out.write(ch);
+                    ch = (0x80 | (c & 0x3F));
+                    this.out.write(ch);
                 }
                 else if (c <= 0xFFFF)
                 {
-                    ch = (0xE0 | (c >> 12)); this.out.write(ch);
-                    ch = (0x80 | ((c >> 6) & 0x3F)); this.out.write(ch);
-                    ch = (0x80 | (c & 0x3F)); this.out.write(ch);
+                    ch = (0xE0 | (c >> 12));
+                    this.out.write(ch);
+                    ch = (0x80 | ((c >> 6) & 0x3F));
+                    this.out.write(ch);
+                    ch = (0x80 | (c & 0x3F));
+                    this.out.write(ch);
                 }
                 else if (c <= 0x1FFFFF)
                 {
-                    ch = (0xF0 | (c >> 18)); this.out.write(ch);
-                    ch = (0x80 | ((c >> 12) & 0x3F)); this.out.write(ch);
-                    ch = (0x80 | ((c >> 6) & 0x3F)); this.out.write(ch);
-                    ch = (0x80 | (c & 0x3F)); this.out.write(ch);
+                    ch = (0xF0 | (c >> 18));
+                    this.out.write(ch);
+                    ch = (0x80 | ((c >> 12) & 0x3F));
+                    this.out.write(ch);
+                    ch = (0x80 | ((c >> 6) & 0x3F));
+                    this.out.write(ch);
+                    ch = (0x80 | (c & 0x3F));
+                    this.out.write(ch);
                 }
                 else
                 {
-                    ch = (0xF8 | (c >> 24)); this.out.write(ch);
-                    ch = (0x80 | ((c >> 18) & 0x3F)); this.out.write(ch);
-                    ch = (0x80 | ((c >> 12) & 0x3F)); this.out.write(ch);
-                    ch = (0x80 | ((c >> 6) & 0x3F)); this.out.write(ch);
-                    ch = (0x80 | (c & 0x3F)); this.out.write(ch);
+                    ch = (0xF8 | (c >> 24));
+                    this.out.write(ch);
+                    ch = (0x80 | ((c >> 18) & 0x3F));
+                    this.out.write(ch);
+                    ch = (0x80 | ((c >> 12) & 0x3F));
+                    this.out.write(ch);
+                    ch = (0x80 | ((c >> 6) & 0x3F));
+                    this.out.write(ch);
+                    ch = (0x80 | (c & 0x3F));
+                    this.out.write(ch);
                 }
             }
             else if (this.encoding == Configuration.ISO2022)
             {
-                if (c == 0x1b)  /* ESC */
+                if (c == 0x1b) /* ESC */
+                {
                     this.state = StreamIn.FSM_ESC;
+                }
                 else
                 {
                     switch (this.state)
                     {
-                    case StreamIn.FSM_ESC:
-                        if (c == '$')
-                            this.state = StreamIn.FSM_ESCD;
-                        else if (c == '(')
-                            this.state = StreamIn.FSM_ESCP;
-                        else
-                            this.state = StreamIn.FSM_ASCII;
-                        break;
+                        case StreamIn.FSM_ESC :
+                            if (c == '$')
+                            {
+                                this.state = StreamIn.FSM_ESCD;
+                            }
+                            else if (c == '(')
+                            {
+                                this.state = StreamIn.FSM_ESCP;
+                            }
+                            else
+                            {
+                                this.state = StreamIn.FSM_ASCII;
+                            }
+                            break;
 
-                    case StreamIn.FSM_ESCD:
-                        if (c == '(')
-                            this.state = StreamIn.FSM_ESCDP;
-                        else
+                        case StreamIn.FSM_ESCD :
+                            if (c == '(')
+                            {
+                                this.state = StreamIn.FSM_ESCDP;
+                            }
+                            else
+                            {
+                                this.state = StreamIn.FSM_NONASCII;
+                            }
+                            break;
+
+                        case StreamIn.FSM_ESCDP :
                             this.state = StreamIn.FSM_NONASCII;
-                        break;
+                            break;
 
-                    case StreamIn.FSM_ESCDP:
-                        this.state = StreamIn.FSM_NONASCII;
-                        break;
+                        case StreamIn.FSM_ESCP :
+                            this.state = StreamIn.FSM_ASCII;
+                            break;
 
-                    case StreamIn.FSM_ESCP:
-                        this.state = StreamIn.FSM_ASCII;
-                        break;
-
-                    case StreamIn.FSM_NONASCII:
-                        c &= 0x7F;
-                        break;
+                        case StreamIn.FSM_NONASCII :
+                            c &= 0x7F;
+                            break;
                     }
                 }
 
                 this.out.write(c);
             }
             else
+            {
                 this.out.write(c);
+            }
         }
-        catch (IOException e) {
+        catch (IOException e)
+        {
             System.err.println("OutImpl.outc: " + e.toString());
         }
     }
 
     public void newline()
     {
-        try {
+        try
+        {
             this.out.write(nlBytes);
             this.out.flush();
         }
-        catch (IOException e) {
+        catch (IOException e)
+        {
             System.err.println("OutImpl.newline: " + e.toString());
         }
     }
 
-    private static final byte[] nlBytes =
-        (System.getProperty("line.separator")).getBytes();
+    private static final byte[] nlBytes = (System.getProperty("line.separator")).getBytes();
 
 }
-

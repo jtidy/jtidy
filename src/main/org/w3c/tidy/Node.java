@@ -145,7 +145,9 @@ public class Node
         this.attributes = null;
         this.content = null;
         if (type == StartTag || type == StartEndTag || type == EndTag)
+        {
             tt.findTag(this);
+        }
     }
 
     /* used to clone heading nodes when split by an <HR> */
@@ -160,7 +162,9 @@ public class Node
             node.start = 0;
             node.end = this.end - this.start;
             if (node.end > 0)
+            {
                 System.arraycopy(this.textarray, this.start, node.textarray, node.start, node.end);
+            }
         }
         node.type = this.type;
         node.closed = this.closed;
@@ -169,9 +173,13 @@ public class Node
         node.was = this.was;
         node.tag = this.tag;
         if (this.element != null)
+        {
             node.element = this.element;
+        }
         if (this.attributes != null)
+        {
             node.attributes = (AttVal) this.attributes.clone();
+        }
         return node;
     }
 
@@ -182,7 +190,9 @@ public class Node
         for (attr = this.attributes; attr != null; attr = attr.next)
         {
             if (name != null && attr.attribute != null && attr.attribute.equals(name))
+            {
                 break;
+            }
         }
 
         return attr;
@@ -194,7 +204,9 @@ public class Node
         AttVal attval;
 
         for (attval = this.attributes; attval != null; attval = attval.next)
+        {
             attval.checkAttribute(lexer, this);
+        }
     }
 
     public void checkUniqueAttributes(Lexer lexer)
@@ -204,7 +216,9 @@ public class Node
         for (attval = this.attributes; attval != null; attval = attval.next)
         {
             if (attval.asp == null && attval.php == null)
+            {
                 attval.checkUniqueAttribute(lexer, this);
+            }
         }
     }
 
@@ -214,12 +228,16 @@ public class Node
         av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(av);
 
         if (this.attributes == null)
+        {
             this.attributes = av;
+        }
         else /* append to end of attributes */ {
             AttVal here = this.attributes;
 
             while (here.next != null)
+            {
                 here = here.next;
+            }
 
             here.next = av;
         }
@@ -239,12 +257,18 @@ public class Node
             if (av == attr)
             {
                 if (prev != null)
+                {
                     prev.next = next;
+                }
                 else
+                {
                     this.attributes = next;
+                }
             }
             else
+            {
                 prev = av;
+            }
         }
     }
 
@@ -266,12 +290,18 @@ public class Node
         if (node != null)
         {
             if (node.prev != null)
+            {
                 node.prev.next = node.next;
+            }
             else
+            {
                 node.parent.content = node.next;
+            }
 
             if (node.next != null)
+            {
                 node.next.prev = node.prev;
+            }
 
             node.next = null;
         }
@@ -297,9 +327,13 @@ public class Node
         node.parent = element;
 
         if (element.content == null)
+        {
             element.last = node;
+        }
         else
+        {
             element.content.prev = node; // AQ added 13 Apr 2000
+        }
 
         node.next = element.content;
         node.prev = null;
@@ -313,9 +347,13 @@ public class Node
         node.prev = element.last;
 
         if (element.last != null)
+        {
             element.last.next = node;
+        }
         else
+        {
             element.content = node;
+        }
 
         element.last = node;
     }
@@ -331,22 +369,30 @@ public class Node
         element.parent = node;
 
         if (node.parent.content == element)
+        {
             node.parent.content = node;
+        }
 
         if (node.parent.last == element)
+        {
             node.parent.last = node;
+        }
 
         node.prev = element.prev;
         element.prev = null;
 
         if (node.prev != null)
+        {
             node.prev.next = node;
+        }
 
         node.next = element.next;
         element.next = null;
 
         if (node.next != null)
+        {
             node.next.prev = node;
+        }
     }
 
     /* insert node into markup tree before element */
@@ -361,10 +407,14 @@ public class Node
         element.prev = node;
 
         if (node.prev != null)
+        {
             node.prev.next = node;
+        }
 
         if (parent != null && parent.content == element)
+        {
             parent.content = node;
+        }
     }
 
     /* insert node into markup tree after element */
@@ -377,13 +427,17 @@ public class Node
 
         // AQ - 13Jan2000 fix for parent == null
         if (parent != null && parent.last == element)
+        {
             parent.last = node;
+        }
         else
         {
             node.next = element.next;
             // AQ - 13Jan2000 fix for node.next == null
             if (node.next != null)
+            {
                 node.next.prev = node;
+            }
         }
 
         element.next = node;
@@ -397,7 +451,9 @@ public class Node
         if (lexer.canPrune(element))
         {
             if (element.type != TextNode)
+            {
                 Report.warning(lexer, element, null, Report.TRIM_EMPTY_ELEMENT);
+            }
 
             discardElement(element);
         }
@@ -429,18 +485,24 @@ public class Node
                 if (element.tag == tt.tagTd || element.tag == tt.tagTh)
                 {
                     if (last.end > last.start + 1)
+                    {
                         last.end -= 1;
+                    }
                 }
                 else
                 {
                     last.end -= 1;
 
                     if (((element.tag.model & Dict.CM_INLINE) != 0) && !((element.tag.model & Dict.CM_FIELD) != 0))
+                    {
                         lexer.insertspace = true;
+                    }
 
                     /* if empty string then delete from parse tree */
                     if (last.start == last.end)
+                    {
                         trimEmptyElement(lexer, last);
+                    }
                 }
             }
         }
@@ -467,7 +529,9 @@ public class Node
                 if (prev != null && prev.type == TextNode)
                 {
                     if (prev.textarray[prev.end - 1] != (byte) ' ')
+                    {
                         prev.textarray[prev.end++] = (byte) ' ';
+                    }
 
                     ++element.start;
                 }
@@ -493,7 +557,9 @@ public class Node
                     node.textarray[node.start] = (byte) ' ';
                     node.prev = prev;
                     if (prev != null)
+                    {
                         prev.next = node;
+                    }
                     node.next = element;
                     element.prev = node;
                     node.parent = element.parent;
@@ -515,12 +581,16 @@ public class Node
         TagTable tt = lexer.configuration.tt;
 
         if (text != null && text.type == Node.TextNode && element.tag != tt.tagPre)
+        {
             trimInitialSpace(lexer, element, text);
+        }
 
         text = element.last;
 
         if (text != null && text.type == Node.TextNode)
+        {
             trimTrailingSpace(lexer, element, text);
+        }
     }
 
     public boolean isDescendantOf(Dict tag)
@@ -530,7 +600,9 @@ public class Node
         for (parent = this.parent; parent != null; parent = parent.parent)
         {
             if (parent.tag == tag)
+            {
                 return true;
+            }
         }
 
         return false;
@@ -546,7 +618,9 @@ public class Node
         Report.warning(lexer, element, doctype, Report.DOCTYPE_AFTER_TAGS);
 
         while (element.tag != tt.tagHtml)
+        {
             element = element.parent;
+        }
 
         insertNodeBeforeElement(element, doctype);
     }
@@ -558,15 +632,21 @@ public class Node
         node = this.content;
 
         while (node != null && node.tag != tt.tagHtml)
+        {
             node = node.next;
+        }
 
         if (node == null)
+        {
             return null;
+        }
 
         node = node.content;
 
         while (node != null && node.tag != tt.tagBody)
+        {
             node = node.next;
+        }
 
         return node;
     }
@@ -590,7 +670,9 @@ public class Node
             if (table.tag == tt.tagTable)
             {
                 if (table.parent.content == table)
+                {
                     table.parent.content = node;
+                }
 
                 node.prev = table.prev;
                 node.next = table;
@@ -598,7 +680,9 @@ public class Node
                 node.parent = table.parent;
 
                 if (node.prev != null)
+                {
                     node.prev.next = node;
+                }
 
                 break;
             }
@@ -636,18 +720,26 @@ public class Node
     public static void removeNode(Node node)
     {
         if (node.prev != null)
+        {
             node.prev.next = node.next;
+        }
 
         if (node.next != null)
+        {
             node.next.prev = node.prev;
+        }
 
         if (node.parent != null)
         {
             if (node.parent.content == node)
+            {
                 node.parent.content = node.next;
+            }
 
             if (node.parent.last == node)
+            {
                 node.parent.last = node.prev;
+            }
         }
 
         node.parent = node.prev = node.next = null;
@@ -721,38 +813,53 @@ public class Node
         if (this.prev != null)
         {
             if (this.prev.next != this)
+            {
                 return false;
+            }
         }
 
         if (this.next != null)
         {
             if (this.next.prev != this)
+            {
                 return false;
+            }
         }
 
         if (this.parent != null)
         {
             if (this.prev == null && this.parent.content != this)
+            {
                 return false;
+            }
 
             if (this.next == null && this.parent.last != this)
+            {
                 return false;
+            }
 
             for (child = this.parent.content; child != null; child = child.next)
+            {
                 if (child == this)
                 {
                     found = true;
                     break;
                 }
+            }
 
             if (!found)
+            {
                 return false;
+            }
         }
 
         for (child = this.content; child != null; child = child.next)
+        {
             if (!child.checkNodeIntegrity())
+            {
                 return false;
-
+            }
+        }
         return true;
     }
 
@@ -770,8 +877,9 @@ public class Node
         {
             classattr.value = classattr.value + " " + classname;
         }
-        else /* create new class attribute */
+        else /* create new class attribute */ {
             node.addAttribute("class", classname);
+        }
     }
 
     /* --------------------- DEBUG -------------------------- */
@@ -801,9 +909,13 @@ public class Node
             s += nodeTypeString[n.type];
             s += ",element=";
             if (n.element != null)
+            {
                 s += n.element;
+            }
             else
+            {
                 s += "null";
+            }
             if (n.type == TextNode || n.type == CommentTag || n.type == ProcInsTag)
             {
                 s += ",text=";
@@ -820,12 +932,18 @@ public class Node
             }
             s += ",content=";
             if (n.content != null)
+            {
                 s += n.content.toString();
+            }
             else
+            {
                 s += "null";
+            }
             s += "]";
             if (n.next != null)
+            {
                 s += ",";
+            }
             n = n.next;
         }
         return s;

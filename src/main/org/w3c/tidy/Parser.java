@@ -62,6 +62,6 @@ package org.w3c.tidy;
 public interface Parser
 {
 
-    public void parse(Lexer lexer, Node node, short mode);
+    void parse(Lexer lexer, Node node, short mode);
 
 }

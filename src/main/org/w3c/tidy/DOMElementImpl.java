@@ -93,19 +93,27 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
     public String getAttribute(String name)
     {
         if (this.adaptee == null)
+        {
             return null;
+        }
 
         AttVal att = this.adaptee.attributes;
         while (att != null)
         {
             if (att.attribute.equals(name))
+            {
                 break;
+            }
             att = att.next;
         }
         if (att != null)
+        {
             return att.value;
+        }
         else
+        {
             return "";
+        }
     }
 
     /**
@@ -114,13 +122,17 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
     public void setAttribute(String name, String value) throws DOMException
     {
         if (this.adaptee == null)
+        {
             return;
+        }
 
         AttVal att = this.adaptee.attributes;
         while (att != null)
         {
             if (att.attribute.equals(name))
+            {
                 break;
+            }
             att = att.next;
         }
         if (att != null)
@@ -149,14 +161,18 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
     public void removeAttribute(String name) throws DOMException
     {
         if (this.adaptee == null)
+        {
             return;
+        }
 
         AttVal att = this.adaptee.attributes;
         AttVal pre = null;
         while (att != null)
         {
             if (att.attribute.equals(name))
+            {
                 break;
+            }
             pre = att;
             att = att.next;
         }
@@ -179,19 +195,27 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
     public org.w3c.dom.Attr getAttributeNode(String name)
     {
         if (this.adaptee == null)
+        {
             return null;
+        }
 
         AttVal att = this.adaptee.attributes;
         while (att != null)
         {
             if (att.attribute.equals(name))
+            {
                 break;
+            }
             att = att.next;
         }
         if (att != null)
+        {
             return att.getAdapter();
+        }
         else
+        {
             return null;
+        }
     }
 
     /**
@@ -200,7 +224,9 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
     public org.w3c.dom.Attr setAttributeNode(org.w3c.dom.Attr newAttr) throws DOMException
     {
         if (newAttr == null)
+        {
             return null;
+        }
         if (!(newAttr instanceof DOMAttrImpl))
         {
             throw new DOMExceptionImpl(DOMException.WRONG_DOCUMENT_ERR, "newAttr not instanceof DOMAttrImpl");
@@ -214,7 +240,9 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
         while (att != null)
         {
             if (att.attribute.equals(name))
+            {
                 break;
+            }
             att = att.next;
         }
         if (att != null)
@@ -243,7 +271,9 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
     public org.w3c.dom.Attr removeAttributeNode(org.w3c.dom.Attr oldAttr) throws DOMException
     {
         if (oldAttr == null)
+        {
             return null;
+        }
 
         org.w3c.dom.Attr result = null;
         AttVal att = this.adaptee.attributes;
@@ -251,7 +281,9 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
         while (att != null)
         {
             if (att.getAdapter() == oldAttr)
+            {
                 break;
+            }
             pre = att;
             att = att.next;
         }
