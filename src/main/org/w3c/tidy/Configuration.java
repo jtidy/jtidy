@@ -406,6 +406,11 @@ public class Configuration implements java.io.Serializable
     protected boolean replaceColor = false;
 
     /**
+     * hides all (real) comments in output.
+     */
+    protected boolean hideComments = false;
+
+    /**
      * TagTable associated with this Configuration.
      */
     protected TagTable tt;
@@ -530,6 +535,13 @@ public class Configuration implements java.io.Serializable
         {
             this.lowerLiterals = parseBool(value, "lower-literals");
         }
+
+        value = properties.getProperty("hide-comments");
+        if (value != null)
+        {
+            this.hideComments = parseBool(value, "hide-comments");
+        }
+
         value = properties.getProperty("replace-color");
         if (value != null)
         {

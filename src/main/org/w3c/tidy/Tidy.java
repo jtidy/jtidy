@@ -968,6 +968,25 @@ public class Tidy implements Serializable
     }
 
     /**
+     * hide-comments - hides all (real) comments in output.
+     * @param hideComments true = hides all comments in output
+     * @see Configuration#hideComments
+     */
+    public void setHideComments(boolean hideComments)
+    {
+        configuration.hideComments = hideComments;
+    }
+
+    /**
+     * hide-comments - hides all (real) comments in output.
+     * @return true if tidy will hide all comments in output
+     */
+    public boolean getHideComments()
+    {
+        return configuration.hideComments;
+    }
+
+    /**
      * replace-color - replace hex color attribute values with names.
      * @param replaceColor true = replace hex color attribute values with names
      * @see Configuration#lowerLiterals
