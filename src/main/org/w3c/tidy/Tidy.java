@@ -1309,6 +1309,11 @@ public class Tidy implements Serializable
 
             this.report.setFilename(inputStreamName); // #431895 - fix by Dave Bryan 04 Jan 01
 
+            if (!configuration.quiet)
+            {
+                this.report.helloMessage(errout);
+            }
+
             // skip byte order mark
             if (lexer.in.getEncoding() == Configuration.UTF8
                 || lexer.in.getEncoding() == Configuration.UTF16LE
@@ -1330,14 +1335,15 @@ public class Tidy implements Serializable
             if (configuration.xmlTags)
             {
                 document = ParserImpl.parseXMLDocument(lexer);
+                if (!document.checkNodeIntegrity())
+                {
+                    // "Panic - tree has lost its integrity"
+                    return null;
+                }
             }
             else
             {
                 lexer.warnings = 0;
-                if (!configuration.quiet)
-                {
-                    this.report.helloMessage(errout);
-                }
 
                 document = ParserImpl.parseDocument(lexer);
 
@@ -1812,23 +1818,18 @@ public class Tidy implements Serializable
                 else if (arg.equalsIgnoreCase("help") || arg.equalsIgnoreCase("h") || argv[argIndex].charAt(1) == '?')
                 {
                     this.report.helpText(new PrintWriter(System.out, true));
-                    return 1;
+                    return 0;
                 }
                 else if (arg.equalsIgnoreCase("help-config"))
                 {
                     configuration.printConfigOptions(new PrintWriter(System.out, true), false);
-
-                    --argc;
-                    ++argIndex;
-                    continue;
+                    return 0;
                 }
                 else if (arg.equalsIgnoreCase("show-config"))
                 {
                     configuration.adjust(); // ensure config is self-consistent
                     configuration.printConfigOptions(errout, true);
-                    --argc;
-                    ++argIndex;
-                    continue;
+                    return 0;
                 }
                 else if (arg.equalsIgnoreCase("config"))
                 {
