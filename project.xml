@@ -22,8 +22,8 @@ In addition, JTidy provides a DOM interface to the document that is being proces
     <siteDirectory>/home/groups/j/jt/jtidy/htdocs</siteDirectory>
     <distributionDirectory>http://sourceforge.net/project/showfiles.php?group_id=${maven.sourceforge.project.groupId}</distributionDirectory>
     <repository>
-        <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/${pom.groupId}:${pom.groupId}2</connection>
-        <url>http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/${pom.groupId}/${pom.groupId}2/</url>
+        <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/${pom.groupId}:${pom.groupId}</connection>
+        <url>http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/${pom.groupId}/${pom.groupId}/</url>
     </repository>
     <mailingLists>
         <mailingList>
