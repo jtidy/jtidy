@@ -1513,11 +1513,11 @@ public final class Report
             {
                 int encodingChoiche = 0;
 
-                if (lexer.configuration.getInCharEncoding() == Configuration.WIN1252)
+                if ("Cp1252".equals(lexer.configuration.getInCharEncodingName()))
                 {
                     encodingChoiche = 1;
                 }
-                else if (lexer.configuration.getInCharEncoding() == Configuration.MACROMAN)
+                else if ("MacRoman".equals(lexer.configuration.getInCharEncodingName()))
                 {
                     encodingChoiche = 2;
                 }
@@ -1530,11 +1530,11 @@ public final class Report
             {
                 int encodingChoiche = 0;
 
-                if (lexer.configuration.getInCharEncoding() == Configuration.WIN1252)
+                if ("Cp1252".equals(lexer.configuration.getInCharEncodingName()))
                 {
                     encodingChoiche = 1;
                 }
-                else if (lexer.configuration.getInCharEncoding() == Configuration.MACROMAN)
+                else if ("MacRoman".equals(lexer.configuration.getInCharEncodingName()))
                 {
                     encodingChoiche = 2;
                 }
