@@ -124,6 +124,16 @@ public final class AttrCheckImpl
     private static AttrCheck checkShape = new CheckShape();
 
     /**
+     * checker for "number" attribute.
+     */
+    private static AttrCheck checkNumber = new CheckNumber();
+
+    /**
+     * checker for "scope" attribute.
+     */
+    private static AttrCheck checkScope = new CheckScope();
+
+    /**
      * utility class, don't instantiate.
      */
     private AttrCheckImpl()
@@ -502,6 +512,69 @@ public final class AttrCheckImpl
                 lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
             }
 
+        }
+    }
+
+    /**
+     * AttrCheck implementation for checking Scope.
+     */
+    public static class CheckScope implements AttrCheck
+    {
+
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
+        public void check(Lexer lexer, Node node, AttVal attval)
+        {
+
+            String value = attval.value;
+
+            if (value == null)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+            }
+
+            if (!("row".equalsIgnoreCase(value) || "rowgroup".equalsIgnoreCase(value) //
+                || "col".equalsIgnoreCase(value) || "colgroup".equalsIgnoreCase(value)))
+                lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+        }
+    }
+
+    /**
+     * AttrCheck implementation for checking numbers.
+     */
+    public static class CheckNumber implements AttrCheck
+    {
+
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
+        public void check(Lexer lexer, Node node, AttVal attval)
+        {
+
+            String value = attval.value;
+
+            if (value == null)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+            }
+
+            int j = 0;
+
+            // font size may be preceded by + or -
+            if (node.tag == lexer.configuration.tt.tagFont && (value.startsWith("+") || value.startsWith("-")))
+            {
+                ++j;
+            }
+
+            for (; j < value.length(); j++)
+            {
+                char p = value.charAt(j);
+                if (!Character.isDigit(p))
+                {
+                    break; // and shout: illegal number
+                }
+            }
         }
     }
 
