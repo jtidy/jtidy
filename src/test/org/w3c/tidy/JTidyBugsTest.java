@@ -53,12 +53,6 @@
  */
 package org.w3c.tidy;
 
-import java.io.BufferedInputStream;
-import java.net.URL;
-
-import org.w3c.dom.Document;
-
-
 /**
  * testcase for JTidy resolved bugs.
  * @author fgiust
@@ -136,8 +130,8 @@ public class JTidyBugsTest extends TidyTestCase
      */
     public void test538727() throws Exception
     {
-        //this has the same result of setting it in the config file
-        //tidy.setDocType("\"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"file:///E:/xhtml1-transitional.dtd\"");
+        // this has the same result of setting it in the config file
+        // tidy.setDocType("\"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"file:///E:/xhtml1-transitional.dtd\"");
         executeTidyTest("538727.html");
     }
 
@@ -286,6 +280,15 @@ public class JTidyBugsTest extends TidyTestCase
     public void test1058909() throws Exception
     {
         executeTidyTest("1058909.html");
+    }
+
+    /**
+     * test for JTidy [1097062]: trimInitialSpace does not handle nested inlines.
+     * @throws Exception any exception generated during the test
+     */
+    public void test1097062() throws Exception
+    {
+        executeTidyTest("1097062.html");
     }
 
 }
