@@ -410,6 +410,15 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [434940b] : --show-body-only: print only body contents (used with output-xml).
+     * @throws Exception any exception generated during the test
+     */
+    public void test434940b() throws Exception
+    {
+        executeTidyTest("434940b.html");
+    }
+
+    /**
      * test for Tidy [435903] : Script element w/body child to table bug.
      * @throws Exception any exception generated during the test
      */

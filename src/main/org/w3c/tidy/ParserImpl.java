@@ -527,7 +527,10 @@ public final class ParserImpl
 
             if (hasTitle == 0)
             {
-                lexer.report.warning(lexer, head, null, Report.MISSING_TITLE_ELEMENT);
+                if (!lexer.configuration.bodyOnly)
+                {
+                    lexer.report.warning(lexer, head, null, Report.MISSING_TITLE_ELEMENT);
+                }
                 Node.insertNodeAtEnd(head, lexer.inferredTag("title"));
             }
         }

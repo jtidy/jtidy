@@ -8,19 +8,19 @@ import junit.framework.TestSuite;
 /**
  * Testsuite for all the test cases actually working in JTidy. Must be used to assure there are no regressions after a
  * change.
- * 
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
 public final class AllWorkingTests
 {
+
     /**
      * Should not be instantiated.
      */
     private AllWorkingTests()
     {
     }
-    
+
     /**
      * Generates the suite.
      * @return junit test suite.
@@ -46,6 +46,8 @@ public final class AllWorkingTests
         suite.addTest(new TidyOutputBugsTest("test433040"));
         suite.addTest(new TidyOutputBugsTest("test433359"));
         suite.addTest(new TidyOutputBugsTest("test433656"));
+        suite.addTest(new TidyOutputBugsTest("test434940"));
+        suite.addTest(new TidyOutputBugsTest("test434940b"));
         suite.addTest(new TidyOutputBugsTest("test438650"));
         suite.addTest(new TidyOutputBugsTest("test438658"));
         suite.addTest(new TidyOutputBugsTest("test470688"));

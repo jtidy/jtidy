@@ -124,7 +124,8 @@ public class PPrint
     }
 
     /**
-     * return one less that the number of bytes used by UTF-8 char <code>1010 A 1011 B 1100 C 1101 D 1110 E 1111 F</code>
+     * return one less that the number of bytes used by UTF-8 char
+     * <code>1010 A 1011 B 1100 C 1101 D 1110 E 1111 F</code>
      * @param str points to 1st byte
      * @param ch initialized to 1st byte
      */
@@ -697,8 +698,8 @@ public class PPrint
     }
 
     /**
-     * The line buffer is uint not char so we can hold Unicode values unencoded. The translation to UTF-8 is deferred
-     * to the outc routine called to flush the line buffer.
+     * The line buffer is uint not char so we can hold Unicode values unencoded. The translation to UTF-8 is deferred to
+     * the outc routine called to flush the line buffer.
      */
     private void printText(Out fout, short mode, int indent, byte[] textarray, int start, int end)
     {
@@ -1465,6 +1466,37 @@ public class PPrint
         }
 
         return !((node.tag.model & Dict.CM_INLINE) != 0);
+    }
+
+    /**
+     * Print just the content of the body element. Useful when you want to reuse material from other documents.
+     */
+    void PrintBody(Out fout, Lexer lexer, Node root, boolean xml)
+    {
+        if (root == null)
+        {
+            return;
+        }
+        
+        // Feature request #434940 - fix by Dave Raggett/Ignacio Vazquez-Abrams 21 Jun 01
+        // Sebastiano Vigna <vigna@dsi.unimi.it>
+        Node body = root.findBody(lexer.configuration.tt);
+
+        if (body != null)
+        {
+            Node content;
+            for (content = body.content; content != null; content = content.next)
+            {
+                if (xml)
+                {
+                    printXMLTree(fout, (short) 0, 0, lexer, content);
+                }
+                else
+                {
+                    printTree(fout, (short) 0, 0, lexer, content);
+                }
+            }
+        }
     }
 
     public void printTree(Out fout, short mode, int indent, Lexer lexer, Node node)

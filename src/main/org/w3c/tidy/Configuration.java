@@ -381,6 +381,11 @@ public class Configuration implements java.io.Serializable
     protected boolean literalAttribs;
 
     /**
+     * output BODY content only.
+     */
+    protected boolean bodyOnly;
+
+    /**
      * TagTable associated with this Configuration.
      */
     protected TagTable tt;
@@ -486,6 +491,12 @@ public class Configuration implements java.io.Serializable
         if (value != null)
         {
             literalAttribs = parseBool(value, "literal-attributes");
+        }
+
+        value = properties.getProperty("show-body-only");
+        if (value != null)
+        {
+            this.bodyOnly = parseBool(value, "show-body-only");
         }
 
         value = properties.getProperty("tab-size");
