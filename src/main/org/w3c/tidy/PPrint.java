@@ -57,12 +57,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+
 /**
  * Pretty print parse tree. Block-level and unknown elements are printed on new lines and their contents indented 2
  * spaces Inline elements are printed inline. Inline content is wrapped on spaces (except in attribute values or
  * preformatted text, after start tags and before end tags.
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
+ * 
+ * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
+ * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @version $Revision $ ($Author $)
  */
 public class PPrint
@@ -116,8 +118,7 @@ public class PPrint
 
     private Configuration configuration;
 
-    public PPrint(Configuration configuration)
-    {
+    public PPrint(Configuration configuration) {
         this.configuration = configuration;
     }
 
@@ -460,7 +461,7 @@ public class PPrint
             return;
         }
 
-        /* except in CDATA map < to &lt; etc.      */
+        /* except in CDATA map < to &lt; etc. */
         if (!((mode & CDATA) != 0))
         {
             if (c == '<')
@@ -482,8 +483,8 @@ public class PPrint
             }
 
             /*
-             * naked '&' chars can be left alone or quoted as &amp; The latter is required for XML where naked '&' are
-             * illegal.
+             * naked '&' chars can be left alone or quoted as &amp; The latter is required for XML where naked '&'
+             * are illegal.
              */
             if (c == '&' && this.configuration.QuoteAmpersand)
             {
@@ -566,8 +567,8 @@ public class PPrint
         /*
          * Filters from Word and PowerPoint often use smart quotes resulting in character codes between 128 and 159.
          * Unfortunately, the corresponding HTML 4.0 entities for these are not widely supported. The following
-         * converts dashes and quotation marks to the nearest ASCII equivalent. My thanks to Andrzej Novosiolov for his
-         * help with this code.
+         * converts dashes and quotation marks to the nearest ASCII equivalent. My thanks to Andrzej Novosiolov for
+         * his help with this code.
          */
 
         if (this.configuration.MakeClean)
@@ -946,8 +947,7 @@ public class PPrint
 
         for (int i = 0; i < name.length(); i++)
         {
-            addC(
-                (int) Lexer.foldCase(name.charAt(i), this.configuration.UpperCaseAttrs, this.configuration.XmlTags),
+            addC((int) Lexer.foldCase(name.charAt(i), this.configuration.UpperCaseAttrs, this.configuration.XmlTags),
                 linelen++);
         }
 
@@ -1004,9 +1004,7 @@ public class PPrint
         }
 
         /* add xml:space attribute to pre and other elements */
-        if (configuration.XmlOut
-            && configuration.XmlSpace
-            && ParserImpl.XMLPreserveWhiteSpace(node, configuration.tt)
+        if (configuration.XmlOut && configuration.XmlSpace && ParserImpl.XMLPreserveWhiteSpace(node, configuration.tt)
             && node.getAttrByName("xml:space") == null)
         {
             printString(fout, indent, " xml:space=\"preserve\"");
@@ -1014,8 +1012,9 @@ public class PPrint
     }
 
     /*
-     * Line can be wrapped immediately after inline start tag provided if follows a text node ending in a space, or it
-     * parent is an inline element that that rule applies to. This behaviour was reverse engineered from Netscape 3.0
+     * Line can be wrapped immediately after inline start tag provided if follows a text node ending in a space, or
+     * it parent is an inline element that that rule applies to. This behaviour was reverse engineered from Netscape
+     * 3.0
      */
     private static boolean afterSpace(Node node)
     {
@@ -1063,8 +1062,7 @@ public class PPrint
         p = node.element;
         for (int i = 0; i < p.length(); i++)
         {
-            addC(
-                (int) Lexer.foldCase(p.charAt(i), this.configuration.UpperCaseTags, this.configuration.XmlTags),
+            addC((int) Lexer.foldCase(p.charAt(i), this.configuration.UpperCaseTags, this.configuration.XmlTags),
                 linelen++);
         }
 
@@ -1088,27 +1086,22 @@ public class PPrint
 
             if (indent + linelen < this.configuration.wraplen)
             {
-                /*
-                 * wrap after start tag if is <br/> or if it's not inline or it is an empty tag followed by </a>
-                 */
-                if (afterSpace(node))
+
+                // wrap after start tag if is <br/> or if it's not inline
+                // fix for [514348]
+                if (!((mode & NOWRAP) != 0) && (!((node.tag.model & Dict.CM_INLINE) != 0) || (node.tag == tt.tagBr))
+                    && afterSpace(node))
                 {
-                    if (!((mode & NOWRAP) != 0)
-                        && (!((node.tag.model & Dict.CM_INLINE) != 0)
-                            || (node.tag == tt.tagBr)
-                            || (((node.tag.model & Dict.CM_EMPTY) != 0)
-                                && node.next == null
-                                && node.parent.tag == tt.tagA)))
-                    {
-                        wraphere = linelen;
-                    }
+                    wraphere = linelen;
                 }
-            }
-            else
-            {
-                condFlushLine(fout, indent);
+
             }
         }
+        else
+        {
+            condFlushLine(fout, indent);
+        }
+
     }
 
     private void printEndTag(Out fout, short mode, int indent, Node node)
@@ -1117,8 +1110,8 @@ public class PPrint
         String p;
 
         /*
-         * Netscape ignores SGML standard by not ignoring a line break before </A> or </U> etc. To avoid rendering this
-         * as an underlined space, I disable line wrapping before inline end tags by the #if 0 ... #endif
+         * Netscape ignores SGML standard by not ignoring a line break before </A> or </U> etc. To avoid rendering
+         * this as an underlined space, I disable line wrapping before inline end tags by the #if 0 ... #endif
          */
         if (false)
         {
@@ -1134,8 +1127,7 @@ public class PPrint
         p = node.element;
         for (int i = 0; i < p.length(); i++)
         {
-            addC(
-                (int) Lexer.foldCase(p.charAt(i), this.configuration.UpperCaseTags, this.configuration.XmlTags),
+            addC((int) Lexer.foldCase(p.charAt(i), this.configuration.UpperCaseTags, this.configuration.XmlTags),
                 linelen++);
         }
 
@@ -1376,12 +1368,7 @@ public class PPrint
         addC('!', linelen++);
         addC('[', linelen++);
 
-        printText(
-            fout,
-            (this.configuration.WrapSection ? CDATA : COMMENT),
-            indent,
-            node.textarray,
-            node.start,
+        printText(fout, (this.configuration.WrapSection ? CDATA : COMMENT), indent, node.textarray, node.start,
             node.end);
 
         addC(']', linelen++);
@@ -1503,9 +1490,7 @@ public class PPrint
                 condFlushLine(fout, indent);
             }
 
-            if (node.tag == tt.tagBr
-                && node.prev != null
-                && node.prev.tag != tt.tagBr
+            if (node.tag == tt.tagBr && node.prev != null && node.prev.tag != tt.tagBr
                 && this.configuration.BreakBeforeBR)
             {
                 flushLine(fout, indent);
@@ -1653,10 +1638,8 @@ public class PPrint
                     {
                         condFlushLine(fout, indent);
                     }
-                    else if (
-                        (node.tag.model & Dict.CM_HTML) != 0
-                            || node.tag == tt.tagNoframes
-                            || ((node.tag.model & Dict.CM_HEAD) != 0 && !(node.tag == tt.tagTitle)))
+                    else if ((node.tag.model & Dict.CM_HTML) != 0 || node.tag == tt.tagNoframes
+                        || ((node.tag.model & Dict.CM_HEAD) != 0 && !(node.tag == tt.tagTitle)))
                     {
                         flushLine(fout, indent);
                     }
@@ -1664,11 +1647,9 @@ public class PPrint
 
                 if (node.tag == tt.tagBody && this.configuration.BurstSlides)
                 {
-                    printSlide(
-                        fout,
-                        mode,
-                        (this.configuration.IndentContent ? indent + this.configuration.spaces : indent),
-                        lexer);
+                    printSlide(fout, mode, (this.configuration.IndentContent
+                        ? indent + this.configuration.spaces
+                        : indent), lexer);
                 }
                 else
                 {
@@ -1677,22 +1658,15 @@ public class PPrint
                     for (content = node.content; content != null; content = content.next)
                     {
                         /* kludge for naked text before block level tag */
-                        if (last != null
-                            && !this.configuration.IndentContent
-                            && last.type == Node.TextNode
-                            && content.tag != null
-                            && (content.tag.model & Dict.CM_BLOCK) != 0)
+                        if (last != null && !this.configuration.IndentContent && last.type == Node.TextNode
+                            && content.tag != null && (content.tag.model & Dict.CM_BLOCK) != 0)
                         {
                             flushLine(fout, indent);
                             flushLine(fout, indent);
                         }
 
-                        printTree(
-                            fout,
-                            mode,
-                            (shouldIndent(node) ? indent + this.configuration.spaces : indent),
-                            lexer,
-                            content);
+                        printTree(fout, mode, (shouldIndent(node) ? indent + this.configuration.spaces : indent),
+                            lexer, content);
 
                         last = content;
                     }
@@ -1700,14 +1674,11 @@ public class PPrint
 
                 /* don't flush line for td and th */
                 if (shouldIndent(node)
-                    || (((node.tag.model & Dict.CM_HTML) != 0
-                        || node.tag == tt.tagNoframes
-                        || ((node.tag.model & Dict.CM_HEAD) != 0 && !(node.tag == tt.tagTitle)))
-                        && !this.configuration.HideEndTags))
+                    || (((node.tag.model & Dict.CM_HTML) != 0 || node.tag == tt.tagNoframes || ((node.tag.model & Dict.CM_HEAD) != 0 && !(node.tag == tt.tagTitle))) && !this.configuration.HideEndTags))
                 {
-                    condFlushLine(
-                        fout,
-                        (this.configuration.IndentContent ? indent + this.configuration.spaces : indent));
+                    condFlushLine(fout, (this.configuration.IndentContent
+                        ? indent + this.configuration.spaces
+                        : indent));
 
                     if (!this.configuration.HideEndTags || !((node.tag.model & Dict.CM_OPT) != 0))
                     {
@@ -1725,9 +1696,7 @@ public class PPrint
                     flushLine(fout, indent);
                 }
 
-                if (!this.configuration.IndentContent
-                    && node.next != null
-                    && !this.configuration.HideEndTags
+                if (!this.configuration.IndentContent && node.next != null && !this.configuration.HideEndTags
                     && (node.tag.model & (Dict.CM_BLOCK | Dict.CM_LIST | Dict.CM_DEFLIST | Dict.CM_TABLE)) != 0)
                 {
                     flushLine(fout, indent);
@@ -1863,8 +1832,8 @@ public class PPrint
     }
 
     /**
-     * Split parse tree by h2 elements and output to separate files. counts number of h2 children (if any) belonging to
-     * node.
+     * Split parse tree by h2 elements and output to separate files. counts number of h2 children (if any) belonging
+     * to node.
      */
     public int countSlides(Node node)
     {
@@ -1897,9 +1866,7 @@ public class PPrint
     private void printVertSpacer(Out fout, int indent)
     {
         condFlushLine(fout, indent);
-        printString(
-            fout,
-            indent,
+        printString(fout, indent,
             "<img width=\"0\" height=\"0\" hspace=\"1\" src=\"dot.gif\" vspace=\"%d\" align=\"left\">");
         condFlushLine(fout, indent);
     }
@@ -1940,9 +1907,9 @@ public class PPrint
     }
 
     /*
-     * Called from printTree to print the content of a slide from the node slidecontent. On return slidecontent points
-     * to the node starting the next slide or null. The variables slide and count are used to customise the navigation
-     * bar.
+     * Called from printTree to print the content of a slide from the node slidecontent. On return slidecontent
+     * points to the node starting the next slide or null. The variables slide and count are used to customise the
+     * navigation bar.
      */
     public void printSlide(Out fout, short mode, int indent, Lexer lexer)
     {
@@ -1951,10 +1918,8 @@ public class PPrint
 
         /* insert div for onclick handler */
         String s;
-        s =
-            "<div onclick=\"document.location='slide"
-                + (new Integer(slide < count ? slide + 1 : 1)).toString()
-                + ".html'\">";
+        s = "<div onclick=\"document.location='slide" + (new Integer(slide < count ? slide + 1 : 1)).toString()
+            + ".html'\">";
         printString(fout, indent, s);
         condFlushLine(fout, indent);
 
@@ -1989,12 +1954,8 @@ public class PPrint
             /* condFlushLine(fout, indent); */
 
             /* print the h2 element */
-            printTree(
-                fout,
-                mode,
-                (this.configuration.IndentContent ? indent + this.configuration.spaces : indent),
-                lexer,
-                slidecontent);
+            printTree(fout, mode, (this.configuration.IndentContent ? indent + this.configuration.spaces : indent),
+                lexer, slidecontent);
 
             slidecontent = slidecontent.next;
         }
@@ -2012,22 +1973,15 @@ public class PPrint
             }
 
             /* kludge for naked text before block level tag */
-            if (last != null
-                && !this.configuration.IndentContent
-                && last.type == Node.TextNode
-                && content.tag != null
+            if (last != null && !this.configuration.IndentContent && last.type == Node.TextNode && content.tag != null
                 && (content.tag.model & Dict.CM_BLOCK) != 0)
             {
                 flushLine(fout, indent);
                 flushLine(fout, indent);
             }
 
-            printTree(
-                fout,
-                mode,
-                (this.configuration.IndentContent ? indent + this.configuration.spaces : indent),
-                lexer,
-                content);
+            printTree(fout, mode, (this.configuration.IndentContent ? indent + this.configuration.spaces : indent),
+                lexer, content);
 
             last = content;
         }
