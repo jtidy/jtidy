@@ -1722,6 +1722,10 @@ public final class Report
         String vers = lexer.htmlVersionName();
         int[] cc = new int[1];
 
+        // adjust reported position to first line
+        lexer.lines = 1;
+        lexer.columns = 1;
+
         if (doctype != null)
         {
 
