@@ -54,6 +54,7 @@
 package org.w3c.tidy;
 
 import java.util.Hashtable;
+import java.util.Map;
 
 
 /**
@@ -66,44 +67,104 @@ import java.util.Hashtable;
 public class AttributeTable
 {
 
+    /**
+     * href attribute.
+     */
     protected static Attribute attrHref;
 
+    /**
+     * src attribute.
+     */
     protected static Attribute attrSrc;
 
+    /**
+     * id attribute.
+     */
     protected static Attribute attrId;
 
+    /**
+     * name attribute.
+     */
     protected static Attribute attrName;
 
+    /**
+     * summary attribute.
+     */
     protected static Attribute attrSummary;
 
+    /**
+     * alt attribute.
+     */
     protected static Attribute attrAlt;
 
+    /**
+     * logdesc attribute.
+     */
     protected static Attribute attrLongdesc;
 
+    /**
+     * usemap attribute.
+     */
     protected static Attribute attrUsemap;
 
+    /**
+     * ismap attribute.
+     */
     protected static Attribute attrIsmap;
 
+    /**
+     * language attribute.
+     */
     protected static Attribute attrLanguage;
 
+    /**
+     * type attribute.
+     */
     protected static Attribute attrType;
 
+    /**
+     * title attribute.
+     */
     protected static Attribute attrTitle;
 
+    /**
+     * xmlns attribute.
+     */
     protected static Attribute attrXmlns;
 
+    /**
+     * value attribute.
+     */
     protected static Attribute attrValue;
 
+    /**
+     * content attribute.
+     */
     protected static Attribute attrContent;
 
+    /**
+     * datafld attribute.
+     */
     protected static Attribute attrDatafld;
 
+    /**
+     * width attribute.
+     */
     protected static Attribute attrWidth;
 
+    /**
+     * height attribute.
+     */
     protected static Attribute attrHeight;
 
+    /**
+     * attribute table instance.
+     */
     private static AttributeTable defaultAttributeTable;
 
+    /**
+     * all the known attributes.
+     */
     private static final Attribute[] ATTRS = {
         new Attribute("abbr", Dict.VERS_HTML40, null),
         new Attribute("accept-charset", Dict.VERS_HTML40, null),
@@ -259,7 +320,7 @@ public class AttributeTable
         new Attribute("rbspan", Dict.VERS_XHTML11, AttrCheckImpl.NUMBER), // ruby markup
     };
 
-    private Hashtable attributeHashtable = new Hashtable();
+    private Map attributeHashtable = new Hashtable();
 
     public Attribute lookup(String name)
     {
