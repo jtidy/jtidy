@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration>
+
+    <!-- log4j configuration for unit tests, log everything to console -->
+	<appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p %C{1}(%M:%L) - %m\n" />
+		</layout>
+    </appender>
+    
+    <root>
+        <priority value="debug" />
+        <appender-ref ref="ConsoleAppender"/>
+    </root>
+
+</log4j:configuration>

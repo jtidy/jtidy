@@ -53,16 +53,17 @@
  */
 package org.w3c.tidy;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.Properties;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 /**
  * @author fgiust
  * @version $Revision$ ($Author$)
@@ -71,17 +72,26 @@ public class TidyTestCase extends TestCase
 {
 
     /**
+     * logger.
+     */
+    private static Log log = LogFactory.getLog(TidyTestCase.class);
+
+    /**
      * Executes a tidy test. This method simply requires the input file name. If a file with the same name but with a
      * ".cfg" extension is found is used as configuration file for the test, otherwise the default config will be used.
-     * If a file with the same name, but with the ".out" extension is found, tidy will save the generated file ni the
-     * system temp directory and compare the content.
+     * If a file with the same name, but with the ".out" extension is found, tidy will the result with the content of
+     * such file.
      * @param fileName input file name
      * @throws Exception any exception generated during the test
      */
     protected void executeTidyTest(String fileName) throws Exception
     {
+
         // file name without extension, needed for config and out file names
-        String noExtensionName = fileName.substring(fileName.lastIndexOf("."));
+        String noExtensionName = fileName.substring(0, fileName.lastIndexOf("."));
+        String configFileName = noExtensionName + ".cfg";
+        String outFileName = noExtensionName + ".out";
+
         ClassLoader classLoader = getClass().getClassLoader();
 
         // input file
@@ -89,42 +99,50 @@ public class TidyTestCase extends TestCase
         assertNotNull("Can't find input file [" + fileName + "]", inputURL);
 
         // configuration file
-        URL configurationFile = classLoader.getResource(noExtensionName + ".cfg");
+        URL configurationFile = classLoader.getResource(configFileName);
 
-        //output stream
-        OutputStream generatedOut = null;
-        URL outFile = classLoader.getResource(noExtensionName + ".out");
+        // existing file for comparison
+        URL outFile = classLoader.getResource(outFileName);
 
-        // set output stream only if output file is found
-        File generatedFile = null;
-        if (outFile != null)
+        // debug runing test info
+        if (log.isDebugEnabled())
         {
-            generatedFile = File.createTempFile(noExtensionName, ".tidy");
-            generatedOut = new FileOutputStream(generatedFile);
+            StringBuffer message = new StringBuffer();
+            message.append("Testing [" + fileName + "]");
+            if (configurationFile != null)
+            {
+                message.append(" using configuration file [" + configFileName + "]");
+            }
+            log.debug(message.toString());
         }
-
         //creates a new Tidy
         Tidy tidy = new Tidy();
 
         // set log
-        File logFile = null;
-        logFile = File.createTempFile(noExtensionName, ".log");
-        tidy.setErrout(new PrintWriter(new FileWriter(logFile)));
+        StringWriter errorWriter = new StringWriter();
+        tidy.setErrout(new PrintWriter(errorWriter));
 
         // if configuration file exists load and set it
         if (configurationFile != null)
         {
             Properties testProperties = new Properties();
-            testProperties.load(this.getClass().getResourceAsStream(noExtensionName + ".cfg"));
+            testProperties.load(configurationFile.openStream());
             tidy.setConfigurationFromProps(testProperties);
         }
+        // set out
+        OutputStream out = new ByteArrayOutputStream();
 
         // go!
-        tidy.parse(inputURL.openStream(), generatedOut);
+        tidy.parse(inputURL.openStream(), out);
 
-        if (generatedFile != null)
+        if (outFile != null)
         {
-            // @todo compare!
+            log.debug("Comparing file using [" + outFileName + "]");
+
+            if (log.isDebugEnabled())
+            {
+                log.debug("\n---- out ----\n\n" + out + "\n\n---- out ----");
+            }
         }
     }
 }
