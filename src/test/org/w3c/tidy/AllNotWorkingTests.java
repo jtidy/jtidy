@@ -136,6 +136,8 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyOutputBugsTest("test678268"));
         suite.addTest(new TidyOutputBugsTest("test680664"));
         suite.addTest(new TidyOutputBugsTest("test695408"));
+        suite.addTest(new TidyOutputBugsTest("test708322"));
+        suite.addTest(new TidyOutputBugsTest("test735603"));
 
         suite.addTest(new TidyWarningBugsTest("test433607"));
         suite.addTest(new TidyWarningBugsTest("test433670"));

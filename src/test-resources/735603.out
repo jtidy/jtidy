@@ -1,0 +1,8 @@
+<html>
+<head>
+<title>[ #735603 ] : drops attributes from declared elements.</title>
+</head>
+<body>
+<foo bar="baz">foo attributes shouldn't be removed</foo>
+</body>
+</html>

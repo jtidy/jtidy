@@ -1037,8 +1037,17 @@ public class TidyOutputBugsTest extends TidyTestCase
     {
         executeTidyTest("708322.html");
     }
+    
+    /**
+     * test for Tidy [735603] : drops attributes from declared elements.
+     * @throws Exception any exception generated during the test
+     */
+    public void test735603() throws Exception
+    {
+        executeTidyTest("735603.html");
+    }
 
-
+     
     /**
      * test for Tidy [765852] : Empty tag striping.
      * @throws Exception any exception generated during the test
