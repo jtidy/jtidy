@@ -124,6 +124,11 @@ public final class CheckAttribsImpl
     private static final CheckAttribs CHECK_HR = new CheckHR();
 
     /**
+     * CheckForm instance.
+     */
+    private static final CheckAttribs CHECK_FORM = new CheckForm();
+
+    /**
      * don't instantiate.
      */
     private CheckAttribsImpl()
@@ -452,6 +457,30 @@ public final class CheckAttribsImpl
         }
     }
 
+    /**
+     * reports missing action attribute.
+     */
+    public static class CheckForm implements CheckAttribs
+    {
+
+        /**
+         * @see org.w3c.tidy.CheckAttribs#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         */
+        public void check(Lexer lexer, Node node)
+        {
+            AttVal action = node.getAttrByName("action");
+
+            node.checkUniqueAttributes(lexer);
+            node.checkAttributes(lexer);
+
+            if (action == null)
+            {
+                AttVal missingAttribute = new AttVal(null, null, '"', "action", "");
+                lexer.report.attrError(lexer, node, missingAttribute, Report.MISSING_ATTRIBUTE);
+            }
+        }
+    }
+
     public static class CheckTableCell implements CheckAttribs
     {
 
@@ -553,6 +582,11 @@ public final class CheckAttribsImpl
     public static CheckAttribs getCheckHR()
     {
         return CHECK_HR;
+    }
+
+    public static CheckAttribs getCheckForm()
+    {
+        return CHECK_FORM;
     }
 
 }
