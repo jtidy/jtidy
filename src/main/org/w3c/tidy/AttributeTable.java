@@ -267,6 +267,8 @@ public class AttributeTable
         // event
         new Attribute("onunload", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
         // event
+        new Attribute("onfocus", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        // event
         new Attribute("onafterupdate", Dict.VERS_MICROSOFT, AttrCheckImpl.getCheckScript()),
         // form fields
         new Attribute("onbeforeupdate", Dict.VERS_MICROSOFT, AttrCheckImpl.getCheckScript()),
