@@ -48,7 +48,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyEncodingBugsTest("test688746"));
 
         suite.addTest(new TidyOutputBugsTest("test427633"));
-        suite.addTest(new TidyOutputBugsTest("test427819"));
         suite.addTest(new TidyOutputBugsTest("test427820"));
         suite.addTest(new TidyOutputBugsTest("test427821"));
         suite.addTest(new TidyOutputBugsTest("test427822"));
@@ -67,7 +66,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyOutputBugsTest("test433012"));
         suite.addTest(new TidyOutputBugsTest("test433360"));
         suite.addTest(new TidyOutputBugsTest("test433666"));
-        suite.addTest(new TidyOutputBugsTest("test433672"));
         suite.addTest(new TidyOutputBugsTest("test435903"));
         suite.addTest(new TidyOutputBugsTest("test435909"));
         suite.addTest(new TidyOutputBugsTest("test435920"));
@@ -75,7 +73,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyOutputBugsTest("test437468"));
         suite.addTest(new TidyOutputBugsTest("test438954"));
         suite.addTest(new TidyOutputBugsTest("test441508"));
-        suite.addTest(new TidyOutputBugsTest("test441568"));
         suite.addTest(new TidyOutputBugsTest("test441740"));
         suite.addTest(new TidyOutputBugsTest("test443381"));
         suite.addTest(new TidyOutputBugsTest("test443576"));
@@ -147,7 +144,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyWordBugsTest("test634889"));
 
         // previously working
-        suite.addTest(new TidyOutputBugsTest("test427835"));
         suite.addTest(new TidyOutputBugsTest("test431736"));
         suite.addTest(new TidyOutputBugsTest("test531964"));
 
