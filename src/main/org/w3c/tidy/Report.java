@@ -53,6 +53,13 @@
  */
 package org.w3c.tidy;
 
+
+import java.io.PrintWriter;
+import java.text.MessageFormat;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
+
 /**
  * Error/informational message reporter. You should only need to edit the file TidyMessages.properties to localize HTML
  * tidy.
@@ -61,12 +68,6 @@ package org.w3c.tidy;
  * @author Fabrizio Giustina
  * @version $Revision $ ($Author $)
  */
-import java.io.PrintWriter;
-import java.text.MessageFormat;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-
-
 public final class Report
 {
 
@@ -211,7 +212,17 @@ public final class Report
         String resource;
         resource = res.getString(message);
 
-        String position = getPosition(lexer);
+        String position;
+
+        if (level != TidyMessage.Level.SUMMARY)
+        {
+            position = getPosition(lexer);
+        }
+        else
+        {
+            position = "";
+        }
+
         String prefix;
 
         switch (level)
@@ -419,12 +430,13 @@ public final class Report
     {
         lexer.warnings++;
 
-        /* keep quiet after 6 errors */
+        // keep quiet after 6 errors
         if (lexer.errors > 6)
         {
             return;
         }
 
+        // warnings
         if (lexer.configuration.showWarnings)
         {
             /* on end of file adjust reported position to end of input */
@@ -436,177 +448,65 @@ public final class Report
 
             if (code == UNKNOWN_ATTRIBUTE)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer)
-                        + MessageFormat.format(res.getString("unknown_attribute"), new Object[]{attribute.attribute}));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
+                printMessage(lexer, "unknown_attribute", new Object[]{attribute.attribute}, TidyMessage.Level.WARNING);
             }
             else if (code == MISSING_ATTRIBUTE)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + MessageFormat.format(res.getString("missing_attribute"), new Object[]{attribute.attribute}));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
+                printMessage(lexer, "missing_attribute", new Object[]{getTagName(node), attribute.attribute},
+                    TidyMessage.Level.WARNING);
             }
             else if (code == MISSING_ATTR_VALUE)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + MessageFormat.format(res.getString("missing_attr_value"), new Object[]{attribute.attribute}));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
+                printMessage(lexer, "missing_attr_value", new Object[]{getTagName(node), attribute.attribute},
+                    TidyMessage.Level.WARNING);
             }
             else if (code == MISSING_IMAGEMAP)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + res.getString("missing_imagemap"));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
+                printMessage(lexer, "missing_imagemap", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
                 lexer.badAccess |= MISSING_IMAGE_MAP;
             }
             else if (code == BAD_ATTRIBUTE_VALUE)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + MessageFormat.format(res.getString("bad_attribute_value"), new Object[]{attribute.value}));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
+                printMessage(lexer, "bad_attribute_value", new Object[]{getTagName(node), attribute.value},
+                    TidyMessage.Level.WARNING);
             }
             else if (code == XML_ATTRIBUTE_VALUE)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + MessageFormat.format(res.getString("xml_attribute_value"), new Object[]{attribute.attribute}));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
-            }
-            else if (code == UNEXPECTED_GT)
-            {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("error") + getTagName(node)
-                        + res.getString("unexpected_gt"));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
-                lexer.errors++;
-
+                printMessage(lexer, "xml_attribute_value", new Object[]{getTagName(node), attribute.attribute},
+                    TidyMessage.Level.WARNING);
             }
             else if (code == UNEXPECTED_QUOTEMARK)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + res.getString("unexpected_quotemark"));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
+                printMessage(lexer, "unexpected_quotemark", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
             }
             else if (code == REPEATED_ATTRIBUTE)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + res.getString("repeated_attribute"));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
+                printMessage(lexer, "repeated_attribute", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
             }
             else if (code == PROPRIETARY_ATTR_VALUE)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + MessageFormat.format(res.getString("proprietary_attr_value"), new Object[]{attribute.value}));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
+                printMessage(lexer, "proprietary_attr_value", new Object[]{getTagName(node), attribute.value},
+                    TidyMessage.Level.WARNING);
             }
             else if (code == PROPRIETARY_ATTRIBUTE)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer)
-                        + res.getString("warning")
-                        + getTagName(node)
-                        + MessageFormat.format(res.getString("proprietary_attribute"),
-                            new Object[]{attribute.attribute}));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
+                printMessage(lexer, "proprietary_attribute", new Object[]{getTagName(node), attribute.attribute},
+                    TidyMessage.Level.WARNING);
             }
             else if (code == UNEXPECTED_END_OF_FILE)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("unexpected_end_of_file"));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
+                printMessage(lexer, "unexpected_end_of_file", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
             }
             else if (code == ID_NAME_MISMATCH)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + res.getString("id_name_mismatch"));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
+                printMessage(lexer, "id_name_mismatch", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
             }
         }
-        else if (code == UNEXPECTED_GT)
+
+        // error
+        if (code == UNEXPECTED_GT)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("error") + getTagName(node)
-                    + res.getString("unexpected_gt"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "unexpected_gt", new Object[]{getTagName(node)}, TidyMessage.Level.ERROR);
             lexer.errors++;
         }
     }
@@ -672,46 +572,26 @@ public final class Report
         }
         else if (code == UNEXPECTED_ENDTAG)
         {
-            try
+            if (element != null)
             {
-                if (element != null)
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer)
-                        + MessageFormat.format(res.getString("unexpected_endtag"), new Object[]{node.element})
-                        + MessageFormat
-                            .format(res.getString("unexpected_endtag_suffix"), new Object[]{element.element}));
-                }
-                else
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer)
-                        + MessageFormat.format(res.getString("unexpected_endtag"), new Object[]{node.element}));
-                }
+                printMessage(lexer, "unexpected_endtag_in", new Object[]{node.element, element.element},
+                    TidyMessage.Level.WARNING);
             }
-            catch (MissingResourceException e)
+            else
             {
-                lexer.errout.println(e.toString());
+                printMessage(lexer, "unexpected_endtag", new Object[]{node.element}, TidyMessage.Level.WARNING);
             }
         }
         else if (code == TOO_MANY_ELEMENTS)
         {
-            try
+            if (element != null)
             {
-                if (element != null)
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer)
-                        + MessageFormat.format(res.getString("too_many_elements"), new Object[]{node.element})
-                        + MessageFormat
-                            .format(res.getString("too_many_elements_suffix"), new Object[]{element.element}));
-                }
-                else
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer)
-                        + MessageFormat.format(res.getString("too_many_elements"), new Object[]{node.element}));
-                }
+                printMessage(lexer, "too_many_elements_in", new Object[]{node.element, element.element},
+                    TidyMessage.Level.WARNING);
             }
-            catch (MissingResourceException e)
+            else
             {
-                lexer.errout.println(e.toString());
+                printMessage(lexer, "too_many_elements", new Object[]{node.element}, TidyMessage.Level.WARNING);
             }
         }
         else if (code == USING_BR_INPLACE_OF)
@@ -829,58 +709,26 @@ public final class Report
 
         if (code == SUSPECTED_MISSING_QUOTE)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("suspected_missing_quote"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "suspected_missing_quote", null, TidyMessage.Level.ERROR);
         }
         else if (code == DUPLICATE_FRAMESET)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("duplicate_frameset"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "duplicate_frameset", null, TidyMessage.Level.ERROR);
         }
         else if (code == UNKNOWN_ELEMENT)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("error") + getTagName(node)
-                    + res.getString("unknown_element"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "unknown_element", new Object[]{getTagName(node)}, TidyMessage.Level.ERROR);
         }
         else if (code == UNEXPECTED_ENDTAG)
         {
-            try
+            if (element != null)
             {
-                if (element != null)
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer)
-                        + MessageFormat.format(res.getString("unexpected_endtag"), new Object[]{node.element})
-                        + MessageFormat
-                            .format(res.getString("unexpected_endtag_suffix"), new Object[]{element.element}));
-                }
-                else
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer)
-                        + MessageFormat.format(res.getString("unexpected_endtag"), new Object[]{node.element}));
-                }
+                printMessage(lexer, "unexpected_endtag_in", new Object[]{node.element, element.element},
+                    TidyMessage.Level.ERROR);
             }
-            catch (MissingResourceException e)
+            else
             {
-                lexer.errout.println(e.toString());
+                printMessage(lexer, "unexpected_endtag", new Object[]{node.element}, TidyMessage.Level.ERROR);
             }
         }
 
@@ -888,7 +736,7 @@ public final class Report
 
     public void errorSummary(Lexer lexer)
     {
-        /* adjust badAccess to that its null if frames are ok */
+        // adjust badAccess to that its null if frames are ok
         if ((lexer.badAccess & (USING_FRAMES | USING_NOFRAMES)) != 0)
         {
             if (!(((lexer.badAccess & USING_FRAMES) != 0) && ((lexer.badAccess & USING_NOFRAMES) == 0)))
@@ -1154,49 +1002,37 @@ public final class Report
         String vers = lexer.HTMLVersionName();
         MutableInteger cc = new MutableInteger();
 
-        try
+        if (doctype != null)
         {
-            if (doctype != null)
+
+            StringBuffer doctypeBuffer = new StringBuffer();
+            for (i = doctype.start; i < doctype.end; ++i)
             {
+                c = doctype.textarray[i];
 
-                StringBuffer doctypeBuffer = new StringBuffer();
-                for (i = doctype.start; i < doctype.end; ++i)
+                /* look for UTF-8 multibyte character */
+                if (c < 0)
                 {
-                    c = doctype.textarray[i];
-
-                    /* look for UTF-8 multibyte character */
-                    if (c < 0)
-                    {
-                        i += PPrint.getUTF8(doctype.textarray, i, cc);
-                        c = cc.getValue();
-                    }
-
-                    if (c == '"')
-                    {
-                        ++state;
-                    }
-                    else if (state == 1)
-                    {
-                        doctypeBuffer.append((char) c);
-                    }
+                    i += PPrint.getUTF8(doctype.textarray, i, cc);
+                    c = cc.getValue();
                 }
-                doctypeBuffer.append('"');
 
-                tidyPrintln(errout, MessageFormat.format(res.getString("doctype_given"), new Object[]{filename})
-                    + doctypeBuffer);
-
+                if (c == '"')
+                {
+                    ++state;
+                }
+                else if (state == 1)
+                {
+                    doctypeBuffer.append((char) c);
+                }
             }
 
-            tidyPrintln(errout, MessageFormat.format(res.getString("report_version"), new Object[]{
-                filename,
-                (vers != null ? vers : "HTML proprietary")}));
+            printMessage(lexer, "doctype_given", new Object[]{filename, doctypeBuffer}, TidyMessage.Level.SUMMARY);
         }
-        catch (MissingResourceException e)
-        {
-            errout.println(e.toString());
-        }
-    }
 
+        printMessage(lexer, "report_version", new Object[]{filename, (vers != null ? vers : "HTML proprietary")},
+            TidyMessage.Level.SUMMARY);
+    }
     public void reportNumWarnings(PrintWriter errout, Lexer lexer)
     {
         if (lexer.warnings > 0)

@@ -406,4 +406,233 @@ public class ReportTest extends TestCase
         assertEquals("line 12 column 34 - Warning: end of file while parsing attributes <test>", message);
     }
 
+    /**
+     * test getMessage with the <code>suspected_missing_quote</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageSuspectedMissingQuote() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "suspected_missing_quote", null, TidyMessage.Level.ERROR);
+        assertEquals("line 12 column 34 - Error: missing quotemark for attribute value", message);
+    }
+
+    /**
+     * test getMessage with the <code>duplicate_frameset</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageDuplicateFrameset() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "duplicate_frameset", null, TidyMessage.Level.ERROR);
+        assertEquals("line 12 column 34 - Error: repeated FRAMESET element", message);
+    }
+
+    /**
+     * test getMessage with the <code>unknown_element</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageUnknownElement() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "unknown_element", new Object[]{"<test>"},
+            TidyMessage.Level.ERROR);
+        assertEquals("line 12 column 34 - Error: <test> is not recognized!", message);
+    }
+
+    /**
+     * test getMessage with the <code>unexpected_endtag</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageUnexpectedEndtag() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "unexpected_endtag", new Object[]{"test"},
+            TidyMessage.Level.ERROR);
+        assertEquals("line 12 column 34 - Error: unexpected </test>", message);
+    }
+
+    /**
+     * test getMessage with the <code>unexpected_endtag_in</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageUnexpectedEndtagIn() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "unexpected_endtag_in", new Object[]{"test", "bee"},
+            TidyMessage.Level.ERROR);
+        assertEquals("line 12 column 34 - Error: unexpected </test> in <bee>", message);
+    }
+
+    /**
+     * test getMessage with the <code>too_many_elements</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageTooManyElements() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "too_many_elements", new Object[]{"<test>"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: too many <test> elements", message);
+    }
+
+    /**
+     * test getMessage with the <code>too_many_elements_in</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageTooManyElementsIn() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "too_many_elements_in", new Object[]{"<test>", "bee"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: too many <test> elements in <bee>", message);
+    }
+
+    /**
+     * test getMessage with the <code>unknown_attribute</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageUnknownAttribute() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "unknown_attribute", new Object[]{"test"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: unknown attribute \"test\"", message);
+    }
+
+    /**
+     * test getMessage with the <code>missing_attribute</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageMissingAttribute() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "missing_attribute", new Object[]{"<test>", "bee"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: <test> lacks \"bee\" attribute", message);
+    }
+
+    /**
+     * test getMessage with the <code>missing_attr_value</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageMissingAttrValue() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "missing_attr_value", new Object[]{"<test>", "bee"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: <test> attribute \"bee\" lacks value", message);
+    }
+
+    /**
+     * test getMessage with the <code>missing_imagemap</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageMissingImagemap() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "missing_imagemap", new Object[]{"<test>"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: <test> should use client-side image map", message);
+    }
+
+    /**
+     * test getMessage with the <code>bad_attribute_value</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageBadAttributeValue() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "bad_attribute_value", new Object[]{"<test>", "bee"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: <test> unknown attribute value \"bee\"", message);
+    }
+
+    /**
+     * test getMessage with the <code>xml_attribute_value</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageXmlAttributeValue() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "xml_attribute_value", new Object[]{"<test>", "bee"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: <test> has XML attribute \"bee\"", message);
+    }
+
+    /**
+     * test getMessage with the <code>unexpected_gt</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageUnexpectedGt() throws Exception
+    {
+        String message = this.report
+            .getMessage(lexer, "unexpected_gt", new Object[]{"<test>"}, TidyMessage.Level.ERROR);
+        assertEquals("line 12 column 34 - Error: <test> missing '>' for end of tag", message);
+    }
+
+    /**
+     * test getMessage with the <code>unexpected_quotemark</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageUnexpectedQuotemark() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "unexpected_quotemark", new Object[]{"<test>"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: <test> unexpected or duplicate quote mark", message);
+    }
+
+    /**
+     * test getMessage with the <code>repeated_attribute</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageRepeatedAttribute() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "repeated_attribute", new Object[]{"<test>"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: <test> repeated attribute", message);
+    }
+
+    /**
+     * test getMessage with the <code>proprietary_attr_value</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageProprietaryAttrValue() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "proprietary_attr_value", new Object[]{"<test>", "bee"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: <test> proprietary attribute value \"bee\"", message);
+    }
+
+    /**
+     * test getMessage with the <code>proprietary_attribute</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageProprietaryAttribute() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "proprietary_attribute", new Object[]{"<test>", "bee"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: <test> proprietary attribute \"bee\"", message);
+    }
+
+    /**
+     * test getMessage with the <code>id_name_mismatch</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageIdNameMismatch() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "id_name_mismatch", new Object[]{"<test>"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: <test> id and name attribute value mismatch", message);
+    }
+
+    /**
+     * test getMessage with the <code>doctype_given</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageDoctypeGiven() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "doctype_given", new Object[]{"test", "bee"},
+            TidyMessage.Level.SUMMARY);
+        assertEquals("test: Doctype given is \"bee\"", message);
+    }
+
+    /**
+     * test getMessage with the <code>report_version</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageReportVersion() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "report_version", new Object[]{"test", "bee"},
+            TidyMessage.Level.SUMMARY);
+        assertEquals("test: Document content looks like bee", message);
+    }
+
 }
