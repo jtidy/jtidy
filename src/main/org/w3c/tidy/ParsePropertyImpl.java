@@ -194,7 +194,7 @@ public final class ParsePropertyImpl
          */
         public Object parse(String value, String option, Configuration configuration)
         {
-            Boolean b = Boolean.FALSE;
+            Boolean b = Boolean.TRUE;
             if (value != null && value.length() > 0)
             {
                 char c = value.charAt(0);
