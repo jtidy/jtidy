@@ -281,7 +281,6 @@
             <property name="tokens" value="INTERFACE_DEF, CLASS_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocTypeCheck">
-            <property name="authorFormat" value="^[a-zA-Z @\.]*$"/>
             <property name="scope" value="private"/>
             <property name="severity" value="warning"/>
             <property name="tokens" value="CLASS_DEF, INTERFACE_DEF"/>
