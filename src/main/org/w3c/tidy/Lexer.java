@@ -716,8 +716,8 @@ public class Lexer
             {
                 // #431953 - start RJ
                 if (!this.configuration.ncr
-                    || this.configuration.charEncoding == Configuration.BIG5
-                    || this.configuration.charEncoding == Configuration.SHIFTJIS)
+                    || this.configuration.inCharEncoding == Configuration.BIG5
+                    || this.configuration.inCharEncoding == Configuration.SHIFTJIS)
                 {
                     this.in.ungetChar(c);
                     return;
@@ -1668,7 +1668,7 @@ public class Lexer
 
     /**
      * ensure XML document starts with <code>&lt;?XML version="1.0"?&gt;</code>. Add encoding attribute if not using
-     * ASCII or UTF-8.
+     * ASCII or UTF-8 output.
      */
     public boolean fixXmlDecl(Node root)
     {
@@ -1699,13 +1699,13 @@ public class Lexer
 
         // We need to insert a check if declared encoding and output encoding mismatch
         // and fix the Xml declaration accordingly!!!
-        if (encoding == null && this.configuration.charEncoding != Configuration.UTF8)
+        if (encoding == null && this.configuration.outCharEncoding != Configuration.UTF8)
         {
-            if (this.configuration.charEncoding == Configuration.LATIN1)
+            if (this.configuration.outCharEncoding == Configuration.LATIN1)
             {
                 xml.addAttribute("encoding", "iso-8859-1");
             }
-            if (this.configuration.charEncoding == Configuration.ISO2022)
+            if (this.configuration.outCharEncoding == Configuration.ISO2022)
             {
                 xml.addAttribute("encoding", "iso-2022");
             }
