@@ -681,6 +681,16 @@ public class Lexer
 
             if (first && c == '#')
             {
+                // #431953 - start RJ
+                if (!this.configuration.ncr
+                    || this.configuration.charEncoding == Configuration.BIG5
+                    || this.configuration.charEncoding == Configuration.SHIFTJIS)
+                {
+                    this.in.ungetChar(c);
+                    return;
+                }
+                // #431953 - end RJ
+
                 addCharToLexer(c);
                 first = false;
                 continue;
