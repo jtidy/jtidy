@@ -699,10 +699,10 @@ public class Configuration implements Serializable
      */
     public void addProps(Properties p)
     {
-        Enumeration enum = p.propertyNames();
-        while (enum.hasMoreElements())
+        Enumeration propEnum = p.propertyNames();
+        while (propEnum.hasMoreElements())
         {
-            String key = (String) enum.nextElement();
+            String key = (String) propEnum.nextElement();
             String value = p.getProperty(key);
             properties.put(key, value);
         }
