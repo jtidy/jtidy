@@ -6,3 +6,4 @@ maven.log
 log
 .classpath
 .project
+junit*.properties
