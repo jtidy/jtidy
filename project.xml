@@ -1,11 +1,9 @@
 <project>
-    <pomVersion>4</pomVersion>
-    <artifactId>jtidy</artifactId>
-    <name>JTidy</name>
+    <pomVersion>3</pomVersion>
     <id>jtidy</id>
+    <name>JTidy</name>
     <groupId>jtidy</groupId>
-    <type>jar</type>
-    <version>r8-SNAPSHOT</version>
+    <currentVersion>r8-SNAPSHOT</currentVersion>
     <organization>
         <name>sourceforge</name>
         <url>http://sourceforge.net</url>
@@ -175,16 +173,6 @@ In addition, JTidy provides a DOM interface to the document that is being proces
 	          <comment>Required to build and use the jtidy ant task.</comment>
 	        </properties>
         </dependency>
-		<dependency>
-	      <groupId>clover</groupId>
-	      <artifactId>clover</artifactId>
-	      <version>1.2.3</version>
-	      <url>http://www.thecortex.net/clover</url>
-	      <properties>
-        <classloader>root</classloader>
-	        <comment>Required to generate test coverage reports. Not needed at runtime.</comment>
-	      </properties>
-	    </dependency>
         <dependency>
             <groupId>maven-plugins</groupId>
             <artifactId>maven-sourceforge-plugin</artifactId>
