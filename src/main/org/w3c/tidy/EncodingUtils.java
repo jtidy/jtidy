@@ -745,7 +745,7 @@ public final class EncodingUtils
             hasError = true;
         }
 
-        if (!hasError && (n >= LOW_UTF16_SURROGATE) && (n <= HIGH_UTF16_SURROGATE))
+        if (!hasError && (n >= UTF16_LOW_SURROGATE_BEGIN) && (n <= UTF16_HIGH_SURROGATE_END))
         {
             // unpaired surrogates not allowed
             hasError = true;
@@ -846,7 +846,7 @@ public final class EncodingUtils
             {
                 hasError = true;
             }
-            else if ((c >= LOW_UTF16_SURROGATE) && (c <= HIGH_UTF16_SURROGATE))
+            else if ((c >= UTF16_LOW_SURROGATE_BEGIN) && (c <= UTF16_HIGH_SURROGATE_END))
             {
                 // unpaired surrogates not allowed
                 hasError = true;

@@ -1291,7 +1291,7 @@ public class Tidy implements Serializable
         if (in != null)
         {
 
-            StreamInImpl streamIn = new StreamInImpl(in, configuration.charEncoding, configuration.tabsize);
+            StreamInImpl streamIn = new StreamInImpl(in, configuration.inCharEncoding, configuration.tabsize);
             lexer = new Lexer(streamIn, configuration, this.report);
             lexer.errout = errout;
 
@@ -1426,7 +1426,7 @@ public class Tidy implements Serializable
             }
 
             o.setState(StreamIn.FSM_ASCII);
-            o.setEncoding(configuration.charEncoding);
+            o.setEncoding(configuration.outCharEncoding);
 
             if (!configuration.onlyErrors && (lexer.errors == 0 || configuration.forceOutput))
             {
@@ -1615,7 +1615,7 @@ public class Tidy implements Serializable
         PPrint pprint;
 
         o.setState(StreamIn.FSM_ASCII);
-        o.setEncoding(configuration.charEncoding);
+        o.setEncoding(configuration.outCharEncoding);
 
         if (out != null)
         {

@@ -298,6 +298,72 @@ public class OutImpl implements Out
 
                 this.out.write(c);
             }
+            else if (this.encoding == Configuration.UTF16LE
+                || this.encoding == Configuration.UTF16BE
+                || this.encoding == Configuration.UTF16)
+            {
+                int i = 1;
+                int numChars = 1;
+                int[] theChars = new int[2];
+
+                if (c > EncodingUtils.MAX_UTF16_FROM_UCS4)
+                {
+                    // invalid UTF-16 value
+                    /* ReportEncodingError(in.lexer, INVALID_UTF16 | DISCARDED_CHAR, c); */
+                    c = 0;
+                    numChars = 0;
+                }
+                else if (c >= EncodingUtils.UTF16_SURROGATES_BEGIN)
+                {
+                    // encode surrogate pairs
+
+                    // check for invalid pairs
+                    if (((c & 0x0000FFFE) == 0x0000FFFE) || ((c & 0x0000FFFF) == 0x0000FFFF))
+                    {
+                        /* ReportEncodingError(in.lexer, INVALID_UTF16 | DISCARDED_CHAR, c); */
+                        c = 0;
+                        numChars = 0;
+                    }
+                    else
+                    {
+                        theChars[0] = (c - EncodingUtils.UTF16_SURROGATES_BEGIN)
+                            / 0x400
+                            + EncodingUtils.UTF16_LOW_SURROGATE_BEGIN;
+                        theChars[1] = (c - EncodingUtils.UTF16_SURROGATES_BEGIN)
+                            % 0x400
+                            + EncodingUtils.UTF16_HIGH_SURROGATE_BEGIN;
+
+                        // output both
+                        numChars = 2;
+                    }
+                }
+                else
+                {
+                    // just put the char out
+                    theChars[0] = c;
+                }
+
+                for (i = 0; i < numChars; i++)
+                {
+                    c = theChars[i];
+
+                    if (this.encoding == Configuration.UTF16LE)
+                    {
+                        ch = c & 0xFF;
+                        out.write(ch);
+                        ch = (c >> 8) & 0xFF;
+                        out.write(ch);
+                    }
+
+                    else if (this.encoding == Configuration.UTF16BE || this.encoding == Configuration.UTF16)
+                    {
+                        ch = (c >> 8) & 0xFF;
+                        out.write(ch);
+                        ch = c & 0xFF;
+                        out.write(ch);
+                    }
+                }
+            }
             // #431953 - start RJ
             else if (this.encoding == Configuration.BIG5 || this.encoding == Configuration.SHIFTJIS)
             {

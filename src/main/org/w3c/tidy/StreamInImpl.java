@@ -375,7 +375,7 @@ public class StreamInImpl implements StreamIn
                 }
                 else
                 {
-                    // false recombination needed
+                    // no recombination needed
                 }
             }
 
