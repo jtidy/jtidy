@@ -63,6 +63,11 @@ package org.w3c.tidy;
 public interface Parser
 {
 
+    /**
+     * @param lexer
+     * @param node node created by the lexer upon seeing the start tag, or by the parser when the start tag is inferred
+     * @param mode
+     */
     void parse(Lexer lexer, Node node, short mode);
 
 }

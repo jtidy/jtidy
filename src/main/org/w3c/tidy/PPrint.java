@@ -1651,7 +1651,7 @@ public class PPrint
             }
 
             // some kind of container element
-            if (node.tag != null && node.tag.parser == ParserImpl.getParsePre())
+            if (node.tag != null && node.tag.parser == ParserImpl.PRE)
             {
                 condFlushLine(fout, indent);
 

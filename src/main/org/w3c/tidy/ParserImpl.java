@@ -66,97 +66,97 @@ public final class ParserImpl
     /**
      * parser for html.
      */
-    private static final Parser PARSE_HTML = new ParseHTML();
+    public static final Parser HTML = new ParseHTML();
 
     /**
      * parser for head.
      */
-    private static final Parser PARSE_HEAD = new ParseHead();
+    public static final Parser HEAD = new ParseHead();
 
     /**
      * parser for title.
      */
-    private static final Parser PARSE_TITLE = new ParseTitle();
+    public static final Parser TITLE = new ParseTitle();
 
     /**
      * parser for script.
      */
-    private static final Parser PARSE_SCRIPT = new ParseScript();
+    public static final Parser SCRIPT = new ParseScript();
 
     /**
      * parser for body.
      */
-    private static final Parser PARSE_BODY = new ParseBody();
+    public static final Parser BODY = new ParseBody();
 
     /**
      * parser for frameset.
      */
-    private static final Parser PARSE_FRAMESET = new ParseFrameSet();
+    public static final Parser FRAMESET = new ParseFrameSet();
 
     /**
      * parser for inline.
      */
-    private static final Parser PARSE_INLINE = new ParseInline();
+    public static final Parser INLINE = new ParseInline();
 
     /**
      * parser for list.
      */
-    private static final Parser PARSE_LIST = new ParseList();
+    public static final Parser LIST = new ParseList();
 
     /**
      * parser for definition lists.
      */
-    private static final Parser PARSE_DEFLIST = new ParseDefList();
+    public static final Parser DEFLIST = new ParseDefList();
 
     /**
      * parser for pre.
      */
-    private static final Parser PARSE_PRE = new ParsePre();
+    public static final Parser PRE = new ParsePre();
 
     /**
      * parser for block elements.
      */
-    private static final Parser PARSE_BLOCK = new ParseBlock();
+    public static final Parser BLOCK = new ParseBlock();
 
     /**
      * parser for table.
      */
-    private static final Parser PARSE_TABLETAG = new ParseTableTag();
+    public static final Parser TABLETAG = new ParseTableTag();
 
     /**
      * parser for colgroup.
      */
-    private static final Parser PARSE_COLGROUP = new ParseColGroup();
+    public static final Parser COLGROUP = new ParseColGroup();
 
     /**
      * parser for rowgroup.
      */
-    private static final Parser PARSE_ROWGROUP = new ParseRowGroup();
+    public static final Parser ROWGROUP = new ParseRowGroup();
 
     /**
      * parser for row.
      */
-    private static final Parser PARSE_ROW = new ParseRow();
+    public static final Parser ROW = new ParseRow();
 
     /**
      * parser for noframes.
      */
-    private static final Parser PARSE_NOFRAMES = new ParseNoFrames();
+    public static final Parser NOFRAMES = new ParseNoFrames();
 
     /**
      * parser for select.
      */
-    private static final Parser PARSE_SELECT = new ParseSelect();
+    public static final Parser SELECT = new ParseSelect();
 
     /**
      * parser for text.
      */
-    private static final Parser PARSE_TEXT = new ParseText();
+    public static final Parser TEXT = new ParseText();
 
     /**
      * parser for optgroup.
      */
-    private static final Parser PARSE_OPTGROUP = new ParseOptGroup();
+    public static final Parser OPTGROUP = new ParseOptGroup();
 
     /**
      * ParserImpl should not be instantiated.
@@ -234,6 +234,9 @@ public final class ParserImpl
         }
     }
 
+    /**
+     * Parser for HTML.
+     */
     public static class ParseHTML implements Parser
     {
 
@@ -281,7 +284,7 @@ public final class ParserImpl
 
             head = node;
             Node.insertNodeAtEnd(html, head);
-            getParseHead().parse(lexer, head, mode);
+            HEAD.parse(lexer, head, mode);
 
             while (true)
             {
@@ -294,7 +297,7 @@ public final class ParserImpl
                         // implied body
                         node = lexer.inferredTag("body");
                         Node.insertNodeAtEnd(html, node);
-                        getParseBody().parse(lexer, node, mode);
+                        BODY.parse(lexer, node, mode);
                     }
 
                     return;
@@ -451,6 +454,9 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for HEAD.
+     */
     public static class ParseHead implements Parser
     {
 
@@ -546,6 +552,9 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for TITLE.
+     */
     public static class ParseTitle implements Parser
     {
 
@@ -611,6 +620,9 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for SCRIPT.
+     */
     public static class ParseScript implements Parser
     {
 
@@ -632,9 +644,15 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for BODY.
+     */
     public static class ParseBody implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node body, short mode)
         {
             Node node;
@@ -668,7 +686,7 @@ public final class ParserImpl
                     if (node.type == Node.StartTag)
                     {
                         Node.insertNodeAtEnd(body, node);
-                        getParseBlock().parse(lexer, node, mode);
+                        BLOCK.parse(lexer, node, mode);
                         continue;
                     }
 
@@ -913,6 +931,9 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for FRAMESET.
+     */
     public static class ParseFrameSet implements Parser
     {
 
@@ -982,9 +1003,15 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for INLINE.
+     */
     public static class ParseInline implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node element, short mode)
         {
             Node node, parent;
@@ -994,18 +1021,6 @@ public final class ParserImpl
             {
                 return;
             }
-
-            // #433040 - fix by Richard O'Keefe 5 Mar 01
-            // if (element.tag == tt.tagA)
-            // {
-            //     if (element.attributes == null)
-            //         {
-            //             lexer.report.warning(lexer, element.parent, element, Report.DISCARDING_UNEXPECTED);
-            //             Node.discardElement(element);
-            //             return;
-            //         }
-            //     }
-            // }
 
             // ParseInline is used for some block level elements like H1 to H6 For such elements we need to insert
             // inline emphasis tags currently on the inline stack. For Inline elements, we normally push them onto the
@@ -1523,6 +1538,9 @@ public final class ParserImpl
         }
     }
 
+    /**
+     * Parser for LIST.
+     */
     public static class ParseList implements Parser
     {
 
@@ -1636,6 +1654,9 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for DEFLIST.
+     */
     public static class ParseDefList implements Parser
     {
 
@@ -1765,6 +1786,9 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for PRE.
+     */
     public static class ParsePre implements Parser
     {
 
@@ -1885,16 +1909,19 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for block elements.
+     */
     public static class ParseBlock implements Parser
     {
 
         /**
-         * element is node created by the lexer upon seeing the start tag, or by the parser when the start tag is
-         * inferred.
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
          */
         public void parse(Lexer lexer, Node element, short mode)
-
         {
+            // element is node created by the lexer upon seeing the start tag, or by the parser when the start tag is
+            // inferred.
             Node node, parent;
             boolean checkstack;
             int istackbase = 0;
@@ -2245,7 +2272,7 @@ public final class ParserImpl
                         {
                             if (element.parent != null
                                 && element.parent.tag != null
-                                && element.parent.tag.parser == getParseList())
+                                && element.parent.tag.parser == LIST)
                             {
                                 Node.trimSpaces(lexer, element);
                                 Node.trimEmptyElement(lexer, element);
@@ -2364,9 +2391,15 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for TABLE.
+     */
     public static class ParseTableTag implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node table, short mode)
         {
             Node node, parent;
@@ -2491,9 +2524,15 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for COLGROUP.
+     */
     public static class ParseColGroup implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node colgroup, short mode)
         {
             Node node, parent;
@@ -2573,9 +2612,15 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for ROWGROUP.
+     */
     public static class ParseRowGroup implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node rowgroup, short mode)
         {
             Node node, parent;
@@ -2719,13 +2764,19 @@ public final class ParserImpl
         }
     }
 
+    /**
+     * Parser for ROW.
+     */
     public static class ParseRow implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node row, short mode)
         {
             Node node, parent;
-            boolean exclude_state;
+            boolean excludeState;
             TagTable tt = lexer.configuration.tt;
 
             if ((row.tag.model & Dict.CM_EMPTY) != 0)
@@ -2851,10 +2902,10 @@ public final class ParserImpl
 
                 // node should be <TD> or <TH>
                 Node.insertNodeAtEnd(row, node);
-                exclude_state = lexer.excludeBlocks;
+                excludeState = lexer.excludeBlocks;
                 lexer.excludeBlocks = false;
                 parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
-                lexer.excludeBlocks = exclude_state;
+                lexer.excludeBlocks = excludeState;
 
                 // pop inline stack
 
@@ -2869,9 +2920,15 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for NOFRAMES.
+     */
     public static class ParseNoFrames implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node noframes, short mode)
         {
             Node node;
@@ -2956,9 +3013,15 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for SELECT.
+     */
     public static class ParseSelect implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node field, short mode)
         {
             Node node;
@@ -2998,9 +3061,15 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for text nodes.
+     */
     public static class ParseText implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node field, short mode)
         {
             Node node;
@@ -3076,9 +3145,15 @@ public final class ParserImpl
 
     }
 
+    /**
+     * Parser for OPTGROUP.
+     */
     public static class ParseOptGroup implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node field, short mode)
         {
             Node node;
@@ -3118,101 +3193,6 @@ public final class ParserImpl
             }
         }
 
-    }
-
-    public static Parser getParseHTML()
-    {
-        return PARSE_HTML;
-    }
-
-    public static Parser getParseHead()
-    {
-        return PARSE_HEAD;
-    }
-
-    public static Parser getParseTitle()
-    {
-        return PARSE_TITLE;
-    }
-
-    public static Parser getParseScript()
-    {
-        return PARSE_SCRIPT;
-    }
-
-    public static Parser getParseBody()
-    {
-        return PARSE_BODY;
-    }
-
-    public static Parser getParseFrameSet()
-    {
-        return PARSE_FRAMESET;
-    }
-
-    public static Parser getParseInline()
-    {
-        return PARSE_INLINE;
-    }
-
-    public static Parser getParseList()
-    {
-        return PARSE_LIST;
-    }
-
-    public static Parser getParseDefList()
-    {
-        return PARSE_DEFLIST;
-    }
-
-    public static Parser getParsePre()
-    {
-        return PARSE_PRE;
-    }
-
-    public static Parser getParseBlock()
-    {
-        return PARSE_BLOCK;
-    }
-
-    public static Parser getParseTableTag()
-    {
-        return PARSE_TABLETAG;
-    }
-
-    public static Parser getParseColGroup()
-    {
-        return PARSE_COLGROUP;
-    }
-
-    public static Parser getParseRowGroup()
-    {
-        return PARSE_ROWGROUP;
-    }
-
-    public static Parser getParseRow()
-    {
-        return PARSE_ROW;
-    }
-
-    public static Parser getParseNoFrames()
-    {
-        return PARSE_NOFRAMES;
-    }
-
-    public static Parser getParseSelect()
-    {
-        return PARSE_SELECT;
-    }
-
-    public static Parser getParseText()
-    {
-        return PARSE_TEXT;
-    }
-
-    public static Parser getParseOptGroup()
-    {
-        return PARSE_OPTGROUP;
     }
 
     /**
@@ -3271,7 +3251,7 @@ public final class ParserImpl
             }
 
             Node.insertNodeAtEnd(document, html);
-            getParseHTML().parse(lexer, html, (short) 0); // TODO?
+            HTML.parse(lexer, html, (short) 0); // TODO?
             break;
         }
 
@@ -3318,7 +3298,7 @@ public final class ParserImpl
             return true;
         }
 
-        if ((tt != null) && (tt.findParser(element) == getParsePre()))
+        if ((tt != null) && (tt.findParser(element) == PRE))
         {
             return true;
         }

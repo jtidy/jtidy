@@ -1588,7 +1588,7 @@ public class Clean
             }
 
             if (node.tag != null
-                && node.tag.parser == ParserImpl.getParseList()
+                && node.tag.parser == ParserImpl.LIST
                 && node.hasOneChild()
                 && node.content.implicit)
             {
