@@ -104,6 +104,11 @@ public final class AttrCheckImpl
     private static AttrCheck checkLength = new CheckLength();
 
     /**
+     * checker for "target" attribute.
+     */
+    private static AttrCheck checkTarget = new CheckTarget();
+
+    /**
      * utility class, don't instantiate.
      */
     private AttrCheckImpl()
@@ -210,7 +215,6 @@ public final class AttrCheckImpl
                 lexer.badChars |= Report.INVALID_URI;
             }
 
-
         }
     }
 
@@ -255,7 +259,8 @@ public final class AttrCheckImpl
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
             }
-            else if (!(Lexer.wstrcasecmp(value, "left") == 0 || Lexer.wstrcasecmp(value, "center") == 0
+            else if (!(Lexer.wstrcasecmp(value, "left") == 0
+                || Lexer.wstrcasecmp(value, "center") == 0
                 || Lexer.wstrcasecmp(value, "right") == 0 || Lexer.wstrcasecmp(value, "justify") == 0))
             {
                 lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
@@ -283,8 +288,10 @@ public final class AttrCheckImpl
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
             }
-            else if (Lexer.wstrcasecmp(value, "top") == 0 || Lexer.wstrcasecmp(value, "middle") == 0
-                || Lexer.wstrcasecmp(value, "bottom") == 0 || Lexer.wstrcasecmp(value, "baseline") == 0)
+            else if (Lexer.wstrcasecmp(value, "top") == 0
+                || Lexer.wstrcasecmp(value, "middle") == 0
+                || Lexer.wstrcasecmp(value, "bottom") == 0
+                || Lexer.wstrcasecmp(value, "baseline") == 0)
             {
                 // all is fine
             }
@@ -295,8 +302,10 @@ public final class AttrCheckImpl
                     lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
                 }
             }
-            else if (Lexer.wstrcasecmp(value, "texttop") == 0 || Lexer.wstrcasecmp(value, "absmiddle") == 0
-                || Lexer.wstrcasecmp(value, "absbottom") == 0 || Lexer.wstrcasecmp(value, "textbottom") == 0)
+            else if (Lexer.wstrcasecmp(value, "texttop") == 0
+                || Lexer.wstrcasecmp(value, "absmiddle") == 0
+                || Lexer.wstrcasecmp(value, "absbottom") == 0
+                || Lexer.wstrcasecmp(value, "textbottom") == 0)
             {
                 lexer.versions &= Dict.VERS_PROPRIETARY;
                 lexer.report.attrError(lexer, node, attval, Report.PROPRIETARY_ATTR_VALUE);
@@ -323,7 +332,6 @@ public final class AttrCheckImpl
         }
 
     }
-
 
     /**
      * AttrCheck implementation for checking the "length" attribute.
@@ -366,6 +374,40 @@ public final class AttrCheckImpl
     }
 
     /**
+     * AttrCheck implementation for checking the "target" attribute.
+     */
+    public static class CheckTarget implements AttrCheck
+    {
+
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
+        public void check(Lexer lexer, Node node, AttVal attval)
+        {
+            if (attval == null || attval.value == null || attval.value.length() == 0)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
+            }
+
+            String value = attval.value;
+
+            // target names must begin with A-Za-z ...
+            if (Character.isLetter(value.charAt(0)))
+            {
+                return;
+            }
+
+            // or be one of _blank, _self, _parent and _top
+            if (!("_blank".equals(value) || "_self".equals(value) || "_parent".equals(value) || "_top".equals(value)))
+            {
+                lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+            }
+
+        }
+    }
+
+    /**
      * AttrCheck implementation for checking ids.
      */
     public static class CheckId implements AttrCheck
@@ -384,7 +426,7 @@ public final class AttrCheckImpl
                 return;
             }
 
-            if ("".equals(p) || !Character.isLetter(p.charAt(0)))
+            if (p.length() == 0 || !Character.isLetter(p.charAt(0)))
             {
                 // shout: illegal ID value in HTML
             }
@@ -400,7 +442,6 @@ public final class AttrCheckImpl
                     }
                 }
             }
-
 
         }
 
@@ -491,6 +532,15 @@ public final class AttrCheckImpl
     public static AttrCheck getCheckLength()
     {
         return checkLength;
+    }
+
+    /**
+     * Getter for the CheckTarget instance.
+     * @return checker for "target" attribute
+     */
+    public static AttrCheck getCheckTarget()
+    {
+        return checkTarget;
     }
 
 }
