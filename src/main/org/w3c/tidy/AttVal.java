@@ -130,6 +130,9 @@ public class AttVal extends Object implements Cloneable
         this.value = value;
     }
 
+    /**
+     * @see java.lang.Object#clone()
+     */
     protected Object clone()
     {
         AttVal av = null;
@@ -146,15 +149,6 @@ public class AttVal extends Object implements Cloneable
         {
             av.next = (AttVal) this.next.clone();
         }
-        if (this.attribute != null)
-        {
-            av.attribute = this.attribute;
-        }
-        if (this.value != null)
-        {
-            av.value = this.value;
-        }
-        av.delim = this.delim;
         if (this.asp != null)
         {
             av.asp = (Node) this.asp.clone();
@@ -163,7 +157,7 @@ public class AttVal extends Object implements Cloneable
         {
             av.php = (Node) this.php.clone();
         }
-        av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(this);
+
         return av;
     }
 
