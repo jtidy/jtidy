@@ -200,6 +200,18 @@ In addition, JTidy provides a DOM interface to the document that is being proces
             <comment>maven plugin for the cvs report</comment>
         </properties>
     </dependency>
+    
+    <dependency>
+        <groupId>maven-plugins</groupId>
+        <artifactId>maven-findbugs-plugin</artifactId>
+        <version>0.7.2</version>
+        <type>plugin</type>
+        <properties>
+            <comment>maven plugin for the findbug report</comment>
+        </properties>
+    </dependency>
+    
+    
 
     </dependencies>
     <build>
@@ -240,6 +252,7 @@ In addition, JTidy provides a DOM interface to the document that is being proces
         <report>maven-javadoc-plugin</report>
         <report>maven-jdepend-plugin</report>
         <report>maven-pmd-plugin</report>
+        <report>maven-findbugs-plugin</report>
         <report>maven-jxr-plugin</report>
         <report>maven-junit-report-plugin</report>
         <report>maven-clover-plugin</report>
