@@ -55,6 +55,7 @@
 package org.w3c.tidy;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
@@ -106,6 +107,11 @@ public final class TidyUtils
      * used to classify chars for lexical purposes.
      */
     private static short[] lexmap = new short[128];
+
+    /**
+     * InputStream instance reused for supported encodings check.
+     */
+    private static final InputStream TEST_INPUTSTREAM = new ByteArrayInputStream(new byte[0]);
 
     static
     {
@@ -848,8 +854,7 @@ public final class TidyUtils
     }
 
     /**
-     * Is the given character encoding supported? Warning, this doesn't handle deprecated tidy encoding names. Use
-     * <code>toJavaEncodingName()</code> before.
+     * Is the given character encoding supported?
      * @param name character encoding name
      * @return <code>true</code> if encoding is supported, false otherwhise.
      */
@@ -859,16 +864,8 @@ public final class TidyUtils
         {
             return false;
         }
-        try
-        {
-            // test it, it's the only way to know if the character encoding is supported
-            new String(new byte[0], name);
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            return false;
-        }
-        return true;
+
+        return toJavaEncodingName(name) != null;
     }
 
     /**
@@ -922,11 +919,21 @@ public final class TidyUtils
         {
             name = "MACROMAN";
         }
+        else if (name.startsWith("IBM-"))
+        {
+            name = "CP" + name.substring(4, name.length());
+        }
+        else if (name.startsWith("IBM"))
+        {
+            name = "CP" + name.substring(3, name.length());
+        }
+
+        // check org.apache.xerces.util.EncodingMap
 
         try
         {
             // test it, it's the only way to know if the character encoding is supported
-            InputStreamReader reader = new InputStreamReader(new ByteArrayInputStream(new byte[0]), name);
+            InputStreamReader reader = new InputStreamReader(TEST_INPUTSTREAM, name);
             return reader.getEncoding().toUpperCase();
 
         }
@@ -934,6 +941,5 @@ public final class TidyUtils
         {
             return null;
         }
-
     }
 }
