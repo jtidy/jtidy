@@ -33,6 +33,7 @@ public final class AllNotWorkingTests
 
         suite.addTest(new JTidyBugsTest("test475643"));
         suite.addTest(new JTidyBugsTest("test508245"));
+        suite.addTest(new JTidyBugsTest("test527118"));
         suite.addTest(new JTidyBugsTest("test791933"));
         suite.addTest(new JTidyBugsTest("test763191"));
         suite.addTest(new JTidyBugsTest("test763186"));

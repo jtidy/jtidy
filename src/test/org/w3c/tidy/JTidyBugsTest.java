@@ -94,6 +94,26 @@ public class JTidyBugsTest extends TidyTestCase
     }
 
     /**
+     * test for JTidy [527118]: Suppress duplicate attributes.
+     * @throws Exception any exception generated during the test
+     */
+    public void test527118() throws Exception
+    {
+        executeTidyTest("527118.html");
+    }
+
+    /**
+     * test for JTidy [538727]: setDocType uncorrectly adds "".
+     * @throws Exception any exception generated during the test
+     */
+    public void test538727() throws Exception
+    {
+        //this has the same result of setting it in the config file
+        //tidy.setDocType("\"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"file:///E:/xhtml1-transitional.dtd\"");
+        executeTidyTest("538727.html");
+    }
+
+    /**
      * test for JTidy [610244]: NullPointerException in parsing.
      * @throws Exception any exception generated during the test
      */

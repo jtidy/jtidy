@@ -1,0 +1,9 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "file:///E:/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>[ 538727 ] setDocType uncorrectly adds ""</title>
+</head>
+<body>
+doctype should not contain ""
+</body>
+</html>
