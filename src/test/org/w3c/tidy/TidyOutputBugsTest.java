@@ -444,7 +444,7 @@ public class TidyOutputBugsTest extends TidyTestCase
         executeTidyTest("437468.html");
     }
     /**
-     * test for Tidy [438650] : Newline in URL attr value becomes space.
+     * test for Tidy [438650] : Newline in URL attr value becomes space. [fixed]
      * @throws Exception any exception generated during the test
      */
     public void test438650() throws Exception
@@ -994,7 +994,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [695408] : Empty spans getting dropped, even if they have attrs.
+     * test for Tidy [695408] : Empty spans getting dropped, even if they have attrs. @todo HIGH PRIORITY.
      * @throws Exception any exception generated during the test
      */
     public void test695408() throws Exception
