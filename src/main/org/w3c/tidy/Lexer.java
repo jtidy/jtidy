@@ -2001,8 +2001,14 @@ public class Lexer
 
                         if ((this.token.tag.versions & Dict.VERS_PROPRIETARY) != 0)
                         {
-                            if (!this.configuration.makeClean
-                                && (this.token.tag == this.configuration.tt.tagNobr || this.token.tag == this.configuration.tt.tagWbr))
+                            // #427810 - fix by Gary Deschaines 24 May 00
+                            if (this.configuration.makeClean
+                                && (this.token.tag != this.configuration.tt.tagNobr && this.token.tag != this.configuration.tt.tagWbr))
+                            {
+                                Report.warning(this, null, this.token, Report.PROPRIETARY_ELEMENT);
+                            }
+                            // #427810 - fix by Terry Teague 2 Jul 01
+                            else if (!this.configuration.makeClean)
                             {
                                 Report.warning(this, null, this.token, Report.PROPRIETARY_ELEMENT);
                             }
