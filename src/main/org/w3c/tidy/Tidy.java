@@ -74,13 +74,17 @@ public class Tidy implements java.io.Serializable
 
     static final long serialVersionUID = -2794371560623987718L;
 
-    private boolean initialized = false;
-    private PrintWriter errout = null; /* error output stream */
-    private PrintWriter stderr = null;
-    private Configuration configuration = null;
+    private boolean initialized;
+
+    /**
+     * error output stream
+     */
+    private PrintWriter errout;
+    private PrintWriter stderr;
+    private Configuration configuration;
     private String inputStreamName = "InputStream";
-    private int parseErrors = 0;
-    private int parseWarnings = 0;
+    private int parseErrors;
+    private int parseWarnings;
 
     public Tidy()
     {
