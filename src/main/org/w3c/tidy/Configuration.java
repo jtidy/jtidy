@@ -401,6 +401,11 @@ public class Configuration implements java.io.Serializable
     protected boolean lowerLiterals = true;
 
     /**
+     * replace hex color attribute values with names.
+     */
+    protected boolean replaceColor = false;
+
+    /**
      * TagTable associated with this Configuration.
      */
     protected TagTable tt;
@@ -524,6 +529,11 @@ public class Configuration implements java.io.Serializable
         if (value != null)
         {
             this.lowerLiterals = parseBool(value, "lower-literals");
+        }
+        value = properties.getProperty("replace-color");
+        if (value != null)
+        {
+            this.replaceColor = parseBool(value, "replace-color");
         }
 
         value = properties.getProperty("tab-size");

@@ -950,7 +950,7 @@ public class Tidy implements Serializable
 
     /**
      * lower-literals - folds known attribute values to lower case.
-     * @param lower-literals true = folds known attribute values to lower case
+     * @param lowerLiterals true = folds known attribute values to lower case
      * @see Configuration#lowerLiterals
      */
     public void setLowerLiterals(boolean lowerLiterals)
@@ -965,6 +965,25 @@ public class Tidy implements Serializable
     public boolean getLowerLiterals()
     {
         return configuration.lowerLiterals;
+    }
+
+    /**
+     * replace-color - replace hex color attribute values with names.
+     * @param replaceColor true = replace hex color attribute values with names
+     * @see Configuration#lowerLiterals
+     */
+    public void setReplaceColor(boolean replaceColor)
+    {
+        configuration.replaceColor = replaceColor;
+    }
+
+    /**
+     * replace-color - replace hex color attribute values with names.
+     * @return true if tidy will replace hex color attribute values with names
+     */
+    public boolean getReplaceColor()
+    {
+        return configuration.replaceColor;
     }
 
     /**
