@@ -1516,7 +1516,10 @@ public class Lexer
             {
                 break;
             }
-            if (this.insertspace && mode != IgnoreWhitespace)
+            
+            // fix for [427846]
+            // if (lexer->insertspace && !(mode & IgnoreWhitespace))
+            if (this.insertspace && !((mode & IgnoreWhitespace) == 0))
             {
                 addCharToLexer(' ');
                 this.waswhite = true;
