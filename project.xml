@@ -153,21 +153,31 @@ In addition, JTidy provides a DOM interface to the document that is being proces
             </properties>
         </dependency>
         <dependency>
-            <groupId>statcvs</groupId>
-            <artifactId>maven-statcvs-plugin</artifactId>
-            <version>2.4</version>
-            <type>plugin</type>
+		  <groupId>statcvs</groupId>
+		  <artifactId>maven-statcvs-plugin</artifactId>
+		  <version>2.5</version>
+		  <type>plugin</type>
             <properties>
-                <comment>maven plugin for the cvs report</comment>
+                <comment>maven plugin for the statcvs report</comment>
             </properties>
-        </dependency>
+		</dependency>
         <dependency>
             <groupId>maven-plugins</groupId>
             <artifactId>maven-findbugs-plugin</artifactId>
-            <version>0.8.2</version>
+            <version>0.8.4</version>
             <type>plugin</type>
             <properties>
                 <comment>maven plugin for the findbug report</comment>
+            </properties>
+        </dependency>
+        <dependency>
+            <groupId>maven-validator</groupId>
+            <artifactId>maven-xhtml-plugin</artifactId>
+            <version>1.2</version>
+            <type>plugin</type>
+            <url>http://maven-validator.sourceforge.net</url>
+            <properties>
+                <comment>maven plugin for the xthml validation report</comment>
             </properties>
         </dependency>
     </dependencies>
