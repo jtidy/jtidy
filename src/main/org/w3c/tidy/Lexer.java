@@ -3620,6 +3620,31 @@ public class Lexer
         return node;
     }
 
+    /**
+     * check if the first String contains the second one.
+     * @param s1 full String
+     * @param len1 maximum position in String
+     * @param s2 String to search for
+     * @return true if s1 contains s2 in the range 0-len1
+     */
+    boolean wsubstrn(String s1, int len1, String s2)
+    {
+        int searchIndex = s1.indexOf(s2);
+        return searchIndex > -1 && searchIndex <= len1;
+    }
+
+    /**
+     * check if the first String contains the second one (ignore case).
+     * @param s1 full String
+     * @param len1 maximum position in String
+     * @param s2 String to search for
+     * @return true if s1 contains s2 in the range 0-len1
+     */
+    boolean wsubstrncase(String s1, int len1, String s2)
+    {
+        return wsubstrn(s1.toLowerCase(), len1, s2.toLowerCase());
+    }
+
     public static boolean wsubstr(String s1, String s2)
     {
         int i;

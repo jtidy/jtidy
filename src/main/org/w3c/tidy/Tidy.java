@@ -1445,7 +1445,7 @@ public class Tidy implements Serializable
                         if (configuration.bodyOnly)
                         {
                             // Feature request #434940 - fix by Dave Raggett/Ignacio Vazquez-Abrams 21 Jun 01
-                            pprint.PrintBody(o, lexer, document, configuration.xmlOut);
+                            pprint.printBody(o, lexer, document, configuration.xmlOut);
                         }
                         else if (configuration.xmlOut && !configuration.xHTML)
                         {
@@ -1472,7 +1472,7 @@ public class Tidy implements Serializable
                     if (configuration.bodyOnly)
                     {
                         // Feature request #434940 - fix by Dave Raggett/Ignacio Vazquez-Abrams 21 Jun 01
-                        pprint.PrintBody(o, lexer, document, configuration.xmlOut);
+                        pprint.printBody(o, lexer, document, configuration.xmlOut);
                     }
                     else if (configuration.xmlOut && !configuration.xHTML)
                     {

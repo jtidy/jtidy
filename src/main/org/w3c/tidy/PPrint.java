@@ -135,6 +135,26 @@ public class PPrint
 
     private static final short CDATA = 16;
 
+    private static final String CDATA_START = "<![CDATA[";
+
+    private static final String CDATA_END = "]]>";
+
+    private static final String JS_COMMENT_START = "//";
+
+    private static final String JS_COMMENT_END = "";
+
+    private static final String VB_COMMENT_START = "\'";
+
+    private static final String VB_COMMENT_END = "";
+
+    private static final String CSS_COMMENT_START = "/*";
+
+    private static final String CSS_COMMENT_END = "*/";
+
+    private static final String DEFAULT_COMMENT_START = "";
+
+    private static final String DEFAULT_COMMENT_END = "";
+
     private int[] linebuf;
 
     private int lbufsize;
@@ -277,6 +297,24 @@ public class PPrint
         }
 
         linebuf[index] = c;
+    }
+
+    /**
+     * Adds an ascii String.
+     * @param s String to be added
+     * @param llen line lenght
+     * @return final line length
+     */
+    private int addAsciiString(String s, int llen)
+    {
+        char[] cp = s.toCharArray();
+
+        for (int j = 0; j < cp.length; j++)
+        {
+            addC(cp[j], llen++);
+        }
+
+        return llen;
     }
 
     private void wrapLine(Out fout, int indent)
@@ -459,7 +497,7 @@ public class PPrint
     {
         String entity;
 
-        if (c == ' ' && !((mode & (PREFORMATTED | COMMENT | ATTRIBVALUE)) != 0))
+        if (c == ' ' && !((mode & (PREFORMATTED | COMMENT | ATTRIBVALUE | CDATA)) != 0))
         {
             // coerce a space character to a non-breaking space
             if ((mode & NOWRAP) != 0)
@@ -493,7 +531,7 @@ public class PPrint
         }
 
         // comment characters are passed raw
-        if ((mode & COMMENT) != 0)
+        if ((mode & (COMMENT | CDATA)) != 0)
         {
             addC(c, linelen++);
             return;
@@ -1509,6 +1547,132 @@ public class PPrint
         this.configuration.wraplen = savewraplen;
     }
 
+    static boolean hasCDATA(Lexer lexer, Node node)
+    {
+        // Scan forward through the textarray. Since the characters we're
+        // looking for are < 0x7f, we don't have to do any UTF-8 decoding.
+
+        if (node.type != Node.TEXT_NODE)
+        {
+            return false;
+        }
+
+        // @todo check, was: char* start = lexer->lexbuf + node->start;
+        String start = String.valueOf(node.textarray);
+        int len = node.end - node.start + 1;
+
+        int indexOfCData = start.indexOf(CDATA_START);
+        return indexOfCData > -1 && indexOfCData <= len;
+    }
+
+    /**
+     * Print script and style elements. For XHTML, wrap the content as follows:
+     * 
+     * <pre>
+     *     JavaScript:
+     *         //&lt;![CDATA[
+     *             content
+     *         //]]>
+     *     VBScript:
+     *         '&lt;![CDATA[
+     *             content
+     *         ']]>
+     *     CSS:
+     *         /*&lt;![CDATA[* /
+     *             content
+     *         /*]]>* /
+     *     other:
+     *        &lt;![CDATA[
+     *             content
+     *         ]]>
+     * </pre>
+     */
+    private void printScriptStyle(Out fout, short mode, int indent, Lexer lexer, Node node)
+    {
+        Node content;
+        String commentStart = DEFAULT_COMMENT_START;
+        String commentEnd = DEFAULT_COMMENT_END;
+        boolean hasCData = false;
+
+        condFlushLine(fout, indent);
+
+        indent = 0;
+        printTag(lexer, fout, mode, indent, node);
+        flushLine(fout, indent);
+
+        if (lexer.configuration.xHTML && node.content != null)
+        {
+            AttVal type = node.getAttrByName("type");
+            if (type != null)
+            {
+                if ("text/javascript".equalsIgnoreCase(type.value))
+                {
+                    commentStart = JS_COMMENT_START;
+                    commentEnd = JS_COMMENT_END;
+                }
+                else if ("text/css".equalsIgnoreCase(type.value))
+                {
+                    commentStart = CSS_COMMENT_START;
+                    commentEnd = CSS_COMMENT_END;
+                }
+                else if ("text/vbscript".equalsIgnoreCase(type.value))
+                {
+                    commentStart = VB_COMMENT_START;
+                    commentEnd = VB_COMMENT_END;
+                }
+            }
+
+            hasCData = hasCDATA(lexer, node.content);
+            if (!hasCData)
+            {
+                // disable wrapping
+                int savewraplen = lexer.configuration.wraplen;
+                lexer.configuration.wraplen = 0xFFFFFF; // a very large number
+
+                linelen = addAsciiString(commentStart, linelen);
+                linelen = addAsciiString(CDATA_START, linelen);
+                linelen = addAsciiString(commentEnd, linelen);
+                condFlushLine(fout, indent);
+
+                // restore wrapping
+                lexer.configuration.wraplen = savewraplen;
+            }
+        }
+
+        for (content = node.content; content != null; content = content.next)
+        {
+            printTree(fout, (short) (mode | PREFORMATTED | NOWRAP | CDATA), indent, lexer, content);
+        }
+
+        condFlushLine(fout, indent);
+
+        if (lexer.configuration.xHTML && node.content != null)
+        {
+            if (!hasCData)
+            {
+                // disable wrapping
+                int savewraplen = lexer.configuration.wraplen;
+                lexer.configuration.wraplen = 0xFFFFFF; // a very large number
+
+                linelen = addAsciiString(commentStart, linelen);
+                linelen = addAsciiString(CDATA_END, linelen);
+                linelen = addAsciiString(commentEnd, linelen);
+
+                // restore wrapping
+                lexer.configuration.wraplen = savewraplen;
+                condFlushLine(fout, indent);
+            }
+        }
+
+        printEndTag(mode, indent, node);
+        flushLine(fout, indent);
+
+        if (!lexer.configuration.indentContent && node.next != null)
+        {
+            flushLine(fout, indent);
+        }
+    }
+
     private boolean shouldIndent(Node node)
     {
         TagTable tt = this.configuration.tt;
@@ -1565,7 +1729,7 @@ public class PPrint
     /**
      * Print just the content of the body element. Useful when you want to reuse material from other documents.
      */
-    void PrintBody(Out fout, Lexer lexer, Node root, boolean xml)
+    void printBody(Out fout, Lexer lexer, Node root, boolean xml)
     {
         if (root == null)
         {
@@ -1716,27 +1880,7 @@ public class PPrint
             }
             else if (node.tag == tt.tagStyle || node.tag == tt.tagScript)
             {
-                condFlushLine(fout, indent);
-
-                indent = 0;
-                condFlushLine(fout, indent);
-                printTag(lexer, fout, mode, indent, node);
-                flushLine(fout, indent);
-
-                for (content = node.content; content != null; content = content.next)
-                {
-                    printTree(fout, (short) (mode | PREFORMATTED | NOWRAP | CDATA), indent, lexer, content);
-                }
-
-                condFlushLine(fout, indent);
-                printEndTag(mode, indent, node);
-                flushLine(fout, indent);
-
-                if (!this.configuration.indentContent && node.next != null)
-                {
-                    flushLine(fout, indent);
-
-                }
+                printScriptStyle(fout, (short) (mode | PREFORMATTED | NOWRAP | CDATA), indent, lexer, node);
             }
             else if ((node.tag.model & Dict.CM_INLINE) != 0)
             {

@@ -178,18 +178,18 @@ public final class TagCheckImpl
                 AttVal missingType = new AttVal(null, null, '"', "type", "");
                 lexer.report.attrError(lexer, node, missingType, Report.MISSING_ATTRIBUTE);
 
-                /* check for javascript */
-
+                // check for javascript
                 if (lang != null)
                 {
                     String str = lang.value;
-                    if (str.length() > 10)
-                    {
-                        str = str.substring(0, 10);
-                    }
                     if ("javascript".equalsIgnoreCase(str) || "jscript".equalsIgnoreCase(str))
                     {
                         node.addAttribute("type", "text/javascript");
+                    }
+                    else if ("vbscript".equalsIgnoreCase(str))
+                    {
+                        // per Randy Waki 8/6/01
+                        node.addAttribute("type", "text/vbscript");
                     }
                 }
                 else
@@ -521,7 +521,7 @@ public final class TagCheckImpl
     }
 
     /**
-     * add missing type attribute when appropriate
+     * add missing type attribute when appropriate.
      */
     public static class CheckLINK implements TagCheck
     {
