@@ -123,6 +123,15 @@ public class JTidyBugsTest extends TidyTestCase
     }
 
     /**
+     * test for JTidy [574158]: Error with FONT tag.
+     * @throws Exception any exception generated during the test
+     */
+    public void test574158() throws Exception
+    {
+        executeTidyTest("574158.html");
+    }
+
+    /**
      * test for JTidy [610244]: NullPointerException in parsing.
      * @throws Exception any exception generated during the test
      */

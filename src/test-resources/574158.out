@@ -1,0 +1,14 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>[574158] Error with FONT tag</title>
+</head>
+<body>
+<div id="Etiquette"><font size="4"><a href="http://indexation.inria.fr:8080/cgi-bin/query?mss=RRRT%2Fsimple&amp;pg=q&amp;what=web&amp;enc=is
+o88591&amp;q=dc.creator%3DOniboni%2CJulien+url%3Ahttp%3A%2F%2Fwww.inria.fr%2Frrrt%2F&amp;q1=dc.creator%3DOniboni%2CJulien&amp;searchrrrt=Che
+rcher" onmouseover="MM_showHideLayers('document.layers[\'Etiquette2\']','document.all[\'Etiquette2\']','show','document.layers[\'AuteurFenet
+re\']','document.all[\'AuteurFenetre\']','show')" onmouseout="MM_showHideLayers('document.layers[\'AuteurFenetre\']','document.all[\'AuteurF
+enetre\']','hide','document.layers[\'Etiquette2\']','document.all[\'Etiquette2\']','hide')"><!--div
+class=aut-->Oniboni, Julien<!--/div--></a></font></div>
+</body>
+</html>
