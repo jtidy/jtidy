@@ -211,7 +211,7 @@ public class Node
     protected String element;
 
     /**
-     * name (null for text nodes).
+     * Attribute/Value linked list.
      */
     protected AttVal attributes;
 
@@ -365,6 +365,14 @@ public class Node
 
             here.next = av;
         }
+    }
+
+    /**
+     * free node's attributes
+     */
+    public void freeAttrs()
+    {
+        this.attributes = null;
     }
 
     /**
