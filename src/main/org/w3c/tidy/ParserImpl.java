@@ -3450,6 +3450,12 @@ public final class ParserImpl
                 continue;
             }
 
+            if (node.type == Node.StartEndTag)
+            {
+                Node.insertNodeAtEnd(document, node);
+                continue;
+            }
+
             // if start tag then parse element's content
             if (node.type == Node.StartTag)
             {
