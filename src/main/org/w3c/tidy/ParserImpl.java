@@ -2054,8 +2054,15 @@ public final class ParserImpl
                     mode = Lexer.MIXED_CONTENT;
 
                     // HTML4 strict doesn't allow mixed content for elements with %block; as their content model
-
-                    lexer.constrainVersion(~Dict.VERS_HTML40_STRICT);
+                    // But only body, map, blockquote, form and noscript have content model %block;
+                    if (element.tag == tt.tagBody
+                        || element.tag == tt.tagMap
+                        || element.tag == tt.tagBlockquote
+                        || element.tag == tt.tagForm
+                        || element.tag == tt.tagNoscript)
+                    {
+                        lexer.constrainVersion(~Dict.VERS_HTML40_STRICT);
+                    }
                     continue;
                 }
 
