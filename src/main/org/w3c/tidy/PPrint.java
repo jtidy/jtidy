@@ -1994,11 +1994,14 @@ public class PPrint
             n--;
         }
 
-        for (node = node.content; node != null; node = node.next)
+        if (node != null)
         {
-            if (node.tag == tt.tagH2)
+            for (node = node.content; node != null; node = node.next)
             {
-                ++n;
+                if (node.tag == tt.tagH2)
+                {
+                    ++n;
+                }
             }
         }
 
