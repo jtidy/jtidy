@@ -118,7 +118,7 @@ public class DOMNodeListByTagNameImpl implements org.w3c.dom.NodeList
             return;
         }
 
-        if (node.type == Node.StartTag || node.type == Node.StartEndTag)
+        if (node.type == Node.START_TAG || node.type == Node.START_END_TAG)
         {
             if (currIndex <= maxIndex && (tagName.equals("*") || tagName.equals(node.element)))
             {

@@ -105,7 +105,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
         Node node = this.adaptee.content;
         while (node != null)
         {
-            if (node.type == Node.DocTypeTag)
+            if (node.type == Node.DOCTYPE_TAG)
             {
                 break;
             }
@@ -138,7 +138,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
         Node node = this.adaptee.content;
         while (node != null)
         {
-            if (node.type == Node.StartTag || node.type == Node.StartEndTag)
+            if (node.type == Node.START_TAG || node.type == Node.START_END_TAG)
             {
                 break;
             }
@@ -159,7 +159,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
      */
     public org.w3c.dom.Element createElement(String tagName) throws DOMException
     {
-        Node node = new Node(Node.StartEndTag, null, 0, 0, tagName, this.tt);
+        Node node = new Node(Node.START_END_TAG, null, 0, 0, tagName, this.tt);
         if (node != null)
         {
             if (node.tag == null) // Fix Bug 121206
@@ -189,7 +189,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     public org.w3c.dom.Text createTextNode(String data)
     {
         byte[] textarray = Lexer.getBytes(data);
-        Node node = new Node(Node.TextNode, textarray, 0, textarray.length);
+        Node node = new Node(Node.TEXT_NODE, textarray, 0, textarray.length);
         if (node != null)
         {
             return (org.w3c.dom.Text) node.getAdapter();
@@ -206,7 +206,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     public org.w3c.dom.Comment createComment(String data)
     {
         byte[] textarray = Lexer.getBytes(data);
-        Node node = new Node(Node.CommentTag, textarray, 0, textarray.length);
+        Node node = new Node(Node.COMMENT_TAG, textarray, 0, textarray.length);
         if (node != null)
         {
             return (org.w3c.dom.Comment) node.getAdapter();

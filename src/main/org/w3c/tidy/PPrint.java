@@ -611,18 +611,18 @@ public class PPrint
             {
                 switch (c)
                 {
-                    case 0x2013 :
-                    case 0x2014 :
+                    case 0x2013 : // en dash
+                    case 0x2014 : // em dash
                         c = '-';
                         break;
-                    case 0x2018 :
-                    case 0x2019 :
-                    case 0x201A :
+                    case 0x2018 : // left single quotation mark
+                    case 0x2019 : // right single quotation mark
+                    case 0x201A : // single low-9 quotation mark
                         c = '\'';
                         break;
-                    case 0x201C :
-                    case 0x201D :
-                    case 0x201E :
+                    case 0x201C : // left double quotation mark
+                    case 0x201D : // right double quotation mark
+                    case 0x201E : // double low-9 quotation mark
                         c = '"';
                         break;
                 }
@@ -1074,7 +1074,7 @@ public class PPrint
 
         if (prev != null)
         {
-            if (prev.type == Node.TextNode && prev.end > prev.start)
+            if (prev.type == Node.TEXT_NODE && prev.end > prev.start)
             {
                 c = (prev.textarray[prev.end - 1]) & 0xFF; // Convert to unsigned.
 
@@ -1097,7 +1097,7 @@ public class PPrint
 
         addC('<', linelen++);
 
-        if (node.type == Node.EndTag)
+        if (node.type == Node.END_TAG)
         {
             addC('/', linelen++);
         }
@@ -1111,7 +1111,7 @@ public class PPrint
         printAttrs(fout, indent, node, node.attributes);
 
         if ((this.configuration.xmlOut || lexer != null && lexer.isvoyager)
-            && ((node.type == Node.StartEndTag && !configuration.xHTML) || (node.tag.model & Dict.CM_EMPTY) != 0))
+            && ((node.type == Node.START_END_TAG && !configuration.xHTML) || (node.tag.model & Dict.CM_EMPTY) != 0))
         {
             addC(' ', linelen++); // compatibility hack
             addC('/', linelen++);
@@ -1119,7 +1119,7 @@ public class PPrint
 
         addC('>', linelen++);
 
-        if ((node.type != Node.StartEndTag || configuration.xHTML) && !((mode & PREFORMATTED) != 0))
+        if ((node.type != Node.START_END_TAG || configuration.xHTML) && !((mode & PREFORMATTED) != 0))
         {
             if (indent + linelen >= this.configuration.wraplen)
             {
@@ -1310,12 +1310,44 @@ public class PPrint
         // set CDATA to pass < and > unescaped
         printText(fout, CDATA, indent, node.textarray, node.start, node.end);
 
-        if (node.textarray[node.end - 1] != (byte) '?')
+        if (node.end <= 0 || node.textarray[node.end - 1] != (byte) '?') // #542029 - fix by Terry Teague 10 Apr 02
         {
             addC('?', linelen++);
         }
 
         addC('>', linelen++);
+        condFlushLine(fout, indent);
+    }
+
+    /**
+     * pretty print the xml declaration.
+     * @param fout
+     * @param indent
+     * @param lexer
+     * @param node
+     */
+    private void printXmlDecl(Out fout, int indent, Node node)
+    {
+        if (indent + linelen < this.configuration.wraplen)
+        {
+            wraphere = linelen;
+        }
+
+        addC('<', linelen++);
+        addC('?', linelen++);
+        addC('x', linelen++);
+        addC('m', linelen++);
+        addC('l', linelen++);
+
+        printAttrs(fout, indent, node, node.attributes);
+
+        if (node.end <= 0 || node.textarray[node.end - 1] != (byte) '?') // #542029 - fix by Terry Teague 10 Apr 02
+        {
+            addC('?', linelen++);
+        }
+
+        addC('>', linelen++);
+
         condFlushLine(fout, indent);
     }
 
@@ -1412,10 +1444,14 @@ public class PPrint
     {
         int savewraplen = this.configuration.wraplen;
 
+        if (!this.configuration.indentCdata)
+        {
+            indent = 0;
+        }
+
         condFlushLine(fout, indent);
 
         // disable wrapping
-
         this.configuration.wraplen = 0xFFFFFF; // a very large number
 
         addC('<', linelen++);
@@ -1567,50 +1603,54 @@ public class PPrint
             return;
         }
 
-        if (node.type == Node.TextNode)
+        if (node.type == Node.TEXT_NODE)
         {
             printText(fout, mode, indent, node.textarray, node.start, node.end);
         }
-        else if (node.type == Node.CommentTag)
+        else if (node.type == Node.COMMENT_TAG)
         {
             printComment(fout, indent, node);
         }
-        else if (node.type == Node.RootNode)
+        else if (node.type == Node.ROOT_NODE)
         {
             for (content = node.content; content != null; content = content.next)
             {
                 printTree(fout, mode, indent, lexer, content);
             }
         }
-        else if (node.type == Node.DocTypeTag)
+        else if (node.type == Node.DOCTYPE_TAG)
         {
             printDocType(fout, indent, lexer, node);
         }
-        else if (node.type == Node.ProcInsTag)
+        else if (node.type == Node.PROC_INS_TAG)
         {
             printPI(fout, indent, node);
         }
-        else if (node.type == Node.CDATATag)
+        else if (node.type == Node.XML_DECL)
+        {
+            printXmlDecl(fout, indent, node);
+        }
+        else if (node.type == Node.CDATA_TAG)
         {
             printCDATA(fout, indent, node);
         }
-        else if (node.type == Node.SectionTag)
+        else if (node.type == Node.SECTION_TAG)
         {
             printSection(fout, indent, node);
         }
-        else if (node.type == Node.AspTag)
+        else if (node.type == Node.ASP_TAG)
         {
             printAsp(fout, indent, node);
         }
-        else if (node.type == Node.JsteTag)
+        else if (node.type == Node.JSTE_TAG)
         {
             printJste(fout, indent, node);
         }
-        else if (node.type == Node.PhpTag)
+        else if (node.type == Node.PHP_TAG)
         {
             printPhp(fout, indent, node);
         }
-        else if ((node.tag.model & Dict.CM_EMPTY) != 0 || (node.type == Node.StartEndTag && !configuration.xHTML))
+        else if ((node.tag.model & Dict.CM_EMPTY) != 0 || (node.type == Node.START_END_TAG && !configuration.xHTML))
         {
             if (!((node.tag.model & Dict.CM_INLINE) != 0))
             {
@@ -1645,9 +1685,9 @@ public class PPrint
         }
         else
         {
-            if (node.type == Node.StartEndTag)
+            if (node.type == Node.START_END_TAG)
             {
-                node.type = Node.StartTag;
+                node.type = Node.START_TAG;
             }
 
             // some kind of container element
@@ -1798,7 +1838,7 @@ public class PPrint
                         // kludge for naked text before block level tag
                         if (last != null
                             && !this.configuration.indentContent
-                            && last.type == Node.TextNode
+                            && last.type == Node.TEXT_NODE
                             && content.tag != null
                             && (content.tag.model & Dict.CM_BLOCK) != 0)
                         {
@@ -1869,17 +1909,17 @@ public class PPrint
             return;
         }
 
-        if (node.type == Node.TextNode)
+        if (node.type == Node.TEXT_NODE)
         {
             printText(fout, mode, indent, node.textarray, node.start, node.end);
         }
-        else if (node.type == Node.CommentTag)
+        else if (node.type == Node.COMMENT_TAG)
         {
             condFlushLine(fout, indent);
             printComment(fout, 0, node);
             condFlushLine(fout, 0);
         }
-        else if (node.type == Node.RootNode)
+        else if (node.type == Node.ROOT_NODE)
         {
             Node content;
 
@@ -1888,35 +1928,39 @@ public class PPrint
                 printXMLTree(fout, mode, indent, lexer, content);
             }
         }
-        else if (node.type == Node.DocTypeTag)
+        else if (node.type == Node.DOCTYPE_TAG)
         {
             printDocType(fout, indent, lexer, node);
         }
-        else if (node.type == Node.ProcInsTag)
+        else if (node.type == Node.PROC_INS_TAG)
         {
             printPI(fout, indent, node);
         }
-        else if (node.type == Node.CDATATag)
+        else if (node.type == Node.XML_DECL)
+        {
+            printXmlDecl(fout, indent, node);
+        }
+        else if (node.type == Node.CDATA_TAG)
         {
             printCDATA(fout, indent, node);
         }
-        else if (node.type == Node.SectionTag)
+        else if (node.type == Node.SECTION_TAG)
         {
             printSection(fout, indent, node);
         }
-        else if (node.type == Node.AspTag)
+        else if (node.type == Node.ASP_TAG)
         {
             printAsp(fout, indent, node);
         }
-        else if (node.type == Node.JsteTag)
+        else if (node.type == Node.JSTE_TAG)
         {
             printJste(fout, indent, node);
         }
-        else if (node.type == Node.PhpTag)
+        else if (node.type == Node.PHP_TAG)
         {
             printPhp(fout, indent, node);
         }
-        else if ((node.tag.model & Dict.CM_EMPTY) != 0 || node.type == Node.StartEndTag && !configuration.xHTML)
+        else if ((node.tag.model & Dict.CM_EMPTY) != 0 || node.type == Node.START_END_TAG && !configuration.xHTML)
         {
             condFlushLine(fout, indent);
             printTag(lexer, fout, mode, indent, node);
@@ -1936,7 +1980,7 @@ public class PPrint
 
             for (content = node.content; content != null; content = content.next)
             {
-                if (content.type == Node.TextNode)
+                if (content.type == Node.TEXT_NODE)
                 {
                     mixed = true;
                     break;
@@ -2137,7 +2181,7 @@ public class PPrint
             // kludge for naked text before block level tag
             if (last != null
                 && !this.configuration.indentContent
-                && last.type == Node.TextNode
+                && last.type == Node.TEXT_NODE
                 && content.tag != null
                 && (content.tag.model & Dict.CM_BLOCK) != 0)
             {

@@ -404,12 +404,22 @@ public class Configuration implements java.io.Serializable
     /**
      * replace hex color attribute values with names.
      */
-    protected boolean replaceColor = false;
+    protected boolean replaceColor;
 
     /**
      * hides all (real) comments in output.
      */
-    protected boolean hideComments = false;
+    protected boolean hideComments;
+
+    /**
+     * indent CDATA sections.
+     */
+    protected boolean indentCdata;
+
+    /**
+     * output document even if errors were found.
+     */
+    protected boolean forceOutput;
 
     /**
      * TagTable associated with this Configuration.
@@ -541,6 +551,18 @@ public class Configuration implements java.io.Serializable
         if (value != null)
         {
             this.hideComments = parseBool(value, "hide-comments");
+        }
+
+        value = properties.getProperty("indent-cdata");
+        if (value != null)
+        {
+            this.indentCdata = parseBool(value, "indent-cdata");
+        }
+
+        value = properties.getProperty("force-output");
+        if (value != null)
+        {
+            this.forceOutput = parseBool(value, "force-output");
         }
 
         value = properties.getProperty("replace-color");

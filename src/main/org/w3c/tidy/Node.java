@@ -69,69 +69,74 @@ public class Node
     /**
      * node type: root.
      */
-    public static final short RootNode = 0;
+    public static final short ROOT_NODE = 0;
 
     /**
      * node type: doctype.
      */
-    public static final short DocTypeTag = 1;
+    public static final short DOCTYPE_TAG = 1;
 
     /**
      * node type: comment.
      */
-    public static final short CommentTag = 2;
+    public static final short COMMENT_TAG = 2;
 
     /**
      * node type: .
      */
-    public static final short ProcInsTag = 3;
+    public static final short PROC_INS_TAG = 3;
 
     /**
      * node type: text.
      */
-    public static final short TextNode = 4;
+    public static final short TEXT_NODE = 4;
 
     /**
      * Start tag.
      */
-    public static final short StartTag = 5;
+    public static final short START_TAG = 5;
 
     /**
      * End tag.
      */
-    public static final short EndTag = 6;
+    public static final short END_TAG = 6;
 
     /**
      * Start of an end tag.
      */
-    public static final short StartEndTag = 7;
+    public static final short START_END_TAG = 7;
 
     /**
      * node type: CDATA.
      */
-    public static final short CDATATag = 8;
+    public static final short CDATA_TAG = 8;
 
     /**
-     * node type: .
+     * node type: section tag.
      */
-    public static final short SectionTag = 9;
+    public static final short SECTION_TAG = 9;
 
     /**
-     * node type: .
+     * node type: asp tag.
      */
-    public static final short AspTag = 10;
+    public static final short ASP_TAG = 10;
 
     /**
-     * node type: .
+     * node type: jste tag.
      */
-    public static final short JsteTag = 11;
+    public static final short JSTE_TAG = 11;
 
     /**
-     * node type: .
+     * node type: php tag.
      */
-    public static final short PhpTag = 12;
+    public static final short PHP_TAG = 12;
 
-    private static final String[] nodeTypeString = {
+    /**
+     * node type: doctype.
+     */
+    public static final short XML_DECL = 13;
+
+    private static final String[] NODETYPE_STRING = {
         "RootNode",
         "DocTypeTag",
         "CommentTag",
@@ -142,7 +147,8 @@ public class Node
         "StartEndTag",
         "SectionTag",
         "AspTag",
-        "PhpTag"};
+        "PhpTag",
+        "XmlDecl"};
 
     /**
      * parent node.
@@ -222,7 +228,7 @@ public class Node
 
     public Node()
     {
-        this(TextNode, null, 0, 0);
+        this(TEXT_NODE, null, 0, 0);
     }
 
     public Node(short type, byte[] textarray, int start, int end)
@@ -263,7 +269,7 @@ public class Node
         this.element = element;
         this.attributes = null;
         this.content = null;
-        if (type == StartTag || type == StartEndTag || type == EndTag)
+        if (type == START_TAG || type == START_END_TAG || type == END_TAG)
         {
             tt.findTag(this);
         }
@@ -368,8 +374,6 @@ public class Node
         }
     }
 
-
-
     /**
      * remove attribute from node then free it.
      */
@@ -408,8 +412,10 @@ public class Node
     {
         Node node;
 
-        for (node = this.content; node != null && node.type != DocTypeTag; node = node.next)
-            ;
+        for (node = this.content; node != null && node.type != DOCTYPE_TAG; node = node.next)
+        {
+            //
+        }
 
         return node;
     }
@@ -592,7 +598,7 @@ public class Node
 
         if (lexer.canPrune(element))
         {
-            if (element.type != TextNode)
+            if (element.type != TEXT_NODE)
             {
                 lexer.report.warning(lexer, element, null, Report.TRIM_EMPTY_ELEMENT);
             }
@@ -617,7 +623,7 @@ public class Node
         byte c;
         TagTable tt = lexer.configuration.tt;
 
-        if (last != null && last.type == Node.TextNode && last.end > last.start)
+        if (last != null && last.type == Node.TEXT_NODE && last.end > last.start)
         {
             c = lexer.lexbuf[last.end - 1];
 
@@ -658,7 +664,7 @@ public class Node
         node.textarray = element.textarray; // @todo check it
         lexer.addByte('<');
 
-        if (element.type == EndTag)
+        if (element.type == END_TAG)
         {
             lexer.addByte('/');
         }
@@ -667,7 +673,7 @@ public class Node
         {
             lexer.addStringLiteral(element.element);
         }
-        else if (element.type == DocTypeTag)
+        else if (element.type == DOCTYPE_TAG)
         {
             int i;
 
@@ -687,7 +693,7 @@ public class Node
             }
         }
 
-        if (element.type == StartEndTag)
+        if (element.type == START_END_TAG)
         {
             lexer.addByte('/');
         }
@@ -703,7 +709,7 @@ public class Node
      */
     public static boolean isBlank(Lexer lexer, Node node)
     {
-        if (node.type == TextNode)
+        if (node.type == TEXT_NODE)
         {
             if (node.end == node.start)
             {
@@ -727,7 +733,7 @@ public class Node
         Node prev, node;
 
         // #427677 - fix by Gary Peskin 31 Oct 00
-        if (text.type == TextNode && text.textarray[text.start] == (byte) ' ' && (text.start < text.end))
+        if (text.type == TEXT_NODE && text.textarray[text.start] == (byte) ' ' && (text.start < text.end))
         {
             if (((element.tag.model & Dict.CM_INLINE) != 0)
                 && !((element.tag.model & Dict.CM_FIELD) != 0)
@@ -735,7 +741,7 @@ public class Node
             {
                 prev = element.prev;
 
-                if (prev != null && prev.type == TextNode)
+                if (prev != null && prev.type == TEXT_NODE)
                 {
                     if (prev.textarray[prev.end - 1] != (byte) ' ')
                     {
@@ -791,14 +797,14 @@ public class Node
         Node text = element.content;
         TagTable tt = lexer.configuration.tt;
 
-        if (text != null && text.type == Node.TextNode && element.tag != tt.tagPre)
+        if (text != null && text.type == Node.TEXT_NODE && element.tag != tt.tagPre)
         {
             trimInitialSpace(lexer, element, text);
         }
 
         text = element.last;
 
-        if (text != null && text.type == Node.TextNode)
+        if (text != null && text.type == Node.TEXT_NODE)
         {
             trimTrailingSpace(lexer, element, text);
         }
@@ -864,7 +870,7 @@ public class Node
 
     public boolean isElement()
     {
-        return (this.type == StartTag || this.type == StartEndTag ? true : false);
+        return (this.type == START_TAG || this.type == START_END_TAG ? true : false);
     }
 
     /**
@@ -922,7 +928,7 @@ public class Node
         lexer.report.warning(lexer, node, tmp, Report.OBSOLETE_ELEMENT);
         node.was = node.tag;
         node.tag = tag;
-        node.type = StartTag;
+        node.type = START_TAG;
         node.implicit = true;
         node.element = tag.name;
     }
@@ -962,13 +968,14 @@ public class Node
 
     public static boolean insertMisc(Node element, Node node)
     {
-        if (node.type == CommentTag
-            || node.type == ProcInsTag
-            || node.type == CDATATag
-            || node.type == SectionTag
-            || node.type == AspTag
-            || node.type == JsteTag
-            || node.type == PhpTag)
+        if (node.type == COMMENT_TAG
+            || node.type == PROC_INS_TAG
+            || node.type == CDATA_TAG
+            || node.type == SECTION_TAG
+            || node.type == ASP_TAG
+            || node.type == JSTE_TAG
+            || node.type == PHP_TAG
+            || node.type == XML_DECL)
         {
             insertNodeAtEnd(element, node);
             return true;
@@ -1004,7 +1011,9 @@ public class Node
         Node node;
 
         for (node = this.content; node != null && node.tag != tt.tagHtml; node = node.next)
-            ;
+        {
+            //
+        }
 
         return node;
     }
@@ -1018,7 +1027,9 @@ public class Node
         if (node != null)
         {
             for (node = node.content; node != null && node.tag != tt.tagHead; node = node.next)
-                ;
+            {
+                //
+            }
         }
 
         return node;
@@ -1109,7 +1120,7 @@ public class Node
         while (n != null)
         {
             s += "[Node type=";
-            s += nodeTypeString[n.type];
+            s += NODETYPE_STRING[n.type];
             s += ",element=";
             if (n.element != null)
             {
@@ -1119,7 +1130,7 @@ public class Node
             {
                 s += "null";
             }
-            if (n.type == TextNode || n.type == CommentTag || n.type == ProcInsTag)
+            if (n.type == TEXT_NODE || n.type == COMMENT_TAG || n.type == PROC_INS_TAG)
             {
                 s += ",text=";
                 if (n.textarray != null && n.start <= n.end)
@@ -1158,26 +1169,26 @@ public class Node
         {
             switch (this.type)
             {
-                case RootNode :
+                case ROOT_NODE :
                     adapter = new DOMDocumentImpl(this);
                     break;
-                case StartTag :
-                case StartEndTag :
+                case START_TAG :
+                case START_END_TAG :
                     adapter = new DOMElementImpl(this);
                     break;
-                case DocTypeTag :
+                case DOCTYPE_TAG :
                     adapter = new DOMDocumentTypeImpl(this);
                     break;
-                case CommentTag :
+                case COMMENT_TAG :
                     adapter = new DOMCommentImpl(this);
                     break;
-                case TextNode :
+                case TEXT_NODE :
                     adapter = new DOMTextImpl(this);
                     break;
-                case CDATATag :
+                case CDATA_TAG :
                     adapter = new DOMCDATASectionImpl(this);
                     break;
-                case ProcInsTag :
+                case PROC_INS_TAG :
                     adapter = new DOMProcessingInstructionImpl(this);
                     break;
                 default :

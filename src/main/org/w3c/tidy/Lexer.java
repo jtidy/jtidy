@@ -156,6 +156,8 @@ public class Lexer
 
     private static final short LEX_PHP = 12;
 
+    private static final short LEX_XMLDECL = 13;
+
     /**
      * used to classify chars for lexical purposes.
      */
@@ -620,6 +622,12 @@ public class Lexer
         }
 
         str = getString(this.lexbuf, start, this.lexsize - start);
+
+        if ("&apos".equals(str) && !configuration.xmlOut && !this.isvoyager && !configuration.xHTML)
+        {
+            report.entityError(this, Report.APOS_UNDEFINED, str, 39);
+        }
+
         ch = EntityTable.getDefaultEntityTable().entityCode(str);
 
         // deal with unrecognized entities
@@ -1010,7 +1018,7 @@ public class Lexer
         }
 
         Node newdoctype = newNode();
-        newdoctype.setType(Node.DocTypeTag);
+        newdoctype.setType(Node.DOCTYPE_TAG);
         newdoctype.next = html;
         newdoctype.parent = root;
         newdoctype.prev = null;
@@ -1387,63 +1395,67 @@ public class Lexer
      * ensure XML document starts with <code>&lt;?XML version="1.0"?&gt;</code>. Add encoding attribute if not using
      * ASCII or UTF-8.
      */
-    public boolean fixXMLPI(Node root)
+    public boolean fixXmlDecl(Node root)
     {
         Node xml;
-        int s;
+        AttVal version;
+        AttVal encoding;
 
-        if (root.content != null && root.content.type == Node.ProcInsTag)
+        if (root.content != null && root.content.type == Node.XML_DECL)
         {
-            s = root.content.start;
+            xml = root.content;
+        }
+        else
+        {
+            xml = newNode(Node.XML_DECL, this.lexbuf, 0, 0);
+            xml.next = root.content;
 
-            if (this.lexbuf[s] == (byte) 'x' && this.lexbuf[s + 1] == (byte) 'm' && this.lexbuf[s + 2] == (byte) 'l')
+            if (root.content != null)
             {
-                return true;
+                root.content.prev = xml;
+                xml.next = root.content;
+            }
+
+            root.content = xml;
+        }
+
+        version = xml.getAttrByName("version");
+        encoding = xml.getAttrByName("encoding");
+
+        // We need to insert a check if declared encoding and output encoding mismatch
+        // and fix the Xml declaration accordingly!!!
+        if (encoding == null && this.configuration.charEncoding != Configuration.UTF8)
+        {
+            if (this.configuration.charEncoding == Configuration.LATIN1)
+            {
+                xml.addAttribute("encoding", "iso-8859-1");
+            }
+            if (this.configuration.charEncoding == Configuration.ISO2022)
+            {
+                xml.addAttribute("encoding", "iso-2022");
             }
         }
 
-        xml = newNode(Node.ProcInsTag, this.lexbuf, 0, 0);
-        xml.next = root.content;
-
-        if (root.content != null)
+        if (version == null)
         {
-            root.content.prev = xml;
-            xml.next = root.content;
+            xml.addAttribute("version", "1.0");
         }
 
-        root.content = xml;
-
-        this.txtstart = this.lexsize;
-        this.txtend = this.lexsize;
-        addStringLiteral("xml version=\"1.0\"");
-        if (this.configuration.charEncoding == Configuration.LATIN1)
-        {
-            addStringLiteral(" encoding=\"iso-8859-1\"");
-        }
-        else if (this.configuration.charEncoding == Configuration.ISO2022)
-        {
-            addStringLiteral(" encoding=\"iso-2022\"");
-        }
-
-        this.txtend = this.lexsize;
-
-        xml.start = this.txtstart;
-        xml.end = this.txtend;
-        return false;
+        return true;
     }
 
     public Node inferredTag(String name)
     {
         Node node;
 
-        node = newNode(Node.StartTag, this.lexbuf, this.txtstart, this.txtend, name);
+        node = newNode(Node.START_TAG, this.lexbuf, this.txtstart, this.txtend, name);
         node.implicit = true;
         return node;
     }
 
     public static boolean expectsContent(Node node)
     {
-        if (node.type != Node.StartTag)
+        if (node.type != Node.START_TAG)
         {
             return false;
         }
@@ -1574,7 +1586,7 @@ public class Lexer
 
         if (this.txtend > this.txtstart)
         {
-            this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
+            this.token = newNode(Node.TEXT_NODE, this.lexbuf, this.txtstart, this.txtend);
             return this.token;
         }
 
@@ -1600,12 +1612,12 @@ public class Lexer
         int badcomment = 0;
         MutableBoolean isempty = new MutableBoolean();
         boolean inDTDSubset = false;
-        AttVal attributes;
+        AttVal attributes = null;
 
         if (this.pushed)
         {
             // duplicate inlines in preference to pushed text nodes when appropriate
-            if (this.token.type != Node.TextNode || (this.insert == -1 && this.inode == null))
+            if (this.token.type != Node.TEXT_NODE || (this.insert == -1 && this.inode == null))
             {
                 this.pushed = false;
                 return this.token;
@@ -1754,7 +1766,7 @@ public class Lexer
                                     this.txtend = this.lexsize;
                                 }
 
-                                this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
+                                this.token = newNode(Node.TEXT_NODE, this.lexbuf, this.txtstart, this.txtend);
                                 return this.token;
                             }
 
@@ -1793,7 +1805,7 @@ public class Lexer
                                 // if some text before < return it now
                                 if (this.txtend > this.txtstart)
                                 {
-                                    this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
+                                    this.token = newNode(Node.TEXT_NODE, this.lexbuf, this.txtstart, this.txtend);
                                     return this.token;
                                 }
 
@@ -1854,7 +1866,7 @@ public class Lexer
                             // if some text before < return it now
                             if (this.txtend > this.txtstart)
                             {
-                                this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
+                                this.token = newNode(Node.TEXT_NODE, this.lexbuf, this.txtstart, this.txtend);
                                 return this.token;
                             }
 
@@ -1871,7 +1883,7 @@ public class Lexer
                             // if some text before < return it now
                             if (this.txtend > this.txtstart)
                             {
-                                this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
+                                this.token = newNode(Node.TEXT_NODE, this.lexbuf, this.txtstart, this.txtend);
                                 return this.token;
                             }
 
@@ -1911,7 +1923,7 @@ public class Lexer
                         // if some text before < return it now
                         if (this.txtend > this.txtstart)
                         {
-                            this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
+                            this.token = newNode(Node.TEXT_NODE, this.lexbuf, this.txtstart, this.txtend);
                             return this.token;
                         }
 
@@ -1929,7 +1941,7 @@ public class Lexer
                         // if some text before < return it now
                         if (this.txtend > this.txtstart)
                         {
-                            this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
+                            this.token = newNode(Node.TEXT_NODE, this.lexbuf, this.txtstart, this.txtend);
                             return this.token;
                         }
 
@@ -1947,7 +1959,7 @@ public class Lexer
                         // if some text before < return it now
                         if (this.txtend > this.txtstart)
                         {
-                            this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
+                            this.token = newNode(Node.TEXT_NODE, this.lexbuf, this.txtstart, this.txtend);
                             return this.token;
                         }
 
@@ -1966,7 +1978,7 @@ public class Lexer
                         // if some text before < return it now
                         if (this.txtend > this.txtstart)
                         {
-                            this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
+                            this.token = newNode(Node.TEXT_NODE, this.lexbuf, this.txtstart, this.txtend);
                             return this.token;
                         }
 
@@ -1983,7 +1995,7 @@ public class Lexer
                     this.txtstart = this.lexsize - 1;
                     this.in.curcol += 2;
                     c = parseTagName();
-                    this.token = newNode(Node.EndTag, // create endtag token
+                    this.token = newNode(Node.END_TAG, // create endtag token
                         this.lexbuf, this.txtstart, this.txtend, getString(this.lexbuf, this.txtstart, this.txtend
                             - this.txtstart));
                     this.lexsize = this.txtstart;
@@ -2017,7 +2029,7 @@ public class Lexer
                     isempty.setValue(false);
                     attributes = null;
                     this.token = newNode(
-                        (isempty.getValue() ? Node.StartEndTag : Node.StartTag),
+                        (isempty.getValue() ? Node.START_END_TAG : Node.START_TAG),
                         this.lexbuf,
                         this.txtstart,
                         this.txtend,
@@ -2036,7 +2048,7 @@ public class Lexer
 
                     if (isempty.getValue())
                     {
-                        this.token.type = Node.StartEndTag;
+                        this.token.type = Node.START_END_TAG;
                     }
 
                     this.token.attributes = attributes;
@@ -2146,7 +2158,7 @@ public class Lexer
                             this.lexbuf[this.lexsize] = (byte) '\0';
                             this.state = LEX_CONTENT;
                             this.waswhite = false;
-                            this.token = newNode(Node.CommentTag, this.lexbuf, this.txtstart, this.txtend);
+                            this.token = newNode(Node.COMMENT_TAG, this.lexbuf, this.txtstart, this.txtend);
 
                             // now look for a line break
 
@@ -2238,7 +2250,7 @@ public class Lexer
                     this.lexbuf[this.lexsize] = (byte) '\0';
                     this.state = LEX_CONTENT;
                     this.waswhite = false;
-                    this.token = newNode(Node.DocTypeTag, this.lexbuf, this.txtstart, this.txtend);
+                    this.token = newNode(Node.DOCTYPE_TAG, this.lexbuf, this.txtstart, this.txtend);
                     // make a note of the version named by the doctype
                     this.doctype = findGivenVersion(this.token);
                     return this.token;
@@ -2252,6 +2264,16 @@ public class Lexer
                         if ((getString(this.lexbuf, this.txtstart, 3)).equals("php"))
                         {
                             this.state = LEX_PHP;
+                            continue;
+                        }
+                    }
+
+                    if (this.lexsize - this.txtstart == 3)
+                    {
+                        if ((getString(this.lexbuf, this.txtstart, 3)).equals("xml"))
+                        {
+                            this.state = LEX_XMLDECL;
+                            attributes = null;
                             continue;
                         }
                     }
@@ -2286,7 +2308,7 @@ public class Lexer
                     this.lexbuf[this.lexsize] = (byte) '\0';
                     this.state = LEX_CONTENT;
                     this.waswhite = false;
-                    this.token = newNode(Node.ProcInsTag, this.lexbuf, this.txtstart, this.txtend);
+                    this.token = newNode(Node.PROC_INS_TAG, this.lexbuf, this.txtstart, this.txtend);
                     return this.token;
 
                 case LEX_ASP :
@@ -2310,7 +2332,7 @@ public class Lexer
                     this.lexbuf[this.lexsize] = (byte) '\0';
                     this.state = LEX_CONTENT;
                     this.waswhite = false;
-                    this.token = newNode(Node.AspTag, this.lexbuf, this.txtstart, this.txtend);
+                    this.token = newNode(Node.ASP_TAG, this.lexbuf, this.txtstart, this.txtend);
                     return this.token;
 
                 case LEX_JSTE :
@@ -2334,7 +2356,7 @@ public class Lexer
                     this.lexbuf[this.lexsize] = (byte) '\0';
                     this.state = LEX_CONTENT;
                     this.waswhite = false;
-                    this.token = newNode(Node.JsteTag, this.lexbuf, this.txtstart, this.txtend);
+                    this.token = newNode(Node.JSTE_TAG, this.lexbuf, this.txtstart, this.txtend);
                     return this.token;
 
                 case LEX_PHP :
@@ -2358,7 +2380,54 @@ public class Lexer
                     this.lexbuf[this.lexsize] = (byte) '\0';
                     this.state = LEX_CONTENT;
                     this.waswhite = false;
-                    this.token = newNode(Node.PhpTag, this.lexbuf, this.txtstart, this.txtend);
+                    this.token = newNode(Node.PHP_TAG, this.lexbuf, this.txtstart, this.txtend);
+                    return this.token;
+
+                case LEX_XMLDECL : // seen "<?xml" so look for "?>"
+
+                    if (isWhite((char) c) && c != '?')
+                    {
+                        continue;
+                    }
+
+                    // get pseudo-attribute
+                    if (c != '?')
+                    {
+                        String name;
+                        MutableObject asp = new MutableObject();
+                        MutableObject php = new MutableObject();
+                        AttVal av = new AttVal();
+                        MutableInteger pdelim = new MutableInteger();
+                        isempty.setValue(false);
+
+                        this.in.ungetChar(c);
+
+                        name = this.parseAttribute(isempty, asp, php);
+                        av.attribute = name;
+
+                        av.value = this.parseValue(name, true, isempty, pdelim);
+                        av.delim = pdelim.getValue();
+                        av.next = attributes;
+
+                        attributes = av;
+                        continue;
+                    }
+
+                    // now look for '>'
+                    c = this.in.readChar();
+
+                    if (c != '>')
+                    {
+                        this.in.ungetChar(c);
+                        continue;
+                    }
+                    this.lexsize -= 1;
+                    this.txtend = this.txtstart;
+                    this.lexbuf[this.txtend] = '\0';
+                    this.state = LEX_CONTENT;
+                    this.waswhite = false;
+                    this.token = newNode(Node.XML_DECL, this.lexbuf, this.txtstart, this.txtend);
+                    this.token.attributes = attributes;
                     return this.token;
 
                 case LEX_SECTION :
@@ -2393,7 +2462,7 @@ public class Lexer
                     this.lexbuf[this.lexsize] = (byte) '\0';
                     this.state = LEX_CONTENT;
                     this.waswhite = false;
-                    this.token = newNode(Node.SectionTag, this.lexbuf, this.txtstart, this.txtend);
+                    this.token = newNode(Node.SECTION_TAG, this.lexbuf, this.txtstart, this.txtend);
                     return this.token;
 
                 case LEX_CDATA :
@@ -2426,7 +2495,7 @@ public class Lexer
                     this.lexbuf[this.lexsize] = (byte) '\0';
                     this.state = LEX_CONTENT;
                     this.waswhite = false;
-                    this.token = newNode(Node.CDATATag, this.lexbuf, this.txtstart, this.txtend);
+                    this.token = newNode(Node.CDATA_TAG, this.lexbuf, this.txtstart, this.txtend);
                     return this.token;
             }
         }
@@ -2445,7 +2514,7 @@ public class Lexer
                     this.txtend = this.lexsize;
                 }
 
-                this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
+                this.token = newNode(Node.TEXT_NODE, this.lexbuf, this.txtstart, this.txtend);
                 return this.token;
             }
         }
@@ -2460,7 +2529,7 @@ public class Lexer
             this.lexbuf[this.lexsize] = (byte) '\0';
             this.state = LEX_CONTENT;
             this.waswhite = false;
-            this.token = newNode(Node.CommentTag, this.lexbuf, this.txtstart, this.txtend);
+            this.token = newNode(Node.COMMENT_TAG, this.lexbuf, this.txtstart, this.txtend);
             return this.token;
         }
 
@@ -2512,7 +2581,7 @@ public class Lexer
 
         if (this.txtend > this.txtstart)
         {
-            asp = newNode(Node.AspTag, this.lexbuf, this.txtstart, this.txtend);
+            asp = newNode(Node.ASP_TAG, this.lexbuf, this.txtstart, this.txtend);
         }
 
         this.txtstart = this.txtend;
@@ -2559,7 +2628,7 @@ public class Lexer
 
         if (this.txtend > this.txtstart)
         {
-            php = newNode(Node.PhpTag, this.lexbuf, this.txtstart, this.txtend);
+            php = newNode(Node.PHP_TAG, this.lexbuf, this.txtstart, this.txtend);
         }
 
         this.txtstart = this.txtend;
@@ -2989,9 +3058,18 @@ public class Lexer
 
             if (c == '&')
             {
-                addCharToLexer(c);
-                parseEntity((short) 0);
-                continue;
+                // no entities in ID attributes
+                if ("id".equalsIgnoreCase(name))
+                {
+                    report.attrError(this, null, null, Report.ENTITY_IN_ID);
+                    continue;
+                }
+                else
+                {
+                    addCharToLexer(c);
+                    parseEntity((short) 0);
+                    continue;
+                }
             }
 
             // kludge for JavaScript attribute values with line continuations in string literals
@@ -3341,7 +3419,7 @@ public class Lexer
             this.columns = this.in.curcol;
         }
 
-        node = newNode(Node.StartTag, this.lexbuf, this.txtstart, this.txtend);
+        node = newNode(Node.START_TAG, this.lexbuf, this.txtstart, this.txtend);
         // GLP: Bugfix 126261. Remove when this change
         //       is fixed in istack.c in the original Tidy
         node.implicit = true;
@@ -3426,7 +3504,7 @@ public class Lexer
 
     public boolean canPrune(Node element)
     {
-        if (element.type == Node.TextNode)
+        if (element.type == Node.TEXT_NODE)
         {
             return true;
         }

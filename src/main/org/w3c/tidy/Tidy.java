@@ -988,6 +988,44 @@ public class Tidy implements Serializable
     }
 
     /**
+     * indent-cdata - indent CDATA sections.
+     * @param indentCdata true = indent CDATA sections
+     * @see Configuration#indentCdata
+     */
+    public void setindentCdata(boolean indentCdata)
+    {
+        configuration.indentCdata = indentCdata;
+    }
+
+    /**
+     * indent-cdata - indent CDATA sections.
+     * @return true if tidy will indent CDATA sections
+     */
+    public boolean getindentCdata()
+    {
+        return configuration.indentCdata;
+    }
+
+    /**
+     * force-output - output document even if errors were found.
+     * @param forceOutput true = output document even if errors were found
+     * @see Configuration#forceOutput
+     */
+    public void setforceOutput(boolean forceOutput)
+    {
+        configuration.forceOutput = forceOutput;
+    }
+
+    /**
+     * force-output - output document even if errors were found.
+     * @return true if tidy will output document even if errors were found
+     */
+    public boolean getforceOutput()
+    {
+        return configuration.forceOutput;
+    }
+
+    /**
      * replace-color - replace hex color attribute values with names.
      * @param replaceColor true = replace hex color attribute values with names
      * @see Configuration#lowerLiterals
@@ -1204,7 +1242,7 @@ public class Tidy implements Serializable
                 // ensure presence of initial <?XML version="1.0"?>
                 if (configuration.xmlOut && configuration.xmlPi)
                 {
-                    lexer.fixXMLPI(document);
+                    lexer.fixXmlDecl(document);
                 }
 
                 if (!configuration.quiet && document.content != null)
@@ -1366,8 +1404,8 @@ public class Tidy implements Serializable
      */
     public static org.w3c.dom.Document createEmptyDocument()
     {
-        Node document = new Node(Node.RootNode, new byte[0], 0, 0);
-        Node node = new Node(Node.StartTag, new byte[0], 0, 0, "html", new TagTable());
+        Node document = new Node(Node.ROOT_NODE, new byte[0], 0, 0);
+        Node node = new Node(Node.START_TAG, new byte[0], 0, 0, "html", new TagTable());
         if (document != null && node != null)
         {
             Node.insertNodeAtStart(document, node);

@@ -152,12 +152,7 @@ public class TagTable
             ParserImpl.INLINE,
             null),
         new Dict("li", Dict.VERS_ALL, (Dict.CM_LIST | Dict.CM_OPT | Dict.CM_NO_INDENT), ParserImpl.BLOCK, null),
-        new Dict(
-            "dt",
-            Dict.VERS_ALL,
-            (Dict.CM_DEFLIST | Dict.CM_OPT | Dict.CM_NO_INDENT),
-            ParserImpl.INLINE,
-            null),
+        new Dict("dt", Dict.VERS_ALL, (Dict.CM_DEFLIST | Dict.CM_OPT | Dict.CM_NO_INDENT), ParserImpl.INLINE, null),
         new Dict("dd", Dict.VERS_ALL, (Dict.CM_DEFLIST | Dict.CM_OPT | Dict.CM_NO_INDENT), ParserImpl.BLOCK, null),
         new Dict("caption", Dict.VERS_FROM32, Dict.CM_TABLE, ParserImpl.INLINE, TagCheckImpl.CAPTION),
         new Dict("colgroup", Dict.VERS_HTML40, (Dict.CM_TABLE | Dict.CM_OPT), ParserImpl.COLGROUP, null),
@@ -425,6 +420,8 @@ public class TagTable
 
     public Dict tagInput;
 
+    public Dict tagQ;
+
     private Configuration configuration;
 
     private Hashtable tagHashtable = new Hashtable();
@@ -501,6 +498,7 @@ public class TagTable
         tagDiv = lookup("div");
         tagSpan = lookup("span");
         tagInput = lookup("input");
+        tagQ = lookup("q");
     }
 
     public void setConfiguration(Configuration configuration)

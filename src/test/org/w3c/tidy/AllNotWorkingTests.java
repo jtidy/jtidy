@@ -70,7 +70,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyOutputBugsTest("test433672"));
         suite.addTest(new TidyOutputBugsTest("test435903"));
         suite.addTest(new TidyOutputBugsTest("test435909"));
-        suite.addTest(new TidyOutputBugsTest("test435919"));
         suite.addTest(new TidyOutputBugsTest("test435920"));
         suite.addTest(new TidyOutputBugsTest("test435923"));
         suite.addTest(new TidyOutputBugsTest("test437468"));
@@ -137,7 +136,7 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyWarningBugsTest("test438956"));
         suite.addTest(new TidyWarningBugsTest("test446019"));
         suite.addTest(new TidyWarningBugsTest("test516370"));
-        
+
         suite.addTest(new TidyWarningBugsTest("test431964"));
         suite.addTest(new TidyWarningBugsTest("test501669"));
         suite.addTest(new TidyWarningBugsTest("test525081"));
@@ -146,6 +145,11 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyWordBugsTest("test444394"));
         suite.addTest(new TidyWordBugsTest("test463066"));
         suite.addTest(new TidyWordBugsTest("test634889"));
+
+        // previously working
+        suite.addTest(new TidyOutputBugsTest("test427835"));
+        suite.addTest(new TidyOutputBugsTest("test431736"));
+        suite.addTest(new TidyOutputBugsTest("test531964"));
 
         return suite;
     }

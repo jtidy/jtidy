@@ -426,6 +426,11 @@ public final class Report
     public static final short ANCHOR_NOT_UNIQUE = 66;
 
     /**
+     * attribute: entity in id.
+     */
+    public static final short ENTITY_IN_ID = 67;
+
+    /**
      * attribute: joining attribute.
      */
     public static final short JOINING_ATTRIBUTE = 68;
@@ -443,7 +448,7 @@ public final class Report
     /**
      * attribute: id sintax.
      */
-    public static final short ID_SYNTAX = 71;
+    public static final short XML_ID_SYNTAX = 71;
 
     /**
      * attribute: invalid attribute.
@@ -725,19 +730,19 @@ public final class Report
     {
         if (tag != null)
         {
-            if (tag.type == Node.StartTag)
+            if (tag.type == Node.START_TAG)
             {
                 return "<" + tag.element + ">";
             }
-            else if (tag.type == Node.EndTag)
+            else if (tag.type == Node.END_TAG)
             {
                 return "</" + tag.element + ">";
             }
-            else if (tag.type == Node.DocTypeTag)
+            else if (tag.type == Node.DOCTYPE_TAG)
             {
                 return "<!DOCTYPE>";
             }
-            else if (tag.type == Node.TextNode)
+            else if (tag.type == Node.TEXT_NODE)
             {
                 return "plain text";
             }
@@ -858,6 +863,10 @@ public final class Report
             else if (code == UNESCAPED_AMPERSAND)
             {
                 printMessage(lexer, "unescaped_ampersand", null, TidyMessage.Level.WARNING);
+            }
+            else if (code == APOS_UNDEFINED)
+            {
+                printMessage(lexer, "apos_undefined", null, TidyMessage.Level.WARNING);
             }
         }
     }
@@ -997,6 +1006,10 @@ public final class Report
                     TidyMessage.Level.WARNING);
                 break;
 
+            case ENTITY_IN_ID :
+                printMessage(lexer, "entity_in_id", null, TidyMessage.Level.WARNING);
+                break;
+
             case JOINING_ATTRIBUTE :
                 printMessage(
                     lexer,
@@ -1056,7 +1069,11 @@ public final class Report
                 break;
 
             case DISCARDING_UNEXPECTED :
-                printMessage(lexer, "discarding_unexpected", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
+                printMessage(
+                    lexer,
+                    "discarding_unexpected",
+                    new Object[]{getTagName(node)},
+                    (node.tag == lexer.configuration.tt.tagForm ? TidyMessage.Level.ERROR : TidyMessage.Level.WARNING));
                 break;
 
             case NESTED_EMPHASIS :
@@ -1234,6 +1251,10 @@ public final class Report
                     "unexpected_end_of_file",
                     new Object[]{getTagName(element)},
                     TidyMessage.Level.WARNING);
+                break;
+
+            case NESTED_QUOTATION :
+                printMessage(lexer, "nested_quotation", null, TidyMessage.Level.WARNING);
                 break;
 
             case MISSING_DOCTYPE :

@@ -53,6 +53,10 @@
  */
 package org.w3c.tidy;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+
 /**
  * Input Stream Implementation.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
@@ -60,15 +64,13 @@ package org.w3c.tidy;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-import java.io.IOException;
-import java.io.InputStream;
-
-
 public class StreamInImpl extends StreamIn
 {
 
-    /* Mapping for Windows Western character set (128-159) to Unicode */
-    private static int[] Win2Unicode = {
+    /**
+     * Mapping for Windows Western character set (128-159) to Unicode.
+     */
+    private static final int[] WIN2UNICODE = {
         0x20AC,
         0x0000,
         0x201A,
@@ -102,11 +104,10 @@ public class StreamInImpl extends StreamIn
         0x017E,
         0x0178};
 
-    /*
-     * John Love-Jensen contributed this table for mapping MacRoman character set to Unicode
+    /**
+     * John Love-Jensen contributed this table for mapping MacRoman character set to Unicode.
      */
-
-    private static int[] Mac2Unicode = {
+    private static final int[] MAC2UNICODE = {
         0x0000,
         0x0001,
         0x0002,
@@ -380,7 +381,9 @@ public class StreamInImpl extends StreamIn
         this.endOfStream = false;
     }
 
-    /* read char from stream */
+    /**
+     * @see org.w3c.tidy.StreamIn#readCharFromStream()
+     */
     public int readCharFromStream()
     {
         int n, c, i, count;
@@ -406,7 +409,7 @@ public class StreamInImpl extends StreamIn
 
             if (this.encoding == Configuration.ISO2022)
             {
-                if (c == 0x1b) /* ESC */
+                if (c == 0x1b) // ESC
                 {
                     this.state = FSM_ESC;
                     return c;
@@ -451,6 +454,10 @@ public class StreamInImpl extends StreamIn
                     case FSM_NONASCII :
                         c |= 0x80;
                         break;
+
+                    default :
+                        // 
+                        break;
                 }
 
                 return c;
@@ -461,7 +468,7 @@ public class StreamInImpl extends StreamIn
                 return c;
             }
 
-            /* deal with UTF-8 encoded char */
+            // deal with UTF-8 encoded char
 
             if ((c & 0xE0) == 0xC0) /* 110X XXXX two bytes */
             {
@@ -517,6 +524,9 @@ public class StreamInImpl extends StreamIn
         return n;
     }
 
+    /**
+     * @see org.w3c.tidy.StreamIn#readChar()
+     */
     public int readChar()
     {
         int c;
@@ -605,16 +615,15 @@ public class StreamInImpl extends StreamIn
 
             if (this.encoding == Configuration.MACROMAN)
             {
-                c = Mac2Unicode[c];
+                c = decodeMacRoman(c);
             }
 
-            /* produced e.g. as a side-effect of smart quotes in Word */
-
+            // produced e.g. as a side-effect of smart quotes in Word
             if (127 < c && c < 160)
             {
                 this.lexer.report.encodingError(this.lexer, Report.WINDOWS_CHARS, c);
 
-                c = Win2Unicode[c - 128];
+                c = decodeWin1252(c);
 
                 if (c == 0)
                 {
@@ -629,6 +638,9 @@ public class StreamInImpl extends StreamIn
         return c;
     }
 
+    /**
+     * @see org.w3c.tidy.StreamIn#ungetChar(int)
+     */
     public void ungetChar(int c)
     {
         this.pushed = true;
@@ -642,9 +654,30 @@ public class StreamInImpl extends StreamIn
         this.curcol = this.lastcol;
     }
 
+    /**
+     * @see org.w3c.tidy.StreamIn#isEndOfStream()
+     */
     public boolean isEndOfStream()
     {
         return this.endOfStream;
+    }
+
+    /**
+     * Function for conversion from Windows-1252 to Unicode.
+     * @param c char to decode
+     */
+    private int decodeWin1252(int c)
+    {
+        return WIN2UNICODE[c - 128];
+    }
+
+    /**
+     * Function to convert from MacRoman to Unicode.
+     * @param c char to decode
+     */
+    private int decodeMacRoman(int c)
+    {
+        return MAC2UNICODE[c];
     }
 
 }

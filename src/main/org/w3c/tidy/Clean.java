@@ -469,7 +469,7 @@ public class Clean
             return;
         }
 
-        node = lexer.newNode(Node.StartTag, null, 0, 0, "style");
+        node = lexer.newNode(Node.START_TAG, null, 0, 0, "style");
         node.implicit = true;
 
         /* insert type attribute */
@@ -501,7 +501,7 @@ public class Clean
 
         lexer.txtend = lexer.lexsize;
 
-        Node.insertNodeAtEnd(node, lexer.newNode(Node.TextNode, lexer.lexbuf, lexer.txtstart, lexer.txtend));
+        Node.insertNodeAtEnd(node, lexer.newNode(Node.TEXT_NODE, lexer.lexbuf, lexer.txtstart, lexer.txtend));
 
         // now insert style element into document head doc is root node. search its children for html node the head
         // node should be first child of html node
@@ -1698,7 +1698,7 @@ public class Clean
                 return null;
             }
 
-            if (node.type == Node.SectionTag)
+            if (node.type == Node.SECTION_TAG)
             {
                 if ((Lexer.getString(node.textarray, node.start, 2)).equals("if"))
                 {
@@ -1721,7 +1721,7 @@ public class Clean
     {
         while (node != null)
         {
-            if (node.type == Node.SectionTag)
+            if (node.type == Node.SECTION_TAG)
             {
                 // prune up to matching endif
                 if ((Lexer.getString(node.textarray, node.start, 2)).equals("if")
@@ -1850,7 +1850,7 @@ public class Clean
                 normalizeSpaces(lexer, node.content);
             }
 
-            if (node.type == Node.TextNode)
+            if (node.type == Node.TEXT_NODE)
             {
                 int i;
                 MutableInteger c = new MutableInteger();
@@ -1920,7 +1920,7 @@ public class Clean
                 return false;
             }
 
-            if (node.type != Node.TextNode)
+            if (node.type != Node.TEXT_NODE)
             {
                 return false;
             }
@@ -2014,7 +2014,7 @@ public class Clean
             }
 
             // discard Word's style verbiage
-            if (node.tag == this.tt.tagStyle || node.tag == this.tt.tagMeta || node.type == Node.CommentTag)
+            if (node.tag == this.tt.tagStyle || node.tag == this.tt.tagMeta || node.type == Node.COMMENT_TAG)
             {
                 node = Node.discardElement(node);
                 continue;
@@ -2119,7 +2119,7 @@ public class Clean
             }
 
             // strip out style and class attributes
-            if (node.type == Node.StartTag || node.type == Node.StartEndTag)
+            if (node.type == Node.START_TAG || node.type == Node.START_END_TAG)
             {
                 purgeWord2000Attributes(node);
             }
@@ -2220,7 +2220,7 @@ public class Clean
                     for (child = node.content; child != null; child = child.next)
                     {
                         // bump to body unless content is param
-                        if ((child.type == Node.TextNode && !Node.isBlank(lexer, node)) || child.tag != tt.tagParam)
+                        if ((child.type == Node.TEXT_NODE && !Node.isBlank(lexer, node)) || child.tag != tt.tagParam)
                         {
                             bump = true;
                             break;

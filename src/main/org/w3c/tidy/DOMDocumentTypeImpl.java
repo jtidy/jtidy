@@ -94,7 +94,7 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
     public String getName()
     {
         String value = null;
-        if (adaptee.type == Node.DocTypeTag)
+        if (adaptee.type == Node.DOCTYPE_TAG)
         {
 
             if (adaptee.textarray != null && adaptee.start < adaptee.end)

@@ -80,10 +80,10 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     public String getNodeValue() throws DOMException
     {
         String value = ""; //BAK 10/10/2000 replaced null
-        if (adaptee.type == Node.TextNode
-            || adaptee.type == Node.CDATATag
-            || adaptee.type == Node.CommentTag
-            || adaptee.type == Node.ProcInsTag)
+        if (adaptee.type == Node.TEXT_NODE
+            || adaptee.type == Node.CDATA_TAG
+            || adaptee.type == Node.COMMENT_TAG
+            || adaptee.type == Node.PROC_INS_TAG)
         {
 
             if (adaptee.textarray != null && adaptee.start < adaptee.end)
@@ -99,10 +99,10 @@ public class DOMNodeImpl implements org.w3c.dom.Node
      */
     public void setNodeValue(String nodeValue) throws DOMException
     {
-        if (adaptee.type == Node.TextNode
-            || adaptee.type == Node.CDATATag
-            || adaptee.type == Node.CommentTag
-            || adaptee.type == Node.ProcInsTag)
+        if (adaptee.type == Node.TEXT_NODE
+            || adaptee.type == Node.CDATA_TAG
+            || adaptee.type == Node.COMMENT_TAG
+            || adaptee.type == Node.PROC_INS_TAG)
         {
             byte[] textarray = Lexer.getBytes(nodeValue);
             adaptee.textarray = textarray;
@@ -127,26 +127,26 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         short result = -1;
         switch (adaptee.type)
         {
-            case Node.RootNode :
+            case Node.ROOT_NODE :
                 result = org.w3c.dom.Node.DOCUMENT_NODE;
                 break;
-            case Node.DocTypeTag :
+            case Node.DOCTYPE_TAG :
                 result = org.w3c.dom.Node.DOCUMENT_TYPE_NODE;
                 break;
-            case Node.CommentTag :
+            case Node.COMMENT_TAG :
                 result = org.w3c.dom.Node.COMMENT_NODE;
                 break;
-            case Node.ProcInsTag :
+            case Node.PROC_INS_TAG :
                 result = org.w3c.dom.Node.PROCESSING_INSTRUCTION_NODE;
                 break;
-            case Node.TextNode :
+            case Node.TEXT_NODE :
                 result = org.w3c.dom.Node.TEXT_NODE;
                 break;
-            case Node.CDATATag :
+            case Node.CDATA_TAG :
                 result = org.w3c.dom.Node.CDATA_SECTION_NODE;
                 break;
-            case Node.StartTag :
-            case Node.StartEndTag :
+            case Node.START_TAG :
+            case Node.START_END_TAG :
                 result = org.w3c.dom.Node.ELEMENT_NODE;
                 break;
         }
@@ -252,12 +252,12 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         Node node;
 
         node = this.adaptee;
-        if (node != null && node.type == Node.RootNode)
+        if (node != null && node.type == Node.ROOT_NODE)
         {
             return null;
         }
 
-        for (node = this.adaptee; node != null && node.type != Node.RootNode; node = node.parent)
+        for (node = this.adaptee; node != null && node.type != Node.ROOT_NODE; node = node.parent)
             ;
 
         if (node != null)
@@ -287,20 +287,20 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         }
         DOMNodeImpl newCh = (DOMNodeImpl) newChild;
 
-        if (this.adaptee.type == Node.RootNode)
+        if (this.adaptee.type == Node.ROOT_NODE)
         {
-            if (newCh.adaptee.type != Node.DocTypeTag && newCh.adaptee.type != Node.ProcInsTag)
+            if (newCh.adaptee.type != Node.DOCTYPE_TAG && newCh.adaptee.type != Node.PROC_INS_TAG)
             {
                 throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
             }
         }
-        else if (this.adaptee.type == Node.StartTag)
+        else if (this.adaptee.type == Node.START_TAG)
         {
-            if (newCh.adaptee.type != Node.StartTag
-                && newCh.adaptee.type != Node.StartEndTag
-                && newCh.adaptee.type != Node.CommentTag
-                && newCh.adaptee.type != Node.TextNode
-                && newCh.adaptee.type != Node.CDATATag)
+            if (newCh.adaptee.type != Node.START_TAG
+                && newCh.adaptee.type != Node.START_END_TAG
+                && newCh.adaptee.type != Node.COMMENT_TAG
+                && newCh.adaptee.type != Node.TEXT_NODE
+                && newCh.adaptee.type != Node.CDATA_TAG)
             {
                 throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
             }
@@ -308,9 +308,9 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         if (refChild == null)
         {
             Node.insertNodeAtEnd(this.adaptee, newCh.adaptee);
-            if (this.adaptee.type == Node.StartEndTag)
+            if (this.adaptee.type == Node.START_END_TAG)
             {
-                this.adaptee.setType(Node.StartTag);
+                this.adaptee.setType(Node.START_TAG);
             }
         }
         else
@@ -350,20 +350,20 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         }
         DOMNodeImpl newCh = (DOMNodeImpl) newChild;
 
-        if (this.adaptee.type == Node.RootNode)
+        if (this.adaptee.type == Node.ROOT_NODE)
         {
-            if (newCh.adaptee.type != Node.DocTypeTag && newCh.adaptee.type != Node.ProcInsTag)
+            if (newCh.adaptee.type != Node.DOCTYPE_TAG && newCh.adaptee.type != Node.PROC_INS_TAG)
             {
                 throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
             }
         }
-        else if (this.adaptee.type == Node.StartTag)
+        else if (this.adaptee.type == Node.START_TAG)
         {
-            if (newCh.adaptee.type != Node.StartTag
-                && newCh.adaptee.type != Node.StartEndTag
-                && newCh.adaptee.type != Node.CommentTag
-                && newCh.adaptee.type != Node.TextNode
-                && newCh.adaptee.type != Node.CDATATag)
+            if (newCh.adaptee.type != Node.START_TAG
+                && newCh.adaptee.type != Node.START_END_TAG
+                && newCh.adaptee.type != Node.COMMENT_TAG
+                && newCh.adaptee.type != Node.TEXT_NODE
+                && newCh.adaptee.type != Node.CDATA_TAG)
             {
                 throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
             }
@@ -448,9 +448,9 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         }
         Node.discardElement(ref);
 
-        if (this.adaptee.content == null && this.adaptee.type == Node.StartTag)
+        if (this.adaptee.content == null && this.adaptee.type == Node.START_TAG)
         {
-            this.adaptee.setType(Node.StartEndTag);
+            this.adaptee.setType(Node.START_END_TAG);
         }
 
         return oldChild;
@@ -473,29 +473,29 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         }
         DOMNodeImpl newCh = (DOMNodeImpl) newChild;
 
-        if (this.adaptee.type == Node.RootNode)
+        if (this.adaptee.type == Node.ROOT_NODE)
         {
-            if (newCh.adaptee.type != Node.DocTypeTag && newCh.adaptee.type != Node.ProcInsTag)
+            if (newCh.adaptee.type != Node.DOCTYPE_TAG && newCh.adaptee.type != Node.PROC_INS_TAG)
             {
                 throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
             }
         }
-        else if (this.adaptee.type == Node.StartTag)
+        else if (this.adaptee.type == Node.START_TAG)
         {
-            if (newCh.adaptee.type != Node.StartTag
-                && newCh.adaptee.type != Node.StartEndTag
-                && newCh.adaptee.type != Node.CommentTag
-                && newCh.adaptee.type != Node.TextNode
-                && newCh.adaptee.type != Node.CDATATag)
+            if (newCh.adaptee.type != Node.START_TAG
+                && newCh.adaptee.type != Node.START_END_TAG
+                && newCh.adaptee.type != Node.COMMENT_TAG
+                && newCh.adaptee.type != Node.TEXT_NODE
+                && newCh.adaptee.type != Node.CDATA_TAG)
             {
                 throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
             }
         }
         Node.insertNodeAtEnd(this.adaptee, newCh.adaptee);
 
-        if (this.adaptee.type == Node.StartEndTag)
+        if (this.adaptee.type == Node.START_END_TAG)
         {
-            this.adaptee.setType(Node.StartTag);
+            this.adaptee.setType(Node.START_TAG);
         }
 
         return newChild;
