@@ -307,8 +307,7 @@ public class StreamInImpl implements StreamIn
             {
                 break;
             }
-
-            if (0 < c && c < 32)
+            else if (0 < c && c < 32)
             {
                 continue; // discard control char
             }
