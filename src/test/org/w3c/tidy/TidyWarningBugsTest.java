@@ -470,6 +470,18 @@ public class TidyWarningBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [553414] : XHTML strict accept '_target' attribute.
+     * @throws Exception any exception generated during the test
+     */
+    public void test553414() throws Exception
+    {
+        executeTidyTest("553414.html");
+        assertLogContains("given is \"-//W3C//DTD XHTML 1.0 Strict//EN\"");
+        assertLogContains("looks like XHTML 1.0 Transitional");
+        assertWarnings(1);
+    }
+
+    /**
      * test for Tidy [553468] : Doesn't warn about &lt;u&gt; in XHTML strict.
      * @throws Exception any exception generated during the test
      */

@@ -6,8 +6,8 @@
 <title>[ #480843 ] Proposed change to FixID()</title>
 </head>
 <body>
-<h2><a name="intro" id="intro">Introduction</a></h2>
-<h2 id="newintro"><a name="newintro" id="newintro">New
+<h2><a id="intro" name="intro">Introduction</a></h2>
+<h2 id="newintro"><a name="newintro">New
 Introduction</a></h2>
 </body>
 </html>

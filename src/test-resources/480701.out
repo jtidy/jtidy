@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!-- [ #480701 ] -xml conflicts with -output-xhtml -->
 <test>
-<image rdf:resource="http://www.atmedia.net/" />
+  <image rdf:resource="http://www.atmedia.net/" />
 </test>
 <!--
 Expected output:
@@ -12,3 +12,4 @@ or
 Actual output:
 <image rdf:resource="http://www.atmedia.net/"/></image>
 -->
+

@@ -137,10 +137,37 @@ public class TidyEncodingBugsTest extends TidyTestCase
                 int start = j > 30 ? j - 30 : 0;
                 StringBuffer tidyBuf = new StringBuffer();
                 StringBuffer expectedBuf = new StringBuffer();
+
                 for (; start <= j; start++)
                 {
-                    tidyBuf.append((char) tidyBytes[start]);
-                    expectedBuf.append((char) expectedBytes[start]);
+
+                    char tbc = (char) tidyBytes[start];
+                    switch (tbc)
+                    {
+                        case '\n' :
+                            tidyBuf.append("\\n");
+                            break;
+                        case '\r' :
+                            tidyBuf.append("\\r");
+                            break;
+                        default :
+                            tidyBuf.append((char) tbc);
+                            break;
+                    }
+
+                    char ebc = (char) expectedBytes[start];
+                    switch (ebc)
+                    {
+                        case '\n' :
+                            expectedBuf.append("\\n");
+                            break;
+                        case '\r' :
+                            expectedBuf.append("\\r");
+                            break;
+                        default :
+                            expectedBuf.append((char) ebc);
+                            break;
+                    }
                 }
                 assertEquals("Result differs at byte " + j + ".", expectedBuf.toString(), tidyBuf.toString());
 

@@ -3,7 +3,7 @@
 <head>
 <title>#598860 script parsing fails with quote chars</title>
 
-<script language='javascript' type="text/javascript">
+<script type="text/javascript" language='javascript'>
 // The comment's the problem
 </script>
 </head>

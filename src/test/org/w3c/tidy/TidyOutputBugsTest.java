@@ -1073,6 +1073,16 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [994841] : Whitespace is removed from value attributes.
+     * @throws Exception any exception generated during the test
+     */
+    public void test994841() throws Exception
+    {
+        executeTidyTest("994841.html");
+        assertNoWarnings();
+    }
+
+    /**
      * test for Tidy [996484] : Tidy add spurious space when indenting long URIs.
      * @throws Exception any exception generated during the test
      */

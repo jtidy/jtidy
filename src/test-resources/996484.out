@@ -6,15 +6,15 @@
 properly</title>
 </head>
 <body>
-<p>some text (<a href=
-"http://www.w3.org/TR/2002/REC-xhtml1-20020801/#a_dtd_XHTML-1.0-Strict">a
+<p>some text (<a
+href="http://www.w3.org/TR/2002/REC-xhtml1-20020801/#a_dtd_XHTML-1.0-Strict">a
 long URI</a>).</p>
-<p>xx<span id="qqqqqqqqqqqq1" title=
-"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">yy</span></p>
-<p>xx<span id="qqqqqqqqqqqq2" title=
-"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"><cite>yy</cite></span></p>
-<p><a href=
-"mailto:xxxxxxxxxxxxxxxx@yyyyyyyyyyyyyyyyyyyyy">zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz</a><br />
+<p>xx<span id="qqqqqqqqqqqq1"
+title="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">yy</span></p>
+<p>xx<span id="qqqqqqqqqqqq2"
+title="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"><cite>yy</cite></span></p>
+<p><a
+href="mailto:xxxxxxxxxxxxxxxx@yyyyyyyyyyyyyyyyyyyyy">zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz</a><br />
 xx</p>
 </body>
 </html>

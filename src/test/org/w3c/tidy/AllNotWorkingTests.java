@@ -126,7 +126,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyOutputBugsTest("test467863"));
         suite.addTest(new TidyOutputBugsTest("test467865"));
         suite.addTest(new TidyOutputBugsTest("test470663"));
-        suite.addTest(new TidyOutputBugsTest("test480701"));
         suite.addTest(new TidyOutputBugsTest("test480843"));
         suite.addTest(new TidyOutputBugsTest("test503436"));
         suite.addTest(new TidyOutputBugsTest("test504206"));
@@ -163,7 +162,9 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyOutputBugsTest("test708322"));
         suite.addTest(new TidyOutputBugsTest("test735603"));
         suite.addTest(new TidyOutputBugsTest("test765852"));
+        suite.addTest(new TidyOutputBugsTest("test994841"));
 
+        suite.addTest(new TidyWarningBugsTest("test431964"));
         suite.addTest(new TidyWarningBugsTest("test433607"));
         suite.addTest(new TidyWarningBugsTest("test433670"));
         suite.addTest(new TidyWarningBugsTest("test434047"));
@@ -171,8 +172,7 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyWarningBugsTest("test446019"));
         suite.addTest(new TidyWarningBugsTest("test516370"));
         suite.addTest(new TidyWarningBugsTest("test552861"));
-
-        suite.addTest(new TidyWarningBugsTest("test431964"));
+        suite.addTest(new TidyWarningBugsTest("test553414"));
 
         suite.addTest(new TidyWordBugsTest("test431721"));
         suite.addTest(new TidyWordBugsTest("test444394"));
@@ -180,9 +180,7 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyWordBugsTest("test634889"));
 
         // previously working
-        suite.addTest(new TidyOutputBugsTest("test431736"));
         suite.addTest(new TidyOutputBugsTest("test531964"));
-        suite.addTest(new TidyOutputBugsTest("test996484"));
 
         return suite;
     }

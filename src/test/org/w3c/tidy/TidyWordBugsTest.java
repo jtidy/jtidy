@@ -1,4 +1,4 @@
-/**
+/*
  *  Java HTML Tidy - JTidy
  *  HTML parser and pretty printer
  *
@@ -58,7 +58,6 @@ package org.w3c.tidy;
  * <p>
  * see <code>http://sourceforge.net/support/tracker.php?aid=(item number)</code>
  * </p>
- * 
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
@@ -67,7 +66,6 @@ public class TidyWordBugsTest extends TidyTestCase
 
     /**
      * Instantiate a new Test case.
-     * 
      * @param name test name
      */
     public TidyWordBugsTest(String name)
@@ -77,7 +75,6 @@ public class TidyWordBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [431721] : Cleaning list bullets for Word 2000.
-     * 
      * @throws Exception any exception generated during the test
      */
     public void test431721() throws Exception
@@ -87,7 +84,6 @@ public class TidyWordBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [444394] : Tidy strips images from Word2000 docs.
-     * 
      * @throws Exception any exception generated during the test
      */
     public void test444394() throws Exception
@@ -97,7 +93,6 @@ public class TidyWordBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [463066] : CleanWord2000 misses mso-list bullets.
-     * 
      * @throws Exception any exception generated during the test
      */
     public void test463066() throws Exception
@@ -107,7 +102,6 @@ public class TidyWordBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [634889] : Problem with &lt;o:p&gt; ms word tag.
-     * 
      * @throws Exception any exception generated during the test
      */
     public void test634889() throws Exception
