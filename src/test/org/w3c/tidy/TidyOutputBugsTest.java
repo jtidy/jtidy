@@ -717,6 +717,16 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [502348] : &lt;br clear="none"&gt; should be output.
+     * @throws Exception any exception generated during the test
+     */
+    public void test502348() throws Exception
+    {
+        executeTidyTest("502348.html");
+        assertWarnings(1);
+    }
+
+    /**
      * test for Tidy [503436] : Detect duplicate attribute specifications in XML docs.
      * @todo HIGH PRIORITY.
      * @throws Exception any exception generated during the test

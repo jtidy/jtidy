@@ -610,6 +610,10 @@ public final class AttrCheckImpl
             if (attval == null || attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                if (attval != null)
+                {
+                    attval.value = VALID_VALUES[0];
+                }
                 return;
             }
 
