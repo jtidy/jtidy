@@ -55,9 +55,10 @@ package org.w3c.tidy;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
@@ -78,7 +79,6 @@ import org.w3c.dom.Document;
  */
 public class TidyTestCase extends TestCase
 {
-
 
     /**
      * Tidy executable name, if you want to produce output files for comparison.
@@ -221,10 +221,24 @@ public class TidyTestCase extends TestCase
      */
     protected void assertEquals(String tidyOutput, URL correctFile) throws FileNotFoundException, IOException
     {
-        diff(
-            new BufferedReader(new StringReader(tidyOutput)),
-            new BufferedReader(new FileReader(correctFile.getFile())));
+        // assume the expected output has the same encoding tidy has in its configuration
+        String encodingName = ParsePropertyImpl.CHAR_ENCODING.getFriendlyName("out-encoding", new Integer(tidy
+            .getConfiguration().outCharEncoding), tidy.getConfiguration());
 
+        // fix some encoding name for java
+        if (encodingName.startsWith("utf"))
+        {
+            encodingName = "utf-" + encodingName.substring(3);
+        }
+
+        // BON fix - if le or be is specified java will output the BOM at the beginning of the stream
+        if (encodingName.equals("utf-16be") || encodingName.equals("utf-16le"))
+        {
+            encodingName = "utf-16";
+        }
+
+        diff(new BufferedReader(new StringReader(tidyOutput)), // test output
+            new BufferedReader(new InputStreamReader(new FileInputStream(correctFile.getPath()), encodingName)));
     }
 
     /**
