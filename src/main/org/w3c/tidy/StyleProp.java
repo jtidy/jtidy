@@ -78,9 +78,4 @@ public class StyleProp
         this(name, value, null);
     }
 
-    public StyleProp()
-    {
-        this(null, null, null);
-    }
-
 }
