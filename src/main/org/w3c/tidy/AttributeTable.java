@@ -325,7 +325,7 @@ public class AttributeTable
         // HR, FONT, BASEFONT, SELECT
         new Attribute("span", Dict.VERS_HTML40, null),
         // COL, COLGROUP
-        new Attribute("src", (short) (Dict.VERS_ALL | Dict.VERS_FRAMESET), AttrCheckImpl.getCheckUrl()),
+        new Attribute("src", Dict.VERS_ALL, AttrCheckImpl.getCheckUrl()),
         // IMG, FRAME, IFRAME
         new Attribute("standby", Dict.VERS_HTML40, null),
         // OBJECT
