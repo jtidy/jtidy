@@ -19,6 +19,17 @@
       </p>
     </section>
     <section name="News">
+      <subsection name="March 12, 2004">
+		    <p>
+          Nightly builds are now automatically generated daily and the whole website is refresh at the same time.
+          1/3 of the implemented tests is working now. Two years of reported bugs are difficult to catch up, but the
+          <a href="changes-report.html">change log</a> starts becoming "important"...
+        </p>
+        <p>
+          Do you wanna play with a recent build? Get the source or binary distribution from the 
+          <a href="nightly/">nightly builds page</a>.
+        </p>
+      </subsection>
       <subsection name="January 21, 2004">
 		    <p>
           Site updated using the latest maven version: test report is a lot more readable now (formatting has been fixed in the

@@ -9,6 +9,7 @@
     <menu name="JTidy">
       <item name="Overview" href="/index.html" />
       <item name="Download" href="/download.html" />
+      <item name="Nightly builds" href="/nightly" />
     </menu>
     <menu name="Developers">
       <item name="Coding Conventions" href="/coding_conventions.html" />
