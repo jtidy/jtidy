@@ -1,62 +1,63 @@
 /**
-*  Java HTML Tidy - JTidy
-*  HTML parser and pretty printer
-*
-*  Copyright (c) 1998-2000 World Wide Web Consortium (Massachusetts
-*  Institute of Technology, Institut National de Recherche en
-*  Informatique et en Automatique, Keio University). All Rights
-*  Reserved.
-*
-*  Contributing Author(s):
-*
-*     Dave Raggett <dsr@w3.org>
-*     Andy Quick <ac.quick@sympatico.ca> (translation to Java)
-*     Gary L Peskin <garyp@firstech.com> (Java development)
-*     Sami Lempinen <sami@lempinen.net> (release management)
-*     Fabrizio Giustina <fgiust at users.sourceforge.net>
-*
-*  The contributing author(s) would like to thank all those who
-*  helped with testing, bug fixes, and patience.  This wouldn't
-*  have been possible without all of you.
-*
-*  COPYRIGHT NOTICE:
-* 
-*  This software and documentation is provided "as is," and
-*  the copyright holders and contributing author(s) make no
-*  representations or warranties, express or implied, including
-*  but not limited to, warranties of merchantability or fitness
-*  for any particular purpose or that the use of the software or
-*  documentation will not infringe any third party patents,
-*  copyrights, trademarks or other rights. 
-*
-*  The copyright holders and contributing author(s) will not be
-*  liable for any direct, indirect, special or consequential damages
-*  arising out of any use of the software or documentation, even if
-*  advised of the possibility of such damage.
-*
-*  Permission is hereby granted to use, copy, modify, and distribute
-*  this source code, or portions hereof, documentation and executables,
-*  for any purpose, without fee, subject to the following restrictions:
-*
-*  1. The origin of this source code must not be misrepresented.
-*  2. Altered versions must be plainly marked as such and must
-*     not be misrepresented as being the original source.
-*  3. This Copyright notice may not be removed or altered from any
-*     source or altered source distribution.
-* 
-*  The copyright holders and contributing author(s) specifically
-*  permit, without fee, and encourage the use of this source code
-*  as a component for supporting the Hypertext Markup Language in
-*  commercial products. If you use this source code in a product,
-*  acknowledgment is not required but would be appreciated.
-*
-*/
+ *  Java HTML Tidy - JTidy
+ *  HTML parser and pretty printer
+ *
+ *  Copyright (c) 1998-2000 World Wide Web Consortium (Massachusetts
+ *  Institute of Technology, Institut National de Recherche en
+ *  Informatique et en Automatique, Keio University). All Rights
+ *  Reserved.
+ *
+ *  Contributing Author(s):
+ *
+ *     Dave Raggett <dsr@w3.org>
+ *     Andy Quick <ac.quick@sympatico.ca> (translation to Java)
+ *     Gary L Peskin <garyp@firstech.com> (Java development)
+ *     Sami Lempinen <sami@lempinen.net> (release management)
+ *     Fabrizio Giustina <fgiust at users.sourceforge.net>
+ *
+ *  The contributing author(s) would like to thank all those who
+ *  helped with testing, bug fixes, and patience.  This wouldn't
+ *  have been possible without all of you.
+ *
+ *  COPYRIGHT NOTICE:
+ * 
+ *  This software and documentation is provided "as is," and
+ *  the copyright holders and contributing author(s) make no
+ *  representations or warranties, express or implied, including
+ *  but not limited to, warranties of merchantability or fitness
+ *  for any particular purpose or that the use of the software or
+ *  documentation will not infringe any third party patents,
+ *  copyrights, trademarks or other rights. 
+ *
+ *  The copyright holders and contributing author(s) will not be
+ *  liable for any direct, indirect, special or consequential damages
+ *  arising out of any use of the software or documentation, even if
+ *  advised of the possibility of such damage.
+ *
+ *  Permission is hereby granted to use, copy, modify, and distribute
+ *  this source code, or portions hereof, documentation and executables,
+ *  for any purpose, without fee, subject to the following restrictions:
+ *
+ *  1. The origin of this source code must not be misrepresented.
+ *  2. Altered versions must be plainly marked as such and must
+ *     not be misrepresented as being the original source.
+ *  3. This Copyright notice may not be removed or altered from any
+ *     source or altered source distribution.
+ * 
+ *  The copyright holders and contributing author(s) specifically
+ *  permit, without fee, and encourage the use of this source code
+ *  as a component for supporting the Hypertext Markup Language in
+ *  commercial products. If you use this source code in a product,
+ *  acknowledgment is not required but would be appreciated.
+ *
+ */
 package org.w3c.tidy;
 
 /**
  * HTML Parser implementation.
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
+ * 
+ * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
+ * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @version $Revision $ ($Author $)
  */
 public class ParserImpl
@@ -532,8 +533,8 @@ public class ParserImpl
         {
             /*
              * This isn't quite right for CDATA content as it recognises tags within the content and parses them
-             * accordingly. This will unfortunately screw up scripts which include
-             * < + letter,  < + !, < + ?  or  < + / + letter
+             * accordingly. This will unfortunately screw up scripts which include < + letter, < + !, < + ? or < + / +
+             * letter
              */
 
             Node node;
@@ -618,8 +619,7 @@ public class ParserImpl
 
                 iswhitenode = false;
 
-                if (node.type == Node.TextNode
-                    && node.end <= node.start + 1
+                if (node.type == Node.TextNode && node.end <= node.start + 1
                     && node.textarray[node.start] == (byte) ' ')
                 {
                     iswhitenode = true;
@@ -754,7 +754,7 @@ public class ParserImpl
                             return;
                         }
 
-                        /* ignore </td></th><option> etc. */
+                        /* ignore </td></th> <option> etc. */
                         continue;
                     }
                 }
@@ -914,7 +914,7 @@ public class ParserImpl
                 return;
             }
 
-            // #433040 - fix by Richard O'Keefe 5 Mar 01 
+            // #433040 - fix by Richard O'Keefe 5 Mar 01
             // if (element.tag == tt.tagA)
             // {
             //     if (element.attributes == null)
@@ -1029,16 +1029,9 @@ public class ParserImpl
                 /* <u> ... <u> map 2nd <u> to </u> if 1st is explicit */
                 /* otherwise emphasis nesting is probably unintentional */
                 /* big and small have cumulative effect to leave them alone */
-                if (node.type == Node.StartTag
-                    && node.tag == element.tag
-                    && lexer.isPushed(node)
-                    && !node.implicit
-                    && !element.implicit
-                    && node.tag != null
-                    && ((node.tag.model & Dict.CM_INLINE) != 0)
-                    && node.tag != tt.tagA
-                    && node.tag != tt.tagFont
-                    && node.tag != tt.tagBig
+                if (node.type == Node.StartTag && node.tag == element.tag && lexer.isPushed(node) && !node.implicit
+                    && !element.implicit && node.tag != null && ((node.tag.model & Dict.CM_INLINE) != 0)
+                    && node.tag != tt.tagA && node.tag != tt.tagFont && node.tag != tt.tagBig
                     && node.tag != tt.tagSmall)
                 {
                     if (element.content != null && node.attributes == null)
@@ -1137,11 +1130,8 @@ public class ParserImpl
                             continue;
                         }
                     }
-                    else if (
-                        (node.tag.model & Dict.CM_INLINE) != 0
-                            && node.tag != tt.tagA
-                            && !((node.tag.model & Dict.CM_OBJECT) != 0)
-                            && (element.tag.model & Dict.CM_INLINE) != 0)
+                    else if ((node.tag.model & Dict.CM_INLINE) != 0 && node.tag != tt.tagA
+                        && !((node.tag.model & Dict.CM_OBJECT) != 0) && (element.tag.model & Dict.CM_INLINE) != 0)
                     {
                         /* allow any inline end tag to end current element */
                         lexer.popInline(element);
@@ -1199,9 +1189,7 @@ public class ParserImpl
                     return;
                 }
 
-                /*
-                 * an <A> tag to ends any open <A> element but <A href=...> is mapped to </A><A href=...>
-                 */
+                // an <A> tag to ends any open <A> element but <A href=...> is mapped to </A><A href=...>
                 if (node.tag == tt.tagA && !node.implicit && lexer.isPushed(node))
                 {
                     /* coerce <a> to </a> unless it has some attributes */
@@ -1896,11 +1884,11 @@ public class ParserImpl
     public static class ParseBlock implements Parser
     {
 
-        public void parse(Lexer lexer, Node element, short mode)
-        /*
-         * element is node created by the lexer upon seeing the start tag, or by the parser when the start tag is
-         * inferred
-         */
+        public void parse(Lexer lexer, Node element, short mode)/*
+                                                                 * element is node created by the lexer upon seeing the
+                                                                 * start tag, or by the parser when the start tag is
+                                                                 * inferred
+                                                                 */
         {
             Node node, parent;
             boolean checkstack;
@@ -1947,8 +1935,7 @@ public class ParserImpl
                     break;
                 }
                 /* end tag for this element */
-                if (node.type == Node.EndTag
-                    && node.tag != null
+                if (node.type == Node.EndTag && node.tag != null
                     && (node.tag == element.tag || element.was == node.tag))
                 {
 
@@ -2043,8 +2030,7 @@ public class ParserImpl
                 {
                     boolean iswhitenode = false;
 
-                    if (node.type == Node.TextNode
-                        && node.end <= node.start + 1
+                    if (node.type == Node.TextNode && node.end <= node.start + 1
                         && lexer.lexbuf[node.start] == (byte) ' ')
                     {
                         iswhitenode = true;
@@ -2148,9 +2134,7 @@ public class ParserImpl
                      */
                     if (element.tag == tt.tagLi)
                     {
-                        if (node.tag == tt.tagFrame
-                            || node.tag == tt.tagFrameset
-                            || node.tag == tt.tagOptgroup
+                        if (node.tag == tt.tagFrame || node.tag == tt.tagFrameset || node.tag == tt.tagOptgroup
                             || node.tag == tt.tagOption)
                         {
                             Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
@@ -2230,8 +2214,7 @@ public class ParserImpl
 
                         if ((node.tag.model & Dict.CM_LIST) != 0)
                         {
-                            if (element.parent != null
-                                && element.parent.tag != null
+                            if (element.parent != null && element.parent.tag != null
                                 && element.parent.tag.parser == getParseList())
                             {
                                 Node.trimSpaces(lexer, element);
@@ -3320,6 +3303,7 @@ public class ParserImpl
      * <code>xsl:text</code>. Finally, if a <code>TagTable</code> was passed in and the element appears as the
      * "pre" element in the <code>TagTable</code>, then <code>true</code> will be returned. Otherwise, <code>false</code>
      * is returned.
+     * 
      * @param element The <code>Node</code> to test to see if whitespace should be preserved.
      * @param tt The <code>TagTable</code> to test for the <code>getNodePre()</code> function. This may be <code>null</code>,
      * in which case this test is bypassed.
@@ -3345,8 +3329,7 @@ public class ParserImpl
         }
 
         /* kludge for html docs without explicit xml:space attribute */
-        if (Lexer.wstrcasecmp(element.element, "pre") == 0
-            || Lexer.wstrcasecmp(element.element, "script") == 0
+        if (Lexer.wstrcasecmp(element.element, "pre") == 0 || Lexer.wstrcasecmp(element.element, "script") == 0
             || Lexer.wstrcasecmp(element.element, "style") == 0)
         {
             return true;
