@@ -75,7 +75,7 @@ public class TidyEncodingBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [647255] : UTF16.
-     * @throws Exception any exception generated during the tes
+     * @throws Exception any exception generated during the test
      */
     public void test647255() throws Exception
     {
