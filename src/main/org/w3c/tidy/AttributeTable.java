@@ -64,77 +64,26 @@ import java.util.Hashtable;
 public class AttributeTable
 {
 
-    public AttributeTable()
-    {
-    }
+    public static Attribute attrHref;
+    public static Attribute attrSrc;
+    public static Attribute attrId;
+    public static Attribute attrName;
+    public static Attribute attrSummary;
+    public static Attribute attrAlt;
+    public static Attribute attrLongdesc;
+    public static Attribute attrUsemap;
+    public static Attribute attrIsmap;
+    public static Attribute attrLanguage;
+    public static Attribute attrType;
+    public static Attribute attrTitle;
+    public static Attribute attrXmlns;
+    public static Attribute attrValue;
+    public static Attribute attrContent;
+    public static Attribute attrDatafld;
+    public static Attribute attrWidth;
+    public static Attribute attrHeight;
 
-    public Attribute lookup(String name)
-    {
-        return (Attribute) this.attributeHashtable.get(name);
-    }
-
-    public Attribute install(Attribute attr)
-    {
-        return (Attribute) this.attributeHashtable.put(attr.getName(), attr);
-    }
-
-    /* public method for finding attribute definition by name */
-    public Attribute findAttribute(AttVal attval)
-    {
-        Attribute np;
-
-        if (attval.attribute != null)
-        {
-            np = lookup(attval.attribute);
-            return np;
-        }
-
-        return null;
-    }
-
-    public boolean isUrl(String attrname)
-    {
-        Attribute np;
-
-        np = lookup(attrname);
-        return (np != null && np.getAttrchk() == AttrCheckImpl.getCheckUrl());
-    }
-
-    public boolean isScript(String attrname)
-    {
-        Attribute np;
-
-        np = lookup(attrname);
-        return (np != null && np.getAttrchk() == AttrCheckImpl.getCheckScript());
-    }
-
-    public boolean isLiteralAttribute(String attrname)
-    {
-        Attribute np;
-
-        np = lookup(attrname);
-        return (np != null && np.isLiteral());
-    }
-
-    /*
-     * Henry Zrepa reports that some folk are using embed with script attributes where newlines are signficant. These
-     * need to be declared and handled specially!
-     */
-    public void declareLiteralAttrib(String name)
-    {
-        Attribute attrib = lookup(name);
-
-        if (attrib == null)
-        {
-            attrib = install(new Attribute(name, Dict.VERS_PROPRIETARY, null));
-        }
-
-        attrib.setLiteral(true);
-    }
-
-    private Hashtable attributeHashtable = new Hashtable();
-
-    private static AttributeTable defaultAttributeTable = null;
+    private static AttributeTable defaultAttributeTable;
 
     private static Attribute[] attrs =
         {
@@ -299,24 +248,75 @@ public class AttributeTable
 
     };
 
-    public static Attribute attrHref = null;
-    public static Attribute attrSrc = null;
-    public static Attribute attrId = null;
-    public static Attribute attrName = null;
-    public static Attribute attrSummary = null;
-    public static Attribute attrAlt = null;
-    public static Attribute attrLongdesc = null;
-    public static Attribute attrUsemap = null;
-    public static Attribute attrIsmap = null;
-    public static Attribute attrLanguage = null;
-    public static Attribute attrType = null;
-    public static Attribute attrTitle = null;
-    public static Attribute attrXmlns = null;
-    public static Attribute attrValue = null;
-    public static Attribute attrContent = null;
-    public static Attribute attrDatafld = null;
-    public static Attribute attrWidth = null;
-    public static Attribute attrHeight = null;
+    private Hashtable attributeHashtable = new Hashtable();
+
+    public AttributeTable()
+    {
+    }
+
+    public Attribute lookup(String name)
+    {
+        return (Attribute) this.attributeHashtable.get(name);
+    }
+
+    public Attribute install(Attribute attr)
+    {
+        return (Attribute) this.attributeHashtable.put(attr.getName(), attr);
+    }
+
+    /* public method for finding attribute definition by name */
+    public Attribute findAttribute(AttVal attval)
+    {
+        Attribute np;
+
+        if (attval.attribute != null)
+        {
+            np = lookup(attval.attribute);
+            return np;
+        }
+
+        return null;
+    }
+
+    public boolean isUrl(String attrname)
+    {
+        Attribute np;
+
+        np = lookup(attrname);
+        return (np != null && np.getAttrchk() == AttrCheckImpl.getCheckUrl());
+    }
+
+    public boolean isScript(String attrname)
+    {
+        Attribute np;
+
+        np = lookup(attrname);
+        return (np != null && np.getAttrchk() == AttrCheckImpl.getCheckScript());
+    }
+
+    public boolean isLiteralAttribute(String attrname)
+    {
+        Attribute np;
+
+        np = lookup(attrname);
+        return (np != null && np.isLiteral());
+    }
+
+    /*
+     * Henry Zrepa reports that some folk are using embed with script attributes where newlines are signficant. These
+     * need to be declared and handled specially!
+     */
+    public void declareLiteralAttrib(String name)
+    {
+        Attribute attrib = lookup(name);
+
+        if (attrib == null)
+        {
+            attrib = install(new Attribute(name, Dict.VERS_PROPRIETARY, null));
+        }
+
+        attrib.setLiteral(true);
+    }
 
     public static AttributeTable getDefaultAttributeTable()
     {

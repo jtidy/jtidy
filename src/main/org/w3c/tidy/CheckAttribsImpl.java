@@ -62,6 +62,19 @@ package org.w3c.tidy;
 public class CheckAttribsImpl
 {
 
+    private static CheckAttribs _checkHTML = new CheckHTML();
+    private static CheckAttribs _checkSCRIPT = new CheckSCRIPT();
+    private static CheckAttribs _checkTABLE = new CheckTABLE();
+    private static CheckAttribs _checkCaption = new CheckCaption();
+    private static CheckAttribs _checkIMG = new CheckIMG();
+    private static CheckAttribs _checkAREA = new CheckAREA();
+    private static CheckAttribs _checkAnchor = new CheckAnchor();
+    private static CheckAttribs _checkMap = new CheckMap();
+    private static CheckAttribs _checkStyle = new CheckSTYLE();
+    private static CheckAttribs _checkTableCell = new CheckTableCell();
+    private static CheckAttribs _checkLINK = new CheckLINK();
+    private static CheckAttribs _checkHR = new CheckHR();
+
     public static class CheckHTML implements CheckAttribs
     {
 
@@ -464,18 +477,5 @@ public class CheckAttribsImpl
     {
         return _checkHR;
     }
-
-    private static CheckAttribs _checkHTML = new CheckHTML();
-    private static CheckAttribs _checkSCRIPT = new CheckSCRIPT();
-    private static CheckAttribs _checkTABLE = new CheckTABLE();
-    private static CheckAttribs _checkCaption = new CheckCaption();
-    private static CheckAttribs _checkIMG = new CheckIMG();
-    private static CheckAttribs _checkAREA = new CheckAREA();
-    private static CheckAttribs _checkAnchor = new CheckAnchor();
-    private static CheckAttribs _checkMap = new CheckMap();
-    private static CheckAttribs _checkStyle = new CheckSTYLE();
-    private static CheckAttribs _checkTableCell = new CheckTableCell();
-    private static CheckAttribs _checkLINK = new CheckLINK();
-    private static CheckAttribs _checkHR = new CheckHR();
 
 }

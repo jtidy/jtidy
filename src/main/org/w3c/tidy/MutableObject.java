@@ -54,13 +54,15 @@
 package org.w3c.tidy;
 
 /**
- * Mutable Object
+ * Mutable Object.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
  * @version $Revision $ ($Author $)
  */
 public class MutableObject
 {
+
+    private Object value;
 
     public MutableObject()
     {
@@ -81,7 +83,5 @@ public class MutableObject
     {
         return value;
     }
-
-    private Object value;
 
 }

@@ -67,6 +67,24 @@ public class Attribute
     private short versions;
     private AttrCheck attrchk;
 
+    public Attribute(String name, boolean nowrap, short versions, AttrCheck attrchk)
+    {
+        this.name = name;
+        this.nowrap = nowrap;
+        this.literal = false;
+        this.versions = versions;
+        this.attrchk = attrchk;
+    }
+
+    public Attribute(String name, short versions, AttrCheck attrchk)
+    {
+        this.name = name;
+        this.nowrap = false;
+        this.literal = false;
+        this.versions = versions;
+        this.attrchk = attrchk;
+    }
+
     /**
      * @param literal The literal to set.
      */
@@ -89,24 +107,6 @@ public class Attribute
     public void setNowrap(boolean nowrap)
     {
         this.nowrap = nowrap;
-    }
-
-    public Attribute(String name, boolean nowrap, short versions, AttrCheck attrchk)
-    {
-        this.name = name;
-        this.nowrap = nowrap;
-        this.literal = false;
-        this.versions = versions;
-        this.attrchk = attrchk;
-    }
-
-    public Attribute(String name, short versions, AttrCheck attrchk)
-    {
-        this.name = name;
-        this.nowrap = false;
-        this.literal = false;
-        this.versions = versions;
-        this.attrchk = attrchk;
     }
 
     /**

@@ -62,6 +62,9 @@ package org.w3c.tidy;
 public class Entity
 {
 
+    public String name;
+    public short code;
+
     public Entity(String name, short code)
     {
         this.name = name;
@@ -73,8 +76,5 @@ public class Entity
         this.name = name;
         this.code = (short) code;
     }
-
-    public String name;
-    public short code;
 
 }

@@ -53,6 +53,8 @@
 */
 package org.w3c.tidy;
 
+import org.w3c.dom.Attr;
+
 /**
  * Attribute/Value linked list node.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
@@ -69,6 +71,9 @@ public class AttVal extends Object implements Cloneable
     public int delim;
     public String attribute;
     public String value;
+
+    // DOM
+    protected Attr adapter;
 
     public AttVal()
     {
@@ -219,8 +224,6 @@ public class AttVal extends Object implements Cloneable
     }
 
     /* --------------------- DOM ---------------------------- */
-
-    protected org.w3c.dom.Attr adapter = null;
 
     protected org.w3c.dom.Attr getAdapter()
     {

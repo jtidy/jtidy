@@ -63,7 +63,9 @@ import java.io.IOException;
 
 public class OutImpl extends Out
 {
-
+    
+    private static final byte[] nlBytes = (System.getProperty("line.separator")).getBytes();
+    
     public OutImpl()
     {
         this.out = null;
@@ -204,6 +206,5 @@ public class OutImpl extends Out
         }
     }
 
-    private static final byte[] nlBytes = (System.getProperty("line.separator")).getBytes();
-
+  
 }

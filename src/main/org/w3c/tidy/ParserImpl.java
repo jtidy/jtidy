@@ -62,6 +62,26 @@ package org.w3c.tidy;
 public class ParserImpl
 {
 
+    private static Parser _parseHTML = new ParseHTML();
+    private static Parser _parseHead = new ParseHead();
+    private static Parser _parseTitle = new ParseTitle();
+    private static Parser _parseScript = new ParseScript();
+    private static Parser _parseBody = new ParseBody();
+    private static Parser _parseFrameSet = new ParseFrameSet();
+    private static Parser _parseInline = new ParseInline();
+    private static Parser _parseList = new ParseList();
+    private static Parser _parseDefList = new ParseDefList();
+    private static Parser _parsePre = new ParsePre();
+    private static Parser _parseBlock = new ParseBlock();
+    private static Parser _parseTableTag = new ParseTableTag();
+    private static Parser _parseColGroup = new ParseColGroup();
+    private static Parser _parseRowGroup = new ParseRowGroup();
+    private static Parser _parseRow = new ParseRow();
+    private static Parser _parseNoFrames = new ParseNoFrames();
+    private static Parser _parseSelect = new ParseSelect();
+    private static Parser _parseText = new ParseText();
+    private static Parser _parseOptGroup = new ParseOptGroup();
+
     //private static int SeenBodyEndTag; /* AQ: moved into lexer structure */
 
     protected static void parseTag(Lexer lexer, Node node, short mode)
@@ -2892,26 +2912,6 @@ public class ParserImpl
     {
         return _parseOptGroup;
     }
-
-    private static Parser _parseHTML = new ParseHTML();
-    private static Parser _parseHead = new ParseHead();
-    private static Parser _parseTitle = new ParseTitle();
-    private static Parser _parseScript = new ParseScript();
-    private static Parser _parseBody = new ParseBody();
-    private static Parser _parseFrameSet = new ParseFrameSet();
-    private static Parser _parseInline = new ParseInline();
-    private static Parser _parseList = new ParseList();
-    private static Parser _parseDefList = new ParseDefList();
-    private static Parser _parsePre = new ParsePre();
-    private static Parser _parseBlock = new ParseBlock();
-    private static Parser _parseTableTag = new ParseTableTag();
-    private static Parser _parseColGroup = new ParseColGroup();
-    private static Parser _parseRowGroup = new ParseRowGroup();
-    private static Parser _parseRow = new ParseRow();
-    private static Parser _parseNoFrames = new ParseNoFrames();
-    private static Parser _parseSelect = new ParseSelect();
-    private static Parser _parseText = new ParseText();
-    private static Parser _parseOptGroup = new ParseOptGroup();
 
     /*
      * HTML is the top level element

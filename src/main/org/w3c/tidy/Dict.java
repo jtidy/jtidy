@@ -120,6 +120,12 @@ public class Dict
 
     public static final short VERS_EVERYTHING = (VERS_ALL | VERS_PROPRIETARY);
 
+    public String name;
+    public short versions;
+    public int model;
+    public Parser parser;
+    public CheckAttribs chkattrs;
+
     public Dict(String name, short versions, int model, Parser parser, CheckAttribs chkattrs)
     {
         this.name = name;
@@ -129,9 +135,4 @@ public class Dict
         this.chkattrs = chkattrs;
     }
 
-    public String name;
-    public short versions;
-    public int model;
-    public Parser parser;
-    public CheckAttribs chkattrs;
 }

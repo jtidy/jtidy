@@ -62,6 +62,11 @@ package org.w3c.tidy;
 public class Style
 {
 
+    public String tag;
+    public String tagClass;
+    public String properties;
+    public Style next;
+
     public Style(String tag, String tagClass, String properties, Style next)
     {
         this.tag = tag;
@@ -79,10 +84,5 @@ public class Style
     {
         this(null, null, null, null);
     }
-
-    public String tag;
-    public String tagClass;
-    public String properties;
-    public Style next;
 
 }

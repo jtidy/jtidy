@@ -64,7 +64,7 @@ import org.w3c.dom.DOMException;
 public class DOMAttrMapImpl implements org.w3c.dom.NamedNodeMap
 {
 
-    private AttVal first = null;
+    private AttVal first;
 
     protected DOMAttrMapImpl(AttVal first)
     {

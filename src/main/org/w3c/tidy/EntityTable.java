@@ -65,98 +65,6 @@ import java.util.Hashtable;
 public class EntityTable
 {
 
-    public EntityTable()
-    {
-    }
-
-    public Entity lookup(String name)
-    {
-        return (Entity) entityHashtable.get(name);
-    }
-
-    public Entity install(String name, short code)
-    {
-        Entity ent = lookup(name);
-        if (ent == null)
-        {
-            ent = new Entity(name, code);
-            entityHashtable.put(name, ent);
-        }
-        else
-        {
-            ent.code = code;
-        }
-        return ent;
-    }
-
-    public Entity install(Entity ent)
-    {
-        return (Entity) entityHashtable.put(ent.name, ent);
-    }
-
-    /* entity starting with "&" returns zero on error */
-    public short entityCode(String name)
-    {
-        int c;
-
-        if (name.length() <= 1)
-        {
-            return 0;
-        }
-
-        /* numeric entitity: name = "&#" followed by number */
-        if (name.charAt(1) == '#')
-        {
-            c = 0; /* zero on missing/bad number */
-
-            /* 'x' prefix denotes hexadecimal number format */
-            try
-            {
-                if (name.length() >= 4 && name.charAt(2) == 'x')
-                {
-                    c = Integer.parseInt(name.substring(3), 16);
-                }
-                else if (name.length() >= 3)
-                {
-                    c = Integer.parseInt(name.substring(2));
-                }
-            }
-            catch (NumberFormatException e)
-            {
-            }
-
-            return (short) c;
-        }
-
-        /* Named entity: name ="&" followed by a name */
-        Entity ent = lookup(name.substring(1));
-        if (ent != null)
-        {
-            return ent.code;
-        }
-
-        return 0; /* zero signifies unknown entity name */
-    }
-
-    public String entityName(short code)
-    {
-        String name = null;
-        Entity ent;
-        Enumeration en = entityHashtable.elements();
-        while (en.hasMoreElements())
-        {
-            ent = (Entity) en.nextElement();
-            if (ent.code == code)
-            {
-                name = ent.name;
-                break;
-            }
-        }
-        return name;
-    }
-
-    private Hashtable entityHashtable = new Hashtable();
-
     private static EntityTable defaultEntityTable = null;
 
     private static Entity[] entities =
@@ -413,6 +321,98 @@ public class EntityTable
             new Entity("lsaquo", 8249),
             new Entity("rsaquo", 8250),
             new Entity("euro", 8364)};
+
+    private Hashtable entityHashtable = new Hashtable();
+
+    public EntityTable()
+    {
+    }
+
+    public Entity lookup(String name)
+    {
+        return (Entity) entityHashtable.get(name);
+    }
+
+    public Entity install(String name, short code)
+    {
+        Entity ent = lookup(name);
+        if (ent == null)
+        {
+            ent = new Entity(name, code);
+            entityHashtable.put(name, ent);
+        }
+        else
+        {
+            ent.code = code;
+        }
+        return ent;
+    }
+
+    public Entity install(Entity ent)
+    {
+        return (Entity) entityHashtable.put(ent.name, ent);
+    }
+
+    /* entity starting with "&" returns zero on error */
+    public short entityCode(String name)
+    {
+        int c;
+
+        if (name.length() <= 1)
+        {
+            return 0;
+        }
+
+        /* numeric entitity: name = "&#" followed by number */
+        if (name.charAt(1) == '#')
+        {
+            c = 0; /* zero on missing/bad number */
+
+            /* 'x' prefix denotes hexadecimal number format */
+            try
+            {
+                if (name.length() >= 4 && name.charAt(2) == 'x')
+                {
+                    c = Integer.parseInt(name.substring(3), 16);
+                }
+                else if (name.length() >= 3)
+                {
+                    c = Integer.parseInt(name.substring(2));
+                }
+            }
+            catch (NumberFormatException e)
+            {
+            }
+
+            return (short) c;
+        }
+
+        /* Named entity: name ="&" followed by a name */
+        Entity ent = lookup(name.substring(1));
+        if (ent != null)
+        {
+            return ent.code;
+        }
+
+        return 0; /* zero signifies unknown entity name */
+    }
+
+    public String entityName(short code)
+    {
+        String name = null;
+        Entity ent;
+        Enumeration en = entityHashtable.elements();
+        while (en.hasMoreElements())
+        {
+            ent = (Entity) en.nextElement();
+            if (ent.code == code)
+            {
+                name = ent.name;
+                break;
+            }
+        }
+        return name;
+    }
 
     public static EntityTable getDefaultEntityTable()
     {

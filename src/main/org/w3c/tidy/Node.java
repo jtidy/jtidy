@@ -84,6 +84,20 @@ public class Node
     public static final short JsteTag = 11;
     public static final short PhpTag = 12;
 
+    private static final String[] nodeTypeString =
+        {
+            "RootNode",
+            "DocTypeTag",
+            "CommentTag",
+            "ProcInsTag",
+            "TextNode",
+            "StartTag",
+            "EndTag",
+            "StartEndTag",
+            "SectionTag",
+            "AspTag",
+            "PhpTag" };
+
     protected Node parent;
     protected Node prev;
     protected Node next;
@@ -100,6 +114,9 @@ public class Node
     protected String element; /* name (null for text nodes) */
     protected AttVal attributes;
     protected Node content;
+
+    // DOM
+    protected org.w3c.dom.Node adapter = null;
 
     public Node()
     {
@@ -884,20 +901,6 @@ public class Node
 
     /* --------------------- DEBUG -------------------------- */
 
-    private static final String[] nodeTypeString =
-        {
-            "RootNode",
-            "DocTypeTag",
-            "CommentTag",
-            "ProcInsTag",
-            "TextNode",
-            "StartTag",
-            "EndTag",
-            "StartEndTag",
-            "SectionTag",
-            "AspTag",
-            "PhpTag" };
-
     public String toString()
     {
         String s = "";
@@ -951,8 +954,6 @@ public class Node
     /* --------------------- END DEBUG ---------------------- */
 
     /* --------------------- DOM ---------------------------- */
-
-    protected org.w3c.dom.Node adapter = null;
 
     protected org.w3c.dom.Node getAdapter()
     {

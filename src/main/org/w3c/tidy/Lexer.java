@@ -53,28 +53,82 @@
 */
 package org.w3c.tidy;
 
-/**
- * Lexer for html parser.
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
- * @version $Revision $ ($Author $)
- */
-
-/*
- * Given a file stream fp it returns a sequence of tokens. GetToken(fp) gets the next token UngetToken(fp) provides one
- * level undo The tags include an attribute list: - linked list of attribute/value nodes - each node has 2
- * null-terminated strings. - entities are replaced in attribute values white space is compacted if not in preformatted
- * mode If not in preformatted mode then leading white space is discarded and subsequent white space sequences
- * compacted to single space chars. If XmlTags is no then Tag names are folded to upper case and attribute names to
- * lower case. Not yet done: - Doctype subset and marked sections
- */
-
 import java.io.PrintWriter;
 import java.util.Stack;
 import java.util.Vector;
 
+/**
+ * Lexer for html parser. Given a file stream fp it returns a sequence of tokens. GetToken(fp) gets the next token
+ * UngetToken(fp) provides one level undo The tags include an attribute list: - linked list of attribute/value nodes -
+ * each node has 2 null-terminated strings. - entities are replaced in attribute values white space is compacted if not
+ * in preformatted mode If not in preformatted mode then leading white space is discarded and subsequent white space
+ * sequences compacted to single space chars. If XmlTags is no then Tag names are folded to upper case and attribute
+ * names to lower case. Not yet done: - Doctype subset and marked sections
+ * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
+ * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
+ * @version $Revision $ ($Author $)
+ */
 public class Lexer
 {
+
+    public static final short IgnoreWhitespace = 0;
+    public static final short MixedContent = 1;
+    public static final short Preformatted = 2;
+    public static final short IgnoreMarkup = 3;
+
+    /* the 3 URIs for the XHTML 1.0 DTDs */
+    private static final String voyager_loose = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd";
+    private static final String voyager_strict = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd";
+    private static final String voyager_frameset = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd";
+
+    private static final String XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
+
+    private static Lexer.W3CVersionInfo[] W3CVersion =
+        {
+            new W3CVersionInfo("HTML 4.01", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML40_STRICT),
+            new W3CVersionInfo(
+                "HTML 4.01 Transitional",
+                "XHTML 1.0 Transitional",
+                voyager_loose,
+                Dict.VERS_HTML40_LOOSE),
+            new W3CVersionInfo("HTML 4.01 Frameset", "XHTML 1.0 Frameset", voyager_frameset, Dict.VERS_FRAMES),
+            new W3CVersionInfo("HTML 4.0", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML40_STRICT),
+            new W3CVersionInfo(
+                "HTML 4.0 Transitional",
+                "XHTML 1.0 Transitional",
+                voyager_loose,
+                Dict.VERS_HTML40_LOOSE),
+            new W3CVersionInfo("HTML 4.0 Frameset", "XHTML 1.0 Frameset", voyager_frameset, Dict.VERS_FRAMES),
+            new W3CVersionInfo("HTML 3.2", "XHTML 1.0 Transitional", voyager_loose, Dict.VERS_HTML32),
+            new W3CVersionInfo("HTML 2.0", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML20)};
+
+    /* lexer char types */
+    private static final short DIGIT = 1;
+    private static final short LETTER = 2;
+    private static final short NAMECHAR = 4;
+    private static final short WHITE = 8;
+    private static final short NEWLINE = 16;
+    private static final short LOWERCASE = 32;
+    private static final short UPPERCASE = 64;
+
+    /* lexer GetToken states */
+
+    private static final short LEX_CONTENT = 0;
+    private static final short LEX_GT = 1;
+    private static final short LEX_ENDTAG = 2;
+    private static final short LEX_STARTTAG = 3;
+    private static final short LEX_COMMENT = 4;
+    private static final short LEX_DOCTYPE = 5;
+    private static final short LEX_PROCINSTR = 6;
+    private static final short LEX_ENDCOMMENT = 7;
+    private static final short LEX_CDATA = 8;
+    private static final short LEX_SECTION = 9;
+    private static final short LEX_ASP = 10;
+    private static final short LEX_JSTE = 11;
+    private static final short LEX_PHP = 12;
+
+    /* used to classify chars for lexical purposes */
+    private static short[] lexmap = new short[128];
 
     public StreamIn in; /* file stream */
     public PrintWriter errout; /* error output stream */
@@ -118,6 +172,7 @@ public class Lexer
 
     public Configuration configuration;
     protected int seenBodyEndTag; /* used by parser */
+
     private Vector nodeList;
 
     public Lexer(StreamIn in, Configuration configuration)
@@ -413,7 +468,9 @@ public class Lexer
                 if (semicolon)
                     addCharToLexer(';');
             }
-            else /* naked & */ {
+            else
+            {
+                // naked &
                 Report.entityError(this, Report.UNESCAPED_AMPERSAND, str, ch);
             }
         }
@@ -756,7 +813,9 @@ public class Lexer
                 fpi = "-//W3C//DTD XHTML 1.0 Frameset//EN";
                 sysid = voyager_frameset;
             }
-            else /* lets assume XHTML transitional */ {
+            else
+            {
+                // lets assume XHTML transitional
                 fpi = "-//W3C//DTD XHTML 1.0 Transitional//EN";
                 sysid = voyager_loose;
             }
@@ -1173,11 +1232,6 @@ public class Lexer
         this.pushed = true;
     }
 
-    public static final short IgnoreWhitespace = 0;
-    public static final short MixedContent = 1;
-    public static final short Preformatted = 2;
-    public static final short IgnoreMarkup = 3;
-
     /*
      * modes for GetToken() MixedContent -- for elements which don't accept PCDATA Preformatted -- white space
      * preserved as is IgnoreMarkup -- for CDATA elements such as script, style
@@ -1277,7 +1331,9 @@ public class Lexer
                                 this.columns = this.in.curcol;
                             }
                         }
-                        else /* prev char wasn't white */ {
+                        else
+                        {
+                            // prev char wasn't white
                             this.waswhite = true;
 
                             if (mode != Preformatted && mode != IgnoreMarkup && c != ' ')
@@ -1296,7 +1352,7 @@ public class Lexer
                     this.waswhite = false;
                     continue;
 
-                case LEX_GT : /* <  */
+                case LEX_GT : /* <     */
 
                     /* check for endtag */
                     if (c == '/')
@@ -1320,7 +1376,7 @@ public class Lexer
                             this.lexbuf[this.lexsize] = (byte) '\0'; /* debug */
                             this.in.curcol -= 2;
 
-                            /* if some text before the </ return it now  */
+                            /* if some text before the </ return it now     */
                             if (this.txtend > this.txtstart)
                             {
                                 /* trim space char before end tag */
@@ -1369,7 +1425,7 @@ public class Lexer
                                 this.lexsize -= 2;
                                 this.txtend = this.lexsize;
 
-                                /* if some text before < return it now  */
+                                /* if some text before < return it now     */
                                 if (this.txtend > this.txtstart)
                                 {
                                     this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1430,7 +1486,7 @@ public class Lexer
                                 break;
                             }
 
-                            /* if some text before < return it now  */
+                            /* if some text before < return it now     */
                             if (this.txtend > this.txtstart)
                             {
                                 this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1447,7 +1503,7 @@ public class Lexer
                             this.state = LEX_SECTION;
                             this.txtend = this.lexsize;
 
-                            /* if some text before < return it now  */
+                            /* if some text before < return it now     */
                             if (this.txtend > this.txtstart)
                             {
                                 this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1487,7 +1543,7 @@ public class Lexer
                         this.state = LEX_PROCINSTR;
                         this.txtend = this.lexsize;
 
-                        /* if some text before < return it now  */
+                        /* if some text before < return it now     */
                         if (this.txtend > this.txtstart)
                         {
                             this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1505,7 +1561,7 @@ public class Lexer
                         this.state = LEX_ASP;
                         this.txtend = this.lexsize;
 
-                        /* if some text before < return it now  */
+                        /* if some text before < return it now     */
                         if (this.txtend > this.txtstart)
                         {
                             this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1523,7 +1579,7 @@ public class Lexer
                         this.state = LEX_JSTE;
                         this.txtend = this.lexsize;
 
-                        /* if some text before < return it now  */
+                        /* if some text before < return it now     */
                         if (this.txtend > this.txtstart)
                         {
                             this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1540,11 +1596,11 @@ public class Lexer
                     if ((map & LETTER) != 0)
                     {
                         this.in.ungetChar(c); /* push back letter */
-                        this.lexsize -= 2; /* discard " <" + letter  */
+                        this.lexsize -= 2; /* discard " <" + letter     */
                         this.txtend = this.lexsize;
                         this.state = LEX_STARTTAG; /* ready to read tag name */
 
-                        /* if some text before < return it now  */
+                        /* if some text before < return it now     */
                         if (this.txtend > this.txtstart)
                         {
                             this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1559,7 +1615,7 @@ public class Lexer
                     this.waswhite = false;
                     continue;
 
-                case LEX_ENDTAG : /* </letter  */
+                case LEX_ENDTAG : /* </letter     */
                     this.txtstart = this.lexsize - 1;
                     this.in.curcol += 2;
                     c = parseTagName();
@@ -2179,18 +2235,18 @@ public class Lexer
             c = this.in.readChar();
 
             if (c == StreamIn.EndOfStream)
-                {
+            {
                 break;
             }
 
             if (c == '>')
             {
                 if (isrule)
-                    {
+                {
                     addCharToLexer(c);
                 }
                 else
-                    {
+                {
                     this.in.ungetChar(c);
                 }
 
@@ -2204,7 +2260,7 @@ public class Lexer
                 map = MAP((char) c);
 
                 if ((map & WHITE) != 0)
-                    {
+                {
                     break;
                 }
             }
@@ -2276,7 +2332,7 @@ public class Lexer
             map = MAP((char) c);
 
             if ((map & WHITE) == 0)
-                {
+            {
                 break;
             }
         }
@@ -2306,7 +2362,7 @@ public class Lexer
             map = MAP((char) c);
 
             if ((map & WHITE) == 0)
-                {
+            {
                 break;
             }
         }
@@ -2314,7 +2370,7 @@ public class Lexer
         /* check for quote marks */
 
         if (c == '"' || c == '\'')
-            {
+        {
             delim = c;
         }
         else if (c == '<')
@@ -2327,7 +2383,7 @@ public class Lexer
             return (len > 0 ? getString(this.lexbuf, start, len) : null);
         }
         else
-            {
+        {
             this.in.ungetChar(c);
         }
 
@@ -2394,9 +2450,11 @@ public class Lexer
                     c = '/';
                 }
             }
-            else /* delim is '\'' or '"' */ {
+            else
+            {
+                // delim is '\'' or '"'
                 if (c == delim)
-                    {
+                {
                     break;
                 }
 
@@ -2406,7 +2464,7 @@ public class Lexer
                 {
                     c = this.in.readChar();
                     if (c != '\n')
-                        {
+                    {
                         this.in.ungetChar(c);
                     }
 
@@ -2414,12 +2472,12 @@ public class Lexer
                 }
 
                 if (c == '\n' || c == '<' || c == '>')
-                    {
+                {
                     ++quotewarning;
                 }
 
                 if (c == '>')
-                    {
+                {
                     seen_gt = true;
                 }
             }
@@ -2459,13 +2517,13 @@ public class Lexer
                     c = ' ';
 
                     if (lastc == ' ')
-                        {
+                    {
                         continue;
                     }
                 }
             }
             else if (foldCase && (map & UPPERCASE) != 0)
-                {
+            {
                 c += ('a' - 'A');
             }
 
@@ -2489,21 +2547,21 @@ public class Lexer
         this.lexsize = start;
 
         if (len > 0 || delim != 0)
-            {
+        {
             value = getString(this.lexbuf, start, len);
         }
         else
-            {
+        {
             value = null;
         }
 
         /* note delimiter if given */
         if (delim != 0)
-            {
+        {
             pdelim.value = delim;
         }
         else
-            {
+        {
             pdelim.value = '"';
         }
 
@@ -2872,34 +2930,6 @@ public class Lexer
 
     /* Private methods and fields */
 
-    /* lexer char types */
-    private static final short DIGIT = 1;
-    private static final short LETTER = 2;
-    private static final short NAMECHAR = 4;
-    private static final short WHITE = 8;
-    private static final short NEWLINE = 16;
-    private static final short LOWERCASE = 32;
-    private static final short UPPERCASE = 64;
-
-    /* lexer GetToken states */
-
-    private static final short LEX_CONTENT = 0;
-    private static final short LEX_GT = 1;
-    private static final short LEX_ENDTAG = 2;
-    private static final short LEX_STARTTAG = 3;
-    private static final short LEX_COMMENT = 4;
-    private static final short LEX_DOCTYPE = 5;
-    private static final short LEX_PROCINSTR = 6;
-    private static final short LEX_ENDCOMMENT = 7;
-    private static final short LEX_CDATA = 8;
-    private static final short LEX_SECTION = 9;
-    private static final short LEX_ASP = 10;
-    private static final short LEX_JSTE = 11;
-    private static final short LEX_PHP = 12;
-
-    /* used to classify chars for lexical purposes */
-    private static short[] lexmap = new short[128];
-
     private static void mapStr(String str, short code)
     {
         int j;
@@ -2983,7 +3013,9 @@ public class Lexer
                 if ((m & LOWERCASE) != 0)
                     c = (char) (c + 'A' - 'a');
             }
-            else /* force to lower case */ {
+            else
+            {
+                // force to lower case
                 if ((m & UPPERCASE) != 0)
                     c = (char) (c + 'a' - 'A');
             }
@@ -3007,31 +3039,5 @@ public class Lexer
             this.code = code;
         }
     }
-
-    /* the 3 URIs for the XHTML 1.0 DTDs */
-    private static final String voyager_loose = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd";
-    private static final String voyager_strict = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd";
-    private static final String voyager_frameset = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd";
-
-    private static final String XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
-
-    private static Lexer.W3CVersionInfo[] W3CVersion =
-        {
-            new W3CVersionInfo("HTML 4.01", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML40_STRICT),
-            new W3CVersionInfo(
-                "HTML 4.01 Transitional",
-                "XHTML 1.0 Transitional",
-                voyager_loose,
-                Dict.VERS_HTML40_LOOSE),
-            new W3CVersionInfo("HTML 4.01 Frameset", "XHTML 1.0 Frameset", voyager_frameset, Dict.VERS_FRAMES),
-            new W3CVersionInfo("HTML 4.0", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML40_STRICT),
-            new W3CVersionInfo(
-                "HTML 4.0 Transitional",
-                "XHTML 1.0 Transitional",
-                voyager_loose,
-                Dict.VERS_HTML40_LOOSE),
-            new W3CVersionInfo("HTML 4.0 Frameset", "XHTML 1.0 Frameset", voyager_frameset, Dict.VERS_FRAMES),
-            new W3CVersionInfo("HTML 3.2", "XHTML 1.0 Transitional", voyager_loose, Dict.VERS_HTML32),
-            new W3CVersionInfo("HTML 2.0", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML20)};
 
 }
