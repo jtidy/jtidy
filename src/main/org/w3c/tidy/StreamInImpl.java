@@ -310,7 +310,7 @@ public class StreamInImpl implements StreamIn
 
             if (0 < c && c < 32)
             {
-                continue;
+                continue; // discard control char
             }
 
             // watch out for chars that have already been decoded such as
@@ -385,16 +385,43 @@ public class StreamInImpl implements StreamIn
             }
 
             // produced e.g. as a side-effect of smart quotes in Word
+            // but can't happen if using MACROMAN encoding
             if (127 < c && c < 160)
             {
-                this.lexer.report.encodingError(this.lexer, Report.WINDOWS_CHARS, c);
+                int c1 = 0;
+                int replaceMode;
 
-                c = EncodingUtils.decodeWin1252(c);
+                // set error position just before offending character
+                this.lexer.lines = this.curline;
+                this.lexer.columns = this.curcol;
 
-                if (c == 0)
+                if ((this.encoding == Configuration.WIN1252)
+                    || (this.lexer.configuration.replacementCharEncoding == Configuration.WIN1252))
                 {
-                    continue;
+                    c1 = EncodingUtils.decodeWin1252(c);
                 }
+                else if (this.lexer.configuration.replacementCharEncoding == Configuration.MACROMAN)
+                {
+                    c1 = EncodingUtils.decodeMacRoman(c);
+                }
+
+                replaceMode = TidyUtils.toBoolean(c1) ? Report.REPLACED_CHAR : Report.DISCARDED_CHAR;
+
+                if ((c1 == 0) && (this.encoding == Configuration.WIN1252) || (this.encoding == Configuration.MACROMAN))
+                {
+                    this.lexer.report.encodingError(this.lexer, Report.VENDOR_SPECIFIC_CHARS | replaceMode, c);
+                }
+                else if ((this.encoding != Configuration.WIN1252) && (this.encoding != Configuration.MACROMAN))
+                {
+                    this.lexer.report.encodingError(this.lexer, Report.INVALID_SGML_CHARS | replaceMode, c);
+                }
+
+                c = c1;
+            }
+
+            if (c == 0)
+            {
+                continue; // illegal char is discarded
             }
 
             this.curcol++;

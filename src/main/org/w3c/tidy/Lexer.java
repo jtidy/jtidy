@@ -619,16 +619,21 @@ public class Lexer
 
     /**
      * store char c as UTF-8 encoded byte stream.
+     * @param c char to store
      */
     public void addCharToLexer(int c)
     {
         // Allow only valid XML characters. See: http://www.w3.org/TR/2004/REC-xml-20040204/#NT-Char
         // Fix by Pablo Mayrgundter 17-08-2004
-        /*
-         * if ((this.configuration.xmlOut || this.configuration.xHTML) // only for xml output && !((c >= 0x20 && c <=
-         * 0xD7FF) // Check the common-case first. || c == 0x9 || c == 0xA || c == 0xD // Then white-space. || (c >=
-         * 0xE000 && c <= 0xFFFD) // Then high-range unicode. || (c >= 0x10000 && c <= 0x10FFFF))) { return; }
-         */
+
+        if ((this.configuration.xmlOut || this.configuration.xHTML) // only for xml output
+            && !((c >= 0x20 && c <= 0xD7FF) // Check the common-case first.
+                || c == 0x9 || c == 0xA || c == 0xD // Then white-space.
+                || (c >= 0xE000 && c <= 0xFFFD) // Then high-range unicode.
+            || (c >= 0x10000 && c <= 0x10FFFF)))
+        {
+            return;
+        }
 
         int i = 0;
         int[] count = new int[]{0};
@@ -637,7 +642,6 @@ public class Lexer
         boolean err = EncodingUtils.encodeCharToUTF8Bytes(c, buf, null, count);
         if (err)
         {
-
             // replacement char 0xFFFD encoded as UTF-8
             buf[0] = (byte) 0xEF;
             buf[1] = (byte) 0xBF;
@@ -665,10 +669,31 @@ public class Lexer
      */
     public void parseEntity(short mode)
     {
-        // No longer attempts to insert missing ';' for unknown enitities unless one was present already, since this
-        // gives unexpected results. For example: &lt;a href="something.htm?foo&bar&fred"> was tidied to: &lt;a
-        // href="something.htm?foo&amp;bar;&amp;fred;"> rather than: &lt;a href="something.htm?foo&amp;bar&amp;fred"> My
-        // thanks for Maurice Buxton for spotting this.
+        // No longer attempts to insert missing ';' for unknown
+        // entities unless one was present already, since this
+        // gives unexpected results.
+        // 
+        // For example: <a href="something.htm?foo&bar&fred">
+        // was tidied to: <a href="something.htm?foo&amp;bar;&amp;fred;">
+        // rather than: <a href="something.htm?foo&amp;bar&amp;fred">
+        // 
+        // My thanks for Maurice Buxton for spotting this.
+        // 
+        // Also Randy Waki pointed out the following case for the
+        // 04 Aug 00 version (bug #433012):
+        // 
+        // For example: <a href="something.htm?id=1&lang=en">
+        // was tidied to: <a href="something.htm?id=1&lang;=en">
+        // rather than: <a href="something.htm?id=1&amp;lang=en">
+        //
+        // where "lang" is a known entity (#9001), but browsers would
+        // misinterpret "&lang;" because it had a value > 256.
+        //
+        // So the case of an apparently known entity with a value > 256 and
+        // missing a semicolon is handled specially.
+        //
+        // "ParseEntity" is also a bit of a misnomer - it handles entities and
+        // numeric character references. Invalid NCR's are now reported.
 
         int start;
         boolean first = true;
@@ -727,16 +752,16 @@ public class Lexer
         ch = EntityTable.getDefaultEntityTable().entityCode(str);
 
         // drops invalid numeric entities from XML mode. Fix by Pablo Mayrgundter 17-08-2004
-        if ((this.configuration.xmlOut || this.configuration.xHTML) // only for xml output
-            && !((ch >= 0x20 && ch <= 0xD7FF) // Check the common-case first.
-                || ch == 0x9 || ch == 0xA || ch == 0xD // Then white-space.
-            || (ch >= 0xE000 && ch <= 0xFFFD)))
-        {
-            this.lexsize = start;
-            return;
-        }
+        //        if ((this.configuration.xmlOut || this.configuration.xHTML) // only for xml output
+        //            && !((ch >= 0x20 && ch <= 0xD7FF) // Check the common-case first.
+        //                || ch == 0x9 || ch == 0xA || ch == 0xD // Then white-space.
+        //            || (ch >= 0xE000 && ch <= 0xFFFD)))
+        //        {
+        //            this.lexsize = start;
+        //            return;
+        //        }
 
-        // deal with unrecognized entities
+        // deal with unrecognized or invalid entities
         // #433012 - fix by Randy Waki 17 Feb 01
         // report invalid NCR's - Terry Teague 01 Sep 01
         if (ch <= 0 || (ch >= 256 && c != ';'))
