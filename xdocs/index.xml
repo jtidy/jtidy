@@ -19,6 +19,30 @@
       </p>
     </section>
     <section name="News">
+		<subsection name="January 16, 2004">
+		<p>
+			<strong>183</strong> test cases fully implemented now. All the test cases from Tidy and some new tests for JTidy
+			have been added.			
+		</p>
+		<p>
+			All the test cases which caused JTidy to crash or loop have been fixed! Priority (1) is done, now there are other
+			139 tests failing. Note most of the test are failing at the firsts lines for differences in doctype handling
+			and formatting in Tidy (the latest Tidy release has been used to produce output files for comparison).
+		</p>
+		<p>
+			These are the priorities before a release:
+			<ul>
+				<li>Doctype handling (needed for tests)</li>
+				<li>Formatting (needed for tests)</li>
+				<li>Xml output: making Jtidy always produce valid xml (the well known "duplicate attributes" bug)</li>
+			</ul>
+		</p>
+		<p>
+			Mh, formatting in maven-generated <a href="junit-report.html">junit report</a> is really bad, I just submitted a
+			bug report to maven: error messages are escaped two times, newlines are not preserved and random whitespaces are
+			added. I think I should spend some time in fixing junit report plugin bugs if I want to be able to fix JTidy bugs...
+		</p>
+		</subsection>
       <subsection name="January 8, 2004">
         <p><strong>179</strong> test cases for JTidy have been <em>partially</em> implemented and added!</p>
         <p>
