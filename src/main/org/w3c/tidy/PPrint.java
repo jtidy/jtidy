@@ -2660,15 +2660,16 @@ public class PPrint
         {
             buf = "slide" + numberFormat.format(slide) + ".html";
             // #427666 - fix by Eric Rossen 02 Aug 00
-            out.state = StreamIn.FSM_ASCII;
-            out.encoding = this.configuration.outCharEncoding;
+            out.setState(StreamIn.FSM_ASCII);
+            out.setEncoding(this.configuration.outCharEncoding);
 
             try
             {
-                out.out = new FileOutputStream(buf);
+                FileOutputStream fis = new FileOutputStream(buf);
+                out.setOut(fis);
                 printTree(out, (short) 0, 0, lexer, root);
                 flushLine(out, 0);
-                out.out.close();
+                fis.close();
             }
             catch (IOException e)
             {

@@ -85,8 +85,14 @@ package org.w3c.tidy;
 public class Clean
 {
 
+    /**
+     * sequential number for generated css classes.
+     */
     private int classNum = 1;
 
+    /**
+     * Tag table.
+     */
     private TagTable tt;
 
     public Clean(TagTable tagTable)

@@ -64,7 +64,7 @@ import java.io.InputStream;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public class StreamInImpl extends StreamIn
+public class StreamInImpl implements StreamIn
 {
 
     /**
@@ -666,14 +666,29 @@ public class StreamInImpl extends StreamIn
      */
     private static final int NUM_UTF8_SEQUENCES = VALID_UTF8.length;
 
+    /**
+     * utf16 low surrogate.
+     */
     private static final int LOW_UTF16_SURROGATE = 0xD800;
 
+    /**
+     * utf16 high surrogate.
+     */
     private static final int HIGH_UTF16_SURROGATE = 0xDFFF;
 
+    /**
+     * Utf 8 bye swap: invalid char.
+     */
     private static final int UTF8_BYTE_SWAP_NOT_A_CHAR = 0xFFFE;
 
+    /**
+     * Utf 8 invalid char.
+     */
     private static final int UTF8_NOT_A_CHAR = 0xFFFF;
 
+    /**
+     * max utf8 valid char value.
+     */
     private static final int MAX_UTF8_FROM_UCS4 = 0x10FFFF;
 
     private static final int[] OFFSET_UTF8_SEQUENCES = {0, // 1 byte
@@ -681,6 +696,11 @@ public class StreamInImpl extends StreamIn
         2, // 3 bytes
         4, // 4 bytes
         NUM_UTF8_SEQUENCES}; // must be last
+
+    /**
+     * needed for error reporting.
+     */
+    private Lexer lexer;
 
     /**
      * character buffer.
@@ -715,6 +735,49 @@ public class StreamInImpl extends StreamIn
     private boolean lookingForBOM = true;
 
     /**
+     * has end of stream been reached?
+     */
+    private boolean endOfStream;
+
+    private boolean pushed;
+
+    private int tabs;
+
+    /**
+     * tab size in chars.
+     */
+    private int tabsize;
+
+    /**
+     * FSM for ISO2022.
+     */
+    private int state;
+
+    private int c;
+
+    /**
+     * Encoding.
+     */
+    private int encoding;
+
+    /**
+     * current column number.
+     */
+    private int curcol;
+
+    private int lastcol;
+
+    /**
+     * current line number.
+     */
+    private int curline;
+
+    /**
+     * input stream.
+     */
+    private InputStream stream;
+
+    /**
      * Instatiates a new StreamInImpl.
      * @param stream input stream
      * @param encoding encoding constant
@@ -723,15 +786,45 @@ public class StreamInImpl extends StreamIn
     public StreamInImpl(InputStream stream, int encoding, int tabsize)
     {
         this.stream = stream;
-        this.pushed = false;
         this.charbuf[0] = '\0';
-        this.tabs = 0;
         this.tabsize = tabsize;
         this.curline = 1;
         this.curcol = 1;
         this.encoding = encoding;
         this.state = FSM_ASCII;
-        this.endOfStream = false;
+    }
+
+    /**
+     * @see org.w3c.tidy.StreamIn#getCurcol()
+     */
+    public int getCurcol()
+    {
+        return this.curcol;
+    }
+
+    /**
+     * @see org.w3c.tidy.StreamIn#getCurline()
+     */
+    public int getCurline()
+    {
+        return this.curline;
+    }
+
+    /**
+     * Setter for <code>lexer</code>.
+     * @param lexer The lexer to set.
+     */
+    public void setLexer(Lexer lexer)
+    {
+        this.lexer = lexer;
+    }
+
+    /**
+     * @see org.w3c.tidy.StreamIn#getEncoding()
+     */
+    public int getEncoding()
+    {
+        return this.encoding;
     }
 
     /**
@@ -775,7 +868,7 @@ public class StreamInImpl extends StreamIn
 
             if (c < 0)
             {
-                return EndOfStream;
+                return END_OF_STREAM;
             }
 
             if (c == '\n')
@@ -791,7 +884,7 @@ public class StreamInImpl extends StreamIn
                 c = readCharFromStream();
                 if (c != '\n')
                 {
-                    if (c != EndOfStream) // EOF fix by Terry Teague 12 Aug 01
+                    if (c != END_OF_STREAM) // EOF fix by Terry Teague 12 Aug 01
                     {
                         ungetChar(c);
                     }
@@ -927,92 +1020,6 @@ public class StreamInImpl extends StreamIn
     }
 
     /**
-     * Read raw bytes from stream, return <= 0 if EOF; or if "unget" is true, Unget the bytes to re-synchronize the
-     * input stream Normally UTF-8 successor bytes are read using this routine.
-     */
-    void readRawBytesFromStream(char buf[], int[] count, boolean unget)
-    {
-        int i;
-
-        try
-        {
-            for (i = 0; i < count[0]; i++)
-            {
-                if (unget)
-                {
-
-                    c = this.stream.read();
-
-                    // should never get here; testing for 0xFF, a valid char, is not a good idea
-                    if (c == EndOfStream) // || buf[i] == (unsigned char)EndOfStream
-                    {
-                        count[0] = -i;
-                        return;
-                    }
-
-                    rawPushed = true;
-
-                    if (rawBufpos >= CHARBUF_SIZE)
-                    {
-                        System.arraycopy(rawBytebuf, 1, rawBytebuf, 0, CHARBUF_SIZE - 1);
-                        rawBufpos--;
-                    }
-                    rawBytebuf[rawBufpos++] = buf[i];
-
-                    if (buf[i] == '\n')
-                    {
-                        --(this.curline);
-                    }
-
-                    this.curcol = this.lastcol;
-                }
-                else
-                {
-                    if (rawPushed)
-                    {
-                        buf[i] = rawBytebuf[--rawBufpos];
-                        if (rawBufpos == 0)
-                        {
-                            rawPushed = false;
-                        }
-
-                        if (buf[i] == '\n')
-                        {
-                            this.curcol = 1;
-                            this.curline++;
-                        }
-                        else
-                        {
-                            this.curcol++;
-                        }
-                    }
-                    else
-                    {
-                        int c;
-
-                        c = this.stream.read();
-                        if (c == EndOfStream)
-                        {
-                            count[0] = -i;
-                            break;
-                        }
-                        else
-                        {
-                            buf[i] = (char) c;
-                            this.curcol++;
-                        }
-                    }
-                }
-            }
-        }
-        catch (IOException e)
-        {
-            System.err.println("StreamInImpl.readRawBytesFromStream: " + e.toString());
-        }
-        return;
-    }
-
-    /**
      * @see org.w3c.tidy.StreamIn#readCharFromStream()
      */
     public int readCharFromStream()
@@ -1025,7 +1032,7 @@ public class StreamInImpl extends StreamIn
         readRawBytesFromStream(tempchar, count, false);
         if (count[0] <= 0)
         {
-            return EndOfStream;
+            return END_OF_STREAM;
         }
 
         c = tempchar[0];
@@ -1040,10 +1047,10 @@ public class StreamInImpl extends StreamIn
 
             lookingForBOM = false;
 
-            if (c == EndOfStream)
+            if (c == END_OF_STREAM)
             {
                 lookingForBOM = false;
-                return EndOfStream;
+                return END_OF_STREAM;
             }
 
             count[0] = 1;
@@ -1195,7 +1202,7 @@ public class StreamInImpl extends StreamIn
             readRawBytesFromStream(tempchar, count, false);
             if (count[0] <= 0)
             {
-                return EndOfStream;
+                return END_OF_STREAM;
             }
             c1 = tempchar[0];
 
@@ -1213,7 +1220,7 @@ public class StreamInImpl extends StreamIn
             readRawBytesFromStream(tempchar, count, false);
             if (count[0] <= 0)
             {
-                return EndOfStream;
+                return END_OF_STREAM;
             }
             c1 = tempchar[0];
 
@@ -1231,9 +1238,9 @@ public class StreamInImpl extends StreamIn
 
             // first byte "c" is passed in separately
             err = decodeUTF8BytesToChar(n, c, (char) 0, new boolean[]{true}, count2);
-            if (!TidyUtils.toBoolean(err) && (n[0] == EndOfStream) && (count2[0] == 1)) /* EOF */
+            if (!TidyUtils.toBoolean(err) && (n[0] == END_OF_STREAM) && (count2[0] == 1)) /* EOF */
             {
-                return EndOfStream;
+                return END_OF_STREAM;
             }
             else if (TidyUtils.toBoolean(err))
             {
@@ -1268,7 +1275,7 @@ public class StreamInImpl extends StreamIn
 
                 if (count[0] <= 0)
                 {
-                    return EndOfStream;
+                    return END_OF_STREAM;
                 }
 
                 c1 = tempchar[0];
@@ -1300,7 +1307,7 @@ public class StreamInImpl extends StreamIn
         }
 
         // special check if we have been passed an EOF char
-        if (firstByte == EndOfStream) //uint
+        if (firstByte == END_OF_STREAM) //uint
         {
             // at present
             c[0] = firstByte;
@@ -1404,10 +1411,8 @@ public class StreamInImpl extends StreamIn
 
         if (!hasError)
         {
-            int lo, hi;
-
-            lo = OFFSET_UTF8_SEQUENCES[bytes - 1];
-            hi = OFFSET_UTF8_SEQUENCES[bytes] - 1;
+            int lo = OFFSET_UTF8_SEQUENCES[bytes - 1];
+            int hi = OFFSET_UTF8_SEQUENCES[bytes] - 1;
 
             // check for overlong sequences
             if ((n < VALID_UTF8[lo].lowChar) || (n > VALID_UTF8[hi].highChar))
@@ -1567,6 +1572,93 @@ public class StreamInImpl extends StreamIn
         {
             out.outc(buf[i]);
         }
+    }
+
+    /**
+     * Read raw bytes from stream, return <= 0 if EOF; or if "unget" is true, Unget the bytes to re-synchronize the
+     * input stream Normally UTF-8 successor bytes are read using this routine.
+     * @param buf character buffer
+     * @param count number of bytes to read
+     * @param unget
+     */
+    private void readRawBytesFromStream(char[] buf, int[] count, boolean unget)
+    {
+        int i;
+
+        try
+        {
+            for (i = 0; i < count[0]; i++)
+            {
+                if (unget)
+                {
+
+                    c = this.stream.read();
+
+                    // should never get here; testing for 0xFF, a valid char, is not a good idea
+                    if (c == END_OF_STREAM) // || buf[i] == (unsigned char)EndOfStream
+                    {
+                        count[0] = -i;
+                        return;
+                    }
+
+                    rawPushed = true;
+
+                    if (rawBufpos >= CHARBUF_SIZE)
+                    {
+                        System.arraycopy(rawBytebuf, 1, rawBytebuf, 0, CHARBUF_SIZE - 1);
+                        rawBufpos--;
+                    }
+                    rawBytebuf[rawBufpos++] = buf[i];
+
+                    if (buf[i] == '\n')
+                    {
+                        --(this.curline);
+                    }
+
+                    this.curcol = this.lastcol;
+                }
+                else
+                {
+                    if (rawPushed)
+                    {
+                        buf[i] = rawBytebuf[--rawBufpos];
+                        if (rawBufpos == 0)
+                        {
+                            rawPushed = false;
+                        }
+
+                        if (buf[i] == '\n')
+                        {
+                            this.curcol = 1;
+                            this.curline++;
+                        }
+                        else
+                        {
+                            this.curcol++;
+                        }
+                    }
+                    else
+                    {
+                        int c = this.stream.read();
+                        if (c == END_OF_STREAM)
+                        {
+                            count[0] = -i;
+                            break;
+                        }
+                        else
+                        {
+                            buf[i] = (char) c;
+                            this.curcol++;
+                        }
+                    }
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            System.err.println("StreamInImpl.readRawBytesFromStream: " + e.toString());
+        }
+        return;
     }
 
 }

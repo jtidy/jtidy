@@ -249,16 +249,16 @@ public class DOMNodeImpl implements org.w3c.dom.Node
      */
     public org.w3c.dom.Document getOwnerDocument()
     {
-        Node node;
-
-        node = this.adaptee;
+        Node node = this.adaptee;
         if (node != null && node.type == Node.ROOT_NODE)
         {
             return null;
         }
 
-        for (node = this.adaptee; node != null && node.type != Node.ROOT_NODE; node = node.parent)
-            ;
+        while (node != null && node.type != Node.ROOT_NODE)
+        {
+            node = node.parent;
+        }
 
         if (node != null)
         {

@@ -63,19 +63,60 @@ import java.io.OutputStream;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public abstract class Out
+public interface Out
 {
 
-    protected int encoding;
+    /**
+     * writes an char.
+     * @param c char to write
+     */
+    void outc(int c);
 
-    protected int state; /* for ISO 2022 */
+    /**
+     * writes a byte.
+     * @param c byte to write
+     */
+    void outc(byte c);
 
-    protected OutputStream out;
+    /**
+     * writes a newline.
+     */
+    void newline();
 
-    public abstract void outc(int c);
+    /**
+     * Getter for <code>encoding</code>.
+     * @return Returns the encoding.
+     */
+    int getEncoding();
 
-    public abstract void outc(byte c);
+    /**
+     * Getter for <code>out</code>.
+     * @return Returns the out.
+     */
+    OutputStream getOut();
 
-    public abstract void newline();
+    /**
+     * Getter for <code>state</code>.
+     * @return Returns the state.
+     */
+    int getState();
+
+    /**
+     * Setter for <code>encoding</code>.
+     * @param encoding The encoding to set.
+     */
+    void setEncoding(int encoding);
+
+    /**
+     * Setter for <code>out</code>.
+     * @param out The out to set.
+     */
+    void setOut(OutputStream out);
+
+    /**
+     * Setter for <code>state</code>.
+     * @param state The state to set.
+     */
+    void setState(int state);
 
 }

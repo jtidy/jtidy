@@ -164,7 +164,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
         {
             if (node.tag == null) // Fix Bug 121206
             {
-                node.tag = this.tt.XML_TAGS;
+                node.tag = TagTable.XML_TAGS;
             }
             return (org.w3c.dom.Element) node.getAdapter();
         }

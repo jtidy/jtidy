@@ -1290,22 +1290,21 @@ public class Tidy implements Serializable
 
         if (in != null)
         {
-            lexer = new Lexer(
-                new StreamInImpl(in, configuration.charEncoding, configuration.tabsize),
-                configuration,
-                this.report);
+
+            StreamInImpl streamIn = new StreamInImpl(in, configuration.charEncoding, configuration.tabsize);
+            lexer = new Lexer(streamIn, configuration, this.report);
             lexer.errout = errout;
 
             // store pointer to lexer in input stream to allow character encoding errors to be reported
-            lexer.in.lexer = lexer;
+            streamIn.setLexer(lexer);
 
             this.report.setFilename(inputStreamName); // #431895 - fix by Dave Bryan 04 Jan 01
 
             // skip byte order mark
-            if (lexer.in.encoding == Configuration.UTF8
-                || lexer.in.encoding == Configuration.UTF16LE
-                || lexer.in.encoding == Configuration.UTF16BE
-                || lexer.in.encoding == Configuration.UTF16)
+            if (lexer.in.getEncoding() == Configuration.UTF8
+                || lexer.in.getEncoding() == Configuration.UTF16LE
+                || lexer.in.getEncoding() == Configuration.UTF16BE
+                || lexer.in.getEncoding() == Configuration.UTF16)
             {
                 int c = lexer.in.readChar();
 
@@ -1426,8 +1425,8 @@ public class Tidy implements Serializable
                 this.report.needsAuthorIntervention(errout);
             }
 
-            o.state = StreamIn.FSM_ASCII;
-            o.encoding = configuration.charEncoding;
+            o.setState(StreamIn.FSM_ASCII);
+            o.setEncoding(configuration.charEncoding);
 
             if (!configuration.onlyErrors && (lexer.errors == 0 || configuration.forceOutput))
             {
@@ -1478,7 +1477,8 @@ public class Tidy implements Serializable
                     try
                     {
                         pprint = new PPrint(configuration);
-                        o.out = new FileOutputStream(file);
+                        FileOutputStream fis = new FileOutputStream(file);
+                        o.setOut(fis);
 
                         if (configuration.bodyOnly)
                         {
@@ -1495,7 +1495,7 @@ public class Tidy implements Serializable
                         }
 
                         pprint.flushLine(o, 0);
-                        o.out.close();
+                        fis.close();
                     }
                     catch (IOException e)
                     {
@@ -1505,7 +1505,7 @@ public class Tidy implements Serializable
                 else if (out != null)
                 {
                     pprint = new PPrint(configuration);
-                    o.out = out;
+                    o.setOut(out);
 
                     if (configuration.bodyOnly)
                     {
@@ -1614,13 +1614,13 @@ public class Tidy implements Serializable
         Out o = new OutImpl();
         PPrint pprint;
 
-        o.state = StreamIn.FSM_ASCII;
-        o.encoding = configuration.charEncoding;
+        o.setState(StreamIn.FSM_ASCII);
+        o.setEncoding(configuration.charEncoding);
 
         if (out != null)
         {
             pprint = new PPrint(configuration);
-            o.out = out;
+            o.setOut(out);
 
             if (configuration.xmlTags)
             {

@@ -66,21 +66,44 @@ import org.w3c.dom.Attr;
 public class AttVal extends Object implements Cloneable
 {
 
+    /**
+     * next AttVal.
+     */
     protected AttVal next;
 
+    /**
+     * Attribute definition.
+     */
     protected Attribute dict;
 
+    /**
+     * Asp node.
+     */
     protected Node asp;
 
+    /**
+     * Php node.
+     */
     protected Node php;
 
+    /**
+     * Delimiter (" or ').
+     */
     protected int delim;
 
+    /**
+     * Attribute name.
+     */
     protected String attribute;
 
+    /**
+     * Attribute value.
+     */
     protected String value;
 
-    // DOM
+    /**
+     * DOM adapter.
+     */
     protected Attr adapter;
 
     public AttVal()
@@ -91,8 +114,6 @@ public class AttVal extends Object implements Cloneable
     {
         this.next = next;
         this.dict = dict;
-        this.asp = null;
-        this.php = null;
         this.delim = delim;
         this.attribute = attribute;
         this.value = value;
@@ -111,7 +132,16 @@ public class AttVal extends Object implements Cloneable
 
     protected Object clone()
     {
-        AttVal av = new AttVal();
+        AttVal av = null;
+        try
+        {
+            av = (AttVal) super.clone();
+        }
+        catch (CloneNotSupportedException e)
+        {
+            // should never happen
+        }
+
         if (this.next != null)
         {
             av.next = (AttVal) this.next.clone();
@@ -202,6 +232,132 @@ public class AttVal extends Object implements Cloneable
             this.adapter = new DOMAttrImpl(this);
         }
         return this.adapter;
+    }
+
+    /**
+     * Getter for <code>asp</code>.
+     * @return Returns the asp.
+     */
+    public Node getAsp()
+    {
+        return this.asp;
+    }
+
+    /**
+     * Setter for <code>asp</code>.
+     * @param asp The asp to set.
+     */
+    public void setAsp(Node asp)
+    {
+        this.asp = asp;
+    }
+
+    /**
+     * Getter for <code>attribute</code>.
+     * @return Returns the attribute.
+     */
+    public String getAttribute()
+    {
+        return this.attribute;
+    }
+
+    /**
+     * Setter for <code>attribute</code>.
+     * @param attribute The attribute to set.
+     */
+    public void setAttribute(String attribute)
+    {
+        this.attribute = attribute;
+    }
+
+    /**
+     * Getter for <code>delim</code>.
+     * @return Returns the delim.
+     */
+    public int getDelim()
+    {
+        return this.delim;
+    }
+
+    /**
+     * Setter for <code>delim</code>.
+     * @param delim The delim to set.
+     */
+    public void setDelim(int delim)
+    {
+        this.delim = delim;
+    }
+
+    /**
+     * Getter for <code>dict</code>.
+     * @return Returns the dict.
+     */
+    public Attribute getDict()
+    {
+        return this.dict;
+    }
+
+    /**
+     * Setter for <code>dict</code>.
+     * @param dict The dict to set.
+     */
+    public void setDict(Attribute dict)
+    {
+        this.dict = dict;
+    }
+
+    /**
+     * Getter for <code>next</code>.
+     * @return Returns the next.
+     */
+    public AttVal getNext()
+    {
+        return this.next;
+    }
+
+    /**
+     * Setter for <code>next</code>.
+     * @param next The next to set.
+     */
+    public void setNext(AttVal next)
+    {
+        this.next = next;
+    }
+
+    /**
+     * Getter for <code>php</code>.
+     * @return Returns the php.
+     */
+    public Node getPhp()
+    {
+        return this.php;
+    }
+
+    /**
+     * Setter for <code>php</code>.
+     * @param php The php to set.
+     */
+    public void setPhp(Node php)
+    {
+        this.php = php;
+    }
+
+    /**
+     * Getter for <code>value</code>.
+     * @return Returns the value.
+     */
+    public String getValue()
+    {
+        return this.value;
+    }
+
+    /**
+     * Setter for <code>value</code>.
+     * @param value The value to set.
+     */
+    public void setValue(String value)
+    {
+        this.value = value;
     }
 
 }

@@ -53,87 +53,121 @@
  */
 package org.w3c.tidy;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+
+
 /**
- * Input Stream.
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-
-public interface StreamIn
+public class StreamInJavaImpl implements StreamIn
 {
 
     /**
-     * end of stream char.
+     * Java input stream reader.
      */
-    int END_OF_STREAM = -1;
+    private InputStreamReader isr;
 
     /**
-     * the big-endian (default) UNICODE BOM.
+     * has end of stream been reached?
      */
-    int UNICODE_BOM_BE = 0xFEFF;
+    private boolean endOfStream;
+
+    private boolean pushed;
+
+    private int c;
+
+    public StreamInJavaImpl(InputStream stream, String encoding) throws UnsupportedEncodingException
+    {
+        isr = new InputStreamReader(stream, encoding);
+    }
 
     /**
-     * the default (big-endian) UNICODE BOM.
+     * @see org.w3c.tidy.StreamIn#readCharFromStream()
      */
-    int UNICODE_BOM = UNICODE_BOM_BE;
+    public int readCharFromStream()
+    {
+        try
+        {
+            int rtn = isr.read();
+            if (rtn < 0)
+            {
+                endOfStream = true;
+            }
+            return rtn;
+        }
+        catch (IOException e)
+        {
+            // @todo how to handle?
+            endOfStream = true;
+            return -1;
+        }
+    }
 
     /**
-     * the little-endian UNICODE BOM.
+     * @see org.w3c.tidy.StreamIn#readChar()
      */
-    int UNICODE_BOM_LE = 0xFFFE;
+    public int readChar()
+    {
+        if (pushed)
+        {
+            pushed = false;
+            return c;
+        }
+        else
+        {
+            return readCharFromStream();
+        }
+    }
 
     /**
-     * the UTF-8 UNICODE BOM.
+     * @see org.w3c.tidy.StreamIn#ungetChar(int)
      */
-    int UNICODE_BOM_UTF8 = 0xEFBBBF;
+    public void ungetChar(int c)
+    {
+        pushed = true;
+        this.c = c;
+    }
 
-    /*
-     * states for ISO 2022 A document in ISO-2022 based encoding uses some ESC sequences called "designator" to switch
-     * character sets. The designators defined and used in ISO-2022-JP are: "ESC" + "(" + ? for ISO646 variants "ESC" +
-     * "$" + ? and "ESC" + "$" + "(" + ? for multibyte character sets
+    /**
+     * @see org.w3c.tidy.StreamIn#isEndOfStream()
      */
-
-    int FSM_ASCII = 0;
-
-    int FSM_ESC = 1;
-
-    int FSM_ESCD = 2;
-
-    int FSM_ESCDP = 3;
-
-    int FSM_ESCP = 4;
-
-    int FSM_NONASCII = 5;
+    public boolean isEndOfStream()
+    {
+        return endOfStream;
+    }
 
     /**
      * Getter for <code>curcol</code>.
      * @return Returns the curcol.
      */
-    int getCurcol();
+    public int getCurcol()
+    {
+        // @todo
+        return 0;
+    }
 
     /**
      * Getter for <code>curline</code>.
      * @return Returns the curline.
      */
-    int getCurline();
-
-    /**
-     * reads a char from the stream.
-     */
-    int readCharFromStream();
-
-    int readChar();
-
-    void ungetChar(int c);
-
-    boolean isEndOfStream();
+    public int getCurline()
+    {
+        // @todo
+        return 0;
+    }
 
     /**
      * Getter for <code>encoding</code>.
      * @return Returns the encoding.
      */
-    int getEncoding();
+    public int getEncoding()
+    {
+        // @todo
+        return 0;
+    }
 
 }

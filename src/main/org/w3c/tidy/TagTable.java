@@ -625,7 +625,7 @@ public class TagTable
     protected Dict tagQ;
 
     /**
-     * a proprietary tag added by Tidy, along with tag_nobr, tag_wbr
+     * a proprietary tag added by Tidy, along with tag_nobr, tag_wbr.
      */
     protected Dict tagBlink;
 

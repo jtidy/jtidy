@@ -55,6 +55,7 @@ package org.w3c.tidy;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ import java.util.Properties;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public class Configuration implements java.io.Serializable
+public class Configuration implements Serializable
 {
 
     /**
@@ -186,6 +187,11 @@ public class Configuration implements java.io.Serializable
      */
     private static final Map OPTIONS = new HashMap();
 
+    /**
+     * serial version UID for this class.
+     */
+    private static final long serialVersionUID = -4955155037138560842L;
+    
     static
     {
         addConfigOption(new Flag("indent-spaces", "spaces", ParsePropertyImpl.INT));

@@ -53,6 +53,10 @@
  */
 package org.w3c.tidy;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
+
 /**
  * Output Stream Implementation.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
@@ -60,17 +64,54 @@ package org.w3c.tidy;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-import java.io.IOException;
-
-
-public class OutImpl extends Out
+public class OutImpl implements Out
 {
 
-    private static final byte[] nlBytes = (System.getProperty("line.separator")).getBytes();
+    /**
+     * bytes for the newline marker.
+     */
+    private static final byte[] NL_BYTES = (System.getProperty("line.separator")).getBytes();
 
-    public OutImpl()
+    /**
+     * output encoding.
+     */
+    private int encoding;
+
+    /**
+     * actual state for ISO 2022.
+     */
+    private int state;
+
+    /**
+     * output stream.
+     */
+    private OutputStream out;
+
+    /**
+     * Getter for <code>encoding</code>.
+     * @return Returns the encoding.
+     */
+    public int getEncoding()
     {
-        this.out = null;
+        return this.encoding;
+    }
+
+    /**
+     * Getter for <code>out</code>.
+     * @return Returns the out.
+     */
+    public OutputStream getOut()
+    {
+        return this.out;
+    }
+
+    /**
+     * Getter for <code>state</code>.
+     * @return Returns the state.
+     */
+    public int getState()
+    {
+        return this.state;
     }
 
     public void outc(byte c)
@@ -215,7 +256,7 @@ public class OutImpl extends Out
     {
         try
         {
-            this.out.write(nlBytes);
+            this.out.write(NL_BYTES);
             this.out.flush();
         }
         catch (IOException e)
@@ -224,4 +265,30 @@ public class OutImpl extends Out
         }
     }
 
+    /**
+     * Setter for <code>encoding</code>.
+     * @param encoding The encoding to set.
+     */
+    public void setEncoding(int encoding)
+    {
+        this.encoding = encoding;
+    }
+
+    /**
+     * Setter for <code>out</code>.
+     * @param out The out to set.
+     */
+    public void setOut(OutputStream out)
+    {
+        this.out = out;
+    }
+
+    /**
+     * Setter for <code>state</code>.
+     * @param state The state to set.
+     */
+    public void setState(int state)
+    {
+        this.state = state;
+    }
 }

@@ -690,9 +690,9 @@ public class Lexer
         String str;
 
         start = this.lexsize - 1; // to start at "&"
-        startcol = this.in.curcol - 1;
+        startcol = this.in.getCurcol() - 1;
 
-        while ((c = this.in.readChar()) != StreamIn.EndOfStream)
+        while ((c = this.in.readChar()) != StreamIn.END_OF_STREAM)
         {
             if (c == ';')
             {
@@ -755,7 +755,7 @@ public class Lexer
         if (ch <= 0 || (ch >= 256 && c != ';'))
         {
             // set error position just before offending character
-            this.lines = this.in.curline;
+            this.lines = this.in.getCurline();
             this.columns = startcol;
 
             if (this.lexsize > start + 1)
@@ -822,7 +822,7 @@ public class Lexer
             if (c != ';')
             {
                 // set error position just before offending character
-                this.lines = this.in.curline;
+                this.lines = this.in.getCurline();
                 this.columns = startcol;
                 report.entityError(this, Report.MISSING_SEMICOLON, str, c);
             }
@@ -863,7 +863,7 @@ public class Lexer
         while (true)
         {
             c = this.in.readChar();
-            if (c == StreamIn.EndOfStream)
+            if (c == StreamIn.END_OF_STREAM)
             {
                 break;
             }
@@ -1747,8 +1747,8 @@ public class Lexer
         String str;
         boolean endtag = false;
 
-        this.lines = this.in.curline;
-        this.columns = this.in.curcol;
+        this.lines = this.in.getCurline();
+        this.columns = this.in.getCurcol();
         this.waswhite = false;
         this.txtstart = this.lexsize;
         this.txtend = this.lexsize;
@@ -1759,7 +1759,7 @@ public class Lexer
         while (true)
         {
             c = this.in.readChar();
-            if (c == StreamIn.EndOfStream)
+            if (c == StreamIn.END_OF_STREAM)
             {
                 break;
             }
@@ -1769,8 +1769,8 @@ public class Lexer
             {
                 if (endtag)
                 {
-                    this.lines = this.in.curline;
-                    this.columns = this.in.curcol - 3;
+                    this.lines = this.in.getCurline();
+                    this.columns = this.in.getCurcol() - 3;
 
                     report.warning(this, null, null, Report.BAD_CDATA_CONTENT);
                 }
@@ -1791,8 +1791,8 @@ public class Lexer
                     }
                 }
 
-                this.lines = this.in.curline;
-                this.columns = this.in.curcol - 3;
+                this.lines = this.in.getCurline();
+                this.columns = this.in.getCurcol() - 3;
 
                 report.warning(this, null, null, Report.BAD_CDATA_CONTENT);
 
@@ -1842,7 +1842,7 @@ public class Lexer
             lastc = c;
         }
 
-        if (c == StreamIn.EndOfStream)
+        if (c == StreamIn.END_OF_STREAM)
         {
             report.warning(this, container, null, Report.MISSING_ENDTAG_FOR);
         }
@@ -1895,14 +1895,14 @@ public class Lexer
             return insertedToken();
         }
 
-        this.lines = this.in.curline;
-        this.columns = this.in.curcol;
+        this.lines = this.in.getCurline();
+        this.columns = this.in.getCurcol();
         this.waswhite = false;
 
         this.txtstart = this.lexsize;
         this.txtend = this.lexsize;
 
-        while ((c = this.in.readChar()) != StreamIn.EndOfStream)
+        while ((c = this.in.readChar()) != StreamIn.END_OF_STREAM)
         {
             // FG fix for [427846] different from tidy
             // if (this.insertspace && (!TidyUtils.toBoolean(mode & IGNORE_WHITESPACE)))
@@ -1943,8 +1943,8 @@ public class Lexer
                     {
                         --this.lexsize;
                         this.waswhite = false;
-                        this.lines = this.in.curline;
-                        this.columns = this.in.curcol;
+                        this.lines = this.in.getCurline();
+                        this.columns = this.in.getCurcol();
                         continue;
                     }
 
@@ -1962,8 +1962,8 @@ public class Lexer
                             if (mode != PREFORMATTED && mode != IGNORE_MARKUP)
                             {
                                 --this.lexsize;
-                                this.lines = this.in.curline;
-                                this.columns = this.in.curcol;
+                                this.lines = this.in.getCurline();
+                                this.columns = this.in.getCurcol();
                             }
                         }
                         else
@@ -2000,7 +2000,7 @@ public class Lexer
                     if (c == '/')
                     {
                         c = this.in.readChar();
-                        if (c == StreamIn.EndOfStream)
+                        if (c == StreamIn.END_OF_STREAM)
                         {
                             this.in.ungetChar(c);
                             continue;
@@ -2015,7 +2015,10 @@ public class Lexer
                             this.in.ungetChar(c);
                             this.state = LEX_ENDTAG;
                             this.lexbuf[this.lexsize] = (byte) '\0'; // debug
-                            this.in.curcol -= 2;
+
+                            // @todo check: changed from
+                            // this.in.curcol -= 2;
+                            this.columns -= 2;
 
                             // if some text before the </ return it now
                             if (this.txtend > this.txtstart)
@@ -2089,7 +2092,7 @@ public class Lexer
                             {
                                 c = this.in.readChar();
 
-                                if (c == StreamIn.EndOfStream || c == '>')
+                                if (c == StreamIn.END_OF_STREAM || c == '>')
                                 {
                                     this.in.ungetChar(c);
                                     break;
@@ -2106,7 +2109,7 @@ public class Lexer
                                 {
                                     c = this.in.readChar();
 
-                                    if (c == StreamIn.EndOfStream || c == '>')
+                                    if (c == StreamIn.END_OF_STREAM || c == '>')
                                     {
                                         this.in.ungetChar(c);
                                         break;
@@ -2254,7 +2257,11 @@ public class Lexer
                 case LEX_ENDTAG :
                     // </letter
                     this.txtstart = this.lexsize - 1;
-                    this.in.curcol += 2;
+
+                    // @todo check: changed from
+                    // this.in.curcol -= 2;
+                    this.columns -= 2;
+
                     c = parseTagName();
                     this.token = newNode(Node.END_TAG, // create endtag token
                         this.lexbuf, this.txtstart, this.txtend, getString(this.lexbuf, this.txtstart, this.txtend
@@ -2267,13 +2274,13 @@ public class Lexer
                     {
                         c = this.in.readChar();
 
-                        if (c == StreamIn.EndOfStream)
+                        if (c == StreamIn.END_OF_STREAM)
                         {
                             break;
                         }
                     }
 
-                    if (c == StreamIn.EndOfStream)
+                    if (c == StreamIn.END_OF_STREAM)
                     {
                         this.in.ungetChar(c);
                         continue;
@@ -2453,8 +2460,8 @@ public class Lexer
                         // note position of first such error in the comment
                         if (badcomment == 0)
                         {
-                            this.lines = this.in.curline;
-                            this.columns = this.in.curcol - 3;
+                            this.lines = this.in.getCurline();
+                            this.columns = this.in.getCurcol() - 3;
                         }
 
                         badcomment++;
@@ -2552,7 +2559,7 @@ public class Lexer
                         // now look for '>'
                         c = this.in.readChar();
 
-                        if (c == StreamIn.EndOfStream)
+                        if (c == StreamIn.END_OF_STREAM)
                         {
                             report.warning(this, null, null, Report.UNEXPECTED_END_OF_FILE);
                             this.in.ungetChar(c);
@@ -2788,7 +2795,7 @@ public class Lexer
         }
         else if (this.state == LEX_COMMENT) // comment
         {
-            if (c == StreamIn.EndOfStream)
+            if (c == StreamIn.END_OF_STREAM)
             {
                 report.warning(this, null, null, Report.MALFORMED_COMMENT);
             }
@@ -2821,7 +2828,7 @@ public class Lexer
 
         for (;;)
         {
-            if ((c = this.in.readChar()) == StreamIn.EndOfStream)
+            if ((c = this.in.readChar()) == StreamIn.END_OF_STREAM)
             {
                 break;
             }
@@ -2833,7 +2840,7 @@ public class Lexer
                 continue;
             }
 
-            if ((c = this.in.readChar()) == StreamIn.EndOfStream)
+            if ((c = this.in.readChar()) == StreamIn.END_OF_STREAM)
             {
                 break;
             }
@@ -2870,7 +2877,7 @@ public class Lexer
 
         for (;;)
         {
-            if ((c = this.in.readChar()) == StreamIn.EndOfStream)
+            if ((c = this.in.readChar()) == StreamIn.END_OF_STREAM)
             {
                 break;
             }
@@ -2881,7 +2888,7 @@ public class Lexer
                 continue;
             }
 
-            if ((c = this.in.readChar()) == StreamIn.EndOfStream)
+            if ((c = this.in.readChar()) == StreamIn.END_OF_STREAM)
             {
                 break;
             }
@@ -2983,7 +2990,7 @@ public class Lexer
                 continue;
             }
 
-            if (c == StreamIn.EndOfStream)
+            if (c == StreamIn.END_OF_STREAM)
             {
                 report.attrError(this, this.token, null, Report.UNEXPECTED_END_OF_FILE);
                 this.in.ungetChar(c);
@@ -3008,7 +3015,7 @@ public class Lexer
                 break;
             }
 
-            if (c == '<' || c == StreamIn.EndOfStream)
+            if (c == '<' || c == StreamIn.END_OF_STREAM)
             {
                 this.in.ungetChar(c);
                 break;
@@ -3069,7 +3076,7 @@ public class Lexer
         {
             c = this.in.readChar();
 
-            if (c == StreamIn.EndOfStream)
+            if (c == StreamIn.END_OF_STREAM)
             {
                 break;
             }
@@ -3187,7 +3194,7 @@ public class Lexer
         {
             c = this.in.readChar();
 
-            if (c == StreamIn.EndOfStream)
+            if (c == StreamIn.END_OF_STREAM)
             {
                 this.in.ungetChar(c);
                 break;
@@ -3213,7 +3220,7 @@ public class Lexer
         {
             c = this.in.readChar();
 
-            if (c == StreamIn.EndOfStream)
+            if (c == StreamIn.END_OF_STREAM)
             {
                 this.in.ungetChar(c);
                 break;
@@ -3256,7 +3263,7 @@ public class Lexer
             lastc = c; // track last character
             c = this.in.readChar();
 
-            if (c == StreamIn.EndOfStream)
+            if (c == StreamIn.END_OF_STREAM)
             {
                 report.attrError(this, this.token, null, Report.UNEXPECTED_END_OF_FILE);
                 this.in.ungetChar(c);
@@ -3759,11 +3766,10 @@ public class Lexer
 
         // is this is the "latest" node then update
         // the position, otherwise use current values
-
         if (this.inode == null)
         {
-            this.lines = this.in.curline;
-            this.columns = this.in.curcol;
+            this.lines = this.in.getCurline();
+            this.columns = this.in.getCurcol();
         }
 
         node = newNode(Node.START_TAG, this.lexbuf, this.txtstart, this.txtend);
