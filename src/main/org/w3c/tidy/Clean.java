@@ -265,11 +265,18 @@ public class Clean
         return style;
     }
 
-    private String gensymClass(String tag)
+    /**
+     * Generates a new css class name.
+     * @param lexer Lexer
+     * @param tag Tag
+     * @return generated css class
+     */
+    private String gensymClass(Lexer lexer, String tag)
     {
         String str;
 
-        str = "c" + this.classNum;
+        str = lexer.configuration.cssPrefix == null ? lexer.configuration.cssPrefix + this.classNum : "c"
+            + this.classNum;
         this.classNum++;
         return str;
     }
@@ -286,7 +293,7 @@ public class Clean
             }
         }
 
-        style = new Style(tag, gensymClass(tag), properties, lexer.styles);
+        style = new Style(tag, gensymClass(lexer, tag), properties, lexer.styles);
         lexer.styles = style;
         return style.tagClass;
     }
@@ -2191,6 +2198,11 @@ public class Clean
      */
     static void bumpObject(Lexer lexer, Node html)
     {
+        if (html == null)
+        {
+            return;
+        }
+
         Node node, next, head = null, body = null;
         TagTable tt = lexer.configuration.tt;
         for (node = html.content; node != null; node = node.next)

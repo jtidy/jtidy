@@ -3452,6 +3452,57 @@ public class Lexer
         return true;
     }
 
+    /**
+     * In CSS1, selectors can contain only the characters A-Z, 0-9, and Unicode characters 161-255, plus dash (-); they
+     * cannot start with a dash or a digit; they can also contain escaped characters and any Unicode character as a
+     * numeric code (see next item). The backslash followed by at most four hexadecimal digits (0..9A..F) stands for the
+     * Unicode character with that number. Any character except a hexadecimal digit can be escaped to remove its special
+     * meaning, by putting a backslash in front.
+     */
+    public static boolean isCSS1Selector(String buf)
+    {
+        if (buf == null)
+        {
+            return false;
+        }
+
+        // #508936 - CSS class naming for -clean option
+        boolean valid = true;
+        int esclen = 0;
+        char c;
+        int pos;
+
+        for (pos = 0; valid && pos < buf.length(); ++pos)
+        {
+            c = buf.charAt(pos);
+            if (c == '\\')
+            {
+                esclen = 1; // ab\555\444 is 4 chars {'a', 'b', \555, \444}
+            }
+            else if (TidyUtils.isxdigit(c))
+            {
+                // Digit not 1st, unless escaped (Max length "\112F")
+                if (esclen > 0)
+                {
+                    valid = (++esclen < 6);
+                }
+                if (valid)
+                {
+                    valid = (pos > 0 || esclen > 0);
+                }
+            }
+            else
+            {
+                valid = (esclen > 0 // Escaped? Anything goes.
+                    || (pos > 0 && c == '-') // Dash cannot be 1st char
+                    || Character.isLetter(c) // a-z, A-Z anywhere
+                || (c >= 161 && c <= 255)); // Unicode 161-255 anywhere
+                esclen = 0;
+            }
+        }
+        return valid;
+    }
+
     // swallows closing '>'
     public AttVal parseAttrs(boolean[] isempty)
     {
@@ -3880,9 +3931,7 @@ public class Lexer
     protected static boolean isLetter(char c)
     {
         short m;
-
         m = map(c);
-
         return TidyUtils.toBoolean(m & LETTER);
     }
 

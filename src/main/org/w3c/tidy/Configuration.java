@@ -210,7 +210,6 @@ public class Configuration implements java.io.Serializable
         addConfigOption(new Flag("join-classes", "joinClasses", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("join-styles", "joinStyles", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("escape-cdata", "escapeCdata", ParsePropertyImpl.BOOL));
-
         addConfigOption(new Flag("replace-color", "replaceColor", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("quiet", "quiet", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("tidy-mark", "tidyMark", ParsePropertyImpl.BOOL));
@@ -218,6 +217,7 @@ public class Configuration implements java.io.Serializable
         addConfigOption(new Flag("hide-endtags", "hideEndTags", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("input-xml", "xmlTags", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("output-xml", "xmlOut", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("output-html", "htmlOut", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("output-xhtml", "xHTML", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("add-xml-pi", "xmlPi", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("add-xml-decl", "xmlPi", ParsePropertyImpl.BOOL));
@@ -225,6 +225,7 @@ public class Configuration implements java.io.Serializable
         addConfigOption(new Flag("raw", "rawOut", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("uppercase-tags", "upperCaseTags", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("uppercase-attributes", "upperCaseAttrs", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("bare", "makeBare", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("clean", "makeClean", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("logical-emphasis", "logicalEmphasis", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("word-2000", "word2000", ParsePropertyImpl.BOOL));
@@ -247,6 +248,7 @@ public class Configuration implements java.io.Serializable
         addConfigOption(new Flag("ncr", "ncr", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("fix-backslash", "fixBackslash", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("gnu-emacs", "emacs", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("output-bom", "outputBOM", ParsePropertyImpl.BOOL));
 
         addConfigOption(new Flag("markup", "onlyErrors", ParsePropertyImpl.INVBOOL));
 
@@ -270,6 +272,8 @@ public class Configuration implements java.io.Serializable
         addConfigOption(new Flag("alt-text", "altText", ParsePropertyImpl.STRING));
 
         addConfigOption(new Flag("indent", "indentContent", ParsePropertyImpl.INDENT));
+
+        addConfigOption(new Flag("css-prefix", "cssPrefix", ParsePropertyImpl.CSS1SELECTOR));
     }
 
     /**
@@ -298,9 +302,9 @@ public class Configuration implements java.io.Serializable
     protected int outCharEncoding = ASCII;
 
     /**
-     * default tab size (4).
+     * default tab size (8).
      */
-    protected int tabsize = 4;
+    protected int tabsize = 8;
 
     /**
      * see doctype property.
@@ -386,6 +390,11 @@ public class Configuration implements java.io.Serializable
      * output extensible HTML.
      */
     protected boolean xHTML;
+
+    /**
+     * output plain-old HTML, even for XHTML input. Yes means set explicitly.
+     */
+    protected boolean htmlOut;
 
     /**
      * add <code>&lt;?xml?&gt;</code> for XML docs.
@@ -623,6 +632,21 @@ public class Configuration implements java.io.Serializable
     protected boolean ncr = true; // #431953
 
     /**
+     * output a Byte Order Mark (BOM) when using UTF-8/UTF-16 encodings.
+     */
+    protected boolean outputBOM;
+
+    /**
+     * if input stream has BOM, do we automatically output a BOM?
+     */
+    protected boolean smartBOM = true;
+
+    /**
+     * CSS class naming for -clean option.
+     */
+    protected String cssPrefix;
+
+    /**
      * char encoding used when replacing illegal SGML chars, regardless of specified encoding.
      */
     protected int replacementCharEncoding = WIN1252; // by default
@@ -845,6 +869,12 @@ public class Configuration implements java.io.Serializable
             tt.defineTag(Dict.TAGTYPE_INLINE, "o:p");
         }
 
+        // #480701 disable XHTML output flag if both output-xhtml and xml are set
+        if (xmlTags)
+        {
+            xHTML = false;
+        }
+
         // XHTML is written in lower case
         if (xHTML)
         {
@@ -872,6 +902,12 @@ public class Configuration implements java.io.Serializable
         {
             quoteAmpersand = true;
             hideEndTags = false;
+        }
+
+        // XML requires a BOM on output if using UTF-16 encoding
+        if (xmlOut && (outCharEncoding == UTF16LE || outCharEncoding == UTF16BE || outCharEncoding == UTF16))
+        {
+            outputBOM = true;
         }
     }
 

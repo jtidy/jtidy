@@ -117,6 +117,16 @@ public final class ParsePropertyImpl
     static final ParseProperty INDENT = new ParseIndent();
 
     /**
+     * configuration parser for bom property.
+     */
+    static final ParseProperty BOM = new ParseBom();
+
+    /**
+     * configuration parser for css selectors.
+     */
+    static final ParseProperty CSS1SELECTOR = new ParseCSS1Selector();
+
+    /**
      * don't instantiate.
      */
     private ParsePropertyImpl()
@@ -244,24 +254,7 @@ public final class ParsePropertyImpl
          */
         public Object parse(String value, String option, Configuration configuration)
         {
-            Boolean b = Boolean.TRUE;
-            if (value != null && value.length() > 0)
-            {
-                char c = value.charAt(0);
-                if ((c == 't') || (c == 'T') || (c == 'Y') || (c == 'y'))
-                {
-                    b = Boolean.FALSE;
-                }
-                else if ((c == 'f') || (c == 'F') || (c == 'N') || (c == 'n'))
-                {
-                    b = Boolean.TRUE;
-                }
-                else
-                {
-                    configuration.report.badArgument(value, option);
-                }
-            }
-            return b;
+            return Boolean.valueOf(!((Boolean) BOOL.parse(value, option, configuration)).booleanValue());
         }
 
         /**
@@ -452,7 +445,7 @@ public final class ParsePropertyImpl
     }
 
     /**
-     * parser for name values.
+     * parser for name values (a string excluding whitespace).
      */
     static class ParseName implements ParseProperty
     {
@@ -891,6 +884,138 @@ public final class ParsePropertyImpl
         public String getFriendlyName(String option, Object value, Configuration configuration)
         {
             return value == null ? "" : value.toString();
+        }
+    }
+
+    /**
+     * Parser for css selectors.
+     */
+    static class ParseCSS1Selector implements ParseProperty
+    {
+
+        /**
+         * @see org.w3c.tidy.ParseProperty#parse(java.lang.String, java.lang.String, org.w3c.tidy.Configuration)
+         */
+        public Object parse(String value, String option, Configuration configuration)
+        {
+            StringTokenizer t = new StringTokenizer(value);
+            String buf = null;
+            if (t.countTokens() >= 1)
+            {
+                buf = t.nextToken() + "-"; // Make sure any escaped Unicode is terminated so valid class names are
+                                           // generated after Tidy appends last digits.
+            }
+            else
+            {
+                configuration.report.badArgument(value, option);
+            }
+
+            if (!Lexer.isCSS1Selector(value))
+            {
+                configuration.report.badArgument(value, option);
+            }
+
+            return buf;
+        }
+
+        /**
+         * @see org.w3c.tidy.ParseProperty#getType()
+         */
+        public String getType()
+        {
+            return "Name";
+        }
+
+        /**
+         * @see org.w3c.tidy.ParseProperty#getOptionValues()
+         */
+        public String getOptionValues()
+        {
+            return "CSS1 selector";
+        }
+
+        /**
+         * @see org.w3c.tidy.ParseProperty#getFriendlyName(java.lang.String, java.lang.Object, Configuration)
+         */
+        public String getFriendlyName(String option, Object value, Configuration configuration)
+        {
+            return value == null ? "" : (String) value;
+        }
+    }
+
+    /**
+     * Parser for css selectors.
+     */
+    static class ParseBom implements ParseProperty
+    {
+
+        /**
+         * @see org.w3c.tidy.ParseProperty#parse(java.lang.String, java.lang.String, org.w3c.tidy.Configuration)
+         */
+        public Object parse(String value, String option, Configuration configuration)
+        {
+            Boolean b = Boolean.FALSE;
+            if (value != null && value.length() > 0)
+            {
+                char c = value.charAt(0);
+                if ((c == 'a') || (c == 'A'))
+                {
+                    b = Boolean.FALSE;
+                    configuration.smartBOM = true;
+                }
+                else
+                {
+                    boolean result = ((Boolean) BOOL.parse(value, option, configuration)).booleanValue();
+
+                    if (result)
+                    {
+                        b = Boolean.TRUE;
+                        configuration.smartBOM = true;
+                    }
+                    else
+                    {
+                        b = Boolean.FALSE;
+                        configuration.smartBOM = false;
+                    }
+                }
+
+            }
+            return b;
+        }
+
+        /**
+         * @see org.w3c.tidy.ParseProperty#getType()
+         */
+        public String getType()
+        {
+            return "Boolean";
+        }
+
+        /**
+         * @see org.w3c.tidy.ParseProperty#getOptionValues()
+         */
+        public String getOptionValues()
+        {
+            return "auto, y/n, yes/no, t/f, true/false, 1/0";
+        }
+
+        /**
+         * @see org.w3c.tidy.ParseProperty#getFriendlyName(java.lang.String, java.lang.Object, Configuration)
+         */
+        public String getFriendlyName(String option, Object value, Configuration configuration)
+        {
+            if (configuration.smartBOM && !configuration.outputBOM)
+            {
+                return "auto";
+            }
+            else if (configuration.outputBOM)
+            {
+                return "yes";
+            }
+            else
+            {
+                return "no";
+            }
         }
     }
 

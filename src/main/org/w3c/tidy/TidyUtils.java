@@ -156,6 +156,16 @@ public final class TidyUtils
     }
 
     /**
+     * Is the character a hex digit?
+     * @param c char
+     * @return <code>true</code> if he given character is a hex digit
+     */
+    static boolean isxdigit(char c)
+    {
+        return Character.isDigit(c) || (Character.toLowerCase(c) >= 'a' && Character.toLowerCase(c) <= 'f');
+    }
+
+    /**
      * Check if the string valueToCheck is contained in validValues array (case insesitie comparison).
      * @param validValues array of valid values
      * @param valueToCheck value to search for
