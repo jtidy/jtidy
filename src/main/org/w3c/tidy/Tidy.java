@@ -1738,7 +1738,7 @@ public class Tidy implements Serializable
                 {
                     configuration.charEncoding = Configuration.LATIN1;
                 }
-                else if (arg.equalsIgnoreCase("utf8"))
+                else if (arg.equalsIgnoreCase("utf8") || arg.equalsIgnoreCase("utf-8"))
                 {
                     configuration.charEncoding = Configuration.UTF8;
                 }
@@ -1750,15 +1750,15 @@ public class Tidy implements Serializable
                 {
                     configuration.charEncoding = Configuration.MACROMAN;
                 }
-                else if (arg.equalsIgnoreCase("utf16le"))
+                else if (arg.equalsIgnoreCase("utf16le") || arg.equalsIgnoreCase("utf-16le"))
                 {
                     configuration.charEncoding = Configuration.UTF16LE;
                 }
-                else if (arg.equalsIgnoreCase("utf16be"))
+                else if (arg.equalsIgnoreCase("utf16be") || arg.equalsIgnoreCase("utf-16be"))
                 {
                     configuration.charEncoding = Configuration.UTF16BE;
                 }
-                else if (arg.equalsIgnoreCase("utf16"))
+                else if (arg.equalsIgnoreCase("utf16") || arg.equalsIgnoreCase("utf-16"))
                 {
                     configuration.charEncoding = Configuration.UTF16;
                 }
@@ -1766,11 +1766,11 @@ public class Tidy implements Serializable
                 {
                     configuration.charEncoding = Configuration.WIN1252;
                 }
-                else if (argv[argIndex].equalsIgnoreCase("-shiftjis")) // #431953 - RJ
+                else if (arg.equalsIgnoreCase("shiftjis")) // #431953 - RJ
                 {
                     configuration.charEncoding = Configuration.SHIFTJIS;
                 }
-                else if (argv[argIndex].equalsIgnoreCase("-big5")) // #431953 - RJ
+                else if (arg.equalsIgnoreCase("big5")) // #431953 - RJ
                 {
                     configuration.charEncoding = Configuration.BIG5;
                 }

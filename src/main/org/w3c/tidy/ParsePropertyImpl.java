@@ -319,7 +319,7 @@ public final class ParsePropertyImpl
             {
                 result = Configuration.RAW;
             }
-            else if ("utf8".equalsIgnoreCase(value))
+            else if ("utf8".equalsIgnoreCase(value) || "utf-8".equalsIgnoreCase(value))
             {
                 result = Configuration.UTF8;
             }
@@ -331,15 +331,15 @@ public final class ParsePropertyImpl
             {
                 result = Configuration.MACROMAN;
             }
-            else if ("utf16le".equalsIgnoreCase(value))
+            else if ("utf16le".equalsIgnoreCase(value) || "utf-16le".equalsIgnoreCase(value))
             {
                 result = Configuration.UTF16LE;
             }
-            else if ("utf16be".equalsIgnoreCase(value))
+            else if ("utf16be".equalsIgnoreCase(value) || "utf-16be".equalsIgnoreCase(value))
             {
                 result = Configuration.UTF16BE;
             }
-            else if ("utf16".equalsIgnoreCase(value))
+            else if ("utf16".equalsIgnoreCase(value) || "utf16".equalsIgnoreCase(value))
             {
                 result = Configuration.UTF16;
             }
@@ -382,7 +382,7 @@ public final class ParsePropertyImpl
          */
         public String getOptionValues()
         {
-            return "ascii, latin1, raw, utf8, iso2022, mac";
+            return "ascii, latin1, raw, utf-8, iso2022, mac, utf-16, utf-16be, utf-16le, big5, shiftjis";
         }
 
         /**
@@ -410,7 +410,7 @@ public final class ParsePropertyImpl
                     encodingName = "raw";
                     break;
                 case Configuration.UTF8 :
-                    encodingName = "utf8";
+                    encodingName = "utf-8";
                     break;
                 case Configuration.ISO2022 :
                     encodingName = "iso2022";
@@ -420,13 +420,13 @@ public final class ParsePropertyImpl
                     break;
 
                 case Configuration.UTF16LE :
-                    encodingName = "utf16le";
+                    encodingName = "utf-16le";
                     break;
                 case Configuration.UTF16BE :
-                    encodingName = "utf16be";
+                    encodingName = "utf-16be";
                     break;
                 case Configuration.UTF16 :
-                    encodingName = "utf16";
+                    encodingName = "utf-16";
                     break;
 
                 case Configuration.WIN1252 :
