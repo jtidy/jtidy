@@ -255,7 +255,7 @@ public final class ParsePropertyImpl
          */
         public Object parse(String value, String option, Configuration configuration)
         {
-            return Boolean.valueOf(!((Boolean) BOOL.parse(value, option, configuration)).booleanValue());
+            return (((Boolean) BOOL.parse(value, option, configuration)).booleanValue() ? Boolean.FALSE : Boolean.TRUE);
         }
 
         /**
