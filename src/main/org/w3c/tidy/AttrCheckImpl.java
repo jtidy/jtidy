@@ -381,10 +381,7 @@ public final class AttrCheckImpl
                 return;
             }
 
-            if (lexer.configuration.lowerLiterals)
-            {
-                attval.value = attval.value.toLowerCase();
-            }
+            attval.checkLowerCaseAttrValue(lexer, node);
 
             if (!TidyUtils.isInValuesIgnoreCase(VALID_VALUES, attval.value))
             {
@@ -432,10 +429,7 @@ public final class AttrCheckImpl
                 return;
             }
 
-            if (lexer.configuration.lowerLiterals)
-            {
-                attval.value = attval.value.toLowerCase();
-            }
+            attval.checkLowerCaseAttrValue(lexer, node);
 
             value = attval.value;
 
@@ -479,10 +473,7 @@ public final class AttrCheckImpl
                 return;
             }
 
-            if (lexer.configuration.lowerLiterals)
-            {
-                attval.value = attval.value.toLowerCase();
-            }
+            attval.checkLowerCaseAttrValue(lexer, node);
         }
 
     }
@@ -591,10 +582,7 @@ public final class AttrCheckImpl
                 return;
             }
 
-            if (lexer.configuration.lowerLiterals)
-            {
-                attval.value = attval.value.toLowerCase();
-            }
+            attval.checkLowerCaseAttrValue(lexer, node);
 
             if (!TidyUtils.isInValuesIgnoreCase(VALID_VALUES, attval.value))
             {
@@ -625,10 +613,7 @@ public final class AttrCheckImpl
                 return;
             }
 
-            if (lexer.configuration.lowerLiterals)
-            {
-                attval.value = attval.value.toLowerCase();
-            }
+            attval.checkLowerCaseAttrValue(lexer, node);
 
             if (!TidyUtils.isInValuesIgnoreCase(VALID_VALUES, attval.value))
             {
@@ -660,10 +645,7 @@ public final class AttrCheckImpl
                 return;
             }
 
-            if (lexer.configuration.lowerLiterals)
-            {
-                attval.value = attval.value.toLowerCase();
-            }
+            attval.checkLowerCaseAttrValue(lexer, node);
 
             if (!TidyUtils.isInValuesIgnoreCase(VALID_VALUES, attval.value))
             {
@@ -696,10 +678,7 @@ public final class AttrCheckImpl
                 return;
             }
 
-            if (attval.value != null && lexer.configuration.lowerLiterals)
-            {
-                attval.value = attval.value.toLowerCase();
-            }
+            attval.checkLowerCaseAttrValue(lexer, node);
 
             if (!TidyUtils.isInValuesIgnoreCase(VALID_VALUES, attval.value))
             {
@@ -985,10 +964,7 @@ public final class AttrCheckImpl
                 return;
             }
 
-            if (lexer.configuration.lowerLiterals)
-            {
-                attval.value = attval.value.toLowerCase();
-            }
+            attval.checkLowerCaseAttrValue(lexer, node);
 
             if (!TidyUtils.isInValuesIgnoreCase(VALID_VALUES, attval.value))
             {
@@ -1020,10 +996,7 @@ public final class AttrCheckImpl
                 return;
             }
 
-            if (lexer.configuration.lowerLiterals)
-            {
-                attval.value = attval.value.toLowerCase();
-            }
+            attval.checkLowerCaseAttrValue(lexer, node);
 
             if (!TidyUtils.isInValuesIgnoreCase(VALID_VALUES, attval.value))
             {
@@ -1055,10 +1028,7 @@ public final class AttrCheckImpl
                 return;
             }
 
-            if (lexer.configuration.lowerLiterals)
-            {
-                attval.value = attval.value.toLowerCase();
-            }
+            attval.checkLowerCaseAttrValue(lexer, node);
 
             if (!TidyUtils.isInValuesIgnoreCase(VALID_VALUES, attval.value))
             {

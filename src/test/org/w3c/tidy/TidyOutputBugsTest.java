@@ -1,4 +1,4 @@
-/**
+/*
  *  Java HTML Tidy - JTidy
  *  HTML parser and pretty printer
  *
@@ -566,6 +566,8 @@ public class TidyOutputBugsTest extends TidyTestCase
     public void test445074() throws Exception
     {
         executeTidyTest("445074.html");
+        // line 8 column 1 - Warning: <form> attribute value "POST" must be lower case for XHTML
+        assertWarnings(1);
     }
 
     /**

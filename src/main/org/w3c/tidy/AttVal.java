@@ -181,6 +181,29 @@ public class AttVal extends Object implements Cloneable
         return false;
     }
 
+    void checkLowerCaseAttrValue(Lexer lexer, Node node)
+    {
+        if (this.value == null)
+        {
+            return;
+        }
+
+        String lowercase = this.value.toLowerCase();
+
+        if (!this.value.equals(lowercase))
+        {
+            if (lexer.isvoyager)
+            {
+                lexer.report.attrError(lexer, node, this, Report.ATTR_VALUE_NOT_LCASE);
+            }
+
+            if (lexer.isvoyager || lexer.configuration.lowerLiterals)
+            {
+                this.value = lowercase;
+            }
+        }
+    }
+
     /* ignore unknown attributes for proprietary elements */
     public Attribute checkAttribute(Lexer lexer, Node node)
     {
