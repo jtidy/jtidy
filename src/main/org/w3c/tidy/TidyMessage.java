@@ -1,13 +1,11 @@
 package org.w3c.tidy;
 
-
 /**
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
 public final class TidyMessage
 {
-
 
     /**
      * dont't instantiate.
@@ -16,13 +14,12 @@ public final class TidyMessage
     {
     }
 
-
     /**
      * error gravity enumeration.
      * @author fgiust
      * @version $Revision$ ($Author$)
      */
-    final class Level
+    final static class Level
     {
 
         /**
