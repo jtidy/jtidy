@@ -1403,7 +1403,7 @@ public final class Report
                     if (c < 0)
                     {
                         i += PPrint.getUTF8(doctype.textarray, i, cc);
-                        c = cc.value;
+                        c = cc.getValue();
                     }
 
                     if (c == '"')

@@ -162,7 +162,7 @@ public class PPrint
         else
         {
             /* 0XXX XXXX one byte */
-            ch.value = c;
+            ch.setValue(c);
             return 0;
         }
 
@@ -173,7 +173,7 @@ public class PPrint
             n = (n << 6) | (c & 0x3F);
         }
 
-        ch.value = n;
+        ch.setValue(n);
         return bytes - 1;
     }
 
@@ -718,7 +718,7 @@ public class PPrint
             if (c > 0x7F)
             {
                 i += getUTF8(textarray, i, ci);
-                c = ci.value;
+                c = ci.getValue();
             }
 
             if (c == '\n')
@@ -881,7 +881,7 @@ public class PPrint
                 if (c > 0x7F)
                 {
                     i += getUTF8(valueChars, i, ci);
-                    c = ci.value;
+                    c = ci.getValue();
                 }
 
                 ++i;
@@ -1220,7 +1220,7 @@ public class PPrint
             if (c > 0x7F)
             {
                 i += getUTF8(lexer.lexbuf, i, ci);
-                c = ci.value;
+                c = ci.getValue();
             }
 
             if (c == '\n')

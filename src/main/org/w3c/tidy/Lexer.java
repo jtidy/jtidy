@@ -2742,7 +2742,7 @@ public class Lexer
         String value;
 
         delim = 0;
-        pdelim.value = '"';
+        pdelim.setValue('"');
 
         // Henry Zrepa reports that some folk are using the embed element with script attributes where newlines are
         // significant and must be preserved
@@ -2807,7 +2807,7 @@ public class Lexer
         {
             start = this.lexsize;
             addCharToLexer(c);
-            pdelim.value = parseServerInstruction();
+            pdelim.setValue(parseServerInstruction());
             len = this.lexsize - start;
             this.lexsize = start;
             return (len > 0 ? getString(this.lexbuf, start, len) : null);
@@ -2991,11 +2991,11 @@ public class Lexer
         // note delimiter if given
         if (delim != 0)
         {
-            pdelim.value = delim;
+            pdelim.setValue(delim);
         }
         else
         {
-            pdelim.value = '"';
+            pdelim.setValue('"');
         }
 
         return value;
@@ -3072,7 +3072,7 @@ public class Lexer
 
             if (attribute != null && isValidAttrName(attribute))
             {
-                av = new AttVal(list, null, null, null, delim.value, attribute, value);
+                av = new AttVal(list, null, null, null, delim.getValue(), attribute, value);
                 av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(av);
                 list = av;
             }

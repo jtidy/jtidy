@@ -1776,20 +1776,20 @@ public class Clean
 
                 for (i = node.start; i < node.end; ++i)
                 {
-                    c.value = node.textarray[i];
+                    c.setValue(node.textarray[i]);
 
                     // look for UTF-8 multibyte character
-                    if (c.value > 0x7F)
+                    if (c.getValue() > 0x7F)
                     {
                         i += PPrint.getUTF8(node.textarray, i, c);
                     }
 
-                    if (c.value == 160)
+                    if (c.getValue() == 160)
                     {
-                        c.value = ' ';
+                        c.setValue(' ');
                     }
 
-                    p = PPrint.putUTF8(node.textarray, p, c.value);
+                    p = PPrint.putUTF8(node.textarray, p, c.getValue());
                 }
             }
 
