@@ -1,0 +1,480 @@
+
+
+
+
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Compatibility & Verification</title>
+<meta name="keywords" content="Application, Verification, Kit, AVK, Java, AVK, for, the, Enterprise, J2EE, Verified, Program, Java, Verified, AVK, Java, Verified" />
+<meta name="description" content="The Java Verification Program is designed to identify and validate enterprise applications developed with Java 2 Platform, Enterprise Edition (J2EE) technology that are intended to be portable across different implementations of J2EE." />
+<META http-equiv=Content-Type content="text/html; charset=shift_jis">
+<link rel="stylesheet" href="/css/default_developer.css" />
+</head>
+<!--stopindex-->
+<body leftmargin="0" topmargin="0" marginheight="0" marginwidth="0" rightmargin="0" bgcolor="#ffffff">
+<a name="top"></a>
+<!-- BEGIN MASTHEAD -->
+<!-- BEGIN VNV1 MASTHEAD COMPONENT, navigation page variation, with caption rollover, also showing OPTIONAL duke graphic -->
+<script language="javascript" type="text/javascript"><!--
+function show() {
+if (document.all) {mc3.style.visibility='visible';}
+else {document.getElementById("mc3").style.visibility='visible';}
+}
+function hide() {
+if (document.all) {mc3.style.visibility='hidden';}
+else {document.getElementById("mc3").style.visibility='hidden';}
+}
+// -->
+</script>
+<div style="background-color:#898377;">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="photobackground" background="/im/mh_hb_photo_cmcdonald.jpg">
+<tr>
+<td valign="top">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" height="25" background="/im/a.gif" class="topnavlight">
+<form name="formsearch" action="http://developers.sun.com/jsp_utils/send_redirect.jsp" method="post">
+<tr>
+<td><a href="#mast"><img src="/im/a.gif" width="10" height="1" border="0" alt="Skip Masthead Links" /></a></td>
+<td><a href="http://developers.sun.com">developers.sun.com</a></td>
+<td width="100%">&nbsp;</td>
+<td nowrap="nowrap"><span class="rightarrowblue">&raquo;</span>&nbsp;<a href="http://search.sun.com/search/developers/help.jsp">search tips</a>&nbsp;&nbsp;|&nbsp;&nbsp;<b>Search:</b>&nbsp;</td>
+<td><input name="qt" class="medium" size="7" value="" /></td>
+<td>&nbsp;</td>
+<td class="selectcell"><select class="globalsearch" name="myredir">
+<option value="http://search.sun.com/search/developers/index.jsp?qt=" selected>in Developers' Site</option>
+<option value="http://search.sun.com/search/suncom/index.jsp?qt=">in Sun.com</option>
+</select></td>
+<td>&nbsp;</td>
+<td valign="middle" align="left"><input type="submit" border="0" class="buttonred" value="&nbsp;&raquo;&nbsp;" onmouseover="this.style.color='#fbe249';" onmouseout="this.style.color='#FFF';" /></td>
+<td><img src="/im/a.gif" width="10" height="1" alt=" " /></td>
+</tr></form>
+</table><div class="mastheadcaption" id="mc3" onmouseover="show()"><span class="smaller">Carol McDonald, Staff Engineer, Code Camp Engineer in J2EE, Web Services and Integration</span></div>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" height="53" background="/im/a.gif">
+<tr>
+<td><img src="/im/a.gif" width="10" height="1" border="0" alt=" " /></td>
+<td valign="top"><a href="http://java.sun.com"><img src="/im/logo_java.gif" width="103" height="53" border="0" alt="Java" /></a></td>
+<td onmouseover="show()" onmouseout="hide()"><img src="/im/a.gif" width="87" height="1" border="0" alt=" " /></td>
+<td class="sunblue" nowrap="nowrap"><div class="pad6"><a href="http://java.sun.com"><img src="/im/masthead_the_source_java.gif" width="308" height="25" border="0" alt="The Source for Java Developers" /></a>
+</div></td>
+<td class="sunblue" width="100%" valign="top" align="right"><div class="pad10"><a href="http://www.sun.com"><img src="/im/logo_sun_sdn.gif" width="72" height="33" border="0" alt="Sun Microsystems" /></a></div></td>
+<td><img src="/im/a.gif" width="10" height="1" border="0" alt=" " /></td></tr>
+</table>
+<a name="mast"></a><img src="/im/a.gif" width="769" height="1" border="0" alt=" " /><a href="#skip2content"><img src="/im/a.gif" width="1" height="10" border="0" alt="Skip to Content" /></a></td></tr>
+</table><div style="position:absolute;left:420px;"><img src="/placeholders/duke_swinging.gif" width="46" height="46" border="0" alt=" " /></div>
+</div><!--  IF THERE AN INSTANCE OF THIS VARIATION ON PAGES BURIED DEEPER IN THE SITE, IT SHOULD BE ACCOMPANIED BY A BREADCRUMB VARIATION WHERE THE BREADCRUMB'S CELL IS FORCED TO WRAP BEFORE THE LEFT POSITION OF THIS IMAGE.  OTHERWISE THERE WOULD ARISE A SITUATION WHERE LONG BREADCRUMBS WOULD BE OBSCURED BY THESE IMAGE.  IF HOWEVER THIS IMAGE IS ONLY USED ON TOP-LEVEL HUB PAGES, IT WONT BE AN ISSUE. ALSO BEWARE OF MOVING IT TO THE RIGHT, AS LONG LOGGED-IN USERNAMES WOULD BE SIMILARLY OBSCURED.
+ALSO BE AWARE THAT IF THE IMAGE IS TOO LARGE THAT IT WILL START TO OBSCURE LINKS IN THE CONTENT AREA.  -->
+<span class="sp5">&nbsp;</span><br />
+<!-- END VNV1 MASTHEAD COMPONENT, navigation page variation, with caption rollover, also showing OPTIONAL duke graphic -->
+
+<!-- END MASTHEAD -->
+<!-- BEGIN BREADCRUMB -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="vatop">
+<tr>
+<td>      
+<div class="breadcrumb">
+<a href="http://developer.sun.com/index.html">Developers Home</a> &gt; <a href="http://developer.sun.com/prodtech/index.html">Products & Technologies</a> &gt; <a href="http://java.sun.com/index.jsp">Java Technology</a> &gt; <a href="http://java.sun.com/j2ee/index.jsp">J2EE</a> &gt;
+</div>
+</td>
+<td align="right" nowrap="nowrap">
+<div class="breadcrumb">
+<a href="http://developer.sun.com/user_registration/index.html">Profile and Registration</a> | 
+<a href="http://developer.sun.com/user_registration/whyregister.html">Why Register?</a>
+</div>
+</td>
+</tr>
+<tr><td colspan="2"><img src="/im/a.gif" width="770" height="1" border="0" alt=" " /></td></tr>
+</table>
+<span class="sp5">&nbsp;</span>
+<br />        
+<!-- END BREADCRUMB -->
+<!-- BEGIN PAGETITLE -->
+<div class="pagetitle2">J2EE</div>
+<div class="pagetitle">Compatibility & Verification</div>
+<!-- END PAGETITLE -->
+<!-- BEGIN WRAPPER TABLE, 3 COLUMN, LEFT/MAIN/RIGHT -->
+<table border="0" cellpadding="10" cellspacing="0" width="100%">
+<tr><td valign="top">
+<!-- BEGIN LEFT COLUMN COMPONENTS -->
+<!-- LeftNav DCR reference: /templatedata/dev_navigation/left_nav/data/verified -->
+<!-- BEGIN VNV4 LEFTNAV COMPONENT -->
+<!-- BEGIN FIRST NAV GREYLINE, with no top padding -->
+<div class="pad3x0" style="padding-top:0px;">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="grey4">
+<tr><td><img src="/im/a.gif" width="1" height="2" border="0" alt=" " /></td></tr>
+</table></div>
+<!-- END FIRST NAV GREYLINE -->
+<div class="leftnav1"> 
+<a href="http://java.sun.com/j2ee/verified/downloads/index.html">Downloads</a> 
+</div>          
+<table border="0" cellpadding="0" cellspacing="0" class="vatop">
+<tr>
+<td width="15" class="hyphen">-&nbsp;</td>
+<td><a href="http://java.sun.com/j2ee/verified/downloads/ea/index.html">Early Access</a></td>
+</tr>          
+</table> 
+<span class="sp5">&nbsp;</span><br />
+<div class="pad3x0">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="grey4">
+<tr><td><img src="/im/a.gif" width="1" height="2" border="0" alt=" " /></td></tr>
+</table></div>
+<div class="leftnav1"> 
+<a href="http://java.sun.com/j2ee/verified/learning/online/index.html">Instructor-Led Courses</a> 
+</div>          
+<span class="sp5">&nbsp;</span><br />
+<div class="pad3x0">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="grey4">
+<tr><td><img src="/im/a.gif" width="1" height="2" border="0" alt=" " /></td></tr>
+</table></div>
+<div class="leftnav1"> 
+<a href="http://java.sun.com/j2ee/verified/learning/online/index.html">Online Sessions & Courses</a> 
+</div>          
+<span class="sp5">&nbsp;</span><br />
+<div class="pad3x0">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="grey4">
+<tr><td><img src="/im/a.gif" width="1" height="2" border="0" alt=" " /></td></tr>
+</table></div>
+<div class="leftnav1"> 
+<a href="http://java.sun.com/j2ee/verified/downloads/index.html">Downloads</a> 
+</div>          
+<table border="0" cellpadding="0" cellspacing="0" class="vatop">
+<tr>
+<td width="15" class="hyphen">-&nbsp;</td>
+<td><a href="http://java.sun.com/j2ee/verified/downloads/ea/index.html">Early Access</a></td>
+</tr>          
+</table> 
+<span class="sp5">&nbsp;</span><br />
+<div class="pad3x0">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="grey4">
+<tr><td><img src="/im/a.gif" width="1" height="2" border="0" alt=" " /></td></tr>
+</table></div>
+<div class="leftnav1"> 
+<a href="http://java.sun.com/j2ee/verified/resources.html">Reference</a> 
+</div>          
+<table border="0" cellpadding="0" cellspacing="0" class="vatop">
+<tr>
+<td width="15" class="hyphen">-&nbsp;</td>
+<td><a href="http://java.sun.com/j2ee/verified/thirdparty.html">Third Party Java Verified Licensees and Products</a></td>
+</tr>          
+<tr>
+<td width="15" class="hyphen">-&nbsp;</td>
+<td><a href="http://java.sun.com/j2ee/verified/industrysupport/index.html">Industry Support</a></td>
+</tr>          
+<tr>
+<td width="15" class="hyphen">-&nbsp;</td>
+<td><a href="http://java.sun.com/j2ee/verified/docs/index.html">Documentation</a></td>
+</tr>          
+<tr>
+<td width="15" class="hyphen">-&nbsp;</td>
+<td><a href="http://java.sun.com/j2ee/verified/faqs/index.html">FAQs</a></td>
+</tr>          
+<tr>
+<td width="15" class="hyphen">-&nbsp;</td>
+<td><a href="http://java.sun.com/j2ee/verified/compatibility/index.html">Compatibility</a></td>
+</tr>          
+</table> 
+<span class="sp5">&nbsp;</span><br />
+<div class="pad3x0">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="grey4">
+<tr><td><img src="/im/a.gif" width="1" height="2" border="0" alt=" " /></td></tr>
+</table></div>
+<div class="leftnav1"> 
+<a href="http://java.sun.com/j2ee/verified/learning/index.html">Learning</a> 
+</div>          
+<table border="0" cellpadding="0" cellspacing="0" class="vatop">
+<tr>
+<td width="15" class="hyphen">-&nbsp;</td>
+<td><a href="http://java.sun.com/j2ee/verified/learning/tutorial/index.html">Tutorial and Code Camps</a></td>
+</tr>          
+</table> 
+<span class="sp5">&nbsp;</span><br />
+<div class="pad3x0"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="grey4">
+<tr><td><img src="/im/a.gif" width="1" height="2" border="0" alt=" " /></td></tr></table></div>
+<span class="sp10">&nbsp;</span><br />
+<!-- END VNV4 LEFTNAV COMPONENT -->
+<!-- END LEFT COLUMN COMPONENTS -->
+</td><td width="100%" valign="top" rowspan="2">
+<!-- BEGIN CENTER COLUMN COMPONENTS -->
+<!--startindex-->
+<!-- ============ -->
+<!-- MAIN CONTENT -->
+<!-- ============ -->
+<a name="skip2content"></a>
+
+
+<!--startindex--><A href="../index.html"><IMG 
+                  alt="" src="../../images/English12B.gif" 
+                  border=0></A><BR><SPAN class=title>
+                  <H2>Java 検証プログラム </H2></SPAN><IMG height=151 
+                  alt="Java Verified ロゴ" hspace=10 
+                  src="/j2ee/images/javaverifiedlogo.jpg" width=76 align=right 
+                  vspace=5> <SPAN class=body>
+                  <H3>はじめに</H3>
+                  <P>Java<FONT size=1></FONT> 検証プログラムは、Java 2 Platform, 
+                  Enterprise Edition (J2EE) テクノロジを使って開発され、異なる J2EE 
+                  実装への移植が可能なエンタープライズアプリケーションを認定するプログラムです。</P>
+                  <P>このプログラムには、Java 
+                  検証認定を受けるために必要なテストの概略が示されています。プログラムの実施にあたって使用する<A 
+                  href="#avk">エンタープライズ版 Java アプリケーション検証キット (AVK)</A> 
+                  は、開発したアプリケーションを特定のガイドラインと規則に従ってテストするためにサンが提供しているテクノロジです。</P>
+                  <P>エンタープライズ版 Java AVK のテストに合格すると、Java 
+                  検証プログラムおよびトレードマークライセンスを申請して、テスト済みのアプリケーションに Java Verified 
+                  のロゴとトレードマークを使用する権利と、Java Verified 
+                  のアプリケーションの普及を促進するためのマーケティングサポートプログラムに参加する権利を得ることができます。 Java 
+                  Verified のエンタープライズアプリケーションは、顧客に対して、このアプリケーションの開発者が複数の J2EE 
+                  互換アプリケーションサーバのサポートを積極的に提供しようとしていることを示します。</P>
+                  <P>エンタープライズ版 Java AVK 
+                  を社内で内部的に使用する場合、テスト結果を内部開発以外の目的で使用することはできません。ソフトウェアの使用やテスト基準を満たしているという事実を第三者に開示することはできません。また、Java 
+                  Verified のロゴも使用することはできません。</P>
+                  <UL>
+                    <LI type=disc><A href="#valueprop">プログラムの目的</A><BR>
+                    <LI type=disc><A href="#benefits">プログラムの特典</A><BR>
+                    <LI type=disc><A href="#requirements">プログラムの要件</A><BR>
+                    <LI type=disc><A href="#avk">エンタープライズ版 Java アプリケーション検証キット 
+                    (AVK)</A><BR>
+                    <LI type=disc><A 
+                  href="#resources">その他のリソース</A><BR></LI></UL><A 
+                  name=valueprop></A>
+                  <H3><U>プログラムの目的</U></H3>
+                  <P><B>開発者の場合:</B></P>
+                  <UL>
+                    <LI type=disc><B>市場差別化 &amp; ビジネスチャンスの拡大</B>: 
+                    開発した製品に「<B>Java 
+                    Verified</B>」ロゴを付与することにより、クロスプラットフォームサポートの信頼性と顧客からの信頼を獲得しやすくなり、競合製品との差別化を図ることができます。<BR><BR>
+                    <LI type=disc><B>販売サイクルの効率化 &amp; 投資コストの削減</B>: エンタープライズ版 
+                    Java アプリケーション検証キット (AVK) 
+                    のテストプロセスでは、複数のアプリケーションサーバを使用することなく、複数のプラットフォーム上でアプリケーションを構築およびテストするのと同等のことができます。 
+                    このため、販売プロセスのサイクルが効率化され、移行コストと顧客のリスクが減少します。 
+                    開発者にとって、開発したアプリケーションに Java Verified 
+                    のブランドを付加することは、効果的かつ有益なマーケティングを実現して投資に対する収益率を向上させることになります。<BR></LI></UL>
+                  <P><B>顧客の場合:</B></P>
+                  <P>今日市場には、Java 
+                  テクノロジを利用した多種多様な製品が出回っています。そのなかで顧客は、高い安定性と、複数のプラットフォーム環境で使用できるソリューションを選択するための基準を求めています。 
+                  顧客がエンタープライズソリューションを選択する際に求めることは、そのアプリケーションが J2EE 
+                  テクノロジベースの製品と互換性を持ち、また「Write Once, Run 
+                  Anywhere」を実現していることですが、「<B>Java 
+                  Verified</B>」のアプリケーションはそのことを顧客に示すことができます。</P>
+                  <UL></UL><A name=benefits></A>
+                  <H3><U>プログラムの特典</U></H3>
+                  <P>Java 
+                  検証プログラムへの参加資格を得たアプリケーション開発者は、多くの共同マーケティングサポートプログラムにアクセスできます。 
+                  こうしたプログラムには、巨大なエンタープライズソリューション市場における Java Verified 
+                  のソリューションの認知度と可用性を高める働きがあります。</P>
+                  <P>たとえば、次のようなプログラムがあります。<BR>
+                  <UL>
+                    <LI type=disc><B>Web プロモーション:</B><BR>
+                    <UL>
+                      <LI type=circle>多数の潜在顧客が定期的にアクセスするサンのオンライン Java 
+                      ソリューションカタログに掲載<BR></LI></UL>
+                    <LI type=disc><B>パブリックリレーションのサポート:</B><BR>
+                    <UL>
+                      <LI 
+                      type=circle>インタビュー、顧客とのミーティング、イベントなどを通じて、プレス、アナリスト、および顧客への認知度の向上<BR>
+                      <LI 
+                    type=circle>プレスリリース向けの引用文の準備、および顧客のケーススタディの掲載<BR></LI></UL>
+                    <LI type=disc><B>共同マーケティングサポート:</B><BR>
+                    <UL>
+                      <LI type=circle>JavaOne Developer Conference 
+                      などの特別なプログラムやサンが後援する同様のイベントを通じてプロモーションの機会を拡大<BR></LI></UL></LI></UL>
+                  <H3>プログラムへの参加方法</H3>
+                  <P>開発したアプリケーションが エンタープライズ版 Java 
+                  アプリケーション検証キットを使ったテストに合格した場合、Java 検証プログラムへの参加資格と、テスト済みアプリケーションに 
+                  Java Verified のトレードマークとロゴを付加する権利を得るための申請を行うことができます。</P><A 
+                  name=requirements></A>
+                  <H3><U>プログラムの要件</U></H3>
+                  <P>Java 検証プログラムへの参加をお考えの場合は、次の手順に従ってください。</P>
+                  <OL>
+                    <LI>Java アプリケーション検証キット (AVK) 
+                    ハンドブックに記載されている基準に従ってアプリケーションのテストを実施します。<BR>
+                    <LI>Java Verified 
+                    のトレードマークとロゴを表示するため、サンとトレードマークライセンス契約を締結します。<BR>
+                    <LI>年間ライセンス料を支払います。<BR>
+                    <LI>Java 検証プログラムのチェックリストを使って必要事項をチェックします。<BR></LI></OL>
+                  <P>このアプリケーションプロセスに必要な手順の詳細については、<A 
+                  href="application_process.html">ここ</A>をご覧ください。</P><A 
+                  name=avk></A>
+                  <H3><U>エンタープライズ版 Java アプリケーション検証キット (AVK) </U></H3>
+                  <P>エンタープライズ版 Java AVK は、J2EE API を正しく使用し、J2EE 
+                  互換アプリケーションサーバ間で移植可能なアプリケーションを構築およびテストするために開発されたツールです。 J2EE 
+                  プラットフォームには、移植性という利点があります。この利点は、統一されたアプリケーションサーバの仕様と広範囲にわたる互換テストのセットの提供によって実現されるものです。 
+                  <A href="/blueprints/">Java BluePrints</A> プログラムは、移植可能な J2EE 
+                  ベースのアプリケーションを構築するためのガイドラインを提供します。 
+                  ただし、移植性のないアプリケーションを意図せずに作成してしまう可能性もあります。 エンタープライズ版 Java AVK 
+                  は、開発者がこのような事態を回避できるように設計されています。</P>
+                  <H3>アプリケーションの有用性のテスト</H3>
+                  <P>アプリケーションにはアプリケーションサーバが必要です。アプリケーションは、JavaServer Pages 
+                  テクノロジ、Java サーブレット、Enterprise JavaBeans 
+                  テクノロジを含む複数のアプリケーションサーバで実行できるように設計され、1 個以上の .ear 
+                  ファイルとしてパッケージ化される必要があります。</P>
+                  <H3>エンタープライズ版 Java AVK のテストオプション</H3>
+                  <P>エンタープライズ版 Java AVK のテスト要件を満たすことは、Java 
+                  検証プログラムに参加するための前提条件です。それとは別に、開発したアプリケーションをテストし、アプリケーションサーバの非標準機能への依存度を最小限にして移行コストを削減するために、エンタープライズ版 
+                  Java AVK を別途入手することもできます。</P>
+                  <P>アプリケーションのテスト後、Java 検証プログラムに参加して、テスト済みアプリケーションに Java 
+                  Verified 
+                  のトレードマークとロゴを使用する権利を取得したい場合は、まずこのプロセスに必要なすべての手順を確認する必要があります。詳しい手順は、<A 
+                  href="application_process.html">ここ</A>に記載されています。</P>
+                  <P>エンタープライズ版 Java アプリケーション検証キット (AVK) 
+                  を社内で内部的にテストに使用する場合、ソフトウェアのライセンスや使用、またはソフトウェア内の基準を満たしているという事実を、サンの書面による事前の許可なく第三者に開示することはできません。 
+                  このような許可を受けるには、サンとトレードマークライセンス契約を締結し、所定の料金を支払う必要があります。</P>
+                  <H3>注文情報</H3>
+                  <P>エンタープライズ版 Java AVK の注文は、<A 
+                  href="http://www.keylabs.com/j2ee">Java Administration 
+                  Center</A> にて承ります。</P>
+                  <P>java.sun.com の Web サイトにも登録する必要があります。 まだ登録していない場合は、<A 
+                  href="http://developer.java.sun.com/servlet/RegistrationServlet">ここ</A>から登録してください。 
+                  登録料は不要です。 Java 検証プログラムに関するご連絡には、割り当て済みの JSC ユーザ ID 
+                  を付記してください。</P>
+                  <H3>関連情報 </H3>
+                  <P>エンタープライズ版 Java AVK 
+                  に関するご質問がある場合や、アプリケーションテストの必要性についてサンの担当者に相談したい場合は、<A 
+                  href="mailto:verification-sales@sun.com">verification-sales@sun.com</A> 
+                  までご連絡ください。</P><A name=resources></A>
+                  <H3><U>その他のリソース</U></H3>
+                  <P><B>ニュース &amp; 記事</B></P>
+                  <P>Java 検証プログラムに関する<A href="../news.html">最新情報</A>を確認し、Java 
+                  Verified の製品のデモが公開される今後のサンのイベントをチェックしてください。 </P>
+                  <P><B>製品 FAQ</B></P>
+                  <P>Java 検証のプロセス、アプリケーションテストの適合性、Java Verified 
+                  トレードマークライセンスなどに関するご質問がある場合は、まず<A href="../faq.html">プログラム 
+                  FAQ</A>をご確認ください。 必要な情報が FAQ に記載されていない場合は、<A 
+                  href="mailto:verification-sales@sun.com">verification-sales@sun.com</A> 
+                  までご連絡ください。</P>
+                  <P><B>テクニカルサポート</B></P>
+                  <P>エンタープライズ版 Java AVK 
+                  のテクニカルサポートは、所定のトレーニングを受けたサンのスペシャリストが提供しています。 サポートオプションの詳細は、<A 
+                  href="http://www.sun.com/developers/support/">ここ</A>に記載されています。または、<A 
+                  href="mailto:J2EE_AVK_support@sun.com">J2EE_AVK_support@sun.com</A> 
+                  までお問い合わせください。</P>
+                  <P><B>Java Verified 製品デモアプリケーション</B></P>
+                  <P><A 
+                  href="http://developer.java.sun.com/developer/technicalArticles/J2EE/deployathon3">Deployathon</A> 
+                  では、J2EE テクノロジベースのアプリケーションの移植性のデモを提供しています。サンプルアプリケーションの <A 
+                  href="/blueprints/code/index.html#java_pet_store_demo">Java 
+                  Pet Store</A> および <A 
+                  href="/blueprints/code/index.html#java_smart_ticket_demo">Smart 
+                  Ticket</A> は、どちらも Java BluePrints 
+                  プログラムに従って開発されたものです。これらのアプリケーションは、変更なしで、複数の J2EE 
+                  互換アプリケーションサーバ上で実行できます。 なお、どちらのアプリケーションも、エンタープライズ版 Java AVK 
+                  の要件を満たしています。</P>
+<!--stopindex-->
+
+<!-- =================== -->
+<!-- END OF MAIN CONTENT -->
+<!-- =================== -->
+<!--stopindex-->
+<!-- END CENTER COLUMN COMPONENTS -->
+<br /><img src="/im/a.gif" width="370" height="1" border="0" alt=" " /></td>
+<td valign="top" rowspan="2">
+<!-- BEGIN RIGHT COLUMN COMPONENTS -->
+<!-- RightNav DCR reference: /templatedata/dev_navigation/related_links/data/Compatiblility_Verification -->
+<!-- BEGIN VNV7 RELATED LINKS COMPONENT, (divided in sections) -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr><td class="headerbar5"><div class="headerpadding2">Related Links</div></td></tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" class="navblue2" width="100%">
+<tr><td><div class="colpadding1">
+<table border="0" cellpadding="0" cellspacing="0" class="vatop">
+<tr><td colspan="2"><b class="dkgrey">Popular Downloads</b></td></tr>
+<tr>
+<td class="hyphen">-&nbsp;</td>
+<td><a href="/j2ee/reference/compatibility/index.html">Compatible Implementations</a></td>
+</tr>
+<tr>
+<td class="hyphen">-&nbsp;</td>
+<td><a href="/j2ee/verified/1.4ea.html">Java Application Verification Kit (AVK) 1.4 Early Access</a></td>
+</tr>
+<tr>
+<td class="hyphen">-&nbsp;</td>
+<td><a href="/j2ee/verified/downloads/index.html">Java AVK 1.3.1 Trial Demo Version</a></td>
+</tr>
+<tr>
+<td class="hyphen">-&nbsp;</td>
+<td><a href="/j2ee/1.4/downloads/index.html">J2EE 1.4 Beta 2 </a></td>
+</tr>
+<tr>
+<td class="hyphen">-&nbsp;</td>
+<td><a href="http://wwws.sun.com/software/products/appsrvr/home_appsrvr.html">Application Server 7</a></td>
+</tr>
+<tr>
+<td class="hyphen">-&nbsp;</td>
+<td><a href="/webservices/jwsdp/downloads/index.html">Java Web Services Developer Pack 1.3</a></td>
+</tr>
+<tr><td colspan="2"><span class="sp8">&nbsp;</span></td></tr>
+<tr><td colspan="2"><b class="dkgrey">Sun Resources</b></td></tr>
+<tr>
+<td class="hyphen">-&nbsp;</td>
+<td><a href="/developer/onlineTraining/webcasts/35plus/cchan1/cchan1.html">Audiocasts: J2EE AVK for the Enterprise</a></td>
+</tr>
+<tr>
+<td class="hyphen">-&nbsp;</td>
+<td><a href="http://www.sun.com/developers/support/">Developer Technical Support</a></td>
+</tr>
+<tr>
+<td class="hyphen">-&nbsp;</td>
+<td><a href="http://wwws.sun.com/software/download/app_dev.html">Downloads for Application Development</a></td>
+</tr>
+</table></div>
+</td></tr>
+</table>
+<span class="sp10">&nbsp;</span><br />
+<!-- END VNV7 RELATED LINKS COMPONENT, (divided in sections) -->
+<!-- END RIGHT COLUMN COMPONENTS -->
+<br /><img src="/im/a.gif" width="170" height="1" border="0" alt=" " /></td></tr>
+<tr><td rowspan="2" valign="bottom"><img src="/im/a.gif" width="170" height="1" border="0" alt=" " /><br />
+<!--  BEGIN CELL FOR OPTIONAL MASTHEAD CAPTION -->
+<!--  BEGIN OPTIONAL CAPTION FOR MASTHEAD PHOTOGRAPH -->
+<!-- This component appears in its own cell in the left/center column of the wrapper table, and is to be used only in conjunction with the photographic mastheads.  -->
+<br /><img src="/im/mh_thumb_cmcdonald.jpg" width="30" height="30" border="0" alt="Carol McDonald"/><br />
+<div class="footer" style="width:80px;">Carol McDonald, Staff Engineer, Code Camp Engineer in J2EE, Web Services and Integration</div>
+<!-- END OPTIONAL CAPTION -->
+<!--  END CELL FOR OPTIONAL MASTHEAD CAPTION --></td></tr>
+<!-- END SPACER ROW -->
+</table>
+<!-- END WRAPPER TABLE, 3 COLUMN, LEFT/MAIN/RIGHT -->
+<!-- BEGIN VNV5 FOOTER  -->
+<table border="0" cellpadding="0" cellspacing="10" width="100%">
+<tr>
+<td>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="vatop">
+<tr>
+<td colspan="4" valign="top" class="grey3"><img src="http://developers.sun.com/im/a.gif" width="1" height="2" border="0" alt=" " /></td></tr>
+<tr>
+<td><img src="http://developers.sun.com/im/a.gif" width="190" height="1" border="0" alt=" " /><br />
+<a href="http://www.sun.com"><img src="http://developers.sun.com/im/logo_sun_small_sdn.gif" width="61" height="29" border="0" alt=" " vspace="5"/></a></td>
+<td width="100%" valign="top"><img src="http://developers.sun.com/im/a.gif" width="350" height="1" border="0" alt=" " /><br />
+<div class="footer">
+<a href="http://developers.sun.com/dispatcher.jsp?uid=6910015">Company Info</a> &nbsp;|&nbsp;
+<a href="http://developers.sun.com/dispatcher.jsp?uid=6910010">About SDN</a> &nbsp;|&nbsp;
+<a href="http://developers.sun.com/dispatcher.jsp?uid=6910011">Press</a> &nbsp;|&nbsp;
+<a href="http://developers.sun.com/contact/index.jsp">Contact Us</a> &nbsp;|&nbsp;
+<a href="http://developers.sun.com/dispatcher.jsp?uid=6910014">Employment</a><br />
+<a href="http://developers.sun.com/dispatcher.jsp?uid=6910012">How to Buy</a> &nbsp;|&nbsp;
+<a href="http://developers.sun.com/dispatcher.jsp?uid=6910009">Licensing</a> &nbsp;|&nbsp;
+<a href="http://developers.sun.com/dispatcher.jsp?uid=6910013">Terms of Use</a> &nbsp;|&nbsp;
+<a href="http://developers.sun.com/dispatcher.jsp?uid=6910016">Privacy</a> &nbsp;|&nbsp;
+<a href="http://developers.sun.com/dispatcher.jsp?uid=6910017">Trademarks</a>
+<br /><span class="sp10">&nbsp;</span><br />
+<br /><span class="sp10">&nbsp;</span><br />
+Copyright 1994-2004 Sun Microsystems, Inc.
+</div></td>
+<td><img src="http://developers.sun.com/im/a.gif" width="40" height="1" border="0" alt=" " /></td>
+<td valign="top"><div class="footer"><b><a href="http://developers.sun.com/dispatcher.jsp?uid=6910010">A Sun Developer Network Site</a></b></div>
+<div class="footer">
+<img src="http://developers.sun.com/im/a.gif" width="170" height="1" border="0" alt=" " /><br />
+Unless otherwise licensed, code in all technical manuals herein (including articles, FAQs, samples) is provided under this <a href="http://developers.sun.com/dispatcher.jsp?uid=6910008">License</a>.
+<br /><span class="sp5">&nbsp;</span><br />
+<a href="http://developers.sun.com/dispatcher.jsp?uid=6910006"><img src="http://developers.sun.com/im/button_xml.gif" width="36" height="14" align="top" border="0" alt="XML" /></a>&nbsp;<a href="http://developers.sun.com/dispatcher.jsp?uid=6910007">Content Feeds</a>
+</div></td></tr>
+<tr><td colspan="4" valign="top" class="grey3"><img src="http://developers.sun.com/im/a.gif" width="1" height="2" border="0" alt=" " /></td></tr>
+</table>
+</td></tr>
+</table>
+<!-- END VNV5 FOOTER -->
+</body>
+</html>
+
+
+
