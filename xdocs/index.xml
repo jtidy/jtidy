@@ -49,6 +49,7 @@
                     <li>Cleanup the support for new charsets (still to be refined)</li>
                     <li>Doctype handling (seem to be really different from the current tidy c release)</li>
                     <li>Some more tests, expecially for the dom parser/prettyprinter</li>
+                    <li>A working ant task and command line interface</li>
                 </ul>
 
             </subsection>
