@@ -3363,13 +3363,6 @@ public class ParserImpl
     {
         Node node;
 
-        /* Jeff Young's kludge for XSL docs */
-
-        if (Lexer.wstrcasecmp(element.element, "xsl:text") == 0)
-        {
-            return;
-        }
-
         /* if node is pre or has xml:space="preserve" then do so */
 
         if (XMLPreserveWhiteSpace(element, lexer.configuration.tt))
