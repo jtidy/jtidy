@@ -1,61 +1,62 @@
 /**
-*  Java HTML Tidy - JTidy
-*  HTML parser and pretty printer
-*
-*  Copyright (c) 1998-2000 World Wide Web Consortium (Massachusetts
-*  Institute of Technology, Institut National de Recherche en
-*  Informatique et en Automatique, Keio University). All Rights
-*  Reserved.
-*
-*  Contributing Author(s):
-*
-*     Dave Raggett <dsr@w3.org>
-*     Andy Quick <ac.quick@sympatico.ca> (translation to Java)
-*     Gary L Peskin <garyp@firstech.com> (Java development)
-*     Sami Lempinen <sami@lempinen.net> (release management)
-*     Fabrizio Giustina <fgiust at users.sourceforge.net>
-*
-*  The contributing author(s) would like to thank all those who
-*  helped with testing, bug fixes, and patience.  This wouldn't
-*  have been possible without all of you.
-*
-*  COPYRIGHT NOTICE:
-* 
-*  This software and documentation is provided "as is," and
-*  the copyright holders and contributing author(s) make no
-*  representations or warranties, express or implied, including
-*  but not limited to, warranties of merchantability or fitness
-*  for any particular purpose or that the use of the software or
-*  documentation will not infringe any third party patents,
-*  copyrights, trademarks or other rights. 
-*
-*  The copyright holders and contributing author(s) will not be
-*  liable for any direct, indirect, special or consequential damages
-*  arising out of any use of the software or documentation, even if
-*  advised of the possibility of such damage.
-*
-*  Permission is hereby granted to use, copy, modify, and distribute
-*  this source code, or portions hereof, documentation and executables,
-*  for any purpose, without fee, subject to the following restrictions:
-*
-*  1. The origin of this source code must not be misrepresented.
-*  2. Altered versions must be plainly marked as such and must
-*     not be misrepresented as being the original source.
-*  3. This Copyright notice may not be removed or altered from any
-*     source or altered source distribution.
-* 
-*  The copyright holders and contributing author(s) specifically
-*  permit, without fee, and encourage the use of this source code
-*  as a component for supporting the Hypertext Markup Language in
-*  commercial products. If you use this source code in a product,
-*  acknowledgment is not required but would be appreciated.
-*
-*/
+ *  Java HTML Tidy - JTidy
+ *  HTML parser and pretty printer
+ *
+ *  Copyright (c) 1998-2000 World Wide Web Consortium (Massachusetts
+ *  Institute of Technology, Institut National de Recherche en
+ *  Informatique et en Automatique, Keio University). All Rights
+ *  Reserved.
+ *
+ *  Contributing Author(s):
+ *
+ *     Dave Raggett <dsr@w3.org>
+ *     Andy Quick <ac.quick@sympatico.ca> (translation to Java)
+ *     Gary L Peskin <garyp@firstech.com> (Java development)
+ *     Sami Lempinen <sami@lempinen.net> (release management)
+ *     Fabrizio Giustina <fgiust at users.sourceforge.net>
+ *
+ *  The contributing author(s) would like to thank all those who
+ *  helped with testing, bug fixes, and patience.  This wouldn't
+ *  have been possible without all of you.
+ *
+ *  COPYRIGHT NOTICE:
+ *
+ *  This software and documentation is provided "as is," and
+ *  the copyright holders and contributing author(s) make no
+ *  representations or warranties, express or implied, including
+ *  but not limited to, warranties of merchantability or fitness
+ *  for any particular purpose or that the use of the software or
+ *  documentation will not infringe any third party patents,
+ *  copyrights, trademarks or other rights.
+ *
+ *  The copyright holders and contributing author(s) will not be
+ *  liable for any direct, indirect, special or consequential damages
+ *  arising out of any use of the software or documentation, even if
+ *  advised of the possibility of such damage.
+ *
+ *  Permission is hereby granted to use, copy, modify, and distribute
+ *  this source code, or portions hereof, documentation and executables,
+ *  for any purpose, without fee, subject to the following restrictions:
+ *
+ *  1. The origin of this source code must not be misrepresented.
+ *  2. Altered versions must be plainly marked as such and must
+ *     not be misrepresented as being the original source.
+ *  3. This Copyright notice may not be removed or altered from any
+ *     source or altered source distribution.
+ *
+ *  The copyright holders and contributing author(s) specifically
+ *  permit, without fee, and encourage the use of this source code
+ *  as a component for supporting the Hypertext Markup Language in
+ *  commercial products. If you use this source code in a product,
+ *  acknowledgment is not required but would be appreciated.
+ *
+ */
 package org.w3c.tidy;
 
 import java.io.PrintWriter;
 import java.util.Stack;
 import java.util.Vector;
+
 
 /**
  * Lexer for html parser.
@@ -67,8 +68,9 @@ import java.util.Vector;
  * compacted to single space chars. If XmlTags is no then Tag names are folded to upper case and attribute names to
  * lower case. Not yet done: - Doctype subset and marked sections
  * </p>
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
+ * 
+ * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
+ * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @version $Revision $ ($Author $)
  */
 public class Lexer
@@ -79,33 +81,24 @@ public class Lexer
     public static final short Preformatted = 2;
     public static final short IgnoreMarkup = 3;
 
-    /* the 3 URIs for the XHTML 1.0 DTDs */
+    // the 3 URIs for the XHTML 1.0 DTDs
     private static final String voyager_loose = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd";
     private static final String voyager_strict = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd";
     private static final String voyager_frameset = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd";
 
     private static final String XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 
-    private static Lexer.W3CVersionInfo[] W3CVersion =
-        {
-            new W3CVersionInfo("HTML 4.01", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML40_STRICT),
-            new W3CVersionInfo(
-                "HTML 4.01 Transitional",
-                "XHTML 1.0 Transitional",
-                voyager_loose,
-                Dict.VERS_HTML40_LOOSE),
-            new W3CVersionInfo("HTML 4.01 Frameset", "XHTML 1.0 Frameset", voyager_frameset, Dict.VERS_FRAMES),
-            new W3CVersionInfo("HTML 4.0", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML40_STRICT),
-            new W3CVersionInfo(
-                "HTML 4.0 Transitional",
-                "XHTML 1.0 Transitional",
-                voyager_loose,
-                Dict.VERS_HTML40_LOOSE),
-            new W3CVersionInfo("HTML 4.0 Frameset", "XHTML 1.0 Frameset", voyager_frameset, Dict.VERS_FRAMES),
-            new W3CVersionInfo("HTML 3.2", "XHTML 1.0 Transitional", voyager_loose, Dict.VERS_HTML32),
-            new W3CVersionInfo("HTML 2.0", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML20)};
+    private static Lexer.W3CVersionInfo[] W3CVersion = {
+        new W3CVersionInfo("HTML 4.01", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML40_STRICT),
+        new W3CVersionInfo("HTML 4.01 Transitional", "XHTML 1.0 Transitional", voyager_loose, Dict.VERS_HTML40_LOOSE),
+        new W3CVersionInfo("HTML 4.01 Frameset", "XHTML 1.0 Frameset", voyager_frameset, Dict.VERS_FRAMES),
+        new W3CVersionInfo("HTML 4.0", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML40_STRICT),
+        new W3CVersionInfo("HTML 4.0 Transitional", "XHTML 1.0 Transitional", voyager_loose, Dict.VERS_HTML40_LOOSE),
+        new W3CVersionInfo("HTML 4.0 Frameset", "XHTML 1.0 Frameset", voyager_frameset, Dict.VERS_FRAMES),
+        new W3CVersionInfo("HTML 3.2", "XHTML 1.0 Transitional", voyager_loose, Dict.VERS_HTML32),
+        new W3CVersionInfo("HTML 2.0", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML20)};
 
-    /* lexer char types */
+    // lexer char types
     private static final short DIGIT = 1;
     private static final short LETTER = 2;
     private static final short NAMECHAR = 4;
@@ -114,7 +107,7 @@ public class Lexer
     private static final short LOWERCASE = 32;
     private static final short UPPERCASE = 64;
 
-    /* lexer GetToken states */
+    // lexer GetToken states
 
     private static final short LEX_CONTENT = 0;
     private static final short LEX_GT = 1;
@@ -286,7 +279,7 @@ public class Lexer
     public Style styles;
 
     public Configuration configuration;
-    protected int seenBodyEndTag; /* used by parser */
+    protected int seenBodyEndTag; // used by parser
 
     private Vector nodeList;
 
@@ -468,7 +461,7 @@ public class Lexer
         }
 
         this.lexbuf[this.lexsize++] = (byte) c;
-        this.lexbuf[this.lexsize] = (byte) '\0'; /* debug */
+        this.lexbuf[this.lexsize] = (byte) '\0'; // debug
     }
 
     public void changeChar(byte c)
@@ -480,7 +473,7 @@ public class Lexer
     }
 
     /**
-     * store char c as UTF-8 encoded byte stream
+     * store char c as UTF-8 encoded byte stream.
      */
     public void addCharToLexer(int c)
     {
@@ -540,7 +533,7 @@ public class Lexer
         int c, ch, startcol;
         String str;
 
-        start = this.lexsize - 1; /* to start at "&" */
+        start = this.lexsize - 1; // to start at "&"
         startcol = this.in.curcol - 1;
 
         while (true)
@@ -646,7 +639,7 @@ public class Lexer
         short map;
         int c;
 
-        /* fold case of first char in buffer */
+        // fold case of first char in buffer
 
         c = this.lexbuf[this.txtstart];
         map = MAP((char) c);
@@ -693,7 +686,8 @@ public class Lexer
     }
 
     /**
-     * choose what version to use for new doctype
+     * choose what version to use for new doctype.
+     * 
      * @param root
      * @return
      */
@@ -754,7 +748,9 @@ public class Lexer
         return null;
     }
 
-    /* add meta element for Tidy */
+    /**
+     * add meta element for Tidy.
+     */
     public boolean addGenerator(Node root)
     {
         AttVal attval;
@@ -773,9 +769,7 @@ public class Lexer
                     {
                         attval = node.getAttrByName("content");
 
-                        if (attval != null
-                            && attval.value != null
-                            && attval.value.length() >= 9
+                        if (attval != null && attval.value != null && attval.value.length() >= 9
                             && Lexer.wstrcasecmp(attval.value.substring(0, 9), "HTML Tidy") == 0)
                         {
                             return false;
@@ -794,9 +788,10 @@ public class Lexer
         return false;
     }
 
-    /* return true if substring s is in p and isn't all in upper case */
-    /* this is used to check the case of SYSTEM, PUBLIC, DTD and EN */
-    /* len is how many chars to check in p */
+    /**
+     * return true if substring s is in p and isn't all in upper case this is used to check the case of SYSTEM, PUBLIC,
+     * DTD and EN len is how many chars to check in p.
+     */
     private static boolean findBadSubString(String s, String p, int len)
     {
         int n = s.length();
@@ -823,15 +818,14 @@ public class Lexer
         int len = doctype.end - doctype.start;
         String s = getString(this.lexbuf, doctype.start, len);
 
-        return !(
-            findBadSubString("SYSTEM", s, len)
-                || findBadSubString("PUBLIC", s, len)
-                || findBadSubString("//DTD", s, len)
-                || findBadSubString("//W3C", s, len)
-                || findBadSubString("//EN", s, len));
+        return !(findBadSubString("SYSTEM", s, len) || findBadSubString("PUBLIC", s, len)
+            || findBadSubString("//DTD", s, len) || findBadSubString("//W3C", s, len) || findBadSubString("//EN", s,
+            len));
     }
 
-    /* examine <!DOCTYPE> to identify version */
+    /**
+     * examine DOCTYPE to identify version.
+     */
     public short findGivenVersion(Node doctype)
     {
         String p, s;
@@ -840,7 +834,7 @@ public class Lexer
         String str1;
         String str2;
 
-        /* if root tag for doctype isn't html give up now */
+        // if root tag for doctype isn't html give up now
         str1 = getString(this.lexbuf, doctype.start, 5);
         if (wstrcasecmp(str1, "html ") != 0)
         {
@@ -852,16 +846,16 @@ public class Lexer
             Report.warning(this, doctype, null, Report.DTYPE_NOT_UPPER_CASE);
         }
 
-        /* give up if all we are given is the system id for the doctype */
+        // give up if all we are given is the system id for the doctype
         str1 = getString(this.lexbuf, doctype.start + 5, 7);
         if (wstrcasecmp(str1, "SYSTEM ") == 0)
         {
-            /* but at least ensure the case is correct */
+            // but at least ensure the case is correct
             if (!str1.substring(0, 6).equals("SYSTEM"))
             {
                 System.arraycopy(getBytes("SYSTEM"), 0, this.lexbuf, doctype.start + 5, 6);
             }
-            return 0; /* unrecognized */
+            return 0; // unrecognized
         }
 
         if (wstrcasecmp(str1, "PUBLIC ") == 0)
@@ -884,8 +878,10 @@ public class Lexer
                 str2 = getString(this.lexbuf, i + 1, 13);
                 if (str1.equals("-//W3C//DTD "))
                 {
-                    /* compute length of identifier e.g. "HTML 4.0 Transitional" */
-                    for (j = i + 13; j < doctype.end && this.lexbuf[j] != (byte) '/'; ++j);
+                    // compute length of identifier e.g. "HTML 4.0 Transitional"
+                    for (j = i + 13; j < doctype.end && this.lexbuf[j] != (byte) '/'; ++j)
+                    {
+                    }
                     len = j - i - 13;
                     p = getString(this.lexbuf, i + 13, len);
 
@@ -898,12 +894,14 @@ public class Lexer
                         }
                     }
 
-                    /* else unrecognized version */
+                    // else unrecognized version
                 }
                 else if (str2.equals("-//IETF//DTD "))
                 {
-                    /* compute length of identifier e.g. "HTML 2.0" */
-                    for (j = i + 14; j < doctype.end && this.lexbuf[j] != (byte) '/'; ++j);
+                    // compute length of identifier e.g. "HTML 2.0"
+                    for (j = i + 14; j < doctype.end && this.lexbuf[j] != (byte) '/'; ++j)
+                    {
+                    }
                     len = j - i - 14;
 
                     p = getString(this.lexbuf, i + 14, len);
@@ -913,7 +911,7 @@ public class Lexer
                         return W3CVersion[0].code;
                     }
 
-                    /* else unrecognized version */
+                    // else unrecognized version
                 }
                 break;
             }
@@ -927,7 +925,9 @@ public class Lexer
         Node node;
         AttVal attr;
 
-        for (node = root.content; node != null && node.tag != this.configuration.tt.tagHtml; node = node.next);
+        for (node = root.content; node != null && node.tag != this.configuration.tt.tagHtml; node = node.next)
+        {
+        }
 
         if (node != null)
         {
@@ -978,9 +978,10 @@ public class Lexer
 
         if (this.configuration.docTypeMode == Configuration.DOCTYPE_AUTO)
         {
-            /* see what flavor of XHTML this document matches */
+            // see what flavor of XHTML this document matches
             if ((this.versions & Dict.VERS_HTML40_STRICT) != 0)
-            { /* use XHTML strict */
+            {
+                // use XHTML strict
                 fpi = "-//W3C//DTD XHTML 1.0 Strict//EN";
                 sysid = voyager_strict;
             }
@@ -990,7 +991,8 @@ public class Lexer
                 sysid = voyager_loose;
             }
             else if ((this.versions & Dict.VERS_FRAMES) != 0)
-            { /* use XHTML frames */
+            {
+                // use XHTML frames
                 fpi = "-//W3C//DTD XHTML 1.0 Frameset//EN";
                 sysid = voyager_frameset;
             }
@@ -1032,10 +1034,10 @@ public class Lexer
         this.txtstart = this.lexsize;
         this.txtend = this.lexsize;
 
-        /* add public identifier */
+        // add public identifier
         addStringLiteral("html PUBLIC ");
 
-        /* check if the fpi is quoted or not */
+        // check if the fpi is quoted or not
         if (fpi.charAt(0) == '"')
         {
             addStringLiteral(fpi);
@@ -1056,7 +1058,7 @@ public class Lexer
             addStringLiteral("\n    \"");
         }
 
-        /* add system identifier */
+        // add system identifier
         addStringLiteral(sysid);
         addStringLiteral("\"");
 
@@ -1089,7 +1091,7 @@ public class Lexer
                     return Dict.VERS_HTML32;
                 }
 
-                break; /* to replace old version by new */
+                break; // to replace old version by new
 
             case Dict.VERS_HTML40_STRICT :
                 if ((this.versions & Dict.VERS_HTML40_STRICT) != 0)
@@ -1105,7 +1107,7 @@ public class Lexer
                     return Dict.VERS_HTML40_LOOSE;
                 }
 
-                break; /* to replace old version by new */
+                break; // to replace old version by new
 
             case Dict.VERS_FRAMES :
                 if ((this.versions & Dict.VERS_FRAMES) != 0)
@@ -1120,7 +1122,7 @@ public class Lexer
         return this.HTMLVersion();
     }
 
-    /* fixup doctype if missing */
+    // fixup doctype if missing
     public boolean fixDocType(Node root)
     {
         Node doctype;
@@ -1179,7 +1181,7 @@ public class Lexer
                             return true;
                         }
 
-                        break; /* to replace old version by new */
+                        break; // to replace old version by new
 
                     case Dict.VERS_HTML32 :
                         if ((this.versions & Dict.VERS_HTML32) != 0)
@@ -1187,7 +1189,7 @@ public class Lexer
                             return true;
                         }
 
-                        break; /* to replace old version by new */
+                        break; // to replace old version by new
 
                     case Dict.VERS_HTML40_STRICT :
                         if ((this.versions & Dict.VERS_HTML40_STRICT) != 0)
@@ -1195,7 +1197,7 @@ public class Lexer
                             return true;
                         }
 
-                        break; /* to replace old version by new */
+                        break; // to replace old version by new
 
                     case Dict.VERS_HTML40_LOOSE :
                         if ((this.versions & Dict.VERS_HTML40_LOOSE) != 0)
@@ -1203,7 +1205,7 @@ public class Lexer
                             return true;
                         }
 
-                        break; /* to replace old version by new */
+                        break; // to replace old version by new
 
                     case Dict.VERS_FRAMES :
                         if ((this.versions & Dict.VERS_FRAMES) != 0)
@@ -1211,13 +1213,13 @@ public class Lexer
                             return true;
                         }
 
-                        break; /* to replace old version by new */
+                        break; // to replace old version by new
                 }
 
-                /* INCONSISTENT_VERSION warning is now issued by ApparentVersion() */
+                // INCONSISTENT_VERSION warning is now issued by ApparentVersion()
             }
 
-            /* choose new doctype */
+            // choose new doctype
             guessed = HTMLVersion();
         }
 
@@ -1226,7 +1228,7 @@ public class Lexer
             return false;
         }
 
-        /* for XML use the Voyager system identifier */
+        // for XML use the Voyager system identifier
         if (this.configuration.xmlOut || this.configuration.xmlTags || this.isvoyager)
         {
             if (doctype != null)
@@ -1258,7 +1260,7 @@ public class Lexer
         this.txtstart = this.lexsize;
         this.txtend = this.lexsize;
 
-        /* use the appropriate public identifier */
+        // use the appropriate public identifier
         addStringLiteral("html PUBLIC ");
 
         if (this.configuration.docTypeMode == Configuration.DOCTYPE_USER && this.configuration.docTypeStr != null)
@@ -1293,7 +1295,9 @@ public class Lexer
         return true;
     }
 
-    /* ensure XML document starts with <?XML version="1.0"?> */
+    /**
+     * ensure XML document starts with &lt;?XML version="1.0"?>.
+     */
     public boolean fixXMLPI(Node root)
     {
         Node xml;
@@ -1350,7 +1354,7 @@ public class Lexer
             return false;
         }
 
-        /* unknown element? */
+        // unknown element?
         if (node.tag == null)
         {
             return true;
@@ -1364,8 +1368,9 @@ public class Lexer
         return true;
     }
 
-    /*
-     * create a text node for the contents of a CDATA element like style or script which ends with </foo> for some foo.
+    /**
+     * create a text node for the contents of a CDATA element like style or script which ends with &lt;/foo> for some
+     * foo.
      */
     public Node getCDATA(Node container)
     {
@@ -1389,7 +1394,7 @@ public class Lexer
             {
                 break;
             }
-            /* treat \r\n as \n and \r as \n */
+            // treat \r\n as \n and \r as \n
 
             if (c == '/' && lastc == '<')
             {
@@ -1401,7 +1406,7 @@ public class Lexer
                     Report.warning(this, null, null, Report.BAD_CDATA_CONTENT);
                 }
 
-                start = this.lexsize + 1; /* to first letter */
+                start = this.lexsize + 1; // to first letter
                 endtag = true;
             }
             else if (c == '>' && start >= 0)
@@ -1422,7 +1427,7 @@ public class Lexer
 
                 Report.warning(this, null, null, Report.BAD_CDATA_CONTENT);
 
-                /* if javascript insert backslash before / */
+                // if javascript insert backslash before /
 
                 if (ParserImpl.isJavaScript(container))
                 {
@@ -1473,11 +1478,14 @@ public class Lexer
         this.pushed = true;
     }
 
-    /*
-     * modes for GetToken() MixedContent -- for elements which don't accept PCDATA Preformatted -- white space
-     * preserved as is IgnoreMarkup -- for CDATA elements such as script, style
+    /**
+     * modes for GetToken():
+     * <ul>
+     * <li><code>MixedContent</code>-- for elements which don't accept PCDATA</li>
+     * <li><code>Preformatted</code>-- white spacepreserved as is</li>
+     * <li><code>IgnoreMarkup</code>-- for CDATA elements such as script, style</li>
+     * </ul>
      */
-
     public Node getToken(short mode)
     {
         short map;
@@ -1488,7 +1496,7 @@ public class Lexer
 
         if (this.pushed)
         {
-            /* duplicate inlines in preference to pushed text nodes when appropriate */
+            // duplicate inlines in preference to pushed text nodes when appropriate
             if (this.token.type != Node.TextNode || (this.insert == -1 && this.inode == null))
             {
                 this.pushed = false;
@@ -1516,7 +1524,7 @@ public class Lexer
             {
                 break;
             }
-            
+
             // fix for [427846]
             // if (lexer->insertspace && !(mode & IgnoreWhitespace))
             if (this.insertspace && !((mode & IgnoreWhitespace) != 0))
@@ -1526,7 +1534,7 @@ public class Lexer
                 this.insertspace = false;
             }
 
-            /* treat \r\n as \n and \r as \n */
+            // treat \r\n as \n and \r as \n
 
             if (c == '\r')
             {
@@ -1544,13 +1552,13 @@ public class Lexer
 
             switch (this.state)
             {
-                case LEX_CONTENT : /* element content */
+                case LEX_CONTENT :
+                    // element content
                     map = MAP((char) c);
 
-                    /*
-                     * Discard white space if appropriate. Its cheaper to do this here rather than in parser methods
-                     * for elements that don't have mixed content.
-                     */
+                    // Discard white space if appropriate.
+                    // Its cheaper to do this here rather than in parser methods for elements that
+                    // don't have mixed content.
                     if (((map & WHITE) != 0) && (mode == IgnoreWhitespace) && this.lexsize == this.txtstart + 1)
                     {
                         --this.lexsize;
@@ -1568,7 +1576,7 @@ public class Lexer
 
                     if ((map & WHITE) != 0)
                     {
-                        /* was previous char white? */
+                        // was previous char white?
                         if (this.waswhite)
                         {
                             if (mode != Preformatted && mode != IgnoreMarkup)
@@ -1596,7 +1604,7 @@ public class Lexer
                         parseEntity(mode);
                     }
 
-                    /* this is needed to avoid trimming trailing whitespace */
+                    // this is needed to avoid trimming trailing whitespace
                     if (mode == IgnoreWhitespace)
                     {
                         mode = MixedContent;
@@ -1605,9 +1613,10 @@ public class Lexer
                     this.waswhite = false;
                     continue;
 
-                case LEX_GT : /* <         */
+                case LEX_GT :
+                    // <
 
-                    /* check for endtag */
+                    // check for endtag
                     if (c == '/')
                     {
                         c = this.in.readChar();
@@ -1626,13 +1635,13 @@ public class Lexer
                             this.txtend = this.lexsize;
                             this.in.ungetChar(c);
                             this.state = LEX_ENDTAG;
-                            this.lexbuf[this.lexsize] = (byte) '\0'; /* debug */
+                            this.lexbuf[this.lexsize] = (byte) '\0'; // debug
                             this.in.curcol -= 2;
 
-                            /* if some text before the </ return it now         */
+                            // if some text before the </ return it now
                             if (this.txtend > this.txtstart)
                             {
-                                /* trim space char before end tag */
+                                // trim space char before end tag
                                 if (mode == IgnoreWhitespace && this.lexbuf[this.lexsize - 1] == (byte) ' ')
                                 {
                                     this.lexsize -= 1;
@@ -1643,10 +1652,10 @@ public class Lexer
                                 return this.token;
                             }
 
-                            continue; /* no text so keep going */
+                            continue; // no text so keep going
                         }
 
-                        /* otherwise treat as CDATA */
+                        // otherwise treat as CDATA
                         this.waswhite = false;
                         this.state = LEX_CONTENT;
                         continue;
@@ -1654,16 +1663,13 @@ public class Lexer
 
                     if (mode == IgnoreMarkup)
                     {
-                        /* otherwise treat as CDATA */
+                        // otherwise treat as CDATA
                         this.waswhite = false;
                         this.state = LEX_CONTENT;
                         continue;
                     }
 
-                    /*
-                     * look out for comments, doctype or marked sections this isn't quite right, but its getting there
-                     * ...
-                     */
+                    // look out for comments, doctype or marked sections this isn't quite right, but its getting there
                     if (c == '!')
                     {
                         c = this.in.readChar();
@@ -1674,11 +1680,11 @@ public class Lexer
 
                             if (c == '-')
                             {
-                                this.state = LEX_COMMENT; /* comment */
+                                this.state = LEX_COMMENT; // comment
                                 this.lexsize -= 2;
                                 this.txtend = this.lexsize;
 
-                                /* if some text before < return it now         */
+                                // if some text before < return it now
                                 if (this.txtend > this.txtstart)
                                 {
                                     this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1693,12 +1699,12 @@ public class Lexer
                         }
                         else if (c == 'd' || c == 'D')
                         {
-                            this.state = LEX_DOCTYPE; /* doctype */
+                            this.state = LEX_DOCTYPE; // doctype
                             this.lexsize -= 2;
                             this.txtend = this.lexsize;
                             mode = IgnoreWhitespace;
 
-                            /* skip until white space or '>' */
+                            // skip until white space or '>'
 
                             for (;;)
                             {
@@ -1717,7 +1723,7 @@ public class Lexer
                                     continue;
                                 }
 
-                                /* and skip to end of whitespace */
+                                // and skip to end of whitespace
 
                                 for (;;)
                                 {
@@ -1743,7 +1749,7 @@ public class Lexer
                                 break;
                             }
 
-                            /* if some text before < return it now         */
+                            // if some text before < return it now
                             if (this.txtend > this.txtstart)
                             {
                                 this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1755,12 +1761,12 @@ public class Lexer
                         }
                         else if (c == '[')
                         {
-                            /* Word 2000 embeds <![if ...]> ... <![endif]> sequences */
+                            // Word 2000 embeds <![if ...]> ... <![endif]> sequences
                             this.lexsize -= 2;
                             this.state = LEX_SECTION;
                             this.txtend = this.lexsize;
 
-                            /* if some text before < return it now         */
+                            // if some text before < return it now
                             if (this.txtend > this.txtstart)
                             {
                                 this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1771,7 +1777,7 @@ public class Lexer
                             continue;
                         }
 
-                        /* otherwise swallow chars up to and including next '>' */
+                        // otherwise swallow chars up to and including next '>'
                         while (true)
                         {
                             c = this.in.readChar();
@@ -1792,9 +1798,7 @@ public class Lexer
                         continue;
                     }
 
-                    /*
-                     * processing instructions
-                     */
+                    // processing instructions
 
                     if (c == '?')
                     {
@@ -1802,7 +1806,7 @@ public class Lexer
                         this.state = LEX_PROCINSTR;
                         this.txtend = this.lexsize;
 
-                        /* if some text before < return it now         */
+                        // if some text before < return it now
                         if (this.txtend > this.txtstart)
                         {
                             this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1813,14 +1817,14 @@ public class Lexer
                         continue;
                     }
 
-                    /* Microsoft ASP's e.g. <% ... server-code ... %> */
+                    // Microsoft ASP's e.g. <% ... server-code ... %>
                     if (c == '%')
                     {
                         this.lexsize -= 2;
                         this.state = LEX_ASP;
                         this.txtend = this.lexsize;
 
-                        /* if some text before < return it now         */
+                        // if some text before < return it now
                         if (this.txtend > this.txtstart)
                         {
                             this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1831,14 +1835,14 @@ public class Lexer
                         continue;
                     }
 
-                    /* Netscapes JSTE e.g. <# ... server-code ... #> */
+                    // Netscapes JSTE e.g. <# ... server-code ... #>
                     if (c == '#')
                     {
                         this.lexsize -= 2;
                         this.state = LEX_JSTE;
                         this.txtend = this.lexsize;
 
-                        /* if some text before < return it now         */
+                        // if some text before < return it now
                         if (this.txtend > this.txtstart)
                         {
                             this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1851,42 +1855,41 @@ public class Lexer
 
                     map = MAP((char) c);
 
-                    /* check for start tag */
+                    // check for start tag
                     if ((map & LETTER) != 0)
                     {
-                        this.in.ungetChar(c); /* push back letter */
-                        this.lexsize -= 2; /* discard " <" + letter         */
+                        this.in.ungetChar(c); // push back letter
+                        this.lexsize -= 2; // discard " <" + letter
                         this.txtend = this.lexsize;
-                        this.state = LEX_STARTTAG; /* ready to read tag name */
+                        this.state = LEX_STARTTAG; // ready to read tag name
 
-                        /* if some text before < return it now         */
+                        // if some text before < return it now
                         if (this.txtend > this.txtstart)
                         {
                             this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
                             return this.token;
                         }
 
-                        continue; /* no text so keep going */
+                        continue; // no text so keep going
                     }
 
-                    /* otherwise treat as CDATA */
+                    // otherwise treat as CDATA
                     this.state = LEX_CONTENT;
                     this.waswhite = false;
                     continue;
 
-                case LEX_ENDTAG : /* </letter         */
+                case LEX_ENDTAG :
+                    // </letter
                     this.txtstart = this.lexsize - 1;
                     this.in.curcol += 2;
                     c = parseTagName();
-                    this.token = newNode(Node.EndTag, /* create endtag token */
-                    this.lexbuf,
-                        this.txtstart,
-                        this.txtend,
-                        getString(this.lexbuf, this.txtstart, this.txtend - this.txtstart));
+                    this.token = newNode(Node.EndTag, // create endtag token
+                        this.lexbuf, this.txtstart, this.txtend, getString(this.lexbuf, this.txtstart, this.txtend
+                            - this.txtstart));
                     this.lexsize = this.txtstart;
                     this.txtend = this.txtstart;
 
-                    /* skip to '>' */
+                    // skip to '>'
                     while (c != '>')
                     {
                         c = this.in.readChar();
@@ -1905,22 +1908,18 @@ public class Lexer
 
                     this.state = LEX_CONTENT;
                     this.waswhite = false;
-                    return this.token; /* the endtag token */
+                    return this.token; // the endtag token
 
-                case LEX_STARTTAG : /* first letter of tagname */
-                    this.txtstart = this.lexsize - 1; /* set txtstart to first letter */
+                case LEX_STARTTAG :
+                    // first letter of tagname
+                    this.txtstart = this.lexsize - 1; // set txtstart to first letter
                     c = parseTagName();
                     isempty.value = false;
                     attributes = null;
-                    this.token =
-                        newNode(
-                            (isempty.value ? Node.StartEndTag : Node.StartTag),
-                            this.lexbuf,
-                            this.txtstart,
-                            this.txtend,
-                            getString(this.lexbuf, this.txtstart, this.txtend - this.txtstart));
+                    this.token = newNode((isempty.value ? Node.StartEndTag : Node.StartTag), this.lexbuf,
+                        this.txtstart, this.txtend, getString(this.lexbuf, this.txtstart, this.txtend - this.txtstart));
 
-                    /* parse attributes, consuming closing ">" */
+                    // parse attributes, consuming closing ">"
                     if (c != '>')
                     {
                         if (c == '/')
@@ -1940,9 +1939,9 @@ public class Lexer
                     this.lexsize = this.txtstart;
                     this.txtend = this.txtstart;
 
-                    /* swallow newline following start tag */
-                    /* special check needed for CRLF sequence */
-                    /* this doesn't apply to empty elements */
+                    // swallow newline following start tag
+                    // special check needed for CRLF sequence
+                    // this doesn't apply to empty elements
 
                     if (expectsContent(this.token) || this.token.tag == this.configuration.tt.tagBr)
                     {
@@ -1963,7 +1962,7 @@ public class Lexer
                             this.in.ungetChar(c);
                         }
 
-                        this.waswhite = true; /* to swallow leading whitespace */
+                        this.waswhite = true; // to swallow leading whitespace
                     }
                     else
                     {
@@ -1983,8 +1982,7 @@ public class Lexer
                         if ((this.token.tag.versions & Dict.VERS_PROPRIETARY) != 0)
                         {
                             if (!this.configuration.makeClean
-                                && (this.token.tag == this.configuration.tt.tagNobr
-                                    || this.token.tag == this.configuration.tt.tagWbr))
+                                && (this.token.tag == this.configuration.tt.tagNobr || this.token.tag == this.configuration.tt.tagWbr))
                             {
                                 Report.warning(this, null, this.token, Report.PROPRIETARY_ELEMENT);
                             }
@@ -2001,9 +1999,10 @@ public class Lexer
                         }
                     }
 
-                    return this.token; /* return start tag */
+                    return this.token; // return start tag
 
-                case LEX_COMMENT : /* seen <!-- so look for --> */
+                case LEX_COMMENT :
+                    // seen <!-- so look for -->
 
                     if (c != '-')
                     {
@@ -2035,7 +2034,7 @@ public class Lexer
                             this.waswhite = false;
                             this.token = newNode(Node.CommentTag, this.lexbuf, this.txtstart, this.txtend);
 
-                            /* now look for a line break */
+                            // now look for a line break
 
                             c = this.in.readChar();
 
@@ -2061,7 +2060,7 @@ public class Lexer
                             return this.token;
                         }
 
-                        /* note position of first such error in the comment */
+                        // note position of first such error in the comment
                         if (badcomment == 0)
                         {
                             this.lines = this.in.curline;
@@ -2076,18 +2075,19 @@ public class Lexer
 
                         addCharToLexer(c);
 
-                        /* if '-' then look for '>' to end the comment */
+                        // if '-' then look for '>' to end the comment
                         if (c != '-')
                         {
                             break end_comment;
                         }
 
                     }
-                    /* otherwise continue to look for --> */
+                    // otherwise continue to look for -->
                     this.lexbuf[this.lexsize - 2] = (byte) '=';
                     continue;
 
-                case LEX_DOCTYPE : /* seen <!d so look for '> ' munging whitespace */
+                case LEX_DOCTYPE :
+                    // seen <!d so look for '> ' munging whitespace
                     map = MAP((char) c);
 
                     if ((map & WHITE) != 0)
@@ -2115,12 +2115,13 @@ public class Lexer
                     this.state = LEX_CONTENT;
                     this.waswhite = false;
                     this.token = newNode(Node.DocTypeTag, this.lexbuf, this.txtstart, this.txtend);
-                    /* make a note of the version named by the doctype */
+                    // make a note of the version named by the doctype
                     this.doctype = findGivenVersion(this.token);
                     return this.token;
 
-                case LEX_PROCINSTR : /* seen <? so look for '> ' */
-                    /* check for PHP preprocessor instructions <?php ... ?> */
+                case LEX_PROCINSTR :
+                    // seen <? so look for '> '
+                    // check for PHP preprocessor instructions <?php ... ?>
 
                     if (this.lexsize - this.txtstart == 3)
                     {
@@ -2131,14 +2132,14 @@ public class Lexer
                         }
                     }
 
-                    if (this.configuration.xmlPIs) /* insist on ?> as terminator */
+                    if (this.configuration.xmlPIs) // insist on ?> as terminator
                     {
                         if (c != '?')
                         {
                             continue;
                         }
 
-                        /* now look for '>' */
+                        // now look for '>'
                         c = this.in.readChar();
 
                         if (c == StreamIn.EndOfStream)
@@ -2164,13 +2165,14 @@ public class Lexer
                     this.token = newNode(Node.ProcInsTag, this.lexbuf, this.txtstart, this.txtend);
                     return this.token;
 
-                case LEX_ASP : /* seen <% so look for "%> " */
+                case LEX_ASP :
+                    // seen <% so look for "%> "
                     if (c != '%')
                     {
                         continue;
                     }
 
-                    /* now look for '>' */
+                    // now look for '>'
                     c = this.in.readChar();
 
                     if (c != '>')
@@ -2187,13 +2189,14 @@ public class Lexer
                     this.token = newNode(Node.AspTag, this.lexbuf, this.txtstart, this.txtend);
                     return this.token;
 
-                case LEX_JSTE : /* seen <# so look for "#> " */
+                case LEX_JSTE :
+                    // seen <# so look for "#> "
                     if (c != '#')
                     {
                         continue;
                     }
 
-                    /* now look for '>' */
+                    // now look for '>'
                     c = this.in.readChar();
 
                     if (c != '>')
@@ -2210,13 +2213,14 @@ public class Lexer
                     this.token = newNode(Node.JsteTag, this.lexbuf, this.txtstart, this.txtend);
                     return this.token;
 
-                case LEX_PHP : /* seen " <?php" so look for "?> " */
+                case LEX_PHP :
+                    // seen " <?php" so look for "?> "
                     if (c != '?')
                     {
                         continue;
                     }
 
-                    /* now look for '>' */
+                    // now look for '>'
                     c = this.in.readChar();
 
                     if (c != '>')
@@ -2233,7 +2237,8 @@ public class Lexer
                     this.token = newNode(Node.PhpTag, this.lexbuf, this.txtstart, this.txtend);
                     return this.token;
 
-                case LEX_SECTION : /* seen " <![" so look for "]> " */
+                case LEX_SECTION :
+                    // seen " <![" so look for "]> "
                     if (c == '[')
                     {
                         if (this.lexsize == (this.txtstart + 6)
@@ -2250,7 +2255,7 @@ public class Lexer
                         continue;
                     }
 
-                    /* now look for '>' */
+                    // now look for '>'
                     c = this.in.readChar();
 
                     if (c != '>')
@@ -2267,13 +2272,14 @@ public class Lexer
                     this.token = newNode(Node.SectionTag, this.lexbuf, this.txtstart, this.txtend);
                     return this.token;
 
-                case LEX_CDATA : /* seen " <![CDATA[" so look for "]]> " */
+                case LEX_CDATA :
+                    // seen " <![CDATA[" so look for "]]> "
                     if (c != ']')
                     {
                         continue;
                     }
 
-                    /* now look for ']' */
+                    // now look for ']'
                     c = this.in.readChar();
 
                     if (c != ']')
@@ -2282,7 +2288,7 @@ public class Lexer
                         continue;
                     }
 
-                    /* now look for '>' */
+                    // now look for '>'
                     c = this.in.readChar();
 
                     if (c != '>')
@@ -2301,7 +2307,7 @@ public class Lexer
             }
         }
 
-        if (this.state == LEX_CONTENT) /* text string */
+        if (this.state == LEX_CONTENT) // text string
         {
             this.txtend = this.lexsize;
 
@@ -2319,7 +2325,7 @@ public class Lexer
                 return this.token;
             }
         }
-        else if (this.state == LEX_COMMENT) /* comment */
+        else if (this.state == LEX_COMMENT) // comment
         {
             if (c == StreamIn.EndOfStream)
             {
@@ -2337,14 +2343,13 @@ public class Lexer
         return null;
     }
 
-    /*
+    /**
      * parser for ASP within start tags Some people use ASP for to customize attributes Tidy isn't really well suited
      * to dealing with ASP This is a workaround for attributes, but won't deal with the case where the ASP is used to
      * tailor the attribute value. Here is an example of a work around for using ASP in attribute values: href="
-     * <%=rsSchool.Fields("ID").Value%> " where the ASP that generates the attribute value is masked from Tidy by the
+     * <%=rsSchool.Fields("ID").Value%>" where the ASP that generates the attribute value is masked from Tidy by the
      * quotemarks.
      */
-
     public Node parseAsp()
     {
         int c;
@@ -2383,7 +2388,7 @@ public class Lexer
         return asp;
     }
 
-    /*
+    /**
      * PHP is like ASP but is based upon XML processing instructions, e.g. <?php ... ?>
      */
     public Node parsePhp()
@@ -2424,7 +2429,9 @@ public class Lexer
         return php;
     }
 
-    /* consumes the '>' terminating start tags */
+    /**
+     * consumes the '>' terminating start tags.
+     */
     public String parseAttribute(MutableBoolean isempty, MutableObject asp, MutableObject php)
     {
         int start = 0;
@@ -2433,9 +2440,9 @@ public class Lexer
         String attr;
         int c = 0;
 
-        asp.setObject(null); /* clear asp pointer */
-        php.setObject(null); /* clear php pointer */
-        /* skip white space before the attribute */
+        asp.setObject(null); // clear asp pointer
+        php.setObject(null); // clear php pointer
+        // skip white space before the attribute
 
         for (;;)
         {
@@ -2506,7 +2513,7 @@ public class Lexer
 
         for (;;)
         {
-            /* but push back '=' for parseValue() */
+            // but push back '=' for parseValue()
             if (c == '=' || c == '>')
             {
                 this.in.ungetChar(c);
@@ -2526,8 +2533,8 @@ public class Lexer
                 break;
             }
 
-            /* what should be done about non-namechar characters? */
-            /* currently these are incorporated into the attr name */
+            // what should be done about non-namechar characters?
+            // currently these are incorporated into the attr name
 
             if (!this.configuration.xmlTags && (map & UPPERCASE) != 0)
             {
@@ -2561,7 +2568,7 @@ public class Lexer
         c = this.in.readChar();
         addCharToLexer(c);
 
-        /* check for ASP, PHP or Tango */
+        // check for ASP, PHP or Tango
         if (c == '%' || c == '?' || c == '@')
         {
             isrule = true;
@@ -2590,8 +2597,8 @@ public class Lexer
                 break;
             }
 
-            /* if not recognized as ASP, PHP or Tango */
-            /* then also finish value on whitespace */
+            // if not recognized as ASP, PHP or Tango
+            // then also finish value on whitespace
             if (!isrule)
             {
                 map = MAP((char) c);
@@ -2610,13 +2617,13 @@ public class Lexer
                 {
                     c = this.in.readChar();
 
-                    if (endOfInput()) /* #427840 - fix by Terry Teague 30 Jun 01 */
+                    if (endOfInput()) // #427840 - fix by Terry Teague 30 Jun 01
                     {
                         Report.attrError(this, this.token, null, Report.UNEXPECTED_END_OF_FILE);
                         this.in.ungetChar(c);
                         return 0;
                     }
-                    if (c == '>') /* #427840 - fix by Terry Teague 30 Jun 01 */
+                    if (c == '>') // #427840 - fix by Terry Teague 30 Jun 01
                     {
                         this.in.ungetChar(c);
                         Report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
@@ -2636,13 +2643,13 @@ public class Lexer
                 {
                     c = this.in.readChar();
 
-                    if (endOfInput()) /* #427840 - fix by Terry Teague 30 Jun 01 */
+                    if (endOfInput()) // #427840 - fix by Terry Teague 30 Jun 01
                     {
                         Report.attrError(this, this.token, null, Report.UNEXPECTED_END_OF_FILE);
                         this.in.ungetChar(c);
                         return 0;
                     }
-                    if (c == '>') /* #427840 - fix by Terry Teague 30 Jun 01 */
+                    if (c == '>') // #427840 - fix by Terry Teague 30 Jun 01
                     {
                         this.in.ungetChar(c);
                         Report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
@@ -2658,8 +2665,8 @@ public class Lexer
         return delim;
     }
 
-    /* values start with "=" or " = " etc. */
-    /* doesn't consume the ">" at end of start tag */
+    // values start with "=" or " = " etc.
+    // doesn't consume the ">" at end of start tag
 
     public String parseValue(String name, boolean foldCase, MutableBoolean isempty, MutableInteger pdelim)
     {
@@ -2675,16 +2682,15 @@ public class Lexer
         delim = 0;
         pdelim.value = '"';
 
-        /*
-         * Henry Zrepa reports that some folk are using the embed element with script attributes where newlines are
-         * significant and must be preserved
-         */
+        // Henry Zrepa reports that some folk are using the embed element with script attributes where newlines are
+        // significant and must be preserved
+
         if (this.configuration.literalAttribs)
         {
             munge = false;
         }
 
-        /* skip white space before the '=' */
+        // skip white space before the '='
 
         for (;;)
         {
@@ -2704,9 +2710,8 @@ public class Lexer
             }
         }
 
-        /*
-         * c should be '=' if there is a value other legal possibilities are white space, '/' and '>'
-         */
+        // c should be '=' if there is a value other legal possibilities are white space, '/' and '>'
+
 
         if (c != '=')
         {
@@ -2714,7 +2719,7 @@ public class Lexer
             return null;
         }
 
-        /* skip white space after '=' */
+        // skip white space after '='
 
         for (;;)
         {
@@ -2734,7 +2739,7 @@ public class Lexer
             }
         }
 
-        /* check for quote marks */
+        // check for quote marks
 
         if (c == '"' || c == '\'')
         {
@@ -2754,9 +2759,8 @@ public class Lexer
             this.in.ungetChar(c);
         }
 
-        /*
-         * and read the value string check for quote mark if needed
-         */
+        // and read the value string check for quote mark if needed
+
 
         quotewarning = 0;
         start = this.lexsize;
@@ -2764,7 +2768,7 @@ public class Lexer
 
         for (;;)
         {
-            lastc = c; /* track last character */
+            lastc = c; // track last character
             c = this.in.readChar();
 
             if (c == StreamIn.EndOfStream)
@@ -2790,19 +2794,18 @@ public class Lexer
 
                 if (c == '<')
                 {
-                    /* this.in.ungetChar(c); */
+                    // this.in.ungetChar(c);
                     Report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
-                    /* break; */
+                    // break;
                 }
 
-                /*
-                 * For cases like <br clear=all/> need to avoid treating /> as part of the attribute value, however
-                 * care is needed to avoid so treating <a href=http://www.acme.com /> in this way, which would map the
-                 * <a> tag to <a href="http://www.acme.com"/>
-                 */
+                // For cases like <br clear=all/> need to avoid treating /> as part of the attribute value, however
+                // care is needed to avoid so treating <a href=http://www.acme.com /> in this way, which would map the
+                // <a> tag to <a href="http://www.acme.com"/>
+
                 if (c == '/')
                 {
-                    /* peek ahead in case of /> */
+                    // peek ahead in case of />
                     c = this.in.readChar();
 
                     if (c == '>' && !AttributeTable.getDefaultAttributeTable().isUrl(name))
@@ -2812,7 +2815,7 @@ public class Lexer
                         break;
                     }
 
-                    /* unget peeked char */
+                    // unget peeked char
                     this.in.ungetChar(c);
                     c = '/';
                 }
@@ -2825,7 +2828,7 @@ public class Lexer
                     break;
                 }
 
-                /* treat CRLF, CR and LF as single line break */
+                // treat CRLF, CR and LF as single line break
 
                 if (c == '\r')
                 {
@@ -2856,9 +2859,8 @@ public class Lexer
                 continue;
             }
 
-            /*
-             * kludge for JavaScript attribute values with line continuations in string literals
-             */
+            // kludge for JavaScript attribute values with line continuations in string literals
+
             if (c == '\\')
             {
                 c = this.in.readChar();
@@ -2899,14 +2901,13 @@ public class Lexer
 
         if (quotewarning > 10 && seen_gt && munge)
         {
-            /*
-             * there is almost certainly a missing trailling quote mark as we have see too many newlines, < or >
-             * characters. an exception is made for Javascript attributes and the javascript URL scheme which may
-             * legitimately include < and >
-             */
+            // there is almost certainly a missing trailing quote mark as we have see too many newlines, < or >
+            // characters. an exception is made for Javascript attributes and the javascript URL scheme which may
+            // legitimately include < and >
+
             if (!AttributeTable.getDefaultAttributeTable().isScript(name)
-                && !(AttributeTable.getDefaultAttributeTable().isUrl(name)
-                    && (getString(this.lexbuf, start, 11)).equals("javascript:")))
+                && !(AttributeTable.getDefaultAttributeTable().isUrl(name) && (getString(this.lexbuf, start, 11))
+                    .equals("javascript:")))
             {
                 Report.error(this, null, null, Report.SUSPECTED_MISSING_QUOTE);
             }
@@ -2924,7 +2925,7 @@ public class Lexer
             value = null;
         }
 
-        /* note delimiter if given */
+        // note delimiter if given
         if (delim != 0)
         {
             pdelim.value = delim;
@@ -2937,14 +2938,14 @@ public class Lexer
         return value;
     }
 
-    /* attr must be non-null */
+    // attr must be non-null
     public static boolean isValidAttrName(String attr)
     {
         short map;
         char c;
         int i;
 
-        /* first character should be a letter */
+        // first character should be a letter
         c = attr.charAt(0);
         map = MAP(c);
 
@@ -2953,7 +2954,7 @@ public class Lexer
             return false;
         }
 
-        /* remaining characters should be namechars */
+        // remaining characters should be namechars
         for (i = 1; i < attr.length(); i++)
         {
             c = attr.charAt(i);
@@ -2970,7 +2971,7 @@ public class Lexer
         return true;
     }
 
-    /* swallows closing '>' */
+    // swallows closing '>'
 
     public AttVal parseAttrs(MutableBoolean isempty)
     {
@@ -2988,7 +2989,7 @@ public class Lexer
 
             if (attribute == null)
             {
-                /* check if attributes are created by ASP markup */
+                // check if attributes are created by ASP markup
                 if (asp.getObject() != null)
                 {
                     av = new AttVal(list, null, (Node) asp.getObject(), null, '\0', null, null);
@@ -2996,7 +2997,7 @@ public class Lexer
                     continue;
                 }
 
-                /* check if attributes are created by PHP markup */
+                // check if attributes are created by PHP markup
                 if (php.getObject() != null)
                 {
                     av = new AttVal(list, null, null, (Node) php.getObject(), '\0', null, null);
@@ -3025,10 +3026,11 @@ public class Lexer
         return list;
     }
 
-    /*
+    /**
      * push a copy of an inline node onto stack but don't push if implicit or OBJECT or APPLET (implicit tags are ones
      * generated from the istack) One issue arises with pushing inlines when the tag is already pushed. For instance:
-     * <p><em> text <p><em> more text Shouldn't be mapped to <p><em> text </em></p><p><em><em> more text </em>
+     * <p>
+     * <em> text <p><em> more text Shouldn't be mapped to <p><em> text </em></p><p><em><em> more text </em>
      * </em>
      */
     public void pushInline(Node node)
@@ -3071,7 +3073,7 @@ public class Lexer
         this.istack.push(is);
     }
 
-    /* pop inline stack */
+    // pop inline stack
     public void popInline(Node node)
     {
         IStack is;
@@ -3142,12 +3144,15 @@ public class Lexer
         return false;
     }
 
-    /*
+    /**
      * This has the effect of inserting "missing" inline elements around the contents of blocklevel elements such as P,
      * TD, TH, DIV, PRE etc. This procedure is called at the start of ParseBlock. when the inline stack is not empty,
-     * as will be the case in: <i><h1> italic heading </h1></i> which is then treated as equivalent to <h1><i>
-     * italic heading </i></h1> This is implemented by setting the lexer into a mode where it gets tokens from the
-     * inline stack rather than from the input stream.
+     * as will be the case in: <i>
+     * <h1>italic heading</h1>
+     * </i> which is then treated as equivalent to
+     * <h1><i>italic heading </i></h1>
+     * This is implemented by setting the lexer into a mode where it gets tokens from the inline stack rather than from
+     * the input stream.
      */
     public int inlineDup(Node node)
     {
@@ -3214,7 +3219,7 @@ public class Lexer
         return node;
     }
 
-    /* AQ: Try this for speed optimization */
+    // AQ: Try this for speed optimization
     public static int wstrcasecmp(String s1, String s2)
     {
         return (s1.equalsIgnoreCase(s2) ? 0 : 1);
@@ -3320,7 +3325,7 @@ public class Lexer
         return true;
     }
 
-    /* duplicate name attribute as an id */
+    // duplicate name attribute as an id
     public void fixId(Node node)
     {
         AttVal name = node.getAttrByName("name");
@@ -3362,7 +3367,8 @@ public class Lexer
         }
     }
 
-    static {
+    static
+    {
         mapStr("\r\n\f", (short) (NEWLINE | WHITE));
         mapStr(" \t", WHITE);
         mapStr("-.:_", NAMECHAR);
@@ -3455,6 +3461,7 @@ public class Lexer
 
     private static class W3CVersionInfo
     {
+
         String name;
         String voyagerName;
         String profile;
