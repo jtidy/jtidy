@@ -20,6 +20,12 @@
         </copy>
     </postGoal>
 
+    <preGoal name="site:sshdeploy">
+        <mkdir dir="${maven.build.dir}/docs/maven" />
+        <copy file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar"
+            todir="${maven.build.dir}/docs/maven/${pom.groupId}/jars" />
+    </preGoal>
+
     <goal name="nightly">
         <attainGoal name="rebuild-all" />
         <mkdir dir="${maven.build.dir}/docs/nightly" />
