@@ -96,6 +96,7 @@ public class Lexer
         new W3CVersionInfo("HTML 4.0 Transitional", "XHTML 1.0 Transitional", voyager_loose, Dict.VERS_HTML40_LOOSE),
         new W3CVersionInfo("HTML 4.0 Frameset", "XHTML 1.0 Frameset", voyager_frameset, Dict.VERS_FRAMES),
         new W3CVersionInfo("HTML 3.2", "XHTML 1.0 Transitional", voyager_loose, Dict.VERS_HTML32),
+        new W3CVersionInfo("HTML 3.2 Final", "XHTML 1.0 Transitional", voyager_loose, Dict.VERS_HTML32),
         new W3CVersionInfo("HTML 2.0", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML20)};
 
     // lexer char types
