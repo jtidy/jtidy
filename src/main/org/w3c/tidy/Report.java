@@ -1258,6 +1258,10 @@ public final class Report
                 printMessage(lexer, "nested_quotation", null, TidyMessage.Level.WARNING);
                 break;
 
+            case ELEMENT_NOT_EMPTY :
+                printMessage(lexer, "element_not_empty", new Object[]{getTagName(element)}, TidyMessage.Level.WARNING);
+                break;
+
             case MISSING_DOCTYPE :
                 printMessage(lexer, "missing_doctype", null, TidyMessage.Level.WARNING);
                 break;

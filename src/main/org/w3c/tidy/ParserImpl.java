@@ -154,6 +154,11 @@ public final class ParserImpl
     public static final Parser TEXT = new ParseText();
 
     /**
+     * parser for empty elements.
+     */
+    public static final Parser EMPTY = new ParseEmpty();
+
+    /**
      * parser for optgroup.
      */
     public static final Parser OPTGROUP = new ParseOptGroup();
@@ -240,6 +245,9 @@ public final class ParserImpl
     public static class ParseHTML implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node html, short mode)
         {
             Node node, head;
@@ -460,6 +468,9 @@ public final class ParserImpl
     public static class ParseHead implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node head, short mode)
         {
             Node node;
@@ -558,6 +569,9 @@ public final class ParserImpl
     public static class ParseTitle implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node title, short mode)
         {
             Node node;
@@ -626,6 +640,9 @@ public final class ParserImpl
     public static class ParseScript implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node script, short mode)
         {
             // This isn't quite right for CDATA content as it recognises tags within the content and parses them
@@ -937,6 +954,9 @@ public final class ParserImpl
     public static class ParseFrameSet implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node frameset, short mode)
         {
             Node node;
@@ -1660,11 +1680,37 @@ public final class ParserImpl
     }
 
     /**
+     * Parser for empty elements.
+     */
+    public static class ParseEmpty implements Parser
+    {
+
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
+        public void parse(Lexer lexer, Node element, short mode)
+        {
+            if (lexer.isvoyager)
+            {
+                Node node = lexer.getToken(Lexer.MIXED_CONTENT);
+                if (node != null && !(node.type == Node.END_TAG && node.tag == element.tag))
+                {
+                    lexer.report.warning(lexer, element, node, Report.ELEMENT_NOT_EMPTY);
+                    lexer.ungetToken();
+                }
+            }
+        }
+    }
+
+    /**
      * Parser for DEFLIST.
      */
     public static class ParseDefList implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node list, short mode)
         {
             Node node, parent;
@@ -1797,6 +1843,9 @@ public final class ParserImpl
     public static class ParsePre implements Parser
     {
 
+        /**
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         */
         public void parse(Lexer lexer, Node pre, short mode)
         {
             Node node;
