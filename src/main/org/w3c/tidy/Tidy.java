@@ -1269,6 +1269,7 @@ public class Tidy implements Serializable
     {
         if (!(doc instanceof DOMDocumentImpl))
         {
+            // @todo should we inform users that tidy can't print a generic Document or change the method signature?
             return;
         }
 
@@ -1284,6 +1285,7 @@ public class Tidy implements Serializable
     {
         if (!(node instanceof DOMNodeImpl))
         {
+            // @todo should we inform users than tidy can't print a generic Node or change the method signature?
             return;
         }
 
