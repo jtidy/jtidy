@@ -991,7 +991,9 @@ public class Lexer
     }
 
     /**
-     * add meta element for Tidy.
+     * Add meta element for Tidy. If the meta tag is already present, update release date.
+     * @param root root node
+     * @return <code>true</code> if the tag has been added
      */
     public boolean addGenerator(Node root)
     {
@@ -1001,6 +1003,8 @@ public class Lexer
 
         if (head != null)
         {
+            String meta = "HTML Tidy for Java (vers. " + Report.RELEASE_DATE + "), see www.w3.org";
+
             for (node = head.content; node != null; node = node.next)
             {
                 if (node.tag == this.configuration.tt.tagMeta)
@@ -1016,6 +1020,7 @@ public class Lexer
                             && attval.value.length() >= 9
                             && "HTML Tidy".equalsIgnoreCase(attval.value.substring(0, 9)))
                         {
+                            attval.value = meta;
                             return false;
                         }
                     }
@@ -1023,7 +1028,7 @@ public class Lexer
             }
 
             node = this.inferredTag("meta");
-            node.addAttribute("content", "HTML Tidy, see www.w3.org");
+            node.addAttribute("content", meta);
             node.addAttribute("name", "generator");
             Node.insertNodeAtStart(head, node);
             return true;
