@@ -77,7 +77,7 @@ public class TagTable
         new Dict("title", Dict.VERS_ALL, Dict.CM_HEAD, ParserImpl.getParseTitle(), null),
         new Dict("base", Dict.VERS_ALL, (Dict.CM_HEAD | Dict.CM_EMPTY), null, null),
         new Dict("link", Dict.VERS_ALL, (Dict.CM_HEAD | Dict.CM_EMPTY), null, CheckAttribsImpl.getCheckLINK()),
-        new Dict("meta", Dict.VERS_ALL, (Dict.CM_HEAD | Dict.CM_EMPTY), null, null),
+        new Dict("meta", Dict.VERS_ALL, (Dict.CM_HEAD | Dict.CM_EMPTY), null, CheckAttribsImpl.getCheckMeta()),
         new Dict("style", Dict.VERS_FROM32, Dict.CM_HEAD, ParserImpl.getParseScript(), CheckAttribsImpl.getCheckSTYLE()),
         new Dict(
             "script",

@@ -129,6 +129,11 @@ public final class CheckAttribsImpl
     private static final CheckAttribs CHECK_FORM = new CheckForm();
 
     /**
+     * CheckMeta instance.
+     */
+    private static final CheckAttribs CHECK_META = new CheckMeta();
+
+    /**
      * don't instantiate.
      */
     private CheckAttribsImpl()
@@ -481,6 +486,32 @@ public final class CheckAttribsImpl
         }
     }
 
+    /**
+     * reports missing content attribute.
+     */
+    public static class CheckMeta implements CheckAttribs
+    {
+
+        /**
+         * @see org.w3c.tidy.CheckAttribs#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         */
+        public void check(Lexer lexer, Node node)
+        {
+            AttVal content = node.getAttrByName("content");
+
+            node.checkUniqueAttributes(lexer);
+            node.checkAttributes(lexer);
+
+            if (content == null)
+            {
+                AttVal missingAttribute = new AttVal(null, null, '"', "content", "");
+                lexer.report.attrError(lexer, node, missingAttribute, Report.MISSING_ATTRIBUTE);
+            }
+
+            // name or http-equiv attribute must also be set
+        }
+    }
+
     public static class CheckTableCell implements CheckAttribs
     {
 
@@ -587,6 +618,11 @@ public final class CheckAttribsImpl
     public static CheckAttribs getCheckForm()
     {
         return CHECK_FORM;
+    }
+
+    public static CheckAttribs getCheckMeta()
+    {
+        return CHECK_META;
     }
 
 }
