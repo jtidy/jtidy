@@ -2646,7 +2646,7 @@ public class PPrint
     {
         Node body;
         String buf;
-        Out out = new OutImpl();
+        Out out = new OutImpl(this.configuration);
 
         NumberFormat numberFormat = NumberFormat.getInstance();
         numberFormat.setMinimumIntegerDigits(3);

@@ -70,11 +70,6 @@ public class OutImpl implements Out
 {
 
     /**
-     * bytes for the newline marker.
-     */
-    private static final byte[] NL_BYTES = (System.getProperty("line.separator")).getBytes();
-
-    /**
      * output encoding.
      */
     private int encoding;
@@ -95,11 +90,17 @@ public class OutImpl implements Out
     private PutBytes putBytes;
 
     /**
-     * 
+     * reference to configuration.
      */
-    public OutImpl()
+    private Configuration configuration;
+
+    /**
+     * Constructor.
+     * @param configuration actual configuration instance (needed for newline configuration).
+     */
+    public OutImpl(Configuration configuration)
     {
-        super();
+        this.configuration = configuration;
 
         this.putBytes = new PutBytes()
         {
@@ -398,7 +399,7 @@ public class OutImpl implements Out
     {
         try
         {
-            this.out.write(NL_BYTES);
+            this.out.write(configuration.newline);
             this.out.flush();
         }
         catch (IOException e)

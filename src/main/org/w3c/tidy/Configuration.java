@@ -191,7 +191,7 @@ public class Configuration implements Serializable
      * serial version UID for this class.
      */
     private static final long serialVersionUID = -4955155037138560842L;
-    
+
     static
     {
         addConfigOption(new Flag("indent-spaces", "spaces", ParsePropertyImpl.INT));
@@ -280,6 +280,8 @@ public class Configuration implements Serializable
         addConfigOption(new Flag("indent", "indentContent", ParsePropertyImpl.INDENT));
 
         addConfigOption(new Flag("css-prefix", "cssPrefix", ParsePropertyImpl.CSS1SELECTOR));
+
+        addConfigOption(new Flag("newline", null, ParsePropertyImpl.NEWLINE));
     }
 
     /**
@@ -671,6 +673,11 @@ public class Configuration implements Serializable
      * track what types of tags user has defined to eliminate unnecessary searches.
      */
     protected int definedTags;
+
+    /**
+     * bytes for the newline marker.
+     */
+    protected byte[] newline = (System.getProperty("line.separator")).getBytes();
 
     /**
      * configuration properties.

@@ -127,6 +127,11 @@ public final class ParsePropertyImpl
     static final ParseProperty CSS1SELECTOR = new ParseCSS1Selector();
 
     /**
+     * configuration parser for new line bytes.
+     */
+    static final ParseProperty NEWLINE = new ParseNewLine();
+
+    /**
      * don't instantiate.
      */
     private ParsePropertyImpl()
@@ -735,7 +740,7 @@ public final class ParsePropertyImpl
          */
         public String getType()
         {
-            return "enum";
+            return "Enum";
         }
 
         /**
@@ -903,7 +908,7 @@ public final class ParsePropertyImpl
             if (t.countTokens() >= 1)
             {
                 buf = t.nextToken() + "-"; // Make sure any escaped Unicode is terminated so valid class names are
-                                           // generated after Tidy appends last digits.
+                // generated after Tidy appends last digits.
             }
             else
             {
@@ -1015,6 +1020,76 @@ public final class ParsePropertyImpl
             else
             {
                 return "no";
+            }
+        }
+    }
+
+    /**
+     * Parser for newline bytes. Allows lf|crlf|cr.
+     */
+    static class ParseNewLine implements ParseProperty
+    {
+
+        /**
+         * @see org.w3c.tidy.ParseProperty#parse(java.lang.String, java.lang.String, org.w3c.tidy.Configuration)
+         */
+        public Object parse(String value, String option, Configuration configuration)
+        {
+            // lf|crlf|cr
+            if ("lf".equalsIgnoreCase(value))
+            {
+                configuration.newline = new byte[]{'\n'};
+            }
+            else if ("cr".equalsIgnoreCase(value))
+            {
+                configuration.newline = new byte[]{'\r'};
+            }
+            else if ("crlf".equalsIgnoreCase(value))
+            {
+                configuration.newline = new byte[]{'\r', '\n'};
+            }
+            else
+            {
+                configuration.report.badArgument(value, option);
+            }
+            return null;
+        }
+
+        /**
+         * @see org.w3c.tidy.ParseProperty#getType()
+         */
+        public String getType()
+        {
+            return "Enum";
+        }
+
+        /**
+         * @see org.w3c.tidy.ParseProperty#getOptionValues()
+         */
+        public String getOptionValues()
+        {
+            return "lf, crlf, cr";
+        }
+
+        /**
+         * @see org.w3c.tidy.ParseProperty#getFriendlyName(java.lang.String, java.lang.Object, Configuration)
+         */
+        public String getFriendlyName(String option, Object value, Configuration configuration)
+        {
+            if (configuration.newline.length == 1)
+            {
+                if (configuration.newline[0] == '\n')
+                {
+                    return "lf";
+                }
+                else
+                {
+                    return "cr";
+                }
+            }
+            else
+            {
+                return "crlf";
             }
         }
     }

@@ -1259,7 +1259,7 @@ public class Tidy implements Serializable
         Lexer lexer;
         Node document = null;
         Node doctype;
-        Out o = new OutImpl(); // normal output stream
+        Out o = new OutImpl(this.configuration); // normal output stream
         PPrint pprint;
         boolean inputHadBOM = false;
 
@@ -1627,7 +1627,7 @@ public class Tidy implements Serializable
      */
     private void pprint(Node node, OutputStream out)
     {
-        Out o = new OutImpl();
+        Out o = new OutImpl(this.configuration);
         PPrint pprint;
 
         o.setState(StreamIn.FSM_ASCII);
