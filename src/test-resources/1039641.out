@@ -1,0 +1,12 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>[1039641] pre should not change the inside text</title>
+</head>
+<body>
+<pre>
+<a name="line1"></a><strong>1</strong>:
+<a name="line2"></a><strong>1</strong>:
+</pre>
+</body>
+</html>

@@ -90,6 +90,7 @@ public final class AllNotWorkingTests
         suite.addTest(new JTidyBugsTest("test922302"));
         suite.addTest(new JTidyBugsTest("test943559"));
         suite.addTest(new JTidyBugsTest("test935796"));
+        suite.addTest(new JTidyBugsTest("test1039641"));
 
         suite.addTest(new TidyEncodingBugsTest("test647255"));
         suite.addTest(new TidyEncodingBugsTest("test649812"));

@@ -264,4 +264,12 @@ public class JTidyBugsTest extends TidyTestCase
         executeTidyTest("1024661.html");
     }
 
+    /**
+     * test for JTidy [1039641]: Pre should not change the inside text.
+     * @throws Exception any exception generated during the test
+     */
+    public void test1039641() throws Exception
+    {
+        executeTidyTest("1039641.html");
+    }
 }
