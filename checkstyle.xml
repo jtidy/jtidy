@@ -50,10 +50,6 @@
             <property name="format" value="@todo"/>
             <property name="severity" value="ignore"/>
         </module>
-        <module name="com.puppycrawl.tools.checkstyle.checks.UncommentedMainCheck">
-            <property name="excludedClasses" value="^$"/>
-            <property name="severity" value="warning"/>
-        </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.UpperEllCheck">
             <property name="severity" value="warning"/>
         </module>
@@ -109,7 +105,10 @@
             <property name="tokens" value="VARIABLE_DEF"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck">
+            <property name="ignoreConstructorParameter" value="true"/>
+            <property name="ignoreSetter" value="true"/>
             <property name="severity" value="warning"/>
+            <property name="tokens" value="PARAMETER_DEF, VARIABLE_DEF"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck">
             <property name="illegalClassNames" value="java.lang.Exception, java.lang.Throwable, java.lang.RuntimeException"/>
@@ -163,10 +162,6 @@
             <property name="allowSubclasses" value="false"/>
             <property name="allowUnchecked" value="false"/>
             <property name="severity" value="ignore"/>
-        </module>
-        <module name="com.puppycrawl.tools.checkstyle.checks.coding.ReturnCountCheck">
-            <property name="max" value="3"/>
-            <property name="severity" value="info"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanExpressionCheck">
             <property name="severity" value="warning"/>
@@ -269,6 +264,7 @@
             <property name="allowMissingThrowsTags" value="false"/>
             <property name="allowThrowsTagsForSubclasses" value="false"/>
             <property name="allowUndeclaredRTE" value="false"/>
+            <property name="excludeScope" value="private"/>
             <property name="scope" value="private"/>
             <property name="severity" value="warning"/>
             <property name="tokens" value="METHOD_DEF, CTOR_DEF"/>
@@ -289,10 +285,6 @@
         <module name="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck">
             <property name="severity" value="warning"/>
         </module>
-        <module name="com.puppycrawl.tools.checkstyle.checks.metrics.CyclomaticComplexityCheck">
-            <property name="max" value="13"/>
-            <property name="severity" value="info"/>
-        </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.naming.AbstractClassNameCheck">
             <property name="format" value="^Abstract.*$|^.*Factory$"/>
             <property name="severity" value="ignore"/>
@@ -305,11 +297,15 @@
             <property name="severity" value="warning"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck">
-            <property name="format" value="(^[a-z][a-z][a-zA-Z0-9]*$)|(^[a-z]$)"/>
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
             <property name="severity" value="info"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.naming.MemberNameCheck">
-            <property name="format" value="(^([a-z][a-z])([a-zA-Z0-9]*)$)|(^[a-z]$)"/>
+            <property name="applyToPackage" value="true"/>
+            <property name="applyToPrivate" value="true"/>
+            <property name="applyToProtected" value="true"/>
+            <property name="applyToPublic" value="true"/>
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
             <property name="severity" value="info"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck">
@@ -320,7 +316,7 @@
             <property name="severity" value="warning"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.naming.ParameterNameCheck">
-            <property name="format" value="(^[a-z][a-z][a-zA-Z0-9]*$)|(^[a-z]$)"/>
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
             <property name="severity" value="info"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.naming.StaticVariableNameCheck">
@@ -334,7 +330,7 @@
             <property name="severity" value="warning"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.sizes.ExecutableStatementCountCheck">
-            <property name="max" value="30"/>
+            <property name="max" value="100"/>
             <property name="severity" value="info"/>
             <property name="tokens" value="INSTANCE_INIT, STATIC_INIT, METHOD_DEF, CTOR_DEF"/>
         </module>
@@ -348,7 +344,10 @@
             <property name="tabWidth" value="4"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck">
+            <property name="countEmpty" value="false"/>
+            <property name="max" value="200"/>
             <property name="severity" value="warning"/>
+            <property name="tokens" value="METHOD_DEF, CTOR_DEF"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck">
             <property name="severity" value="warning"/>
