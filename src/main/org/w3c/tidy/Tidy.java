@@ -1289,7 +1289,6 @@ public class Tidy implements Serializable
         int totalwarnings = 0;
         String file;
         String prog = "Tidy";
-        Node document;
         String s;
         int argc = argv.length + 1;
         int argIndex = 0;
@@ -1521,7 +1520,7 @@ public class Tidy implements Serializable
 
             try
             {
-                document = parse(null, file, System.out);
+                parse(null, file, System.out);
                 totalwarnings += this.parseWarnings;
                 totalerrors += this.parseErrors;
             }
