@@ -149,7 +149,7 @@ public class TidyTestCase extends TestCase
     {
         super.setUp();
 
-        //creates a new Tidy
+        // creates a new Tidy
         this.tidy = new Tidy();
     }
 
@@ -321,7 +321,7 @@ public class TidyTestCase extends TestCase
      */
     protected Document parseDomTest(String fileName) throws Exception
     {
-        //creates a new Tidy
+        // creates a new Tidy
         setUpTidy(fileName);
 
         // input file
@@ -505,15 +505,7 @@ public class TidyTestCase extends TestCase
 
         if ((tidyLine != null) || (testLine != null))
         {
-            fail("Wrong output, file comparison failed at line ["
-                + (i - 1)
-                + "]:\n"
-                + "[tidy]["
-                + tidyLine
-                + "]\n"
-                + "[test]["
-                + testLine
-                + "]");
+            assertEquals("Wrong output, file comparison failed at line [" + (i - 1) + "]", testLine, tidyLine);
         }
         return;
     }
