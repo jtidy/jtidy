@@ -381,6 +381,15 @@ public class TidyCrashingBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [991469] : goes wrong with option tag.
+     * @throws Exception any exception generated during the test
+     */
+    public void test991469() throws Exception
+    {
+        executeTidyTest("991469.xml");
+    }
+
+    /**
      * test for Tidy [991471] : NPE on file with CDATA.
      * @throws Exception any exception generated during the test
      */
