@@ -111,7 +111,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [427820] : indent config options ignored for &lt;BR>.
+     * test for Tidy [427820] : indent config options ignored for &lt;BR>. [fixed]
      * @throws Exception any exception generated during the test
      */
     public void test427820() throws Exception
@@ -230,7 +230,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [427846] : Blank char inserted after first char. HIGH PRIORITY.
+     * test for Tidy [427846] : Blank char inserted after first char. [fixed]
      * @throws Exception any exception generated during the test
      */
     public void test427846() throws Exception
@@ -257,7 +257,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [431739] : Spaces carried into empty block tags.
+     * test for Tidy [431739] : Spaces carried into empty block tags. [fixed]
      * @throws Exception any exception generated during the test
      */
     public void test431739() throws Exception
@@ -364,7 +364,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [433666] : Attempt to repair duplicate attributes. HIGH PRIORITY.
+     * test for Tidy [433666] : Attempt to repair duplicate attributes. @todo HIGH PRIORITY.
      * @throws Exception any exception generated during the test
      */
     public void test433666() throws Exception
@@ -418,7 +418,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [435920] : Space inserted before &lt;/td&gt; causes probs.
+     * test for Tidy [435920] : Space inserted before &lt;/td&gt; causes probs. [fixed]
      * @throws Exception any exception generated during the test
      */
     public void test435920() throws Exception
@@ -606,7 +606,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [471264] : Reduce blank lines in output. HIGH PRIORITY (needed for comparing files in tests).
+     * test for Tidy [471264] : Reduce blank lines in output. @todo HIGH PRIORITY (needed for comparing files in tests).
      * @throws Exception any exception generated during the test
      */
     public void test471264() throws Exception
@@ -652,7 +652,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [487204] : Duplicate DIV style attribute generated. HIGH PRIORITY.
+     * test for Tidy [487204] : Duplicate DIV style attribute generated. @todo HIGH PRIORITY.
      * @throws Exception any exception generated during the test
      */
     public void test487204() throws Exception
@@ -680,7 +680,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [503436] : Detect duplicate attribute specifications in XML docs. HIGH PRIORITY.
+     * test for Tidy [503436] : Detect duplicate attribute specifications in XML docs. @todo HIGH PRIORITY.
      * @throws Exception any exception generated during the test
      */
     public void test503436() throws Exception
@@ -735,7 +735,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [514348] : Incorrect wrap behaviour. HIGH PRIORITY (needed for comparison)
+     * test for Tidy [514348] : Incorrect wrap behaviour. [fixed]
      * @throws Exception any exception generated during the test
      */
     public void test514348() throws Exception
@@ -879,7 +879,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [603128] : tidy adds newlines after &lt;/html&gt;.
+     * test for Tidy [603128] : tidy adds newlines after &lt;/html&gt;. @todo High priority
      * @throws Exception any exception generated during the test
      */
     public void test603128() throws Exception
@@ -976,7 +976,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [678268] : --output-xhtml produces bad xml. HIGH PRIORITY.
+     * test for Tidy [678268] : --output-xhtml produces bad xml. @todo HIGH PRIORITY.
      * @throws Exception any exception generated during the test
      */
     public void test678268() throws Exception
