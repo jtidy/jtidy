@@ -307,6 +307,10 @@ public class StreamInImpl implements StreamIn
             {
                 break;
             }
+            else if (c == '\015' && !lexer.configuration.xmlTags) //Form Feed is allowed in HTML
+            {
+                break;
+            }
             else if (0 < c && c < 32)
             {
                 continue; // discard control char
