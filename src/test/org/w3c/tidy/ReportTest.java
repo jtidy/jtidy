@@ -103,7 +103,7 @@ public class ReportTest extends TestCase
     {
         String message = this.report.getMessage(lexer, "missing_endtag_for", new Object[]{"test"},
             TidyMessage.Level.WARNING);
-        assertEquals(message, "line 12 column 34 - Warning: missing </test>");
+        assertEquals("line 12 column 34 - Warning: missing </test>", message);
     }
 
     /**
@@ -114,7 +114,7 @@ public class ReportTest extends TestCase
     {
         String message = this.report.getMessage(lexer, "missing_endtag_before", new Object[]{"test", "bee"},
             TidyMessage.Level.WARNING);
-        assertEquals(message, "line 12 column 34 - Warning: missing </test> before bee");
+        assertEquals("line 12 column 34 - Warning: missing </test> before bee", message);
     }
 
     /**
@@ -125,7 +125,7 @@ public class ReportTest extends TestCase
     {
         String message = this.report.getMessage(lexer, "discarding_unexpected", new Object[]{"test"},
             TidyMessage.Level.WARNING);
-        assertEquals(message, "line 12 column 34 - Warning: discarding unexpected test");
+        assertEquals("line 12 column 34 - Warning: discarding unexpected test", message);
     }
 
     /**
@@ -135,7 +135,7 @@ public class ReportTest extends TestCase
     public void testGetMessageNestedEmphasis() throws Exception
     {
         String message = this.report.getMessage(lexer, "nested_emphasis", new Object[]{"test"}, TidyMessage.Level.INFO);
-        assertEquals(message, "line 12 column 34 - nested emphasis test");
+        assertEquals("line 12 column 34 - nested emphasis test", message);
     }
 
     /**
@@ -146,7 +146,7 @@ public class ReportTest extends TestCase
     {
         String message = this.report
             .getMessage(lexer, "coerce_to_endtag", new Object[]{"test"}, TidyMessage.Level.INFO);
-        assertEquals(message, "line 12 column 34 - <test> is probably intended as </test>");
+        assertEquals("line 12 column 34 - <test> is probably intended as </test>", message);
     }
 
     /**
@@ -157,7 +157,7 @@ public class ReportTest extends TestCase
     {
         String message = this.report.getMessage(lexer, "non_matching_endtag", new Object[]{"<test>", "bee"},
             TidyMessage.Level.WARNING);
-        assertEquals(message, "line 12 column 34 - Warning: replacing unexpected <test> by </bee>");
+        assertEquals("line 12 column 34 - Warning: replacing unexpected <test> by </bee>", message);
     }
 
     /**
@@ -168,7 +168,7 @@ public class ReportTest extends TestCase
     {
         String message = this.report.getMessage(lexer, "tag_not_allowed_in", new Object[]{"<test>", "bee"},
             TidyMessage.Level.WARNING);
-        assertEquals(message, "line 12 column 34 - Warning: <test> isn't allowed in <bee> elements");
+        assertEquals("line 12 column 34 - Warning: <test> isn't allowed in <bee> elements", message);
     }
 
     /**
@@ -178,7 +178,7 @@ public class ReportTest extends TestCase
     public void testGetMessageDoctypeAfterTags() throws Exception
     {
         String message = this.report.getMessage(lexer, "doctype_after_tags", null, TidyMessage.Level.WARNING);
-        assertEquals(message, "line 12 column 34 - Warning: <!DOCTYPE> isn't allowed after elements");
+        assertEquals("line 12 column 34 - Warning: <!DOCTYPE> isn't allowed after elements", message);
     }
 
     /**
@@ -189,8 +189,120 @@ public class ReportTest extends TestCase
     {
         String message = this.report.getMessage(lexer, "missing_starttag", new Object[]{"test"},
             TidyMessage.Level.WARNING);
-        assertEquals(message, "line 12 column 34 - Warning: missing <test>");
+        assertEquals("line 12 column 34 - Warning: missing <test>", message);
     }
 
+    /**
+     * test getMessage with the <code>using_br_inplace_of</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageUsingBrInPlaceOf() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "using_br_inplace_of", new Object[]{"test"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: using <br> in place of test", message);
+    }
+
+    /**
+     * test getMessage with the <code>inserting_tag</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageInsertingTag() throws Exception
+    {
+        String message = this.report
+            .getMessage(lexer, "inserting_tag", new Object[]{"test"}, TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: inserting implicit <test>", message);
+    }
+
+    /**
+     * test getMessage with the <code>cant_be_nested</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageCantBeNested() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "cant_be_nested", new Object[]{"<test>"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: <test> can't be nested", message);
+    }
+
+    /**
+     * test getMessage with the <code>proprietary_element</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageProprietaryElement() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "proprietary_element", new Object[]{"<test>"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: <test> is not approved by W3C", message);
+    }
+
+
+    /**
+     * test getMessage with the <code>obsolete_element</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageObsoleteElement() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "obsolete_element", new Object[]{"<test>", "<bee>"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: replacing obsolete element <test> by <bee>", message);
+    }
+
+
+    /**
+     * test getMessage with the <code>replacing_element</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageReplacingElement() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "replacing_element", new Object[]{"<test>", "<bee>"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: replacing element <test> by <bee>", message);
+    }
+
+    /**
+     * test getMessage with the <code>trim_empty_element</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageTrimEmptyElement() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "trim_empty_element", new Object[]{"<test>"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: trimming empty <test>", message);
+    }
+
+    /**
+     * test getMessage with the <code>missing_title_element</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageMissingTitleElement() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "missing_title_element", null, TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: inserting missing 'title' element", message);
+    }
+
+
+    /**
+     * test getMessage with the <code>illegal_nesting</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageIllegalNesting() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "illegal_nesting", new Object[]{"<test>"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: <test> shouldn't be nested", message);
+    }
+
+
+    /**
+     * test getMessage with the <code>noframes_content</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageNoframesContent() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "noframes_content", new Object[]{"<test>"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: <test> not inside 'noframes' element", message);
+    }
 
 }

@@ -712,50 +712,19 @@ public final class Report
         }
         else if (code == USING_BR_INPLACE_OF)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("using_br_inplace_of") + getTagName(node));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "using_br_inplace_of", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
         }
         else if (code == INSERTING_TAG)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer)
-                    + MessageFormat.format(res.getString("inserting_tag"), new Object[]{node.element}));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "inserting_tag", new Object[]{node.element}, TidyMessage.Level.WARNING);
         }
         else if (code == CANT_BE_NESTED)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                    + res.getString("cant_be_nested"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "cant_be_nested", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
         }
         else if (code == PROPRIETARY_ELEMENT)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                    + res.getString("proprietary_element"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "proprietary_element", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
 
             if (node.tag == tt.tagLayer)
             {
@@ -772,72 +741,33 @@ public final class Report
         }
         else if (code == OBSOLETE_ELEMENT)
         {
-            try
+            if (element.tag != null && (element.tag.model & Dict.CM_OBSOLETE) != 0)
             {
-                if (element.tag != null && (element.tag.model & Dict.CM_OBSOLETE) != 0)
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("obsolete_element")
-                        + getTagName(element) + res.getString("by") + getTagName(node));
-                }
-                else
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("replacing_element")
-                        + getTagName(element) + res.getString("by") + getTagName(node));
-                }
+                printMessage(lexer, "obsolete_element", new Object[]{getTagName(element), getTagName(node)},
+                    TidyMessage.Level.WARNING);
             }
-            catch (MissingResourceException e)
+            else
             {
-                lexer.errout.println(e.toString());
+                printMessage(lexer, "replacing_element", new Object[]{getTagName(element), getTagName(node)},
+                    TidyMessage.Level.WARNING);
             }
-
         }
         else if (code == TRIM_EMPTY_ELEMENT)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("trim_empty_element")
-                    + getTagName(element));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "trim_empty_element", new Object[]{getTagName(element)}, TidyMessage.Level.WARNING);
 
         }
         else if (code == MISSING_TITLE_ELEMENT)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("missing_title_element"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "missing_title_element", null, TidyMessage.Level.WARNING);
         }
         else if (code == ILLEGAL_NESTING)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(element)
-                    + res.getString("illegal_nesting"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "illegal_nesting", new Object[]{getTagName(element)}, TidyMessage.Level.WARNING);
         }
         else if (code == NOFRAMES_CONTENT)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                    + res.getString("noframes_content"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "noframes_content", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
         }
         else if (code == INCONSISTENT_VERSION)
         {
