@@ -457,6 +457,7 @@ public final class CheckAttribsImpl
         public void check(Lexer lexer, Node node)
         {
             node.checkUniqueAttributes(lexer);
+            node.checkAttributes(lexer);
 
             // HTML4 strict doesn't allow mixed content for elements with %block; as their content model
 
