@@ -521,38 +521,15 @@ public final class Report
         {
             if (code == MISSING_SEMICOLON)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer)
-                        + MessageFormat.format(res.getString("missing_semicolon"), new Object[]{entity}));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
+                printMessage(lexer, "missing_semicolon", new Object[]{entity}, TidyMessage.Level.WARNING);
             }
             else if (code == UNKNOWN_ENTITY)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer)
-                        + MessageFormat.format(res.getString("unknown_entity"), new Object[]{entity}));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
+                printMessage(lexer, "unknown_entity", new Object[]{entity}, TidyMessage.Level.WARNING);
             }
             else if (code == UNESCAPED_AMPERSAND)
             {
-                try
-                {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("unescaped_ampersand"));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
+                printMessage(lexer, "unescaped_ampersand", null, TidyMessage.Level.WARNING);
             }
         }
     }
