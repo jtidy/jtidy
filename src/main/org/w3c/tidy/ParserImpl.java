@@ -159,7 +159,7 @@ public class ParserImpl
             lexer.seenEndBody = 0;
             TagTable tt = lexer.configuration.tt;
 
-            for (;;)
+            while (true)
             {
                 node = lexer.getToken(Lexer.IgnoreWhitespace);
 
@@ -195,7 +195,7 @@ public class ParserImpl
             Node.insertNodeAtEnd(html, head);
             getParseHead().parse(lexer, head, mode);
 
-            for (;;)
+            while (true)
             {
                 node = lexer.getToken(Lexer.IgnoreWhitespace);
 
@@ -372,13 +372,8 @@ public class ParserImpl
             int HasBase = 0;
             TagTable tt = lexer.configuration.tt;
 
-            while (true)
+            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
             {
-                node = lexer.getToken(Lexer.IgnoreWhitespace);
-                if (node == null)
-                {
-                    break;
-                }
                 if (node.tag == head.tag && node.type == Node.EndTag)
                 {
                     head.closed = true;
@@ -466,13 +461,8 @@ public class ParserImpl
         {
             Node node;
 
-            while (true)
+            while ((node = lexer.getToken(Lexer.MixedContent)) != null)
             {
-                node = lexer.getToken(Lexer.MixedContent);
-                if (node == null)
-                {
-                    break;
-                }
                 if (node.tag == title.tag && node.type == Node.EndTag)
                 {
                     title.closed = true;
@@ -558,7 +548,6 @@ public class ParserImpl
 
             while ((node = lexer.getToken(mode)) != null)
             {
-
                 if (node.tag == body.tag && node.type == Node.EndTag)
                 {
                     body.closed = true;
@@ -831,13 +820,8 @@ public class ParserImpl
 
             lexer.badAccess |= Report.USING_FRAMES;
 
-            while (true)
+            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
             {
-                node = lexer.getToken(Lexer.IgnoreWhitespace);
-                if (node == null)
-                {
-                    break;
-                }
                 if (node.tag == frameset.tag && node.type == Node.EndTag)
                 {
                     frameset.closed = true;
@@ -949,13 +933,8 @@ public class ParserImpl
                 mode = Lexer.MixedContent;
             }
 
-            while (true)
+            while ((node = lexer.getToken(mode)) != null)
             {
-                node = lexer.getToken(mode);
-                if (node == null)
-                {
-                    break;
-                }
                 // end tag for current element
                 if (node.tag == element.tag && node.type == Node.EndTag)
                 {
@@ -1445,14 +1424,8 @@ public class ParserImpl
 
             lexer.insert = -1; // defer implicit inline start tags
 
-            while (true)
+            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
             {
-                node = lexer.getToken(Lexer.IgnoreWhitespace);
-                if (node == null)
-                {
-                    break;
-                }
-
                 if (node.tag == list.tag && node.type == Node.EndTag)
                 {
                     if ((list.tag.model & Dict.CM_OBSOLETE) != 0)
@@ -1563,13 +1536,8 @@ public class ParserImpl
 
             lexer.insert = -1; // defer implicit inline start tags
 
-            while (true)
+            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
             {
-                node = lexer.getToken(Lexer.IgnoreWhitespace);
-                if (node == null)
-                {
-                    break;
-                }
                 if (node.tag == list.tag && node.type == Node.EndTag)
                 {
                     list.closed = true;
@@ -1702,13 +1670,8 @@ public class ParserImpl
 
             lexer.inlineDup(null); // tell lexer to insert inlines if needed
 
-            while (true)
+            while ((node = lexer.getToken(Lexer.Preformatted)) != null)
             {
-                node = lexer.getToken(Lexer.Preformatted);
-                if (node == null)
-                {
-                    break;
-                }
                 if (node.tag == pre.tag && node.type == Node.EndTag)
                 {
                     Node.trimSpaces(lexer, pre);
@@ -1920,14 +1883,8 @@ public class ParserImpl
 
             mode = Lexer.IgnoreWhitespace;
 
-            while (true)
+            while ((node = lexer.getToken(mode)) != null)
             {
-                node = lexer.getToken(mode // Lexer.MixedContent
-                    );
-                if (node == null)
-                {
-                    break;
-                }
                 // end tag for this element
                 if (node.type == Node.EndTag && node.tag != null
                     && (node.tag == element.tag || element.was == node.tag))
@@ -2337,13 +2294,8 @@ public class ParserImpl
             istackbase = lexer.istackbase;
             lexer.istackbase = lexer.istack.size();
 
-            while (true)
+            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
             {
-                node = lexer.getToken(Lexer.IgnoreWhitespace);
-                if (node == null)
-                {
-                    break;
-                }
                 if (node.tag == table.tag && node.type == Node.EndTag)
                 {
                     lexer.istackbase = istackbase;
@@ -2471,13 +2423,8 @@ public class ParserImpl
                 return;
             }
 
-            while (true)
+            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
             {
-                node = lexer.getToken(Lexer.IgnoreWhitespace);
-                if (node == null)
-                {
-                    break;
-                }
                 if (node.tag == colgroup.tag && node.type == Node.EndTag)
                 {
                     colgroup.closed = true;
@@ -2558,13 +2505,8 @@ public class ParserImpl
                 return;
             }
 
-            while (true)
+            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
             {
-                node = lexer.getToken(Lexer.IgnoreWhitespace);
-                if (node == null)
-                {
-                    break;
-                }
                 if (node.tag == rowgroup.tag)
                 {
                     if (node.type == Node.EndTag)
@@ -2711,13 +2653,8 @@ public class ParserImpl
                 return;
             }
 
-            while (true)
+            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
             {
-                node = lexer.getToken(Lexer.IgnoreWhitespace);
-                if (node == null)
-                {
-                    break;
-                }
                 if (node.tag == row.tag)
                 {
                     if (node.type == Node.EndTag)
@@ -2864,13 +2801,8 @@ public class ParserImpl
             lexer.badAccess |= Report.USING_NOFRAMES;
             mode = Lexer.IgnoreWhitespace;
 
-            while (true)
+            while ((node = lexer.getToken(mode)) != null)
             {
-                node = lexer.getToken(mode);
-                if (node == null)
-                {
-                    break;
-                }
                 if (node.tag == noframes.tag && node.type == Node.EndTag)
                 {
                     noframes.closed = true;
@@ -2955,13 +2887,8 @@ public class ParserImpl
 
             lexer.insert = -1; // defer implicit inline start tags
 
-            while (true)
+            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
             {
-                node = lexer.getToken(Lexer.IgnoreWhitespace);
-                if (node == null)
-                {
-                    break;
-                }
                 if (node.tag == field.tag && node.type == Node.EndTag)
                 {
                     field.closed = true;
@@ -3007,13 +2934,8 @@ public class ParserImpl
                 mode = Lexer.Preformatted;
             }
 
-            while (true)
+            while ((node = lexer.getToken(mode)) != null)
             {
-                node = lexer.getToken(mode);
-                if (node == null)
-                {
-                    break;
-                }
                 if (node.tag == field.tag && node.type == Node.EndTag)
                 {
                     field.closed = true;
@@ -3079,13 +3001,8 @@ public class ParserImpl
 
             lexer.insert = -1; // defer implicit inline start tags
 
-            while (true)
+            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
             {
-                node = lexer.getToken(Lexer.IgnoreWhitespace);
-                if (node == null)
-                {
-                    break;
-                }
                 if (node.tag == field.tag && node.type == Node.EndTag)
                 {
                     field.closed = true;
@@ -3225,14 +3142,8 @@ public class ParserImpl
         document = lexer.newNode();
         document.type = Node.RootNode;
 
-        while (true)
+        while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
         {
-            node = lexer.getToken(Lexer.IgnoreWhitespace);
-            if (node == null)
-            {
-                break;
-            }
-
             // deal with comments etc.
             if (Node.insertMisc(document, node))
             {
@@ -3345,13 +3256,8 @@ public class ParserImpl
             mode = Lexer.Preformatted;
         }
 
-        while (true)
+        while ((node = lexer.getToken(mode)) != null)
         {
-            node = lexer.getToken(mode);
-            if (node == null)
-            {
-                break;
-            }
             if (node.type == Node.EndTag && node.element.equals(element.element))
             {
                 element.closed = true;
@@ -3420,13 +3326,8 @@ public class ParserImpl
         doctype = null;
         lexer.configuration.xmlTags = true;
 
-        while (true)
+        while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
         {
-            node = lexer.getToken(Lexer.IgnoreWhitespace);
-            if (node == null)
-            {
-                break;
-            }
             // discard unexpected end tags
             if (node.type == Node.EndTag)
             {
