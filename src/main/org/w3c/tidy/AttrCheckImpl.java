@@ -387,9 +387,9 @@ public final class AttrCheckImpl
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
             }
-            else if (!(Lexer.wstrcasecmp(value, "left") == 0
-                || Lexer.wstrcasecmp(value, "center") == 0
-                || Lexer.wstrcasecmp(value, "right") == 0 || Lexer.wstrcasecmp(value, "justify") == 0))
+            else if (!("left".equalsIgnoreCase(value)
+                || "center".equalsIgnoreCase(value)
+                || "right".equalsIgnoreCase(value) || "justify".equalsIgnoreCase(value)))
             {
                 lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
             }
@@ -421,24 +421,24 @@ public final class AttrCheckImpl
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
             }
-            else if (Lexer.wstrcasecmp(value, "top") == 0
-                || Lexer.wstrcasecmp(value, "middle") == 0
-                || Lexer.wstrcasecmp(value, "bottom") == 0
-                || Lexer.wstrcasecmp(value, "baseline") == 0)
+            else if ("top".equalsIgnoreCase(value)
+                || "middle".equalsIgnoreCase(value)
+                || "bottom".equalsIgnoreCase(value)
+                || "baseline".equalsIgnoreCase(value))
             {
                 // all is fine
             }
-            else if (Lexer.wstrcasecmp(value, "left") == 0 || Lexer.wstrcasecmp(value, "right") == 0)
+            else if ("left".equalsIgnoreCase(value) || "right".equalsIgnoreCase(value))
             {
                 if (!(node.tag != null && ((node.tag.model & Dict.CM_IMG) != 0)))
                 {
                     lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
                 }
             }
-            else if (Lexer.wstrcasecmp(value, "texttop") == 0
-                || Lexer.wstrcasecmp(value, "absmiddle") == 0
-                || Lexer.wstrcasecmp(value, "absbottom") == 0
-                || Lexer.wstrcasecmp(value, "textbottom") == 0)
+            else if ("texttop".equalsIgnoreCase(value)
+                || "absmiddle".equalsIgnoreCase(value)
+                || "absbottom".equalsIgnoreCase(value)
+                || "textbottom".equalsIgnoreCase(value))
             {
                 lexer.constrainVersion(Dict.VERS_PROPRIETARY);
                 lexer.report.attrError(lexer, node, attval, Report.PROPRIETARY_ATTR_VALUE);
@@ -541,7 +541,9 @@ public final class AttrCheckImpl
             }
 
             // or be one of _blank, _self, _parent and _top
-            if (!("_blank".equals(value) || "_self".equals(value) || "_parent".equals(value) || "_top".equals(value)))
+            if (!("_blank".equalsIgnoreCase(value)
+                || "_self".equalsIgnoreCase(value)
+                || "_parent".equalsIgnoreCase(value) || "_top".equalsIgnoreCase(value)))
             {
                 lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
             }

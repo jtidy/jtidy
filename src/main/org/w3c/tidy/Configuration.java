@@ -1106,27 +1106,27 @@ public class Configuration implements java.io.Serializable
     {
         int result = ASCII;
 
-        if (Lexer.wstrcasecmp(s, "ascii") == 0)
+        if ("ascii".equalsIgnoreCase(s))
         {
             result = ASCII;
         }
-        else if (Lexer.wstrcasecmp(s, "latin1") == 0)
+        else if ("latin1".equalsIgnoreCase(s))
         {
             result = LATIN1;
         }
-        else if (Lexer.wstrcasecmp(s, "raw") == 0)
+        else if ("raw".equalsIgnoreCase(s))
         {
             result = RAW;
         }
-        else if (Lexer.wstrcasecmp(s, "utf8") == 0)
+        else if ("utf8".equalsIgnoreCase(s))
         {
             result = UTF8;
         }
-        else if (Lexer.wstrcasecmp(s, "iso2022") == 0)
+        else if ("iso2022".equalsIgnoreCase(s))
         {
             result = ISO2022;
         }
-        else if (Lexer.wstrcasecmp(s, "mac") == 0)
+        else if ("mac".equalsIgnoreCase(s))
         {
             result = MACROMAN;
         }
@@ -1147,27 +1147,27 @@ public class Configuration implements java.io.Serializable
     {
         boolean b = indentContent;
 
-        if (Lexer.wstrcasecmp(s, "yes") == 0)
+        if ("yes".equalsIgnoreCase(s))
         {
             b = true;
             smartIndent = false;
         }
-        else if (Lexer.wstrcasecmp(s, "true") == 0)
+        else if ("true".equalsIgnoreCase(s))
         {
             b = true;
             smartIndent = false;
         }
-        else if (Lexer.wstrcasecmp(s, "no") == 0)
+        else if ("no".equalsIgnoreCase(s))
         {
             b = false;
             smartIndent = false;
         }
-        else if (Lexer.wstrcasecmp(s, "false") == 0)
+        else if ("false".equalsIgnoreCase(s))
         {
             b = false;
             smartIndent = false;
         }
-        else if (Lexer.wstrcasecmp(s, "auto") == 0)
+        else if ("auto".equalsIgnoreCase(s))
         {
             b = true;
             smartIndent = true;
@@ -1291,11 +1291,11 @@ public class Configuration implements java.io.Serializable
      */
     private void parseRepeatedAttribute(String s, String option)
     {
-        if (Lexer.wstrcasecmp(s, "keep-first") == 0)
+        if ("keep-first".equalsIgnoreCase(s))
         {
             duplicateAttrs = KEEP_FIRST;
         }
-        else if (Lexer.wstrcasecmp(s, "keep-last") == 0)
+        else if ("keep-last".equalsIgnoreCase(s))
         {
             duplicateAttrs = KEEP_LAST;
         }

@@ -3355,9 +3355,9 @@ public final class ParserImpl
         }
 
         // kludge for html docs without explicit xml:space attribute
-        if (Lexer.wstrcasecmp(element.element, "pre") == 0
-            || Lexer.wstrcasecmp(element.element, "script") == 0
-            || Lexer.wstrcasecmp(element.element, "style") == 0)
+        if ("pre".equalsIgnoreCase(element.element)
+            || "script".equalsIgnoreCase(element.element)
+            || "style".equalsIgnoreCase(element.element))
         {
             return true;
         }
@@ -3368,7 +3368,7 @@ public final class ParserImpl
         }
 
         // kludge for XSL docs
-        if (Lexer.wstrcasecmp(element.element, "xsl:text") == 0)
+        if ("xsl:text".equalsIgnoreCase(element.element))
         {
             return true;
         }
@@ -3528,8 +3528,8 @@ public final class ParserImpl
 
         for (attr = node.attributes; attr != null; attr = attr.next)
         {
-            if ((Lexer.wstrcasecmp(attr.attribute, "language") == 0 || Lexer.wstrcasecmp(attr.attribute, "type") == 0)
-                && Lexer.wsubstr(attr.value, "javascript"))
+            if (("language".equalsIgnoreCase(attr.attribute) || "type".equalsIgnoreCase(attr.attribute))
+                && "javascript".equalsIgnoreCase(attr.value))
             {
                 result = true;
             }

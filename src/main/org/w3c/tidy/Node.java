@@ -339,7 +339,7 @@ public class Node
     }
 
     /**
-     * the same attribute name can't be used more than once in each element
+     * the same attribute name can't be used more than once in each element.
      */
     public void repairDuplicateAttributes(Lexer lexer)
     {
@@ -368,9 +368,13 @@ public class Node
                             temp = attval.next;
 
                             if (temp.next == null)
+                            {
                                 current = null;
+                            }
                             else
+                            {
                                 current = current.next;
+                            }
 
                             lexer.report.attrError(lexer, this, attval, Report.JOINING_ATTRIBUTE);
 
@@ -405,9 +409,13 @@ public class Node
                             temp = attval.next;
 
                             if (temp.next == null)
+                            {
                                 current = null;
+                            }
                             else
+                            {
                                 current = current.next;
+                            }
 
                             lexer.report.attrError(lexer, this, attval, Report.JOINING_ATTRIBUTE);
 
@@ -429,9 +437,13 @@ public class Node
                             temp = attval.next;
 
                             if (attval.next == null)
+                            {
                                 current = null;
+                            }
                             else
+                            {
                                 current = current.next;
+                            }
 
                             lexer.report.attrError(lexer, this, attval, Report.REPEATED_ATTRIBUTE);
 
@@ -440,12 +452,16 @@ public class Node
                         }
                     }
                     else
+                    {
                         current = current.next;
+                    }
                 }
                 attval = attval.next;
             }
             else
+            {
                 attval = attval.next;
+            }
         }
     }
 

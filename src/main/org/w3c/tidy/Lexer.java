@@ -945,14 +945,14 @@ public class Lexer
                 {
                     attval = node.getAttrByName("name");
 
-                    if (attval != null && attval.value != null && Lexer.wstrcasecmp(attval.value, "generator") == 0)
+                    if (attval != null && attval.value != null && "generator".equalsIgnoreCase(attval.value))
                     {
                         attval = node.getAttrByName("content");
 
                         if (attval != null
                             && attval.value != null
                             && attval.value.length() >= 9
-                            && Lexer.wstrcasecmp(attval.value.substring(0, 9), "HTML Tidy") == 0)
+                            && "HTML Tidy".equalsIgnoreCase(attval.value.substring(0, 9)))
                         {
                             return false;
                         }
@@ -983,7 +983,7 @@ public class Lexer
         while (n < len)
         {
             ps = p.substring(i, i + n);
-            if (wstrcasecmp(s, ps) == 0)
+            if (s.equalsIgnoreCase(ps))
             {
                 return (!ps.equals(s.substring(0, n)));
             }
@@ -1019,7 +1019,7 @@ public class Lexer
 
         // if root tag for doctype isn't html give up now
         str1 = getString(this.lexbuf, doctype.start, 5);
-        if (wstrcasecmp(str1, "html ") != 0)
+        if (!"html ".equalsIgnoreCase(str1))
         {
             return 0;
         }
@@ -1031,7 +1031,7 @@ public class Lexer
 
         // give up if all we are given is the system id for the doctype
         str1 = getString(this.lexbuf, doctype.start + 5, 7);
-        if (wstrcasecmp(str1, "SYSTEM ") == 0)
+        if ("SYSTEM ".equalsIgnoreCase(str1))
         {
             // but at least ensure the case is correct
             if (!str1.substring(0, 6).equals("SYSTEM"))
@@ -1041,7 +1041,7 @@ public class Lexer
             return 0; // unrecognized
         }
 
-        if (wstrcasecmp(str1, "PUBLIC ") == 0)
+        if ("PUBLIC ".equalsIgnoreCase(str1))
         {
             if (!str1.substring(0, 6).equals("PUBLIC"))
             {
@@ -1677,7 +1677,7 @@ public class Lexer
                 if (len == container.element.length())
                 {
                     str = getString(this.lexbuf, start, len);
-                    if (Lexer.wstrcasecmp(str, container.element) == 0)
+                    if (container.element.equalsIgnoreCase(str))
                     {
                         this.txtend = start - 2; // #433857 - fix by Huajun Zeng
                         break;
@@ -3618,44 +3618,6 @@ public class Lexer
         }
 
         return node;
-    }
-
-    // AQ: Try this for speed optimization
-    public static int wstrcasecmp(String s1, String s2)
-    {
-        return (s1.equalsIgnoreCase(s2) ? 0 : 1);
-    }
-
-    public static int wstrcaselexcmp(String s1, String s2)
-    {
-        char c;
-        int i = 0;
-
-        while (i < s1.length() && i < s2.length())
-        {
-            c = s1.charAt(i);
-            if (toLower(c) != toLower(s2.charAt(i)))
-            {
-                break;
-            }
-            i += 1;
-        }
-        if (i == s1.length() && i == s2.length())
-        {
-            return 0;
-        }
-        else if (i == s1.length())
-        {
-            return -1;
-        }
-        else if (i == s2.length())
-        {
-            return 1;
-        }
-        else
-        {
-            return (s1.charAt(i) > s2.charAt(i) ? 1 : -1);
-        }
     }
 
     public static boolean wsubstr(String s1, String s2)

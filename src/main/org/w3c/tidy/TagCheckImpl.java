@@ -187,7 +187,7 @@ public final class TagCheckImpl
                     {
                         str = str.substring(0, 10);
                     }
-                    if ((Lexer.wstrcasecmp(str, "javascript") == 0) || (Lexer.wstrcasecmp(str, "jscript") == 0))
+                    if ("javascript".equalsIgnoreCase(str) || "jscript".equalsIgnoreCase(str))
                     {
                         node.addAttribute("type", "text/javascript");
                     }
@@ -265,7 +265,7 @@ public final class TagCheckImpl
 
             for (attval = node.attributes; attval != null; attval = attval.next)
             {
-                if (Lexer.wstrcasecmp(attval.attribute, "align") == 0)
+                if ("align".equalsIgnoreCase(attval.attribute))
                 {
                     value = attval.value;
                     break;
@@ -274,11 +274,11 @@ public final class TagCheckImpl
 
             if (value != null)
             {
-                if (Lexer.wstrcasecmp(value, "left") == 0 || Lexer.wstrcasecmp(value, "right") == 0)
+                if ("left".equalsIgnoreCase(value) || "right".equalsIgnoreCase(value))
                 {
                     lexer.constrainVersion(Dict.VERS_HTML40_LOOSE);
                 }
-                else if (Lexer.wstrcasecmp(value, "top") == 0 || Lexer.wstrcasecmp(value, "bottom") == 0)
+                else if ("top".equalsIgnoreCase(value) || "bottom".equalsIgnoreCase(value))
                 {
                     lexer.constrainVersion(~(Dict.VERS_HTML20 | Dict.VERS_HTML32));
                 }
