@@ -455,6 +455,18 @@ public class TidyWarningBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [552861] : &lt;td with=""> not recognized.
+     * 
+     * @throws Exception any exception generated during the test
+     */
+    public void test552861() throws Exception
+    {
+        executeTidyTest("552861.html");
+        // should complain about invalid "with" attribute
+        assertWarnings(1);
+    }
+
+    /**
      * test for Tidy [553468] : Doesn't warn about &lt;u&gt; in XHTML strict.
      * 
      * @throws Exception any exception generated during the test

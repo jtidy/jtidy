@@ -574,6 +574,8 @@ public class TidyOutputBugsTest extends TidyTestCase
     public void test443381() throws Exception
     {
         executeTidyTest("443381.xhtml");
+        // should not complain about </img>
+        assertNoWarnings();
     }
 
     /**
@@ -928,16 +930,6 @@ public class TidyOutputBugsTest extends TidyTestCase
     public void test540571() throws Exception
     {
         executeTidyTest("540571.html");
-    }
-
-    /**
-     * test for Tidy [552861] : &lt;td with=""> not recognized.
-     * 
-     * @throws Exception any exception generated during the test
-     */
-    public void test552861() throws Exception
-    {
-        executeTidyTest("552861.html");
     }
 
     /**
