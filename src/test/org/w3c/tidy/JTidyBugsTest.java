@@ -138,6 +138,14 @@ public class JTidyBugsTest extends TidyTestCase
         executeTidyTest("j763186.html");
     }
 
+    /**
+     * test for JTidy [917012]: Spaces are moved from content to between tags.
+     * @throws Exception any exception generated during the test
+     */
+    public void test917012() throws Exception
+    {
+        executeTidyTest("917012.html");
+    }
 
     /**
      * test for JTidy [922302]: Add comment to script tag to produce valid XML.
