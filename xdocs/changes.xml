@@ -13,13 +13,22 @@
           Due to changes in directory structure, a new module in CVS has been created (tidy2): old files will left untouched and development will continue on this new module.
       </action>   
       <action dev="fgiust" type="remove">
-          Packages org.w3c.dom and org.xml.sax has been removed from the distribution.
+          Packages org.w3c.dom and org.xml.sax have been removed from the distribution.
       </action>    
       <action dev="fgiust" type="add">
           Junit tests added to build process.
       </action>     
       <action dev="fgiust" type="fix">
           Fixed [610244]: NullPointerException in parsing bad html. Thanks to Liam Quinn for the patch.
+      </action>         
+      <action dev="fgiust" type="add">
+          Added german translation. Submitted by Paul Ebermann.
+      </action>            
+      <action dev="fgiust" type="add">
+          Added spanish translation. Submitted by Senén de Diego.
+      </action>              
+      <action dev="fgiust" type="add">
+          A JTidy ant task has been added: <code>org.w3c.tidy.ant.JTidyTask</code>. Donated to JTidy by Nikola Ken Barozzi.
       </action>    
     </release>
     

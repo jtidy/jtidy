@@ -141,6 +141,10 @@
       <id>commons-logging</id>
       <version>1.0.3</version>
     </dependency>
+    <dependency>
+      <id>ant</id>
+      <version>1.5.3-1</version>
+    </dependency>
     <!-- plugin dependencies -->
     <dependency>
       <groupId>maven</groupId>
