@@ -970,7 +970,7 @@ public class StreamInImpl extends StreamIn
      * Function for conversion from Windows-1252 to Unicode.
      * @param c char to decode
      */
-    private int decodeWin1252(int c)
+    protected static int decodeWin1252(int c)
     {
         return WIN2UNICODE[c - 128];
     }
@@ -979,7 +979,7 @@ public class StreamInImpl extends StreamIn
      * Function to convert from MacRoman to Unicode.
      * @param c char to decode
      */
-    private int decodeMacRoman(int c)
+    protected static int decodeMacRoman(int c)
     {
         return MAC2UNICODE[c];
     }

@@ -32,6 +32,7 @@ public final class AllWorkingTests
         suite.addTestSuite(JTidyParserBugsTest.class);
         suite.addTestSuite(JTidyWarningBugsTest.class);
 
+        suite.addTest(new JTidyBugsTest("test475643"));
         suite.addTest(new JTidyBugsTest("test538727"));
         suite.addTest(new JTidyBugsTest("test610244"));
         suite.addTest(new JTidyBugsTest("test663197"));

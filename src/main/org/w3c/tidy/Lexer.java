@@ -601,6 +601,17 @@ public class Lexer
      */
     public void addCharToLexer(int c)
     {
+        // Allow only valid XML characters. See: http://www.w3.org/TR/2004/REC-xml-20040204/#NT-Char
+        // Fix by Pablo Mayrgundter 17-08-2004
+        if ((this.configuration.xmlOut || this.configuration.xHTML) // only for xml output
+            && !((c >= 0x20 && c <= 0xD7FF) // Check the common-case first.
+                || c == 0x9 || c == 0xA || c == 0xD // Then white-space.
+                || (c >= 0xE000 && c <= 0xFFFD) // Then high-range unicode.
+            || (c >= 0x10000 && c <= 0x10FFFF)))
+        {
+            return;
+        }
+
         if (c < 128)
         {
             addByte(c);
@@ -642,13 +653,15 @@ public class Lexer
     }
 
     /**
-     * No longer attempts to insert missing ';' for unknown enitities unless one was present already, since this gives
-     * unexpected results. For example: &lt;a href="something.htm?foo&bar&fred"> was tidied to: &lt;a
-     * href="something.htm?foo&amp;bar;&amp;fred;"> rather than: &lt;a href="something.htm?foo&amp;bar&amp;fred"> My
-     * thanks for Maurice Buxton for spotting this.
+     * Parse an html entoty
      */
     public void parseEntity(short mode)
     {
+        // No longer attempts to insert missing ';' for unknown enitities unless one was present already, since this
+        // gives unexpected results. For example: &lt;a href="something.htm?foo&bar&fred"> was tidied to: &lt;a
+        // href="something.htm?foo&amp;bar;&amp;fred;"> rather than: &lt;a href="something.htm?foo&amp;bar&amp;fred"> My
+        // thanks for Maurice Buxton for spotting this.
+
         int start;
         boolean first = true;
         boolean semicolon = false;
@@ -659,13 +672,8 @@ public class Lexer
         start = this.lexsize - 1; // to start at "&"
         startcol = this.in.curcol - 1;
 
-        while (true)
+        while ((c = this.in.readChar()) != StreamIn.EndOfStream)
         {
-            c = this.in.readChar();
-            if (c == StreamIn.EndOfStream)
-            {
-                break;
-            }
             if (c == ';')
             {
                 semicolon = true;
@@ -682,21 +690,13 @@ public class Lexer
 
             first = false;
 
-            // AQ: Added flag for numeric entities so that numeric entities with missing semi-colons are recognized.
-            // Eg. "&#114e&#112;..." is recognized as "rep"
-            if (numeric && ((c == 'x') || isDigit((char) c)))
-            {
-                addCharToLexer(c);
-                continue;
-            }
-            if (!numeric && isNamechar((char) c))
+            if (isNamechar((char) c))
             {
                 addCharToLexer(c);
                 continue;
             }
 
             // otherwise put it back
-
             this.in.ungetChar(c);
             break;
         }
@@ -710,8 +710,19 @@ public class Lexer
 
         ch = EntityTable.getDefaultEntityTable().entityCode(str);
 
+        // drops invalid numeric entities from XML mode. Fix by Pablo Mayrgundter 17-08-2004
+        if ((this.configuration.xmlOut || this.configuration.xHTML) // only for xml output
+            && !((ch >= 0x20 && ch <= 0xD7FF) // Check the common-case first.
+                || ch == 0x9 || ch == 0xA || ch == 0xD // Then white-space.
+            || (ch >= 0xE000 && ch <= 0xFFFD)))
+        {
+            this.lexsize = start;
+            return;
+        }
+
         // deal with unrecognized entities
         // #433012 - fix by Randy Waki 17 Feb 01
+        // report invalid NCR's - Terry Teague 01 Sep 01
         if (ch <= 0 || (ch >= 256 && c != ';'))
         {
             // set error position just before offending character
@@ -720,7 +731,52 @@ public class Lexer
 
             if (this.lexsize > start + 1)
             {
-                report.entityError(this, Report.UNKNOWN_ENTITY, str, ch);
+                if (ch >= 128 && ch <= 159)
+                {
+                    // invalid numeric character reference
+                    int c1 = 0;
+
+                    if (configuration.replacementCharEncoding == Configuration.WIN1252)
+                    {
+                        c1 = StreamInImpl.decodeWin1252(ch);
+                    }
+                    else if (configuration.replacementCharEncoding == Configuration.MACROMAN)
+                    {
+                        c1 = StreamInImpl.decodeMacRoman(ch);
+                    }
+
+                    // "or" DISCARDED_CHAR with the other errors if discarding char; otherwise default is replacing
+                    final short REPLACED_CHAR = 0;
+                    final short DISCARDED_CHAR = 1;
+
+                    int replaceMode = c1 != 0 ? REPLACED_CHAR : DISCARDED_CHAR;
+
+                    if (c != ';') /* issue warning if not terminated by ';' */
+                    {
+                        report.entityError(this, Report.MISSING_SEMICOLON_NCR, str, c);
+                    }
+
+                    report.encodingError(this, (short) (Report.INVALID_NCR | replaceMode), ch);
+
+                    if (c1 != 0)
+                    {
+                        // make the replacement
+                        this.lexsize = start;
+                        addCharToLexer(c1);
+                        semicolon = false;
+                    }
+                    else
+                    {
+                        /* discard */
+                        this.lexsize = start;
+                        semicolon = false;
+                    }
+
+                }
+                else
+                {
+                    report.entityError(this, Report.UNKNOWN_ENTITY, str, ch);
+                }
 
                 if (semicolon)
                 {
@@ -2228,7 +2284,7 @@ public class Lexer
                         }
 
                     }
-                    
+
                     // FG repair attributes fo xml on input or output
                     if (this.configuration.xmlTags | this.configuration.xmlOut | this.configuration.xHTML)
                     {

@@ -102,6 +102,41 @@ public class Configuration implements java.io.Serializable
     public static final int MACROMAN = 5;
 
     /**
+     * character encoding = UTF16LE.
+     */
+    public static final int UTF16LE = 6;
+
+    /**
+     * character encoding = UTF16BE.
+     */
+    public static final int UTF16BE = 7;
+
+    /**
+     * character encoding = UTF16.
+     */
+    public static final int UTF16 = 8;
+
+    /**
+     * character encoding = WIN1252.
+     */
+    public static final int WIN1252 = 9;
+
+    /**
+     * character encoding = BIG5.
+     */
+    public static final int BIG5 = 10; // #431953 - RJ
+
+    /**
+     * character encoding = SHIFTJIS.
+     */
+    public static final int SHIFTJIS = 11; // #431953 - RJ
+
+    /*
+     * RJ. Note that Big5 and SHIFTJIS are not converted to ISO 10646 codepoints (i.e., to Unicode) before being recoded
+     * into UTF-8. This may be confusing: usually UTF-8 implies ISO10646 codepoints.
+     */
+
+    /**
      * treatment of doctype: omit.
      * @todo should be an enumeration DocTypeMode
      */
@@ -457,6 +492,11 @@ public class Configuration implements java.io.Serializable
      * join multiple style attributes.
      */
     protected boolean joinStyles = true;
+
+    /**
+     * char encoding used when replacing illegal SGML chars, regardless of specified encoding.
+     */
+    protected int replacementCharEncoding = WIN1252; // by default
 
     /**
      * TagTable associated with this Configuration.
