@@ -1597,7 +1597,10 @@ public class Clean
                 list2BQ(node.content);
             }
 
-            if (node.tag != null && node.tag.parser == ParserImpl.LIST && node.hasOneChild() && node.content.implicit)
+            if (node.tag != null
+                && node.tag.getParser() == ParserImpl.LIST
+                && node.hasOneChild()
+                && node.content.implicit)
             {
                 stripOnlyChild(node);
                 node.element = this.tt.tagBlockquote.name;

@@ -2375,9 +2375,9 @@ public class Lexer
                             }
                         }
 
-                        if (this.token.tag.chkattrs != null)
+                        if (this.token.tag.getChkattrs() != null)
                         {
-                            this.token.tag.chkattrs.check(this, this.token);
+                            this.token.tag.getChkattrs().check(this, this.token);
                         }
                         else
                         {

@@ -732,8 +732,8 @@ public class TagTable
         {
             d.versions = dict.versions;
             d.model |= dict.model;
-            d.parser = dict.parser;
-            d.chkattrs = dict.chkattrs;
+            d.setParser(dict.getParser());
+            d.setChkattrs(dict.getChkattrs());
             return d;
         }
         else
@@ -776,7 +776,7 @@ public class TagTable
             np = lookup(node.element);
             if (np != null)
             {
-                return np.parser;
+                return np.getParser();
             }
         }
 
@@ -876,7 +876,7 @@ public class TagTable
                     case Dict.TAGTYPE_BLOCK :
                         if ((curDictEntry.versions == Dict.VERS_PROPRIETARY)
                             && ((curDictEntry.model & Dict.CM_BLOCK) == Dict.CM_BLOCK)
-                            && (curDictEntry.parser == ParserImpl.BLOCK))
+                            && (curDictEntry.getParser() == ParserImpl.BLOCK))
                         {
                             tagNames.add(curDictEntry.name);
                         }
@@ -885,7 +885,7 @@ public class TagTable
                     case Dict.TAGTYPE_PRE :
                         if ((curDictEntry.versions == Dict.VERS_PROPRIETARY)
                             && ((curDictEntry.model & Dict.CM_BLOCK) == Dict.CM_BLOCK)
-                            && (curDictEntry.parser == ParserImpl.PRE))
+                            && (curDictEntry.getParser() == ParserImpl.PRE))
                         {
                             tagNames.add(curDictEntry.name);
                         }

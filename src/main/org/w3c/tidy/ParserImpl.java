@@ -183,7 +183,7 @@ public final class ParserImpl
             lexer.insertspace = false;
         }
 
-        if (node.tag.parser == null)
+        if (node.tag.getParser() == null)
         {
             return;
         }
@@ -194,7 +194,7 @@ public final class ParserImpl
             return;
         }
 
-        node.tag.parser.parse(lexer, node, mode);
+        node.tag.getParser().parse(lexer, node, mode);
     }
 
     /**
@@ -228,7 +228,7 @@ public final class ParserImpl
                 }
             }
 
-            if (node.tag.parser != null)
+            if (node.tag.getParser() != null)
             {
                 parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
             }
@@ -2343,7 +2343,7 @@ public final class ParserImpl
                         {
                             if (element.parent != null
                                 && element.parent.tag != null
-                                && element.parent.tag.parser == LIST)
+                                && element.parent.tag.getParser() == LIST)
                             {
                                 Node.trimSpaces(lexer, element);
                                 Node.trimEmptyElement(lexer, element);
