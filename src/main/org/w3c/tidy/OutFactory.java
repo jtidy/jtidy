@@ -54,6 +54,7 @@
 package org.w3c.tidy;
 
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 
 
 /**
@@ -69,6 +70,7 @@ public final class OutFactory
      */
     private OutFactory()
     {
+        // unused
     }
 
     /**
@@ -79,6 +81,42 @@ public final class OutFactory
      */
     public static Out getOut(Configuration config, OutputStream stream)
     {
-        return new OutImpl(config, config.getOutCharEncoding(), stream);
+
+        // uncomment the following lines to use the classic implementation
+        //
+        // if (true)
+        // {
+        //     return new OutImpl(config, config.getOutCharEncoding(), stream);
+        // }
+
+        try
+        {
+            switch (config.getOutCharEncoding())
+            {
+                case Configuration.ASCII :
+                    return new OutJavaImpl(config, "US-ASCII", stream);
+                case Configuration.LATIN1 :
+                    return new OutJavaImpl(config, "ISO-8859-1", stream);
+                case Configuration.UTF8 :
+                    return new OutJavaImpl(config, "UTF-8", stream);
+                case Configuration.UTF16 :
+                    return new OutJavaImpl(config, "UTF-16", stream);
+                case Configuration.UTF16LE :
+                    return new OutJavaImpl(config, "UTF-16LE", stream);
+                case Configuration.UTF16BE :
+                    return new OutJavaImpl(config, "UTF-16BE", stream);
+                case Configuration.BIG5 :
+                    return new OutJavaImpl(config, "BIG5", stream);
+                case Configuration.SHIFTJIS :
+                    return new OutJavaImpl(config, "SHIFT-JIS", stream);
+                default :
+                    throw new RuntimeException("Unsupported encoding: " + config.getOutCharEncoding());
+            }
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new RuntimeException("Unsupported encoding: " + e.getMessage());
+        }
+
     }
 }
