@@ -127,7 +127,10 @@ public class Lexer
      */
     private static final String XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 
-    private static Lexer.W3CVersionInfo[] W3CVersion = {
+    /**
+     * lists all the known versions.
+     */
+    private static final Lexer.W3CVersionInfo[] W3CVERSION = {
         new W3CVersionInfo("HTML 4.01", "XHTML 1.0 Strict", VOYAGER_STRICT, Dict.VERS_HTML40_STRICT),
         new W3CVersionInfo("HTML 4.01 Transitional", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML40_LOOSE),
         new W3CVersionInfo("HTML 4.01 Frameset", "XHTML 1.0 Frameset", VOYAGER_FRAMESET, Dict.VERS_FRAMESET),
@@ -139,47 +142,104 @@ public class Lexer
         new W3CVersionInfo("HTML 3.2 Draft", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML32),
         new W3CVersionInfo("HTML 2.0", "XHTML 1.0 Strict", VOYAGER_STRICT, Dict.VERS_HTML20)};
 
-    // lexer char types
+    /**
+     * char type: digit.
+     */
     private static final short DIGIT = 1;
 
+    /**
+     * char type: letter.
+     */
     private static final short LETTER = 2;
 
+    /**
+     * char type: namechar.
+     */
     private static final short NAMECHAR = 4;
 
+    /**
+     * char type: whitespace.
+     */
     private static final short WHITE = 8;
 
+    /**
+     * char type: newline.
+     */
     private static final short NEWLINE = 16;
 
+    /**
+     * char type: lowercase.
+     */
     private static final short LOWERCASE = 32;
 
+    /**
+     * char type: uppercase.
+     */
     private static final short UPPERCASE = 64;
 
-    // lexer GetToken states
-
+    /**
+     * getToken state: content.
+     */
     private static final short LEX_CONTENT = 0;
 
+    /**
+     * getToken state: gt.
+     */
     private static final short LEX_GT = 1;
 
+    /**
+     * getToken state: endtag.
+     */
     private static final short LEX_ENDTAG = 2;
 
+    /**
+     * getToken state: start tag.
+     */
     private static final short LEX_STARTTAG = 3;
 
+    /**
+     * getToken state: comment.
+     */
     private static final short LEX_COMMENT = 4;
 
+    /**
+     * getToken state: doctype.
+     */
     private static final short LEX_DOCTYPE = 5;
 
+    /**
+     * getToken state: procinstr.
+     */
     private static final short LEX_PROCINSTR = 6;
 
+    /**
+     * getToken state: cdata.
+     */
     private static final short LEX_CDATA = 8;
 
+    /**
+     * getToken state: section.
+     */
     private static final short LEX_SECTION = 9;
 
+    /**
+     * getToken state: asp.
+     */
     private static final short LEX_ASP = 10;
 
+    /**
+     * getToken state: jste.
+     */
     private static final short LEX_JSTE = 11;
 
+    /**
+     * getToken state: php.
+     */
     private static final short LEX_PHP = 12;
 
+    /**
+     * getToken state: xml declaration.
+     */
     private static final short LEX_XMLDECL = 13;
 
     /**
@@ -755,7 +815,7 @@ public class Lexer
      * Choose what version to use for new doctype.
      * @return
      */
-    public short HTMLVersion()
+    public short htmlVersion()
     {
         if ((versions & Dict.VERS_HTML20) != 0)
         {
@@ -789,23 +849,23 @@ public class Lexer
         return Dict.VERS_UNKNOWN;
     }
 
-    public String HTMLVersionName()
+    public String htmlVersionName()
     {
         short guessed;
         int j;
 
         guessed = apparentVersion();
 
-        for (j = 0; j < W3CVersion.length; ++j)
+        for (j = 0; j < W3CVERSION.length; ++j)
         {
-            if (guessed == W3CVersion[j].code)
+            if (guessed == W3CVERSION[j].code)
             {
                 if (this.isvoyager)
                 {
-                    return W3CVersion[j].voyagerName;
+                    return W3CVERSION[j].voyagerName;
                 }
 
-                return W3CVersion[j].name;
+                return W3CVERSION[j].name;
             }
         }
 
@@ -953,12 +1013,12 @@ public class Lexer
                     len = j - i - 13;
                     p = getString(this.lexbuf, i + 13, len);
 
-                    for (j = 1; j < W3CVersion.length; ++j)
+                    for (j = 1; j < W3CVERSION.length; ++j)
                     {
-                        s = W3CVersion[j].name;
+                        s = W3CVERSION[j].name;
                         if (len == s.length() && s.equals(p))
                         {
-                            return W3CVersion[j].code;
+                            return W3CVERSION[j].code;
                         }
                     }
 
@@ -974,10 +1034,10 @@ public class Lexer
                     len = j - i - 14;
 
                     p = getString(this.lexbuf, i + 14, len);
-                    s = W3CVersion[0].name;
+                    s = W3CVERSION[0].name;
                     if (len == s.length() && s.equals(p))
                     {
-                        return W3CVersion[0].code;
+                        return W3CVERSION[0].code;
                     }
 
                     // else unrecognized version
@@ -1184,7 +1244,7 @@ public class Lexer
         switch (this.doctype)
         {
             case Dict.VERS_UNKNOWN :
-                return HTMLVersion();
+                return htmlVersion();
 
             case Dict.VERS_HTML20 :
                 if ((this.versions & Dict.VERS_HTML20) != 0)
@@ -1235,7 +1295,7 @@ public class Lexer
         this.columns = 1;
 
         report.warning(this, null, null, Report.INCONSISTENT_VERSION);
-        return this.HTMLVersion();
+        return this.htmlVersion();
     }
 
     // fixup doctype if missing
@@ -1336,7 +1396,7 @@ public class Lexer
             }
 
             // choose new doctype
-            guessed = HTMLVersion();
+            guessed = htmlVersion();
         }
 
         if (guessed == Dict.VERS_UNKNOWN)
@@ -1394,11 +1454,11 @@ public class Lexer
         {
             addStringLiteral("\"-//W3C//DTD ");
 
-            for (i = 0; i < W3CVersion.length; ++i)
+            for (i = 0; i < W3CVERSION.length; ++i)
             {
-                if (guessed == W3CVersion[i].code)
+                if (guessed == W3CVERSION[i].code)
                 {
-                    addStringLiteral(W3CVersion[i].name);
+                    addStringLiteral(W3CVERSION[i].name);
                     break;
                 }
             }
@@ -3818,15 +3878,30 @@ public class Lexer
         return true;
     }
 
+    /**
+     * document type.
+     */
     private static class W3CVersionInfo
     {
 
+        /**
+         * name.
+         */
         String name;
 
+        /**
+         * voyager name.
+         */
         String voyagerName;
 
+        /**
+         * profile.
+         */
         String profile;
 
+        /**
+         * code.
+         */
         short code;
 
         public W3CVersionInfo(String name, String voyagerName, String profile, short code)
