@@ -177,6 +177,14 @@ public class CheckAttribsImpl
                     }
                 }
             }
+            
+            /* <table height="..."> is proprietary */
+            if ((attval = node.getAttrByName("height")) != null)
+            {
+                Report.attrError(lexer, node, "height", Report.PROPRIETARY_ATTRIBUTE);
+                lexer.versions &= Dict.VERS_PROPRIETARY;
+            }
+
         }
 
     }

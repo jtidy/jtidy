@@ -123,17 +123,19 @@ public final class Report
 
     /* error codes used for attribute messages */
 
-    public static final short UNKNOWN_ATTRIBUTE = 1;
-    public static final short MISSING_ATTRIBUTE = 2;
-    public static final short MISSING_ATTR_VALUE = 3;
-    public static final short BAD_ATTRIBUTE_VALUE = 4;
-    public static final short UNEXPECTED_GT = 5;
-    public static final short PROPRIETARY_ATTR_VALUE = 6;
-    public static final short REPEATED_ATTRIBUTE = 7;
-    public static final short MISSING_IMAGEMAP = 8;
-    public static final short XML_ATTRIBUTE_VALUE = 9;
-    public static final short UNEXPECTED_QUOTEMARK = 10;
-    public static final short ID_NAME_MISMATCH = 11;
+    public static final short UNKNOWN_ATTRIBUTE = 48;
+    public static final short MISSING_ATTRIBUTE = 49;
+    public static final short MISSING_ATTR_VALUE = 50;
+    public static final short BAD_ATTRIBUTE_VALUE = 51;
+    public static final short UNEXPECTED_GT = 52;
+    public static final short PROPRIETARY_ATTRIBUTE = 53;
+    public static final short PROPRIETARY_ATTR_VALUE = 54;
+    public static final short REPEATED_ATTRIBUTE = 55;
+    public static final short MISSING_IMAGEMAP = 56;
+    public static final short XML_ATTRIBUTE_VALUE = 57;
+    public static final short MISSING_QUOTEMARK = 58;
+    public static final short UNEXPECTED_QUOTEMARK = 59;
+    public static final short ID_NAME_MISMATCH = 59;
 
     /* accessibility flaws */
 
@@ -504,6 +506,20 @@ public final class Report
                     tidyPrint(lexer.errout, res.getString("warning"));
                     tag(lexer, node);
                     tidyPrint(lexer.errout, MessageFormat.format(res.getString("proprietary_attr_value"),
+                        new Object[]{attr}));
+                }
+                catch (MissingResourceException e)
+                {
+                    lexer.errout.println(e.toString());
+                }
+            }
+            else if (code == PROPRIETARY_ATTRIBUTE)
+            {
+                try
+                {
+                    tidyPrint(lexer.errout, res.getString("warning"));
+                    tag(lexer, node);
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("proprietary_attribute"),
                         new Object[]{attr}));
                 }
                 catch (MissingResourceException e)
