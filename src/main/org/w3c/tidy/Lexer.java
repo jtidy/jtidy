@@ -1620,11 +1620,14 @@ public class Lexer
                 break;
             }
 
-            // fix for [427846]
-            // if (lexer->insertspace && !(mode & IgnoreWhitespace))
-            if (this.insertspace && !((mode & IGNORE_WHITESPACE) != 0))
+            // FG fix for [427846] different from tidy
+            // if (this.insertspace && ((mode & IGNORE_WHITESPACE) != 1))
+            if (this.insertspace && mode != IGNORE_WHITESPACE)
             {
                 addCharToLexer(' ');
+            }
+            if (this.insertspace && ((mode & IGNORE_WHITESPACE) != 1))
+            {
                 this.waswhite = true;
                 this.insertspace = false;
             }
