@@ -75,9 +75,9 @@ public class TidyBugsTest extends TidyTestCase
     {
         URL inputURL = getClass().getClassLoader().getResource("431895.html");
 
-        Tidy.main(new String[] { cleanUpFilePath(inputURL.getFile())});
+        Tidy.main(new String[] { "-q", "-e", cleanUpFilePath(inputURL.getFile())});
 
-        // should check system out... jtidy r7 behave as expected with a manual check
+        // should check system out...
     }
 
 }
