@@ -4,7 +4,7 @@
 <title>[ #443576 ] End script tag inside scripts problem</title>
 </head>
 <body>
-<script language="JavaScript1.1" type="text/javascript">
+<script type="text/javascript" language="JavaScript1.1">
  
 <!-- 
 document.write('<script><\/script>'); 

@@ -1,8 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>[ 763191 ] Again DOM Parsing error (tidy removes spaces in
-attribute values)</title>
+<title>[ 763191 ] Again DOM Parsing error (tidy removes spaces in attribute values)</title>
 </head>
 <body>
 <form action="something"><select name="one">
