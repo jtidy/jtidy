@@ -159,6 +159,11 @@ public final class AttrCheckImpl
     public static final AttrCheck TEXTDIR = new CheckTextDir();
 
     /**
+     * checker for "lang" and "xml:lang" attributes.
+     */
+    public static final AttrCheck LANG = new CheckLang();
+
+    /**
      * utility class, don't instantiate.
      */
     private AttrCheckImpl()
@@ -174,8 +179,6 @@ public final class AttrCheckImpl
 
         /**
          * @see AttrCheck#check(Lexer, Node, AttVal)
-         * @todo add error messages
-         * @todo add configuration option?
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
@@ -653,6 +656,7 @@ public final class AttrCheckImpl
         {
 
             String p = attval.value;
+            Node old;
             if (p == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
@@ -676,6 +680,14 @@ public final class AttrCheckImpl
                 }
             }
 
+            if (((old = lexer.configuration.tt.getNodeByAnchor(attval.value)) != null) && old != node)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.ANCHOR_NOT_UNIQUE);
+            }
+            else
+            {
+                lexer.configuration.tt.anchorList = lexer.configuration.tt.addAnchor(attval.value, node);
+            }
         }
 
     }
@@ -691,6 +703,26 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
+            Node old;
+
+            if (attval == null || attval.value == null)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
+            }
+            else if (lexer.configuration.tt.isAnchorElement(node))
+            {
+                lexer.constrainVersion(~Dict.VERS_XHTML11);
+
+                if (((old = lexer.configuration.tt.getNodeByAnchor(attval.value)) != null) && old != node)
+                {
+                    lexer.report.attrError(lexer, node, attval, Report.ANCHOR_NOT_UNIQUE);
+                }
+                else
+                {
+                    lexer.configuration.tt.anchorList = lexer.configuration.tt.addAnchor(attval.value, node);
+                }
+            }
         }
 
     }
@@ -913,6 +945,29 @@ public final class AttrCheckImpl
             if (!"rtl".equalsIgnoreCase(value) && !"ltr".equalsIgnoreCase(value))
             {
                 lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+            }
+        }
+    }
+
+    /**
+     * AttrCheck implementation for checking lang and xml:lang.
+     */
+    public static class CheckLang implements AttrCheck
+    {
+
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
+        public void check(Lexer lexer, Node node, AttVal attval)
+        {
+            if ("lang".equals(attval.attribute))
+            {
+                lexer.constrainVersion(~Dict.VERS_XHTML11);
+            }
+
+            if (attval.value == null)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
             }
         }
     }

@@ -368,13 +368,7 @@ public class Node
         }
     }
 
-    /**
-     * free node's attributes
-     */
-    public void freeAttrs()
-    {
-        this.attributes = null;
-    }
+
 
     /**
      * remove attribute from node then free it.

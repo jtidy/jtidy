@@ -1967,7 +1967,7 @@ public class Clean
                 {
                     return;
                 }
-                node.freeAttrs();
+                lexer.configuration.tt.freeAttrs(node);
             }
 
             // fix up preformatted sections by looking for a sequence of paragraphs with zero top/bottom margin

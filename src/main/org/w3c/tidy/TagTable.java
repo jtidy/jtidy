@@ -155,12 +155,7 @@ public class TagTable
             (Dict.CM_DEFLIST | Dict.CM_OPT | Dict.CM_NO_INDENT),
             ParserImpl.getParseBlock(),
             null),
-        new Dict(
-            "caption",
-            Dict.VERS_FROM32,
-            Dict.CM_TABLE,
-            ParserImpl.getParseInline(),
-            CheckAttribsImpl.CAPTION),
+        new Dict("caption", Dict.VERS_FROM32, Dict.CM_TABLE, ParserImpl.getParseInline(), CheckAttribsImpl.CAPTION),
         new Dict("colgroup", Dict.VERS_HTML40, (Dict.CM_TABLE | Dict.CM_OPT), ParserImpl.getParseColGroup(), null),
         new Dict("col", Dict.VERS_HTML40, (Dict.CM_TABLE | Dict.CM_EMPTY), null, null),
         new Dict("thead", Dict.VERS_HTML40, (Dict.CM_TABLE | Dict.CM_ROWGRP | Dict.CM_OPT), ParserImpl
@@ -379,6 +374,11 @@ public class TagTable
 
     private Hashtable tagHashtable = new Hashtable();
 
+    /**
+     * anchor/node hash.
+     */
+    protected Anchor anchorList;
+
     public TagTable()
     {
         for (int i = 0; i < TAGS.length; i++)
@@ -516,6 +516,20 @@ public class TagTable
         return null;
     }
 
+    /**
+     * may id or name serve as anchor?
+     */
+    boolean isAnchorElement(Node node)
+    {
+        return node.tag == this.tagA
+            || node.tag == this.tagApplet
+            || node.tag == this.tagForm
+            || node.tag == this.tagFrame
+            || node.tag == this.tagIframe
+            || node.tag == this.tagImg
+            || node.tag == this.tagMap;
+    }
+
     public void defineInlineTag(String name)
     {
         install(new Dict(name, Dict.VERS_PROPRIETARY, (Dict.CM_INLINE | Dict.CM_NO_INDENT | Dict.CM_NEW), ParserImpl
@@ -539,4 +553,130 @@ public class TagTable
         install(new Dict(name, Dict.VERS_PROPRIETARY, (Dict.CM_BLOCK | Dict.CM_NO_INDENT | Dict.CM_NEW), ParserImpl
             .getParsePre(), null));
     }
+
+    /**
+     * free node's attributes
+     */
+    public void freeAttrs(Node node)
+    {
+        node.attributes = null;
+
+        while (node.attributes != null)
+        {
+            AttVal av = node.attributes;
+            if ("id".equalsIgnoreCase(av.attribute) || "name".equalsIgnoreCase(av.attribute) && isAnchorElement(node))
+            {
+                removeAnchorByNode(node);
+            }
+
+            node.attributes = av.next;
+        }
+    }
+
+    /**
+     * removes anchor for specific node.
+     */
+    void removeAnchorByNode(Node node)
+    {
+        Anchor delme = null;
+        Anchor found = null;
+        Anchor prev = null;
+        Anchor next = null;
+
+        for (found = anchorList; found != null; found = found.next)
+        {
+            next = found.next;
+
+            if (found.node == node)
+            {
+                if (prev != null)
+                {
+                    prev.next = next;
+                }
+                else
+                {
+                    anchorList = next;
+                }
+
+                delme = found;
+            }
+            else
+            {
+                prev = found;
+            }
+        }
+        if (delme != null)
+        {
+            delme = null; // freeAnchor
+        }
+    }
+
+    /**
+     * initialize a new anchor.
+     */
+    Anchor newAnchor()
+    {
+        Anchor a = new Anchor();
+        return a;
+    }
+
+    /**
+     * add new anchor to namespace.
+     */
+    Anchor addAnchor(String name, Node node)
+    {
+        Anchor a = newAnchor();
+
+        a.name = name;
+        a.node = node;
+
+        if (anchorList == null)
+            anchorList = a;
+        else
+        {
+            Anchor here = anchorList;
+
+            while (here.next != null)
+            {
+                here = here.next;
+            }
+            here.next = a;
+        }
+
+        return anchorList;
+    }
+
+    /**
+     * return node associated with anchor
+     */
+    Node getNodeByAnchor(String name)
+    {
+        Anchor found;
+
+        for (found = anchorList; found != null; found = found.next)
+        {
+            if (name.equalsIgnoreCase(found.name))
+            {
+                break;
+            }
+        }
+
+        if (found == null)
+        {
+            return null;
+        }
+        else
+        {
+            return found.node;
+        }
+    }
+
+    /**
+     * free all anchors.
+     */
+    void freeAnchors()
+    {
+        anchorList = null;
+    }
+
 }
