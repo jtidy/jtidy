@@ -908,8 +908,6 @@ public class TagTable
      */
     public void freeAttrs(Node node)
     {
-        node.attributes = null;
-
         while (node.attributes != null)
         {
             AttVal av = node.attributes;
