@@ -177,4 +177,16 @@ public class JTidyBugsTest extends TidyTestCase
     }
 
 
+    /**
+     * test for JTidy [929936]: escape URLs.
+     * @throws Exception any exception generated during the test
+     */
+    public void test929936() throws Exception
+    {
+        executeTidyTest("929936.html");
+        // 10 escaped "\" or chars
+        assertWarnings(10);
+    }
+
+
 }

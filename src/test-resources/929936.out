@@ -1,0 +1,14 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>[ # ] Escape URI</title>
+</head>
+<body>
+<a href="test/go.html">1</a><br>
+<a href="test/go%3C.html">2</a><br>
+<a href="test/go*.html">3</a><br>
+<a href="test/go%20.html">4</a><br>
+<a href="test/go%E7?/%20^.html">5</a><br>
+<a href="go%20&amp;%3E.html">6</a><br>
+</body>
+</html>
