@@ -97,4 +97,13 @@ public class JTidyBugsTest extends TidyTestCase
         executeTidyTest("j763191.html");
     }
 
+    /**
+     * test for JTidy [763186]: Another DOM Parsing error (tidy inserting whitespaces).
+     * @throws Exception any exception generated during the test
+     */
+    public void test763186() throws Exception
+    {
+        executeTidyTest("j763186.html");
+    }
+
 }
