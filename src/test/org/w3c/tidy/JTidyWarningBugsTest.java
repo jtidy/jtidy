@@ -81,4 +81,15 @@ public class JTidyWarningBugsTest extends TidyTestCase
         assertNoErrors();
     }
 
+    /**
+     * test for JTidy [444834]: Silent Option.
+     * @throws Exception any exception generated during the test
+     */
+    public void test444834() throws Exception
+    {
+        // only need to test the "quiet" option
+        executeTidyTest("444834.html");
+        assertEquals("errorLog should be empty, size doesn't match", 0, this.errorLog.toString().length());
+    }
+
 }
