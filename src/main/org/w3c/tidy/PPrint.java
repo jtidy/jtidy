@@ -63,7 +63,6 @@ import java.text.NumberFormat;
  * Pretty print parse tree. Block-level and unknown elements are printed on new lines and their contents indented 2
  * spaces Inline elements are printed inline. Inline content is wrapped on spaces (except in attribute values or
  * preformatted text, after start tags and before end tags.
- * 
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @version $Revision $ ($Author $)
@@ -126,7 +125,6 @@ public class PPrint
 
     /**
      * return one less that the number of bytes used by UTF-8 char <code>1010 A 1011 B 1100 C 1101 D 1110 E 1111 F</code>
-     * 
      * @param str points to 1st byte
      * @param ch initialized to 1st byte
      */
@@ -733,7 +731,7 @@ public class PPrint
         }
     }
 
-    private void printString(Out fout, int indent, String str)
+    private void printString(String str)
     {
         for (int i = 0; i < str.length(); i++)
         {
@@ -1005,7 +1003,7 @@ public class PPrint
         if (configuration.xmlOut && configuration.xmlSpace && ParserImpl.XMLPreserveWhiteSpace(node, configuration.tt)
             && node.getAttrByName("xml:space") == null)
         {
-            printString(fout, indent, " xml:space=\"preserve\"");
+            printString(" xml:space=\"preserve\"");
         }
     }
 
@@ -1099,7 +1097,7 @@ public class PPrint
 
     }
 
-    private void printEndTag(Out fout, short mode, int indent, Node node)
+    private void printEndTag(short mode, int indent, Node node)
     {
         String p;
 
@@ -1537,7 +1535,7 @@ public class PPrint
 
             if (this.configuration.makeClean && node.tag == tt.tagWbr)
             {
-                printString(fout, indent, " ");
+                printString(" ");
             }
             else
             {
@@ -1571,7 +1569,7 @@ public class PPrint
                 }
 
                 condFlushLine(fout, indent);
-                printEndTag(fout, mode, indent, node);
+                printEndTag(mode, indent, node);
                 flushLine(fout, indent);
 
                 if (!this.configuration.indentContent && node.next != null)
@@ -1594,7 +1592,7 @@ public class PPrint
                 }
 
                 condFlushLine(fout, indent);
-                printEndTag(fout, mode, indent, node);
+                printEndTag(mode, indent, node);
                 flushLine(fout, indent);
 
                 if (!this.configuration.indentContent && node.next != null)
@@ -1657,7 +1655,7 @@ public class PPrint
                     }
                 }
 
-                printEndTag(fout, mode, indent, node);
+                printEndTag(mode, indent, node);
             }
             else
             {
@@ -1720,7 +1718,7 @@ public class PPrint
 
                     if (!this.configuration.hideEndTags || !((node.tag.model & Dict.CM_OPT) != 0))
                     {
-                        printEndTag(fout, mode, indent, node);
+                        printEndTag(mode, indent, node);
 
                         // #603128 tidy adds newslines after </html> tag
                         // Fix by Fabrizio Giustina 12-02-2004
@@ -1735,7 +1733,7 @@ public class PPrint
                 {
                     if (!this.configuration.hideEndTags || !((node.tag.model & Dict.CM_OPT) != 0))
                     {
-                        printEndTag(fout, mode, indent, node);
+                        printEndTag(mode, indent, node);
                     }
 
                     flushLine(fout, indent);
@@ -1865,7 +1863,7 @@ public class PPrint
             {
                 condFlushLine(fout, cindent);
             }
-            printEndTag(fout, mode, indent, node);
+            printEndTag(mode, indent, node);
             condFlushLine(fout, indent);
 
             // CPR: folks don't want so much vertical spacing in XML
@@ -1908,7 +1906,7 @@ public class PPrint
         String buf;
 
         condFlushLine(fout, indent);
-        printString(fout, indent, "<center><small>");
+        printString("<center><small>");
 
         NumberFormat numberFormat = NumberFormat.getInstance();
         numberFormat.setMinimumIntegerDigits(3);
@@ -1917,17 +1915,17 @@ public class PPrint
         {
             buf = "<a href=\"slide" + numberFormat.format(slide - 1) + ".html\">previous</a> | ";
             // #427666 - fix by Eric Rossen 02 Aug 00
-            printString(fout, indent, buf);
+            printString(buf);
             condFlushLine(fout, indent);
 
             if (slide < count)
             {
-                printString(fout, indent, "<a href=\"slide001.html\">start</a> | ");
+                printString("<a href=\"slide001.html\">start</a> | ");
                 // #427666 - fix by Eric Rossen 02 Aug 00
             }
             else
             {
-                printString(fout, indent, "<a href=\"slide001.html\">start</a>");
+                printString("<a href=\"slide001.html\">start</a>");
                 // #427666 - fix by Eric Rossen 02 Aug 00
             }
 
@@ -1938,10 +1936,10 @@ public class PPrint
         {
             buf = "<a href=\"slide" + numberFormat.format(slide + 1) + ".html\">next</a>";
             // #427666 - fix by Eric Rossen 02 Aug 00
-            printString(fout, indent, buf);
+            printString(buf);
         }
 
-        printString(fout, indent, "</small></center>");
+        printString("</small></center>");
         condFlushLine(fout, indent);
     }
 
@@ -1963,7 +1961,7 @@ public class PPrint
         s = "<div onclick=\"document.location='slide" + numberFormat.format(slide < count ? slide + 1 : 1)
             + ".html'\">";
         // #427666 - fix by Eric Rossen 02 Aug 00
-        printString(fout, indent, s);
+        printString(s);
         condFlushLine(fout, indent);
 
         /* first print the h2 element and navbar */
@@ -1980,7 +1978,7 @@ public class PPrint
 
             if (this.configuration.xmlOut)
             {
-                printString(fout, indent, " />");
+                printString(" />");
             }
             else
             {
@@ -2035,7 +2033,7 @@ public class PPrint
 
         condFlushLine(fout, indent);
 
-        printString(fout, indent, "<br clear=\"all\">");
+        printString("<br clear=\"all\">");
         condFlushLine(fout, indent);
 
         addC('<', linelen++);
@@ -2045,7 +2043,7 @@ public class PPrint
 
         if (this.configuration.xmlOut)
         {
-            printString(fout, indent, " />");
+            printString(" />");
         }
         else
         {
@@ -2060,7 +2058,7 @@ public class PPrint
         printNavBar(fout, indent);
 
         // end tag for div
-        printString(fout, indent, "</div>");
+        printString("</div>");
         condFlushLine(fout, indent);
     }
 
