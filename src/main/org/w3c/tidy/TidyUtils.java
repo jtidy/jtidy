@@ -59,7 +59,7 @@ package org.w3c.tidy;
  * @author Fabrizio Giustina
  * @version $Revision $ ($Author $)
  */
-public class TidyUtils
+public final class TidyUtils
 {
 
     /**
@@ -71,8 +71,8 @@ public class TidyUtils
 
     /**
      * Converts a int to a boolean.
-     * @param value
-     * @return
+     * @param value int value
+     * @return <code>true</code> if value is != 0
      */
     static boolean toBoolean(int value)
     {
@@ -80,7 +80,7 @@ public class TidyUtils
     }
 
     /**
-     * convert an int to unsigned (& 0xFF)
+     * convert an int to unsigned (& 0xFF).
      * @param c signed int
      * @return unsigned int
      */
@@ -116,6 +116,10 @@ public class TidyUtils
 
     /**
      * return offset of cc from beginning of s1, -1 if not found.
+     * @param s1 String
+     * @param len1 maximum offset (values > than lenl are ignored and returned as -1)
+     * @param cc character to search for
+     * @return index of cc in s1
      */
     static int wstrnchr(String s1, int len1, char cc)
     {
@@ -128,6 +132,12 @@ public class TidyUtils
         return -1;
     }
 
+    /**
+     * Same as wsubstrn, but without a specified length.
+     * @param s1 full String
+     * @param s2 String to search for
+     * @return <code>true</code> if s2 is found in s2 (case insensitive search)
+     */
     static boolean wsubstr(String s1, String s2)
     {
         int i;
