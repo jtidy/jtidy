@@ -777,13 +777,14 @@ public final class Report
 
     /**
      * Prints a "bad argument" error message. Lexer is not defined when this is called.
-     * @param option bad argument value
+     * @param key argument name
+     * @param value bad argument value
      */
     public void badArgument(String key, String value)
     {
         try
         {
-            System.err.println(MessageFormat.format(res.getString("bad_argument"), new Object[]{key, value}));
+            System.err.println(MessageFormat.format(res.getString("bad_argument"), new Object[]{value, key}));
         }
         catch (MissingResourceException e)
         {
