@@ -161,6 +161,9 @@ In addition, JTidy provides a DOM interface to the document that is being proces
             <version>1.0.3</version>
             <type>jar</type>
             <url></url>
+	        <properties>
+	          <comment>Only used in junit tests. Not needed at runtime.</comment>
+	        </properties>
         </dependency>
         <dependency>
             <groupId>ant</groupId>
@@ -168,7 +171,19 @@ In addition, JTidy provides a DOM interface to the document that is being proces
             <version>1.6</version>
             <type>jar</type>
             <url>http://ant.apache.org</url>
+	        <properties>
+	          <comment>Required to build and use the jtidy ant task.</comment>
+	        </properties>
         </dependency>
+		<dependency>
+	      <groupId>clover</groupId>
+	      <artifactId>clover</artifactId>
+	      <version>1.2.3</version>
+	      <url>http://www.thecortex.net/clover</url>
+	      <properties>
+	        <comment>Required to generate test coverage reports. Not needed at runtime.</comment>
+	      </properties>
+	    </dependency>
         <dependency>
             <groupId>maven-plugins</groupId>
             <artifactId>maven-sourceforge-plugin</artifactId>
@@ -231,11 +246,7 @@ In addition, JTidy provides a DOM interface to the document that is being proces
         <report>maven-clover-plugin</report>
         <report>maven-tasklist-plugin</report>
         <report>maven-simian-plugin</report>
-        <report>maven-changelog-plugin</report>
-        <report>maven-file-activity-plugin</report>
-        <report>maven-developer-activity-plugin</report>
         <report>maven-statcvs-plugin</report>
-        <report>maven-linkcheck-plugin</report>
         <report>maven-xhtml-plugin</report>
     </reports>
 </project>
