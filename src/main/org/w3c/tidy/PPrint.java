@@ -460,7 +460,7 @@ public class PPrint
             return;
         }
 
-        /* except in CDATA map < to &lt; etc.     */
+        /* except in CDATA map < to &lt; etc.      */
         if (!((mode & CDATA) != 0))
         {
             if (c == '<')
@@ -1645,8 +1645,7 @@ public class PPrint
                     flushLine(fout, indent);
                 }
 
-                if (!this.configuration.HideEndTags
-                    || !(node.tag != null && ((node.tag.model & Dict.CM_OMITST) != 0)))
+                if (!this.configuration.HideEndTags || !(node.tag != null && ((node.tag.model & Dict.CM_OMITST) != 0)))
                 {
                     printTag(lexer, fout, mode, indent, node);
 
@@ -1863,13 +1862,23 @@ public class PPrint
         }
     }
 
-    /* split parse tree by h2 elements and output to separate files */
-
-    /* counts number of h2 children belonging to node */
+    /**
+     * Split parse tree by h2 elements and output to separate files. counts number of h2 children (if any) belonging to
+     * node.
+     */
     public int countSlides(Node node)
     {
+        // assume minimum of 1 slide
         int n = 1;
+
         TagTable tt = this.configuration.tt;
+
+        //fix for [431716] avoid empty slides
+        if (node != null && node.content != null && node.content.tag == tt.tagH2)
+        {
+            // "first" slide is empty, so ignore it
+            n--;
+        }
 
         for (node = node.content; node != null; node = node.next)
         {
@@ -1950,7 +1959,7 @@ public class PPrint
         condFlushLine(fout, indent);
 
         /* first print the h2 element and navbar */
-        if (slidecontent!= null && slidecontent.tag == tt.tagH2)
+        if (slidecontent != null && slidecontent.tag == tt.tagH2)
         {
             printNavBar(fout, indent);
 
