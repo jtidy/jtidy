@@ -184,6 +184,22 @@ public class OutImpl extends Out
 
                 this.out.write(c);
             }
+            // #431953 - start RJ
+            else if (this.encoding == Configuration.BIG5 || this.encoding == Configuration.SHIFTJIS)
+            {
+                if (c < 128)
+                {
+                    this.out.write(c);
+                }
+                else
+                {
+                    ch = (c >> 8) & 0xFF;
+                    this.out.write(c);
+                    ch = c & 0xFF;
+                    this.out.write(c);
+                }
+            }
+            // #431953 - end RJ
             else
             {
                 this.out.write(c);

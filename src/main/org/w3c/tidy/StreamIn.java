@@ -86,6 +86,17 @@ public abstract class StreamIn
 
     public static final int FSM_NONASCII = 5;
 
+    /* this is the big-endian (default) UNICODE BOM */
+    public static final int UNICODE_BOM_BE = 0xFEFF;
+
+    public static final int UNICODE_BOM = UNICODE_BOM_BE;
+
+    /* this is the little-endian UNICODE BOM */
+    public static final int UNICODE_BOM_LE = 0xFFFE;
+
+    /* this is the UTF-8 UNICODE BOM */
+    public static final int UNICODE_BOM_UTF8 = 0xEFBBBF;
+
     /* non-raw input is cleaned up */
     public int state; /* FSM for ISO2022 */
 
@@ -108,7 +119,6 @@ public abstract class StreamIn
     public InputStream stream;
 
     public boolean endOfStream;
-    
 
     /**
      * needed for error reporting.

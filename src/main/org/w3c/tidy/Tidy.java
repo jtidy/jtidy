@@ -1301,6 +1301,20 @@ public class Tidy implements Serializable
 
             this.report.setFilename(inputStreamName); // #431895 - fix by Dave Bryan 04 Jan 01
 
+            // skip byte order mark
+            if (lexer.in.encoding == Configuration.UTF8
+                || lexer.in.encoding == Configuration.UTF16LE
+                || lexer.in.encoding == Configuration.UTF16BE
+                || lexer.in.encoding == Configuration.UTF16)
+            {
+                int c = lexer.in.readChar();
+
+                if (c != StreamIn.UNICODE_BOM)
+                {
+                    lexer.in.ungetChar(c);
+                }
+            }
+
             // Tidy doesn't alter the doctype for generic XML docs
             if (configuration.xmlTags)
             {
@@ -1712,6 +1726,30 @@ public class Tidy implements Serializable
                 {
                     configuration.charEncoding = Configuration.MACROMAN;
                 }
+                else if (arg.equalsIgnoreCase("utf16le"))
+                {
+                    configuration.charEncoding = Configuration.UTF16LE;
+                }
+                else if (arg.equalsIgnoreCase("utf16be"))
+                {
+                    configuration.charEncoding = Configuration.UTF16BE;
+                }
+                else if (arg.equalsIgnoreCase("utf16"))
+                {
+                    configuration.charEncoding = Configuration.UTF16;
+                }
+                else if (arg.equalsIgnoreCase("win1252"))
+                {
+                    configuration.charEncoding = Configuration.WIN1252;
+                }
+                else if (argv[argIndex].equalsIgnoreCase("-shiftjis")) // #431953 - RJ
+                {
+                    configuration.charEncoding = Configuration.SHIFTJIS;
+                }
+                else if (argv[argIndex].equalsIgnoreCase("-big5")) // #431953 - RJ
+                {
+                    configuration.charEncoding = Configuration.BIG5;
+                }
                 else if (arg.equalsIgnoreCase("numeric"))
                 {
                     configuration.numEntities = true;
@@ -1756,6 +1794,17 @@ public class Tidy implements Serializable
                         ++argIndex;
                     }
                 }
+                // #431953 - start RJ
+                else if (argv[argIndex].equalsIgnoreCase("-language") || argv[argIndex].equalsIgnoreCase("-lang"))
+                {
+                    if (argc >= 3)
+                    {
+                        configuration.language = argv[2];
+                        --argc;
+                        ++argIndex;
+                    }
+                }
+                // #431953 - end RJ
                 else if (argv[argIndex].equalsIgnoreCase("-file")
                     || argv[argIndex].equalsIgnoreCase("--file")
                     || argv[argIndex].equalsIgnoreCase("-f"))

@@ -1831,7 +1831,8 @@ public class Lexer
     {
         int c = 0;
         int badcomment = 0;
-        MutableBoolean isempty = new MutableBoolean();
+        // pass by reference
+        boolean[] isempty = new boolean[1];
         boolean inDTDSubset = false;
         AttVal attributes = null;
 
@@ -2250,10 +2251,10 @@ public class Lexer
                     // first letter of tagname
                     this.txtstart = this.lexsize - 1; // set txtstart to first letter
                     c = parseTagName();
-                    isempty.setValue(false);
+                    isempty[0] = false;
                     attributes = null;
                     this.token = newNode(
-                        (isempty.getValue() ? Node.START_END_TAG : Node.START_TAG),
+                        (isempty[0] ? Node.START_END_TAG : Node.START_TAG),
                         this.lexbuf,
                         this.txtstart,
                         this.txtend,
@@ -2270,7 +2271,7 @@ public class Lexer
                         attributes = parseAttrs(isempty);
                     }
 
-                    if (isempty.getValue())
+                    if (isempty[0])
                     {
                         this.token.type = Node.START_END_TAG;
                     }
@@ -2629,7 +2630,7 @@ public class Lexer
                         MutableObject php = new MutableObject();
                         AttVal av = new AttVal();
                         MutableInteger pdelim = new MutableInteger();
-                        isempty.setValue(false);
+                        isempty[0] = false;
 
                         this.in.ungetChar(c);
 
@@ -2872,8 +2873,9 @@ public class Lexer
 
     /**
      * consumes the '>' terminating start tags.
+     * @param isempty flag is passed as array so it can be modified
      */
-    public String parseAttribute(MutableBoolean isempty, MutableObject asp, MutableObject php)
+    public String parseAttribute(boolean[] isempty, MutableObject asp, MutableObject php)
     {
         int start = 0;
         String attr;
@@ -2894,7 +2896,7 @@ public class Lexer
 
                 if (c == '>')
                 {
-                    isempty.setValue(true);
+                    isempty[0] = true;
                     return null;
                 }
 
@@ -3118,7 +3120,7 @@ public class Lexer
     // values start with "=" or " = " etc.
     // doesn't consume the ">" at end of start tag
 
-    public String parseValue(String name, boolean foldCase, MutableBoolean isempty, MutableInteger pdelim)
+    public String parseValue(String name, boolean foldCase, boolean[] isempty, MutableInteger pdelim)
     {
         int len = 0;
         int start;
@@ -3255,7 +3257,7 @@ public class Lexer
 
                     if (c == '>' && !AttributeTable.getDefaultAttributeTable().isUrl(name))
                     {
-                        isempty.setValue(true);
+                        isempty[0] = true;
                         this.in.ungetChar(c);
                         break;
                     }
@@ -3430,7 +3432,7 @@ public class Lexer
     }
 
     // swallows closing '>'
-    public AttVal parseAttrs(MutableBoolean isempty)
+    public AttVal parseAttrs(boolean[] isempty)
     {
         AttVal av, list;
         String attribute, value;
