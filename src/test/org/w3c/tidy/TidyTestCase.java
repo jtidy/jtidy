@@ -90,7 +90,7 @@ public class TidyTestCase extends TestCase
     /**
      * flag used to enable/disable output file generation using tidy c executable.
      */
-    private static final boolean RUN_TIDY_EXECUTABLE = true;
+    private static final boolean RUN_TIDY_EXECUTABLE = false;
 
     /**
      * Tidy test instance.
