@@ -217,7 +217,7 @@ public final class ParserImpl
 
             if (node.tag.parser != null)
             {
-                parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
             }
         }
         else
@@ -241,7 +241,7 @@ public final class ParserImpl
 
             while (true)
             {
-                node = lexer.getToken(Lexer.IgnoreWhitespace);
+                node = lexer.getToken(Lexer.IGNORE_WHITESPACE);
 
                 if (node == null)
                 {
@@ -277,7 +277,7 @@ public final class ParserImpl
 
             while (true)
             {
-                node = lexer.getToken(Lexer.IgnoreWhitespace);
+                node = lexer.getToken(Lexer.IGNORE_WHITESPACE);
 
                 if (node == null)
                 {
@@ -452,7 +452,7 @@ public final class ParserImpl
             int hasBase = 0;
             TagTable tt = lexer.configuration.tt;
 
-            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
+            while ((node = lexer.getToken(Lexer.IGNORE_WHITESPACE)) != null)
             {
                 if (node.tag == head.tag && node.type == Node.EndTag)
                 {
@@ -517,7 +517,7 @@ public final class ParserImpl
                     }
 
                     Node.insertNodeAtEnd(head, node);
-                    parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
                     continue;
                 }
 
@@ -541,7 +541,7 @@ public final class ParserImpl
         {
             Node node;
 
-            while ((node = lexer.getToken(Lexer.MixedContent)) != null)
+            while ((node = lexer.getToken(Lexer.MIXED_CONTENT)) != null)
             {
                 // [438658] : Missing / in title endtag makes 2 titles
                 if (node.tag == title.tag && node.type == Node.StartTag)
@@ -629,7 +629,7 @@ public final class ParserImpl
             Node node;
             boolean checkstack, iswhitenode;
 
-            mode = Lexer.IgnoreWhitespace;
+            mode = Lexer.IGNORE_WHITESPACE;
             checkstack = true;
             TagTable tt = lexer.configuration.tt;
 
@@ -640,7 +640,7 @@ public final class ParserImpl
                     body.closed = true;
                     Node.trimSpaces(lexer, body);
                     lexer.seenEndBody = 1;
-                    mode = Lexer.IgnoreWhitespace;
+                    mode = Lexer.IGNORE_WHITESPACE;
 
                     if (body.parent.tag == tt.tagNoframes)
                     {
@@ -712,7 +712,7 @@ public final class ParserImpl
                 // mixed content model permits text
                 if (node.type == Node.TextNode)
                 {
-                    if (iswhitenode && mode == Lexer.IgnoreWhitespace)
+                    if (iswhitenode && mode == Lexer.IGNORE_WHITESPACE)
                     {
                         continue;
                     }
@@ -725,7 +725,7 @@ public final class ParserImpl
                         para = lexer.inferredTag("p");
                         Node.insertNodeAtEnd(body, para);
                         parseTag(lexer, para, mode);
-                        mode = Lexer.MixedContent;
+                        mode = Lexer.MIXED_CONTENT;
                         continue;
                     }
                     else
@@ -745,7 +745,7 @@ public final class ParserImpl
                     }
 
                     Node.insertNodeAtEnd(body, node);
-                    mode = Lexer.MixedContent;
+                    mode = Lexer.MIXED_CONTENT;
                     continue;
                 }
 
@@ -872,12 +872,12 @@ public final class ParserImpl
                             }
                         }
 
-                        mode = Lexer.MixedContent;
+                        mode = Lexer.MIXED_CONTENT;
                     }
                     else
                     {
                         checkstack = true;
-                        mode = Lexer.IgnoreWhitespace;
+                        mode = Lexer.IGNORE_WHITESPACE;
                     }
 
                     if (node.implicit)
@@ -907,7 +907,7 @@ public final class ParserImpl
 
             lexer.badAccess |= Report.USING_FRAMES;
 
-            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
+            while ((node = lexer.getToken(Lexer.IGNORE_WHITESPACE)) != null)
             {
                 if (node.tag == frameset.tag && node.type == Node.EndTag)
                 {
@@ -948,7 +948,7 @@ public final class ParserImpl
                 {
                     Node.insertNodeAtEnd(frameset, node);
                     lexer.excludeBlocks = false;
-                    parseTag(lexer, node, Lexer.MixedContent);
+                    parseTag(lexer, node, Lexer.MIXED_CONTENT);
                     continue;
                 }
                 else if (node.type == Node.StartEndTag && (node.tag.model & Dict.CM_FRAMES) != 0)
@@ -1015,9 +1015,9 @@ public final class ParserImpl
             }
 
             // Inline elements may or may not be within a preformatted element
-            if (mode != Lexer.Preformatted)
+            if (mode != Lexer.PREFORMATTED)
             {
-                mode = Lexer.MixedContent;
+                mode = Lexer.MIXED_CONTENT;
             }
 
             while ((node = lexer.getToken(mode)) != null)
@@ -1030,7 +1030,7 @@ public final class ParserImpl
                         lexer.popInline(node);
                     }
 
-                    if (!((mode & Lexer.Preformatted) != 0))
+                    if (!((mode & Lexer.PREFORMATTED) != 0))
                     {
                         Node.trimSpaces(lexer, element);
                     }
@@ -1107,7 +1107,7 @@ public final class ParserImpl
                 if (node.type == Node.TextNode)
                 {
                     // only called for 1st child
-                    if (element.content == null && !((mode & Lexer.Preformatted) != 0))
+                    if (element.content == null && !((mode & Lexer.PREFORMATTED) != 0))
                     {
                         Node.trimSpaces(lexer, element);
                     }
@@ -1138,7 +1138,7 @@ public final class ParserImpl
 
                     // otherwise infer end of inline element
                     lexer.ungetToken();
-                    if (!((mode & Lexer.Preformatted) != 0))
+                    if (!((mode & Lexer.PREFORMATTED) != 0))
                     {
                         Node.trimSpaces(lexer, element);
                     }
@@ -1149,7 +1149,7 @@ public final class ParserImpl
                 // within <dt> or <pre> map <p> to <br>
                 if (node.tag == tt.tagP
                     && node.type == Node.StartTag
-                    && ((mode & Lexer.Preformatted) != 0 || element.tag == tt.tagDt || element.isDescendantOf(tt.tagDt)))
+                    && ((mode & Lexer.PREFORMATTED) != 0 || element.tag == tt.tagDt || element.isDescendantOf(tt.tagDt)))
                 {
                     node.tag = tt.tagBr;
                     node.element = "br";
@@ -1207,7 +1207,7 @@ public final class ParserImpl
                                 lexer.report.warning(lexer, element, node, Report.NON_MATCHING_ENDTAG);
                             }
 
-                            if (!((mode & Lexer.Preformatted) != 0))
+                            if (!((mode & Lexer.PREFORMATTED) != 0))
                             {
                                 Node.trimSpaces(lexer, element);
                             }
@@ -1240,7 +1240,7 @@ public final class ParserImpl
                         lexer.report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
                         lexer.ungetToken();
                     }
-                    if (!((mode & Lexer.Preformatted) != 0))
+                    if (!((mode & Lexer.PREFORMATTED) != 0))
                     {
                         Node.trimSpaces(lexer, element);
                     }
@@ -1270,7 +1270,7 @@ public final class ParserImpl
                     lexer.ungetToken();
                     lexer.report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
                     lexer.popInline(element);
-                    if (!((mode & Lexer.Preformatted) != 0))
+                    if (!((mode & Lexer.PREFORMATTED) != 0))
                     {
                         Node.trimSpaces(lexer, element);
                     }
@@ -1300,7 +1300,7 @@ public final class ParserImpl
                         // split heading and make center parent of 2nd part
                         Node.insertNodeAfterElement(element, node);
 
-                        if (!((mode & Lexer.Preformatted) != 0))
+                        if (!((mode & Lexer.PREFORMATTED) != 0))
                         {
                             Node.trimSpaces(lexer, element);
                         }
@@ -1332,7 +1332,7 @@ public final class ParserImpl
                         // split heading and insert hr before 2nd part
                         Node.insertNodeAfterElement(element, node);
 
-                        if (!((mode & Lexer.Preformatted) != 0))
+                        if (!((mode & Lexer.PREFORMATTED) != 0))
                         {
                             Node.trimSpaces(lexer, element);
                         }
@@ -1372,7 +1372,7 @@ public final class ParserImpl
                         Node.insertNodeAfterElement(element, dd);
                         Node.insertNodeAtEnd(dd, node);
 
-                        if (!((mode & Lexer.Preformatted) != 0))
+                        if (!((mode & Lexer.PREFORMATTED) != 0))
                         {
                             Node.trimSpaces(lexer, element);
                         }
@@ -1405,7 +1405,7 @@ public final class ParserImpl
 
                             lexer.ungetToken();
 
-                            if (!((mode & Lexer.Preformatted) != 0))
+                            if (!((mode & Lexer.PREFORMATTED) != 0))
                             {
                                 Node.trimSpaces(lexer, element);
                             }
@@ -1454,7 +1454,7 @@ public final class ParserImpl
 
                     lexer.ungetToken();
 
-                    if (!((mode & Lexer.Preformatted) != 0))
+                    if (!((mode & Lexer.PREFORMATTED) != 0))
                     {
                         Node.trimSpaces(lexer, element);
                     }
@@ -1511,7 +1511,7 @@ public final class ParserImpl
 
             lexer.insert = -1; // defer implicit inline start tags
 
-            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
+            while ((node = lexer.getToken(Lexer.IGNORE_WHITESPACE)) != null)
             {
                 if (node.tag == list.tag && node.type == Node.EndTag)
                 {
@@ -1594,7 +1594,7 @@ public final class ParserImpl
 
                 // node should be <LI>
                 Node.insertNodeAtEnd(list, node);
-                parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
             }
 
             if ((list.tag.model & Dict.CM_OBSOLETE) != 0)
@@ -1623,7 +1623,7 @@ public final class ParserImpl
 
             lexer.insert = -1; // defer implicit inline start tags
 
-            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
+            while ((node = lexer.getToken(Lexer.IGNORE_WHITESPACE)) != null)
             {
                 if (node.tag == list.tag && node.type == Node.EndTag)
                 {
@@ -1728,7 +1728,7 @@ public final class ParserImpl
 
                 // node should be <DT> or <DD>
                 Node.insertNodeAtEnd(list, node);
-                parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
             }
 
             lexer.report.warning(lexer, list, node, Report.MISSING_ENDTAG_FOR);
@@ -1757,7 +1757,7 @@ public final class ParserImpl
 
             lexer.inlineDup(null); // tell lexer to insert inlines if needed
 
-            while ((node = lexer.getToken(Lexer.Preformatted)) != null)
+            while ((node = lexer.getToken(Lexer.PREFORMATTED)) != null)
             {
                 if (node.tag == pre.tag && node.type == Node.EndTag)
                 {
@@ -1894,7 +1894,7 @@ public final class ParserImpl
                     Node.insertNodeAfterElement(pre, node);
                     pre = lexer.inferredTag("pre");
                     Node.insertNodeAfterElement(node, pre);
-                    parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
                     lexer.excludeBlocks = false;
                     continue;
                 }
@@ -1911,7 +1911,7 @@ public final class ParserImpl
                     }
 
                     Node.insertNodeAtEnd(pre, node);
-                    parseTag(lexer, node, Lexer.Preformatted);
+                    parseTag(lexer, node, Lexer.PREFORMATTED);
                     continue;
                 }
 
@@ -1968,7 +1968,7 @@ public final class ParserImpl
                 lexer.inlineDup(null);
             }
 
-            mode = Lexer.IgnoreWhitespace;
+            mode = Lexer.IGNORE_WHITESPACE;
 
             while ((node = lexer.getToken(mode)) != null)
             {
@@ -2078,7 +2078,7 @@ public final class ParserImpl
                         lexer.ungetToken();
                         node = lexer.inferredTag("p");
                         Node.insertNodeAtEnd(element, node);
-                        parseTag(lexer, node, Lexer.MixedContent);
+                        parseTag(lexer, node, Lexer.MIXED_CONTENT);
                         continue;
                     }
 
@@ -2096,7 +2096,7 @@ public final class ParserImpl
                     }
 
                     Node.insertNodeAtEnd(element, node);
-                    mode = Lexer.MixedContent;
+                    mode = Lexer.MIXED_CONTENT;
 
                     // HTML4 strict doesn't allow mixed content for elements with %block; as their content model
 
@@ -2312,12 +2312,12 @@ public final class ParserImpl
                             }
                         }
 
-                        mode = Lexer.MixedContent;
+                        mode = Lexer.MIXED_CONTENT;
                     }
                     else
                     {
                         checkstack = true;
-                        mode = Lexer.IgnoreWhitespace;
+                        mode = Lexer.IGNORE_WHITESPACE;
                     }
 
                     // trim white space before <br>
@@ -2333,7 +2333,7 @@ public final class ParserImpl
                         lexer.report.warning(lexer, element, node, Report.INSERTING_TAG);
                     }
 
-                    parseTag(lexer, node, Lexer.IgnoreWhitespace // Lexer.MixedContent
+                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE // Lexer.MixedContent
                     );
                     continue;
                 }
@@ -2381,7 +2381,7 @@ public final class ParserImpl
             istackbase = lexer.istackbase;
             lexer.istackbase = lexer.istack.size();
 
-            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
+            while ((node = lexer.getToken(Lexer.IGNORE_WHITESPACE)) != null)
             {
                 if (node.tag == table.tag && node.type == Node.EndTag)
                 {
@@ -2422,7 +2422,7 @@ public final class ParserImpl
 
                         if (!(node.type == Node.TextNode)) // #427662 - was (!node->type == TextNode) - fix by Young
                         {
-                            parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                            parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
                         }
 
                         lexer.exiled = false;
@@ -2478,7 +2478,7 @@ public final class ParserImpl
                 {
                     Node.insertNodeAtEnd(table, node);
 
-                    parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
                     continue;
                 }
 
@@ -2506,7 +2506,7 @@ public final class ParserImpl
                 return;
             }
 
-            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
+            while ((node = lexer.getToken(Lexer.IGNORE_WHITESPACE)) != null)
             {
                 if (node.tag == colgroup.tag && node.type == Node.EndTag)
                 {
@@ -2569,7 +2569,7 @@ public final class ParserImpl
 
                 // node should be <COL>
                 Node.insertNodeAtEnd(colgroup, node);
-                parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
             }
         }
 
@@ -2588,7 +2588,7 @@ public final class ParserImpl
                 return;
             }
 
-            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
+            while ((node = lexer.getToken(Lexer.IGNORE_WHITESPACE)) != null)
             {
                 if (node.tag == rowgroup.tag)
                 {
@@ -2644,7 +2644,7 @@ public final class ParserImpl
 
                         if (node.type != Node.TextNode)
                         {
-                            parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                            parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
                         }
 
                         lexer.exiled = false;
@@ -2714,7 +2714,7 @@ public final class ParserImpl
 
                 // node should be <TR>
                 Node.insertNodeAtEnd(rowgroup, node);
-                parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
             }
 
             Node.trimEmptyElement(lexer, rowgroup);
@@ -2736,7 +2736,7 @@ public final class ParserImpl
                 return;
             }
 
-            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
+            while ((node = lexer.getToken(Lexer.IGNORE_WHITESPACE)) != null)
             {
                 if (node.tag == row.tag)
                 {
@@ -2833,7 +2833,7 @@ public final class ParserImpl
 
                         if (node.type != Node.TextNode)
                         {
-                            parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                            parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
                         }
 
                         lexer.exiled = false;
@@ -2857,7 +2857,7 @@ public final class ParserImpl
                 Node.insertNodeAtEnd(row, node);
                 exclude_state = lexer.excludeBlocks;
                 lexer.excludeBlocks = false;
-                parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
                 lexer.excludeBlocks = exclude_state;
 
                 // pop inline stack
@@ -2882,7 +2882,7 @@ public final class ParserImpl
             TagTable tt = lexer.configuration.tt;
 
             lexer.badAccess |= Report.USING_NOFRAMES;
-            mode = Lexer.IgnoreWhitespace;
+            mode = Lexer.IGNORE_WHITESPACE;
 
             while ((node = lexer.getToken(mode)) != null)
             {
@@ -2932,7 +2932,7 @@ public final class ParserImpl
                 if (node.tag == tt.tagBody && node.type == Node.StartTag)
                 {
                     Node.insertNodeAtEnd(noframes, node);
-                    parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
                     // MixedContent
                     continue;
                 }
@@ -2947,7 +2947,7 @@ public final class ParserImpl
                         lexer.report.warning(lexer, noframes, node, Report.INSERTING_TAG);
                     }
                     Node.insertNodeAtEnd(noframes, node);
-                    parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
                     // MixedContent
                     continue;
                 }
@@ -2970,7 +2970,7 @@ public final class ParserImpl
 
             lexer.insert = -1; // defer implicit inline start tags
 
-            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
+            while ((node = lexer.getToken(Lexer.IGNORE_WHITESPACE)) != null)
             {
                 if (node.tag == field.tag && node.type == Node.EndTag)
                 {
@@ -2989,7 +2989,7 @@ public final class ParserImpl
                     && (node.tag == tt.tagOption || node.tag == tt.tagOptgroup || node.tag == tt.tagScript))
                 {
                     Node.insertNodeAtEnd(field, node);
-                    parseTag(lexer, node, Lexer.IgnoreWhitespace);
+                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
                     continue;
                 }
 
@@ -3014,7 +3014,7 @@ public final class ParserImpl
 
             if (field.tag == tt.tagTextarea)
             {
-                mode = Lexer.Preformatted;
+                mode = Lexer.PREFORMATTED;
             }
 
             while ((node = lexer.getToken(mode)) != null)
@@ -3035,7 +3035,7 @@ public final class ParserImpl
                 if (node.type == Node.TextNode)
                 {
                     // only called for 1st child
-                    if (field.content == null && !((mode & Lexer.Preformatted) != 0))
+                    if (field.content == null && !((mode & Lexer.PREFORMATTED) != 0))
                     {
                         Node.trimSpaces(lexer, field);
                     }
@@ -3084,7 +3084,7 @@ public final class ParserImpl
 
             lexer.insert = -1; // defer implicit inline start tags
 
-            while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
+            while ((node = lexer.getToken(Lexer.IGNORE_WHITESPACE)) != null)
             {
                 if (node.tag == field.tag && node.type == Node.EndTag)
                 {
@@ -3107,7 +3107,7 @@ public final class ParserImpl
                     }
 
                     Node.insertNodeAtEnd(field, node);
-                    parseTag(lexer, node, Lexer.MixedContent);
+                    parseTag(lexer, node, Lexer.MIXED_CONTENT);
                     continue;
                 }
 
@@ -3225,7 +3225,7 @@ public final class ParserImpl
         document = lexer.newNode();
         document.type = Node.RootNode;
 
-        while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
+        while ((node = lexer.getToken(Lexer.IGNORE_WHITESPACE)) != null)
         {
             // deal with comments etc.
             if (Node.insertMisc(document, node))
@@ -3278,11 +3278,11 @@ public final class ParserImpl
      * found, then the following element names result in a return value of <code>true:
      *  pre, script, style,</code> and
      * <code>xsl:text</code>. Finally, if a <code>TagTable</code> was passed in and the element appears as the
-     * "pre" element in the <code>TagTable</code>, then <code>true</code> will be returned. Otherwise, <code>false</code>
-     * is returned.
+     * "pre" element in the <code>TagTable</code>, then <code>true</code> will be returned. Otherwise,
+     * <code>false</code> is returned.
      * @param element The <code>Node</code> to test to see if whitespace should be preserved.
-     * @param tt The <code>TagTable</code> to test for the <code>getNodePre()</code> function. This may be <code>null</code>,
-     * in which case this test is bypassed.
+     * @param tt The <code>TagTable</code> to test for the <code>getNodePre()</code> function. This may be
+     * <code>null</code>, in which case this test is bypassed.
      * @return <code>true</code> or <code>false</code>, as explained above.
      */
     public static boolean XMLPreserveWhiteSpace(Node element, TagTable tt)
@@ -3335,7 +3335,7 @@ public final class ParserImpl
 
         if (XMLPreserveWhiteSpace(element, lexer.configuration.tt))
         {
-            mode = Lexer.Preformatted;
+            mode = Lexer.PREFORMATTED;
         }
 
         while ((node = lexer.getToken(mode)) != null)
@@ -3367,7 +3367,7 @@ public final class ParserImpl
 
         node = element.content;
 
-        if (node != null && node.type == Node.TextNode && mode != Lexer.Preformatted)
+        if (node != null && node.type == Node.TextNode && mode != Lexer.PREFORMATTED)
         {
             if (node.textarray[node.start] == (byte) ' ')
             {
@@ -3385,7 +3385,7 @@ public final class ParserImpl
 
         node = element.last;
 
-        if (node != null && node.type == Node.TextNode && mode != Lexer.Preformatted)
+        if (node != null && node.type == Node.TextNode && mode != Lexer.PREFORMATTED)
         {
             if (node.textarray[node.end - 1] == (byte) ' ')
             {
@@ -3408,7 +3408,7 @@ public final class ParserImpl
         doctype = null;
         lexer.configuration.xmlTags = true;
 
-        while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
+        while ((node = lexer.getToken(Lexer.IGNORE_WHITESPACE)) != null)
         {
             // discard unexpected end tags
             if (node.type == Node.EndTag)
@@ -3441,7 +3441,7 @@ public final class ParserImpl
             if (node.type == Node.StartTag)
             {
                 Node.insertNodeAtEnd(document, node);
-                parseXMLElement(lexer, node, Lexer.IgnoreWhitespace);
+                parseXMLElement(lexer, node, Lexer.IGNORE_WHITESPACE);
             }
 
         }
