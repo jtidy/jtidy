@@ -62,6 +62,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 
@@ -79,6 +81,32 @@ public class Tidy implements Serializable
      * Serial Version UID to avoid problems during serialization.
      */
     static final long serialVersionUID = -2794371560623987718L;
+
+    /**
+     * Alias for configuration options accepted in command line.
+     */
+    private static final Map CMDLINE_ALIAS = new HashMap();
+
+    static
+    {
+        CMDLINE_ALIAS.put("xml", "input-xml");
+        CMDLINE_ALIAS.put("xml", "output-xhtml");
+        CMDLINE_ALIAS.put("asxml", "output-xhtml");
+        CMDLINE_ALIAS.put("ashtml", "output-html");
+        CMDLINE_ALIAS.put("omit", "hide-endtags");
+        CMDLINE_ALIAS.put("upper", "uppercase-tags");
+        CMDLINE_ALIAS.put("raw", "output-raw");
+        CMDLINE_ALIAS.put("numeric", "numeric-entities");
+        CMDLINE_ALIAS.put("change", "write-back");
+        CMDLINE_ALIAS.put("update", "write-back");
+        CMDLINE_ALIAS.put("modify", "write-back");
+        CMDLINE_ALIAS.put("errors", "only-errors");
+        CMDLINE_ALIAS.put("slides", "split");
+        CMDLINE_ALIAS.put("lang", "language");
+        CMDLINE_ALIAS.put("w", "wrap");
+        CMDLINE_ALIAS.put("file", "error-file");
+        CMDLINE_ALIAS.put("f", "error-file");
+    }
 
     /**
      * Error output stream.
@@ -673,6 +701,7 @@ public class Tidy implements Serializable
         int argIndex = 0;
 
         // read command line
+        Properties properties = new Properties();
 
         while (argCount > 1)
         {
@@ -685,15 +714,7 @@ public class Tidy implements Serializable
                     argName = argName.substring(1);
                 }
 
-                // optional value for non boolean options
-                String argValue = null;
-                if (argCount > 2 && !argv[argIndex + 1].startsWith("-"))
-                {
-                    argValue = argv[argIndex + 1];
-                    --argCount;
-                    ++argIndex;
-                }
-
+                // "exclusive" options
                 if (argName.equals("help") || argName.equals("h") || argName.equals("?"))
                 {
                     this.report.helpText(new PrintWriter(System.out, true));
@@ -715,98 +736,37 @@ public class Tidy implements Serializable
                     this.report.showVersion(errout);
                     return 0;
                 }
-                else if (argName.equals("xml"))
+
+                // optional value for non boolean options
+                String argValue = null;
+                if (argCount > 2 && !argv[argIndex + 1].startsWith("-"))
                 {
-                    configuration.xmlTags = true;
+                    argValue = argv[argIndex + 1];
+                    --argCount;
+                    ++argIndex;
                 }
-                else if (argName.equals("asxml") || argName.equals("asxhtml"))
+
+                // handle "special" aliases
+                String alias = (String) CMDLINE_ALIAS.get(argName);
+                if (alias != null)
                 {
-                    configuration.xHTML = true;
+                    argName = alias;
                 }
-                else if (argName.equals("ashtml"))
+
+                if (Configuration.isKnownOption(argName)) // handle any standard config option
                 {
-                    configuration.htmlOut = true;
+                    properties.setProperty(argName, (argValue == null ? "" : argName));
                 }
-                else if (argName.equals("indent"))
-                {
-                    configuration.indentContent = true;
-                    configuration.smartIndent = true;
-                }
-                else if (argName.equals("omit"))
-                {
-                    configuration.hideEndTags = true;
-                }
-                else if (argName.equals("upper"))
-                {
-                    configuration.upperCaseTags = true;
-                }
-                else if (argName.equals("clean"))
-                {
-                    configuration.makeClean = true;
-                }
-                else if (argName.equals("bare"))
-                {
-                    configuration.makeBare = true;
-                }
-                else if (argName.equals("raw"))
-                {
-                    configuration.rawOut = true;
-                }
-                else if (argName.equals("numeric"))
-                {
-                    configuration.numEntities = true;
-                }
-                else if (argName.equals("modify"))
-                {
-                    configuration.writeback = true;
-                }
-                else if (argName.equals("change") || argName.equals("update")) // obsolete
-                {
-                    configuration.writeback = true;
-                }
-                else if (argName.equals("errors"))
-                {
-                    configuration.onlyErrors = true;
-                }
-                else if (argName.equals("quiet"))
-                {
-                    configuration.quiet = true;
-                }
-                else if (argName.equals("slides"))
-                {
-                    configuration.burstSlides = true;
-                }
-                else if (argName.equals("config"))
+                else if (argName.equals("config")) // parse a property file
                 {
                     if (argValue != null)
                     {
                         configuration.parseFile(argValue);
                     }
                 }
-                else if (argName.equals("language") || argName.equals("lang"))
+                else if (TidyUtils.isCharEncodingSupported(argName)) // handle any encoding name
                 {
-                    if (argValue != null)
-                    {
-                        configuration.language = argValue;
-                    }
-                }
-                else if (argName.equals("file") || argName.equals("f"))
-                {
-                    if (argValue != null)
-                    {
-                        configuration.errfile = argValue;
-                    }
-                }
-                else if (argName.equals("wrap") || argName.equals("w"))
-                {
-                    if (argValue != null)
-                    {
-                        configuration.wraplen = Integer.parseInt(argValue);
-                    }
-                }
-                else if (TidyUtils.isCharEncodingSupported(argName)) // this test should handle any encoding name
-                {
-                    configuration.setInOutEncodingName(argName);
+                    properties.setProperty("char-encoding", argName);
                 }
                 else
                 {
@@ -863,6 +823,8 @@ public class Tidy implements Serializable
                 ++argIndex;
                 continue;
             }
+
+            configuration.addProps(properties);
 
             // ensure config is self-consistent
             configuration.adjust();

@@ -757,6 +757,16 @@ public class Configuration implements Serializable
     }
 
     /**
+     * Is the given String a valid configuration flag?
+     * @param name configuration parameter name
+     * @return <code>true</code> if the given String is a valid config option
+     */
+    public static boolean isKnownOption(String name)
+    {
+        return name != null && OPTIONS.containsKey(name);
+    }
+
+    /**
      * Parses the configuration properties file.
      */
     private void parseProps()
