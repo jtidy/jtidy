@@ -91,12 +91,16 @@ public class Lexer
 
     private static final String VOYAGER_FRAMESET = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd";
 
+    private static final String VOYAGER_11 = "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd";
+
     private static final String XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 
     private static Lexer.W3CVersionInfo[] W3CVersion = {
+        new W3CVersionInfo("HTML 4.01", "XHTML 1.1", VOYAGER_11, Dict.VERS_XHTML11),
         new W3CVersionInfo("HTML 4.01", "XHTML 1.0 Strict", VOYAGER_STRICT, Dict.VERS_HTML40_STRICT),
         new W3CVersionInfo("HTML 4.01 Transitional", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML40_LOOSE),
         new W3CVersionInfo("HTML 4.01 Frameset", "XHTML 1.0 Frameset", VOYAGER_FRAMESET, Dict.VERS_FRAMESET),
+        new W3CVersionInfo("HTML 4.0", "XHTML 1.1", VOYAGER_11, Dict.VERS_XHTML11),
         new W3CVersionInfo("HTML 4.0", "XHTML 1.0 Strict", VOYAGER_STRICT, Dict.VERS_HTML40_STRICT),
         new W3CVersionInfo("HTML 4.0 Transitional", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML40_LOOSE),
         new W3CVersionInfo("HTML 4.0 Frameset", "XHTML 1.0 Frameset", VOYAGER_FRAMESET, Dict.VERS_FRAMESET),
@@ -1160,6 +1164,14 @@ public class Lexer
                 }
 
                 break; // to replace old version by new
+
+            case Dict.VERS_XHTML11 :
+                if ((this.versions & Dict.VERS_XHTML11) != 0)
+                {
+                    return Dict.VERS_XHTML11;
+                }
+
+                break;
 
             case Dict.VERS_HTML40_STRICT :
                 if ((this.versions & Dict.VERS_HTML40_STRICT) != 0)
@@ -3010,6 +3022,8 @@ public class Lexer
                     // #438650 - fix by Randy Waki
                     if (c == '\n' && AttributeTable.getDefaultAttributeTable().isUrl(name))
                     {
+                        // warn that we discard this newline
+                        report.attrError(this, this.token, null, Report.NEWLINE_IN_URI);
                         continue;
                     }
 
