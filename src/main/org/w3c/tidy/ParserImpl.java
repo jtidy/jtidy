@@ -324,6 +324,13 @@ public class ParserImpl
                         moveToHead(lexer, html, node);
                         continue;
                     }
+
+                    // discard illegal frame element following a frameset
+                    if (frameset != null && node.tag == tt.tagFrame)
+                    {
+                        Report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
+                        continue;
+                    }
                 }
 
                 lexer.ungetToken();
