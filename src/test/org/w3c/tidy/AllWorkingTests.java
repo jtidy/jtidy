@@ -8,7 +8,7 @@ import junit.framework.TestSuite;
 /**
  * Testsuite for all the test cases actually working in JTidy. Must be used to assure there are no regressions after a
  * change.
- * @author fgiust
+ * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
 public final class AllWorkingTests
@@ -63,6 +63,7 @@ public final class AllWorkingTests
         suite.addTest(new TidyWarningBugsTest("test431883"));
         suite.addTest(new TidyWarningBugsTest("test431956"));
         suite.addTest(new TidyWarningBugsTest("test431964"));
+        suite.addTest(new TidyWarningBugsTest("test433021"));
         suite.addTest(new TidyWarningBugsTest("test435917"));
         suite.addTest(new TidyWarningBugsTest("test501230"));
         suite.addTest(new TidyWarningBugsTest("test501669"));

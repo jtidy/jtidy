@@ -531,9 +531,9 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageBadAttributeValue() throws Exception
     {
-        String message = this.report.getMessage(lexer, "bad_attribute_value", new Object[]{"<test>", "bee"},
+        String message = this.report.getMessage(lexer, "bad_attribute_value", new Object[]{"<test>", "bee", "ant"},
             TidyMessage.Level.WARNING);
-        assertEquals("line 12 column 34 - Warning: <test> unknown attribute value \"bee\"", message);
+        assertEquals("line 12 column 34 - Warning: <test> attribute \"bee\" has invalid value \"ant\"", message);
     }
 
     /**

@@ -467,8 +467,10 @@ public final class Report
             }
             else if (code == BAD_ATTRIBUTE_VALUE)
             {
-                printMessage(lexer, "bad_attribute_value", new Object[]{getTagName(node), attribute.value},
-                    TidyMessage.Level.WARNING);
+                printMessage(lexer, "bad_attribute_value", new Object[]{
+                    getTagName(node),
+                    attribute.attribute,
+                    attribute.value}, TidyMessage.Level.WARNING);
             }
             else if (code == XML_ATTRIBUTE_VALUE)
             {

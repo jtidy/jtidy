@@ -7,8 +7,7 @@ import junit.framework.TestSuite;
 
 /**
  * Testsuite for all the test cases actually NOT working in JTidy.
- * 
- * @author fgiust
+ * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
 public final class AllNotWorkingTests
@@ -23,7 +22,6 @@ public final class AllNotWorkingTests
 
     /**
      * Generates the suite.
-     * 
      * @return junit test suite.
      */
     public static Test suite()
@@ -136,7 +134,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyOutputBugsTest("test695408"));
 
         suite.addTest(new TidyWarningBugsTest("test427810"));
-        suite.addTest(new TidyWarningBugsTest("test433021"));
         suite.addTest(new TidyWarningBugsTest("test433607"));
         suite.addTest(new TidyWarningBugsTest("test433670"));
         suite.addTest(new TidyWarningBugsTest("test434047"));
