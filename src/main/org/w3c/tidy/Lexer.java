@@ -3396,7 +3396,10 @@ public class Lexer
         return true;
     }
 
-    // duplicate name attribute as an id
+    /**
+     * duplicate name attribute as an id and check if id and name match.
+     * @param node Node to check for name/it attributes
+     */
     public void fixId(Node node)
     {
         AttVal name = node.getAttrByName("name");
