@@ -79,7 +79,7 @@ public class Tidy implements Serializable
     private boolean initialized;
 
     /**
-     * error output stream
+     * error output stream.
      */
     private PrintWriter errout;
     private PrintWriter stderr;
@@ -134,7 +134,8 @@ public class Tidy implements Serializable
     }
 
     /**
-     * ParseErrors - the number of errors that occurred in the most recent parse operation
+     * ParseErrors - the number of errors that occurred in the most recent parse operation.
+     * @return number of errors that occurred in the most recent parse operation.
      */
     public int getParseErrors()
     {
@@ -142,7 +143,8 @@ public class Tidy implements Serializable
     }
 
     /**
-     * ParseWarnings - the number of warnings that occurred in the most recent parse operation
+     * ParseWarnings - the number of warnings that occurred in the most recent parse operation.
+     * @return number of warnings that occurred in the most recent parse operation.
      */
     public int getParseWarnings()
     {
@@ -150,16 +152,17 @@ public class Tidy implements Serializable
     }
 
     /**
-     * Errout - the error output stream
+     * Errout - the error output stream.
+     * @return error output stream.
      */
     public PrintWriter getErrout()
     {
         return errout;
     }
 
-    public void setErrout(PrintWriter errout)
+    public void setErrout(PrintWriter out)
     {
-        this.errout = errout;
+        this.errout = out;
     }
 
     /**
@@ -362,9 +365,9 @@ public class Tidy implements Serializable
      * XHTML - output extensible HTML
      * @see Configuration#xHTML
      */
-    public void setXHTML(boolean xHTML)
+    public void setXHTML(boolean xhtml)
     {
-        configuration.xHTML = xHTML;
+        configuration.xHTML = xhtml;
     }
 
     public boolean getXHTML()
@@ -723,8 +726,9 @@ public class Tidy implements Serializable
     }
 
     /**
-     * DocType - user specified doctype omit | auto | strict | loose | <i>fpi </i> where the <i>fpi </i> is a string
-     * similar to &quot;-//ACME//DTD HTML 3.14159//EN&quot; Note: for <i>fpi </i> include the double-quotes in the
+     * DocType - user specified doctype .
+     * @param doctype <code>omit | auto | strict | loose | <em>fpi</em></code> where the <em>fpi </em> is a string
+     * similar to &quot;-//ACME//DTD HTML 3.14159//EN&quot; Note: for <em>fpi </em> include the double-quotes in the
      * string.
      * @see Configuration#docTypeStr
      * @see Configuration#docTypeMode
@@ -923,6 +927,7 @@ public class Tidy implements Serializable
 
     /**
      * InputStreamName - the name of the input stream (printed in the header information).
+     * @param name input stream name
      */
     public void setInputStreamName(String name)
     {
@@ -939,6 +944,7 @@ public class Tidy implements Serializable
 
     /**
      * Sets the configuration from a configuration file.
+     * @param filename configuration file name/path.
      */
     public void setConfigurationFromFile(String filename)
     {
@@ -947,6 +953,7 @@ public class Tidy implements Serializable
 
     /**
      * Sets the configuration from a properties object.
+     * @param props Properties object
      */
     public void setConfigurationFromProps(Properties props)
     {
@@ -955,6 +962,9 @@ public class Tidy implements Serializable
 
     /**
      * Parses InputStream in and returns the root Node. If out is non-null, pretty prints to OutputStream out.
+     * @param in input stream
+     * @param out optional output stream
+     * @return parsed org.w3c.tidy.Node
      */
     public Node parse(InputStream in, OutputStream out)
     {
@@ -966,9 +976,11 @@ public class Tidy implements Serializable
         }
         catch (FileNotFoundException fnfe)
         {
+            // ignore
         }
         catch (IOException e)
         {
+            // ignore
         }
 
         return document;
@@ -977,6 +989,12 @@ public class Tidy implements Serializable
     /**
      * Internal routine that actually does the parsing. The caller can pass either an InputStream or file name. If both
      * are passed, the file name is preferred.
+     * @param in input stream (used only if <code>file</code> is null)
+     * @param file file name
+     * @param out output stream
+     * @return parsed org.w3c.tidy.Node
+     * @throws FileNotFoundException if <code>file</code> is not null but it can't be found
+     * @throws IOException for errors in reading input stream or file
      */
     private Node parse(InputStream in, String file, OutputStream out) throws FileNotFoundException, IOException
     {
@@ -1128,6 +1146,7 @@ public class Tidy implements Serializable
                 }
                 catch (IOException e)
                 {
+                    // ignore
                 }
             }
 
@@ -1243,6 +1262,9 @@ public class Tidy implements Serializable
 
     /**
      * Parses InputStream in and returns a DOM Document node. If out is non-null, pretty prints to OutputStream out.
+     * @param in input stream
+     * @param out optional output stream
+     * @return parsed org.w3c.dom.Document
      */
     public org.w3c.dom.Document parseDOM(InputStream in, OutputStream out)
     {
@@ -1366,7 +1388,7 @@ public class Tidy implements Serializable
         int argc = argv.length + 1;
         int argIndex = 0;
         String arg;
-        String current_errorfile = "stderr";
+        String errorfile = "stderr";
 
 
         // read command line
@@ -1558,7 +1580,7 @@ public class Tidy implements Serializable
             if (configuration.errfile != null)
             {
                 // is it same as the currently opened file?
-                if (!configuration.errfile.equals(current_errorfile))
+                if (!configuration.errfile.equals(errorfile))
                 {
                     // no so close previous error file
 
@@ -1571,12 +1593,12 @@ public class Tidy implements Serializable
                     try
                     {
                         this.setErrout(new PrintWriter(new FileWriter(configuration.errfile), true));
-                        current_errorfile = configuration.errfile;
+                        errorfile = configuration.errfile;
                     }
                     catch (IOException e)
                     {
                         // can't be opened so fall back to stderr
-                        current_errorfile = "stderr";
+                        errorfile = "stderr";
                         this.setErrout(stderr);
                     }
                 }
