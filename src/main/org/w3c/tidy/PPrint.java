@@ -893,7 +893,7 @@ public class PPrint
         }
 
         // default treatment for ASCII
-        if (c > 126 || (c < ' ' && c != '\t'))
+        if (this.configuration.outCharEncoding == Configuration.ASCII && (c > 126 || (c < ' ' && c != '\t')))
         {
             if (!this.configuration.numEntities)
             {
