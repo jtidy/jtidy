@@ -190,7 +190,7 @@ public class StreamInImpl implements StreamIn
             public void doGet(int[] buf, int[] count, boolean unget)
             {
                 in.readRawBytesFromStream(buf, count, unget);
-            };
+            }
         } // set the StreamInImpl instance directly
             .setStreamIn(this);
     }
@@ -239,10 +239,12 @@ public class StreamInImpl implements StreamIn
             {
                 this.curcol = 1;
                 this.curline++;
-                return c;
+            }
+            else
+            {
+                this.curcol++;
             }
 
-            this.curcol++;
             return c;
         }
 
@@ -255,7 +257,7 @@ public class StreamInImpl implements StreamIn
             return ' ';
         }
 
-        for (;;)
+        while (true)
         {
             c = readCharFromStream();
 
@@ -738,11 +740,10 @@ public class StreamInImpl implements StreamIn
      */
     protected void readRawBytesFromStream(int[] buf, int[] count, boolean unget)
     {
-        int i;
 
         try
         {
-            for (i = 0; i < count[0]; i++)
+            for (int i = 0; i < count[0]; i++)
             {
                 if (unget)
                 {
@@ -764,13 +765,6 @@ public class StreamInImpl implements StreamIn
                         rawBufpos--;
                     }
                     rawBytebuf[rawBufpos++] = (char) buf[i];
-
-                    if (buf[i] == '\n')
-                    {
-                        --(this.curline);
-                    }
-
-                    this.curcol = this.lastcol;
                 }
                 else
                 {
@@ -781,16 +775,6 @@ public class StreamInImpl implements StreamIn
                         {
                             rawPushed = false;
                         }
-
-                        if (buf[i] == '\n')
-                        {
-                            this.curcol = 1;
-                            this.curline++;
-                        }
-                        else
-                        {
-                            this.curcol++;
-                        }
                     }
                     else
                     {
@@ -800,11 +784,7 @@ public class StreamInImpl implements StreamIn
                             count[0] = -i;
                             break;
                         }
-                        else
-                        {
-                            buf[i] = (char) c;
-                            this.curcol++;
-                        }
+                        buf[i] = (char) c;
                     }
                 }
             }
