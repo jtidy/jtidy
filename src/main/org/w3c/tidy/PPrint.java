@@ -1110,7 +1110,7 @@ public class PPrint
         printAttrs(fout, indent, node, node.attributes);
 
         if ((this.configuration.xmlOut || lexer != null && lexer.isvoyager)
-            && (node.type == Node.StartEndTag || (node.tag.model & Dict.CM_EMPTY) != 0))
+            && ((node.type == Node.StartEndTag && !configuration.xHTML) || (node.tag.model & Dict.CM_EMPTY) != 0))
         {
             addC(' ', linelen++); // compatibility hack
             addC('/', linelen++);
@@ -1118,7 +1118,7 @@ public class PPrint
 
         addC('>', linelen++);
 
-        if (node.type != Node.StartEndTag && !((mode & PREFORMATTED) != 0))
+        if ((node.type != Node.StartEndTag || configuration.xHTML) && !((mode & PREFORMATTED) != 0))
         {
             if (indent + linelen >= this.configuration.wraplen)
             {
@@ -1604,7 +1604,7 @@ public class PPrint
         {
             printPhp(fout, indent, node);
         }
-        else if ((node.tag.model & Dict.CM_EMPTY) != 0 || node.type == Node.StartEndTag)
+        else if ((node.tag.model & Dict.CM_EMPTY) != 0 || (node.type == Node.StartEndTag && !configuration.xHTML))
         {
             if (!((node.tag.model & Dict.CM_INLINE) != 0))
             {
@@ -1758,7 +1758,10 @@ public class PPrint
                     flushLine(fout, indent);
                 }
 
-                if (!this.configuration.hideEndTags || !(node.tag != null && ((node.tag.model & Dict.CM_OMITST) != 0)))
+                // do not omit elements with attributes
+                if (!this.configuration.hideEndTags
+                    || !(node.tag != null && ((node.tag.model & Dict.CM_OMITST) != 0))
+                    || node.attributes != null)
                 {
                     printTag(lexer, fout, mode, indent, node);
 
