@@ -15,7 +15,7 @@
     <description>JTidy is a Java port of HTML Tidy, a HTML syntax checker and pretty printer.
 Like its non-Java cousin, JTidy can be used as a tool for cleaning up malformed and faulty HTML.
 In addition, JTidy provides a DOM interface to the document that is being processed, which effectively makes you able to use JTidy as a DOM parser for real-world HTML.</description>
-    <shortDescription>JTidy is a Java port of HTML Tidy, a HTML syntax checker and pretty printer.</shortDescription>
+    <shortDescription>JTidy - HTML syntax checker and pretty printer</shortDescription>
     <url>http://${pom.groupId}.sourceforge.net</url>
     <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=${maven.sourceforge.project.groupId}</issueTrackingUrl>
     <siteAddress>shell.sourceforge.net</siteAddress>
@@ -192,7 +192,7 @@ In addition, JTidy provides a DOM interface to the document that is being proces
                 <resource>
                     <directory>src/test-resources</directory>
                     <includes>
-                        <include>*.*</include>
+                        <include>**/*.*</include>
                     </includes>
                     <filtering>false</filtering>
                 </resource>
