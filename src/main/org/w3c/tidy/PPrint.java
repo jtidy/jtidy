@@ -103,16 +103,16 @@ public class PPrint
     private static final short NOWRAP = 8;
     private static final short CDATA = 16;
 
-    private int[] linebuf = null;
-    private int lbufsize = 0;
-    private int linelen = 0;
-    private int wraphere = 0;
-    private boolean inAttVal = false;
-    private boolean InString = false;
+    private int[] linebuf;
+    private int lbufsize;
+    private int linelen;
+    private int wraphere;
+    private boolean inAttVal;
+    private boolean InString;
 
     private int slide = 0;
     private int count = 0;
-    private Node slidecontent = null;
+    private Node slidecontent;
 
     private Configuration configuration;
 
@@ -158,7 +158,9 @@ public class PPrint
             n = c & 1;
             bytes = 6;
         }
-        else /* 0XXX XXXX one byte */ {
+        else
+        {
+            /* 0XXX XXXX one byte */
             ch.value = c;
             return 0;
         }
@@ -389,7 +391,9 @@ public class PPrint
                     addC('0', linelen++);
                     addC(';', linelen++);
                 }
-                else /* otherwise use named entity */ {
+                else
+                {
+                    /* otherwise use named entity */
                     addC('&', linelen++);
                     addC('n', linelen++);
                     addC('b', linelen++);
@@ -410,7 +414,7 @@ public class PPrint
             return;
         }
 
-        /* except in CDATA map < to &lt; etc.  */
+        /* except in CDATA map < to &lt; etc.   */
         if (!((mode & CDATA) != 0))
         {
             if (c == '<')
@@ -1310,7 +1314,9 @@ public class PPrint
             else if (node.tag == tt.tagBr || node.tag == tt.tagHr)
                 flushLine(fout, indent);
         }
-        else /* some kind of container element */ {
+        else
+        {
+            /* some kind of container element */
             if (node.tag != null && node.tag.parser == ParserImpl.getParsePre())
             {
                 condFlushLine(fout, indent);
@@ -1397,7 +1403,9 @@ public class PPrint
 
                 printEndTag(fout, mode, indent, node);
             }
-            else /* other tags */ {
+            else
+            {
+                /* other tags */
                 condFlushLine(fout, indent);
 
                 if (this.configuration.SmartIndent && node.prev != null)
@@ -1534,7 +1542,9 @@ public class PPrint
             if (node.next != null)
                 flushLine(fout, indent);
         }
-        else /* some kind of container element */ {
+        else
+        {
+            /* some kind of container element */
             Node content;
             boolean mixed = false;
             int cindent;

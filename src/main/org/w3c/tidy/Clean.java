@@ -545,7 +545,7 @@ public class Clean
     }
 
     /**
-     * Used to strip child of node when the node has one and only one child
+     * Used to strip child of node when the node has one and only one child.
      */
     private void stripOnlyChild(Node node)
     {
@@ -1506,7 +1506,7 @@ public class Clean
     }
 
     /**
-     * replace i by em and b by strong
+     * replace i by em and b by strong.
      */
     public void emFromI(Node node)
     {
@@ -1562,7 +1562,7 @@ public class Clean
 
     /**
      * Replace implicit blockquote by div with an indent taking care to reduce nested blockquotes to a single div with
-     * the indent set to match the nesting depth
+     * the indent set to match the nesting depth.
      */
     public void bQ2Div(Node node)
     {
@@ -1602,7 +1602,7 @@ public class Clean
     }
 
     /**
-     * node is <code>&lt;![if ...]></code> prune up to <code>&lt;![endif]></code>
+     * node is <code>&lt;![if ...]></code> prune up to <code>&lt;![endif]></code>.
      */
     public Node pruneSection(Lexer lexer, Node node)
     {

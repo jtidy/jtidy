@@ -102,21 +102,62 @@ public class Node
     protected Node prev;
     protected Node next;
     protected Node last;
-    protected int start; /* start of span onto text array */
-    protected int end; /* end of span onto text array */
-    protected byte[] textarray; /* the text array */
-    protected short type; /* TextNode, StartTag, EndTag etc. */
-    protected boolean closed; /* true if closed by explicit end tag */
-    protected boolean implicit; /* true if inferred */
-    protected boolean linebreak; /* true if followed by a line break */
-    protected Dict was; /* old tag when it was changed */
-    protected Dict tag; /* tag's dictionary definition */
-    protected String element; /* name (null for text nodes) */
+
+    /**
+     * start of span onto text array
+     */
+    protected int start;
+
+    /**
+     * end of span onto text array.
+     */
+    protected int end;
+
+    protected byte[] textarray;
+
+    /**
+     * the text array.
+     */
+    protected short type;
+
+    /**
+     * TextNode, StartTag, EndTag etc.
+     */
+    protected boolean closed;
+
+    /**
+     * true if closed by explicit end tag.
+     */
+    protected boolean implicit;
+
+    /**
+     * true if inferred.
+     */
+    protected boolean linebreak;
+
+    /**
+     * true if followed by a line break.
+     */
+    protected Dict was;
+
+    /**
+     * old tag when it was changed.
+     */
+    protected Dict tag;
+
+    /**
+     * tag's dictionary definition.
+     */
+    protected String element;
+
+    /**
+     * name (null for text nodes).
+     */
     protected AttVal attributes;
     protected Node content;
 
     // DOM
-    protected org.w3c.dom.Node adapter = null;
+    protected org.w3c.dom.Node adapter;
 
     public Node()
     {
@@ -248,7 +289,9 @@ public class Node
         {
             this.attributes = av;
         }
-        else /* append to end of attributes */ {
+        else
+        {
+            // append to end of attributes
             AttVal here = this.attributes;
 
             while (here.next != null)
@@ -552,7 +595,9 @@ public class Node
 
                     ++element.start;
                 }
-                else /* create new node */ {
+                else
+                {
+                    // create new node
                     node = lexer.newNode();
                     // Local fix for bug 228486 (GLP). This handles the case
                     // where we need to create a preceeding text node but there are
@@ -894,7 +939,9 @@ public class Node
         {
             classattr.value = classattr.value + " " + classname;
         }
-        else /* create new class attribute */ {
+        else
+        {
+            // create new class attribute
             node.addAttribute("class", classname);
         }
     }

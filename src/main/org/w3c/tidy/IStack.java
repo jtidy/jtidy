@@ -55,6 +55,12 @@ package org.w3c.tidy;
 
 /**
  * Inline stack node.
+ * <p>
+ * Mosaic handles inlines via a separate stack from other elements We duplicate this to recover from inline markup
+ * errors such as: &lt;i>italic text &lt;p> more italic text&lt;/b> normal text which for compatibility with Mosaic is
+ * mapped to: &lt;i>italic text&lt;/i> &lt;p> &lt;i>more italic text&lt;/i> normal text Note that any inline end tag
+ * pop's the effect of the current inline start tag, so that&lt;/b> pop's &lt;i>in the above example.
+ * </p>
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
  * @version $Revision $ ($Author $)
@@ -62,24 +68,26 @@ package org.w3c.tidy;
 public class IStack
 {
 
-    /*
-     * Mosaic handles inlines via a separate stack from other elements We duplicate this to recover from inline markup
-     * errors such as: <i> italic text <p> more italic text </b> normal text which for compatibility with Mosaic is
-     * mapped to: <i> italic text </i><p><i> more italic text </i> normal text Note that any inline end tag pop's the
-     * effect of the current inline start tag, so that </b> pop's <i> in the above example.
-     */
-
     public IStack next;
-    public Dict tag; /* tag's dictionary definition */
-    public String element; /* name (null for text nodes) */
+
+    /**
+     * tag's dictionary definition.
+     */
+    public Dict tag;
+
+    /**
+     * name (null for text nodes).
+     */
+    public String element;
+
     public AttVal attributes;
 
     public IStack()
     {
-        next = null;
-        tag = null;
-        element = null;
-        attributes = null;
+        this.next = null;
+        this.tag = null;
+        this.element = null;
+        this.attributes = null;
     }
 
 }

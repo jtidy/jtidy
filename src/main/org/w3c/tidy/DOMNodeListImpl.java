@@ -62,7 +62,7 @@ package org.w3c.tidy;
 public class DOMNodeListImpl implements org.w3c.dom.NodeList
 {
 
-    private Node parent = null;
+    private Node parent;
 
     protected DOMNodeListImpl(Node parent)
     {
@@ -75,7 +75,7 @@ public class DOMNodeListImpl implements org.w3c.dom.NodeList
     public org.w3c.dom.Node item(int index)
     {
         int i = 0;
-        Node node = parent.content;
+        Node node = this.parent.content;
         while (node != null)
         {
             if (i >= index)
@@ -101,7 +101,7 @@ public class DOMNodeListImpl implements org.w3c.dom.NodeList
     public int getLength()
     {
         int len = 0;
-        Node node = parent.content;
+        Node node = this.parent.content;
         while (node != null)
         {
             len++;

@@ -65,7 +65,7 @@ import java.util.Hashtable;
 public class EntityTable
 {
 
-    private static EntityTable defaultEntityTable = null;
+    private static EntityTable defaultEntityTable;
 
     private static Entity[] entities =
         {
@@ -330,7 +330,7 @@ public class EntityTable
 
     public Entity lookup(String name)
     {
-        return (Entity) entityHashtable.get(name);
+        return (Entity) this.entityHashtable.get(name);
     }
 
     public Entity install(String name, short code)
@@ -350,12 +350,12 @@ public class EntityTable
 
     public Entity install(Entity ent)
     {
-        return (Entity) entityHashtable.put(ent.name, ent);
+        return (Entity) this.entityHashtable.put(ent.name, ent);
     }
 
-    /* entity starting with "&" returns zero on error */
     public short entityCode(String name)
     {
+        // entity starting with "&" returns zero on error.
         int c;
 
         if (name.length() <= 1)
@@ -382,6 +382,7 @@ public class EntityTable
             }
             catch (NumberFormatException e)
             {
+                // ignore
             }
 
             return (short) c;
@@ -401,7 +402,7 @@ public class EntityTable
     {
         String name = null;
         Entity ent;
-        Enumeration en = entityHashtable.elements();
+        Enumeration en = this.entityHashtable.elements();
         while (en.hasMoreElements())
         {
             ent = (Entity) en.nextElement();

@@ -111,26 +111,26 @@ public class AttVal extends Object implements Cloneable
     protected Object clone()
     {
         AttVal av = new AttVal();
-        if (next != null)
+        if (this.next != null)
         {
-            av.next = (AttVal) next.clone();
+            av.next = (AttVal) this.next.clone();
         }
-        if (attribute != null)
+        if (this.attribute != null)
         {
-            av.attribute = attribute;
+            av.attribute = this.attribute;
         }
-        if (value != null)
+        if (this.value != null)
         {
-            av.value = value;
+            av.value = this.value;
         }
-        av.delim = delim;
-        if (asp != null)
+        av.delim = this.delim;
+        if (this.asp != null)
         {
-            av.asp = (Node) asp.clone();
+            av.asp = (Node) this.asp.clone();
         }
-        if (php != null)
+        if (this.php != null)
         {
-            av.php = (Node) php.clone();
+            av.php = (Node) this.php.clone();
         }
         av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(this);
         return av;
@@ -227,11 +227,11 @@ public class AttVal extends Object implements Cloneable
 
     protected org.w3c.dom.Attr getAdapter()
     {
-        if (adapter == null)
+        if (this.adapter == null)
         {
-            adapter = new DOMAttrImpl(this);
+            this.adapter = new DOMAttrImpl(this);
         }
-        return adapter;
+        return this.adapter;
     }
     /* --------------------- END DOM ------------------------ */
 

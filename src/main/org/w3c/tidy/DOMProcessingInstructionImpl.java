@@ -69,8 +69,6 @@ public class DOMProcessingInstructionImpl extends DOMNodeImpl implements org.w3c
         super(adaptee);
     }
 
-    /* --------------------- DOM ---------------------------- */
-
     /**
      * @see org.w3c.dom.Node#getNodeType
      */
@@ -80,11 +78,11 @@ public class DOMProcessingInstructionImpl extends DOMNodeImpl implements org.w3c
     }
 
     /**
+     * @todo not implemented
      * @see org.w3c.dom.ProcessingInstruction#getTarget
      */
     public String getTarget()
     {
-        // TODO
         return null;
     }
 
