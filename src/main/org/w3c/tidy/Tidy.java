@@ -381,19 +381,20 @@ public class Tidy implements Serializable
         return configuration.xHTML;
     }
 
-    /**
-     * RawOut - avoid mapping values > 127 to entities.
-     * @see Configuration#rawOut
-     */
-    public void setRawOut(boolean rawOut)
-    {
-        configuration.rawOut = rawOut;
-    }
-
-    public boolean getRawOut()
-    {
-        return configuration.rawOut;
-    }
+    //    /**
+    //     * RawOut - avoid mapping values > 127 to entities.
+    //     * @see Configuration#rawOut
+    //     * @todo not implemented
+    //     */
+    //    public void setRawOut(boolean rawOut)
+    //    {
+    //        configuration.rawOut = rawOut;
+    //    }
+    //
+    //    public boolean getRawOut()
+    //    {
+    //        return configuration.rawOut;
+    //    }
 
     /**
      * UpperCaseTags - output tags in upper not lower case.
