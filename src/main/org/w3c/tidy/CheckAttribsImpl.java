@@ -66,72 +66,72 @@ public final class CheckAttribsImpl
     /**
      * CheckHTML instance.
      */
-    private static final CheckAttribs CHECK_HTML = new CheckHTML();
+    public static final CheckAttribs CHECK_HTML = new CheckHTML();
 
     /**
      * CheckSCRIPT instance.
      */
-    private static final CheckAttribs CHECK_SCRIPT = new CheckSCRIPT();
+    public static final CheckAttribs CHECK_SCRIPT = new CheckSCRIPT();
 
     /**
      * CheckTABLE instance.
      */
-    private static final CheckAttribs CHECK_TABLE = new CheckTABLE();
+    public static final CheckAttribs CHECK_TABLE = new CheckTABLE();
 
     /**
      * CheckCaption instance.
      */
-    private static final CheckAttribs CHECK_CAPTION = new CheckCaption();
+    public static final CheckAttribs CHECK_CAPTION = new CheckCaption();
 
     /**
      * CheckIMG instance.
      */
-    private static final CheckAttribs CHECK_IMG = new CheckIMG();
+    public static final CheckAttribs CHECK_IMG = new CheckIMG();
 
     /**
      * CheckAREA instance.
      */
-    private static final CheckAttribs CHECK_AREA = new CheckAREA();
+    public static final CheckAttribs CHECK_AREA = new CheckAREA();
 
     /**
      * CheckAnchor instance.
      */
-    private static final CheckAttribs CHECK_ANCHOR = new CheckAnchor();
+    public static final CheckAttribs CHECK_ANCHOR = new CheckAnchor();
 
     /**
      * CheckMap instance.
      */
-    private static final CheckAttribs CHECK_MAP = new CheckMap();
+    public static final CheckAttribs CHECK_MAP = new CheckMap();
 
     /**
      * CheckSTYLE instance.
      */
-    private static final CheckAttribs CHECK_STYLE = new CheckSTYLE();
+    public static final CheckAttribs CHECK_STYLE = new CheckSTYLE();
 
     /**
      * CheckTableCell instance.
      */
-    private static final CheckAttribs CHECK_TABLECELL = new CheckTableCell();
+    public static final CheckAttribs CHECK_TABLECELL = new CheckTableCell();
 
     /**
      * CheckLINK instance.
      */
-    private static final CheckAttribs CHECK_LINK = new CheckLINK();
+    public static final CheckAttribs CHECK_LINK = new CheckLINK();
 
     /**
      * CheckHR instance.
      */
-    private static final CheckAttribs CHECK_HR = new CheckHR();
+    public static final CheckAttribs CHECK_HR = new CheckHR();
 
     /**
      * CheckForm instance.
      */
-    private static final CheckAttribs CHECK_FORM = new CheckForm();
+    public static final CheckAttribs CHECK_FORM = new CheckForm();
 
     /**
      * CheckMeta instance.
      */
-    private static final CheckAttribs CHECK_META = new CheckMeta();
+    public static final CheckAttribs CHECK_META = new CheckMeta();
 
     /**
      * don't instantiate.
@@ -529,7 +529,9 @@ public final class CheckAttribsImpl
         }
     }
 
-    /* add missing type attribute when appropriate */
+    /**
+     * add missing type attribute when appropriate
+     */
     public static class CheckLINK implements CheckAttribs
     {
 
@@ -553,76 +555,6 @@ public final class CheckAttribsImpl
                 }
             }
         }
-    }
-
-    public static CheckAttribs getCheckHTML()
-    {
-        return CHECK_HTML;
-    }
-
-    public static CheckAttribs getCheckSCRIPT()
-    {
-        return CHECK_SCRIPT;
-    }
-
-    public static CheckAttribs getCheckTABLE()
-    {
-        return CHECK_TABLE;
-    }
-
-    public static CheckAttribs getCheckCaption()
-    {
-        return CHECK_CAPTION;
-    }
-
-    public static CheckAttribs getCheckIMG()
-    {
-        return CHECK_IMG;
-    }
-
-    public static CheckAttribs getCheckAREA()
-    {
-        return CHECK_AREA;
-    }
-
-    public static CheckAttribs getCheckAnchor()
-    {
-        return CHECK_ANCHOR;
-    }
-
-    public static CheckAttribs getCheckMap()
-    {
-        return CHECK_MAP;
-    }
-
-    public static CheckAttribs getCheckSTYLE()
-    {
-        return CHECK_STYLE;
-    }
-
-    public static CheckAttribs getCheckTableCell()
-    {
-        return CHECK_TABLECELL;
-    }
-
-    public static CheckAttribs getCheckLINK()
-    {
-        return CHECK_LINK;
-    }
-
-    public static CheckAttribs getCheckHR()
-    {
-        return CHECK_HR;
-    }
-
-    public static CheckAttribs getCheckForm()
-    {
-        return CHECK_FORM;
-    }
-
-    public static CheckAttribs getCheckMeta()
-    {
-        return CHECK_META;
     }
 
 }
