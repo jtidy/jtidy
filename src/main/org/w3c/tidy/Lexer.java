@@ -732,7 +732,8 @@ public class Lexer
             return Dict.VERS_HTML20;
         }
 
-        if ((versions & Dict.VERS_HTML32) != 0)
+        if (!(this.configuration.xmlOut | this.configuration.xmlTags | this.isvoyager)
+            && (versions & Dict.VERS_HTML32) != 0)
         {
             return Dict.VERS_HTML32;
         }
