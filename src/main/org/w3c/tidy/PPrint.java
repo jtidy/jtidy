@@ -1550,7 +1550,7 @@ public class PPrint
                 printEndTag(fout, mode, indent, node);
                 flushLine(fout, indent);
 
-                if (this.configuration.IndentContent == false && node.next != null)
+                if (!this.configuration.IndentContent && node.next != null)
                 {
                     flushLine(fout, indent);
                 }
@@ -1573,7 +1573,7 @@ public class PPrint
                 printEndTag(fout, mode, indent, node);
                 flushLine(fout, indent);
 
-                if (this.configuration.IndentContent == false && node.next != null)
+                if (!this.configuration.IndentContent && node.next != null)
                 {
                     flushLine(fout, indent);
 
@@ -1645,7 +1645,7 @@ public class PPrint
                     flushLine(fout, indent);
                 }
 
-                if (this.configuration.HideEndTags == false
+                if (!this.configuration.HideEndTags
                     || !(node.tag != null && ((node.tag.model & Dict.CM_OMITST) != 0)))
                 {
                     printTag(lexer, fout, mode, indent, node);
@@ -1704,13 +1704,13 @@ public class PPrint
                     || (((node.tag.model & Dict.CM_HTML) != 0
                         || node.tag == tt.tagNoframes
                         || ((node.tag.model & Dict.CM_HEAD) != 0 && !(node.tag == tt.tagTitle)))
-                        && this.configuration.HideEndTags == false))
+                        && !this.configuration.HideEndTags))
                 {
                     condFlushLine(
                         fout,
                         (this.configuration.IndentContent ? indent + this.configuration.spaces : indent));
 
-                    if (this.configuration.HideEndTags == false || !((node.tag.model & Dict.CM_OPT) != 0))
+                    if (!this.configuration.HideEndTags || !((node.tag.model & Dict.CM_OPT) != 0))
                     {
                         printEndTag(fout, mode, indent, node);
                         flushLine(fout, indent);
@@ -1718,7 +1718,7 @@ public class PPrint
                 }
                 else
                 {
-                    if (this.configuration.HideEndTags == false || !((node.tag.model & Dict.CM_OPT) != 0))
+                    if (!this.configuration.HideEndTags || !((node.tag.model & Dict.CM_OPT) != 0))
                     {
                         printEndTag(fout, mode, indent, node);
                     }
@@ -1726,9 +1726,9 @@ public class PPrint
                     flushLine(fout, indent);
                 }
 
-                if (this.configuration.IndentContent == false
+                if (!this.configuration.IndentContent
                     && node.next != null
-                    && this.configuration.HideEndTags == false
+                    && !this.configuration.HideEndTags
                     && (node.tag.model & (Dict.CM_BLOCK | Dict.CM_LIST | Dict.CM_DEFLIST | Dict.CM_TABLE)) != 0)
                 {
                     flushLine(fout, indent);
@@ -1961,7 +1961,7 @@ public class PPrint
             addC((int) Lexer.foldCase('h', this.configuration.UpperCaseTags, this.configuration.XmlTags), linelen++);
             addC((int) Lexer.foldCase('r', this.configuration.UpperCaseTags, this.configuration.XmlTags), linelen++);
 
-            if (this.configuration.XmlOut == true)
+            if (this.configuration.XmlOut)
             {
                 printString(fout, indent, " />");
             }
@@ -1970,7 +1970,7 @@ public class PPrint
                 addC('>', linelen++);
             }
 
-            if (this.configuration.IndentContent == true)
+            if (this.configuration.IndentContent)
             {
                 condFlushLine(fout, indent);
             }
@@ -2037,7 +2037,7 @@ public class PPrint
         addC((int) Lexer.foldCase('h', this.configuration.UpperCaseTags, this.configuration.XmlTags), linelen++);
         addC((int) Lexer.foldCase('r', this.configuration.UpperCaseTags, this.configuration.XmlTags), linelen++);
 
-        if (this.configuration.XmlOut == true)
+        if (this.configuration.XmlOut)
         {
             printString(fout, indent, " />");
         }
@@ -2046,7 +2046,7 @@ public class PPrint
             addC('>', linelen++);
         }
 
-        if (this.configuration.IndentContent == true)
+        if (this.configuration.IndentContent)
         {
             condFlushLine(fout, indent);
         }
