@@ -119,4 +119,10 @@ public interface Out
      */
     void setState(int state);
 
+    /**
+     * Output a Byte Order Mark if required.
+     * @param out Out
+     */
+    void outBOM();
+
 }

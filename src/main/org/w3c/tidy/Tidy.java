@@ -1260,6 +1260,7 @@ public class Tidy implements Serializable
         Node doctype;
         Out o = new OutImpl(); // normal output stream
         PPrint pprint;
+        boolean inputHadBOM = false;
 
         if (!initialized)
         {
@@ -1307,8 +1308,11 @@ public class Tidy implements Serializable
                 || lexer.in.getEncoding() == Configuration.UTF16)
             {
                 int c = lexer.in.readChar();
-
-                if (c != StreamIn.UNICODE_BOM)
+                if (c == EncodingUtils.UNICODE_BOM)
+                {
+                    inputHadBOM = true;
+                }
+                else
                 {
                     lexer.in.ungetChar(c);
                 }
@@ -1480,6 +1484,12 @@ public class Tidy implements Serializable
                         FileOutputStream fis = new FileOutputStream(file);
                         o.setOut(fis);
 
+                        // Output a Byte Order Mark if required
+                        if (configuration.outputBOM || (inputHadBOM && configuration.smartBOM))
+                        {
+                            o.outBOM();
+                        }
+
                         if (configuration.bodyOnly)
                         {
                             // Feature request #434940 - fix by Dave Raggett/Ignacio Vazquez-Abrams 21 Jun 01
@@ -1506,6 +1516,11 @@ public class Tidy implements Serializable
                 {
                     pprint = new PPrint(configuration);
                     o.setOut(out);
+
+                    if (configuration.outputBOM || (inputHadBOM && configuration.smartBOM))
+                    {
+                        o.outBOM();
+                    }
 
                     if (configuration.bodyOnly)
                     {
@@ -1793,7 +1808,7 @@ public class Tidy implements Serializable
                 }
                 else if (arg.equalsIgnoreCase("help-config"))
                 {
-                    // @todo configuration.printConfigOptions(new PrintWriter(System.out, true), false);
+                    configuration.printConfigOptions(new PrintWriter(System.out, true), false);
 
                     --argc;
                     ++argIndex;
@@ -1802,7 +1817,7 @@ public class Tidy implements Serializable
                 else if (arg.equalsIgnoreCase("show-config"))
                 {
                     configuration.adjust(); // ensure config is self-consistent
-                    //@todo configuration.printConfigOptions(errout, true);
+                    configuration.printConfigOptions(errout, true);
                     --argc;
                     ++argIndex;
                     continue;
@@ -2000,4 +2015,5 @@ public class Tidy implements Serializable
         // 0 means all is ok
         return 0;
     }
+
 }

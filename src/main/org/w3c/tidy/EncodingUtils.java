@@ -61,6 +61,26 @@ public final class EncodingUtils
 {
 
     /**
+     * the big-endian (default) UNICODE BOM.
+     */
+    public static final int UNICODE_BOM_BE = 0xFEFF;
+
+    /**
+     * the default (big-endian) UNICODE BOM.
+     */
+    public static final int UNICODE_BOM = UNICODE_BOM_BE;
+
+    /**
+     * the little-endian UNICODE BOM.
+     */
+    public static final int UNICODE_BOM_LE = 0xFFFE;
+
+    /**
+     * the UTF-8 UNICODE BOM.
+     */
+    public static final int UNICODE_BOM_UTF8 = 0xEFBBBF;
+
+    /**
      * utf16 low surrogate.
      */
     public static final int LOW_UTF16_SURROGATE = 0xD800;

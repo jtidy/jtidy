@@ -135,7 +135,7 @@ public class StreamInImplTest extends TestCase
         in.setLexer(lexer);
 
         char thechar = (char) in.readCharFromStream();
-        assertEquals(StreamIn.UNICODE_BOM, thechar);
+        assertEquals(EncodingUtils.UNICODE_BOM, thechar);
         thechar = (char) in.readCharFromStream();
         assertEquals('a', thechar);
     }
@@ -151,7 +151,7 @@ public class StreamInImplTest extends TestCase
         in.setLexer(lexer);
 
         char thechar = (char) in.readCharFromStream();
-        assertEquals(StreamIn.UNICODE_BOM, thechar);
+        assertEquals(EncodingUtils.UNICODE_BOM, thechar);
         thechar = (char) in.readCharFromStream();
         assertEquals('a', thechar);
     }

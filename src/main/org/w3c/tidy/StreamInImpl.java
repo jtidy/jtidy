@@ -345,7 +345,9 @@ public class StreamInImpl implements StreamIn
 
                     m = readCharFromStream();
                     if (m < 0)
+                    {
                         return END_OF_STREAM;
+                    }
                     // low surrogate
                     if (m >= EncodingUtils.UTF16_HIGH_SURROGATE_BEGIN && m <= EncodingUtils.UTF16_HIGH_SURROGATE_END)
                     {
@@ -501,7 +503,7 @@ public class StreamInImpl implements StreamIn
 
             bom = (c << 8) + c1;
 
-            if (bom == UNICODE_BOM_BE)
+            if (bom == EncodingUtils.UNICODE_BOM_BE)
             {
                 // big-endian UTF-16
                 if (this.encoding != Configuration.UTF16 && this.encoding != Configuration.UTF16BE)
@@ -511,9 +513,9 @@ public class StreamInImpl implements StreamIn
                 }
                 this.encoding = Configuration.UTF16BE;
                 this.lexer.configuration.inCharEncoding = Configuration.UTF16BE;
-                return UNICODE_BOM; // return decoded BOM
+                return EncodingUtils.UNICODE_BOM; // return decoded BOM
             }
-            else if (bom == UNICODE_BOM_LE)
+            else if (bom == EncodingUtils.UNICODE_BOM_LE)
             {
                 // little-endian UTF-16
                 if (this.encoding != Configuration.UTF16 && this.encoding != Configuration.UTF16LE)
@@ -523,7 +525,7 @@ public class StreamInImpl implements StreamIn
                 }
                 this.encoding = Configuration.UTF16LE;
                 this.lexer.configuration.inCharEncoding = Configuration.UTF16LE;
-                return UNICODE_BOM; // return decoded BOM
+                return EncodingUtils.UNICODE_BOM; // return decoded BOM
             }
             else
             {
@@ -533,7 +535,7 @@ public class StreamInImpl implements StreamIn
                 readRawBytesFromStream(tempchar, count, false);
                 c2 = tempchar[0];
 
-                if (((c << 16) + (c1 << 8) + c2) == UNICODE_BOM_UTF8)
+                if (((c << 16) + (c1 << 8) + c2) == EncodingUtils.UNICODE_BOM_UTF8)
                 {
                     // UTF-8
                     this.encoding = Configuration.UTF8;
@@ -543,7 +545,7 @@ public class StreamInImpl implements StreamIn
                         // non-fatal error
                     }
                     this.lexer.configuration.inCharEncoding = Configuration.UTF8;
-                    return UNICODE_BOM; // return decoded BOM
+                    return EncodingUtils.UNICODE_BOM; // return decoded BOM
                 }
                 else
                 {

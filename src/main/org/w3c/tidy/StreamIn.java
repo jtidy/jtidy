@@ -69,26 +69,6 @@ public interface StreamIn
      */
     int END_OF_STREAM = -1;
 
-    /**
-     * the big-endian (default) UNICODE BOM.
-     */
-    int UNICODE_BOM_BE = 0xFEFF;
-
-    /**
-     * the default (big-endian) UNICODE BOM.
-     */
-    int UNICODE_BOM = UNICODE_BOM_BE;
-
-    /**
-     * the little-endian UNICODE BOM.
-     */
-    int UNICODE_BOM_LE = 0xFFFE;
-
-    /**
-     * the UTF-8 UNICODE BOM.
-     */
-    int UNICODE_BOM_UTF8 = 0xEFBBBF;
-
     /*
      * states for ISO 2022 A document in ISO-2022 based encoding uses some ESC sequences called "designator" to switch
      * character sets. The designators defined and used in ISO-2022-JP are: "ESC" + "(" + ? for ISO646 variants "ESC" +

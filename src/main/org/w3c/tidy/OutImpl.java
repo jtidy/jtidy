@@ -434,4 +434,18 @@ public class OutImpl implements Out
         this.state = state;
     }
 
+    /**
+     * @see org.w3c.tidy.Out#outBOM()
+     */
+    public void outBOM()
+    {
+        if (this.encoding == Configuration.UTF8
+            || this.encoding == Configuration.UTF16LE
+            || this.encoding == Configuration.UTF16BE
+            || this.encoding == Configuration.UTF16)
+        {
+            outc(EncodingUtils.UNICODE_BOM); // this will take care of encoding the BOM correctly
+        }
+    }
+
 }
