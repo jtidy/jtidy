@@ -25,13 +25,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <text><![CDATA[<form> lacks "action" attribute]]></text>
   </message>
   <message>
-    <code>49</code>
-    <level>2</level>
-    <line>13</line>
-    <column>1</column>
-    <text><![CDATA[<table> lacks "summary" attribute]]></text>
-  </message>
-  <message>
     <code>8</code>
     <level>2</level>
     <line>20</line>

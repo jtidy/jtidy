@@ -438,13 +438,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <text><![CDATA[trimming empty <center>]]></text>
   </message>
   <message>
-    <code>49</code>
-    <level>2</level>
-    <line>82</line>
-    <column>5</column>
-    <text><![CDATA[<table> lacks "summary" attribute]]></text>
-  </message>
-  <message>
     <code>54</code>
     <level>2</level>
     <line>84</line>
@@ -788,13 +781,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <text><![CDATA[trimming empty <dl>]]></text>
   </message>
   <message>
-    <code>49</code>
-    <level>2</level>
-    <line>128</line>
-    <column>1</column>
-    <text><![CDATA[<table> lacks "summary" attribute]]></text>
-  </message>
-  <message>
     <code>12</code>
     <level>2</level>
     <line>186</line>
@@ -835,13 +821,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <line>190</line>
     <column>49</column>
     <text><![CDATA[trimming empty <div>]]></text>
-  </message>
-  <message>
-    <code>49</code>
-    <level>2</level>
-    <line>198</line>
-    <column>1</column>
-    <text><![CDATA[<table> lacks "summary" attribute]]></text>
   </message>
   <message>
     <code>53</code>

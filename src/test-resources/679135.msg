@@ -18,13 +18,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <text><![CDATA[missing <!DOCTYPE> declaration]]></text>
   </message>
   <message>
-    <code>49</code>
-    <level>2</level>
-    <line>9</line>
-    <column>9</column>
-    <text><![CDATA[<table> lacks "summary" attribute]]></text>
-  </message>
-  <message>
     <code>48</code>
     <level>2</level>
     <line>12</line>

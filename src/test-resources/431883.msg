@@ -11,13 +11,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
 ]]></text>
   </message>
   <message>
-    <code>49</code>
-    <level>2</level>
-    <line>40</line>
-    <column>1</column>
-    <text><![CDATA[<table> lacks "summary" attribute]]></text>
-  </message>
-  <message>
     <code>110</code>
     <level>0</level>
     <line>1</line>
