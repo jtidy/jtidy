@@ -68,6 +68,11 @@ public class StreamInImpl extends StreamIn
 {
 
     /**
+     * number of characters kept in buffer.
+     */
+    private static final int CHARBUF_SIZE = 5;
+
+    /**
      * Mapping for Windows Western character set (128-159) to Unicode.
      */
     private static final int[] WIN2UNICODE = {
@@ -367,11 +372,21 @@ public class StreamInImpl extends StreamIn
         0x02DB,
         0x02C7};
 
+    /**
+     * character buffer.
+     */
+    private int[] charbuf = new int[CHARBUF_SIZE];
+
+    /**
+     * actual position in buffer.
+     */
+    private int bufpos;
+
     public StreamInImpl(InputStream stream, int encoding, int tabsize)
     {
         this.stream = stream;
         this.pushed = false;
-        this.c = '\0';
+        this.charbuf[0] = '\0';
         this.tabs = 0;
         this.tabsize = tabsize;
         this.curline = 1;
@@ -533,8 +548,11 @@ public class StreamInImpl extends StreamIn
 
         if (this.pushed)
         {
-            this.pushed = false;
-            c = this.c;
+            c = this.charbuf[--(this.bufpos)];
+            if ((this.bufpos) == 0)
+            {
+                this.pushed = false;
+            }
 
             if (c == '\n')
             {
@@ -644,7 +662,16 @@ public class StreamInImpl extends StreamIn
     public void ungetChar(int c)
     {
         this.pushed = true;
-        this.c = c;
+        if (this.bufpos >= CHARBUF_SIZE)
+        {
+            // pop last element
+            for (int j = 1; j < CHARBUF_SIZE; j++)
+            {
+                this.charbuf[j - 1] = this.charbuf[j];
+            }
+            (this.bufpos)--;
+        }
+        this.charbuf[(this.bufpos)++] = c;
 
         if (c == '\n')
         {

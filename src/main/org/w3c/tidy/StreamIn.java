@@ -108,6 +108,7 @@ public abstract class StreamIn
     public InputStream stream;
 
     public boolean endOfStream;
+    
 
     /**
      * needed for error reporting.

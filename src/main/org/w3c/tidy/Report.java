@@ -1495,7 +1495,7 @@ public final class Report
     {
         int i, c;
         int state = 0;
-        String vers = lexer.HTMLVersionName();
+        String vers = lexer.htmlVersionName();
         MutableInteger cc = new MutableInteger();
 
         if (doctype != null)

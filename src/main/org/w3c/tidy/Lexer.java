@@ -2778,7 +2778,10 @@ public class Lexer
                 }
 
                 this.in.ungetChar(c);
-                // this.in.ungetChar('<'); // fix for 433360, leads to 532535
+                if (this.state != LEX_XMLDECL) // FG fix for 532535
+                {
+                    this.in.ungetChar('<'); // fix for 433360
+                }
                 report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
                 return null;
             }
@@ -3088,11 +3091,11 @@ public class Lexer
 
                 if (c == '<')
                 {
-                    // this.in.ungetChar(c); // fix for 433360, leads to 532535
-                    // c = '>';
-                    // this.in.ungetChar(c);
+                    this.in.ungetChar(c); // fix for 433360
+                    c = '>';
+                    this.in.ungetChar(c);
                     report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
-                    // break;
+                    break;
                 }
 
                 // For cases like <br clear=all/> need to avoid treating /> as part of the attribute value, however
