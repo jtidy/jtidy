@@ -1396,11 +1396,11 @@ public class Tidy implements Serializable
                 }
 
                 doctype = document.findDocType();
+                
                 // remember given doctype
                 if (doctype != null)
                 {
                     doctype = (Node) doctype.clone();
-                    //doctype = doctype.cloneNode(true);
                 }
 
                 if (document.content != null)
@@ -1428,7 +1428,6 @@ public class Tidy implements Serializable
 
                 if (!configuration.quiet && document.content != null)
                 {
-                    doctype = document.findDocType();
                     this.report.reportVersion(errout, lexer, inputStreamName, doctype);
                 }
             }
