@@ -2421,11 +2421,7 @@ public final class ParserImpl
                         Report.warning(lexer, table, node, Report.TAG_NOT_ALLOWED_IN);
                         lexer.exiled = true;
 
-                        // AQ: TODO Line 2040 of parser.c (13 Jan 2000) reads as follows: if (!node->type == TextNode)
-                        // This will always evaluate to false. This has been reported to Dave Raggett <dsr@w3.org>
-
-                        //Should be?: if (!(node.type == Node.TextNode))
-                        if (false)
+                        if (!(node.type == Node.TextNode)) // #427662 - was (!node->type == TextNode) - fix by Young
                         {
                             parseTag(lexer, node, Lexer.IgnoreWhitespace);
                         }
