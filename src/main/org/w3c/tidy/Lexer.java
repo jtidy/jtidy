@@ -1498,7 +1498,7 @@ public class Lexer
                     str = getString(this.lexbuf, start, len);
                     if (Lexer.wstrcasecmp(str, container.element) == 0)
                     {
-                        this.txtend = start - 2;
+                        this.txtend = start - 2; // #433857 - fix by Huajun Zeng
                         break;
                     }
                 }
@@ -2101,6 +2101,9 @@ public class Lexer
                         {
                             this.token.checkAttributes(this);
                         }
+
+                        // should this be called before attribute checks?
+                        this.token.checkUniqueAttributes(this);
                     }
 
                     return this.token; // return start tag
@@ -2388,7 +2391,7 @@ public class Lexer
                         av.next = attributes;
 
                         attributes = av;
-                        continue;
+                        // continue;
                     }
 
                     // now look for '>'
@@ -2667,6 +2670,7 @@ public class Lexer
                 }
 
                 this.in.ungetChar(c);
+                // this.in.ungetChar('<'); // fix for 433360, leads to 532535
                 report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
                 return null;
             }
@@ -2976,6 +2980,8 @@ public class Lexer
 
                 if (c == '<')
                 {
+                    // this.in.ungetChar(c); // fix for 433360, leads to 532535
+                    // c = '>';
                     // this.in.ungetChar(c);
                     report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
                     // break;
