@@ -53,7 +53,6 @@
  */
 package org.w3c.tidy;
 
-
 import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
@@ -84,122 +83,210 @@ public final class Report
     /* error codes for entities */
 
     public static final short MISSING_SEMICOLON = 1;
+
     public static final short MISSING_SEMICOLON_NCR = 2;
+
     public static final short UNKNOWN_ENTITY = 3;
+
     public static final short UNESCAPED_AMPERSAND = 4;
+
     public static final short APOS_UNDEFINED = 5;
 
     /* error codes for element messages */
 
     public static final short MISSING_ENDTAG_FOR = 6;
+
     public static final short MISSING_ENDTAG_BEFORE = 7;
+
     public static final short DISCARDING_UNEXPECTED = 8;
+
     public static final short NESTED_EMPHASIS = 9;
+
     public static final short NON_MATCHING_ENDTAG = 10;
+
     public static final short TAG_NOT_ALLOWED_IN = 11;
+
     public static final short MISSING_STARTTAG = 12;
+
     public static final short UNEXPECTED_ENDTAG = 13;
+
     public static final short USING_BR_INPLACE_OF = 14;
+
     public static final short INSERTING_TAG = 15;
+
     public static final short SUSPECTED_MISSING_QUOTE = 16;
+
     public static final short MISSING_TITLE_ELEMENT = 17;
+
     public static final short DUPLICATE_FRAMESET = 18;
+
     public static final short CANT_BE_NESTED = 19;
+
     public static final short OBSOLETE_ELEMENT = 20;
+
     public static final short PROPRIETARY_ELEMENT = 21;
+
     public static final short UNKNOWN_ELEMENT = 22;
+
     public static final short TRIM_EMPTY_ELEMENT = 23;
+
     public static final short COERCE_TO_ENDTAG = 24;
+
     public static final short ILLEGAL_NESTING = 25;
+
     public static final short NOFRAMES_CONTENT = 26;
+
     public static final short CONTENT_AFTER_BODY = 27;
+
     public static final short INCONSISTENT_VERSION = 28;
+
     public static final short MALFORMED_COMMENT = 29;
+
     public static final short BAD_COMMENT_CHARS = 30;
+
     public static final short BAD_XML_COMMENT = 31;
+
     public static final short BAD_CDATA_CONTENT = 32;
+
     public static final short INCONSISTENT_NAMESPACE = 33;
+
     public static final short DOCTYPE_AFTER_TAGS = 34;
+
     public static final short MALFORMED_DOCTYPE = 35;
+
     public static final short UNEXPECTED_END_OF_FILE = 36;
+
     public static final short DTYPE_NOT_UPPER_CASE = 37;
+
     public static final short TOO_MANY_ELEMENTS = 38;
+
     public static final short UNESCAPED_ELEMENT = 39;
+
     public static final short NESTED_QUOTATION = 40;
+
     public static final short ELEMENT_NOT_EMPTY = 41;
+
     public static final short ENCODING_IO_CONFLICT = 42;
+
     public static final short MIXED_CONTENT_IN_BLOCK = 43;
+
     public static final short MISSING_DOCTYPE = 44;
+
     public static final short SPACE_PRECEDING_XMLDECL = 45;
+
     public static final short TOO_MANY_ELEMENTS_IN = 46;
+
     public static final short UNEXPECTED_ENDTAG_IN = 47;
+
     public static final short REPLACING_ELEMENT = 83;
+
     public static final short REPLACING_UNEX_ELEMENT = 84;
+
     public static final short COERCE_TO_ENDTAG_WARN = 85;
 
     /* error codes used for attribute messages */
 
     public static final short UNKNOWN_ATTRIBUTE = 48;
+
     public static final short MISSING_ATTRIBUTE = 49;
+
     public static final short MISSING_ATTR_VALUE = 50;
+
     public static final short BAD_ATTRIBUTE_VALUE = 51;
+
     public static final short UNEXPECTED_GT = 52;
+
     public static final short PROPRIETARY_ATTRIBUTE = 53;
+
     public static final short PROPRIETARY_ATTR_VALUE = 54;
+
     public static final short REPEATED_ATTRIBUTE = 55;
+
     public static final short MISSING_IMAGEMAP = 56;
+
     public static final short XML_ATTRIBUTE_VALUE = 57;
+
     public static final short MISSING_QUOTEMARK = 58;
+
     public static final short UNEXPECTED_QUOTEMARK = 59;
+
     public static final short ID_NAME_MISMATCH = 60;
 
     public static final short BACKSLASH_IN_URI = 61;
+
     public static final short FIXED_BACKSLASH = 62;
+
     public static final short ILLEGAL_URI_REFERENCE = 63;
+
     public static final short ESCAPED_ILLEGAL_URI = 64;
 
     public static final short NEWLINE_IN_URI = 65;
+
     public static final short ANCHOR_NOT_UNIQUE = 66;
 
     public static final short JOINING_ATTRIBUTE = 68;
+
     public static final short UNEXPECTED_EQUALSIGN = 69;
+
     public static final short ATTR_VALUE_NOT_LCASE = 70;
+
     public static final short ID_SYNTAX = 71;
+
     public static final short INVALID_ATTRIBUTE = 72;
+
     public static final short BAD_ATTRIBUTE_VALUE_REPLACED = 73;
+
     public static final short INVALID_XML_ID = 74;
+
     public static final short UNEXPECTED_END_OF_FILE_ATTR = 75;
 
     /* character encoding errors */
 
     public static final short VENDOR_SPECIFIC_CHARS = 76;
+
     public static final short INVALID_SGML_CHARS = 77;
+
     public static final short INVALID_UTF8 = 78;
+
     public static final short INVALID_UTF16 = 79;
+
     public static final short ENCODING_MISMATCH = 80;
+
     public static final short INVALID_URI = 81;
+
     public static final short INVALID_NCR = 82;
 
     /* accessibility flaws */
 
     public static final short MISSING_IMAGE_ALT = 1;
+
     public static final short MISSING_LINK_ALT = 2;
+
     public static final short MISSING_SUMMARY = 4;
+
     public static final short MISSING_IMAGE_MAP = 8;
+
     public static final short USING_FRAMES = 16;
+
     public static final short USING_NOFRAMES = 32;
 
     /* presentation flaws */
 
     public static final short USING_SPACER = 1;
+
     public static final short USING_LAYER = 2;
+
     public static final short USING_NOBR = 4;
+
     public static final short USING_FONT = 8;
+
     public static final short USING_BODY = 16;
 
     /* character encoding errors */
     public static final short WINDOWS_CHARS = 1;
+
     public static final short NON_ASCII = 2;
+
     public static final short FOUND_UTF16 = 4;
 
     private static ResourceBundle res;
@@ -496,12 +583,18 @@ public final class Report
             }
             else if (code == MISSING_ATTRIBUTE)
             {
-                printMessage(lexer, "missing_attribute", new Object[]{getTagName(node), attribute.attribute},
+                printMessage(
+                    lexer,
+                    "missing_attribute",
+                    new Object[]{getTagName(node), attribute.attribute},
                     TidyMessage.Level.WARNING);
             }
             else if (code == MISSING_ATTR_VALUE)
             {
-                printMessage(lexer, "missing_attr_value", new Object[]{getTagName(node), attribute.attribute},
+                printMessage(
+                    lexer,
+                    "missing_attr_value",
+                    new Object[]{getTagName(node), attribute.attribute},
                     TidyMessage.Level.WARNING);
             }
             else if (code == MISSING_IMAGEMAP)
@@ -518,7 +611,10 @@ public final class Report
             }
             else if (code == XML_ATTRIBUTE_VALUE)
             {
-                printMessage(lexer, "xml_attribute_value", new Object[]{getTagName(node), attribute.attribute},
+                printMessage(
+                    lexer,
+                    "xml_attribute_value",
+                    new Object[]{getTagName(node), attribute.attribute},
                     TidyMessage.Level.WARNING);
             }
             else if (code == UNEXPECTED_QUOTEMARK)
@@ -531,12 +627,18 @@ public final class Report
             }
             else if (code == PROPRIETARY_ATTR_VALUE)
             {
-                printMessage(lexer, "proprietary_attr_value", new Object[]{getTagName(node), attribute.value},
+                printMessage(
+                    lexer,
+                    "proprietary_attr_value",
+                    new Object[]{getTagName(node), attribute.value},
                     TidyMessage.Level.WARNING);
             }
             else if (code == PROPRIETARY_ATTRIBUTE)
             {
-                printMessage(lexer, "proprietary_attribute", new Object[]{getTagName(node), attribute.attribute},
+                printMessage(
+                    lexer,
+                    "proprietary_attribute",
+                    new Object[]{getTagName(node), attribute.attribute},
                     TidyMessage.Level.WARNING);
             }
             else if (code == UNEXPECTED_END_OF_FILE)
@@ -547,6 +649,54 @@ public final class Report
             {
                 printMessage(lexer, "id_name_mismatch", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
             }
+            else if (code == BACKSLASH_IN_URI)
+            {
+                printMessage(lexer, "backslash_in_uri", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
+            }
+            else if (code == FIXED_BACKSLASH)
+            {
+                printMessage(lexer, "fixed_backslash", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
+            }
+            else if (code == ILLEGAL_URI_REFERENCE)
+            {
+                printMessage(lexer, "illegal_uri_reference", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
+            }
+            else if (code == ESCAPED_ILLEGAL_URI)
+            {
+                printMessage(lexer, "escaped_illegal_uri", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
+            }
+            else if (code == NEWLINE_IN_URI)
+            {
+                printMessage(lexer, "newline_in_uri", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
+            }
+            else if (code == ANCHOR_NOT_UNIQUE)
+            {
+                printMessage(
+                    lexer,
+                    "anchor_not_unique",
+                    new Object[]{getTagName(node), attribute.value},
+                    TidyMessage.Level.WARNING);
+            }
+            else if (code == JOINING_ATTRIBUTE)
+            {
+                printMessage(
+                    lexer,
+                    "joining_attribute",
+                    new Object[]{getTagName(node), attribute.attribute},
+                    TidyMessage.Level.WARNING);
+            }
+            else if (code == UNEXPECTED_EQUALSIGN)
+            {
+                printMessage(lexer, "expected_equalsign", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
+            }
+            else if (code == ATTR_VALUE_NOT_LCASE)
+            {
+                printMessage(lexer, "attr_value_not_lcase", new Object[]{
+                    getTagName(node),
+                    attribute.value,
+                    attribute.attribute}, TidyMessage.Level.WARNING);
+            }
+
         }
 
         // error
@@ -583,7 +733,10 @@ public final class Report
         }
         else if (code == MISSING_ENDTAG_BEFORE)
         {
-            printMessage(lexer, "missing_endtag_before", new Object[]{element.element, getTagName(node)},
+            printMessage(
+                lexer,
+                "missing_endtag_before",
+                new Object[]{element.element, getTagName(node)},
                 TidyMessage.Level.WARNING);
         }
         else if (code == DISCARDING_UNEXPECTED)
@@ -600,12 +753,18 @@ public final class Report
         }
         else if (code == NON_MATCHING_ENDTAG)
         {
-            printMessage(lexer, "non_matching_endtag", new Object[]{getTagName(node), element.element},
+            printMessage(
+                lexer,
+                "non_matching_endtag",
+                new Object[]{getTagName(node), element.element},
                 TidyMessage.Level.WARNING);
         }
         else if (code == TAG_NOT_ALLOWED_IN)
         {
-            printMessage(lexer, "tag_not_allowed_in", new Object[]{getTagName(node), element.element},
+            printMessage(
+                lexer,
+                "tag_not_allowed_in",
+                new Object[]{getTagName(node), element.element},
                 TidyMessage.Level.WARNING);
         }
         else if (code == DOCTYPE_AFTER_TAGS)
@@ -620,7 +779,10 @@ public final class Report
         {
             if (element != null)
             {
-                printMessage(lexer, "unexpected_endtag_in", new Object[]{node.element, element.element},
+                printMessage(
+                    lexer,
+                    "unexpected_endtag_in",
+                    new Object[]{node.element, element.element},
                     TidyMessage.Level.WARNING);
             }
             else
@@ -632,7 +794,10 @@ public final class Report
         {
             if (element != null)
             {
-                printMessage(lexer, "too_many_elements_in", new Object[]{node.element, element.element},
+                printMessage(
+                    lexer,
+                    "too_many_elements_in",
+                    new Object[]{node.element, element.element},
                     TidyMessage.Level.WARNING);
             }
             else
@@ -673,12 +838,18 @@ public final class Report
         {
             if (element.tag != null && (element.tag.model & Dict.CM_OBSOLETE) != 0)
             {
-                printMessage(lexer, "obsolete_element", new Object[]{getTagName(element), getTagName(node)},
+                printMessage(
+                    lexer,
+                    "obsolete_element",
+                    new Object[]{getTagName(element), getTagName(node)},
                     TidyMessage.Level.WARNING);
             }
             else
             {
-                printMessage(lexer, "replacing_element", new Object[]{getTagName(element), getTagName(node)},
+                printMessage(
+                    lexer,
+                    "replacing_element",
+                    new Object[]{getTagName(element), getTagName(node)},
                     TidyMessage.Level.WARNING);
             }
         }
@@ -773,7 +944,10 @@ public final class Report
         {
             if (element != null)
             {
-                printMessage(lexer, "unexpected_endtag_in", new Object[]{node.element, element.element},
+                printMessage(
+                    lexer,
+                    "unexpected_endtag_in",
+                    new Object[]{node.element, element.element},
                     TidyMessage.Level.ERROR);
             }
             else
@@ -885,7 +1059,8 @@ public final class Report
 
             try
             {
-                tidyPrintln(lexer.errout, MessageFormat.format(res.getString("badaccess_summary"),
+                tidyPrintln(lexer.errout, MessageFormat.format(
+                    res.getString("badaccess_summary"),
                     new Object[]{ACCESS_URL}));
             }
             catch (MissingResourceException e)
@@ -1089,9 +1264,13 @@ public final class Report
             printMessage(lexer, "doctype_given", new Object[]{filename, doctypeBuffer}, TidyMessage.Level.SUMMARY);
         }
 
-        printMessage(lexer, "report_version", new Object[]{filename, (vers != null ? vers : "HTML proprietary")},
+        printMessage(
+            lexer,
+            "report_version",
+            new Object[]{filename, (vers != null ? vers : "HTML proprietary")},
             TidyMessage.Level.SUMMARY);
     }
+
     public void reportNumWarnings(PrintWriter errout, Lexer lexer)
     {
         if (lexer.warnings > 0)
