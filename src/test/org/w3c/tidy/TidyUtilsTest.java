@@ -102,6 +102,8 @@ public class TidyUtilsTest extends TestCase
         assertTrue(TidyUtils.isCharEncodingSupported("utf-8"));
         assertTrue(TidyUtils.isCharEncodingSupported("ISO2022JP"));
         assertTrue(TidyUtils.isCharEncodingSupported("ASCII"));
+        assertTrue(TidyUtils.isCharEncodingSupported("CP858"));
+        assertTrue(TidyUtils.isCharEncodingSupported("ibm858"));
         assertFalse(TidyUtils.isCharEncodingSupported("xyz"));
     }
 
@@ -125,6 +127,8 @@ public class TidyUtilsTest extends TestCase
         assertEquals("UTF-16", TidyUtils.toJavaEncodingName("UTF16"));
         assertEquals("UNICODEBIGUNMARKED", TidyUtils.toJavaEncodingName("UTF16BE"));
         assertEquals("UNICODELITTLEUNMARKED", TidyUtils.toJavaEncodingName("UTF16LE"));
+        assertEquals("CP858", TidyUtils.toJavaEncodingName("ibm858"));
+
         // assertEquals("MACROMAN", TidyUtils.toJavaEncodingName("Macintosh Roman"));
     }
 
