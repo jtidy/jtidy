@@ -258,7 +258,7 @@ public final class AttrCheckImpl
             boolean backslashFound = false;
             int i = 0;
 
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -375,7 +375,7 @@ public final class AttrCheckImpl
                 return;
             }
 
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -423,7 +423,7 @@ public final class AttrCheckImpl
         {
             String value;
 
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -468,7 +468,7 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 return;
             }
@@ -490,7 +490,7 @@ public final class AttrCheckImpl
         public void check(Lexer lexer, Node node, AttVal attval)
         {
 
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -544,7 +544,7 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -583,7 +583,7 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -614,13 +614,10 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
-                if (attval != null)
-                {
-                    attval.value = VALID_VALUES[0];
-                }
+                attval.value = VALID_VALUES[0];
                 return;
             }
 
@@ -650,7 +647,7 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -683,7 +680,7 @@ public final class AttrCheckImpl
         public void check(Lexer lexer, Node node, AttVal attval)
         {
 
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -710,7 +707,7 @@ public final class AttrCheckImpl
         public void check(Lexer lexer, Node node, AttVal attval)
         {
 
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -758,7 +755,7 @@ public final class AttrCheckImpl
         {
             Node old;
 
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -808,7 +805,7 @@ public final class AttrCheckImpl
         {
             Node old;
 
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -870,7 +867,7 @@ public final class AttrCheckImpl
             boolean invalid = false;
             boolean found = false;
 
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -976,7 +973,7 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -1008,7 +1005,7 @@ public final class AttrCheckImpl
         public void check(Lexer lexer, Node node, AttVal attval)
         {
 
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -1040,7 +1037,7 @@ public final class AttrCheckImpl
         public void check(Lexer lexer, Node node, AttVal attval)
         {
 
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -1072,7 +1069,7 @@ public final class AttrCheckImpl
                 lexer.constrainVersion(~Dict.VERS_XHTML11);
             }
 
-            if (attval == null || attval.value == null)
+            if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
