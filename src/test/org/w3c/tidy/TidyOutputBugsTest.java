@@ -211,7 +211,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [427839] : Output DOCTYPE/Namespace decl separately.
+     * test for Tidy [427839] : Output DOCTYPE/Namespace decl separately. [fixed]
      * @throws Exception any exception generated during the test
      */
     public void test427839() throws Exception

@@ -972,6 +972,8 @@ public class Lexer
 
         doctype = root.findDocType();
 
+        fixHTMLNameSpace(root, namespace); // #427839 - fix by Evan Lenz 05 Sep 00
+
         if (this.configuration.docTypeMode == Configuration.DOCTYPE_OMIT)
         {
             if (doctype != null)
@@ -1019,7 +1021,8 @@ public class Lexer
             sysid = voyager_loose;
         }
 
-        fixHTMLNameSpace(root, namespace);
+        // #427839 - fix by Evan Lenz 05 Sep 00
+        // fixHTMLNameSpace(root, namespace);
 
         if (doctype == null)
         {
