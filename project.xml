@@ -177,6 +177,16 @@ In addition, JTidy provides a DOM interface to the document that is being proces
             <url>http://maven-plugins.sourceforge.net</url>
         </dependency>
 
+	<dependency>
+      <groupId>clover</groupId>
+      <artifactId>clover</artifactId>
+      <version>1.2.3</version>
+      <url>http://www.thecortex.net/clover</url>
+      <properties>
+        <comment>Required to generate test coverage reports. Not needed at runtime.</comment>
+      </properties>
+    </dependency>
+
     </dependencies>
     <build>
         <sourceDirectory>src/main</sourceDirectory>
