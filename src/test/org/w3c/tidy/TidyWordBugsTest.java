@@ -54,22 +54,59 @@
 package org.w3c.tidy;
 
 /**
- * testcase for JTidy resolved bugs (Tidy warning and errors).
+ * Testcase for Tidy resolved bugs (Word documents cleaning bugs).
+ * <p>
+ * see <code>http://sourceforge.net/support/tracker.php?aid=(item number)</code>
+ * </p>
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
-public class JTidyWarningBugsTest extends TidyTestCase
+public class TidyWordBugsTest extends TidyTestCase
 {
 
     /**
-     * test for JTidy [828316]: FRAMEBORDER attribute of IFRAME gives spurious warning.
-     * @throws Exception any exception generated during the test
+     * test for Tidy [427835] : -clean has no effect.
+     * @throws Exception any exception generated during the test @todo finish test
      */
-    public void test828316() throws Exception
+    public void test427835() throws Exception
     {
-        executeTidyTest("j828316.html");
-        assertNoWarnings();
-        assertNoErrors();
+        executeTidyTest("427835.html");
+    }
+
+    /**
+     * test for Tidy [431721] : Cleaning list bullets for Word 2000.
+     * @throws Exception any exception generated during the test @todo finish test
+     */
+    public void test431721() throws Exception
+    {
+        executeTidyTest("431721.html");
+    }
+
+    /**
+     * test for Tidy [444394] : Tidy strips images from Word2000 docs.
+     * @throws Exception any exception generated during the test @todo finish test
+     */
+    public void test444394() throws Exception
+    {
+        executeTidyTest("444394.html");
+    }
+
+    /**
+     * test for Tidy [463066] : CleanWord2000 misses mso-list bullets.
+     * @throws Exception any exception generated during the test @todo finish test
+     */
+    public void test463066() throws Exception
+    {
+        executeTidyTest("463066.html");
+    }
+
+    /**
+     * test for Tidy [634889] : Problem with &lt;o:p&gt; ms word tag.
+     * @throws Exception any exception generated during the test @todo finish test
+     */
+    public void test634889() throws Exception
+    {
+        executeTidyTest("634889.html");
     }
 
 }

@@ -59,7 +59,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.Properties;
 
@@ -81,19 +83,38 @@ public class TidyTestCase extends TestCase
     private static Log log = LogFactory.getLog(TidyTestCase.class);
 
     /**
+     * Tidy test instance.
+     */
+    protected Tidy tidy;
+
+    /**
+     * Error out.
+     */
+    protected StringWriter errorLog;
+
+    /**
+     * @see junit.framework.TestCase#tearDown()
+     */
+    protected void tearDown() throws Exception
+    {
+        this.tidy = null;
+        this.errorLog = null;
+        super.tearDown();
+    }
+
+    /**
      * Executes a tidy test. This method simply requires the input file name. If a file with the same name but with a
      * ".cfg" extension is found is used as configuration file for the test, otherwise the default config will be used.
      * If a file with the same name, but with the ".out" extension is found, tidy will the result with the content of
      * such file.
      * @param fileName input file name
      * @throws Exception any exception generated during the test
-     * @return Tidy instance needed if tester wants to check generated error and warnings
      */
-    protected Tidy executeTidyTest(String fileName) throws Exception
+    protected void executeTidyTest(String fileName) throws Exception
     {
 
         // set up Tidy using supplied configuration
-        Tidy tidy = setUpTidy(fileName);
+        setUpTidy(fileName);
 
         // input file
         URL inputURL = getClass().getClassLoader().getResource(fileName);
@@ -103,7 +124,7 @@ public class TidyTestCase extends TestCase
         OutputStream out = new ByteArrayOutputStream();
 
         // go!
-        tidy.parse(inputURL.openStream(), out);
+        this.tidy.parse(inputURL.openStream(), out);
 
         if (log.isDebugEnabled())
         {
@@ -119,8 +140,6 @@ public class TidyTestCase extends TestCase
             log.debug("Comparing file using [" + outFileName + "]");
             assertEquals(out.toString(), outFile);
         }
-
-        return tidy;
     }
 
     /**
@@ -133,19 +152,19 @@ public class TidyTestCase extends TestCase
     protected Document parseDomTest(String fileName) throws Exception
     {
         //creates a new Tidy
-        Tidy tidy = setUpTidy(fileName);
+        setUpTidy(fileName);
 
         // input file
         URL inputURL = getClass().getClassLoader().getResource(fileName);
         assertNotNull("Can't find input file [" + fileName + "]", inputURL);
 
-        return tidy.parseDOM(inputURL.openStream(), null);
+        return this.tidy.parseDOM(inputURL.openStream(), null);
     }
 
     /**
      * assert generated output and test file are equals. Note this implementation doesn't handle encoding yet! @todo
-     * add encoding support @todo comparison skipping tidy-inserted generator meta tag @todo comparison not considering
-     * wrapping
+     * add encoding support @todo comparison skipping tidy-inserted generator meta tag @todo backup comparison not
+     * considering wrapping
      * @param tidyOutput tidy output as string
      * @param correctFile URL used to load the file for comparison
      * @throws FileNotFoundException if test file is not found
@@ -153,7 +172,6 @@ public class TidyTestCase extends TestCase
      */
     protected void assertEquals(String tidyOutput, URL correctFile) throws FileNotFoundException, IOException
     {
-
         diff(
             new BufferedReader(new StringReader(tidyOutput)),
             new BufferedReader(new FileReader(correctFile.getFile())));
@@ -161,12 +179,35 @@ public class TidyTestCase extends TestCase
     }
 
     /**
+     * Utility method: assert no warnings were reported in the last tidy run.
+     */
+    protected void assertNoWarnings()
+    {
+        int warningNum = this.tidy.getParseWarnings();
+        if (warningNum != 0)
+        {
+            fail("Test failed, [" + warningNum + "] false warnings are reported");
+        }
+    }
+
+    /**
+     * Utility method: assert no errors were reported in the last tidy run.
+     */
+    protected void assertNoErrors()
+    {
+        int errorNum = this.tidy.getParseErrors();
+        if (errorNum != 0)
+        {
+            fail("Test failed, [" + errorNum + "] false errors are reported");
+        }
+    }
+
+    /**
      * set up the tidy instance.
      * @param fileName input file name (needed to determine configuration file name)
-     * @return Tidy instance
      * @throws IOException in reading configuration file
      */
-    private Tidy setUpTidy(String fileName) throws IOException
+    private void setUpTidy(String fileName) throws IOException
     {
         // config file names
         String configFileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".cfg";
@@ -190,17 +231,19 @@ public class TidyTestCase extends TestCase
             log.debug(message.toString());
         }
         //creates a new Tidy
-        Tidy tidy = new Tidy();
+        this.tidy = new Tidy();
 
         // if configuration file exists load and set it
         if (configurationFile != null)
         {
             Properties testProperties = new Properties();
             testProperties.load(configurationFile.openStream());
-            tidy.setConfigurationFromProps(testProperties);
+            this.tidy.setConfigurationFromProps(testProperties);
         }
 
-        return tidy;
+        // set up error log
+        this.errorLog = new StringWriter();
+        this.tidy.setErrout(new PrintWriter(this.errorLog));
     }
 
     /**

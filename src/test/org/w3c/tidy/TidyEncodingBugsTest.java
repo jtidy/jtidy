@@ -54,22 +54,59 @@
 package org.w3c.tidy;
 
 /**
- * testcase for JTidy resolved bugs (Tidy warning and errors).
+ * Testcase for Tidy resolved bugs (encodings).
+ * <p>
+ * see <code>http://sourceforge.net/support/tracker.php?aid=(item number)</code>
+ * </p>
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
-public class JTidyWarningBugsTest extends TidyTestCase
+public class TidyEncodingBugsTest extends TidyTestCase
 {
 
     /**
-     * test for JTidy [828316]: FRAMEBORDER attribute of IFRAME gives spurious warning.
-     * @throws Exception any exception generated during the test
+     * test for Tidy [647255] : UTF16.
+     * @throws Exception any exception generated during the test @todo finish test
      */
-    public void test828316() throws Exception
+    public void test647255() throws Exception
     {
-        executeTidyTest("j828316.html");
-        assertNoWarnings();
-        assertNoErrors();
+        executeTidyTest("647255.html");
+    }
+
+    /**
+     * test for Tidy [658230] : Big5.
+     * @throws Exception any exception generated during the test @todo finish test
+     */
+    public void test658230() throws Exception
+    {
+        executeTidyTest("658230.html");
+    }
+
+    /**
+     * test for Tidy [660397] : Add support for IBM-858 and ISO-8859-15.
+     * @throws Exception any exception generated during the test @todo finish test
+     */
+    public void test660397() throws Exception
+    {
+        executeTidyTest("660397.html");
+    }
+
+    /**
+     * test for Tidy [676156] : tidy --input-encoding is broken.
+     * @throws Exception any exception generated during the test @todo finish test
+     */
+    public void test676156() throws Exception
+    {
+        executeTidyTest("676156.html");
+    }
+
+    /**
+     * test for Tidy [688746] : incorrect charset value for utf-8.
+     * @throws Exception any exception generated during the test @todo finish test
+     */
+    public void test688746() throws Exception
+    {
+        executeTidyTest("688746.html");
     }
 
 }

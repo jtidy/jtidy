@@ -54,8 +54,7 @@
 package org.w3c.tidy;
 
 /**
- * Testcase for Tidy resolved bugs.
- * Bugs that crashed tidy or caused infinite loops.
+ * Testcase for Tidy resolved bugs. Bugs that crashed tidy or caused infinite loops.
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
@@ -70,7 +69,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
     {
         executeTidyTest("427664.html");
     }
-    
+
     /**
      * test for Tidy [427671] : &lt;LI&gt; w/FRAME/FRAMESET/OPTGROUP/OPTION loop.
      * @throws Exception any exception generated during the test
@@ -80,7 +79,26 @@ public class TidyCrashingBugsTest extends TidyTestCase
         fail("test disabled till fixed (infinite loop)");
         //executeTidyTest("427671.html");
     }
-    
+
+    /**
+     * test for Tidy [427675] : Frameset followed by frame infinite loop.
+     * @throws Exception any exception generated during the test
+     */
+    public void test427675() throws Exception
+    {
+        fail("test disabled till fixed (infinite loop)");
+        //executeTidyTest("427675.html");
+    }
+
+    /**
+     * test for Tidy [427676] : Missing = from attr value NULL segfault.
+     * @throws Exception any exception generated during the test
+     */
+    public void test427676() throws Exception
+    {
+        executeTidyTest("427676.html");
+    }
+
     /**
      * test for Tidy [427672] : Non-std attrs w/multibyte names segfault.
      * @throws Exception any exception generated during the test
@@ -98,7 +116,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
     {
         executeTidyTest("426885.html");
     }
-    
+
     /**
      * test for Tidy [427811] : FRAME inside NOFRAME infinite loop.
      * @throws Exception any exception generated during the test
@@ -107,7 +125,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
     {
         executeTidyTest("427811.html");
     }
-    
+
     /**
      * test for Tidy [427813] : Missing = from attr value segfaults.
      * @throws Exception any exception generated during the test
@@ -116,7 +134,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
     {
         executeTidyTest("427813.html");
     }
-    
+
     /**
      * test for Tidy [427816] : Mismatched quotes for attr segfaults.
      * @throws Exception any exception generated during the test
@@ -125,7 +143,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
     {
         executeTidyTest("427816.html");
     }
-    
+
     /**
      * test for Tidy [427818] : Missing quotes cause segfaults.
      * @throws Exception any exception generated during the test
@@ -134,7 +152,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
     {
         executeTidyTest("427818.html");
     }
-    
+
     /**
      * test for Tidy [427840] : Span causes infinite loop.
      * @throws Exception any exception generated during the test
@@ -144,7 +162,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
         fail("test disabled till fixed (infinite loop)");
         //executeTidyTest("427840.html");
     }
-    
+
     /**
      * test for Tidy [427841] : Tidy crashes on badly formed HTML involving nested lists.
      * @throws Exception any exception generated during the test
@@ -153,7 +171,16 @@ public class TidyCrashingBugsTest extends TidyTestCase
     {
         executeTidyTest("427841.html");
     }
-    
+
+    /**
+     * test for Tidy [431716] : -slides causes a seg fault.
+     * @throws Exception any exception generated during the test
+     */
+    public void test431716() throws Exception
+    {
+        executeTidyTest("431716.html");
+    }
+
     /**
      * test for Tidy [443362] : null-pointer exception for doctype in pre.
      * @throws Exception any exception generated during the test
@@ -162,7 +189,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
     {
         executeTidyTest("443362.html");
     }
-    
+
     /**
      * test for Tidy [532535] : Hang when in code &lt;?xml /&gt;.
      * @throws Exception any exception generated during the test
@@ -181,7 +208,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
         fail("test disabled till fixed (infinite loop)");
         //executeTidyTest("539369.html");
     }
-    
+
     /**
      * test for Tidy [540296] : Tidy dumps.
      * @throws Exception any exception generated during the test
@@ -189,8 +216,35 @@ public class TidyCrashingBugsTest extends TidyTestCase
     public void test540296() throws Exception
     {
         executeTidyTest("540296.html");
-    }    
-    
+    }
+
+    /**
+     * test for Tidy [542029] : PPrintXmlDecl reads outside array range.
+     * @throws Exception any exception generated during the test @todo finish test
+     */
+    public void test542029() throws Exception
+    {
+        executeTidyTest("542029.html");
+    }
+
+    /**
+     * test for Tidy [543262] : tidy eats all memory.
+     * @throws Exception any exception generated during the test
+     */
+    public void test543262() throws Exception
+    {
+        executeTidyTest("543262.html");
+    }
+
+    /**
+     * test for Tidy [545772] : --output-xhtml hangs on most files.
+     * @throws Exception any exception generated during the test
+     */
+    public void test545772() throws Exception
+    {
+        executeTidyTest("545772.html");
+    }
+
     /**
      * test for Tidy [566542] : parser hangs.
      * @throws Exception any exception generated during the test
@@ -199,7 +253,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
     {
         executeTidyTest("566542.html");
     }
-    
+
     /**
      * test for Tidy [570027] : Fixes crash in Word2000 cleanup.
      * @throws Exception any exception generated during the test
@@ -208,7 +262,16 @@ public class TidyCrashingBugsTest extends TidyTestCase
     {
         executeTidyTest("570027.html");
     }
-    
+
+    /**
+     * test for Tidy [588061] : Crash on www.tvnav.com.
+     * @throws Exception any exception generated during the test
+     */
+    public void test588061() throws Exception
+    {
+        executeTidyTest("588061.html");
+    }
+
     /**
      * test for Tidy [671087] : tidy loops with --new-inline-tags table,tr,td.
      * @throws Exception any exception generated during the test
@@ -217,7 +280,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
     {
         executeTidyTest("671087.html");
     }
-    
+
     /**
      * test for Tidy [676205] : &lt;img src=&quot;&gt; crashes Tidy.
      * @throws Exception any exception generated during the test
@@ -226,7 +289,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
     {
         executeTidyTest("676205.html");
     }
-    
+
     /**
      * test for Tidy [679135] : Crashes while checking attributes.
      * @throws Exception any exception generated during the test
@@ -245,7 +308,15 @@ public class TidyCrashingBugsTest extends TidyTestCase
         executeTidyTest("696799.html");
     }
 
-    
+    /**
+     * test for Tidy [788031] : tidy hangs on input.
+     * @throws Exception any exception generated during the test
+     */
+    public void test788031() throws Exception
+    {
+        executeTidyTest("788031.html");
+    }
+
     /**
      * test for Tidy [837023] : segfault on doctype-like element.
      * @throws Exception any exception generated during the test
@@ -254,6 +325,5 @@ public class TidyCrashingBugsTest extends TidyTestCase
     {
         executeTidyTest("837023.html");
     }
-    
-    
+
 }
