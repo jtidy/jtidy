@@ -75,7 +75,7 @@ public class TidyBugsTest extends TidyTestCase
     {
         URL inputURL = getClass().getClassLoader().getResource("431895.html");
 
-        Tidy.main(new String[] { "-q", "-e", cleanUpFilePath(inputURL.getFile())});
+        Tidy.mainExec(new String[] { "-q", "-e", cleanUpFilePath(inputURL.getFile())});
 
         // should check system out...
     }

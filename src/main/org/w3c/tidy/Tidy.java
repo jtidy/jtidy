@@ -1331,9 +1331,21 @@ public class Tidy implements java.io.Serializable
 
     /**
      * Command line interface to parser and pretty printer.
+     * @param argv command line parameters
      */
-
     public static void main(String[] argv)
+    {
+        int returnCode = Tidy.mainExec(argv);
+        System.exit(returnCode);
+    }
+
+    /**
+     * Main method, but returns the return code as an int instead of calling System.exit(code). Needed for testing main
+     * method without shutting down tests.
+     * @param argv command line parameters
+     * @return return code
+     */
+    protected static int mainExec(String[] argv)
     {
         int totalerrors = 0;
         int totalwarnings = 0;
@@ -1450,7 +1462,7 @@ public class Tidy implements java.io.Serializable
                 else if (arg.equals("help") || argv[argIndex].charAt(1) == '?' || argv[argIndex].charAt(1) == 'h')
                 {
                     Report.helpText(new PrintWriter(System.out, true), prog);
-                    System.exit(1);
+                    return 1;
                 }
                 else if (arg.equals("config"))
                 {
@@ -1487,7 +1499,7 @@ public class Tidy implements java.io.Serializable
                         || argv[argIndex].equals("-v"))
                 {
                     Report.showVersion(tidy.getErrout());
-                    System.exit(0);
+                    return 0;
                 }
                 else
                 {
@@ -1618,15 +1630,15 @@ public class Tidy implements java.io.Serializable
 
         if (totalerrors > 0)
         {
-            System.exit(2);
+            return 2;
         }
 
         if (totalwarnings > 0)
         {
-            System.exit(1);
+            return 1;
         }
 
         /* 0 signifies all is ok */
-        System.exit(0);
+        return 0;
     }
 }
