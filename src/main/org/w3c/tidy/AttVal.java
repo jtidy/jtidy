@@ -133,10 +133,10 @@ public class AttVal extends Object implements Cloneable
 
     public boolean isBoolAttribute()
     {
-        Attribute attribute = this.dict;
-        if (attribute != null)
+        Attribute attr = this.dict;
+        if (attr != null)
         {
-            if (attribute.getAttrchk() == AttrCheckImpl.getCheckBool())
+            if (attr.getAttrchk() == AttrCheckImpl.getCheckBool())
             {
                 return true;
             }
@@ -155,15 +155,15 @@ public class AttVal extends Object implements Cloneable
             this.checkUniqueAttribute(lexer, node);
         }
 
-        Attribute attribute = this.dict;
-        if (attribute != null)
+        Attribute attr = this.dict;
+        if (attr != null)
         {
             /* title is vers 2.0 for A and LINK otherwise vers 4.0 */
-            if (attribute == AttributeTable.attrTitle && (node.tag == tt.tagA || node.tag == tt.tagLink))
+            if (attr == AttributeTable.attrTitle && (node.tag == tt.tagA || node.tag == tt.tagLink))
             {
                 lexer.versions &= Dict.VERS_ALL;
             }
-            else if ((attribute.getVersions() & Dict.VERS_XML) != 0)
+            else if ((attr.getVersions() & Dict.VERS_XML) != 0)
             {
                 if (!(lexer.configuration.xmlTags || lexer.configuration.xmlOut))
                 {
@@ -172,12 +172,12 @@ public class AttVal extends Object implements Cloneable
             }
             else
             {
-                lexer.versions &= attribute.getVersions();
+                lexer.versions &= attr.getVersions();
             }
 
-            if (attribute.getAttrchk() != null)
+            if (attr.getAttrchk() != null)
             {
-                attribute.getAttrchk().check(lexer, node, this);
+                attr.getAttrchk().check(lexer, node, this);
             }
         }
         else if (!lexer.configuration.xmlTags && !(node.tag == null) && this.asp == null
@@ -186,7 +186,7 @@ public class AttVal extends Object implements Cloneable
             lexer.report.attrError(lexer, node, this, Report.UNKNOWN_ATTRIBUTE);
         }
 
-        return attribute;
+        return attr;
     }
 
     /*

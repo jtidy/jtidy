@@ -1,65 +1,65 @@
 /**
-*  Java HTML Tidy - JTidy
-*  HTML parser and pretty printer
-*
-*  Copyright (c) 1998-2000 World Wide Web Consortium (Massachusetts
-*  Institute of Technology, Institut National de Recherche en
-*  Informatique et en Automatique, Keio University). All Rights
-*  Reserved.
-*
-*  Contributing Author(s):
-*
-*     Dave Raggett <dsr@w3.org>
-*     Andy Quick <ac.quick@sympatico.ca> (translation to Java)
-*     Gary L Peskin <garyp@firstech.com> (Java development)
-*     Sami Lempinen <sami@lempinen.net> (release management)
-*     Fabrizio Giustina <fgiust at users.sourceforge.net>
-*
-*  The contributing author(s) would like to thank all those who
-*  helped with testing, bug fixes, and patience.  This wouldn't
-*  have been possible without all of you.
-*
-*  COPYRIGHT NOTICE:
-* 
-*  This software and documentation is provided "as is," and
-*  the copyright holders and contributing author(s) make no
-*  representations or warranties, express or implied, including
-*  but not limited to, warranties of merchantability or fitness
-*  for any particular purpose or that the use of the software or
-*  documentation will not infringe any third party patents,
-*  copyrights, trademarks or other rights. 
-*
-*  The copyright holders and contributing author(s) will not be
-*  liable for any direct, indirect, special or consequential damages
-*  arising out of any use of the software or documentation, even if
-*  advised of the possibility of such damage.
-*
-*  Permission is hereby granted to use, copy, modify, and distribute
-*  this source code, or portions hereof, documentation and executables,
-*  for any purpose, without fee, subject to the following restrictions:
-*
-*  1. The origin of this source code must not be misrepresented.
-*  2. Altered versions must be plainly marked as such and must
-*     not be misrepresented as being the original source.
-*  3. This Copyright notice may not be removed or altered from any
-*     source or altered source distribution.
-* 
-*  The copyright holders and contributing author(s) specifically
-*  permit, without fee, and encourage the use of this source code
-*  as a component for supporting the Hypertext Markup Language in
-*  commercial products. If you use this source code in a product,
-*  acknowledgment is not required but would be appreciated.
-*
-*/
+ *  Java HTML Tidy - JTidy
+ *  HTML parser and pretty printer
+ *
+ *  Copyright (c) 1998-2000 World Wide Web Consortium (Massachusetts
+ *  Institute of Technology, Institut National de Recherche en
+ *  Informatique et en Automatique, Keio University). All Rights
+ *  Reserved.
+ *
+ *  Contributing Author(s):
+ *
+ *     Dave Raggett <dsr@w3.org>
+ *     Andy Quick <ac.quick@sympatico.ca> (translation to Java)
+ *     Gary L Peskin <garyp@firstech.com> (Java development)
+ *     Sami Lempinen <sami@lempinen.net> (release management)
+ *     Fabrizio Giustina <fgiust at users.sourceforge.net>
+ *
+ *  The contributing author(s) would like to thank all those who
+ *  helped with testing, bug fixes, and patience.  This wouldn't
+ *  have been possible without all of you.
+ *
+ *  COPYRIGHT NOTICE:
+ * 
+ *  This software and documentation is provided "as is," and
+ *  the copyright holders and contributing author(s) make no
+ *  representations or warranties, express or implied, including
+ *  but not limited to, warranties of merchantability or fitness
+ *  for any particular purpose or that the use of the software or
+ *  documentation will not infringe any third party patents,
+ *  copyrights, trademarks or other rights. 
+ *
+ *  The copyright holders and contributing author(s) will not be
+ *  liable for any direct, indirect, special or consequential damages
+ *  arising out of any use of the software or documentation, even if
+ *  advised of the possibility of such damage.
+ *
+ *  Permission is hereby granted to use, copy, modify, and distribute
+ *  this source code, or portions hereof, documentation and executables,
+ *  for any purpose, without fee, subject to the following restrictions:
+ *
+ *  1. The origin of this source code must not be misrepresented.
+ *  2. Altered versions must be plainly marked as such and must
+ *     not be misrepresented as being the original source.
+ *  3. This Copyright notice may not be removed or altered from any
+ *     source or altered source distribution.
+ * 
+ *  The copyright holders and contributing author(s) specifically
+ *  permit, without fee, and encourage the use of this source code
+ *  as a component for supporting the Hypertext Markup Language in
+ *  commercial products. If you use this source code in a product,
+ *  acknowledgment is not required but would be appreciated.
+ *
+ */
 package org.w3c.tidy;
 
 /**
- * Clean up misuse of presentation markup. Filters from other formats such as Microsoft Word often make excessive use
- * of presentation markup such as font tags, B, I, and the align attribute. By applying a set of production rules, it
- * is straight forward to transform this to use CSS. Some rules replace some of the children of an element by style
+ * Clean up misuse of presentation markup. Filters from other formats such as Microsoft Word often make excessive use of
+ * presentation markup such as font tags, B, I, and the align attribute. By applying a set of production rules, it is
+ * straight forward to transform this to use CSS. Some rules replace some of the children of an element by style
  * properties on the element, e.g.
  * <p>
- * <b>...</b>
+ * <b>... </b>
  * </p>->
  * <p style="font-weight: bold">
  * ...
@@ -75,10 +75,11 @@ package org.w3c.tidy;
  * ... These rules are applied to an element before processing its content and replace the current element by the first
  * element in the exposed content. After applying both sets of rules, you can replace the style attribute by a class
  * value and style rule in the document head. To support this, an association of styles and class names is built. A
- * naive approach is to rely on string matching to test when two property lists are the same. A better approach would
- * be to first sort the properties before matching.
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
+ * naive approach is to rely on string matching to test when two property lists are the same. A better approach would be
+ * to first sort the properties before matching.
+ * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
+ * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
+ * @author Fabrizio Giustina
  * @version $Revision $ ($Author $)
  */
 public class Clean
@@ -88,9 +89,9 @@ public class Clean
 
     private TagTable tt;
 
-    public Clean(TagTable tt)
+    public Clean(TagTable tagTable)
     {
-        this.tt = tt;
+        this.tt = tagTable;
     }
 
     private StyleProp insertProperty(StyleProp props, String name, String value)
@@ -154,62 +155,62 @@ public class Clean
      */
     private StyleProp createProps(StyleProp prop, String style)
     {
-        int name_end;
-        int value_end;
-        int value_start = 0;
-        int name_start = 0;
+        int nameEnd;
+        int valueEnd;
+        int valueStart = 0;
+        int nameStart = 0;
         boolean more;
 
-        name_start = 0;
-        while (name_start < style.length())
+        nameStart = 0;
+        while (nameStart < style.length())
         {
-            while (name_start < style.length() && style.charAt(name_start) == ' ')
+            while (nameStart < style.length() && style.charAt(nameStart) == ' ')
             {
-                ++name_start;
+                ++nameStart;
             }
 
-            name_end = name_start;
+            nameEnd = nameStart;
 
-            while (name_end < style.length())
+            while (nameEnd < style.length())
             {
-                if (style.charAt(name_end) == ':')
+                if (style.charAt(nameEnd) == ':')
                 {
-                    value_start = name_end + 1;
+                    valueStart = nameEnd + 1;
                     break;
                 }
 
-                ++name_end;
+                ++nameEnd;
             }
 
-            if (name_end >= style.length() || style.charAt(name_end) != ':')
+            if (nameEnd >= style.length() || style.charAt(nameEnd) != ':')
             {
                 break;
             }
 
-            while (value_start < style.length() && style.charAt(value_start) == ' ')
+            while (valueStart < style.length() && style.charAt(valueStart) == ' ')
             {
-                ++value_start;
+                ++valueStart;
             }
 
-            value_end = value_start;
+            valueEnd = valueStart;
             more = false;
 
-            while (value_end < style.length())
+            while (valueEnd < style.length())
             {
-                if (style.charAt(value_end) == ';')
+                if (style.charAt(valueEnd) == ';')
                 {
                     more = true;
                     break;
                 }
 
-                ++value_end;
+                ++valueEnd;
             }
 
-            prop = insertProperty(prop, style.substring(name_start, name_end), style.substring(value_start, value_end));
+            prop = insertProperty(prop, style.substring(nameStart, nameEnd), style.substring(valueStart, valueEnd));
 
             if (more)
             {
-                name_start = value_end + 1;
+                nameStart = valueEnd + 1;
                 continue;
             }
 
@@ -439,12 +440,9 @@ public class Clean
 
         if (body != null)
         {
-            if (body.getAttrByName("background") != null
-                || body.getAttrByName("bgcolor") != null
-                || body.getAttrByName("text") != null
-                || body.getAttrByName("link") != null
-                || body.getAttrByName("vlink") != null
-                || body.getAttrByName("alink") != null)
+            if (body.getAttrByName("background") != null || body.getAttrByName("bgcolor") != null
+                || body.getAttrByName("text") != null || body.getAttrByName("link") != null
+                || body.getAttrByName("vlink") != null || body.getAttrByName("alink") != null)
             {
                 lexer.badLayout |= Report.USING_BODY;
                 return false;
@@ -660,9 +658,9 @@ public class Clean
     }
 
     /**
-     * Create new string that consists of the combined style properties in s1 and s2 To merge property lists, we build
-     * a linked list of property/values and insert properties into the list in order, merging values for the same
-     * property name.
+     * Create new string that consists of the combined style properties in s1 and s2 To merge property lists, we build a
+     * linked list of property/values and insert properties into the list in order, merging values for the same property
+     * name.
      */
     private String mergeProperties(String s1, String s2)
     {
@@ -716,7 +714,7 @@ public class Clean
 
     private String fontSize2Name(String size)
     {
-        String[] sizes = { "60%", "70%", "80%", null, "120%", "150%", "200%" };
+        String[] sizes = {"60%", "70%", "80%", null, "120%", "150%", "200%"};
         String buf;
 
         if (size.length() > 0 && '0' <= size.charAt(0) && size.charAt(0) <= '6')
@@ -839,17 +837,7 @@ public class Clean
     }
 
     /**
-     * Symptom:
-     * 
-     * <pre>
-     * &ltp align=center>
-     * </pre>
-     * 
-     * Action:
-     * 
-     * <pre>
-     * &lt;p style="text-align: center">
-     * </pre>
+     * Symptom: <code>&ltp align=center></code> Action: <code>&lt;p style="text-align: center"></code>.
      */
     private void textAlign(Lexer lexer, Node node)
     {
@@ -883,16 +871,9 @@ public class Clean
     }
 
     /**
-     * Symptom:
-     * 
-     * <pre>
-     * &lt;dir>
-     * <pre>li>
-     * </pre>
-     * where
-     * &lt;li>is only child Action: coerce &lt;dir>
-     * &lt;li>to &lt;div>with indent. The clean up rules use the pnode argument to return the next node when the original
-     * node has been deleted.
+     * Symptom: <code>&lt;dir>&lt;li></code> where <code>&lt;li></code> is only child Action: coerce
+     * <code>&lt;dir> &lt;li></code> to <code>&lt;div></code> with indent. The clean up rules use the pnode argument
+     * to return the next node when the original node has been deleted.
      */
     private boolean dir2Div(Lexer lexer, Node node, MutableObject pnode)
     {
@@ -946,7 +927,6 @@ public class Clean
             //    child.parent = node.parent;
             //    addStyleProperty(child, "margin-left: 1em");
             //}
-
             /* hook first/last into sequence */
 
             //if (content != null)
@@ -956,9 +936,7 @@ public class Clean
             //    fixNodeLinks(content);
             //    fixNodeLinks(last);
             //}
-
             //node.next = null;
-
             /* ensure that new node is cleaned */
             //pnode.setObject(cleanNode(lexer, content));
             //return true;
@@ -1052,14 +1030,8 @@ public class Clean
     }
 
     /**
-     * Symptom:
-     * 
-     * <pre>
-     *  &lt;div>&lt;div>...&lt;/div>&lt;/div>
-     * </pre>
-     * 
-     * Action: merge the two divs This is useful after nested &lt;dir>s used by Word for indenting have been converted
-     * to &lt;div>s
+     * Symptom: <code>&lt;div>&lt;div>...&lt;/div>&lt;/div></code> Action: merge the two divs This is useful after
+     * nested &lt;dir>s used by Word for indenting have been converted to &lt;div>s.
      */
     private boolean mergeDivs(Lexer lexer, Node node, MutableObject pnode)
     {
@@ -1181,8 +1153,8 @@ public class Clean
     }
 
     /**
-     * Symptom: the only child of a block-level element is a presentation element such as B, I or FONT Action: add
-     * style "font-weight: bold" to the block and strip the &lt;b>element, leaving its children. example:
+     * Symptom: the only child of a block-level element is a presentation element such as B, I or FONT Action: add style
+     * "font-weight: bold" to the block and strip the &lt;b>element, leaving its children. example:
      * 
      * <pre>
      * &lt;p>
@@ -1199,8 +1171,8 @@ public class Clean
      * </pre>
      * 
      * <p>
-     * This code also replaces the align attribute by a style attribute. However, to avoid CSS problems with Navigator 4,
-     * this isn't done for the elements: caption, tr and table
+     * This code also replaces the align attribute by a style attribute. However, to avoid CSS problems with Navigator
+     * 4, this isn't done for the elements: caption, tr and table
      * </p>
      */
     private boolean blockStyle(Lexer lexer, Node node, MutableObject pnode)
@@ -1473,7 +1445,7 @@ public class Clean
     }
 
     /**
-     * simplifies <b><b>...</b> ...</b> etc.
+     * simplifies <b><b>... </b> ... </b> etc.
      */
     public void nestedEmphasis(Node node)
     {
@@ -1484,8 +1456,7 @@ public class Clean
         {
             next = node.next;
 
-            if ((node.tag == this.tt.tagB || node.tag == this.tt.tagI)
-                && node.parent != null
+            if ((node.tag == this.tt.tagB || node.tag == this.tt.tagI) && node.parent != null
                 && node.parent.tag == node.tag)
             {
                 /* strip redundant inner element */
@@ -1545,9 +1516,7 @@ public class Clean
                 list2BQ(node.content);
             }
 
-            if (node.tag != null
-                && node.tag.parser == ParserImpl.getParseList()
-                && node.hasOneChild()
+            if (node.tag != null && node.tag.parser == ParserImpl.getParseList() && node.hasOneChild()
                 && node.content.implicit)
             {
                 stripOnlyChild(node);
@@ -1567,7 +1536,7 @@ public class Clean
     public void bQ2Div(Node node)
     {
         int indent;
-        String indent_buf;
+        String indentBuf;
 
         while (node != null)
         {
@@ -1586,11 +1555,11 @@ public class Clean
                     bQ2Div(node.content);
                 }
 
-                indent_buf = "margin-left: " + (new Integer(2 * indent)).toString() + "em";
+                indentBuf = "margin-left: " + (new Integer(2 * indent)).toString() + "em";
 
                 node.element = this.tt.tagDiv.name;
                 node.tag = this.tt.tagDiv;
-                node.addAttribute("style", indent_buf);
+                node.addAttribute("style", indentBuf);
             }
             else if (node.content != null)
             {
@@ -1673,21 +1642,15 @@ public class Clean
             next = attr.next;
 
             /* special check for class="Code" denoting pre text */
-            if (attr.attribute != null
-                && attr.value != null
-                && attr.attribute.equals("class")
+            if (attr.attribute != null && attr.value != null && attr.attribute.equals("class")
                 && attr.value.equals("Code"))
             {
                 prev = attr;
             }
-            else if (
-                attr.attribute != null
-                    && (attr.attribute.equals("class")
-                        || attr.attribute.equals("style")
-                        || attr.attribute.equals("lang")
-                        || attr.attribute.startsWith("x:")
-                        || ((attr.attribute.equals("height") || attr.attribute.equals("width"))
-                            && (node.tag == this.tt.tagTd || node.tag == this.tt.tagTr || node.tag == this.tt.tagTh))))
+            else if (attr.attribute != null
+                && (attr.attribute.equals("class") || attr.attribute.equals("style") || attr.attribute.equals("lang")
+                    || attr.attribute.startsWith("x:") || ((attr.attribute.equals("height") || attr.attribute
+                    .equals("width")) && (node.tag == this.tt.tagTd || node.tag == this.tt.tagTr || node.tag == this.tt.tagTh))))
             {
                 if (prev != null)
                 {
@@ -1922,9 +1885,9 @@ public class Clean
         }
     }
 
-    public boolean isWord2000(Node root, TagTable tt)
+    public boolean isWord2000(Node root, TagTable tagTable)
     {
-        Node html = root.findHTML(tt);
+        Node html = root.findHTML(tagTable);
 
         return (html != null && html.getAttrByName("xmlns:o") != null);
     }

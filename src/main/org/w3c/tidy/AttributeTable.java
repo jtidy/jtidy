@@ -58,9 +58,9 @@ import java.util.Hashtable;
 
 /**
  * HTML attribute hash table.
- * 
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
+ * @author Fabrizio Giustina
  * @version $Revision $ ($Author $)
  */
 public class AttributeTable
@@ -87,7 +87,7 @@ public class AttributeTable
 
     private static AttributeTable defaultAttributeTable;
 
-    private static Attribute[] attrs = {
+    private static final Attribute[] ATTRS = {
         new Attribute("abbr", Dict.VERS_HTML40, null),
         new Attribute("accept-charset", Dict.VERS_HTML40, null),
         new Attribute("accept", Dict.VERS_ALL, null),
@@ -371,10 +371,6 @@ public class AttributeTable
 
     private Hashtable attributeHashtable = new Hashtable();
 
-    public AttributeTable()
-    {
-    }
-
     public Attribute lookup(String name)
     {
         return (Attribute) this.attributeHashtable.get(name);
@@ -446,9 +442,9 @@ public class AttributeTable
         if (defaultAttributeTable == null)
         {
             defaultAttributeTable = new AttributeTable();
-            for (int i = 0; i < attrs.length; i++)
+            for (int i = 0; i < ATTRS.length; i++)
             {
-                defaultAttributeTable.install(attrs[i]);
+                defaultAttributeTable.install(ATTRS[i]);
             }
             attrHref = defaultAttributeTable.lookup("href");
             attrSrc = defaultAttributeTable.lookup("src");

@@ -57,6 +57,7 @@ package org.w3c.tidy;
  * Tag dictionary node hash table.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
+ * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
 import java.util.Hashtable;
@@ -64,7 +65,7 @@ import java.util.Hashtable;
 public class TagTable
 {
 
-    private static Dict[] tags =
+    private static final Dict[] TAGS =
         {
             new Dict(
                 "html",
@@ -407,9 +408,9 @@ public class TagTable
 
     public TagTable()
     {
-        for (int i = 0; i < tags.length; i++)
+        for (int i = 0; i < TAGS.length; i++)
         {
-            install(tags[i]);
+            install(TAGS[i]);
         }
         tagHtml = lookup("html");
         tagHead = lookup("head");

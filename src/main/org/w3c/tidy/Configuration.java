@@ -1011,7 +1011,8 @@ public class Configuration implements java.io.Serializable
     }
 
     /**
-     * doctype: omit | auto | strict | loose | <fpi>where the fpi is a string similar to "-//ACME//DTD HTML 3.14159//EN"
+     * doctype: <code>omit | auto | strict | loose | [fpi]</code> where the fpi is a string similar to
+     * <code>"-//ACME//DTD HTML 3.14159//EN"</code>.
      */
     protected String parseDocType(String s, String option)
     {
