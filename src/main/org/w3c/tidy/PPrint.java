@@ -1844,11 +1844,12 @@ public class PPrint
         {
             printPhp(fout, indent, node);
         }
-        else if ((node.tag.model & Dict.CM_EMPTY) != 0 || node.type == Node.StartEndTag)
+        else if ((node.tag.model & Dict.CM_EMPTY) != 0 || node.type == Node.StartEndTag && !configuration.xHTML)
         {
             condFlushLine(fout, indent);
             printTag(lexer, fout, mode, indent, node);
-            flushLine(fout, indent);
+            // fgiust: Remove empty lines between tags in XML.
+            //flushLine(fout, indent);
 
             // CPR: folks don't want so much vertical spacing in XML
             // if (node.next != null) { flushLine(fout, indent); }
