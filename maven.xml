@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="rebuild-all" xmlns:m="maven" xmlns:j="jelly:core" xmlns:u="jelly:util">
+<project xmlns:j="jelly:core" xmlns:u="jelly:util" default="rebuild-all">
 
-	<goal name="rebuild-all">
-		<j:set var="goals" value="pom,clean,jar:jar,site:generate" />
-		<mkdir dir="${maven.build.dir}" />
-		<u:tokenize var="goals" delim=",">${goals}</u:tokenize>
-		<j:forEach items="${goals}" var="goal" indexVar="goalNumber">
-			Now attaining goal number ${goalNumber}, which is ${goal}
-			<attainGoal name="${goal}" />
-		</j:forEach>
-	</goal>
+  <goal name="rebuild-all">
+    <j:set var="goals" value="pom,clean,jar:jar,site:generate,dist" />
+    <mkdir dir="${maven.build.dir}" />
+    <u:tokenize var="goals" delim=",">${goals}</u:tokenize>
+    <j:forEach items="${goals}" var="goal" indexVar="goalNumber">
+      Now attaining goal number ${goalNumber}, which is ${goal}
+      <attainGoal name="${goal}" />
+    </j:forEach>
+  </goal>
+
+
+  <goal name="nightly">
+    <attainGoal name="rebuild-all" />
+    <mkdir dir="${maven.build.dir}/docs/nightly" />
+    <copy todir="${maven.build.dir}/docs/nightly">
+      <fileset dir="${maven.build.dir}/distributions" />
+    </copy>
+    <attainGoal name="site:sshdeploy" />
+  </goal>
 
 </project>
+
