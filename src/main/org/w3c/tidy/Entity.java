@@ -63,20 +63,42 @@ package org.w3c.tidy;
 public class Entity
 {
 
-    public String name;
+    /**
+     * entity name.
+     */
+    private String name;
 
-    public short code;
+    /**
+     * entity code.
+     */
+    private short code;
 
-    public Entity(String name, short code)
-    {
-        this.name = name;
-        this.code = code;
-    }
-
+    /**
+     * instantiates a new entity.
+     * @param name entity name
+     * @param code entity code (will be casted to short)
+     */
     public Entity(String name, int code)
     {
         this.name = name;
         this.code = (short) code;
     }
 
+    /**
+     * Getter for <code>code</code>.
+     * @return Returns the code.
+     */
+    public short getCode()
+    {
+        return this.code;
+    }
+
+    /**
+     * Getter for <code>name</code>.
+     * @return Returns the name.
+     */
+    public String getName()
+    {
+        return this.name;
+    }
 }

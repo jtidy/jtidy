@@ -349,7 +349,7 @@ public final class EntityTable
      */
     private Entity install(Entity ent)
     {
-        return (Entity) this.entityHashtable.put(ent.name, ent);
+        return (Entity) this.entityHashtable.put(ent.getName(), ent);
     }
 
     /**
@@ -406,7 +406,7 @@ public final class EntityTable
         Entity ent = lookup(name.substring(1));
         if (ent != null)
         {
-            return ent.code;
+            return ent.getCode();
         }
 
         return 0; // zero signifies unknown entity name
@@ -425,9 +425,9 @@ public final class EntityTable
         while (en.hasNext())
         {
             ent = (Entity) en.next();
-            if (ent.code == code)
+            if (ent.getCode() == code)
             {
-                name = ent.name;
+                name = ent.getName();
                 break;
             }
         }
