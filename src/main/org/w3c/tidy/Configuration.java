@@ -334,7 +334,7 @@ public class Configuration implements java.io.Serializable
      * fix URLs by replacing \ with /.
      */
     protected boolean fixBackslash = true;
-    
+
     /**
      * properly escape URLs.
      */
@@ -507,6 +507,12 @@ public class Configuration implements java.io.Serializable
         if (value != null)
         {
             this.bodyOnly = parseBool(value, "show-body-only");
+        }
+
+        value = properties.getProperty("fix-uri");
+        if (value != null)
+        {
+            this.fixUri = parseBool(value, "fix-uri");
         }
 
         value = properties.getProperty("tab-size");

@@ -82,10 +82,15 @@ public class Tidy implements Serializable
      * error output stream.
      */
     private PrintWriter errout;
+
     private PrintWriter stderr;
+
     private Configuration configuration;
+
     private String inputStreamName = "InputStream";
+
     private int parseErrors;
+
     private int parseWarnings;
 
     private Report report;
@@ -926,6 +931,25 @@ public class Tidy implements Serializable
     }
 
     /**
+     * fix-uri - fix uri references applying URI encoding if necessary.
+     * @param fixUri true = fix uri references
+     * @see Configuration#fixUri
+     */
+    public void setFixUri(boolean fixUri)
+    {
+        configuration.fixUri = fixUri;
+    }
+
+    /**
+     * fix-uri- output BODY content only.
+     * @return true if tidy will fix uri references
+     */
+    public boolean getFixUri()
+    {
+        return configuration.fixUri;
+    }
+
+    /**
      * InputStreamName - the name of the input stream (printed in the header information).
      * @param name input stream name
      */
@@ -1390,7 +1414,6 @@ public class Tidy implements Serializable
         String arg;
         String errorfile = "stderr";
 
-
         // read command line
 
         while (argc > 0)
@@ -1496,7 +1519,8 @@ public class Tidy implements Serializable
                         ++argIndex;
                     }
                 }
-                else if (argv[argIndex].equals("-file") || argv[argIndex].equals("--file")
+                else if (argv[argIndex].equals("-file")
+                    || argv[argIndex].equals("--file")
                     || argv[argIndex].equals("-f"))
                 {
                     if (argc >= 3)
@@ -1506,7 +1530,8 @@ public class Tidy implements Serializable
                         ++argIndex;
                     }
                 }
-                else if (argv[argIndex].equals("-wrap") || argv[argIndex].equals("--wrap")
+                else if (argv[argIndex].equals("-wrap")
+                    || argv[argIndex].equals("--wrap")
                     || argv[argIndex].equals("-w"))
                 {
                     if (argc >= 3)
@@ -1516,7 +1541,8 @@ public class Tidy implements Serializable
                         ++argIndex;
                     }
                 }
-                else if (argv[argIndex].equals("-version") || argv[argIndex].equals("--version")
+                else if (argv[argIndex].equals("-version")
+                    || argv[argIndex].equals("--version")
                     || argv[argIndex].equals("-v"))
                 {
                     this.report.showVersion(errout);
