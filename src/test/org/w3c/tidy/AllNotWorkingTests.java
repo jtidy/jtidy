@@ -173,7 +173,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyWarningBugsTest("test552861"));
 
         suite.addTest(new TidyWarningBugsTest("test431964"));
-        suite.addTest(new TidyWarningBugsTest("test501669"));
 
         suite.addTest(new TidyWordBugsTest("test431721"));
         suite.addTest(new TidyWordBugsTest("test444394"));

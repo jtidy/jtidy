@@ -152,6 +152,7 @@ public final class AllWorkingTests
         suite.addTest(new TidyWarningBugsTest("test438956"));
         suite.addTest(new TidyWarningBugsTest("test450389"));
         suite.addTest(new TidyWarningBugsTest("test501230"));
+        suite.addTest(new TidyWarningBugsTest("test501669"));
         suite.addTest(new TidyWarningBugsTest("test517528"));
         suite.addTest(new TidyWarningBugsTest("test525081"));
         suite.addTest(new TidyWarningBugsTest("test538536"));
