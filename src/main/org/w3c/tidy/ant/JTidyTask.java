@@ -55,6 +55,7 @@ package org.w3c.tidy.ant;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -62,6 +63,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -69,19 +71,18 @@ import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Parameter;
 import org.apache.tools.ant.util.FileNameMapper;
-import org.apache.tools.ant.util.FileUtils;
 import org.apache.tools.ant.util.FlatFileNameMapper;
 import org.apache.tools.ant.util.IdentityMapper;
 import org.w3c.tidy.Tidy;
 
 
 /**
- * JTidy ant task, initially donated to JTidy by Nicola Ken Barozzi from the krysalis project. See
- * http://sourceforge.net/tracker/index.php?func=detail&aid=780131&group_id=13153&atid=363153
+ * JTidy ant task.
  * 
  * <pre>
  * &lt;tidy destdir="" >
@@ -99,45 +100,53 @@ import org.w3c.tidy.Tidy;
  * <tr>
  * <td>srcfile</td>
  * <td>source file</td>
- * <td></td>
+ * <td>Yes, unless a nested <code>&lt;fileset></code> element is used.</td>
  * </tr>
  * <tr>
  * <td>destfile</td>
  * <td>destination file for output</td>
- * <td></td>
+ * <td rowspan="2">With the <code>srcfile</code> attribute, either <code>destfile</code> or <code>destdir</code>
+ * can be used. With nested <code>&lt;fileset></code> elements only <code>destdir</code> is allowed.</td>
  * </tr>
  * <tr>
  * <td>destdir</td>
  * <td>destination directory for output</td>
- * <td></td>
  * </tr>
  * <tr>
  * <td>properties</td>
- * <td>properties file</td>
- * <td></td>
+ * <td>Path to a valid tidy properties file</td>
+ * <td>No</td>
  * </tr>
  * <tr>
  * <td>flatten</td>
- * <td></td>
- * <td></td>
+ * <td>Ignore the directory structure of the source files, and copy all files into the directory specified by the
+ * <code>destdir</code> attribute.</td>
+ * <td>No; defaults to false.</td>
  * </tr>
  * <tr>
  * <td>failonerror</td>
- * <td>boolean to control whether failure to execute should throw a BuildException or just print an error</td>
- * <td></td>
+ * <td>boolean to control whether failure to execute should throw a BuildException or just print an error. If set to
+ * <code>true</code> errors in input files which tidy is enable to fix will cause a failure.</td>
+ * <td>No; defaults to false.</td>
  * </tr>
  * </tbody> </table>
- * @author <a href="mailto:barozzi@nicolaken.com">Nicola Ken Barozzi </a>
+ * <h3>Examples</h3>
+ * 
+ * <pre>
+ * &lt;taskdef name="tidy" classname="org.w3c.tidy.ant.JTidyTask"/>
+ * </pre>
+ * 
+ * <pre>
+ * &lt;tidy destdir="out" properties="/path/to/tidy.properties">
+ *   &lt;fileset dir="inputdir" />
+ * &lt/tidy>
+ * </pre>
+ * 
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
 public class JTidyTask extends Task
 {
-
-    /**
-     * Ant utility class for file operations.
-     */
-    private FileUtils fileUtils = FileUtils.newFileUtils();
 
     /**
      * Filesets.
@@ -305,6 +314,12 @@ public class JTidyTask extends Task
      */
     public void execute() throws BuildException
     {
+        // so we can simply use execute() in tests
+        if (tidy == null)
+        {
+            init();
+        }
+
         // validate
         validateParameters();
 
@@ -326,6 +341,9 @@ public class JTidyTask extends Task
             }
         }
 
+        // hide output unless set in properties
+        tidy.setErrout(new PrintWriter(new ByteArrayOutputStream()));
+
         tidy.setConfigurationFromProps(props);
 
         if (this.srcfile != null)
@@ -340,12 +358,15 @@ public class JTidyTask extends Task
         }
         else
         {
-            // should not happen, condition is already validated in validateAttributes()
+            // should not happen, condition is already validated in validateParameters()
             throw new BuildException("No srcfile or nested filesets configured.");
         }
 
     }
 
+    /**
+     * A single file has been specified.
+     */
     protected void executeSingle()
     {
         if (srcfile.exists())
@@ -375,6 +396,9 @@ public class JTidyTask extends Task
         }
     }
 
+    /**
+     * Run tidy on filesets.
+     */
     protected void executeSet()
     {
 
@@ -396,8 +420,9 @@ public class JTidyTask extends Task
             FileSet fileSet = (FileSet) iterator.next();
             DirectoryScanner directoryScanner = fileSet.getDirectoryScanner(getProject());
             String[] sourceFiles = directoryScanner.getIncludedFiles();
+            File inputdir = directoryScanner.getBasedir();
 
-            mapper.setFrom(fileSet.getDir(getProject()).getAbsolutePath());
+            mapper.setFrom(inputdir.getAbsolutePath());
 
             for (int j = 0; j < sourceFiles.length; j++)
             {
@@ -411,31 +436,41 @@ public class JTidyTask extends Task
                         + "and to "
                         + this.destdir.getAbsolutePath());
                 }
-                processFile(new File(sourceFiles[j]), new File(mapped[0]));
+                processFile(new File(inputdir, sourceFiles[j]), new File(this.destdir, mapped[0]));
             }
         }
     }
 
+    /**
+     * Run tidy on a file.
+     * @param inputFile input file
+     * @param outputFile output file
+     */
     protected void processFile(File inputFile, File outputFile)
     {
+
+        log("Processing " + inputFile.getAbsolutePath(), Project.MSG_DEBUG);
 
         InputStream is;
         OutputStream os;
         try
         {
-            is = new BufferedInputStream(new FileInputStream(srcfile));
+            is = new BufferedInputStream(new FileInputStream(inputFile));
         }
         catch (FileNotFoundException e)
         {
-            throw new BuildException("Unable to open file " + srcfile);
+            throw new BuildException("Unable to open file " + inputFile);
         }
+
         try
         {
-            os = new BufferedOutputStream(new FileOutputStream(destfile));
+            outputFile.getParentFile().mkdirs();
+            outputFile.createNewFile();
+            os = new BufferedOutputStream(new FileOutputStream(outputFile, false));
         }
-        catch (FileNotFoundException e)
+        catch (IOException e2)
         {
-            throw new BuildException("Unable to open file " + destfile);
+            throw new BuildException("Unable to open destination file " + outputFile, e2);
         }
 
         tidy.parse(is, os);
@@ -461,12 +496,11 @@ public class JTidyTask extends Task
         if (failonerror && tidy.getParseErrors() > 0)
         {
             throw new BuildException("Tidy was unable to process file "
-                + srcfile
+                + inputFile
                 + ", "
                 + tidy.getParseErrors()
                 + " returned.");
         }
 
     }
-
 }

@@ -53,9 +53,13 @@
  */
 package org.w3c.tidy.ant;
 
-import org.apache.tools.ant.BuildException;
+import java.io.File;
 
 import junit.framework.TestCase;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.types.FileSet;
 
 
 /**
@@ -71,25 +75,199 @@ public class JTidyTaskTest extends TestCase
     private JTidyTask task;
 
     /**
+     * Temp dir used for output.
+     */
+    private String tempDir;
+
+    /**
+     * Test dir.
+     */
+    private String testDir;
+
+    /**
      * @see junit.framework.TestCase#setUp()
      */
     protected void setUp() throws Exception
     {
         super.setUp();
         task = new JTidyTask();
+        Project p = new Project();
+        task.setProject(p);
+        tempDir = System.getProperty("java.io.tmpdir");
+        testDir = new File(getClass().getClassLoader().getResource("test.dir").getPath()).getParent();
     }
 
+    /**
+     * Test with invalid parameters.
+     */
     public void testExceptionMissingParameters()
     {
         try
         {
             task.execute();
-            fail("Missing parameters not detected");
+            fail("Invalid parameters not detected");
         }
         catch (BuildException e)
         {
             // ok
         }
+    }
+
+    /**
+     * Test with invalid parameters.
+     */
+    public void testExceptionBothSrcfileAndFilesets()
+    {
+        try
+        {
+            task.setSrcfile(new File("."));
+            task.addFileset(new FileSet());
+            task.validateParameters();
+            fail("Invalid parameters not detected");
+        }
+        catch (BuildException e)
+        {
+            // ok
+        }
+    }
+
+    /**
+     * Test with invalid parameters.
+     */
+    public void testDestFileAndDestDirNull()
+    {
+        try
+        {
+            task.setSrcfile(new File("."));
+            task.validateParameters();
+            fail("Invalid parameters not detected");
+        }
+        catch (BuildException e)
+        {
+            // ok
+        }
+    }
+
+    /**
+     * Test with invalid parameters.
+     */
+    public void testDestFileAndFilesets()
+    {
+        try
+        {
+            task.addFileset(new FileSet());
+            task.setDestfile(new File("."));
+            task.validateParameters();
+            fail("Invalid parameters not detected");
+        }
+        catch (BuildException e)
+        {
+            // ok
+        }
+    }
+
+    /**
+     * Test with invalid parameters.
+     */
+    public void testScrFileIsADir()
+    {
+        try
+        {
+            task.setSrcfile(new File("/"));
+            task.setDestfile(new File("test.out"));
+            task.validateParameters();
+            fail("Invalid parameters not detected");
+        }
+        catch (BuildException e)
+        {
+            // ok
+        }
+    }
+
+    /**
+     * Test with invalid parameters.
+     */
+    public void testInvalidProperties()
+    {
+        try
+        {
+            task.setSrcfile(new File("test.in"));
+            task.setDestfile(new File("test.out"));
+            task.setProperties(new File("x2ui34"));
+            task.validateParameters();
+            fail("Invalid parameters not detected");
+        }
+        catch (BuildException e)
+        {
+            // ok
+        }
+    }
+
+    /**
+     * Test with a fileset.
+     */
+    public void testFileset()
+    {
+        FileSet fileset = new FileSet();
+        fileset.setDir(new File(testDir, "ant"));
+
+        task.addFileset(fileset);
+        task.setDestdir(new File(tempDir));
+
+        task.execute();
+
+        assertTrue("Expected output file not created", new File(tempDir, "file1.html").exists());
+        assertTrue("Expected output file not created", new File(tempDir, "file2.html").exists());
+        assertTrue("Expected output file not created", new File(tempDir, "file3.html").exists());
+
+        new File(tempDir, "file1.html").delete();
+        new File(tempDir, "file2.html").delete();
+        new File(tempDir, "file3.html").delete();
+    }
+
+    /**
+     * Test with a fileset.
+     */
+    public void testFilesetWithDirStructure()
+    {
+        FileSet fileset = new FileSet();
+        fileset.setDir(new File(testDir));
+        fileset.setIncludes("ant/*.html");
+
+        task.addFileset(fileset);
+        task.setDestdir(new File(tempDir));
+
+        task.execute();
+
+        assertTrue("Expected output file not created", new File(tempDir, "ant/file1.html").exists());
+        assertTrue("Expected output file not created", new File(tempDir, "ant/file2.html").exists());
+        assertTrue("Expected output file not created", new File(tempDir, "ant/file3.html").exists());
+
+        new File(tempDir, "ant").delete();
+    }
+
+    /**
+     * Test with a fileset.
+     */
+    public void testFilesetWithDirStructureFlatten()
+    {
+        FileSet fileset = new FileSet();
+        fileset.setDir(new File(testDir));
+        fileset.setIncludes("ant/*.html");
+
+        task.addFileset(fileset);
+        task.setDestdir(new File(tempDir));
+        task.setFlatten(true);
+
+        task.execute();
+
+        assertTrue("Expected output file not created", new File(tempDir, "file1.html").exists());
+        assertTrue("Expected output file not created", new File(tempDir, "file2.html").exists());
+        assertTrue("Expected output file not created", new File(tempDir, "file3.html").exists());
+
+        new File(tempDir, "file1.html").delete();
+        new File(tempDir, "file2.html").delete();
+        new File(tempDir, "file3.html").delete();
     }
 
 }
