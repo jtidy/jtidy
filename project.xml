@@ -3,7 +3,6 @@
     <artifactId>jtidy</artifactId>
     <name>JTidy</name>
     <groupId>jtidy</groupId>
-    <id>jtidy</id>
     <type>jar</type>
     <version>r8-SNAPSHOT</version>
     <organization>
@@ -11,9 +10,9 @@
         <url>http://sourceforge.net</url>
         <logo>http://sourceforge.net/sflogo.php?group_id=${maven.sourceforge.project.groupId}&amp;type=2</logo>
     </organization>
-    <logo>/images/logo.png</logo>
     <inceptionYear>2000</inceptionYear>
     <package>org.w3c.tidy</package>
+    <logo>/images/logo.png</logo>
     <description>JTidy is a Java port of HTML Tidy, a HTML syntax checker and pretty printer.
 Like its non-Java cousin, JTidy can be used as a tool for cleaning up malformed and faulty HTML.
 In addition, JTidy provides a DOM interface to the document that is being processed, which effectively makes you able to use JTidy as a DOM parser for real-world HTML.</description>
@@ -146,41 +145,42 @@ In addition, JTidy provides a DOM interface to the document that is being proces
             <artifactId>xml-apis</artifactId>
             <version>1.0.b2</version>
             <type>jar</type>
-            <properties/>
+            <url></url>
         </dependency>
         <dependency>
             <groupId>xerces</groupId>
             <artifactId>xerces</artifactId>
             <version>2.4.0</version>
             <type>jar</type>
-            <properties/>
+            <url></url>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.0.3</version>
             <type>jar</type>
-            <properties/>
+            <url></url>
         </dependency>
         <dependency>
             <groupId>ant</groupId>
             <artifactId>ant</artifactId>
             <version>1.6</version>
             <type>jar</type>
-            <properties/>
+            <url>http://ant.apache.org</url>
         </dependency>
         <dependency>
             <groupId>maven-plugins</groupId>
             <artifactId>maven-sourceforge-plugin</artifactId>
             <version>1.0</version>
             <type>plugin</type>
-            <properties/>
+            <url>http://maven-plugins.sourceforge.net</url>
         </dependency>
         <dependency>
             <groupId>maven-validator</groupId>
             <artifactId>maven-xhtml-plugin</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
             <type>plugin</type>
+            <url>http://maven-validator.sourceforge.net</url>
         </dependency>
 
     </dependencies>
@@ -195,23 +195,23 @@ In addition, JTidy provides a DOM interface to the document that is being proces
             <resources>
                 <resource>
                     <directory>src/test-resources</directory>
-                    <filtering>false</filtering>
                     <includes>
                         <include>*.*</include>
                     </includes>
+                    <filtering>false</filtering>
                 </resource>
             </resources>
         </unitTest>
         <resources>
             <resource>
                 <directory>src/main</directory>
-                <filtering>false</filtering>
                 <includes>
                     <include>**/*.properties</include>
                     <include>**/*.gif</include>
                     <include>**/*.txt</include>
                     <include>**/manifest.mf</include>
                 </includes>
+                <filtering>false</filtering>
             </resource>
         </resources>
     </build>
