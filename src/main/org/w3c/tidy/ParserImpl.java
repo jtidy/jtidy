@@ -1190,10 +1190,16 @@ public class ParserImpl
                 }
 
                 // an <A> tag to ends any open <A> element but <A href=...> is mapped to </A><A href=...>
-                if (node.tag == tt.tagA && !node.implicit && lexer.isPushed(node))
+
+                // #427827 - fix by Randy Waki and Bjoern Hoehrmann 23 Aug 00 */
+                // if (node.tag == tt.tagA && !node.implicit && lexer.isPushed(node))
+                if (node.tag == tt.tagA && !node.implicit
+                    && (element.tag == tt.tagA || element.isDescendantOf(tt.tagA)))
                 {
-                    /* coerce <a> to </a> unless it has some attributes */
-                    if (node.attributes == null)
+                    // coerce <a> to </a> unless it has some attributes
+                    // #427827 - fix by Randy Waki and Bjoern Hoehrmann 23 Aug 00
+                    // if (node.attributes == null)
+                    if (node.type != Node.EndTag && node.attributes == null)
                     {
                         node.type = Node.EndTag;
                         Report.warning(lexer, element, node, Report.COERCE_TO_ENDTAG);
