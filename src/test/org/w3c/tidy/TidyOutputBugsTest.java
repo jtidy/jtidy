@@ -166,7 +166,8 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [427826] : Script source needs escaping/CDATA section. @todo HIGH priority
+     * test for Tidy [427826] : Script source needs escaping/CDATA section.
+     * @todo HIGH priority
      * @throws Exception any exception generated during the test
      */
     public void test427826() throws Exception
@@ -185,10 +186,15 @@ public class TidyOutputBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [427833] : Uppercase &amp;#X; escape sequences ignored.
+     * @todo high priority
      * @throws Exception any exception generated during the test
      */
     public void test427833() throws Exception
     {
+        if (1 == 1)
+        {
+            throw new Exception("Test disabled because the invalid tidy output breaks the junit report in Maven");
+        }
         executeTidyTest("427833.html");
     }
 
@@ -355,6 +361,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     {
         executeTidyTest("433359.html");
     }
+
     /**
      * test for Tidy [433360] : Tags with missing > can't be repaired.
      * @throws Exception any exception generated during the test
@@ -363,6 +370,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     {
         executeTidyTest("433360.html");
     }
+
     /**
      * test for Tidy [433604] : Tidy inserts &amp;nbsp; entity in -xml mode. [fixed]
      * @throws Exception any exception generated during the test
@@ -382,8 +390,8 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [433666] : Attempt to repair duplicate attributes. @todo HIGH PRIORITY.
-     * 
+     * test for Tidy [433666] : Attempt to repair duplicate attributes.
+     * @todo HIGH PRIORITY.
      * @throws Exception any exception generated during the test
      */
     public void test433666() throws Exception
@@ -471,6 +479,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     {
         executeTidyTest("437468.html");
     }
+
     /**
      * test for Tidy [438650] : Newline in URL attr value becomes space. [fixed]
      * @throws Exception any exception generated during the test
@@ -710,8 +719,8 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [503436] : Detect duplicate attribute specifications in XML docs. @todo HIGH PRIORITY.
-     * 
+     * test for Tidy [503436] : Detect duplicate attribute specifications in XML docs.
+     * @todo HIGH PRIORITY.
      * @throws Exception any exception generated during the test
      */
     public void test503436() throws Exception
@@ -935,6 +944,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     {
         executeTidyTest("629885.html");
     }
+
     /**
      * test for Tidy [640473] : new-empty-tags doesn't work, breaks doc.
      * @throws Exception any exception generated during the test
@@ -961,6 +971,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     {
         executeTidyTest("646946.xml");
     }
+
     /**
      * test for Tidy [647900] : tables are incorrectly merged.
      * @throws Exception any exception generated during the test
@@ -998,8 +1009,8 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [678268] : --output-xhtml produces bad xml. @todo HIGH PRIORITY.
-     * 
+     * test for Tidy [678268] : --output-xhtml produces bad xml.
+     * @todo HIGH PRIORITY.
      * @throws Exception any exception generated during the test
      */
     public void test678268() throws Exception
@@ -1017,8 +1028,8 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [695408] : Empty spans getting dropped, even if they have attrs. @todo HIGH PRIORITY.
-     * 
+     * test for Tidy [695408] : Empty spans getting dropped, even if they have attrs.
+     * @todo HIGH PRIORITY.
      * @throws Exception any exception generated during the test
      */
     public void test695408() throws Exception
@@ -1034,7 +1045,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     {
         executeTidyTest("708322.html");
     }
-    
+
     /**
      * test for Tidy [735603] : drops attributes from declared elements.
      * @throws Exception any exception generated during the test
@@ -1044,7 +1055,6 @@ public class TidyOutputBugsTest extends TidyTestCase
         executeTidyTest("735603.html");
     }
 
-     
     /**
      * test for Tidy [765852] : Empty tag striping.
      * @throws Exception any exception generated during the test
@@ -1053,6 +1063,5 @@ public class TidyOutputBugsTest extends TidyTestCase
     {
         executeTidyTest("765852.html");
     }
-
 
 }
