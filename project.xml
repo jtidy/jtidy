@@ -137,19 +137,19 @@ In addition, JTidy provides a DOM interface to the document that is being proces
     </licenses>
     <dependencies>
         <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-            <version>1.0.b2</version>
+            <groupId>xerces</groupId>
+            <artifactId>dom3-xml-apis</artifactId>
+            <version>1.0</version>
             <type>jar</type>
             <properties/>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>xerces</groupId>
             <artifactId>xerces</artifactId>
-            <version>2.4.0</version>
+            <version>2.6.1</version>
             <type>jar</type>
             <properties/>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
