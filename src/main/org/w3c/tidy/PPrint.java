@@ -1603,7 +1603,7 @@ public class PPrint
             return;
         }
 
-        if (node.type == Node.TEXT_NODE)
+        if (node.type == Node.TEXT_NODE || (node.type == Node.CDATA_TAG && lexer.configuration.escapeCdata))
         {
             printText(fout, mode, indent, node.textarray, node.start, node.end);
         }
@@ -1908,7 +1908,7 @@ public class PPrint
             return;
         }
 
-        if (node.type == Node.TEXT_NODE)
+        if (node.type == Node.TEXT_NODE || (node.type == Node.CDATA_TAG && lexer.configuration.escapeCdata))
         {
             printText(fout, mode, indent, node.textarray, node.start, node.end);
         }

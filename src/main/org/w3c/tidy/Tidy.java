@@ -1104,7 +1104,7 @@ public class Tidy implements Serializable
     /**
      * replace-color - replace hex color attribute values with names.
      * @param replaceColor true = replace hex color attribute values with names
-     * @see Configuration#lowerLiterals
+     * @see Configuration#replaceColor
      */
     public void setReplaceColor(boolean replaceColor)
     {
@@ -1118,6 +1118,44 @@ public class Tidy implements Serializable
     public boolean getReplaceColor()
     {
         return configuration.replaceColor;
+    }
+
+    /**
+     * escape-cdata - replace CDATA sections with escaped text.
+     * @param escapeCdata true = replace CDATA sections with escaped text
+     * @see Configuration#escapeCdata
+     */
+    public void setEscapeCdata(boolean escapeCdata)
+    {
+        configuration.escapeCdata = escapeCdata;
+    }
+
+    /**
+     * escape-cdata -replace CDATA sections with escaped text.
+     * @return true if tidy will replace CDATA sections with escaped text
+     */
+    public boolean getEscapeCdata()
+    {
+        return configuration.escapeCdata;
+    }
+
+    /**
+     * repeated-attributes - keep first or last duplicate attribute.
+     * @param repeatedAttributes <code>Configuration.KEEP_FIRST | Configuration.KEEP_LAST</code>
+     * @see Configuration#duplicateAttrs
+     */
+    public void setRepeatedAttributes(int repeatedAttributes)
+    {
+        configuration.duplicateAttrs = repeatedAttributes;
+    }
+
+    /**
+     * repeated-attributes - keep first or last duplicate attribute.
+     * @return <code>Configuration.KEEP_FIRST | Configuration.KEEP_LAST</code>
+     */
+    public int getRepeatedAttributes()
+    {
+        return configuration.duplicateAttrs;
     }
 
     /**
@@ -1450,7 +1488,10 @@ public class Tidy implements Serializable
 
             }
 
-            this.report.errorSummary(lexer);
+            if (!configuration.quiet)
+            {
+                this.report.errorSummary(lexer);
+            }
         }
         return document;
     }

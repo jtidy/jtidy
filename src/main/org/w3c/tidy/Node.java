@@ -415,7 +415,7 @@ public class Node
                             attval = temp;
 
                         }
-                        else if (lexer.configuration.dupAttrMode == Configuration.KEEP_LAST)
+                        else if (lexer.configuration.duplicateAttrs == Configuration.KEEP_LAST)
                         {
                             temp = current.next;
 

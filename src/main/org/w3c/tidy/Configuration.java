@@ -201,7 +201,7 @@ public class Configuration implements java.io.Serializable
     /**
      * Keep first or last duplicate attribute.
      */
-    protected int dupAttrMode = KEEP_LAST;
+    protected int duplicateAttrs = KEEP_LAST;
 
     /**
      * default text for alt attribute.
@@ -494,6 +494,11 @@ public class Configuration implements java.io.Serializable
     protected boolean joinStyles = true;
 
     /**
+     * replace CDATA sections with escaped text.
+     */
+    protected boolean escapeCdata = true;
+
+    /**
      * char encoding used when replacing illegal SGML chars, regardless of specified encoding.
      */
     protected int replacementCharEncoding = WIN1252; // by default
@@ -664,6 +669,18 @@ public class Configuration implements java.io.Serializable
         if (value != null)
         {
             this.joinStyles = parseBool(value, "join-styles");
+        }
+
+        value = properties.getProperty("escape-cdata");
+        if (value != null)
+        {
+            this.escapeCdata = parseBool(value, "escape-cdata");
+        }
+
+        value = properties.getProperty("repeated-attributes");
+        if (value != null)
+        {
+            parseRepeatedAttribute(value, "repeated-attributes");
         }
 
         value = properties.getProperty("replace-color");
@@ -1080,6 +1097,11 @@ public class Configuration implements java.io.Serializable
         return rs;
     }
 
+    /**
+     * parse character encoding option.
+     * @param s option value
+     * @param option option name
+     */
     private int parseCharEncoding(String s, String option)
     {
         int result = ASCII;
@@ -1116,7 +1138,11 @@ public class Configuration implements java.io.Serializable
         return result;
     }
 
-    /* slight hack to avoid changes to pprint.c */
+    /**
+     * parse indent mode.
+     * @param s option value
+     * @param option option name
+     */
     private boolean parseIndent(String s, String option)
     {
         boolean b = indentContent;
@@ -1153,6 +1179,11 @@ public class Configuration implements java.io.Serializable
         return b;
     }
 
+    /**
+     * parse new inline tags.
+     * @param s option value
+     * @param option option name
+     */
     private void parseInlineTagNames(String s, String option)
     {
         StringTokenizer t = new StringTokenizer(s, " \t\n\r,");
@@ -1162,6 +1193,11 @@ public class Configuration implements java.io.Serializable
         }
     }
 
+    /**
+     * parse new block tags.
+     * @param s option value
+     * @param option option name
+     */
     private void parseBlockTagNames(String s, String option)
     {
         StringTokenizer t = new StringTokenizer(s, " \t\n\r,");
@@ -1171,6 +1207,11 @@ public class Configuration implements java.io.Serializable
         }
     }
 
+    /**
+     * parse new empty tags.
+     * @param s option value
+     * @param option option name
+     */
     private void parseEmptyTagNames(String s, String option)
     {
         StringTokenizer t = new StringTokenizer(s, " \t\n\r,");
@@ -1180,6 +1221,11 @@ public class Configuration implements java.io.Serializable
         }
     }
 
+    /**
+     * parse new pre tags.
+     * @param s option value
+     * @param option option name
+     */
     private void parsePreTagNames(String s, String option)
     {
         StringTokenizer t = new StringTokenizer(s, " \t\n\r,");
@@ -1190,8 +1236,10 @@ public class Configuration implements java.io.Serializable
     }
 
     /**
-     * doctype: <code>omit | auto | strict | loose | [fpi]</code> where the fpi is a string similar to
-     * <code>"-//ACME//DTD HTML 3.14159//EN"</code>.
+     * Parse doctype preference. doctype: <code>omit | auto | strict | loose | [fpi]</code> where the fpi is a string
+     * similar to <code>"-//ACME//DTD HTML 3.14159//EN"</code>.
+     * @param s option value
+     * @param option option name
      */
     protected String parseDocType(String s, String option)
     {
@@ -1234,6 +1282,27 @@ public class Configuration implements java.io.Serializable
             report.badArgument(option);
         }
         return null;
+    }
+
+    /**
+     * keep-first or keep-last?
+     * @param s option value
+     * @param option option name
+     */
+    private void parseRepeatedAttribute(String s, String option)
+    {
+        if (Lexer.wstrcasecmp(s, "keep-first") == 0)
+        {
+            duplicateAttrs = KEEP_FIRST;
+        }
+        else if (Lexer.wstrcasecmp(s, "keep-last") == 0)
+        {
+            duplicateAttrs = KEEP_LAST;
+        }
+        else
+        {
+            report.badArgument(option);
+        }
     }
 
 }
