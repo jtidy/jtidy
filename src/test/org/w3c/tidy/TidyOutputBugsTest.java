@@ -221,7 +221,7 @@ public class TidyOutputBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [427845] : Doctypes are output on multiple lines.
-     * @throws Exception any exception generated during the test @todo complete test
+     * @throws Exception any exception generated during the test
      */
     public void test427845() throws Exception
     {
@@ -772,13 +772,11 @@ public class TidyOutputBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [533105] : Tidy confused: HTML in VBScript.
-     * @throws Exception any exception generated during the test @todo complete test
+     * @throws Exception any exception generated during the test
      */
     public void test533105() throws Exception
     {
-        throw new Error("Test not yet implemented");
-        // no output in tidy
-        //executeTidyTest("533105.html");
+        executeTidyTest("533105.html");
     }
 
     /**
