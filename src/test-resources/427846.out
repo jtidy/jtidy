@@ -5,6 +5,6 @@
 </head>
 <body>
 <blockquote><font size="+1">text-one</font></blockquote>
-text-two
+<font size="+1">text-two</font>
 </body>
 </html>
