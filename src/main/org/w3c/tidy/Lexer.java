@@ -653,7 +653,7 @@ public class Lexer
     }
 
     /**
-     * Parse an html entoty
+     * Parse an html entity.
      */
     public void parseEntity(short mode)
     {
@@ -665,7 +665,6 @@ public class Lexer
         int start;
         boolean first = true;
         boolean semicolon = false;
-        boolean numeric = false;
         int c, ch, startcol;
         String str;
 
@@ -684,7 +683,6 @@ public class Lexer
             {
                 addCharToLexer(c);
                 first = false;
-                numeric = true;
                 continue;
             }
 
@@ -1346,6 +1344,9 @@ public class Lexer
                 }
 
                 break;
+            default :
+                // should never reach here
+                break;
         }
 
         // kludge to avoid error appearing at end of file
@@ -1451,6 +1452,9 @@ public class Lexer
                         }
 
                         break; // to replace old version by new
+                    default :
+                        // should never reach here
+                        break;
                 }
 
                 // INCONSISTENT_VERSION warning is now issued by ApparentVersion()
@@ -2664,6 +2668,10 @@ public class Lexer
                     this.waswhite = false;
                     this.token = newNode(Node.CDATA_TAG, this.lexbuf, this.txtstart, this.txtend);
                     return this.token;
+
+                default :
+                    // should never reach here
+                    break;
             }
         }
 
