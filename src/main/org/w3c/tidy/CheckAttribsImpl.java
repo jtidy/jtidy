@@ -66,72 +66,72 @@ public final class CheckAttribsImpl
     /**
      * CheckHTML instance.
      */
-    public static final CheckAttribs CHECK_HTML = new CheckHTML();
+    public static final CheckAttribs HTML = new CheckHTML();
 
     /**
      * CheckSCRIPT instance.
      */
-    public static final CheckAttribs CHECK_SCRIPT = new CheckSCRIPT();
+    public static final CheckAttribs SCRIPT = new CheckSCRIPT();
 
     /**
      * CheckTABLE instance.
      */
-    public static final CheckAttribs CHECK_TABLE = new CheckTABLE();
+    public static final CheckAttribs TABLE = new CheckTABLE();
 
     /**
      * CheckCaption instance.
      */
-    public static final CheckAttribs CHECK_CAPTION = new CheckCaption();
+    public static final CheckAttribs CAPTION = new CheckCaption();
 
     /**
      * CheckIMG instance.
      */
-    public static final CheckAttribs CHECK_IMG = new CheckIMG();
+    public static final CheckAttribs IMG = new CheckIMG();
 
     /**
      * CheckAREA instance.
      */
-    public static final CheckAttribs CHECK_AREA = new CheckAREA();
+    public static final CheckAttribs AREA = new CheckAREA();
 
     /**
      * CheckAnchor instance.
      */
-    public static final CheckAttribs CHECK_ANCHOR = new CheckAnchor();
+    public static final CheckAttribs ANCHOR = new CheckAnchor();
 
     /**
      * CheckMap instance.
      */
-    public static final CheckAttribs CHECK_MAP = new CheckMap();
+    public static final CheckAttribs MAP = new CheckMap();
 
     /**
      * CheckSTYLE instance.
      */
-    public static final CheckAttribs CHECK_STYLE = new CheckSTYLE();
+    public static final CheckAttribs STYLE = new CheckSTYLE();
 
     /**
      * CheckTableCell instance.
      */
-    public static final CheckAttribs CHECK_TABLECELL = new CheckTableCell();
+    public static final CheckAttribs TABLECELL = new CheckTableCell();
 
     /**
      * CheckLINK instance.
      */
-    public static final CheckAttribs CHECK_LINK = new CheckLINK();
+    public static final CheckAttribs LINK = new CheckLINK();
 
     /**
      * CheckHR instance.
      */
-    public static final CheckAttribs CHECK_HR = new CheckHR();
+    public static final CheckAttribs HR = new CheckHR();
 
     /**
      * CheckForm instance.
      */
-    public static final CheckAttribs CHECK_FORM = new CheckForm();
+    public static final CheckAttribs FORM = new CheckForm();
 
     /**
      * CheckMeta instance.
      */
-    public static final CheckAttribs CHECK_META = new CheckMeta();
+    public static final CheckAttribs META = new CheckMeta();
 
     /**
      * don't instantiate.
