@@ -2873,12 +2873,8 @@ public class Lexer
 
         this.txtstart = this.lexsize;
 
-        for (;;)
+        while ((c = this.in.readChar()) != StreamIn.END_OF_STREAM)
         {
-            if ((c = this.in.readChar()) == StreamIn.END_OF_STREAM)
-            {
-                break;
-            }
 
             addCharToLexer(c);
 
@@ -2922,12 +2918,8 @@ public class Lexer
 
         this.txtstart = this.lexsize;
 
-        for (;;)
+        while ((c = this.in.readChar()) != StreamIn.END_OF_STREAM)
         {
-            if ((c = this.in.readChar()) == StreamIn.END_OF_STREAM)
-            {
-                break;
-            }
             addCharToLexer(c);
 
             if (c != '?')
