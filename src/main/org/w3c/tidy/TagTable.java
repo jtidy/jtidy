@@ -111,7 +111,7 @@ public class TagTable
         new Dict("plaintext", Dict.VERS_ALL, (Dict.CM_BLOCK | Dict.CM_OBSOLETE), ParserImpl.getParsePre(), null),
         new Dict("address", Dict.VERS_ALL, Dict.CM_BLOCK, ParserImpl.getParseBlock(), null),
         new Dict("blockquote", Dict.VERS_ALL, Dict.CM_BLOCK, ParserImpl.getParseBlock(), null),
-        new Dict("form", Dict.VERS_ALL, Dict.CM_BLOCK, ParserImpl.getParseBlock(), null),
+        new Dict("form", Dict.VERS_ALL, Dict.CM_BLOCK, ParserImpl.getParseBlock(), CheckAttribsImpl.getCheckForm()),
         new Dict("isindex", Dict.VERS_LOOSE, (Dict.CM_BLOCK | Dict.CM_EMPTY), null, null),
         new Dict("fieldset", Dict.VERS_HTML40, Dict.CM_BLOCK, ParserImpl.getParseBlock(), null),
         new Dict("table", Dict.VERS_FROM32, Dict.CM_BLOCK, ParserImpl.getParseTableTag(), CheckAttribsImpl
