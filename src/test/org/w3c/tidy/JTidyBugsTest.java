@@ -123,6 +123,16 @@ public class JTidyBugsTest extends TidyTestCase
     }
 
     /**
+     * test for JTidy [648768]: Fix for character references &gt;= 32768.
+     * @throws Exception any exception generated during the test
+     */
+    public void test648768() throws Exception
+    {
+        executeTidyTest("648768.html");
+        assertNoWarnings();
+    }
+
+    /**
      * test for JTidy [791933]: German special character converted to upper case.
      * @throws Exception any exception generated during the test
      */
@@ -176,7 +186,6 @@ public class JTidyBugsTest extends TidyTestCase
         executeTidyTest("922302.html");
     }
 
-
     /**
      * test for JTidy [929936]: escape URLs.
      * @throws Exception any exception generated during the test
@@ -205,6 +214,5 @@ public class JTidyBugsTest extends TidyTestCase
     {
         executeTidyTest("935796.html");
     }
-
 
 }

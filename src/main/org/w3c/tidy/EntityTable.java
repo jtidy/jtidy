@@ -367,7 +367,7 @@ public final class EntityTable
      * @param name entity name
      * @return entity code or 0 for unknown entity names
      */
-    public short entityCode(String name)
+    public int entityCode(String name)
     {
         // entity starting with "&" returns zero on error.
         int c;
@@ -399,7 +399,7 @@ public final class EntityTable
                 // ignore
             }
 
-            return (short) c;
+            return c;
         }
 
         // Named entity: name ="&" followed by a name

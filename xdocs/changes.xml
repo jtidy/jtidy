@@ -192,6 +192,9 @@
             <action dev="fgiust" type="fix" issue="434100">Error actually reported as a warning</action>
             <action dev="fgiust" type="fix" issue="438956">Bad head-endtag reported incorrectly</action>
             <action dev="fgiust" type="fix" issue="538536">Extra endtags not detected</action>
+            <action dev="fgiust" type="fix" issue="648768" due-to="Liam Quinn">
+                Fix for character references &gt;= 32768
+            </action>
         </release>
         <release version="04aug2000r7" date="August 1, 2001" description="">
             <action dev="" type="fix">
