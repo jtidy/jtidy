@@ -1,4 +1,4 @@
-/**
+/*
  *  Java HTML Tidy - JTidy
  *  HTML parser and pretty printer
  *
@@ -56,10 +56,10 @@ package org.w3c.tidy;
 
 /**
  * Mutable Integer. Used when it's needed to pass a modiable parameter by reference.
- * @todo is this really needed?
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
- * @version $Revision $ ($Author $)
+ * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
+ * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
+ * @author Fabrizio Giustina
+ * @version $Revision$ ($Author$)
  */
 public class MutableInteger
 {
@@ -86,6 +86,5 @@ public class MutableInteger
     {
         this.value = intValue;
     }
-
 
 }

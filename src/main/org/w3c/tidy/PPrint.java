@@ -1,4 +1,4 @@
-/**
+/*
  *  Java HTML Tidy - JTidy
  *  HTML parser and pretty printer
  *
@@ -65,7 +65,8 @@ import java.text.NumberFormat;
  * preformatted text, after start tags and before end tags.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
- * @version $Revision $ ($Author $)
+ * @author Fabrizio Giustina
+ * @version $Revision$ ($Author$)
  */
 public class PPrint
 {

@@ -1,4 +1,4 @@
-/**
+/*
  *  Java HTML Tidy - JTidy
  *  HTML parser and pretty printer
  *
@@ -59,15 +59,20 @@ package org.w3c.tidy;
  * from 0.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
- * @version $Revision $ ($Author $)
+ * @author Fabrizio Giustina
+ * @version $Revision$ ($Author$)
  */
 public class DOMNodeListByTagNameImpl implements org.w3c.dom.NodeList
 {
 
     private Node first;
+
     private String tagName = "*";
+
     private int currIndex;
+
     private int maxIndex;
+
     private Node currNode;
 
     protected DOMNodeListByTagNameImpl(Node first, String tagName)

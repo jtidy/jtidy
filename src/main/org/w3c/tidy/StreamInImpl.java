@@ -1,4 +1,4 @@
-/**
+/*
  *  Java HTML Tidy - JTidy
  *  HTML parser and pretty printer
  *
@@ -57,7 +57,8 @@ package org.w3c.tidy;
  * Input Stream Implementation.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
- * @version $Revision $ ($Author $)
+ * @author Fabrizio Giustina
+ * @version $Revision$ ($Author$)
  */
 import java.io.IOException;
 import java.io.InputStream;
@@ -397,8 +398,8 @@ public class StreamInImpl extends StreamIn
             /*
              * A document in ISO-2022 based encoding uses some ESC sequences called "designator" to switch character
              * sets. The designators defined and used in ISO-2022-JP are: "ESC" + "(" + ? for ISO646 variants "ESC" +
-             * "$" + ? and "ESC" + "$" + "(" + ? for multibyte character sets Where ? stands for a single character
-             * used to indicate the character set for multibyte characters. Tidy handles this by preserving the escape
+             * "$" + ? and "ESC" + "$" + "(" + ? for multibyte character sets Where ? stands for a single character used
+             * to indicate the character set for multibyte characters. Tidy handles this by preserving the escape
              * sequence and setting the top bit of each byte for non-ascii chars. This bit is then cleared on output.
              * The input stream keeps track of the state to determine when to set/clear the bit.
              */
