@@ -2116,6 +2116,25 @@ public class Tidy implements Serializable
     }
 
     /**
+     * <code>trim-empty-elements</code>- trim empty elements.
+     * @param trim-empty-elements true = trim empty elements
+     * @see Configuration#trimEmpty
+     */
+    public void setTrimEmptyElements(boolean trimEmpty)
+    {
+        configuration.trimEmpty = trimEmpty;
+    }
+
+    /**
+     * <code>trim-empty-elements</code>- trim empty elements.
+     * @return true if tidy will trim empty elements
+     */
+    public boolean getTrimEmptyElements()
+    {
+        return configuration.trimEmpty;
+    }
+
+    /**
      * <code>replace-color</code>- replace hex color attribute values with names.
      * @param replaceColor true = replace hex color attribute values with names
      * @see Configuration#replaceColor

@@ -279,6 +279,7 @@ public class Configuration implements Serializable
         addConfigOption(new Flag("gnu-emacs", "emacs", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("only-errors", "onlyErrors", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("output-raw", "rawOut", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("trim-empty-elements", "trimEmpty", ParsePropertyImpl.BOOL));
 
         addConfigOption(new Flag("markup", "onlyErrors", ParsePropertyImpl.INVBOOL));
 
@@ -463,6 +464,11 @@ public class Configuration implements Serializable
      * fix comments with adjacent hyphens.
      */
     protected boolean fixComments = true;
+
+    /**
+     * trim empty elements.
+     */
+    protected boolean trimEmpty = true;
 
     /**
      * o/p newline before br or not?

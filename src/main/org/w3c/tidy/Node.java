@@ -773,23 +773,28 @@ public class Node implements Cloneable
      */
     public static void trimEmptyElement(Lexer lexer, Node element)
     {
-        TagTable tt = lexer.configuration.tt;
-
-        if (lexer.canPrune(element))
+        // don't trim if user explicitely set trim-empty-elements to false
+        // empty element can be needed in css sites
+        if (lexer.configuration.trimEmpty)
         {
-            if (element.type != TEXT_NODE)
+            TagTable tt = lexer.configuration.tt;
+
+            if (lexer.canPrune(element))
             {
-                lexer.report.warning(lexer, element, null, Report.TRIM_EMPTY_ELEMENT);
-            }
+                if (element.type != TEXT_NODE)
+                {
+                    lexer.report.warning(lexer, element, null, Report.TRIM_EMPTY_ELEMENT);
+                }
 
-            discardElement(element);
-        }
-        else if (element.tag == tt.tagP && element.content == null)
-        {
-            // replace <p></p> by <br><br> to preserve formatting
-            Node node = lexer.inferredTag("br");
-            Node.coerceNode(lexer, element, tt.tagBr);
-            element.insertNodeAfterElement(node);
+                discardElement(element);
+            }
+            else if (element.tag == tt.tagP && element.content == null)
+            {
+                // replace <p></p> by <br><br> to preserve formatting
+                Node node = lexer.inferredTag("br");
+                Node.coerceNode(lexer, element, tt.tagBr);
+                element.insertNodeAfterElement(node);
+            }
         }
     }
 
