@@ -112,6 +112,19 @@ public class JTidyBugsTest extends TidyTestCase
     }
 
     /**
+     * test for JTidy [531962]: Closing quotes around attribute values.
+     * @throws Exception any exception generated during the test
+     */
+    public void test531962() throws Exception
+    {
+        // wish: missing quote should be detected and handled better:
+        // original: width="10 height="10"
+        // now: width="10 height="
+        // desired: width="10" height="10"
+        executeTidyTest("531962.html");
+    }
+
+    /**
      * test for JTidy [538727]: setDocType uncorrectly adds "".
      * @throws Exception any exception generated during the test
      */
