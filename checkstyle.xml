@@ -157,7 +157,7 @@
             <property name="severity" value="warning"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.coding.ParameterAssignmentCheck">
-            <property name="severity" value="warning"/>
+            <property name="severity" value="ignore"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.coding.RedundantThrowsCheck">
             <property name="allowSubclasses" value="false"/>
