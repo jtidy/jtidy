@@ -119,7 +119,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [427821] : XHTML TRANSITIONAL doctype set wrongly
+     * test for Tidy [427821] : XHTML TRANSITIONAL doctype set wrongly.
      * @throws Exception any exception generated during the test @todo finish test
      */
     public void test427821() throws Exception
@@ -230,14 +230,25 @@ public class TidyOutputBugsTest extends TidyTestCase
     {
         executeTidyTest("431739.html");
     }
+
     /**
-     * test for Tidy [431874] : Nested anchors not detected.
+     * test for Tidy [427823] : Multiple &lt;BODY&gt;'s in &lt;NOFRAMES&gt; allowed.
      * @throws Exception any exception generated during the test @todo finish test
      */
-    public void test431874() throws Exception
+    public void test427823() throws Exception
     {
-        executeTidyTest("431874.html");
+        // 7 warnings
+        // line 1 column 1 - Warning: missing <!DOCTYPE> declaration
+        // line 11 column 1 - Warning: content occurs after end of body
+        // line 11 column 1 - Warning: replacing <body> by <div>
+        // line 7 column 1 - Warning: content occurs after end of body
+        // line 18 column 1 - Warning: plain text not inside 'noframes' element
+        // line 7 column 1 - Warning: content occurs after end of body
+        // line 7 column 1 - Warning: missing </noframes>
+
+        executeTidyTest("427823.html");
     }
+
     /**
      * test for Tidy [431898] : Tidy messes up X(HT)ML documents.
      * @throws Exception any exception generated during the test @todo finish test
@@ -483,7 +494,7 @@ public class TidyOutputBugsTest extends TidyTestCase
         executeTidyTest("467865.html");
     }
     /**
-     * test for Tidy [470663] : Unterminated tags in <head>confuse pars.
+     * test for Tidy [470663] : Unterminated tags in &lt;head>confuse pars.
      * @throws Exception any exception generated during the test @todo finish test
      */
     public void test470663() throws Exception

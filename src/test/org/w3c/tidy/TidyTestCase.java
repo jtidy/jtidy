@@ -128,7 +128,8 @@ public class TidyTestCase extends TestCase
 
         if (log.isDebugEnabled())
         {
-            log.debug("\n---- out ----\n\n" + out + "\n\n---- out ----");
+            log.debug("\n---- out ----\n" + out + "\n---- out ----");
+            log.debug("\n---- log ----\n" + this.errorLog + "\n---- log ----");
         }
 
         // existing file for comparison
@@ -186,7 +187,7 @@ public class TidyTestCase extends TestCase
         int warningNum = this.tidy.getParseWarnings();
         if (warningNum != 0)
         {
-            fail("Test failed, [" + warningNum + "] false warnings are reported");
+            fail("Test failed, [" + warningNum + "] false warnings were reported");
         }
     }
 
@@ -198,7 +199,47 @@ public class TidyTestCase extends TestCase
         int errorNum = this.tidy.getParseErrors();
         if (errorNum != 0)
         {
-            fail("Test failed, [" + errorNum + "] false errors are reported");
+            fail("Test failed, [" + errorNum + "] false errors were reported");
+        }
+    }
+
+    /**
+     * Utility method: assert no warnings were reported in the last tidy run.
+     * @param expectedNumber expected number of warnings.
+     */
+    protected void assertWarnings(int expectedNumber)
+    {
+        int warningNum = this.tidy.getParseWarnings();
+        if (warningNum != expectedNumber)
+        {
+            fail("Test failed, [" + expectedNumber + "] warnings expected, [" + warningNum + "] were reported");
+        }
+    }
+
+    /**
+     * Utility method: assert no errors were reported in the last tidy run.
+     * @param expectedNumber expected number of errors.
+     */
+    protected void assertErrors(int expectedNumber)
+    {
+        int errorNum = this.tidy.getParseErrors();
+        if (errorNum != expectedNumber)
+        {
+            fail("Test failed, [" + expectedNumber + "] errors expected, [" + errorNum + "] were reported");
+        }
+    }
+
+    /**
+     * Utility method: assert a given String cab be found in the error log.
+     * @param expectedString expected String in error log.
+     */
+    protected void assertLogContains(String expectedString)
+    {
+        String logString = this.errorLog.toString();
+
+        if (logString.indexOf(expectedString) == -1)
+        {
+            fail("Test failed, expected [" + expectedString + "] couldn't be found in error log.");
         }
     }
 
