@@ -430,6 +430,11 @@ public class Lexer
     private List nodeList;
 
     /**
+     * Root node is saved here.
+     */
+    protected Node root;
+
+    /**
      * Instantiates a new Lexer.
      * @param in StreamIn
      * @param configuration configuation instance

@@ -240,6 +240,20 @@ public final class ParserImpl
     }
 
     /**
+     * moves given node to end of body element.
+     * @param lexer Lexer
+     * @param node Node to insert
+     */
+    static void moveNodeToBody(Lexer lexer, Node node)
+    {
+        Node body;
+
+        node.removeNode(node);
+        body = lexer.root.findBody(lexer.configuration.tt);
+        Node.insertNodeAtEnd(body, node);
+    }
+
+    /**
      * Parser for HTML.
      */
     public static class ParseHTML implements Parser
@@ -3080,22 +3094,44 @@ public final class ParserImpl
 
                 if (node.tag == tt.tagBody && node.type == Node.START_TAG)
                 {
+                    boolean seenbody = lexer.seenEndBody;
                     Node.insertNodeAtEnd(noframes, node);
-                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
-                    // MixedContent
+                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE); // MixedContent
+
+                    if (seenbody)
+                    {
+                        Node.coerceNode(lexer, node, tt.tagDiv);
+                        moveNodeToBody(lexer, node);
+                    }
                     continue;
                 }
 
                 // implicit body element inferred
-                if (node.type == Node.TEXT_NODE || node.tag != null)
+                if (node.type == Node.TEXT_NODE || (node.tag != null && node.type != Node.END_TAG))
                 {
-                    lexer.ungetToken();
-                    node = lexer.inferredTag("body");
-                    if (lexer.configuration.xmlOut)
+                    if (lexer.seenEndBody)
                     {
-                        lexer.report.warning(lexer, noframes, node, Report.INSERTING_TAG);
+                        Node body = lexer.root.findBody(tt);
+
+                        if (node.type == Node.TEXT_NODE)
+                        {
+                            lexer.ungetToken();
+                            node = lexer.inferredTag("p");
+                            lexer.report.warning(lexer, noframes, node, Report.CONTENT_AFTER_BODY);
+                        }
+
+                        Node.insertNodeAtEnd(body, node);
                     }
-                    Node.insertNodeAtEnd(noframes, node);
+                    else
+                    {
+                        lexer.ungetToken();
+                        node = lexer.inferredTag("body");
+                        if (lexer.configuration.xmlOut)
+                        {
+                            lexer.report.warning(lexer, noframes, node, Report.INSERTING_TAG);
+                        }
+                        Node.insertNodeAtEnd(noframes, node);
+                    }
                     parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
                     // MixedContent
                     continue;
@@ -3304,6 +3340,8 @@ public final class ParserImpl
 
         document = lexer.newNode();
         document.type = Node.ROOT_NODE;
+
+        lexer.root = document;
 
         while ((node = lexer.getToken(Lexer.IGNORE_WHITESPACE)) != null)
         {

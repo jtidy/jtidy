@@ -286,12 +286,20 @@ public class Node
 
     /**
      * used to clone heading nodes when split by an hr.
+     * @see java.lang.Object#clone()
      */
     protected Object clone()
     {
-        Node node = new Node();
-
-        node.parent = this.parent;
+        Node node;
+        try
+        {
+            node = (Node) super.clone();
+        }
+        catch (CloneNotSupportedException e)
+        {
+            // should never happen
+            throw new RuntimeException("CloneNotSupportedException " + e.getMessage());
+        }
         if (this.textarray != null)
         {
             node.textarray = new byte[this.end - this.start];
@@ -302,16 +310,6 @@ public class Node
                 System.arraycopy(this.textarray, this.start, node.textarray, node.start, node.end);
             }
         }
-        node.type = this.type;
-        node.closed = this.closed;
-        node.implicit = this.implicit;
-        node.linebreak = this.linebreak;
-        node.was = this.was;
-        node.tag = this.tag;
-        if (this.element != null)
-        {
-            node.element = this.element;
-        }
         if (this.attributes != null)
         {
             node.attributes = (AttVal) this.attributes.clone();
@@ -319,6 +317,11 @@ public class Node
         return node;
     }
 
+    /**
+     * Returns an attribute with the given name in the current node.
+     * @param name attribute name.
+     * @return AttVal instance or null if no attribute with the iven name is found
+     */
     public AttVal getAttrByName(String name)
     {
         AttVal attr;
@@ -987,9 +990,28 @@ public class Node
 
         node = node.content;
 
-        while (node != null && node.tag != tt.tagBody)
+        while (node != null && node.tag != tt.tagBody && node.tag != tt.tagFrameset)
         {
             node = node.next;
+        }
+
+        if (node.tag == tt.tagFrameset)
+        {
+            node = node.content;
+
+            while (node != null && node.tag != tt.tagNoframes)
+            {
+                node = node.next;
+            }
+
+            if (node != null)
+            {
+                node = node.content;
+                while (node != null && node.tag != tt.tagBody)
+                {
+                    node = node.next;
+                }
+            }
         }
 
         return node;
