@@ -352,6 +352,7 @@ public final class ParserImpl
                         continue;
                     }
 
+                    lexer.constrainVersion(~Dict.VERS_FRAMESET);
                     break; // to parse body
                 }
 
@@ -433,7 +434,6 @@ public final class ParserImpl
                 lexer.ungetToken();
 
                 // insert other content into noframes element
-
                 if (frameset != null)
                 {
                     if (noframes == null)
@@ -446,16 +446,17 @@ public final class ParserImpl
                         lexer.report.warning(lexer, html, node, Report.NOFRAMES_CONTENT);
                     }
 
+                    lexer.constrainVersion(Dict.VERS_FRAMESET);
                     parseTag(lexer, noframes, mode);
                     continue;
                 }
 
                 node = lexer.inferredTag("body");
+                lexer.constrainVersion(~Dict.VERS_FRAMESET);
                 break;
             }
 
             // node must be body
-
             Node.insertNodeAtEnd(html, node);
             parseTag(lexer, node, mode);
         }
@@ -488,6 +489,7 @@ public final class ParserImpl
 
                 if (node.type == Node.TEXT_NODE)
                 {
+                    lexer.report.warning(lexer, head, node, Report.TAG_NOT_ALLOWED_IN);
                     lexer.ungetToken();
                     break;
                 }
@@ -511,8 +513,13 @@ public final class ParserImpl
                     continue;
                 }
 
-                if (!((node.tag.model & Dict.CM_HEAD) != 0))
+                if (!TidyUtils.toBoolean(node.tag.model & Dict.CM_HEAD))
                 {
+                    // #545067 Implicit closing of head broken - warn only for XHTML input
+                    if (lexer.isvoyager)
+                    {
+                        lexer.report.warning(lexer, head, node, Report.TAG_NOT_ALLOWED_IN);
+                    }
                     lexer.ungetToken();
                     break;
                 }
@@ -683,6 +690,28 @@ public final class ParserImpl
 
             while ((node = lexer.getToken(mode)) != null)
             {
+
+                // #538536 Extra endtags not detected
+                if (node.tag == tt.tagHtml)
+                {
+                    if (node.type == Node.START_TAG || node.type == Node.START_END_TAG || lexer.seenEndHtml)
+                    {
+                        lexer.report.warning(lexer, body, node, Report.DISCARDING_UNEXPECTED);
+                    }
+                    else
+                    {
+                        lexer.seenEndHtml = true;
+                    }
+
+                    continue;
+                }
+
+                if (lexer.seenEndBody
+                    && (node.type == Node.START_TAG || node.type == Node.END_TAG || node.type == Node.START_END_TAG))
+                {
+                    lexer.report.warning(lexer, body, node, Report.CONTENT_AFTER_BODY);
+                }
+
                 if (node.tag == body.tag && node.type == Node.END_TAG)
                 {
                     body.closed = true;
@@ -722,21 +751,6 @@ public final class ParserImpl
                     break;
                 }
 
-                // #538536 Extra endtags not detected
-                if (node.tag == tt.tagHtml)
-                {
-                    if (node.type == Node.START_TAG || node.type == Node.START_END_TAG || lexer.seenEndHtml)
-                    {
-                        lexer.report.warning(lexer, body, node, Report.DISCARDING_UNEXPECTED);
-                    }
-                    else
-                    {
-                        lexer.seenEndHtml = true;
-                    }
-
-                    continue;
-                }
-
                 iswhitenode = false;
 
                 if (node.type == Node.TEXT_NODE
@@ -752,11 +766,12 @@ public final class ParserImpl
                     continue;
                 }
 
-                if (lexer.seenEndBody && !iswhitenode)
-                {
-                    lexer.seenEndBody = true;
-                    lexer.report.warning(lexer, body, node, Report.CONTENT_AFTER_BODY);
-                }
+                // #538536 Extra endtags not detected
+                // if (lexer.seenEndBody && !iswhitenode)
+                // {
+                //     lexer.seenEndBody = true;
+                //     lexer.report.warning(lexer, body, node, Report.CONTENT_AFTER_BODY);
+                // }
 
                 // mixed content model permits text
                 if (node.type == Node.TEXT_NODE)
@@ -2378,13 +2393,24 @@ public final class ParserImpl
                 // parse known element
                 if (node.type == Node.START_TAG || node.type == Node.START_END_TAG)
                 {
-                    if ((node.tag.model & Dict.CM_INLINE) != 0)
+                    if (TidyUtils.toBoolean(node.tag.model & Dict.CM_INLINE))
                     {
+                        // DSR - 27Apr02 ensure we wrap anchors and other inline content
+                        if (lexer.configuration.encloseBlockText)
+                        {
+                            lexer.ungetToken();
+                            node = lexer.inferredTag("p");
+                            Node.insertNodeAtEnd(element, node);
+                            parseTag(lexer, node, Lexer.MIXED_CONTENT);
+                            continue;
+                        }
+
                         if (checkstack && !node.implicit)
                         {
                             checkstack = false;
 
-                            if ((element.tag.model & Dict.CM_MIXED) == 0) // #431731 - fix by Randy Waki 25 Dec 00
+                            if (!TidyUtils.toBoolean(element.tag.model & Dict.CM_MIXED)) // #431731 - fix by Randy Waki
+                            // 25 Dec 00
                             {
                                 if (lexer.inlineDup(node) > 0)
                                 {
