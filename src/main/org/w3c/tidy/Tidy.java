@@ -61,6 +61,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.Properties;
 
 /**
@@ -69,7 +70,7 @@ import java.util.Properties;
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
  * @version $Revision$ ($Author$)
  */
-public class Tidy implements java.io.Serializable
+public class Tidy implements Serializable
 {
 
     static final long serialVersionUID = -2794371560623987718L;
@@ -104,7 +105,6 @@ public class Tidy implements java.io.Serializable
     /**
      * ParseErrors - the number of errors that occurred in the most recent parse operation
      */
-
     public int getParseErrors()
     {
         return parseErrors;
@@ -113,7 +113,6 @@ public class Tidy implements java.io.Serializable
     /**
      * ParseWarnings - the number of warnings that occurred in the most recent parse operation
      */
-
     public int getParseWarnings()
     {
         return parseWarnings;
@@ -122,7 +121,6 @@ public class Tidy implements java.io.Serializable
     /**
      * Errout - the error output stream
      */
-
     public PrintWriter getErrout()
     {
         return errout;
@@ -135,9 +133,8 @@ public class Tidy implements java.io.Serializable
 
     /**
      * Spaces - default indentation
-     * @see org.w3c.tidy.Configuration#spaces
+     * @see Configuration#spaces
      */
-
     public void setSpaces(int spaces)
     {
         configuration.spaces = spaces;
@@ -150,9 +147,8 @@ public class Tidy implements java.io.Serializable
 
     /**
      * Wraplen - default wrap margin
-     * @see org.w3c.tidy.Configuration#wraplen
+     * @see Configuration#wraplen
      */
-
     public void setWraplen(int wraplen)
     {
         configuration.wraplen = wraplen;
@@ -165,9 +161,8 @@ public class Tidy implements java.io.Serializable
 
     /**
      * CharEncoding
-     * @see org.w3c.tidy.Configuration#charEncoding
+     * @see Configuration#charEncoding
      */
-
     public void setCharEncoding(int charencoding)
     {
         configuration.charEncoding = charencoding;
@@ -180,9 +175,8 @@ public class Tidy implements java.io.Serializable
 
     /**
      * Tabsize
-     * @see org.w3c.tidy.Configuration#tabsize
+     * @see Configuration#tabsize
      */
-
     public void setTabsize(int tabsize)
     {
         configuration.tabsize = tabsize;
@@ -195,9 +189,8 @@ public class Tidy implements java.io.Serializable
 
     /**
      * Errfile - file name to write errors to
-     * @see org.w3c.tidy.Configuration#errfile
+     * @see Configuration#errfile
      */
-
     public void setErrfile(String errfile)
     {
         configuration.errfile = errfile;
@@ -210,9 +203,8 @@ public class Tidy implements java.io.Serializable
 
     /**
      * Writeback - if true then output tidied markup NOTE: this property is ignored when parsing from an InputStream.
-     * @see org.w3c.tidy.Configuration#writeback
+     * @see Configuration#writeback
      */
-
     public void setWriteback(boolean writeback)
     {
         configuration.writeback = writeback;
@@ -225,12 +217,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * OnlyErrors - if true normal output is suppressed
-     * @see org.w3c.tidy.Configuration#onlyErrors
+     * @see Configuration#onlyErrors
      */
-
-    public void setOnlyErrors(boolean OnlyErrors)
+    public void setOnlyErrors(boolean onlyErrors)
     {
-        configuration.onlyErrors = OnlyErrors;
+        configuration.onlyErrors = onlyErrors;
     }
 
     public boolean getOnlyErrors()
@@ -240,12 +231,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * ShowWarnings - however errors are always shown
-     * @see org.w3c.tidy.Configuration#showWarnings
+     * @see Configuration#showWarnings
      */
-
-    public void setShowWarnings(boolean ShowWarnings)
+    public void setShowWarnings(boolean showWarnings)
     {
-        configuration.showWarnings = ShowWarnings;
+        configuration.showWarnings = showWarnings;
     }
 
     public boolean getShowWarnings()
@@ -255,12 +245,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * Quiet - no 'Parsing X', guessed DTD or summary
-     * @see org.w3c.tidy.Configuration#quiet
+     * @see Configuration#quiet
      */
-
-    public void setQuiet(boolean Quiet)
+    public void setQuiet(boolean quiet)
     {
-        configuration.quiet = Quiet;
+        configuration.quiet = quiet;
     }
 
     public boolean getQuiet()
@@ -270,12 +259,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * IndentContent - indent content of appropriate tags
-     * @see org.w3c.tidy.Configuration#indentContent
+     * @see Configuration#indentContent
      */
-
-    public void setIndentContent(boolean IndentContent)
+    public void setIndentContent(boolean indentContent)
     {
-        configuration.indentContent = IndentContent;
+        configuration.indentContent = indentContent;
     }
 
     public boolean getIndentContent()
@@ -285,12 +273,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * SmartIndent - does text/block level content effect indentation
-     * @see org.w3c.tidy.Configuration#smartIndent
+     * @see Configuration#smartIndent
      */
-
-    public void setSmartIndent(boolean SmartIndent)
+    public void setSmartIndent(boolean smartIndent)
     {
-        configuration.smartIndent = SmartIndent;
+        configuration.smartIndent = smartIndent;
     }
 
     public boolean getSmartIndent()
@@ -300,12 +287,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * HideEndTags - suppress optional end tags
-     * @see org.w3c.tidy.Configuration#hideEndTags
+     * @see Configuration#hideEndTags
      */
-
-    public void setHideEndTags(boolean HideEndTags)
+    public void setHideEndTags(boolean hideEndTags)
     {
-        configuration.hideEndTags = HideEndTags;
+        configuration.hideEndTags = hideEndTags;
     }
 
     public boolean getHideEndTags()
@@ -315,12 +301,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * XmlTags - treat input as XML
-     * @see org.w3c.tidy.Configuration#xmlTags
+     * @see Configuration#xmlTags
      */
-
-    public void setXmlTags(boolean XmlTags)
+    public void setXmlTags(boolean xmlTags)
     {
-        configuration.xmlTags = XmlTags;
+        configuration.xmlTags = xmlTags;
     }
 
     public boolean getXmlTags()
@@ -330,12 +315,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * XmlOut - create output as XML
-     * @see org.w3c.tidy.Configuration#xmlOut
+     * @see Configuration#xmlOut
      */
-
-    public void setXmlOut(boolean XmlOut)
+    public void setXmlOut(boolean xmlOut)
     {
-        configuration.xmlOut = XmlOut;
+        configuration.xmlOut = xmlOut;
     }
 
     public boolean getXmlOut()
@@ -345,9 +329,8 @@ public class Tidy implements java.io.Serializable
 
     /**
      * XHTML - output extensible HTML
-     * @see org.w3c.tidy.Configuration#xHTML
+     * @see Configuration#xHTML
      */
-
     public void setXHTML(boolean xHTML)
     {
         configuration.xHTML = xHTML;
@@ -360,12 +343,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * RawOut - avoid mapping values > 127 to entities
-     * @see org.w3c.tidy.Configuration#rawOut
+     * @see Configuration#rawOut
      */
-
-    public void setRawOut(boolean RawOut)
+    public void setRawOut(boolean rawOut)
     {
-        configuration.rawOut = RawOut;
+        configuration.rawOut = rawOut;
     }
 
     public boolean getRawOut()
@@ -375,12 +357,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * UpperCaseTags - output tags in upper not lower case
-     * @see org.w3c.tidy.Configuration#upperCaseTags
+     * @see Configuration#upperCaseTags
      */
-
-    public void setUpperCaseTags(boolean UpperCaseTags)
+    public void setUpperCaseTags(boolean upperCaseTags)
     {
-        configuration.upperCaseTags = UpperCaseTags;
+        configuration.upperCaseTags = upperCaseTags;
     }
 
     public boolean getUpperCaseTags()
@@ -390,12 +371,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * UpperCaseAttrs - output attributes in upper not lower case
-     * @see org.w3c.tidy.Configuration#upperCaseAttrs
+     * @see Configuration#upperCaseAttrs
      */
-
-    public void setUpperCaseAttrs(boolean UpperCaseAttrs)
+    public void setUpperCaseAttrs(boolean upperCaseAttrs)
     {
-        configuration.upperCaseAttrs = UpperCaseAttrs;
+        configuration.upperCaseAttrs = upperCaseAttrs;
     }
 
     public boolean getUpperCaseAttrs()
@@ -405,12 +385,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * MakeClean - remove presentational clutter
-     * @see org.w3c.tidy.Configuration#makeClean
+     * @see Configuration#makeClean
      */
-
-    public void setMakeClean(boolean MakeClean)
+    public void setMakeClean(boolean makeClean)
     {
-        configuration.makeClean = MakeClean;
+        configuration.makeClean = makeClean;
     }
 
     public boolean getMakeClean()
@@ -420,12 +399,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * BreakBeforeBR - o/p newline before &lt;br&gt; or not?
-     * @see org.w3c.tidy.Configuration#breakBeforeBR
+     * @see Configuration#breakBeforeBR
      */
-
-    public void setBreakBeforeBR(boolean BreakBeforeBR)
+    public void setBreakBeforeBR(boolean breakBeforeBR)
     {
-        configuration.breakBeforeBR = BreakBeforeBR;
+        configuration.breakBeforeBR = breakBeforeBR;
     }
 
     public boolean getBreakBeforeBR()
@@ -435,12 +413,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * BurstSlides - create slides on each h2 element
-     * @see org.w3c.tidy.Configuration#burstSlides
+     * @see Configuration#burstSlides
      */
-
-    public void setBurstSlides(boolean BurstSlides)
+    public void setBurstSlides(boolean burstSlides)
     {
-        configuration.burstSlides = BurstSlides;
+        configuration.burstSlides = burstSlides;
     }
 
     public boolean getBurstSlides()
@@ -450,12 +427,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * NumEntities - use numeric entities
-     * @see org.w3c.tidy.Configuration#numEntities
+     * @see Configuration#numEntities
      */
-
-    public void setNumEntities(boolean NumEntities)
+    public void setNumEntities(boolean numEntities)
     {
-        configuration.numEntities = NumEntities;
+        configuration.numEntities = numEntities;
     }
 
     public boolean getNumEntities()
@@ -465,12 +441,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * QuoteMarks - output " marks as &amp;quot;
-     * @see org.w3c.tidy.Configuration#quoteMarks
+     * @see Configuration#quoteMarks
      */
-
-    public void setQuoteMarks(boolean QuoteMarks)
+    public void setQuoteMarks(boolean quoteMarks)
     {
-        configuration.quoteMarks = QuoteMarks;
+        configuration.quoteMarks = quoteMarks;
     }
 
     public boolean getQuoteMarks()
@@ -480,12 +455,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * QuoteNbsp - output non-breaking space as entity
-     * @see org.w3c.tidy.Configuration#quoteNbsp
+     * @see Configuration#quoteNbsp
      */
-
-    public void setQuoteNbsp(boolean QuoteNbsp)
+    public void setQuoteNbsp(boolean quoteNbsp)
     {
-        configuration.quoteNbsp = QuoteNbsp;
+        configuration.quoteNbsp = quoteNbsp;
     }
 
     public boolean getQuoteNbsp()
@@ -495,12 +469,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * QuoteAmpersand - output naked ampersand as &amp;
-     * @see org.w3c.tidy.Configuration#quoteAmpersand
+     * @see Configuration#quoteAmpersand
      */
-
-    public void setQuoteAmpersand(boolean QuoteAmpersand)
+    public void setQuoteAmpersand(boolean quoteAmpersand)
     {
-        configuration.quoteAmpersand = QuoteAmpersand;
+        configuration.quoteAmpersand = quoteAmpersand;
     }
 
     public boolean getQuoteAmpersand()
@@ -510,12 +483,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * WrapAttVals - wrap within attribute values
-     * @see org.w3c.tidy.Configuration#wrapAttVals
+     * @see Configuration#wrapAttVals
      */
-
-    public void setWrapAttVals(boolean WrapAttVals)
+    public void setWrapAttVals(boolean wrapAttVals)
     {
-        configuration.wrapAttVals = WrapAttVals;
+        configuration.wrapAttVals = wrapAttVals;
     }
 
     public boolean getWrapAttVals()
@@ -525,12 +497,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * WrapScriptlets - wrap within JavaScript string literals
-     * @see org.w3c.tidy.Configuration#wrapScriptlets
+     * @see Configuration#wrapScriptlets
      */
-
-    public void setWrapScriptlets(boolean WrapScriptlets)
+    public void setWrapScriptlets(boolean wrapScriptlets)
     {
-        configuration.wrapScriptlets = WrapScriptlets;
+        configuration.wrapScriptlets = wrapScriptlets;
     }
 
     public boolean getWrapScriptlets()
@@ -540,12 +511,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * WrapSection - wrap within &lt;![ ... ]&gt; section tags
-     * @see org.w3c.tidy.Configuration#wrapSection
+     * @see Configuration#wrapSection
      */
-
-    public void setWrapSection(boolean WrapSection)
+    public void setWrapSection(boolean wrapSection)
     {
-        configuration.wrapSection = WrapSection;
+        configuration.wrapSection = wrapSection;
     }
 
     public boolean getWrapSection()
@@ -555,9 +525,8 @@ public class Tidy implements java.io.Serializable
 
     /**
      * AltText - default text for alt attribute
-     * @see org.w3c.tidy.Configuration#altText
+     * @see Configuration#altText
      */
-
     public void setAltText(String altText)
     {
         configuration.altText = altText;
@@ -570,9 +539,8 @@ public class Tidy implements java.io.Serializable
 
     /**
      * Slidestyle - style sheet for slides
-     * @see org.w3c.tidy.Configuration#slidestyle
+     * @see Configuration#slidestyle
      */
-
     public void setSlidestyle(String slidestyle)
     {
         configuration.slidestyle = slidestyle;
@@ -585,12 +553,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * XmlPi - add &lt;?xml?&gt; for XML docs
-     * @see org.w3c.tidy.Configuration#xmlPi
+     * @see Configuration#xmlPi
      */
-
-    public void setXmlPi(boolean XmlPi)
+    public void setXmlPi(boolean xmlPi)
     {
-        configuration.xmlPi = XmlPi;
+        configuration.xmlPi = xmlPi;
     }
 
     public boolean getXmlPi()
@@ -600,12 +567,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * DropFontTags - discard presentation tags
-     * @see org.w3c.tidy.Configuration#dropFontTags
+     * @see Configuration#dropFontTags
      */
-
-    public void setDropFontTags(boolean DropFontTags)
+    public void setDropFontTags(boolean dropFontTags)
     {
-        configuration.dropFontTags = DropFontTags;
+        configuration.dropFontTags = dropFontTags;
     }
 
     public boolean getDropFontTags()
@@ -615,12 +581,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * DropEmptyParas - discard empty p elements
-     * @see org.w3c.tidy.Configuration#dropEmptyParas
+     * @see Configuration#dropEmptyParas
      */
-
-    public void setDropEmptyParas(boolean DropEmptyParas)
+    public void setDropEmptyParas(boolean dropEmptyParas)
     {
-        configuration.dropEmptyParas = DropEmptyParas;
+        configuration.dropEmptyParas = dropEmptyParas;
     }
 
     public boolean getDropEmptyParas()
@@ -630,12 +595,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * FixComments - fix comments with adjacent hyphens
-     * @see org.w3c.tidy.Configuration#fixComments
+     * @see Configuration#fixComments
      */
-
-    public void setFixComments(boolean FixComments)
+    public void setFixComments(boolean fixComments)
     {
-        configuration.fixComments = FixComments;
+        configuration.fixComments = fixComments;
     }
 
     public boolean getFixComments()
@@ -645,12 +609,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * WrapAsp - wrap within ASP pseudo elements
-     * @see org.w3c.tidy.Configuration#wrapAsp
+     * @see Configuration#wrapAsp
      */
-
-    public void setWrapAsp(boolean WrapAsp)
+    public void setWrapAsp(boolean wrapAsp)
     {
-        configuration.wrapAsp = WrapAsp;
+        configuration.wrapAsp = wrapAsp;
     }
 
     public boolean getWrapAsp()
@@ -660,12 +623,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * WrapJste - wrap within JSTE pseudo elements
-     * @see org.w3c.tidy.Configuration#wrapJste
+     * @see Configuration#wrapJste
      */
-
-    public void setWrapJste(boolean WrapJste)
+    public void setWrapJste(boolean wrapJste)
     {
-        configuration.wrapJste = WrapJste;
+        configuration.wrapJste = wrapJste;
     }
 
     public boolean getWrapJste()
@@ -675,12 +637,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * WrapPhp - wrap within PHP pseudo elements
-     * @see org.w3c.tidy.Configuration#wrapPhp
+     * @see Configuration#wrapPhp
      */
-
-    public void setWrapPhp(boolean WrapPhp)
+    public void setWrapPhp(boolean wrapPhp)
     {
-        configuration.wrapPhp = WrapPhp;
+        configuration.wrapPhp = wrapPhp;
     }
 
     public boolean getWrapPhp()
@@ -690,12 +651,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * FixBackslash - fix URLs by replacing \ with /
-     * @see org.w3c.tidy.Configuration#fixBackslash
+     * @see Configuration#fixBackslash
      */
-
-    public void setFixBackslash(boolean FixBackslash)
+    public void setFixBackslash(boolean fixBackslash)
     {
-        configuration.fixBackslash = FixBackslash;
+        configuration.fixBackslash = fixBackslash;
     }
 
     public boolean getFixBackslash()
@@ -705,12 +665,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * IndentAttributes - newline+indent before each attribute
-     * @see org.w3c.tidy.Configuration#indentAttributes
+     * @see Configuration#indentAttributes
      */
-
-    public void setIndentAttributes(boolean IndentAttributes)
+    public void setIndentAttributes(boolean indentAttributes)
     {
-        configuration.indentAttributes = IndentAttributes;
+        configuration.indentAttributes = indentAttributes;
     }
 
     public boolean getIndentAttributes()
@@ -722,10 +681,9 @@ public class Tidy implements java.io.Serializable
      * DocType - user specified doctype omit | auto | strict | loose |<i>fpi</i> where the <i>fpi</i> is a string
      * similar to &quot;-//ACME//DTD HTML 3.14159//EN&quot; Note: for <i>fpi</i> include the double-quotes in the
      * string.
-     * @see org.w3c.tidy.Configuration#docTypeStr
-     * @see org.w3c.tidy.Configuration#docTypeMode
+     * @see Configuration#docTypeStr
+     * @see Configuration#docTypeMode
      */
-
     public void setDocType(String doctype)
     {
         if (doctype != null)
@@ -760,12 +718,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * LogicalEmphasis - replace i by em and b by strong
-     * @see org.w3c.tidy.Configuration#logicalEmphasis
+     * @see Configuration#logicalEmphasis
      */
-
-    public void setLogicalEmphasis(boolean LogicalEmphasis)
+    public void setLogicalEmphasis(boolean logicalEmphasis)
     {
-        configuration.logicalEmphasis = LogicalEmphasis;
+        configuration.logicalEmphasis = logicalEmphasis;
     }
 
     public boolean getLogicalEmphasis()
@@ -775,12 +732,12 @@ public class Tidy implements java.io.Serializable
 
     /**
      * XmlPIs - if set to true PIs must end with ?>
-     * @see org.w3c.tidy.Configuration#xmlPIs
+     * @see Configuration#xmlPIs
      */
 
-    public void setXmlPIs(boolean XmlPIs)
+    public void setXmlPIs(boolean xmlPIs)
     {
-        configuration.xmlPIs = XmlPIs;
+        configuration.xmlPIs = xmlPIs;
     }
 
     public boolean getXmlPIs()
@@ -790,12 +747,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * EncloseText - if true text at body is wrapped in &lt;p&gt;'s
-     * @see org.w3c.tidy.Configuration#encloseBodyText
+     * @see Configuration#encloseBodyText
      */
-
-    public void setEncloseText(boolean EncloseText)
+    public void setEncloseText(boolean encloseText)
     {
-        configuration.encloseBodyText = EncloseText;
+        configuration.encloseBodyText = encloseText;
     }
 
     public boolean getEncloseText()
@@ -805,12 +761,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * EncloseBlockText - if true text in blocks is wrapped in &lt;p&gt;'s
-     * @see org.w3c.tidy.Configuration#encloseBlockText
+     * @see Configuration#encloseBlockText
      */
-
-    public void setEncloseBlockText(boolean EncloseBlockText)
+    public void setEncloseBlockText(boolean encloseBlockText)
     {
-        configuration.encloseBlockText = EncloseBlockText;
+        configuration.encloseBlockText = encloseBlockText;
     }
 
     public boolean getEncloseBlockText()
@@ -819,13 +774,12 @@ public class Tidy implements java.io.Serializable
     }
 
     /**
-     * KeepFileTimes - if true last modified time is preserved <br><b>this is NOT supported at this time.</b>
-     * @see org.w3c.tidy.Configuration#keepFileTimes
+     * KeepFileTimes - if true last modified time is preserved <strong>this is NOT supported at this time.</strong>
+     * @see Configuration#keepFileTimes
      */
-
-    public void setKeepFileTimes(boolean KeepFileTimes)
+    public void setKeepFileTimes(boolean keepFileTimes)
     {
-        configuration.keepFileTimes = KeepFileTimes;
+        configuration.keepFileTimes = keepFileTimes;
     }
 
     public boolean getKeepFileTimes()
@@ -835,12 +789,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * Word2000 - draconian cleaning for Word2000
-     * @see org.w3c.tidy.Configuration#word2000
+     * @see Configuration#word2000
      */
-
-    public void setWord2000(boolean Word2000)
+    public void setWord2000(boolean word2000)
     {
-        configuration.word2000 = Word2000;
+        configuration.word2000 = word2000;
     }
 
     public boolean getWord2000()
@@ -850,12 +803,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * TidyMark - add meta element indicating tidied doc
-     * @see org.w3c.tidy.Configuration#tidyMark
+     * @see Configuration#tidyMark
      */
-
-    public void setTidyMark(boolean TidyMark)
+    public void setTidyMark(boolean tidyMark)
     {
-        configuration.tidyMark = TidyMark;
+        configuration.tidyMark = tidyMark;
     }
 
     public boolean getTidyMark()
@@ -865,12 +817,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * XmlSpace - if set to yes adds xml:space attr as needed
-     * @see org.w3c.tidy.Configuration#xmlSpace
+     * @see Configuration#xmlSpace
      */
-
-    public void setXmlSpace(boolean XmlSpace)
+    public void setXmlSpace(boolean xmlSpace)
     {
-        configuration.xmlSpace = XmlSpace;
+        configuration.xmlSpace = xmlSpace;
     }
 
     public boolean getXmlSpace()
@@ -880,12 +831,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * Emacs - if true format error output for GNU Emacs
-     * @see org.w3c.tidy.Configuration#emacs
+     * @see Configuration#emacs
      */
-
-    public void setEmacs(boolean Emacs)
+    public void setEmacs(boolean emacs)
     {
-        configuration.emacs = Emacs;
+        configuration.emacs = emacs;
     }
 
     public boolean getEmacs()
@@ -895,12 +845,11 @@ public class Tidy implements java.io.Serializable
 
     /**
      * LiteralAttribs - if true attributes may use newlines
-     * @see org.w3c.tidy.Configuration#literalAttribs
+     * @see Configuration#literalAttribs
      */
-
-    public void setLiteralAttribs(boolean LiteralAttribs)
+    public void setLiteralAttribs(boolean literalAttribs)
     {
-        configuration.literalAttribs = LiteralAttribs;
+        configuration.literalAttribs = literalAttribs;
     }
 
     public boolean getLiteralAttribs()
@@ -927,7 +876,6 @@ public class Tidy implements java.io.Serializable
     /**
      * Sets the configuration from a configuration file.
      */
-
     public void setConfigurationFromFile(String filename)
     {
         configuration.parseFile(filename);
@@ -936,7 +884,6 @@ public class Tidy implements java.io.Serializable
     /**
      * Sets the configuration from a properties object.
      */
-
     public void setConfigurationFromProps(Properties props)
     {
         configuration.addProps(props);
@@ -945,7 +892,6 @@ public class Tidy implements java.io.Serializable
     /**
      * first time initialization which should precede reading the command line
      */
-
     private void init()
     {
         configuration = new Configuration();
@@ -972,12 +918,6 @@ public class Tidy implements java.io.Serializable
             return;
         }
 
-        /*
-         * Unnecessary - same initial values in Configuration Configuration.XmlTags = false; Configuration.XmlOut =
-         * false; Configuration.HideEndTags = false; Configuration.UpperCaseTags = false; Configuration.MakeClean =
-         * false; Configuration.writeback = false; Configuration.OnlyErrors = false;
-         */
-
         configuration.errfile = null;
         stderr = new PrintWriter(System.err, true);
         errout = stderr;
@@ -987,7 +927,6 @@ public class Tidy implements java.io.Serializable
     /**
      * Parses InputStream in and returns the root Node. If out is non-null, pretty prints to OutputStream out.
      */
-
     public Node parse(InputStream in, OutputStream out)
     {
         Node document = null;
@@ -1010,13 +949,12 @@ public class Tidy implements java.io.Serializable
      * Internal routine that actually does the parsing. The caller can pass either an InputStream or file name. If both
      * are passed, the file name is preferred.
      */
-
     private Node parse(InputStream in, String file, OutputStream out) throws FileNotFoundException, IOException
     {
         Lexer lexer;
         Node document = null;
         Node doctype;
-        Out o = new OutImpl(); /* normal output stream */
+        Out o = new OutImpl(); // normal output stream 
         PPrint pprint;
 
         if (!initialized)
@@ -1032,7 +970,7 @@ public class Tidy implements java.io.Serializable
         parseErrors = 0;
         parseWarnings = 0;
 
-        /* ensure config is self-consistent */
+        // ensure config is self-consistent
         configuration.adjust();
 
         if (file != null)
@@ -1051,12 +989,10 @@ public class Tidy implements java.io.Serializable
             lexer = new Lexer(new StreamInImpl(in, configuration.charEncoding, configuration.tabsize), configuration);
             lexer.errout = errout;
 
-            /*
-             * store pointer to lexer in input stream to allow character encoding errors to be reported
-             */
+            // store pointer to lexer in input stream to allow character encoding errors to be reported
             lexer.in.lexer = lexer;
 
-            /* Tidy doesn't alter the doctype for generic XML docs */
+            // Tidy doesn't alter the doctype for generic XML docs
             if (configuration.xmlTags)
             {
                 document = ParserImpl.parseXMLDocument(lexer);
@@ -1079,14 +1015,14 @@ public class Tidy implements java.io.Serializable
 
                 Clean cleaner = new Clean(configuration.tt);
 
-                /* simplifies <b><b> ... </b> ... </b> etc. */
+                // simplifies <b><b> ... </b> ... </b> etc.
                 cleaner.nestedEmphasis(document);
 
-                /* cleans up <dir> indented text </dir> etc. */
+                // cleans up <dir> indented text </dir> etc.
                 cleaner.list2BQ(document);
                 cleaner.bQ2Div(document);
 
-                /* replaces i by em and b by strong */
+                // replaces i by em and b by strong
                 if (configuration.logicalEmphasis)
                 {
                     cleaner.emFromI(document);
@@ -1094,14 +1030,14 @@ public class Tidy implements java.io.Serializable
 
                 if (configuration.word2000 && cleaner.isWord2000(document, configuration.tt))
                 {
-                    /* prune Word2000's <![if ...]> ... <![endif]> */
+                    // prune Word2000's <![if ...]> ... <![endif]>
                     cleaner.dropSections(lexer, document);
 
-                    /* drop style & class attributes and empty p, span elements */
+                    // drop style & class attributes and empty p, span elements
                     cleaner.cleanWord2000(lexer, document);
                 }
 
-                /* replaces presentational markup by style rules */
+                // replaces presentational markup by style rules
                 if (configuration.makeClean || configuration.dropFontTags)
                 {
                     cleaner.cleanTree(lexer, document);
@@ -1130,7 +1066,7 @@ public class Tidy implements java.io.Serializable
                     }
                 }
 
-                /* ensure presence of initial <?XML version="1.0"?> */
+                // ensure presence of initial <?XML version="1.0"?>
                 if (configuration.xmlOut && configuration.xmlPi)
                 {
                     lexer.fixXMLPI(document);
@@ -1174,10 +1110,9 @@ public class Tidy implements java.io.Serializable
                     Node body;
 
                     body = null;
-                    /*
-                     * remove doctype to avoid potential clash with markup introduced when bursting into slides
-                     */
-                    /* discard the document type */
+                    // remove doctype to avoid potential clash with markup introduced when bursting into slides
+                    
+                    // discard the document type
                     doctype = document.findDocType();
 
                     if (doctype != null)
@@ -1188,7 +1123,7 @@ public class Tidy implements java.io.Serializable
                     /* slides use transitional features */
                     lexer.versions |= Dict.VERS_HTML40_LOOSE;
 
-                    /* and patch up doctype to match */
+                    // and patch up doctype to match
                     if (configuration.xHTML)
                     {
                         lexer.setXHTMLDocType(document);
@@ -1198,7 +1133,7 @@ public class Tidy implements java.io.Serializable
                         lexer.fixDocType(document);
                     }
 
-                    /* find the body element which may be implicit */
+                    // find the body element which may be implicit
                     body = document.findBody(configuration.tt);
 
                     if (body != null)
@@ -1263,7 +1198,6 @@ public class Tidy implements java.io.Serializable
     /**
      * Parses InputStream in and returns a DOM Document node. If out is non-null, pretty prints to OutputStream out.
      */
-
     public org.w3c.dom.Document parseDOM(InputStream in, OutputStream out)
     {
         Node document = parse(in, out);
@@ -1280,7 +1214,6 @@ public class Tidy implements java.io.Serializable
     /**
      * Creates an empty DOM Document.
      */
-
     public static org.w3c.dom.Document createEmptyDocument()
     {
         Node document = new Node(Node.RootNode, new byte[0], 0, 0);
@@ -1299,7 +1232,6 @@ public class Tidy implements java.io.Serializable
     /**
      * Pretty-prints a DOM Document.
      */
-
     public void pprint(org.w3c.dom.Document doc, OutputStream out)
     {
         Out o = new OutImpl();
@@ -1354,14 +1286,9 @@ public class Tidy implements java.io.Serializable
         int totalerrors = 0;
         int totalwarnings = 0;
         String file;
-        InputStream in;
         String prog = "Tidy";
         Node document;
-        Node doctype;
-        Lexer lexer;
         String s;
-        Out out = new OutImpl(); /* normal output stream */
-        PPrint pprint;
         int argc = argv.length + 1;
         int argIndex = 0;
         Tidy tidy;
@@ -1372,13 +1299,13 @@ public class Tidy implements java.io.Serializable
         tidy = new Tidy();
         configuration = tidy.getConfiguration();
 
-        /* read command line */
+        // read command line
 
         while (argc > 0)
         {
             if (argc > 1 && argv[argIndex].startsWith("-"))
             {
-                /* support -foo and --foo */
+                // support -foo and --foo
                 arg = argv[argIndex].substring(1);
 
                 if (arg.length() > 0 && arg.charAt(0) == '-')
@@ -1443,11 +1370,11 @@ public class Tidy implements java.io.Serializable
                 {
                     configuration.writeback = true;
                 }
-                else if (arg.equals("change")) /* obsolete */
+                else if (arg.equals("change")) // obsolete
                 {
                     configuration.writeback = true;
                 }
-                else if (arg.equals("update")) /* obsolete */
+                else if (arg.equals("update")) // obsolete
                 {
                     configuration.writeback = true;
                 }
@@ -1556,23 +1483,23 @@ public class Tidy implements java.io.Serializable
                 continue;
             }
 
-            /* ensure config is self-consistent */
+            // ensure config is self-consistent
             configuration.adjust();
 
-            /* user specified error file */
+            // user specified error file
             if (configuration.errfile != null)
             {
-                /* is it same as the currently opened file? */
+                // is it same as the currently opened file?
                 if (!configuration.errfile.equals(current_errorfile))
                 {
-                    /* no so close previous error file */
+                    // no so close previous error file
 
                     if (tidy.getErrout() != tidy.getStderr())
                     {
                         tidy.getErrout().close();
                     }
 
-                    /* and try to open the new error file */
+                    // and try to open the new error file
                     try
                     {
                         tidy.setErrout(new PrintWriter(new FileWriter(configuration.errfile), true));
@@ -1580,7 +1507,7 @@ public class Tidy implements java.io.Serializable
                     }
                     catch (IOException e)
                     {
-                        /* can't be opened so fall back to stderr */
+                        // can't be opened so fall back to stderr
                         current_errorfile = "stderr";
                         tidy.setErrout(tidy.getStderr());
                     }
@@ -1630,7 +1557,7 @@ public class Tidy implements java.io.Serializable
             tidy.getErrout().close();
         }
 
-        /* return status can be used by scripts */
+        // return status can be used by scripts
 
         if (totalerrors > 0)
         {
@@ -1642,7 +1569,7 @@ public class Tidy implements java.io.Serializable
             return 1;
         }
 
-        /* 0 signifies all is ok */
+        // 0 means all is ok
         return 0;
     }
 }
