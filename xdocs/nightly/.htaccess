@@ -1,0 +1,4 @@
+IndexOptions DescriptionWidth=*
+IndexOptions NameWidth=*
+#HeaderName .header
+#ReadmeName .footer
