@@ -704,7 +704,15 @@ public class StreamInImpl extends StreamIn
      */
     private int rawBufpos;
 
+    /**
+     * has a raw byte been pushed into stack?
+     */
     private boolean rawPushed;
+
+    /**
+     * looking for an UTF BOM?
+     */
+    private boolean lookingForBOM = true;
 
     /**
      * Instatiates a new StreamInImpl.
@@ -1009,13 +1017,10 @@ public class StreamInImpl extends StreamIn
      */
     public int readCharFromStream()
     {
-        boolean lookingForBOM = true;
         int c;
         int[] n = new int[]{0};
         char[] tempchar = new char[1];
-        int[] count = new int[1];
-
-        count[0] = 1;
+        int[] count = new int[]{1};
 
         readRawBytesFromStream(tempchar, count, false);
         if (count[0] <= 0)
@@ -1025,271 +1030,256 @@ public class StreamInImpl extends StreamIn
 
         c = tempchar[0];
 
-        try
+        if (lookingForBOM
+            && (this.encoding == Configuration.UTF16
+                || this.encoding == Configuration.UTF16LE
+                || this.encoding == Configuration.UTF16BE || this.encoding == Configuration.UTF8))
         {
-            if (lookingForBOM
-                && (this.encoding == Configuration.UTF16
-                    || this.encoding == Configuration.UTF16LE
-                    || this.encoding == Configuration.UTF16BE || this.encoding == Configuration.UTF8))
-            {
-                // check for a Byte Order Mark
-                int c1, bom;
-
-                lookingForBOM = false;
-
-                c = this.stream.read();
-
-                if (c == EndOfStream)
-                {
-                    lookingForBOM = false;
-                    return EndOfStream;
-                }
-
-                count[0] = 1;
-                readRawBytesFromStream(tempchar, count, false);
-                c1 = tempchar[0];
-
-                bom = (c << 8) + c1;
-
-                if (bom == UNICODE_BOM_BE)
-                {
-                    // big-endian UTF-16
-                    if (this.encoding != Configuration.UTF16 && this.encoding != Configuration.UTF16BE)
-                    {
-                        this.lexer.report.encodingError(this.lexer, Report.ENCODING_MISMATCH, Configuration.UTF16BE);
-                        // non-fatal error
-                    }
-                    this.encoding = Configuration.UTF16BE;
-
-                    this.lexer.configuration.inCharEncoding = Configuration.UTF16BE;
-
-                    return UNICODE_BOM; // return decoded BOM
-                }
-                else if (bom == UNICODE_BOM_LE)
-                {
-                    // little-endian UTF-16
-                    if (this.encoding != Configuration.UTF16 && this.encoding != Configuration.UTF16LE)
-                    {
-                        this.lexer.report.encodingError(this.lexer, Report.ENCODING_MISMATCH, Configuration.UTF16LE);
-                        // non-fatal error
-                    }
-                    this.encoding = Configuration.UTF16LE;
-
-                    this.lexer.configuration.inCharEncoding = Configuration.UTF16LE;
-
-                    return UNICODE_BOM; // return decoded BOM
-                }
-                else
-                {
-                    int c2;
-
-                    count[0] = 1;
-                    readRawBytesFromStream(tempchar, count, false);
-                    c2 = tempchar[0];
-
-                    if (((c << 16) + (c1 << 8) + c2) == UNICODE_BOM_UTF8)
-                    {
-                        // UTF-8
-                        this.encoding = Configuration.UTF8;
-                        if (this.encoding != Configuration.UTF8)
-                        {
-                            this.lexer.report.encodingError(this.lexer, Report.ENCODING_MISMATCH, Configuration.UTF8);
-                            // non-fatal error
-                        }
-                        this.lexer.configuration.inCharEncoding = Configuration.UTF8;
-
-                        return UNICODE_BOM; // return decoded BOM
-                    }
-                    else
-                    {
-                        // the 2nd and/or 3rd bytes weren't what we were expecting, so unget the extra 2 bytes
-                        rawPushed = true;
-
-                        if ((rawBufpos + 1) >= CHARBUF_SIZE)
-                        {
-                            System.arraycopy(rawBytebuf, 2, rawBytebuf, 0, CHARBUF_SIZE - 2);
-
-                            rawBufpos -= 2;
-                        }
-                        // make sure the bytes are pushed in the right order
-                        rawBytebuf[rawBufpos++] = (char) c2;
-                        rawBytebuf[rawBufpos++] = (char) c1;
-
-                        // drop through to code below, with the original char
-                    }
-                }
-            }
+            // check for a Byte Order Mark
+            int c1, bom;
 
             lookingForBOM = false;
 
-            /*
-             * A document in ISO-2022 based encoding uses some ESC sequences called "designator" to switch character
-             * sets. The designators defined and used in ISO-2022-JP are: "ESC" + "(" + ? for ISO646 variants "ESC" +
-             * "$" + ? and "ESC" + "$" + "(" + ? for multibyte character sets Where ? stands for a single character used
-             * to indicate the character set for multibyte characters. Tidy handles this by preserving the escape
-             * sequence and setting the top bit of each byte for non-ascii chars. This bit is then cleared on output.
-             * The input stream keeps track of the state to determine when to set/clear the bit.
-             */
-
-            if (this.encoding == Configuration.ISO2022)
+            if (c == EndOfStream)
             {
-                if (c == 0x1b) // ESC
-                {
-                    this.state = FSM_ESC;
-                    return c;
-                }
-
-                switch (this.state)
-                {
-                    case FSM_ESC :
-                        if (c == '$')
-                        {
-                            this.state = FSM_ESCD;
-                        }
-                        else if (c == '(')
-                        {
-                            this.state = FSM_ESCP;
-                        }
-                        else
-                        {
-                            this.state = FSM_ASCII;
-                        }
-                        break;
-
-                    case FSM_ESCD :
-                        if (c == '(')
-                        {
-                            this.state = FSM_ESCDP;
-                        }
-                        else
-                        {
-                            this.state = FSM_NONASCII;
-                        }
-                        break;
-
-                    case FSM_ESCDP :
-                        this.state = FSM_NONASCII;
-                        break;
-
-                    case FSM_ESCP :
-                        this.state = FSM_ASCII;
-                        break;
-
-                    case FSM_NONASCII :
-                        c |= 0x80;
-                        break;
-
-                    default :
-                        // 
-                        break;
-                }
-
-                return c;
+                lookingForBOM = false;
+                return EndOfStream;
             }
 
-            if (this.encoding == Configuration.UTF16LE)
+            count[0] = 1;
+            readRawBytesFromStream(tempchar, count, false);
+            c1 = tempchar[0];
+
+            bom = (c << 8) + c1;
+
+            if (bom == UNICODE_BOM_BE)
             {
-                int c1;
+                // big-endian UTF-16
+                if (this.encoding != Configuration.UTF16 && this.encoding != Configuration.UTF16BE)
+                {
+                    this.lexer.report.encodingError(this.lexer, Report.ENCODING_MISMATCH, Configuration.UTF16BE);
+                    // non-fatal error
+                }
+                this.encoding = Configuration.UTF16BE;
+                this.lexer.configuration.inCharEncoding = Configuration.UTF16BE;
+
+                return UNICODE_BOM; // return decoded BOM
+            }
+            else if (bom == UNICODE_BOM_LE)
+            {
+                // little-endian UTF-16
+                if (this.encoding != Configuration.UTF16 && this.encoding != Configuration.UTF16LE)
+                {
+                    this.lexer.report.encodingError(this.lexer, Report.ENCODING_MISMATCH, Configuration.UTF16LE);
+                    // non-fatal error
+                }
+                this.encoding = Configuration.UTF16LE;
+
+                this.lexer.configuration.inCharEncoding = Configuration.UTF16LE;
+
+                return UNICODE_BOM; // return decoded BOM
+            }
+            else
+            {
+                int c2;
 
                 count[0] = 1;
                 readRawBytesFromStream(tempchar, count, false);
-                if (count[0] <= 0)
+                c2 = tempchar[0];
+
+                if (((c << 16) + (c1 << 8) + c2) == UNICODE_BOM_UTF8)
                 {
-                    return EndOfStream;
-                }
-                c1 = tempchar[0];
+                    // UTF-8
+                    this.encoding = Configuration.UTF8;
+                    if (this.encoding != Configuration.UTF8)
+                    {
+                        this.lexer.report.encodingError(this.lexer, Report.ENCODING_MISMATCH, Configuration.UTF8);
+                        // non-fatal error
+                    }
+                    this.lexer.configuration.inCharEncoding = Configuration.UTF8;
 
-                n[0] = (c1 << 8) + c;
-
-                return n[0];
-            }
-
-            // UTF-16 is big-endian by default
-            if ((this.encoding == Configuration.UTF16) || (this.encoding == Configuration.UTF16BE))
-            {
-                int c1;
-
-                count[0] = 1;
-                readRawBytesFromStream(tempchar, count, false);
-                if (count[0] <= 0)
-                {
-                    return EndOfStream;
-                }
-                c1 = tempchar[0];
-
-                n[0] = (c << 8) + c1;
-
-                return n[0];
-            }
-
-            if (this.encoding == Configuration.UTF8)
-            {
-                // deal with UTF-8 encoded char
-
-                int err = 0;
-                int[] count2 = new int[]{0};
-
-                // first byte "c" is passed in separately
-                err = decodeUTF8BytesToChar(n, c, (char) 0, new boolean[]{true}, count2);
-                if (!TidyUtils.toBoolean(err) && (n[0] == EndOfStream) && (count2[0] == 1)) /* EOF */
-                {
-                    return EndOfStream;
-                }
-                else if (TidyUtils.toBoolean(err))
-                {
-                    /* set error position just before offending character */
-                    this.lexer.lines = this.curline;
-                    this.lexer.columns = this.curcol;
-
-                    this.lexer.report.encodingError(
-                        this.lexer,
-                        (short) (Report.INVALID_UTF8 | Report.REPLACED_CHAR),
-                        n[0]);
-                    n[0] = 0xFFFD; /* replacement char */
-                }
-
-                return n[0];
-            }
-
-            // #431953 - start RJ
-            /*
-             * This section is suitable for any "multibyte" variable-width character encoding in which a one-byte code
-             * is less than 128, and the first byte of a two-byte code is greater or equal to 128. Note that Big5 and
-             * ShiftJIS fit into this kind, even though their second byte may be less than 128
-             */
-            if ((this.encoding == Configuration.BIG5) || (this.encoding == Configuration.SHIFTJIS))
-            {
-                if (c < 128)
-                {
-                    return c;
+                    return UNICODE_BOM; // return decoded BOM
                 }
                 else
                 {
-                    int c1;
-                    count[0] = 1;
-                    readRawBytesFromStream(tempchar, count, false);
+                    // the 2nd and/or 3rd bytes weren't what we were expecting, so unget the extra 2 bytes
+                    rawPushed = true;
 
-                    if (count[0] <= 0)
+                    if ((rawBufpos + 1) >= CHARBUF_SIZE)
                     {
-                        return EndOfStream;
-                    }
+                        System.arraycopy(rawBytebuf, 2, rawBytebuf, 0, CHARBUF_SIZE - 2);
 
-                    c1 = tempchar[0];
-                    n[0] = (c << 8) + c1;
-                    return n[0];
+                        rawBufpos -= 2;
+                    }
+                    // make sure the bytes are pushed in the right order
+                    rawBytebuf[rawBufpos++] = (char) c2;
+                    rawBytebuf[rawBufpos++] = (char) c1;
+
+                    // drop through to code below, with the original char
                 }
             }
-            // #431953 - end RJ
-            else
+        }
+
+        lookingForBOM = false;
+
+        /*
+         * A document in ISO-2022 based encoding uses some ESC sequences called "designator" to switch character sets.
+         * The designators defined and used in ISO-2022-JP are: "ESC" + "(" + ? for ISO646 variants "ESC" + "$" + ? and
+         * "ESC" + "$" + "(" + ? for multibyte character sets Where ? stands for a single character used to indicate the
+         * character set for multibyte characters. Tidy handles this by preserving the escape sequence and setting the
+         * top bit of each byte for non-ascii chars. This bit is then cleared on output. The input stream keeps track of
+         * the state to determine when to set/clear the bit.
+         */
+
+        if (this.encoding == Configuration.ISO2022)
+        {
+            if (c == 0x1b) // ESC
             {
-                n[0] = c;
+                this.state = FSM_ESC;
+                return c;
             }
 
+            switch (this.state)
+            {
+                case FSM_ESC :
+                    if (c == '$')
+                    {
+                        this.state = FSM_ESCD;
+                    }
+                    else if (c == '(')
+                    {
+                        this.state = FSM_ESCP;
+                    }
+                    else
+                    {
+                        this.state = FSM_ASCII;
+                    }
+                    break;
+
+                case FSM_ESCD :
+                    if (c == '(')
+                    {
+                        this.state = FSM_ESCDP;
+                    }
+                    else
+                    {
+                        this.state = FSM_NONASCII;
+                    }
+                    break;
+
+                case FSM_ESCDP :
+                    this.state = FSM_NONASCII;
+                    break;
+
+                case FSM_ESCP :
+                    this.state = FSM_ASCII;
+                    break;
+
+                case FSM_NONASCII :
+                    c |= 0x80;
+                    break;
+
+                default :
+                    // 
+                    break;
+            }
+
+            return c;
         }
-        catch (IOException e)
+
+        if (this.encoding == Configuration.UTF16LE)
         {
-            System.err.println("StreamInImpl.readCharFromStream: " + e.toString());
-            n[0] = EndOfStream;
+            int c1;
+
+            count[0] = 1;
+            readRawBytesFromStream(tempchar, count, false);
+            if (count[0] <= 0)
+            {
+                return EndOfStream;
+            }
+            c1 = tempchar[0];
+
+            n[0] = (c1 << 8) + c;
+
+            return n[0];
+        }
+
+        // UTF-16 is big-endian by default
+        if ((this.encoding == Configuration.UTF16) || (this.encoding == Configuration.UTF16BE))
+        {
+            int c1;
+
+            count[0] = 1;
+            readRawBytesFromStream(tempchar, count, false);
+            if (count[0] <= 0)
+            {
+                return EndOfStream;
+            }
+            c1 = tempchar[0];
+
+            n[0] = (c << 8) + c1;
+
+            return n[0];
+        }
+
+        if (this.encoding == Configuration.UTF8)
+        {
+            // deal with UTF-8 encoded char
+
+            int err = 0;
+            int[] count2 = new int[]{0};
+
+            // first byte "c" is passed in separately
+            err = decodeUTF8BytesToChar(n, c, (char) 0, new boolean[]{true}, count2);
+            if (!TidyUtils.toBoolean(err) && (n[0] == EndOfStream) && (count2[0] == 1)) /* EOF */
+            {
+                return EndOfStream;
+            }
+            else if (TidyUtils.toBoolean(err))
+            {
+                /* set error position just before offending character */
+                this.lexer.lines = this.curline;
+                this.lexer.columns = this.curcol;
+
+                this.lexer.report.encodingError(this.lexer, (short) (Report.INVALID_UTF8 | Report.REPLACED_CHAR), n[0]);
+                n[0] = 0xFFFD; /* replacement char */
+            }
+
+            return n[0];
+        }
+
+        // #431953 - start RJ
+        /*
+         * This section is suitable for any "multibyte" variable-width character encoding in which a one-byte code is
+         * less than 128, and the first byte of a two-byte code is greater or equal to 128. Note that Big5 and ShiftJIS
+         * fit into this kind, even though their second byte may be less than 128
+         */
+        if ((this.encoding == Configuration.BIG5) || (this.encoding == Configuration.SHIFTJIS))
+        {
+            if (c < 128)
+            {
+                return c;
+            }
+            else
+            {
+                int c1;
+                count[0] = 1;
+                readRawBytesFromStream(tempchar, count, false);
+
+                if (count[0] <= 0)
+                {
+                    return EndOfStream;
+                }
+
+                c1 = tempchar[0];
+                n[0] = (c << 8) + c1;
+                return n[0];
+            }
+        }
+        // #431953 - end RJ
+        else
+        {
+            n[0] = c;
         }
 
         return n[0];
