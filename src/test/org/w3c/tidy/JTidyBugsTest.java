@@ -79,4 +79,13 @@ public class JTidyBugsTest extends TidyTestCase
         executeTidyTest("j791933.html");
     }
 
+    /**
+     * test for JTidy [663197]: nbsp handling is wrong.
+     * @throws Exception any exception generated during the test
+     */
+    public void test663197() throws Exception
+    {
+        executeTidyTest("j663197.html");
+    }
+
 }
