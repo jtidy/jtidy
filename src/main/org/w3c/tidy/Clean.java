@@ -77,8 +77,8 @@ package org.w3c.tidy;
  * value and style rule in the document head. To support this, an association of styles and class names is built. A
  * naive approach is to rely on string matching to test when two property lists are the same. A better approach would
  * be to first sort the properties before matching.
- * @author Dave Raggett dsr@w3.org
- * @author Andy Quick ac.quick@sympatico.ca
+ * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
+ * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
  * @version $Revision $ ($Author $)
  */
 public class Clean
@@ -280,7 +280,9 @@ public class Clean
         for (style = lexer.styles; style != null; style = style.next)
         {
             if (style.tag.equals(tag) && style.properties.equals(properties))
+            {
                 return style.tagClass;
+            }
         }
 
         style = new Style(tag, gensymClass(tag), properties, lexer.styles);
@@ -312,7 +314,9 @@ public class Clean
                 classattr.value = classattr.value + " " + classname;
                 node.removeAttribute(styleattr);
             }
-            else /* reuse style attribute for class attribute */ {
+            else
+            {
+                /* reuse style attribute for class attribute */
                 styleattr.attribute = "class";
                 styleattr.value = classname;
             }
@@ -331,9 +335,16 @@ public class Clean
     }
 
     /**
-     * move presentation attribs from body to style element background="foo" -> body { background-image: url(foo) }
-     * bgcolor="foo" -> body { background-color: foo } text="foo" -> body { color: foo } link="foo" -> :link { color:
-     * foo } vlink="foo" -> :visited { color: foo } alink="foo" -> :active { color: foo }
+     * move presentation attribs from body to style element.
+     * 
+     * <pre>
+     * background="foo" -> body { background-image: url(foo) }
+     * bgcolor="foo" -> body { background-color: foo }
+     * text="foo" -> body { color: foo }
+     * link="foo" -> :link { color: foo }
+     * vlink="foo" -> :visited { color: foo }
+     * alink="foo" -> :active { color: foo }
+     * </pre>
      */
     private void cleanBodyAttrs(Lexer lexer, Node body)
     {
@@ -444,7 +455,7 @@ public class Clean
     }
 
     /**
-     * create style element using rules from dictionary
+     * create style element using rules from dictionary.
      */
     private void createStyleElement(Lexer lexer, Node doc)
     {
@@ -491,19 +502,19 @@ public class Clean
 
         Node.insertNodeAtEnd(node, lexer.newNode(Node.TextNode, lexer.lexbuf, lexer.txtstart, lexer.txtend));
 
-        /*
-         * now insert style element into document head doc is root node. search its children for html node the head
-         * node should be first child of html node
-         */
+        // now insert style element into document head doc is root node. search its children for html node the head
+        // node should be first child of html node
 
         head = doc.findHEAD(lexer.configuration.tt);
 
         if (head != null)
+        {
             Node.insertNodeAtEnd(head, node);
+        }
     }
 
     /**
-     * ensure bidirectional links are consistent
+     * Ensure bidirectional links are consistent.
      */
     private void fixNodeLinks(Node node)
     {
@@ -534,7 +545,7 @@ public class Clean
     }
 
     /**
-     * used to strip child of node when the node has one and only one child
+     * Used to strip child of node when the node has one and only one child
      */
     private void stripOnlyChild(Node node)
     {
@@ -616,7 +627,7 @@ public class Clean
     }
 
     /**
-     * Add style property to element, creating style attribute as needed and adding ; delimiter
+     * Add style property to element, creating style attribute as needed and adding ; delimiter.
      */
     private void addStyleProperty(Node node, String property)
     {
@@ -639,7 +650,9 @@ public class Clean
             s = addProperty(av.value, property);
             av.value = s;
         }
-        else /* else create new style attribute */ {
+        else
+        {
+            /* else create new style attribute */
             av = new AttVal(node.attributes, null, '"', "style", property);
             av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(av);
             node.attributes = av;
@@ -703,10 +716,6 @@ public class Clean
 
     private String fontSize2Name(String size)
     {
-        /*
-         * String[] sizes = { "50%", "60%", "80%", null, "120%", "150%", "200%" };
-         */
-
         String[] sizes = { "60%", "70%", "80%", null, "120%", "150%", "200%" };
         String buf;
 
@@ -806,7 +815,7 @@ public class Clean
     }
 
     /**
-     * add style properties to node corresponding to the font face, size and color attributes
+     * Add style properties to node corresponding to the font face, size and color attributes.
      */
     private void addFontStyles(Node node, AttVal av)
     {
@@ -831,9 +840,16 @@ public class Clean
 
     /**
      * Symptom:
-     * <p align=center>
+     * 
+     * <pre>
+     * &ltp align=center>
+     * </pre>
+     * 
      * Action:
-     * <p style="text-align: center">
+     * 
+     * <pre>
+     * &lt;p style="text-align: center">
+     * </pre>
      */
     private void textAlign(Lexer lexer, Node node)
     {
@@ -866,33 +882,39 @@ public class Clean
         }
     }
 
-    /*
-     * The clean up rules use the pnode argument to return the next node when the orignal node has been deleted
+    /**
+     * Symptom:
+     * 
+     * <pre>
+     * &lt;dir>
+     * <pre>li>
+     * </pre>
+     * where
+     * &lt;li>is only child Action: coerce &lt;dir>
+     * &lt;li>to &lt;div>with indent. The clean up rules use the pnode argument to return the next node when the original
+     * node has been deleted.
      */
-
-    /*
-     * Symptom: <dir><li> where <li> is only child Action: coerce <dir><li> to <div> with indent.
-     */
-
     private boolean dir2Div(Lexer lexer, Node node, MutableObject pnode)
     {
         Node child;
 
-        if (node.tag == tt.tagDir || node.tag == tt.tagUl || node.tag == tt.tagOl)
+        if (node.tag == this.tt.tagDir || node.tag == this.tt.tagUl || node.tag == this.tt.tagOl)
         {
             child = node.content;
 
             if (child == null)
+            {
                 return false;
+            }
 
-            /* check child has no peers */
+            // check child has no peers
 
             if (child.next != null)
             {
                 return false;
             }
 
-            if (child.tag != tt.tagLi)
+            if (child.tag != this.tt.tagLi)
             {
                 return false;
             }
@@ -902,7 +924,7 @@ public class Clean
                 return false;
             }
 
-            /* coerce dir to div */
+            // coerce dir to div
 
             node.tag = this.tt.tagDiv;
             node.element = "div";
@@ -947,7 +969,14 @@ public class Clean
     }
 
     /**
-     * Symptom: <center>Action: replace <center>by <div style="text-align: center">
+     * Symptom:
+     * 
+     * <pre>
+     * &lt;center>
+     * </pre>.
+     * <p>
+     * Action: replace <code>&lt;center></code> by <code>&ltdiv style="text-align: center"></code>
+     * </p>
      */
     private boolean center2Div(Lexer lexer, Node node, MutableObject pnode)
     {
@@ -965,14 +994,18 @@ public class Clean
                     node = lexer.inferredTag("br");
 
                     if (last.next != null)
+                    {
                         last.next.prev = node;
+                    }
 
                     node.next = last.next;
                     last.next = node;
                     node.prev = last;
 
                     if (parent.last == last)
+                    {
                         parent.last = node;
+                    }
 
                     node.parent = parent;
                 }
@@ -989,14 +1022,22 @@ public class Clean
                     node.parent = parent;
 
                     if (next != null)
+                    {
                         next.prev = node;
+                    }
                     else
+                    {
                         parent.last = node;
+                    }
 
                     if (prev != null)
+                    {
                         prev.next = node;
+                    }
                     else
+                    {
                         parent.content = node;
+                    }
                 }
 
                 return true;
@@ -1011,15 +1052,23 @@ public class Clean
     }
 
     /**
-     * Symptom <div><div>...</div></div> Action: merge the two divs This is useful after nested <dir>s used by
-     * Word for indenting have been converted to <div>s
+     * Symptom:
+     * 
+     * <pre>
+     *  &lt;div>&lt;div>...&lt;/div>&lt;/div>
+     * </pre>
+     * 
+     * Action: merge the two divs This is useful after nested &lt;dir>s used by Word for indenting have been converted
+     * to &lt;div>s
      */
     private boolean mergeDivs(Lexer lexer, Node node, MutableObject pnode)
     {
         Node child;
 
         if (node.tag != this.tt.tagDiv)
+        {
             return false;
+        }
 
         child = node.content;
 
@@ -1058,7 +1107,7 @@ public class Clean
     {
         Node child, list;
 
-        if (node.tag == this.tt.tagUl || node.tag == tt.tagOl)
+        if (node.tag == this.tt.tagUl || node.tag == this.tt.tagOl)
         {
             child = node.content;
 
@@ -1067,7 +1116,7 @@ public class Clean
                 return false;
             }
 
-            /* check child has no peers */
+            // check child has no peers
 
             if (child.next != null)
             {
@@ -1088,28 +1137,25 @@ public class Clean
 
             pnode.setObject(node.next);
 
-            /* move inner list node into position of outer node */
+            // move inner list node into position of outer node
             list.prev = node.prev;
             list.next = node.next;
             list.parent = node.parent;
             fixNodeLinks(list);
 
-            /* get rid of outer ul and its li */
+            // get rid of outer ul and its li
             child.content = null;
             node.content = null;
             node.next = null;
 
-            /*
-             * If prev node was a list the chances are this node should be appended to that list. Word has no way of
-             * recognizing nested lists and just uses indents
-             */
-
+            // If prev node was a list the chances are this node should be appended to that list. Word has no way of
+            // recognizing nested lists and just uses indents
             if (list.prev != null)
             {
                 node = list;
                 list = node.prev;
 
-                if (list.tag == tt.tagUl || list.tag == this.tt.tagOl)
+                if (list.tag == this.tt.tagUl || list.tag == this.tt.tagOl)
                 {
                     list.next = node.next;
 
@@ -1136,16 +1182,26 @@ public class Clean
 
     /**
      * Symptom: the only child of a block-level element is a presentation element such as B, I or FONT Action: add
-     * style "font-weight: bold" to the block and strip the <b>element, leaving its children. example:
-     * <p>
-     * <b><font face="Arial" size="6">Draft Recommended Practice</font></b>
-     * </p>
+     * style "font-weight: bold" to the block and strip the &lt;b>element, leaving its children. example:
+     * 
+     * <pre>
+     * &lt;p>
+     * &lt;b>&lt;font face="Arial" size="6">Draft Recommended Practice&lt;/font>&lt;/b>
+     * &lt;/p>
+     * </pre>
+     * 
      * becomes:
-     * <p style="font-weight: bold; font-family: Arial; font-size: 6">
+     * 
+     * <pre>
+     * &lt;p style="font-weight: bold; font-family: Arial; font-size: 6">
      * Draft Recommended Practice
-     * </p>
+     * &lt;/p>
+     * </pre>
+     * 
+     * <p>
      * This code also replaces the align attribute by a style attribute. However, to avoid CSS problems with Navigator 4,
      * this isn't done for the elements: caption, tr and table
+     * </p>
      */
     private boolean blockStyle(Lexer lexer, Node node, MutableObject pnode)
     {
@@ -1153,10 +1209,10 @@ public class Clean
 
         if ((node.tag.model & (Dict.CM_BLOCK | Dict.CM_LIST | Dict.CM_DEFLIST | Dict.CM_TABLE)) != 0)
         {
-            if (node.tag != tt.tagTable && node.tag != tt.tagTr && node.tag != tt.tagLi)
+            if (node.tag != this.tt.tagTable && node.tag != this.tt.tagTr && node.tag != this.tt.tagLi)
             {
                 /* check for align attribute */
-                if (node.tag != tt.tagCaption)
+                if (node.tag != this.tt.tagCaption)
                 {
                     textAlign(lexer, node);
                 }
@@ -1175,7 +1231,7 @@ public class Clean
                     return false;
                 }
 
-                if (child.tag == tt.tagB)
+                if (child.tag == this.tt.tagB)
                 {
                     mergeStyles(node, child);
                     addStyleProperty(node, "font-weight: bold");
@@ -1183,7 +1239,7 @@ public class Clean
                     return true;
                 }
 
-                if (child.tag == tt.tagI)
+                if (child.tag == this.tt.tagI)
                 {
                     mergeStyles(node, child);
                     addStyleProperty(node, "font-style: italic");
@@ -1191,7 +1247,7 @@ public class Clean
                     return true;
                 }
 
-                if (child.tag == tt.tagFont)
+                if (child.tag == this.tt.tagFont)
                 {
                     mergeStyles(node, child);
                     addFontStyles(node, child.attributes);
@@ -1204,12 +1260,14 @@ public class Clean
         return false;
     }
 
-    /* the only child of table cell or an inline element such as em */
+    /**
+     * the only child of table cell or an inline element such as em.
+     */
     private boolean inlineStyle(Lexer lexer, Node node, MutableObject pnode)
     {
         Node child;
 
-        if (node.tag != tt.tagFont && (node.tag.model & (Dict.CM_INLINE | Dict.CM_ROW)) != 0)
+        if (node.tag != this.tt.tagFont && (node.tag.model & (Dict.CM_INLINE | Dict.CM_ROW)) != 0)
         {
             child = node.content;
 
@@ -1225,7 +1283,7 @@ public class Clean
                 return false;
             }
 
-            if (child.tag == tt.tagB && lexer.configuration.LogicalEmphasis)
+            if (child.tag == this.tt.tagB && lexer.configuration.LogicalEmphasis)
             {
                 mergeStyles(node, child);
                 addStyleProperty(node, "font-weight: bold");
@@ -1233,7 +1291,7 @@ public class Clean
                 return true;
             }
 
-            if (child.tag == tt.tagI && lexer.configuration.LogicalEmphasis)
+            if (child.tag == this.tt.tagI && lexer.configuration.LogicalEmphasis)
             {
                 mergeStyles(node, child);
                 addStyleProperty(node, "font-style: italic");
@@ -1241,7 +1299,7 @@ public class Clean
                 return true;
             }
 
-            if (child.tag == tt.tagFont)
+            if (child.tag == this.tt.tagFont)
             {
                 mergeStyles(node, child);
                 addFontStyles(node, child.attributes);
@@ -1253,7 +1311,7 @@ public class Clean
         return false;
     }
 
-    /*
+    /**
      * Replace font elements by span elements, deleting the font element's attributes and replacing them by a single
      * style attribute.
      */
@@ -1296,7 +1354,7 @@ public class Clean
 
             node.attributes = style;
 
-            node.tag = tt.tagSpan;
+            node.tag = this.tt.tagSpan;
             node.element = "span";
 
             return true;
@@ -1305,7 +1363,7 @@ public class Clean
         return false;
     }
 
-    /*
+    /**
      * Applies all matching rules to a node.
      */
     private Node cleanNode(Lexer lexer, Node node)
@@ -1426,7 +1484,7 @@ public class Clean
         {
             next = node.next;
 
-            if ((node.tag == tt.tagB || node.tag == this.tt.tagI)
+            if ((node.tag == this.tt.tagB || node.tag == this.tt.tagI)
                 && node.parent != null
                 && node.parent.tag == node.tag)
             {
@@ -1439,7 +1497,9 @@ public class Clean
             }
 
             if (node.content != null)
+            {
                 nestedEmphasis(node.content);
+            }
 
             node = next;
         }
@@ -1452,15 +1512,15 @@ public class Clean
     {
         while (node != null)
         {
-            if (node.tag == tt.tagI)
+            if (node.tag == this.tt.tagI)
             {
-                node.element = tt.tagEm.name;
-                node.tag = tt.tagEm;
+                node.element = this.tt.tagEm.name;
+                node.tag = this.tt.tagEm;
             }
-            else if (node.tag == tt.tagB)
+            else if (node.tag == this.tt.tagB)
             {
-                node.element = tt.tagStrong.name;
-                node.tag = tt.tagStrong;
+                node.element = this.tt.tagStrong.name;
+                node.tag = this.tt.tagStrong;
             }
 
             if (node.content != null)
@@ -1511,34 +1571,38 @@ public class Clean
 
         while (node != null)
         {
-            if (node.tag == tt.tagBlockquote && node.implicit)
+            if (node.tag == this.tt.tagBlockquote && node.implicit)
             {
                 indent = 1;
 
-                while (node.hasOneChild() && node.content.tag == tt.tagBlockquote && node.implicit)
+                while (node.hasOneChild() && node.content.tag == this.tt.tagBlockquote && node.implicit)
                 {
                     ++indent;
                     stripOnlyChild(node);
                 }
 
                 if (node.content != null)
+                {
                     bQ2Div(node.content);
+                }
 
                 indent_buf = "margin-left: " + (new Integer(2 * indent)).toString() + "em";
 
-                node.element = tt.tagDiv.name;
-                node.tag = tt.tagDiv;
+                node.element = this.tt.tagDiv.name;
+                node.tag = this.tt.tagDiv;
                 node.addAttribute("style", indent_buf);
             }
             else if (node.content != null)
+            {
                 bQ2Div(node.content);
+            }
 
             node = node.next;
         }
     }
 
     /**
-     * node is <![if ...]>prune up to <![endif]>
+     * node is <code>&lt;![if ...]></code> prune up to <code>&lt;![endif]></code>
      */
     public Node pruneSection(Lexer lexer, Node node)
     {
@@ -1548,7 +1612,9 @@ public class Clean
             node = Node.discardElement(node);
 
             if (node == null)
+            {
                 return null;
+            }
 
             if (node.type == Node.SectionTag)
             {
@@ -1575,20 +1641,22 @@ public class Clean
         {
             if (node.type == Node.SectionTag)
             {
-                /* prune up to matching endif */
+                // prune up to matching endif
                 if ((Lexer.getString(node.textarray, node.start, 2)).equals("if"))
                 {
                     node = pruneSection(lexer, node);
                     continue;
                 }
 
-                /* discard others as well */
+                // discard others as well
                 node = Node.discardElement(node);
                 continue;
             }
 
             if (node.content != null)
+            {
                 dropSections(lexer, node.content);
+            }
 
             node = node.next;
         }
@@ -1619,23 +1687,29 @@ public class Clean
                         || attr.attribute.equals("lang")
                         || attr.attribute.startsWith("x:")
                         || ((attr.attribute.equals("height") || attr.attribute.equals("width"))
-                            && (node.tag == tt.tagTd || node.tag == tt.tagTr || node.tag == tt.tagTh))))
+                            && (node.tag == this.tt.tagTd || node.tag == this.tt.tagTr || node.tag == this.tt.tagTh))))
             {
                 if (prev != null)
+                {
                     prev.next = next;
+                }
                 else
+                {
                     node.attributes = next;
+                }
 
             }
             else
+            {
                 prev = attr;
+            }
 
             attr = next;
         }
     }
 
     /**
-     * Word2000 uses span excessively, so we strip span out
+     * Word2000 uses span excessively, so we strip span out.
      */
     public Node stripSpan(Lexer lexer, Node span)
     {
@@ -1643,16 +1717,16 @@ public class Clean
         Node prev = null;
         Node content;
 
-        /*
-         * deal with span elements that have content by splicing the content in place of the span after having
-         * processed it
-         */
+        // deal with span elements that have content by splicing the content in place of the span after having
+        // processed it
 
         cleanWord2000(lexer, span.content);
         content = span.content;
 
         if (span.prev != null)
+        {
             prev = span.prev;
+        }
         else if (content != null)
         {
             node = content;
@@ -1672,7 +1746,9 @@ public class Clean
         }
 
         if (span.next == null)
+        {
             span.parent.last = prev;
+        }
 
         node = span.next;
         span.content = null;
@@ -1681,14 +1757,16 @@ public class Clean
     }
 
     /**
-     * map non-breaking spaces to regular spaces
+     * map non-breaking spaces to regular spaces.
      */
     private void normalizeSpaces(Lexer lexer, Node node)
     {
         while (node != null)
         {
             if (node.content != null)
+            {
                 normalizeSpaces(lexer, node.content);
+            }
 
             if (node.type == Node.TextNode)
             {
@@ -1700,12 +1778,16 @@ public class Clean
                 {
                     c.value = node.textarray[i];
 
-                    /* look for UTF-8 multibyte character */
+                    // look for UTF-8 multibyte character
                     if (c.value > 0x7F)
+                    {
                         i += PPrint.getUTF8(node.textarray, i, c);
+                    }
 
                     if (c.value == 160)
+                    {
                         c.value = ' ';
+                    }
 
                     p = PPrint.putUTF8(node.textarray, p, c.value);
                 }
@@ -1728,28 +1810,30 @@ public class Clean
         while (node != null)
         {
             /* discard Word's style verbiage */
-            if (node.tag == tt.tagStyle || node.tag == tt.tagMeta || node.type == Node.CommentTag)
+            if (node.tag == this.tt.tagStyle || node.tag == this.tt.tagMeta || node.type == Node.CommentTag)
             {
                 node = Node.discardElement(node);
                 continue;
             }
 
-            /* strip out all span tags Word scatters so liberally! */
-            if (node.tag == tt.tagSpan)
+            // strip out all span tags Word scatters so liberally!
+            if (node.tag == this.tt.tagSpan)
             {
                 node = stripSpan(lexer, node);
                 continue;
             }
 
-            /* get rid of Word's xmlns attributes */
-            if (node.tag == tt.tagHtml)
+            // get rid of Word's xmlns attributes
+            if (node.tag == this.tt.tagHtml)
             {
-                /* check that it's a Word 2000 document */
+                // check that it's a Word 2000 document
                 if (node.getAttrByName("xmlns:o") == null)
+                {
                     return;
+                }
             }
 
-            if (node.tag == tt.tagLink)
+            if (node.tag == this.tt.tagLink)
             {
                 AttVal attr = node.getAttrByName("rel");
 
@@ -1760,23 +1844,23 @@ public class Clean
                 }
             }
 
-            /* discard empty paragraphs */
-            if (node.content == null && node.tag == tt.tagP)
+            // discard empty paragraphs
+            if (node.content == null && node.tag == this.tt.tagP)
             {
                 node = Node.discardElement(node);
                 continue;
             }
 
-            if (node.tag == tt.tagP)
+            if (node.tag == this.tt.tagP)
             {
                 AttVal attr = node.getAttrByName("class");
 
                 /* map sequence of <p class="MsoListBullet"> to <ul> ... </ul> */
                 if (attr != null && attr.value != null && attr.value.equals("MsoListBullet"))
                 {
-                    Node.coerceNode(lexer, node, tt.tagLi);
+                    Node.coerceNode(lexer, node, this.tt.tagLi);
 
-                    if (list == null || list.tag != tt.tagUl)
+                    if (list == null || list.tag != this.tt.tagUl)
                     {
                         list = lexer.inferredTag("ul");
                         Node.insertNodeBeforeElement(node, list);
@@ -1785,7 +1869,9 @@ public class Clean
                     purgeAttributes(node);
 
                     if (node.content != null)
+                    {
                         cleanWord2000(lexer, node.content);
+                    }
 
                     /* remove node and append to contents of list */
                     Node.removeNode(node);
@@ -1798,7 +1884,7 @@ public class Clean
                     Node br = lexer.newLineNode();
                     normalizeSpaces(lexer, node);
 
-                    if (list == null || list.tag != tt.tagPre)
+                    if (list == null || list.tag != this.tt.tagPre)
                     {
                         list = lexer.inferredTag("pre");
                         Node.insertNodeBeforeElement(node, list);
@@ -1812,17 +1898,25 @@ public class Clean
                     node = list.next;
                 }
                 else
+                {
                     list = null;
+                }
             }
             else
+            {
                 list = null;
+            }
 
             /* strip out style and class attributes */
             if (node.type == Node.StartTag || node.type == Node.StartEndTag)
+            {
                 purgeAttributes(node);
+            }
 
             if (node.content != null)
+            {
                 cleanWord2000(lexer, node.content);
+            }
 
             node = node.next;
         }

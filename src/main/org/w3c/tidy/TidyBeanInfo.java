@@ -54,9 +54,9 @@
 package org.w3c.tidy;
 
 /**
- * BeanInfo for Tidy
- * @author Dave Raggett <dsr@w3.org>
- * @author Andy Quick <ac.quick@sympatico.ca>(translation to Java)
+ * BeanInfo for Tidy.
+ * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
+ * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
  * @version $Revision$ ($Author$)
  */
 import java.awt.Image;

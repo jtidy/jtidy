@@ -56,8 +56,8 @@ package org.w3c.tidy;
 /**
  * Linked list of style properties (c) 1998-2000 (W3C) MIT, INRIA, Keio University See Tidy.java for the copyright
  * notice. Derived from <a href="http://www.w3.org/People/Raggett/tidy">HTML Tidy Release 4 Aug 2000</a>
- * @author Dave Raggett <dsr@w3.org>
- * @author Andy Quick <ac.quick@sympatico.ca>(translation to Java)
+ * @author  Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
+ * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
  * @version 1.0, 1999/05/22
  * @version 1.0.1, 1999/05/29
  * @version 1.1, 1999/06/18 Java Bean
