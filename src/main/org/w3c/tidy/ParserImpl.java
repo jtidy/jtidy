@@ -60,29 +60,110 @@ package org.w3c.tidy;
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @version $Revision $ ($Author $)
  */
-public class ParserImpl
+public final class ParserImpl
 {
 
-    private static Parser _parseHTML = new ParseHTML();
-    private static Parser _parseHead = new ParseHead();
-    private static Parser _parseTitle = new ParseTitle();
-    private static Parser _parseScript = new ParseScript();
-    private static Parser _parseBody = new ParseBody();
-    private static Parser _parseFrameSet = new ParseFrameSet();
-    private static Parser _parseInline = new ParseInline();
-    private static Parser _parseList = new ParseList();
-    private static Parser _parseDefList = new ParseDefList();
-    private static Parser _parsePre = new ParsePre();
-    private static Parser _parseBlock = new ParseBlock();
-    private static Parser _parseTableTag = new ParseTableTag();
-    private static Parser _parseColGroup = new ParseColGroup();
-    private static Parser _parseRowGroup = new ParseRowGroup();
-    private static Parser _parseRow = new ParseRow();
-    private static Parser _parseNoFrames = new ParseNoFrames();
-    private static Parser _parseSelect = new ParseSelect();
-    private static Parser _parseText = new ParseText();
-    private static Parser _parseOptGroup = new ParseOptGroup();
+    /**
+     * parser for html.
+     */
+    private static final Parser PARSE_HTML = new ParseHTML();
 
+    /**
+     * parser for head.
+     */
+    private static final Parser PARSE_HEAD = new ParseHead();
+
+    /**
+     * parser for title.
+     */
+    private static final Parser PARSE_TITLE = new ParseTitle();
+
+    /**
+     * parser for script.
+     */
+    private static final Parser PARSE_SCRIPT = new ParseScript();
+
+    /**
+     * parser for body.
+     */
+    private static final Parser PARSE_BODY = new ParseBody();
+
+    /**
+     * parser for frameset.
+     */
+    private static final Parser PARSE_FRAMESET = new ParseFrameSet();
+
+    /**
+     * parser for inline.
+     */
+    private static final Parser PARSE_INLINE = new ParseInline();
+
+    /**
+     * parser for list.
+     */
+    private static final Parser PARSE_LIST = new ParseList();
+
+    /**
+     * parser for definition lists.
+     */
+    private static final Parser PARSE_DEFLIST = new ParseDefList();
+
+    /**
+     * parser for pre.
+     */
+    private static final Parser PARSE_PRE = new ParsePre();
+
+    /**
+     * parser for block elements.
+     */
+    private static final Parser PARSE_BLOCK = new ParseBlock();
+
+    /**
+     * parser for table.
+     */
+    private static final Parser PARSE_TABLETAG = new ParseTableTag();
+
+    /**
+     * parser for colgroup.
+     */
+    private static final Parser PARSE_COLGROUP = new ParseColGroup();
+
+    /**
+     * parser for rowgroup.
+     */
+    private static final Parser PARSE_ROWGROUP = new ParseRowGroup();
+
+    /**
+     * parser for row.
+     */
+    private static final Parser PARSE_ROW = new ParseRow();
+
+    /**
+     * parser for noframes.
+     */
+    private static final Parser PARSE_NOFRAMES = new ParseNoFrames();
+
+    /**
+     * parser for select.
+     */
+    private static final Parser PARSE_SELECT = new ParseSelect();
+
+    /**
+     * parser for text.
+     */
+    private static final Parser PARSE_TEXT = new ParseText();
+
+    /**
+     * parser for optgroup.
+     */
+    private static final Parser PARSE_OPTGROUP = new ParseOptGroup();
+
+    /**
+     * ParserImpl should not be instantiated.
+     */
+    private ParserImpl()
+    {
+    }
 
     protected static void parseTag(Lexer lexer, Node node, short mode)
     {
@@ -368,8 +449,8 @@ public class ParserImpl
         public void parse(Lexer lexer, Node head, short mode)
         {
             Node node;
-            int HasTitle = 0;
-            int HasBase = 0;
+            int hasTitle = 0;
+            int hasBase = 0;
             TagTable tt = lexer.configuration.tt;
 
             while ((node = lexer.getToken(Lexer.IgnoreWhitespace)) != null)
@@ -415,18 +496,18 @@ public class ParserImpl
                 {
                     if (node.tag == tt.tagTitle)
                     {
-                        ++HasTitle;
+                        ++hasTitle;
 
-                        if (HasTitle > 1)
+                        if (hasTitle > 1)
                         {
                             Report.warning(lexer, head, node, Report.TOO_MANY_ELEMENTS);
                         }
                     }
                     else if (node.tag == tt.tagBase)
                     {
-                        ++HasBase;
+                        ++hasBase;
 
-                        if (HasBase > 1)
+                        if (hasBase > 1)
                         {
                             Report.warning(lexer, head, node, Report.TOO_MANY_ELEMENTS);
                         }
@@ -445,7 +526,7 @@ public class ParserImpl
                 Report.warning(lexer, head, node, Report.DISCARDING_UNEXPECTED);
             }
 
-            if (HasTitle == 0)
+            if (hasTitle == 0)
             {
                 Report.warning(lexer, head, null, Report.MISSING_TITLE_ELEMENT);
                 Node.insertNodeAtEnd(head, lexer.inferredTag("title"));
@@ -3037,97 +3118,97 @@ public class ParserImpl
 
     public static Parser getParseHTML()
     {
-        return _parseHTML;
+        return PARSE_HTML;
     }
 
     public static Parser getParseHead()
     {
-        return _parseHead;
+        return PARSE_HEAD;
     }
 
     public static Parser getParseTitle()
     {
-        return _parseTitle;
+        return PARSE_TITLE;
     }
 
     public static Parser getParseScript()
     {
-        return _parseScript;
+        return PARSE_SCRIPT;
     }
 
     public static Parser getParseBody()
     {
-        return _parseBody;
+        return PARSE_BODY;
     }
 
     public static Parser getParseFrameSet()
     {
-        return _parseFrameSet;
+        return PARSE_FRAMESET;
     }
 
     public static Parser getParseInline()
     {
-        return _parseInline;
+        return PARSE_INLINE;
     }
 
     public static Parser getParseList()
     {
-        return _parseList;
+        return PARSE_LIST;
     }
 
     public static Parser getParseDefList()
     {
-        return _parseDefList;
+        return PARSE_DEFLIST;
     }
 
     public static Parser getParsePre()
     {
-        return _parsePre;
+        return PARSE_PRE;
     }
 
     public static Parser getParseBlock()
     {
-        return _parseBlock;
+        return PARSE_BLOCK;
     }
 
     public static Parser getParseTableTag()
     {
-        return _parseTableTag;
+        return PARSE_TABLETAG;
     }
 
     public static Parser getParseColGroup()
     {
-        return _parseColGroup;
+        return PARSE_COLGROUP;
     }
 
     public static Parser getParseRowGroup()
     {
-        return _parseRowGroup;
+        return PARSE_ROWGROUP;
     }
 
     public static Parser getParseRow()
     {
-        return _parseRow;
+        return PARSE_ROW;
     }
 
     public static Parser getParseNoFrames()
     {
-        return _parseNoFrames;
+        return PARSE_NOFRAMES;
     }
 
     public static Parser getParseSelect()
     {
-        return _parseSelect;
+        return PARSE_SELECT;
     }
 
     public static Parser getParseText()
     {
-        return _parseText;
+        return PARSE_TEXT;
     }
 
     public static Parser getParseOptGroup()
     {
-        return _parseOptGroup;
+        return PARSE_OPTGROUP;
     }
 
     /**
