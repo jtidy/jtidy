@@ -1343,7 +1343,7 @@ public class Lexer
     }
 
     /**
-     * ensure XML document starts with &lt;?XML version="1.0"?>.
+     * ensure XML document starts with &lt;?XML version="1.0"?>. Add encoding attribute if not using ASCII or UTF-8.
      */
     public boolean fixXMLPI(Node root)
     {
@@ -1376,8 +1376,13 @@ public class Lexer
         addStringLiteral("xml version=\"1.0\"");
         if (this.configuration.charEncoding == Configuration.LATIN1)
         {
-            addStringLiteral(" encoding=\"ISO-8859-1\"");
+            addStringLiteral(" encoding=\"iso-8859-1\"");
         }
+        else if (this.configuration.charEncoding == Configuration.ISO2022)
+        {
+            addStringLiteral(" encoding=\"iso-2022\"");
+        }
+
         this.txtend = this.lexsize;
 
         xml.start = this.txtstart;

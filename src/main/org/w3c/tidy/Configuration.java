@@ -592,6 +592,13 @@ public class Configuration implements java.io.Serializable
             xmlPIs = true;
         }
 
+        // #427837 - fix by Dave Raggett 02 Jun 01 
+        // generate <?xml version="1.0" encoding="iso-8859-1"?> if the character encoding is Latin-1 etc.
+        if (charEncoding != UTF8 && charEncoding != ASCII && xmlOut) 
+        { 
+            xmlPi = true;
+        }
+         
         /* XML requires end tags */
         if (xmlOut)
         {
