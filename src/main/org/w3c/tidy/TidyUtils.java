@@ -54,6 +54,11 @@
 
 package org.w3c.tidy;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+
+
 /**
  * Utility class with handy methods, mainly for String handling or for reproducing c behaviours.
  * @author Fabrizio Giustina
@@ -117,6 +122,7 @@ public final class TidyUtils
      */
     private TidyUtils()
     {
+        // unused
     }
 
     /**
@@ -841,4 +847,93 @@ public final class TidyUtils
         return (c < 128 ? lexmap[c] : 0);
     }
 
+    /**
+     * Is the given character encoding supported? Warning, this doesn't handle deprecated tidy encoding names. Use
+     * <code>toJavaEncodingName()</code> before.
+     * @param name character encoding name
+     * @return <code>true</code> if encoding is supported, false otherwhise.
+     */
+    public static boolean isCharEncodingSupported(String name)
+    {
+        if (name == null)
+        {
+            return false;
+        }
+        try
+        {
+            // test it, it's the only way to know if the character encoding is supported
+            new String(new byte[0], name);
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Converts an encoding name to the standard java name. Handles legacy names used in tidy and different java
+     * encoding alias. See http://www.iana.org/assignments/character-sets. Value returned is uppercase.
+     * @param name encoding name
+     * @return standard java encoding name or <code>null</code> if the encoding is not supported
+     */
+    public static String toJavaEncodingName(String name)
+    {
+        // conversion supported by java
+        // US-ASCII to ASCII
+        // ISO-8859-1 to ISO8859_1
+        // UTF-8 to UTF8
+        // UTF-16BE to UnicodeBigUnmarked
+        // UTF-16LE to UnicodeLittleUnmarked.
+
+        if (name == null)
+        {
+            return null;
+        }
+
+        name = name.toUpperCase();
+
+        // remap tidy deprecated names, not recognized as valid java encoding names
+        if (name.equals("UTF16BE"))
+        {
+            name = "UTF-16BE";
+        }
+        else if (name.equals("UTF16LE"))
+        {
+            name = "UTF-16LE";
+        }
+        else if (name.equals("UTF16"))
+        {
+            name = "UTF-16";
+        }
+        else if (name.equals("WIN1252"))
+        {
+            name = "CP1252";
+        }
+        else if (name.equals("SHIFTJIS"))
+        {
+            name = "SJIS";
+        }
+        else if (name.equals("ISO2022"))
+        {
+            name = "ISO2022JP";
+        }
+        else if (name.equals("MAC"))
+        {
+            name = "MACROMAN";
+        }
+
+        try
+        {
+            // test it, it's the only way to know if the character encoding is supported
+            InputStreamReader reader = new InputStreamReader(new ByteArrayInputStream(new byte[0]), name);
+            return reader.getEncoding().toUpperCase();
+
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            return null;
+        }
+
+    }
 }

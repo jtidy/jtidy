@@ -93,4 +93,39 @@ public class TidyUtilsTest extends TestCase
         assertFalse(TidyUtils.isInValuesIgnoreCase(validValues, stringToCheck));
     }
 
+    /**
+     * Test for isCharEncodingSupported().
+     */
+    public void testIsCharEncodingSupported()
+    {
+        assertTrue(TidyUtils.isCharEncodingSupported("utf8"));
+        assertTrue(TidyUtils.isCharEncodingSupported("utf-8"));
+        assertTrue(TidyUtils.isCharEncodingSupported("ISO2022JP"));
+        assertTrue(TidyUtils.isCharEncodingSupported("ASCII"));
+        assertFalse(TidyUtils.isCharEncodingSupported("xyz"));
+    }
+
+    /**
+     * Test for toJavaEncodingName().
+     */
+    public void testToJavaEncodingName()
+    {
+        assertEquals("UTF8", TidyUtils.toJavaEncodingName("utf8"));
+        assertEquals("UTF8", TidyUtils.toJavaEncodingName("UTF-8"));
+        assertEquals("ASCII", TidyUtils.toJavaEncodingName("US-ASCII"));
+        assertEquals("ASCII", TidyUtils.toJavaEncodingName("ASCII"));
+        assertEquals("ISO8859_1", TidyUtils.toJavaEncodingName("LATIN1"));
+        assertEquals("ISO8859_1", TidyUtils.toJavaEncodingName("ISO-8859-1"));
+        assertEquals("CP1252", TidyUtils.toJavaEncodingName("WiN1252"));
+        assertEquals("CP1252", TidyUtils.toJavaEncodingName("WINDOWS-1252"));
+        assertEquals("SJIS", TidyUtils.toJavaEncodingName("SHIFTJIS"));
+        assertEquals("ISO2022JP", TidyUtils.toJavaEncodingName("ISO2022"));
+        assertEquals("ISO2022JP", TidyUtils.toJavaEncodingName("ISO-2022-JP"));
+        assertEquals("BIG5", TidyUtils.toJavaEncodingName("BIG5"));
+        assertEquals("UTF-16", TidyUtils.toJavaEncodingName("UTF16"));
+        assertEquals("UNICODEBIGUNMARKED", TidyUtils.toJavaEncodingName("UTF16BE"));
+        assertEquals("UNICODELITTLEUNMARKED", TidyUtils.toJavaEncodingName("UTF16LE"));
+        // assertEquals("MACROMAN", TidyUtils.toJavaEncodingName("Macintosh Roman"));
+    }
+
 }

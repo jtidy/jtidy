@@ -162,19 +162,24 @@ public class StreamInImpl implements StreamIn
     private GetBytes getBytes;
 
     /**
+     * Avoid mapping values > 127 to entities.
+     */
+    private boolean rawOut;
+
+    /**
      * Instatiates a new StreamInImpl.
      * @param stream input stream
-     * @param encoding encoding constant
-     * @param tabsize tab size
+     * @param configuration Configuration
      */
-    public StreamInImpl(InputStream stream, int encoding, int tabsize)
+    public StreamInImpl(InputStream stream, Configuration configuration)
     {
         this.stream = stream;
         this.charbuf[0] = '\0';
-        this.tabsize = tabsize;
+        this.tabsize = configuration.tabsize;
         this.curline = 1;
         this.curcol = 1;
-        this.encoding = encoding;
+        this.encoding = configuration.getInCharEncoding();
+        this.rawOut = configuration.rawOut;
         this.state = EncodingUtils.FSM_ASCII;
         this.getBytes = new GetBytes()
         {
@@ -314,7 +319,7 @@ public class StreamInImpl implements StreamIn
 
             // watch out for chars that have already been decoded such as
             // IS02022, UTF-8 etc, that don't require further decoding
-            if (this.encoding == Configuration.RAW
+            if (rawOut
                 || this.encoding == Configuration.ISO2022
                 || this.encoding == Configuration.UTF8
                 || this.encoding == Configuration.SHIFTJIS // #431953 - RJ

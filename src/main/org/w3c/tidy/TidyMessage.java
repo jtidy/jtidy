@@ -57,7 +57,7 @@ package org.w3c.tidy;
 
 /**
  * Message sent to listeners for validation errors/warnings and info.
- * @see Tidy#addMessageListener(TidyMessageListener)
+ * @see Tidy#setMessageListener(TidyMessageListener)
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */

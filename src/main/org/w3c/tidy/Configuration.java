@@ -81,68 +81,92 @@ public class Configuration implements Serializable
 
     /**
      * character encoding = RAW.
+     * @deprecated use <code>Tidy.setRawOut(true)</code> for raw output
      */
     public static final int RAW = 0;
 
     /**
      * character encoding = ASCII.
+     * @deprecated
      */
     public static final int ASCII = 1;
 
     /**
      * character encoding = LATIN1.
+     * @deprecated
      */
     public static final int LATIN1 = 2;
 
     /**
      * character encoding = UTF8.
+     * @deprecated
      */
     public static final int UTF8 = 3;
 
     /**
      * character encoding = ISO2022.
+     * @deprecated
      */
     public static final int ISO2022 = 4;
 
     /**
      * character encoding = MACROMAN.
+     * @deprecated
      */
     public static final int MACROMAN = 5;
 
     /**
      * character encoding = UTF16LE.
+     * @deprecated
      */
     public static final int UTF16LE = 6;
 
     /**
      * character encoding = UTF16BE.
+     * @deprecated
      */
     public static final int UTF16BE = 7;
 
     /**
      * character encoding = UTF16.
+     * @deprecated
      */
     public static final int UTF16 = 8;
 
     /**
      * character encoding = WIN1252.
+     * @deprecated
      */
     public static final int WIN1252 = 9;
 
     /**
      * character encoding = BIG5.
+     * @deprecated
      */
-    public static final int BIG5 = 10; // #431953 - RJ
+    public static final int BIG5 = 10;
 
     /**
      * character encoding = SHIFTJIS.
+     * @deprecated
      */
-    public static final int SHIFTJIS = 11; // #431953 - RJ
+    public static final int SHIFTJIS = 11;
 
-    /*
-     * RJ. Note that Big5 and SHIFTJIS are not converted to ISO 10646 codepoints (i.e., to Unicode) before being recoded
-     * into UTF-8. This may be confusing: usually UTF-8 implies ISO10646 codepoints.
+    /**
+     * Convert from deprecated tidy encoding constant to standard java encoding name.
      */
+    private final String[] ENCODING_NAMES = new String[]{
+        "raw", // rawOut, it will not be mapped to a java encoding
+        "ASCII",
+        "ISO8859_1",
+        "UTF8",
+        "ISO2022JP",
+        "MACROMAN",
+        "UNICODELITTLEUNMARKED",
+        "UNICODEBIGUNMARKED",
+        "UTF-16",
+        "CP1252",
+        "BIG5",
+        "SJIS"};
 
     /**
      * treatment of doctype: omit.
@@ -253,14 +277,14 @@ public class Configuration implements Serializable
         addConfigOption(new Flag("ncr", "ncr", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("fix-backslash", "fixBackslash", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("gnu-emacs", "emacs", ParsePropertyImpl.BOOL));
-        addConfigOption(new Flag("output-bom", "outputBOM", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("only-errors", "onlyErrors", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("output-raw", "rawOut", ParsePropertyImpl.BOOL));
 
         addConfigOption(new Flag("markup", "onlyErrors", ParsePropertyImpl.INVBOOL));
 
         addConfigOption(new Flag("char-encoding", null, ParsePropertyImpl.CHAR_ENCODING));
-        addConfigOption(new Flag("input-encoding", "inCharEncoding", ParsePropertyImpl.CHAR_ENCODING));
-        addConfigOption(new Flag("output-encoding", "outCharEncoding", ParsePropertyImpl.CHAR_ENCODING));
+        addConfigOption(new Flag("input-encoding", null, ParsePropertyImpl.CHAR_ENCODING));
+        addConfigOption(new Flag("output-encoding", null, ParsePropertyImpl.CHAR_ENCODING));
 
         addConfigOption(new Flag("error-file", "errfile", ParsePropertyImpl.NAME));
         addConfigOption(new Flag("slide-style", "slidestyle", ParsePropertyImpl.NAME));
@@ -621,16 +645,6 @@ public class Configuration implements Serializable
     protected boolean ncr = true; // #431953
 
     /**
-     * output a Byte Order Mark (BOM) when using UTF-8/UTF-16 encodings.
-     */
-    protected boolean outputBOM;
-
-    /**
-     * if input stream has BOM, do we automatically output a BOM?
-     */
-    protected boolean smartBOM = true;
-
-    /**
      * CSS class naming for -clean option.
      */
     protected String cssPrefix;
@@ -661,14 +675,29 @@ public class Configuration implements Serializable
     protected char[] newline = (System.getProperty("line.separator")).toCharArray();
 
     /**
-     * default input character encoding (LATIN1).
+     * Input character encoding (defaults to LATIN1).
      */
     private int inCharEncoding = LATIN1;
 
     /**
-     * default output character encoding (ASCII).
+     * Input character encoding (defaults to "ISO8859_1").
+     */
+    private String inCharEncodingName = "ISO8859_1";
+
+    /**
+     * Output character encoding (defaults to ASCII).
      */
     private int outCharEncoding = ASCII;
+
+    /**
+     * Output character encoding (defaults to "ASCII").
+     */
+    private String outCharEncodingName = "ASCII";
+
+    /**
+     * Avoid mapping values > 127 to entities.
+     */
+    protected boolean rawOut;
 
     /**
      * configuration properties.
@@ -775,35 +804,6 @@ public class Configuration implements Serializable
     }
 
     /**
-     * Ensure that char encodings are self consistent.
-     * @param encoding encoding constant
-     */
-    protected void adjustCharEncoding(int encoding)
-    {
-
-        if (encoding == ASCII)
-        {
-            inCharEncoding = LATIN1;
-            outCharEncoding = ASCII;
-        }
-        else if (encoding == MACROMAN)
-        {
-            inCharEncoding = MACROMAN;
-            outCharEncoding = ASCII;
-        }
-        else if (encoding == WIN1252)
-        {
-            inCharEncoding = WIN1252;
-            outCharEncoding = ASCII;
-        }
-        else
-        {
-            inCharEncoding = encoding;
-            outCharEncoding = encoding;
-        }
-    }
-
-    /**
      * Ensure that config is self consistent.
      */
     public void adjust()
@@ -855,7 +855,7 @@ public class Configuration implements Serializable
 
         // #427837 - fix by Dave Raggett 02 Jun 01
         // generate <?xml version="1.0" encoding="iso-8859-1"?> if the output character encoding is Latin-1 etc.
-        if (outCharEncoding != UTF8 && outCharEncoding != ASCII && xmlOut)
+        if (getOutCharEncoding() != UTF8 && getOutCharEncoding() != ASCII && xmlOut)
         {
             xmlPi = true;
         }
@@ -865,12 +865,6 @@ public class Configuration implements Serializable
         {
             quoteAmpersand = true;
             hideEndTags = false;
-        }
-
-        // XML requires a BOM on output if using UTF-16 encoding
-        if (xmlOut && (outCharEncoding == UTF16LE || outCharEncoding == UTF16BE || outCharEncoding == UTF16))
-        {
-            outputBOM = true;
         }
     }
 
@@ -1075,6 +1069,7 @@ public class Configuration implements Serializable
     /**
      * Getter for <code>inCharEncoding</code>.
      * @return Returns the inCharEncoding.
+     * @deprecated use getInCharEncodingName()
      */
     protected int getInCharEncoding()
     {
@@ -1083,16 +1078,45 @@ public class Configuration implements Serializable
 
     /**
      * Setter for <code>inCharEncoding</code>.
-     * @param inCharEncoding The inCharEncoding to set.
+     * @param encoding The inCharEncoding to set.
+     * @deprecated use setInCharEncodingName(String)
      */
-    protected void setInCharEncoding(int inCharEncoding)
+    protected void setInCharEncoding(int encoding)
     {
-        this.inCharEncoding = inCharEncoding;
+        if (encoding == RAW)
+        {
+            rawOut = true;
+        }
+        else
+        {
+            rawOut = false;
+            this.inCharEncoding = encoding;
+        }
+    }
+
+    /**
+     * Getter for <code>inCharEncodingName</code>.
+     * @return Returns the inCharEncodingName.
+     */
+    protected String getInCharEncodingName()
+    {
+        return this.inCharEncodingName;
+    }
+
+    /**
+     * Setter for <code>inCharEncodingName</code>.
+     * @param encoding The inCharEncodingName to set.
+     */
+    protected void setInCharEncodingName(String encoding)
+    {
+        this.inCharEncodingName = encoding;
+        this.inCharEncoding = convertCharEncoding(encoding);
     }
 
     /**
      * Getter for <code>outCharEncoding</code>.
      * @return Returns the outCharEncoding.
+     * @deprecated use getOutCharEncodingName()
      */
     protected int getOutCharEncoding()
     {
@@ -1101,10 +1125,97 @@ public class Configuration implements Serializable
 
     /**
      * Setter for <code>outCharEncoding</code>.
-     * @param outCharEncoding The outCharEncoding to set.
+     * @param encoding The outCharEncoding to set.
+     * @deprecated use setOutCharEncodingName(String)
      */
-    protected void setOutCharEncoding(int outCharEncoding)
+    protected void setOutCharEncoding(int encoding)
     {
-        this.outCharEncoding = outCharEncoding;
+        switch (encoding)
+        {
+            case RAW :
+                this.rawOut = true;
+                break;
+
+            case MACROMAN :
+            case WIN1252 :
+                this.rawOut = false;
+                this.outCharEncoding = ASCII;
+                break;
+
+            default :
+                this.rawOut = false;
+                this.outCharEncoding = encoding;
+                break;
+        }
     }
+
+    /**
+     * Getter for <code>outCharEncodingName</code>.
+     * @return Returns the outCharEncodingName.
+     */
+    protected String getOutCharEncodingName()
+    {
+        return this.outCharEncodingName;
+    }
+
+    /**
+     * Setter for <code>outCharEncodingName</code>.
+     * @param encoding The outCharEncodingName to set.
+     */
+    protected void setOutCharEncodingName(String encoding)
+    {
+        this.outCharEncodingName = encoding;
+        this.outCharEncoding = convertCharEncoding(encoding);
+    }
+
+    /**
+     * Setter for <code>inOutCharEncodingName</code>.
+     * @param encoding The CharEncodingName to set.
+     */
+    protected void setInOutEncodingName(String encoding)
+    {
+        setInCharEncodingName(encoding);
+        setOutCharEncodingName(encoding);
+    }
+
+    /**
+     * Convert a char encoding from the deprecated tidy constant to a standard java encoding name.
+     * @param code encoding code
+     * @return encoding name
+     */
+    protected String convertCharEncoding(int code)
+    {
+        if (code != 0 && code < ENCODING_NAMES.length)
+        {
+            return ENCODING_NAMES[code];
+        }
+        return null;
+    }
+
+    /**
+     * Convert a char encoding from a standard java encoding name to the deprecated tidy constant.
+     * @param name encoding name
+     * @return encoding code
+     */
+    protected int convertCharEncoding(String name)
+    {
+        if (name == null)
+        {
+            return -1;
+        }
+
+        // remap to standard java name
+        name = TidyUtils.toJavaEncodingName(name);
+
+        for (int j = 1; j < ENCODING_NAMES.length; j++)
+        {
+            if (name.equals(ENCODING_NAMES[j]))
+            {
+                return j;
+            }
+        }
+
+        return -1;
+    }
+
 }

@@ -104,7 +104,7 @@ public class OutJavaImpl implements Out
         catch (IOException e)
         {
             // @todo throws exception
-            System.err.println("WriterOutImpl.outc: " + e.toString());
+            System.err.println("OutJavaImpl.outc: " + e.getMessage());
         }
     }
 
@@ -120,7 +120,7 @@ public class OutJavaImpl implements Out
         catch (IOException e)
         {
             // @todo throws exception
-            System.err.println("WriterOutImpl.outc: " + e.toString());
+            System.err.println("OutJavaImpl.outc: " + e.getMessage());
         }
     }
 
@@ -136,16 +136,8 @@ public class OutJavaImpl implements Out
         catch (IOException e)
         {
             // @todo throws exception
-            System.err.println("WriterOutImpl.newline: " + e.toString());
+            System.err.println("OutJavaImpl.newline: " + e.getMessage());
         }
-    }
-
-    /**
-     * @see org.w3c.tidy.Out#outBOM()
-     */
-    public void outBOM()
-    {
-        // not supported in the pure java implementation
     }
 
     /**
@@ -159,7 +151,7 @@ public class OutJavaImpl implements Out
         }
         catch (IOException e)
         {
-            System.err.println("OutJavaImpl.close: " + e.toString());
+            System.err.println("OutJavaImpl.close: " + e.getMessage());
         }
     }
 

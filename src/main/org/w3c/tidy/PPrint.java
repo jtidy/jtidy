@@ -568,10 +568,7 @@ public class PPrint
                 }
                 return;
             }
-            else
-            {
-                wraphere = linelen;
-            }
+            wraphere = linelen;
         }
 
         // comment characters are passed raw
@@ -635,7 +632,7 @@ public class PPrint
                 return;
             }
 
-            if (c == 160 && this.configuration.getOutCharEncoding() != Configuration.RAW)
+            if (c == 160 && !this.configuration.rawOut)
             {
                 if (this.configuration.makeBare)
                 {
@@ -672,129 +669,132 @@ public class PPrint
         }
 
         // #431953 - start RJ
-        if (this.configuration.getOutCharEncoding() == Configuration.ISO2022
-            || this.configuration.getOutCharEncoding() == Configuration.RAW) // Handle encoding-specific issues
-        {
-            switch (this.configuration.getOutCharEncoding())
-            {
-                case Configuration.UTF8 :
-                    // Chinese doesn't have spaces, so it needs other kinds of breaks
-                    // This will also help documents using nice Unicode punctuation
-                    // But we leave the ASCII range punctuation untouched
+        // Handle encoding-specific issues
 
-                    // Break after any punctuation or spaces characters
-                    if ((c >= 0x2000) && !TidyUtils.toBoolean(mode & PREFORMATTED))
+        switch (this.configuration.getOutCharEncoding())
+        {
+            case Configuration.UTF8 :
+                // Chinese doesn't have spaces, so it needs other kinds of breaks
+                // This will also help documents using nice Unicode punctuation
+                // But we leave the ASCII range punctuation untouched
+
+                // Break after any punctuation or spaces characters
+                if ((c >= 0x2000) && !TidyUtils.toBoolean(mode & PREFORMATTED))
+                {
+                    if (((c >= 0x2000) && (c <= 0x2006))
+                        || ((c >= 0x2008) && (c <= 0x2010))
+                        || ((c >= 0x2011) && (c <= 0x2046))
+                        || ((c >= 0x207D) && (c <= 0x207E))
+                        || ((c >= 0x208D) && (c <= 0x208E))
+                        || ((c >= 0x2329) && (c <= 0x232A))
+                        || ((c >= 0x3001) && (c <= 0x3003))
+                        || ((c >= 0x3008) && (c <= 0x3011))
+                        || ((c >= 0x3014) && (c <= 0x301F))
+                        || ((c >= 0xFD3E) && (c <= 0xFD3F))
+                        || ((c >= 0xFE30) && (c <= 0xFE44))
+                        || ((c >= 0xFE49) && (c <= 0xFE52))
+                        || ((c >= 0xFE54) && (c <= 0xFE61))
+                        || ((c >= 0xFE6A) && (c <= 0xFE6B))
+                        || ((c >= 0xFF01) && (c <= 0xFF03))
+                        || ((c >= 0xFF05) && (c <= 0xFF0A))
+                        || ((c >= 0xFF0C) && (c <= 0xFF0F))
+                        || ((c >= 0xFF1A) && (c <= 0xFF1B))
+                        || ((c >= 0xFF1F) && (c <= 0xFF20))
+                        || ((c >= 0xFF3B) && (c <= 0xFF3D))
+                        || ((c >= 0xFF61) && (c <= 0xFF65)))
                     {
-                        if (((c >= 0x2000) && (c <= 0x2006))
-                            || ((c >= 0x2008) && (c <= 0x2010))
-                            || ((c >= 0x2011) && (c <= 0x2046))
-                            || ((c >= 0x207D) && (c <= 0x207E))
-                            || ((c >= 0x208D) && (c <= 0x208E))
-                            || ((c >= 0x2329) && (c <= 0x232A))
-                            || ((c >= 0x3001) && (c <= 0x3003))
-                            || ((c >= 0x3008) && (c <= 0x3011))
-                            || ((c >= 0x3014) && (c <= 0x301F))
-                            || ((c >= 0xFD3E) && (c <= 0xFD3F))
-                            || ((c >= 0xFE30) && (c <= 0xFE44))
-                            || ((c >= 0xFE49) && (c <= 0xFE52))
-                            || ((c >= 0xFE54) && (c <= 0xFE61))
-                            || ((c >= 0xFE6A) && (c <= 0xFE6B))
-                            || ((c >= 0xFF01) && (c <= 0xFF03))
-                            || ((c >= 0xFF05) && (c <= 0xFF0A))
-                            || ((c >= 0xFF0C) && (c <= 0xFF0F))
-                            || ((c >= 0xFF1A) && (c <= 0xFF1B))
-                            || ((c >= 0xFF1F) && (c <= 0xFF20))
-                            || ((c >= 0xFF3B) && (c <= 0xFF3D))
-                            || ((c >= 0xFF61) && (c <= 0xFF65)))
+                        wraphere = linelen + 2; // 2, because AddChar is not till later
+                        breakable = true;
+                    }
+                    else
+                    {
+                        switch (c)
                         {
-                            wraphere = linelen + 2; // 2, because AddChar is not till later
-                            breakable = true;
+                            case 0xFE63 :
+                            case 0xFE68 :
+                            case 0x3030 :
+                            case 0x30FB :
+                            case 0xFF3F :
+                            case 0xFF5B :
+                            case 0xFF5D :
+                                wraphere = linelen + 2;
+                                breakable = true;
+                        }
+                    }
+                    // but break before a left punctuation
+                    if (breakable)
+                    {
+                        if (((c >= 0x201A) && (c <= 0x201C)) || ((c >= 0x201E) && (c <= 0x201F)))
+                        {
+                            wraphere--;
                         }
                         else
                         {
                             switch (c)
                             {
-                                case 0xFE63 :
-                                case 0xFE68 :
-                                case 0x3030 :
-                                case 0x30FB :
-                                case 0xFF3F :
+                                case 0x2018 :
+                                case 0x2039 :
+                                case 0x2045 :
+                                case 0x207D :
+                                case 0x208D :
+                                case 0x2329 :
+                                case 0x3008 :
+                                case 0x300A :
+                                case 0x300C :
+                                case 0x300E :
+                                case 0x3010 :
+                                case 0x3014 :
+                                case 0x3016 :
+                                case 0x3018 :
+                                case 0x301A :
+                                case 0x301D :
+                                case 0xFD3E :
+                                case 0xFE35 :
+                                case 0xFE37 :
+                                case 0xFE39 :
+                                case 0xFE3B :
+                                case 0xFE3D :
+                                case 0xFE3F :
+                                case 0xFE41 :
+                                case 0xFE43 :
+                                case 0xFE59 :
+                                case 0xFE5B :
+                                case 0xFE5D :
+                                case 0xFF08 :
+                                case 0xFF3B :
                                 case 0xFF5B :
-                                case 0xFF5D :
-                                    wraphere = linelen + 2;
-                                    breakable = true;
-                            }
-                        }
-                        // but break before a left punctuation
-                        if (breakable)
-                        {
-                            if (((c >= 0x201A) && (c <= 0x201C)) || ((c >= 0x201E) && (c <= 0x201F)))
-                            {
-                                wraphere--;
-                            }
-                            else
-                            {
-                                switch (c)
-                                {
-                                    case 0x2018 :
-                                    case 0x2039 :
-                                    case 0x2045 :
-                                    case 0x207D :
-                                    case 0x208D :
-                                    case 0x2329 :
-                                    case 0x3008 :
-                                    case 0x300A :
-                                    case 0x300C :
-                                    case 0x300E :
-                                    case 0x3010 :
-                                    case 0x3014 :
-                                    case 0x3016 :
-                                    case 0x3018 :
-                                    case 0x301A :
-                                    case 0x301D :
-                                    case 0xFD3E :
-                                    case 0xFE35 :
-                                    case 0xFE37 :
-                                    case 0xFE39 :
-                                    case 0xFE3B :
-                                    case 0xFE3D :
-                                    case 0xFE3F :
-                                    case 0xFE41 :
-                                    case 0xFE43 :
-                                    case 0xFE59 :
-                                    case 0xFE5B :
-                                    case 0xFE5D :
-                                    case 0xFF08 :
-                                    case 0xFF3B :
-                                    case 0xFF5B :
-                                    case 0xFF62 :
-                                        wraphere--;
-                                }
+                                case 0xFF62 :
+                                    wraphere--;
                             }
                         }
                     }
-                    break;
-                case Configuration.BIG5 :
-                    // Allow linebreak at Chinese punctuation characters
-                    // There are not many spaces in Chinese
-                    addC(c, linelen++);
-                    if (((c & 0xFF00) == 0xA100) & !TidyUtils.toBoolean(mode & PREFORMATTED))
+                }
+                break;
+            case Configuration.BIG5 :
+                // Allow linebreak at Chinese punctuation characters
+                // There are not many spaces in Chinese
+                addC(c, linelen++);
+                if (((c & 0xFF00) == 0xA100) & !TidyUtils.toBoolean(mode & PREFORMATTED))
+                {
+                    wraphere = linelen;
+                    // opening brackets have odd codes: break before them
+                    if ((c > 0x5C) && (c < 0xAD) && ((c & 1) == 1))
                     {
-                        wraphere = linelen;
-                        // opening brackets have odd codes: break before them
-                        if ((c > 0x5C) && (c < 0xAD) && ((c & 1) == 1))
-                        {
-                            wraphere--;
-                        }
+                        wraphere--;
                     }
-                    return;
-                case Configuration.SHIFTJIS :
-                case Configuration.ISO2022 : // ISO 2022 characters are passed raw
-                case Configuration.RAW :
+                }
+                return;
+            case Configuration.SHIFTJIS :
+            case Configuration.ISO2022 : // ISO 2022 characters are passed raw
+                addC(c, linelen++);
+                return;
+            default :
+                if (this.configuration.rawOut)
+                {
                     addC(c, linelen++);
                     return;
-            // #431953 - end RJ
-            }
+                }
+        // #431953 - end RJ
         }
 
         // if preformatted text, map &nbsp; to space
@@ -833,7 +833,7 @@ public class PPrint
             }
         }
 
-        /* don't map latin-1 chars to entities */
+        // don't map latin-1 chars to entities
         if (this.configuration.getOutCharEncoding() == Configuration.LATIN1)
         {
             if (c > 255) /* multi byte chars */
@@ -879,15 +879,9 @@ public class PPrint
             return;
         }
 
-        // don't map utf8 chars to entities
-        if (this.configuration.getOutCharEncoding() == Configuration.UTF8)
-        {
-            addC(c, linelen++);
-            return;
-        }
-
-        // don't map utf16 chars to entities
-        if (this.configuration.getOutCharEncoding() == Configuration.UTF16
+        // don't map utf8 or utf16 chars to entities
+        if (this.configuration.getOutCharEncoding() == Configuration.UTF8
+            || this.configuration.getOutCharEncoding() == Configuration.UTF16
             || this.configuration.getOutCharEncoding() == Configuration.UTF16LE
             || this.configuration.getOutCharEncoding() == Configuration.UTF16BE)
         {
@@ -1300,8 +1294,8 @@ public class PPrint
     /**
      * Line can be wrapped immediately after inline start tag provided if follows a text node ending in a space, or it
      * parent is an inline element that that rule applies to. This behaviour was reverse engineered from Netscape 3.0
-     * @param node
-     * @return
+     * @param node current Node
+     * @return <code>true</code> if the current char follows a space
      */
     private static boolean afterSpace(Node node)
     {
@@ -1591,10 +1585,9 @@ public class PPrint
     }
 
     /**
-     * pretty print the xml declaration.
+     * Pretty print the xml declaration.
      * @param fout
      * @param indent
-     * @param lexer
      * @param node
      */
     private void printXmlDecl(Out fout, int indent, Node node)
@@ -1821,10 +1814,8 @@ public class PPrint
     /**
      * Is text node and already ends w/ a newline? Used to pretty print CDATA/PRE text content. If it already ends on a
      * newline, it is not necessary to print another before printing end tag.
-     * @param lexer
-     * @param node
-     * @param Lexer lexer
-     * @param Node text node
+     * @param lexer Lexer
+     * @param node text node
      * @return <code>true</code> if text node ends with a newline
      */
     private boolean textEndsWithNewline(Lexer lexer, Node node)
@@ -1889,6 +1880,12 @@ public class PPrint
      *             content
      *         ]]>
      * </pre>
+     * 
+     * @param fout
+     * @param mode
+     * @param indent
+     * @param lexer
+     * @param node
      */
     private void printScriptStyle(Out fout, short mode, int indent, Lexer lexer, Node node)
     {
@@ -1996,6 +1993,11 @@ public class PPrint
         flushLine(fout, indent);
     }
 
+    /**
+     * Should tidy indent the give tag?
+     * @param node actual node
+     * @return <code>true</code> if line should be indented
+     */
     private boolean shouldIndent(Node node)
     {
         TagTable tt = this.configuration.tt;
@@ -2051,6 +2053,10 @@ public class PPrint
 
     /**
      * Print just the content of the body element. Useful when you want to reuse material from other documents.
+     * @param fout
+     * @param lexer
+     * @param root
+     * @param xml
      */
     void printBody(Out fout, Lexer lexer, Node root, boolean xml)
     {
@@ -2518,6 +2524,8 @@ public class PPrint
     /**
      * Split parse tree by h2 elements and output to separate files. Counts number of h2 children (if any) belonging to
      * node.
+     * @param node root node
+     * @return number of slides (number of h2 elements)
      */
     public int countSlides(Node node)
     {

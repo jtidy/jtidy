@@ -25,6 +25,33 @@
         </section>
         <section name="News">
 
+            <subsection name="September 13, 2004">
+                <p>Two major new features expected for the next release have been finally committed to cvs!</p>
+                <ul>
+                    <li>
+                        You can now use
+                        <strong>any supported Java character encoding for input or output</strong>
+                        , with the classic tidy encoding hadling replaced by a new implementation that take advantage of
+                        built-in java character encoding support.
+                    </li>
+                    <li>
+                        You don't need anymore to parse a text output to extract JTidy messages in your application: you
+                        can simply attach a
+                        <strong>
+                            listener using
+                            <code>Tidy.setMessageListener()</code>
+                        </strong>
+                        and be notified for error, warnings and summary messages.
+                    </li>
+                </ul>
+                <p>What is missing before a release?</p>
+                <ul>
+                    <li>Cleanup the support for new charsets (still to be refined)</li>
+                    <li>Doctype handling (seem to be really different from the current tidy c release)</li>
+                    <li>Some more tests, expecially for the dom parser/prettyprinter</li>
+                </ul>
+
+            </subsection>
 
             <subsection name="August 20, 2004">
                 <p>

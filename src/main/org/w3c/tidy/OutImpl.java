@@ -403,7 +403,7 @@ public class OutImpl implements Out
     }
 
     /**
-     * @see org.w3c.tidy.Out#outBOM()
+     * Output a Byte Order Mark.
      */
     public void outBOM()
     {

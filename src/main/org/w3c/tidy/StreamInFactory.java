@@ -81,37 +81,9 @@ public final class StreamInFactory
      */
     public static StreamIn getStreamIn(Configuration config, InputStream stream)
     {
-
-        // uncomment the following lines to use the classic implementation
-        //
-        // if (true)
-        // {
-        //       return new StreamInImpl(stream, config.getInCharEncoding(), config.tabsize);
-        // }
-
         try
         {
-            switch (config.getInCharEncoding())
-            {
-                case Configuration.ASCII :
-                    return new StreamInJavaImpl(stream, "US-ASCII", config.tabsize);
-                case Configuration.LATIN1 :
-                    return new StreamInJavaImpl(stream, "ISO-8859-1", config.tabsize);
-                case Configuration.UTF8 :
-                    return new StreamInJavaImpl(stream, "UTF-8", config.tabsize);
-                case Configuration.UTF16 :
-                    return new StreamInJavaImpl(stream, "UTF-16", config.tabsize);
-                case Configuration.UTF16LE :
-                    return new StreamInJavaImpl(stream, "UTF-16LE", config.tabsize);
-                case Configuration.UTF16BE :
-                    return new StreamInJavaImpl(stream, "UTF-16BE", config.tabsize);
-                case Configuration.BIG5 :
-                    return new StreamInJavaImpl(stream, "BIG5", config.tabsize);
-                case Configuration.SHIFTJIS :
-                    return new StreamInJavaImpl(stream, "SHIFT-JIS", config.tabsize);
-                default :
-                    throw new RuntimeException("Unsupported encoding: " + config.getInCharEncoding());
-            }
+            return new StreamInJavaImpl(stream, config.getInCharEncodingName(), config.tabsize);
         }
         catch (UnsupportedEncodingException e)
         {

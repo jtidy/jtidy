@@ -84,9 +84,12 @@ public class StreamInImplTest extends TestCase
         super.setUp();
 
         InputStream stream = new ByteArrayInputStream(new byte[]{0});
-        in = new StreamInImpl(stream, Configuration.ASCII, 8);
+
         Report report = new Report();
         Configuration configuration = new Configuration(report);
+        configuration.setInCharEncodingName("US-ASCII");
+        in = new StreamInImpl(stream, configuration);
+
         lexer = new Lexer(in, configuration, report);
         lexer.configuration = configuration;
         in.setLexer(lexer);
@@ -98,8 +101,11 @@ public class StreamInImplTest extends TestCase
     public final void testReadCharFromStreamAscii()
     {
         InputStream stream = new ByteArrayInputStream(new byte[]{97, 97, 97});
-        in = new StreamInImpl(stream, Configuration.ASCII, 8);
-        lexer.configuration.setInCharEncoding(Configuration.ASCII);
+
+        Report report = new Report();
+        Configuration configuration = new Configuration(report);
+        configuration.setInCharEncodingName("US-ASCII");
+        in = new StreamInImpl(stream, configuration);
         in.setLexer(lexer);
 
         char thechar = (char) in.readCharFromStream();
@@ -114,8 +120,11 @@ public class StreamInImplTest extends TestCase
     public final void testReadCharFromStreamUTF16()
     {
         InputStream stream = new ByteArrayInputStream(new byte[]{00, 97, 00, 97});
-        in = new StreamInImpl(stream, Configuration.UTF16BE, 8);
-        lexer.configuration.setInCharEncoding(Configuration.UTF16BE);
+
+        Report report = new Report();
+        Configuration configuration = new Configuration(report);
+        configuration.setInCharEncodingName("utf16be");
+        in = new StreamInImpl(stream, configuration);
         in.setLexer(lexer);
 
         char thechar = (char) in.readCharFromStream();
@@ -130,8 +139,11 @@ public class StreamInImplTest extends TestCase
     public final void testReadCharFromStreamUTF16WithBOMLE()
     {
         InputStream stream = new ByteArrayInputStream(new byte[]{-1, -2, 97, 00});
-        in = new StreamInImpl(stream, Configuration.UTF16, 8);
-        lexer.configuration.setInCharEncoding(Configuration.UTF16);
+
+        Report report = new Report();
+        Configuration configuration = new Configuration(report);
+        configuration.setInCharEncodingName("utf16");
+        in = new StreamInImpl(stream, configuration);
         in.setLexer(lexer);
 
         char thechar = (char) in.readCharFromStream();
@@ -146,8 +158,11 @@ public class StreamInImplTest extends TestCase
     public final void testReadCharFromStreamUTF16WithBOMBE()
     {
         InputStream stream = new ByteArrayInputStream(new byte[]{-2, -1, 00, 97});
-        in = new StreamInImpl(stream, Configuration.UTF16, 8);
-        lexer.configuration.setInCharEncoding(Configuration.UTF16);
+
+        Report report = new Report();
+        Configuration configuration = new Configuration(report);
+        configuration.setInCharEncodingName("utf16");
+        in = new StreamInImpl(stream, configuration);
         in.setLexer(lexer);
 
         char thechar = (char) in.readCharFromStream();

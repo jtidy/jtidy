@@ -255,7 +255,6 @@ public class Tidy implements Serializable
         Node document = null;
         Node doctype;
         PPrint pprint;
-        boolean inputHadBOM = false;
 
         if (errout == null)
         {
@@ -298,21 +297,18 @@ public class Tidy implements Serializable
             }
 
             // skip byte order mark
-            if (lexer.configuration.getInCharEncoding() == Configuration.UTF8
-                || lexer.configuration.getInCharEncoding() == Configuration.UTF16LE
-                || lexer.configuration.getInCharEncoding() == Configuration.UTF16BE
-                || lexer.configuration.getInCharEncoding() == Configuration.UTF16)
-            {
-                int c = lexer.in.readChar();
-                if (c == EncodingUtils.UNICODE_BOM)
-                {
-                    inputHadBOM = true;
-                }
-                else
-                {
-                    lexer.in.ungetChar(c);
-                }
-            }
+
+            //            if (lexer.configuration.getInCharEncoding() == Configuration.UTF8
+            //                || lexer.configuration.getInCharEncoding() == Configuration.UTF16LE
+            //                || lexer.configuration.getInCharEncoding() == Configuration.UTF16BE
+            //                || lexer.configuration.getInCharEncoding() == Configuration.UTF16)
+            //            {
+            //                int c = lexer.in.readChar();
+            //                if (c != EncodingUtils.UNICODE_BOM)
+            //                {
+            //                    lexer.in.ungetChar(c);
+            //                }
+            //            }
 
             // Tidy doesn't alter the doctype for generic XML docs
             if (configuration.xmlTags)
@@ -495,11 +491,6 @@ public class Tidy implements Serializable
                         FileOutputStream fis = new FileOutputStream(file);
 
                         Out o = OutFactory.getOut(this.configuration, fis);
-                        // Output a Byte Order Mark if required
-                        if (configuration.outputBOM || (inputHadBOM && configuration.smartBOM))
-                        {
-                            o.outBOM();
-                        }
 
                         if (configuration.bodyOnly)
                         {
@@ -528,11 +519,6 @@ public class Tidy implements Serializable
                     pprint = new PPrint(configuration);
 
                     Out o = OutFactory.getOut(this.configuration, out); // normal output stream
-
-                    if (configuration.outputBOM || (inputHadBOM && configuration.smartBOM))
-                    {
-                        o.outBOM();
-                    }
 
                     if (configuration.bodyOnly)
                     {
@@ -740,51 +726,7 @@ public class Tidy implements Serializable
                 }
                 else if (arg.equalsIgnoreCase("raw"))
                 {
-                    configuration.adjustCharEncoding(Configuration.RAW);
-                }
-                else if (arg.equalsIgnoreCase("ascii"))
-                {
-                    configuration.adjustCharEncoding(Configuration.ASCII);
-                }
-                else if (arg.equalsIgnoreCase("latin1"))
-                {
-                    configuration.adjustCharEncoding(Configuration.LATIN1);
-                }
-                else if (arg.equalsIgnoreCase("utf8") || arg.equalsIgnoreCase("utf-8"))
-                {
-                    configuration.adjustCharEncoding(Configuration.UTF8);
-                }
-                else if (arg.equalsIgnoreCase("iso2022"))
-                {
-                    configuration.adjustCharEncoding(Configuration.ISO2022);
-                }
-                else if (arg.equalsIgnoreCase("mac"))
-                {
-                    configuration.adjustCharEncoding(Configuration.MACROMAN);
-                }
-                else if (arg.equalsIgnoreCase("utf16le") || arg.equalsIgnoreCase("utf-16le"))
-                {
-                    configuration.adjustCharEncoding(Configuration.UTF16LE);
-                }
-                else if (arg.equalsIgnoreCase("utf16be") || arg.equalsIgnoreCase("utf-16be"))
-                {
-                    configuration.adjustCharEncoding(Configuration.UTF16BE);
-                }
-                else if (arg.equalsIgnoreCase("utf16") || arg.equalsIgnoreCase("utf-16"))
-                {
-                    configuration.adjustCharEncoding(Configuration.UTF16);
-                }
-                else if (arg.equalsIgnoreCase("win1252"))
-                {
-                    configuration.adjustCharEncoding(Configuration.WIN1252);
-                }
-                else if (arg.equalsIgnoreCase("shiftjis")) // #431953 - RJ
-                {
-                    configuration.adjustCharEncoding(Configuration.SHIFTJIS);
-                }
-                else if (arg.equalsIgnoreCase("big5")) // #431953 - RJ
-                {
-                    configuration.adjustCharEncoding(Configuration.BIG5);
+                    configuration.rawOut = true;
                 }
                 else if (arg.equalsIgnoreCase("numeric"))
                 {
@@ -794,11 +736,7 @@ public class Tidy implements Serializable
                 {
                     configuration.writeback = true;
                 }
-                else if (arg.equalsIgnoreCase("change")) // obsolete
-                {
-                    configuration.writeback = true;
-                }
-                else if (arg.equalsIgnoreCase("update")) // obsolete
+                else if (arg.equalsIgnoreCase("change") || arg.equalsIgnoreCase("update")) // obsolete
                 {
                     configuration.writeback = true;
                 }
@@ -874,6 +812,10 @@ public class Tidy implements Serializable
                 {
                     this.report.showVersion(errout);
                     return 0;
+                }
+                else if (TidyUtils.isCharEncodingSupported(arg)) // this test should handle any encoding name
+                {
+                    configuration.setInOutEncodingName(arg);
                 }
                 else
                 {
@@ -1020,12 +962,14 @@ public class Tidy implements Serializable
         return 0;
     }
 
-    public void addMessageListener(TidyMessageListener listener)
+    /**
+     * Attach a TidyMessageListener which will be notified for messages and errors.
+     * @param listener TidyMessageListener implementation
+     */
+    public void setMessageListener(TidyMessageListener listener)
     {
         this.report.addMessageListener(listener);
     }
-
-    /// CONFIGURATION ///
 
     /**
      * <code>indent-spaces</code>- default indentation.
@@ -2296,7 +2240,12 @@ public class Tidy implements Serializable
      */
     public void setCharEncoding(int charencoding)
     {
-        configuration.adjustCharEncoding(charencoding);
+        String ceName = configuration.convertCharEncoding(charencoding);
+        if (ceName != null)
+        {
+            configuration.setInCharEncodingName(ceName);
+            configuration.setOutCharEncodingName(ceName);
+        }
     }
 
     /**
@@ -2329,23 +2278,60 @@ public class Tidy implements Serializable
     }
 
     /**
-     * RawOut - avoid mapping values > 127 to entities.
-     * @deprecated use setNumEntities(boolean)
-     * @see #setNumEntities(boolean)
+     * <code>output-raw</code>- avoid mapping values > 127 to entities. This has the same effect of specifying a
+     * "raw" encoding in the original version of tidy.
+     * @param rawOut avoid mapping values > 127 to entities
+     * @see Configuration#rawOut
      */
     public void setRawOut(boolean rawOut)
     {
-        setNumEntities(rawOut);
+        configuration.rawOut = rawOut;
     }
 
     /**
-     * RawOut - avoid mapping values > 127 to entities.
-     * @deprecated use setNumEntities(boolean)
-     * @see #setNumEntities(boolean)
+     * <code>output-raw</code>- avoid mapping values > 127 to entities.
+     * @return <code>true</code> if tidy will not map values > 127 to entities
+     * @see Configuration#rawOut
      */
     public boolean getRawOut()
     {
-        return getNumEntities();
+        return configuration.rawOut;
+    }
+
+    /**
+     * <code>input-encoding</code> the character encoding used for input.
+     * @param encoding a valid java encoding name
+     */
+    public void setInputEncoding(String encoding)
+    {
+        configuration.setInCharEncodingName(encoding);
+    }
+
+    /**
+     * <code>input-encoding</code> the character encoding used for input.
+     * @return the java name of the encoding currently used for input
+     */
+    public String getInputEncoding()
+    {
+        return configuration.getInCharEncodingName();
+    }
+
+    /**
+     * <code>output-encoding</code> the character encoding used for output.
+     * @param encoding a valid java encoding name
+     */
+    public void setOutputEncoding(String encoding)
+    {
+        configuration.setOutCharEncodingName(encoding);
+    }
+
+    /**
+     * <code>output-encoding</code> the character encoding used for output.
+     * @return the java name of the encoding currently used for output
+     */
+    public String getOutputEncoding()
+    {
+        return configuration.getOutCharEncodingName();
     }
 
 }

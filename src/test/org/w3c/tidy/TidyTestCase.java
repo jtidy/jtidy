@@ -516,7 +516,7 @@ public class TidyTestCase extends TestCase
         this.tidy.setErrout(new PrintWriter(this.errorLog));
 
         this.messageListener = new TestMessageListener(messagesFileName);
-        this.tidy.addMessageListener(messageListener);
+        this.tidy.setMessageListener(messageListener);
     }
 
     /**

@@ -81,11 +81,6 @@ public interface Out
     void newline();
 
     /**
-     * Output a Byte Order Mark if required.
-     */
-    void outBOM();
-
-    /**
      * Flush and close the stream.
      */
     void close();

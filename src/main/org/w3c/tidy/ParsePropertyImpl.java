@@ -117,11 +117,6 @@ public final class ParsePropertyImpl
     static final ParseProperty INDENT = new ParseIndent();
 
     /**
-     * configuration parser for bom property.
-     */
-    static final ParseProperty BOM = new ParseBom();
-
-    /**
      * configuration parser for css selectors.
      */
     static final ParseProperty CSS1SELECTOR = new ParseCSS1Selector();
@@ -136,6 +131,7 @@ public final class ParsePropertyImpl
      */
     private ParsePropertyImpl()
     {
+        // unused
     }
 
     /**
@@ -304,70 +300,31 @@ public final class ParsePropertyImpl
          */
         public Object parse(String value, String option, Configuration configuration)
         {
-            int result = Configuration.ASCII;
-            boolean validEncoding = true;
 
-            if ("ascii".equalsIgnoreCase(value))
+            if ("raw".equalsIgnoreCase(value))
             {
-                result = Configuration.ASCII;
+                // special value for compatibility with tidy c
+                configuration.rawOut = true;
             }
-            else if ("latin1".equalsIgnoreCase(value))
+            else if (!TidyUtils.isCharEncodingSupported(value))
             {
-                result = Configuration.LATIN1;
-            }
-            else if ("raw".equalsIgnoreCase(value))
-            {
-                result = Configuration.RAW;
-            }
-            else if ("utf8".equalsIgnoreCase(value) || "utf-8".equalsIgnoreCase(value))
-            {
-                result = Configuration.UTF8;
-            }
-            else if ("iso2022".equalsIgnoreCase(value))
-            {
-                result = Configuration.ISO2022;
-            }
-            else if ("mac".equalsIgnoreCase(value))
-            {
-                result = Configuration.MACROMAN;
-            }
-            else if ("utf16le".equalsIgnoreCase(value) || "utf-16le".equalsIgnoreCase(value))
-            {
-                result = Configuration.UTF16LE;
-            }
-            else if ("utf16be".equalsIgnoreCase(value) || "utf-16be".equalsIgnoreCase(value))
-            {
-                result = Configuration.UTF16BE;
-            }
-            else if ("utf16".equalsIgnoreCase(value) || "utf16".equalsIgnoreCase(value))
-            {
-                result = Configuration.UTF16;
-            }
-            else if ("win1252".equalsIgnoreCase(value))
-            {
-                result = Configuration.WIN1252;
-            }
-            else if ("big5".equalsIgnoreCase(value))
-            {
-                result = Configuration.BIG5; // #431953 - RJ
-            }
-            else if ("shiftjis".equalsIgnoreCase(value))
-            {
-                result = Configuration.SHIFTJIS; // #431953 - RJ
-            }
-            else
-            {
-                validEncoding = false;
                 configuration.report.badArgument(value, option);
             }
-
-            if (validEncoding && "char-encoding".equals(option))
+            else if ("input-encoding".equalsIgnoreCase(option))
             {
-                configuration.adjustCharEncoding(result);
-                return null;
+                configuration.setInCharEncodingName(value);
+            }
+            else if ("output-encoding".equalsIgnoreCase(option))
+            {
+                configuration.setOutCharEncodingName(value);
+            }
+            else if ("char-encoding".equalsIgnoreCase(option))
+            {
+                configuration.setInCharEncodingName(value);
+                configuration.setOutCharEncodingName(value);
             }
 
-            return new Integer(result);
+            return null;
         }
 
         /**
@@ -383,7 +340,8 @@ public final class ParsePropertyImpl
          */
         public String getOptionValues()
         {
-            return "ascii, latin1, raw, utf-8, iso2022, mac, utf-16, utf-16be, utf-16le, big5, shiftjis";
+            // ascii, latin1, raw, utf-8, iso2022, mac, utf-16, utf-16be, utf-16le, big5, shiftjis
+            return "Any valid java char encoding name";
         }
 
         /**
@@ -391,62 +349,13 @@ public final class ParsePropertyImpl
          */
         public String getFriendlyName(String option, Object value, Configuration configuration)
         {
-            if (value == null)
+            if ("output-encoding".equalsIgnoreCase(option))
             {
-                return "";
+                return configuration.getOutCharEncodingName();
             }
 
-            int encoding = ((Integer) value).intValue();
-            String encodingName;
-
-            switch (encoding)
-            {
-                case Configuration.ASCII :
-                    encodingName = "ascii";
-                    break;
-                case Configuration.LATIN1 :
-                    encodingName = "latin1";
-                    break;
-                case Configuration.RAW :
-                    encodingName = "raw";
-                    break;
-                case Configuration.UTF8 :
-                    encodingName = "utf-8";
-                    break;
-                case Configuration.ISO2022 :
-                    encodingName = "iso2022";
-                    break;
-                case Configuration.MACROMAN :
-                    encodingName = "mac";
-                    break;
-
-                case Configuration.UTF16LE :
-                    encodingName = "utf-16le";
-                    break;
-                case Configuration.UTF16BE :
-                    encodingName = "utf-16be";
-                    break;
-                case Configuration.UTF16 :
-                    encodingName = "utf-16";
-                    break;
-
-                case Configuration.WIN1252 :
-                    encodingName = "win1252";
-                    break;
-
-                case Configuration.BIG5 :
-                    encodingName = "big5";
-                    break;
-                case Configuration.SHIFTJIS :
-                    encodingName = "shiftjis";
-                    break;
-
-                default :
-                    encodingName = "unknown";
-                    break;
-            }
-
-            return encodingName;
+            // for input-encoding or char-encoding
+            return configuration.getInCharEncodingName();
         }
     }
 
@@ -946,82 +855,6 @@ public final class ParsePropertyImpl
         public String getFriendlyName(String option, Object value, Configuration configuration)
         {
             return value == null ? "" : (String) value;
-        }
-    }
-
-    /**
-     * Parser for css selectors.
-     */
-    static class ParseBom implements ParseProperty
-    {
-
-        /**
-         * @see org.w3c.tidy.ParseProperty#parse(java.lang.String, java.lang.String, org.w3c.tidy.Configuration)
-         */
-        public Object parse(String value, String option, Configuration configuration)
-        {
-            Boolean b = Boolean.FALSE;
-            if (value != null && value.length() > 0)
-            {
-                char c = value.charAt(0);
-                if ((c == 'a') || (c == 'A'))
-                {
-                    b = Boolean.FALSE;
-                    configuration.smartBOM = true;
-                }
-                else
-                {
-                    boolean result = ((Boolean) BOOL.parse(value, option, configuration)).booleanValue();
-
-                    if (result)
-                    {
-                        b = Boolean.TRUE;
-                        configuration.smartBOM = true;
-                    }
-                    else
-                    {
-                        b = Boolean.FALSE;
-                        configuration.smartBOM = false;
-                    }
-                }
-
-            }
-            return b;
-        }
-
-        /**
-         * @see org.w3c.tidy.ParseProperty#getType()
-         */
-        public String getType()
-        {
-            return "Boolean";
-        }
-
-        /**
-         * @see org.w3c.tidy.ParseProperty#getOptionValues()
-         */
-        public String getOptionValues()
-        {
-            return "auto, y/n, yes/no, t/f, true/false, 1/0";
-        }
-
-        /**
-         * @see org.w3c.tidy.ParseProperty#getFriendlyName(java.lang.String, java.lang.Object, Configuration)
-         */
-        public String getFriendlyName(String option, Object value, Configuration configuration)
-        {
-            if (configuration.smartBOM && !configuration.outputBOM)
-            {
-                return "auto";
-            }
-            else if (configuration.outputBOM)
-            {
-                return "yes";
-            }
-            else
-            {
-                return "no";
-            }
         }
     }
 
