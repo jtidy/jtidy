@@ -4,6 +4,6 @@
 <title>[ #445394 ] Improve handling of missing trailing "</title>
 </head>
 <body>
-<a href="test.html%3Elink%3C/a%3E%20%3Ca%20href=">link</a>
+<a href="test.html">link</a> <a href="test.html">link</a>
 </body>
 </html>

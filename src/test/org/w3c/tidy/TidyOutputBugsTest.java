@@ -166,7 +166,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [427826] : Script source needs escaping/CDATA section.
+     * test for Tidy [427826] : Script source needs escaping/CDATA section. @todo HIGH priority
      * @throws Exception any exception generated during the test
      */
     public void test427826() throws Exception
@@ -564,7 +564,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [445394] : Improve handling of missing trailing ".
+     * test for Tidy [445394] : Improve handling of missing trailing ". STill bad in tidy.
      * @throws Exception any exception generated during the test
      */
     public void test445394() throws Exception
