@@ -74,6 +74,17 @@ public class JTidyBugsTest extends TidyTestCase
     }
 
     /**
+     * test for JTidy [508245]: Do not convert the & or &lt; to Entity Ref. Actually is "Tidy fails in completing
+     * unclosed tags"
+     * @throws Exception any exception generated during the test
+     */
+    public void test508245() throws Exception
+    {
+        executeTidyTest("j508245.html");
+        assertNoErrors();
+    }
+
+    /**
      * test for JTidy [610244]: NullPointerException in parsing.
      * @throws Exception any exception generated during the test
      */
