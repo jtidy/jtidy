@@ -644,6 +644,7 @@ public final class Report
      */
     protected Report()
     {
+        super();
     }
 
     /**

@@ -168,6 +168,7 @@ public final class ParserImpl
      */
     private ParserImpl()
     {
+        // unused
     }
 
     /**

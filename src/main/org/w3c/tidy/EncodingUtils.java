@@ -650,6 +650,7 @@ public final class EncodingUtils
      */
     private EncodingUtils()
     {
+        // unused
     }
 
     /**

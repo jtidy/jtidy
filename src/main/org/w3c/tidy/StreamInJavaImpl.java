@@ -293,6 +293,7 @@ public class StreamInJavaImpl implements StreamIn
      */
     public void setLexer(Lexer lexer)
     {
+        // unused in the java implementation
     }
 
 }

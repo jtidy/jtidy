@@ -111,6 +111,7 @@ public class AttVal extends Object implements Cloneable
      */
     public AttVal()
     {
+        super();
     }
 
     /**

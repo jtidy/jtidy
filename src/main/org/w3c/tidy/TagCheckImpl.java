@@ -138,6 +138,7 @@ public final class TagCheckImpl
      */
     private TagCheckImpl()
     {
+        // unused
     }
 
     /**

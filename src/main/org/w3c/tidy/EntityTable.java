@@ -340,6 +340,7 @@ public final class EntityTable
      */
     private EntityTable()
     {
+        super();
     }
 
     /**

@@ -348,6 +348,7 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
+            // not implemented
         }
 
     }
