@@ -12,6 +12,11 @@
             <item name="Nightly builds" href="/nightly" />
             <item name="Getting started" href="/howto.html" />
         </menu>
+
+        <menu name="Subprojects">
+            <item name="JTidyServlet" href="/multiproject/jtidyservlet/index.html" />
+        </menu>
+
         <menu name="Developers">
             <item name="Coding Conventions" href="/coding_conventions.html" />
             <item name="Test cases" href="/testcases.html" />
