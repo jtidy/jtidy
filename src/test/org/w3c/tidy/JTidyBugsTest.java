@@ -1,4 +1,4 @@
-/**
+/*
  *  Java HTML Tidy - JTidy
  *  HTML parser and pretty printer
  *
@@ -197,6 +197,15 @@ public class JTidyBugsTest extends TidyTestCase
     public void test763186() throws Exception
     {
         executeTidyTest("763186.html");
+    }
+
+    /**
+     * test for JTidy [909187]: JTidy should remove 0x0 from stream.
+     * @throws Exception any exception generated during the test
+     */
+    public void test909187() throws Exception
+    {
+        executeTidyTest("909187.html");
     }
 
     /**
