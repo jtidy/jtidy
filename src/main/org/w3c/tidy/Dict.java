@@ -101,7 +101,7 @@ public class Dict
     public static final short VERS_HTML32 = 2;
     public static final short VERS_HTML40_STRICT = 4;
     public static final short VERS_HTML40_LOOSE = 8;
-    public static final short VERS_FRAMES = 16;
+    public static final short VERS_FRAMESET = 16;
     public static final short VERS_XML = 32;
 
     public static final short VERS_NETSCAPE = 64;
@@ -111,10 +111,10 @@ public class Dict
     public static final short VERS_MALFORMED = 512;
 
     public static final short VERS_ALL =
-        (VERS_HTML20 | VERS_HTML32 | VERS_HTML40_STRICT | VERS_HTML40_LOOSE | VERS_FRAMES);
-    public static final short VERS_HTML40 = (VERS_HTML40_STRICT | VERS_HTML40_LOOSE | VERS_FRAMES);
-    public static final short VERS_LOOSE = (VERS_HTML32 | VERS_HTML40_LOOSE | VERS_FRAMES);
-    public static final short VERS_IFRAMES = (VERS_HTML40_LOOSE | VERS_FRAMES);
+        (VERS_HTML20 | VERS_HTML32 | VERS_HTML40_STRICT | VERS_HTML40_LOOSE | VERS_FRAMESET);
+    public static final short VERS_HTML40 = (VERS_HTML40_STRICT | VERS_HTML40_LOOSE | VERS_FRAMESET);
+    public static final short VERS_LOOSE = (VERS_HTML32 | VERS_HTML40_LOOSE | VERS_FRAMESET);
+    public static final short VERS_IFRAME = (VERS_HTML40_LOOSE | VERS_FRAMESET);
     public static final short VERS_FROM32 = (VERS_HTML40_STRICT | VERS_LOOSE);
     public static final short VERS_PROPRIETARY = (VERS_NETSCAPE | VERS_MICROSOFT | VERS_SUN);
 

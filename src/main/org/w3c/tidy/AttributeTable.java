@@ -133,7 +133,7 @@ public class AttributeTable
         // OBJECT
         new Attribute("color", Dict.VERS_LOOSE, null),
         // BASEFONT, FONT
-        new Attribute("cols", Dict.VERS_IFRAMES, null),
+        new Attribute("cols", Dict.VERS_IFRAME, null),
         // TABLE & FRAMESET
         new Attribute("colspan", Dict.VERS_FROM32, null),
         new Attribute("compact", Dict.VERS_ALL, AttrCheckImpl.getCheckBool()),
@@ -170,7 +170,7 @@ public class AttributeTable
         // LABEL
         new Attribute("frame", Dict.VERS_HTML40, null),
         // TABLE
-        new Attribute("frameborder", Dict.VERS_FRAMES, null),
+        new Attribute("frameborder", Dict.VERS_FRAMESET, null),
         // 0 or 1
         new Attribute("framespacing", Dict.VERS_PROPRIETARY, null),
         // pixel value
@@ -210,9 +210,9 @@ public class AttributeTable
         // IMG
         new Attribute("lowsrc", Dict.VERS_PROPRIETARY, AttrCheckImpl.getCheckUrl()),
         // IMG
-        new Attribute("marginheight", Dict.VERS_IFRAMES, null),
+        new Attribute("marginheight", Dict.VERS_IFRAME, null),
         // FRAME, IFRAME, BODY
-        new Attribute("marginwidth", Dict.VERS_IFRAMES, null),
+        new Attribute("marginwidth", Dict.VERS_IFRAME, null),
         // ditto
         new Attribute("maxlength", Dict.VERS_ALL, null),
         // INPUT
@@ -225,7 +225,7 @@ public class AttributeTable
         new Attribute("name", Dict.VERS_ALL, AttrCheckImpl.getCheckName()),
         new Attribute("nohref", Dict.VERS_FROM32, AttrCheckImpl.getCheckBool()),
         // AREA
-        new Attribute("noresize", Dict.VERS_FRAMES, AttrCheckImpl.getCheckBool()),
+        new Attribute("noresize", Dict.VERS_FRAMESET, AttrCheckImpl.getCheckBool()),
         // FRAME
         new Attribute("noshade", Dict.VERS_LOOSE, AttrCheckImpl.getCheckBool()),
         // HR
@@ -309,7 +309,7 @@ public class AttributeTable
         // META
         new Attribute("scope", Dict.VERS_HTML40, null),
         // table cells
-        new Attribute("scrolling", Dict.VERS_IFRAMES, null),
+        new Attribute("scrolling", Dict.VERS_IFRAME, null),
         // yes, no or auto
         new Attribute("selected", Dict.VERS_ALL, AttrCheckImpl.getCheckBool()),
         // OPTION
@@ -325,7 +325,7 @@ public class AttributeTable
         // HR, FONT, BASEFONT, SELECT
         new Attribute("span", Dict.VERS_HTML40, null),
         // COL, COLGROUP
-        new Attribute("src", (short) (Dict.VERS_ALL | Dict.VERS_FRAMES), AttrCheckImpl.getCheckUrl()),
+        new Attribute("src", (short) (Dict.VERS_ALL | Dict.VERS_FRAMESET), AttrCheckImpl.getCheckUrl()),
         // IMG, FRAME, IFRAME
         new Attribute("standby", Dict.VERS_HTML40, null),
         // OBJECT

@@ -91,10 +91,10 @@ public class Lexer
     private static Lexer.W3CVersionInfo[] W3CVersion = {
         new W3CVersionInfo("HTML 4.01", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML40_STRICT),
         new W3CVersionInfo("HTML 4.01 Transitional", "XHTML 1.0 Transitional", voyager_loose, Dict.VERS_HTML40_LOOSE),
-        new W3CVersionInfo("HTML 4.01 Frameset", "XHTML 1.0 Frameset", voyager_frameset, Dict.VERS_FRAMES),
+        new W3CVersionInfo("HTML 4.01 Frameset", "XHTML 1.0 Frameset", voyager_frameset, Dict.VERS_FRAMESET),
         new W3CVersionInfo("HTML 4.0", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML40_STRICT),
         new W3CVersionInfo("HTML 4.0 Transitional", "XHTML 1.0 Transitional", voyager_loose, Dict.VERS_HTML40_LOOSE),
-        new W3CVersionInfo("HTML 4.0 Frameset", "XHTML 1.0 Frameset", voyager_frameset, Dict.VERS_FRAMES),
+        new W3CVersionInfo("HTML 4.0 Frameset", "XHTML 1.0 Frameset", voyager_frameset, Dict.VERS_FRAMESET),
         new W3CVersionInfo("HTML 3.2", "XHTML 1.0 Transitional", voyager_loose, Dict.VERS_HTML32),
         new W3CVersionInfo("HTML 3.2 Final", "XHTML 1.0 Transitional", voyager_loose, Dict.VERS_HTML32),
         new W3CVersionInfo("HTML 2.0", "XHTML 1.0 Strict", voyager_strict, Dict.VERS_HTML20)};
@@ -723,9 +723,9 @@ public class Lexer
             return Dict.VERS_HTML40_LOOSE;
         }
 
-        if ((versions & Dict.VERS_FRAMES) != 0)
+        if ((versions & Dict.VERS_FRAMESET) != 0)
         {
-            return Dict.VERS_FRAMES;
+            return Dict.VERS_FRAMESET;
         }
 
         return Dict.VERS_UNKNOWN;
@@ -998,7 +998,7 @@ public class Lexer
                 fpi = "-//W3C//DTD XHTML 1.0 Transitional//EN";
                 sysid = voyager_loose;
             }
-            else if ((this.versions & Dict.VERS_FRAMES) != 0)
+            else if ((this.versions & Dict.VERS_FRAMESET) != 0)
             {
                 // use XHTML frames
                 fpi = "-//W3C//DTD XHTML 1.0 Frameset//EN";
@@ -1118,10 +1118,10 @@ public class Lexer
 
                 break; // to replace old version by new
 
-            case Dict.VERS_FRAMES :
-                if ((this.versions & Dict.VERS_FRAMES) != 0)
+            case Dict.VERS_FRAMESET :
+                if ((this.versions & Dict.VERS_FRAMESET) != 0)
                 {
-                    return Dict.VERS_FRAMES;
+                    return Dict.VERS_FRAMESET;
                 }
 
                 break;
@@ -1216,8 +1216,8 @@ public class Lexer
 
                         break; // to replace old version by new
 
-                    case Dict.VERS_FRAMES :
-                        if ((this.versions & Dict.VERS_FRAMES) != 0)
+                    case Dict.VERS_FRAMESET :
+                        if ((this.versions & Dict.VERS_FRAMESET) != 0)
                         {
                             return true;
                         }

@@ -212,7 +212,7 @@ public class CheckAttribsImpl
             {
                 if (Lexer.wstrcasecmp(value, "left") == 0 || Lexer.wstrcasecmp(value, "right") == 0)
                 {
-                    lexer.versions &= (short) (Dict.VERS_HTML40_LOOSE | Dict.VERS_FRAMES);
+                    lexer.versions &= (short) (Dict.VERS_HTML40_LOOSE | Dict.VERS_FRAMESET);
                 }
                 else if (Lexer.wstrcasecmp(value, "top") == 0 || Lexer.wstrcasecmp(value, "bottom") == 0)
                 {
