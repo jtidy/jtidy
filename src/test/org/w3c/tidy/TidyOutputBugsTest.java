@@ -191,8 +191,6 @@ public class TidyOutputBugsTest extends TidyTestCase
      */
     public void test427833() throws Exception
     {
-        fail("Test disabled because the invalid tidy output breaks the junit report in Maven");
-
         executeTidyTest("427833.html");
     }
 

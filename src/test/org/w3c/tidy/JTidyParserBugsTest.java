@@ -55,7 +55,6 @@ package org.w3c.tidy;
 
 /**
  * testcase for JTidy resolved bugs (DOM parser).
- * 
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
@@ -64,7 +63,6 @@ public class JTidyParserBugsTest extends TidyTestCase
 
     /**
      * Instantiate a new Test case.
-     * 
      * @param name test name
      */
     public JTidyParserBugsTest(String name)
@@ -74,13 +72,11 @@ public class JTidyParserBugsTest extends TidyTestCase
 
     /**
      * test for JTidy [788651]: DOM parser hangs (page using shift_jis charset).
-     * 
      * @throws Exception any exception generated during the test
      */
     public void test788651() throws Exception
     {
-        parseDomTest("j788651.html");
+        parseDomTest("788651.html");
     }
-
 
 }

@@ -55,7 +55,6 @@ package org.w3c.tidy;
 
 /**
  * testcase for JTidy resolved bugs (Tidy warning and errors).
- * 
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
@@ -64,7 +63,6 @@ public class JTidyWarningBugsTest extends TidyTestCase
 
     /**
      * Instantiate a new Test case.
-     * 
      * @param name test name
      */
     public JTidyWarningBugsTest(String name)
@@ -74,12 +72,11 @@ public class JTidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for JTidy [828316]: FRAMEBORDER attribute of IFRAME gives spurious warning.
-     * 
      * @throws Exception any exception generated during the test
      */
     public void test828316() throws Exception
     {
-        executeTidyTest("j828316.html");
+        executeTidyTest("828316.html");
         assertNoWarnings();
         assertNoErrors();
     }

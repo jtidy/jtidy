@@ -76,7 +76,7 @@ public class JTidyBugsTest extends TidyTestCase
      */
     public void test475643() throws Exception
     {
-        executeTidyTest("j475643.html");
+        executeTidyTest("475643.html");
 
         // no warnings for unknown entities
         assertNoWarnings();
@@ -89,7 +89,7 @@ public class JTidyBugsTest extends TidyTestCase
      */
     public void test508245() throws Exception
     {
-        executeTidyTest("j508245.html");
+        executeTidyTest("508245.html");
         assertNoErrors();
     }
 
@@ -119,7 +119,7 @@ public class JTidyBugsTest extends TidyTestCase
      */
     public void test610244() throws Exception
     {
-        executeTidyTest("j610244.html");
+        executeTidyTest("610244.html");
     }
 
     /**
@@ -128,7 +128,7 @@ public class JTidyBugsTest extends TidyTestCase
      */
     public void test791933() throws Exception
     {
-        executeTidyTest("j791933.html");
+        executeTidyTest("791933.html");
     }
 
     /**
@@ -137,7 +137,7 @@ public class JTidyBugsTest extends TidyTestCase
      */
     public void test663197() throws Exception
     {
-        executeTidyTest("j663197.html");
+        executeTidyTest("663197.html");
     }
 
     /**
@@ -146,7 +146,7 @@ public class JTidyBugsTest extends TidyTestCase
      */
     public void test763191() throws Exception
     {
-        executeTidyTest("j763191.html");
+        executeTidyTest("763191.html");
     }
 
     /**
@@ -155,7 +155,7 @@ public class JTidyBugsTest extends TidyTestCase
      */
     public void test763186() throws Exception
     {
-        executeTidyTest("j763186.html");
+        executeTidyTest("763186.html");
     }
 
     /**
