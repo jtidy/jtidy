@@ -5,24 +5,24 @@ Expiry: Never
 Key: 4ef9fb753cdb84aa9cee31e1e
 Name: Fabrizio Giustina
 Org: JTidy
-Certificate: AAABhW+Ow8B7/zEbxOMqqKwwrdpP+a1COmJGHco7sCNLjHkHnajPF+dQW
-Ct12PMy0uml0s9xuus5wKngJ9OFk5TFeh01dzQF66bhXH1bvegLfvja3Kle6BYtDv4LZgE
+Certificate: AAABom+Ow8B7/zEbxOMqqKwwrdpP+a1COmJGHco7sCNLjHkHnajPF+dQW
+Ct12PMy0uml0s9xuus5wKngJ9OFk5XFeh01dzQF66bhXH1bvegLfvja3Kle6BYtDv4LZgE
 gk3E0aJN4IbgTn+TgUckSevXDR4KzK77NWJfrVzkxV3/JepYER+IwCbX2gEysSyZKJen1e
 /KmvMnPcfTUNYOj6HT1483QqnhPOWFsBfC77ggTTr2uQmWq3MzTQfAKPFy3LHNEKtZUPnG
 Oayn9MYKn6lmaPQ7uwlnLrzG3xhP5oUU1LFdl2T/WJkv0K0aW4dJSu103bnXS7mbk/qDJ3
-m2nrSTGvuM92O7Wz6BkUlp6OBju6ewTAk7T9ltmt9vL1lSVECEPtzRyAnPHUC5463gr9iu
-X5PEC6hs/5tVFy7Y2qNZJ06NXImEZOIMtqycA5SxHlPGOCKpHP0Rj0u8y7OmixYx99ME/0
-aHvIN/gzIauaAAlZmw27rvuBAUF0+Zfef7Hzc5dogw6CaZODE5F/t2FHHy3+y/CgpjG8Mz
-zZmyChvFj0YwHETI5XgkTQYe2/RUWhj7y+arMGQc+MJXxEp9ew/gtLlSYA/w8XSnIATcZ+
-4Lw0c8ETH0E7WSHZ8iQAu2Y6DCr66QswPYLd4iyMStGv2H1I8W6DwhUx+o/zlFIQ0OM7k5
-XYx+RYlQ=
+m2nrSTGvuM92O7Wz6BkUlp6OBju6ewTAk7T9ltmt9vL1lSVECEPtzRyAnPHUC5463ct+zq
+Y9OAR0wQp8sNE1vFv7IwJwP8SZCYaIJRQvz9A8ihKkbm/SqxJIQEly/Rh6PLwyNhg6p1/j
+Lv5I5jsx8i+fw5+cSMYorL3E1dGtvxTKuPB38xD8hk8FawqNgUs3FcvPaJ3K+46hKmPV9M
+ELu/STYf9K6nKWPkOXdc/LqxRRvGF7b4vr4r0GJ2WXQP+6D80kZOo8BBInRNqxQH+amzLe
+/xuEaWHztXp7bzi9vDaoWolbtSNULpuF5zHz17ibXkfjDT52uDNfs9X6kUxODkG88cRjMg
+YzeQIWBWhHIzT8T2rgF8RuVm0nb33i92PYLWPnJxP12Jk/A==
 License Agreement: CLOVER VERSION 1 (ONE) SOFTWARE LICENSE AGREEMENT
 
 1. Licenses and Software
 
 Cortex eBusiness Pty Ltd, an Australian Proprietary Limited Company
 ("CENQUA") hereby grants to the purchaser (the "LICENSEE") a limited,
-revocable, worldwide, non-exclusive, nontransferable,
+revocable, worldwide, non-exclusive, non-transferable,
 non-sublicensable license to use the Clover version 1 (one) software
 (the "Software"), including any minor upgrades thereof during the Term
 (hereinafter defined) up to, but not including the next major version
@@ -38,7 +38,7 @@ a) Server Edition
 
 A Server Edition license entitles the Licensee to execute one instance
 of Clover Server Edition on one (1) machine for the purposes of
-instrumententing source code and generating reports. There are no
+instrumenting source code and generating reports. There are no
 limitations on the use of the instrumented source code or generated
 reports produced by Server Edition.
 
@@ -109,33 +109,56 @@ IF CENQUA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 
 7. Warranties and Representations
 
-Indemnification. The Licensee warrants and represents that the
-Licensee's actions with regard to the Software will be in compliance
-with all applicable laws; and the Licensee will indemnify, defend, and
-hold Cenqua harmless from and against any and all liabilities,
-damages, losses, claims, costs, and expenses (including legal fees)
-arising out of or resulting from the Licensee's failure to observe the
-use restrictions set forth herein.
+Licensee Indemnification. CENQUA agrees to indemnify, defend and hold
+the Licensee harmless from and against any and all liabilities, 
+damages, losses, claims, costs, and expenses (including reasonable 
+legal fees) arising out of or resulting from the Software or the use 
+thereof infringing upon, misappropriating or violating any patents, 
+copyrights, trademarks, or trade secret rights or other proprietary 
+rights of persons, firms or entities who are not parties to this 
+Agreement.
 
-8. Governing Law
+CENQUA Indemnification. The Licensee warrants and represents that the 
+Licensee's actions with regard to the Software will be in compliance 
+with all applicable  laws; and the Licensee agrees to indemnify, 
+defend, and hold CENQUA harmless  from and against any and all 
+liabilities, damages, losses, claims, costs,  and expenses (including 
+reasonable legal fees) arising out of or resulting  from the 
+Licensee's failure to observe the use restrictions set forth herein.
 
-This Agreement shall be governed by the laws of New South Wales,
+8. Publicity
+
+The Licensee grants permission for CENQUA to use Licensee's name 
+solely in customer lists. CENQUA shall not, without prior consent in 
+writing, use the Licensee's name, or that of its affiliates, in any 
+form with the specific  exception of customer lists. CENQUA agrees to 
+remove Licensee's name from  any and all materials within 7 days if 
+notified by the Licensee in writing.
+
+9. Governing Law
+
+This Agreement shall be governed by the laws of New South Wales, 
 Australia.
 
-9.Independent Contractors
+10. Independent Contractors
 
-Assignment: The parties are independent contractors with respect to
-each other, and nothing in this Agreement shall be construed as
-creating an employer-employee relationship, a partnership, agency
-relationship or a joint venture between the parties. This Agreement is
-not assignable or transferable by the Licensee.
+The parties are independent contractors with respect to each  other, 
+and nothing in this Agreement shall be construed as creating an 
+employer-employee  relationship, a partnership, agency relationship or 
+a joint venture between  the parties.
 
-10.Entire Agreement
+11. Assignment
 
-This Agreement constitutes the entire agreement between the parties
-concerning the Licensee's use of the Software. This Agreement
-supersedes any prior verbal understanding between the parties and any
-Licensee purchase order or other ordering document, regardless of
-whether such document is received by Cenqua before or after execution
-of this Agreement. This Agreement may be amended only in writing by
-Cenqua.
+This Agreement is not assignable or transferable by the Licensee. 
+CENQUA  in its sole discretion may transfer a license to a third party 
+at the written  request of the Licensee.
+
+12. Entire Agreement
+
+This Agreement constitutes the entire agreement between the parties 
+concerning  the Licensee's use of the Software. This Agreement 
+supersedes any prior verbal understanding between the parties and any 
+Licensee purchase order or other  ordering document, regardless of 
+whether such document is received by CENQUA  before or after execution 
+of this Agreement. This Agreement may be amended  only in writing by 
+CENQUA.
