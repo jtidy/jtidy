@@ -10,6 +10,7 @@
             <item name="Overview" href="/index.html" />
             <item name="Download" href="/download.html" />
             <item name="Nightly builds" href="/nightly" />
+            <item name="Getting started" href="/howto.html" />
         </menu>
         <menu name="Developers">
             <item name="Coding Conventions" href="/coding_conventions.html" />
@@ -17,6 +18,8 @@
         </menu>
 
         <menu name="" type="footer">
+            <item name="Sourceforge" href="http://sourceforge.net/projects/displaytag"
+                img="http://sourceforge.net/sflogo.php?group_id=13153&amp;type=8" />
             <item name="Code Coverage by Clover" href="http://www.cenqua.com/clover"
                 img="http://www.cenqua.com/clover/images/clovered1.gif" />
         </menu>
