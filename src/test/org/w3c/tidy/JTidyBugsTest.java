@@ -53,6 +53,12 @@
  */
 package org.w3c.tidy;
 
+import java.io.BufferedInputStream;
+import java.net.URL;
+
+import org.w3c.dom.Document;
+
+
 /**
  * testcase for JTidy resolved bugs.
  * @author fgiust
@@ -272,4 +278,14 @@ public class JTidyBugsTest extends TidyTestCase
     {
         executeTidyTest("1039641.html");
     }
+
+    /**
+     * test for JTidy [1058909]: Certain sites causing null pointer Exceptions.
+     * @throws Exception any exception generated during the test
+     */
+    public void test1058909() throws Exception
+    {
+        executeTidyTest("1058909.html");
+    }
+
 }

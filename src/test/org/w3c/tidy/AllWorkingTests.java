@@ -97,6 +97,7 @@ public final class AllWorkingTests
         suite.addTest(new JTidyBugsTest("test909187"));
         suite.addTest(new JTidyBugsTest("test929936"));
         suite.addTest(new JTidyBugsTest("test1024661"));
+        suite.addTest(new JTidyBugsTest("test1058909"));
 
         suite.addTest(new TidyOutputBugsTest("test427812"));
         suite.addTest(new TidyOutputBugsTest("test427662"));

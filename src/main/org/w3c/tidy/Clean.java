@@ -783,12 +783,8 @@ public class Clean
         }
         else if (s2 != null) // copy class names from child
         {
-            av = new AttVal(
-                node.attributes,
-                AttributeTable.getDefaultAttributeTable().findAttribute(av),
-                '"',
-                "class",
-                s2);
+            av = new AttVal(node.attributes, null, '"', "class", s2);
+            av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(av);
             node.attributes = av;
         }
     }
