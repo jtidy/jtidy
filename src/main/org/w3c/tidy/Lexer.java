@@ -1968,9 +1968,9 @@ public class Lexer
                     // first letter of tagname
                     this.txtstart = this.lexsize - 1; // set txtstart to first letter
                     c = parseTagName();
-                    isempty.value = false;
+                    isempty.setValue(false);
                     attributes = null;
-                    this.token = newNode((isempty.value ? Node.StartEndTag : Node.StartTag), this.lexbuf,
+                    this.token = newNode((isempty.getValue() ? Node.StartEndTag : Node.StartTag), this.lexbuf,
                         this.txtstart, this.txtend, getString(this.lexbuf, this.txtstart, this.txtend - this.txtstart));
 
                     // parse attributes, consuming closing ">"
@@ -1984,7 +1984,7 @@ public class Lexer
                         attributes = parseAttrs(isempty);
                     }
 
-                    if (isempty.value)
+                    if (isempty.getValue())
                     {
                         this.token.type = Node.StartEndTag;
                     }
@@ -2523,7 +2523,7 @@ public class Lexer
 
                 if (c == '>')
                 {
-                    isempty.value = true;
+                    isempty.setValue(true);
                     return null;
                 }
 
@@ -2868,7 +2868,7 @@ public class Lexer
 
                     if (c == '>' && !AttributeTable.getDefaultAttributeTable().isUrl(name))
                     {
-                        isempty.value = true;
+                        isempty.setValue(true);
                         this.in.ungetChar(c);
                         break;
                     }
