@@ -398,4 +398,14 @@ public class TidyCrashingBugsTest extends TidyTestCase
         executeTidyTest("991471.xml");
     }
 
+    /**
+     * test for Tidy [1003994] : wrong UNEXPECTED_ENDTAG message.
+     * @throws Exception any exception generated during the test
+     */
+    public void test1003994() throws Exception
+    {
+        executeTidyTest("1003994.xml");
+        assertLogDoesntContains("{");
+    }
+
 }
