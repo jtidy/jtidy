@@ -175,7 +175,7 @@ public final class Report
     }
 
     /**
-     * don't instantiate.
+     * Instantiated only in Tidy() constructor.
      */
     protected Report()
     {
@@ -191,7 +191,7 @@ public final class Report
         p.println(msg);
     }
 
-    public void tidyPrintln(PrintWriter p)
+    private void tidyPrintln(PrintWriter p)
     {
         p.println();
     }
@@ -672,14 +672,6 @@ public final class Report
                 try
                 {
                     tidyPrint(lexer.errout, res.getString("warning"));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
-
-                try
-                {
                     tidyPrint(lexer.errout, getTagName(node)
                         + MessageFormat.format(res.getString("tag_not_allowed_in"), new Object[]{element.element}));
                 }
@@ -774,14 +766,6 @@ public final class Report
                 try
                 {
                     tidyPrint(lexer.errout, res.getString("warning"));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
-
-                try
-                {
                     tidyPrint(lexer.errout, getTagName(node) + res.getString("cant_be_nested"));
                 }
                 catch (MissingResourceException e)
@@ -794,14 +778,6 @@ public final class Report
                 try
                 {
                     tidyPrint(lexer.errout, res.getString("warning"));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
-
-                try
-                {
                     tidyPrint(lexer.errout, getTagName(node) + res.getString("proprietary_element"));
                 }
                 catch (MissingResourceException e)
@@ -878,14 +854,6 @@ public final class Report
                 try
                 {
                     tidyPrint(lexer.errout, res.getString("warning"));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
-
-                try
-                {
                     tidyPrint(lexer.errout, getTagName(element) + res.getString("illegal_nesting"));
                 }
                 catch (MissingResourceException e)
@@ -898,14 +866,6 @@ public final class Report
                 try
                 {
                     tidyPrint(lexer.errout, res.getString("warning"));
-                }
-                catch (MissingResourceException e)
-                {
-                    lexer.errout.println(e.toString());
-                }
-
-                try
-                {
                     tidyPrint(lexer.errout, getTagName(node) + res.getString("noframes_content"));
                 }
                 catch (MissingResourceException e)
@@ -1070,14 +1030,6 @@ public final class Report
             try
             {
                 tidyPrint(lexer.errout, res.getString("error"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
-
-            try
-            {
                 tidyPrint(lexer.errout, getTagName(node) + res.getString("unknown_element"));
             }
             catch (MissingResourceException e)
