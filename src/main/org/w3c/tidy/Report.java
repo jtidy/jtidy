@@ -1,63 +1,64 @@
 /**
-*  Java HTML Tidy - JTidy
-*  HTML parser and pretty printer
-*
-*  Copyright (c) 1998-2000 World Wide Web Consortium (Massachusetts
-*  Institute of Technology, Institut National de Recherche en
-*  Informatique et en Automatique, Keio University). All Rights
-*  Reserved.
-*
-*  Contributing Author(s):
-*
-*     Dave Raggett <dsr@w3.org>
-*     Andy Quick <ac.quick@sympatico.ca> (translation to Java)
-*     Gary L Peskin <garyp@firstech.com> (Java development)
-*     Sami Lempinen <sami@lempinen.net> (release management)
-*     Fabrizio Giustina <fgiust at users.sourceforge.net>
-*
-*  The contributing author(s) would like to thank all those who
-*  helped with testing, bug fixes, and patience.  This wouldn't
-*  have been possible without all of you.
-*
-*  COPYRIGHT NOTICE:
-* 
-*  This software and documentation is provided "as is," and
-*  the copyright holders and contributing author(s) make no
-*  representations or warranties, express or implied, including
-*  but not limited to, warranties of merchantability or fitness
-*  for any particular purpose or that the use of the software or
-*  documentation will not infringe any third party patents,
-*  copyrights, trademarks or other rights. 
-*
-*  The copyright holders and contributing author(s) will not be
-*  liable for any direct, indirect, special or consequential damages
-*  arising out of any use of the software or documentation, even if
-*  advised of the possibility of such damage.
-*
-*  Permission is hereby granted to use, copy, modify, and distribute
-*  this source code, or portions hereof, documentation and executables,
-*  for any purpose, without fee, subject to the following restrictions:
-*
-*  1. The origin of this source code must not be misrepresented.
-*  2. Altered versions must be plainly marked as such and must
-*     not be misrepresented as being the original source.
-*  3. This Copyright notice may not be removed or altered from any
-*     source or altered source distribution.
-* 
-*  The copyright holders and contributing author(s) specifically
-*  permit, without fee, and encourage the use of this source code
-*  as a component for supporting the Hypertext Markup Language in
-*  commercial products. If you use this source code in a product,
-*  acknowledgment is not required but would be appreciated.
-*
-*/
+ *  Java HTML Tidy - JTidy
+ *  HTML parser and pretty printer
+ *
+ *  Copyright (c) 1998-2000 World Wide Web Consortium (Massachusetts
+ *  Institute of Technology, Institut National de Recherche en
+ *  Informatique et en Automatique, Keio University). All Rights
+ *  Reserved.
+ *
+ *  Contributing Author(s):
+ *
+ *     Dave Raggett <dsr@w3.org>
+ *     Andy Quick <ac.quick@sympatico.ca> (translation to Java)
+ *     Gary L Peskin <garyp@firstech.com> (Java development)
+ *     Sami Lempinen <sami@lempinen.net> (release management)
+ *     Fabrizio Giustina <fgiust at users.sourceforge.net>
+ *
+ *  The contributing author(s) would like to thank all those who
+ *  helped with testing, bug fixes, and patience.  This wouldn't
+ *  have been possible without all of you.
+ *
+ *  COPYRIGHT NOTICE:
+ * 
+ *  This software and documentation is provided "as is," and
+ *  the copyright holders and contributing author(s) make no
+ *  representations or warranties, express or implied, including
+ *  but not limited to, warranties of merchantability or fitness
+ *  for any particular purpose or that the use of the software or
+ *  documentation will not infringe any third party patents,
+ *  copyrights, trademarks or other rights. 
+ *
+ *  The copyright holders and contributing author(s) will not be
+ *  liable for any direct, indirect, special or consequential damages
+ *  arising out of any use of the software or documentation, even if
+ *  advised of the possibility of such damage.
+ *
+ *  Permission is hereby granted to use, copy, modify, and distribute
+ *  this source code, or portions hereof, documentation and executables,
+ *  for any purpose, without fee, subject to the following restrictions:
+ *
+ *  1. The origin of this source code must not be misrepresented.
+ *  2. Altered versions must be plainly marked as such and must
+ *     not be misrepresented as being the original source.
+ *  3. This Copyright notice may not be removed or altered from any
+ *     source or altered source distribution.
+ * 
+ *  The copyright holders and contributing author(s) specifically
+ *  permit, without fee, and encourage the use of this source code
+ *  as a component for supporting the Hypertext Markup Language in
+ *  commercial products. If you use this source code in a product,
+ *  acknowledgment is not required but would be appreciated.
+ *
+ */
 package org.w3c.tidy;
 
 /**
- * Error/informational message reporter. You should only need to edit the file TidyMessages.properties to localize HTML
- * tidy.
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
+ * Error/informational message reporter. You should only need to edit the file TidyMessages.properties to localize
+ * HTML tidy.
+ * 
+ * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
+ * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @version $Revision $ ($Author $)
  */
 import java.io.PrintWriter;
@@ -65,10 +66,13 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-public class Report
+
+public final class Report
 {
 
-    /* used to point to Web Accessibility Guidelines */
+    /**
+     * used to point to Web Accessibility Guidelines
+     */
     public static final String ACCESS_URL = "http://www.w3.org/WAI/GL";
 
     public static final String RELEASE_DATE = "4th August 2000";
@@ -155,9 +159,10 @@ public class Report
 
     private static short optionerrors;
 
-    private static ResourceBundle res = null;
+    private static ResourceBundle res;
 
-    static {
+    static
+    {
         try
         {
             res = ResourceBundle.getBundle("org/w3c/tidy/TidyMessages");
@@ -166,6 +171,12 @@ public class Report
         {
             throw new Error(e.toString());
         }
+    }
+
+    /**
+     * don't instantiate.
+     */
+    private Report() {
     }
 
     public static void tidyPrint(PrintWriter p, String msg)
@@ -222,7 +233,7 @@ public class Report
         optionerrors++;
         try
         {
-            System.err.println(MessageFormat.format(res.getString("unknown_option"), new Object[] { option }));
+            System.err.println(MessageFormat.format(res.getString("unknown_option"), new Object[]{option}));
         }
         catch (MissingResourceException e)
         {
@@ -236,7 +247,7 @@ public class Report
         optionerrors++;
         try
         {
-            System.err.println(MessageFormat.format(res.getString("bad_argument"), new Object[] { option }));
+            System.err.println(MessageFormat.format(res.getString("bad_argument"), new Object[]{option}));
         }
         catch (MissingResourceException e)
         {
@@ -251,21 +262,15 @@ public class Report
             /* Change formatting to be parsable by GNU Emacs */
             if (lexer.configuration.emacs)
             {
-                tidyPrint(
-                    lexer.errout,
-                    MessageFormat.format(
-                        res.getString("emacs_format"),
-                        new Object[] { currentFile, new Integer(lexer.lines), new Integer(lexer.columns)}));
+                tidyPrint(lexer.errout, MessageFormat.format(res.getString("emacs_format"), new Object[]{currentFile,
+                    new Integer(lexer.lines), new Integer(lexer.columns)}));
                 tidyPrint(lexer.errout, " ");
             }
             else
             {
                 // traditional format
-                tidyPrint(
-                    lexer.errout,
-                    MessageFormat.format(
-                        res.getString("line_column"),
-                        new Object[] { new Integer(lexer.lines), new Integer(lexer.columns)}));
+                tidyPrint(lexer.errout, MessageFormat.format(res.getString("line_column"), new Object[]{
+                    new Integer(lexer.lines), new Integer(lexer.columns)}));
             }
         }
         catch (MissingResourceException e)
@@ -287,9 +292,8 @@ public class Report
                 lexer.badChars |= WINDOWS_CHARS;
                 try
                 {
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("illegal_char"), new Object[] { new Integer(c)}));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("illegal_char"),
+                        new Object[]{new Integer(c)}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -313,9 +317,8 @@ public class Report
             {
                 try
                 {
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("missing_semicolon"), new Object[] { entity }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("missing_semicolon"),
+                        new Object[]{entity}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -326,9 +329,8 @@ public class Report
             {
                 try
                 {
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("unknown_entity"), new Object[] { entity }));
+                    tidyPrint(lexer.errout, MessageFormat
+                        .format(res.getString("unknown_entity"), new Object[]{entity}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -376,9 +378,8 @@ public class Report
             {
                 try
                 {
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("unknown_attribute"), new Object[] { attr }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("unknown_attribute"),
+                        new Object[]{attr}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -391,9 +392,8 @@ public class Report
                 {
                     tidyPrint(lexer.errout, res.getString("warning"));
                     tag(lexer, node);
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("missing_attribute"), new Object[] { attr }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("missing_attribute"),
+                        new Object[]{attr}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -406,9 +406,8 @@ public class Report
                 {
                     tidyPrint(lexer.errout, res.getString("warning"));
                     tag(lexer, node);
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("missing_attr_value"), new Object[] { attr }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("missing_attr_value"),
+                        new Object[]{attr}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -435,9 +434,8 @@ public class Report
                 {
                     tidyPrint(lexer.errout, res.getString("warning"));
                     tag(lexer, node);
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("bad_attribute_value"), new Object[] { attr }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("bad_attribute_value"),
+                        new Object[]{attr}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -450,9 +448,8 @@ public class Report
                 {
                     tidyPrint(lexer.errout, res.getString("warning"));
                     tag(lexer, node);
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("xml_attribute_value"), new Object[] { attr }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("xml_attribute_value"),
+                        new Object[]{attr}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -506,9 +503,8 @@ public class Report
                 {
                     tidyPrint(lexer.errout, res.getString("warning"));
                     tag(lexer, node);
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("proprietary_attr_value"), new Object[] { attr }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("proprietary_attr_value"),
+                        new Object[]{attr}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -589,9 +585,8 @@ public class Report
             {
                 try
                 {
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("missing_endtag_for"), new Object[] { element.element }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("missing_endtag_for"),
+                        new Object[]{element.element}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -602,9 +597,8 @@ public class Report
             {
                 try
                 {
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("missing_endtag_before"), new Object[] { element.element }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("missing_endtag_before"),
+                        new Object[]{element.element}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -640,9 +634,8 @@ public class Report
             {
                 try
                 {
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("coerce_to_endtag"), new Object[] { element.element }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("coerce_to_endtag"),
+                        new Object[]{element.element}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -662,9 +655,8 @@ public class Report
                 tag(lexer, node);
                 try
                 {
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("non_matching_endtag_2"), new Object[] { element.element }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("non_matching_endtag_2"),
+                        new Object[]{element.element}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -684,9 +676,8 @@ public class Report
                 tag(lexer, node);
                 try
                 {
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("tag_not_allowed_in"), new Object[] { element.element }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("tag_not_allowed_in"),
+                        new Object[]{element.element}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -708,9 +699,8 @@ public class Report
             {
                 try
                 {
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("missing_starttag"), new Object[] { node.element }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("missing_starttag"),
+                        new Object[]{node.element}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -721,17 +711,13 @@ public class Report
             {
                 try
                 {
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("unexpected_endtag"), new Object[] { node.element }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("unexpected_endtag"),
+                        new Object[]{node.element}));
                     if (element != null)
                     {
 
-                        tidyPrint(
-                            lexer.errout,
-                            MessageFormat.format(
-                                res.getString("unexpected_endtag_suffix"),
-                                new Object[] { element.element }));
+                        tidyPrint(lexer.errout, MessageFormat.format(res.getString("unexpected_endtag_suffix"),
+                            new Object[]{element.element}));
                     }
                 }
                 catch (MissingResourceException e)
@@ -743,16 +729,12 @@ public class Report
             {
                 try
                 {
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("too_many_elements"), new Object[] { node.element }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("too_many_elements"),
+                        new Object[]{node.element}));
                     if (element != null)
                     {
-                        tidyPrint(
-                            lexer.errout,
-                            MessageFormat.format(
-                                res.getString("too_many_elements_suffix"),
-                                new Object[] { element.element }));
+                        tidyPrint(lexer.errout, MessageFormat.format(res.getString("too_many_elements_suffix"),
+                            new Object[]{element.element}));
                     }
                 }
                 catch (MissingResourceException e)
@@ -776,9 +758,8 @@ public class Report
             {
                 try
                 {
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(res.getString("inserting_tag"), new Object[] { node.element }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("inserting_tag"),
+                        new Object[]{node.element}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -1106,16 +1087,12 @@ public class Report
         {
             try
             {
-                tidyPrint(
-                    lexer.errout,
-                    MessageFormat.format(res.getString("unexpected_endtag"), new Object[] { node.element }));
+                tidyPrint(lexer.errout, MessageFormat.format(res.getString("unexpected_endtag"),
+                    new Object[]{node.element}));
                 if (element != null)
                 {
-                    tidyPrint(
-                        lexer.errout,
-                        MessageFormat.format(
-                            res.getString("unexpected_endtag_suffix"),
-                            new Object[] { element.element }));
+                    tidyPrint(lexer.errout, MessageFormat.format(res.getString("unexpected_endtag_suffix"),
+                        new Object[]{element.element}));
                 }
             }
             catch (MissingResourceException e)
@@ -1229,9 +1206,8 @@ public class Report
 
             try
             {
-                tidyPrint(
-                    lexer.errout,
-                    MessageFormat.format(res.getString("badaccess_summary"), new Object[] { ACCESS_URL }));
+                tidyPrint(lexer.errout, MessageFormat.format(res.getString("badaccess_summary"),
+                    new Object[]{ACCESS_URL}));
             }
             catch (MissingResourceException e)
             {
@@ -1307,12 +1283,8 @@ public class Report
     {
         try
         {
-            tidyPrintln(
-                errout,
-                MessageFormat.format(
-                    res.getString("unrecognized_option"),
-                    new Object[] { new String(new char[] { c })
-            }));
+            tidyPrintln(errout, MessageFormat.format(res.getString("unrecognized_option"), new Object[]{new String(
+                new char[]{c})}));
         }
         catch (MissingResourceException e)
         {
@@ -1324,7 +1296,7 @@ public class Report
     {
         try
         {
-            tidyPrintln(errout, MessageFormat.format(res.getString("unknown_file"), new Object[] { program, file }));
+            tidyPrintln(errout, MessageFormat.format(res.getString("unknown_file"), new Object[]{program, file}));
         }
         catch (MissingResourceException e)
         {
@@ -1360,9 +1332,7 @@ public class Report
     {
         try
         {
-            tidyPrintln(
-                errout,
-                MessageFormat.format(res.getString("slides_found"), new Object[] { new Integer(count)}));
+            tidyPrintln(errout, MessageFormat.format(res.getString("slides_found"), new Object[]{new Integer(count)}));
         }
         catch (MissingResourceException e)
         {
@@ -1388,7 +1358,7 @@ public class Report
 
         try
         {
-            tidyPrintln(errout, MessageFormat.format(res.getString("hello_message"), new Object[] { date, filename }));
+            tidyPrintln(errout, MessageFormat.format(res.getString("hello_message"), new Object[]{date, filename}));
         }
         catch (MissingResourceException e)
         {
@@ -1407,7 +1377,7 @@ public class Report
         {
             if (doctype != null)
             {
-                tidyPrint(errout, MessageFormat.format(res.getString("doctype_given"), new Object[] { filename }));
+                tidyPrint(errout, MessageFormat.format(res.getString("doctype_given"), new Object[]{filename}));
 
                 for (i = doctype.start; i < doctype.end; ++i)
                 {
@@ -1433,11 +1403,8 @@ public class Report
                 errout.print('"');
             }
 
-            tidyPrintln(
-                errout,
-                MessageFormat.format(
-                    res.getString("report_version"),
-                    new Object[] { filename, (vers != null ? vers : "HTML proprietary")}));
+            tidyPrintln(errout, MessageFormat.format(res.getString("report_version"), new Object[]{filename,
+                (vers != null ? vers : "HTML proprietary")}));
         }
         catch (MissingResourceException e)
         {
@@ -1451,9 +1418,8 @@ public class Report
         {
             try
             {
-                tidyPrintln(
-                    errout,
-                    MessageFormat.format(res.getString("num_warnings"), new Object[] { new Integer(lexer.warnings)}));
+                tidyPrintln(errout, MessageFormat.format(res.getString("num_warnings"), new Object[]{new Integer(
+                    lexer.warnings)}));
             }
             catch (MissingResourceException e)
             {
@@ -1477,7 +1443,7 @@ public class Report
     {
         try
         {
-            tidyPrintln(out, MessageFormat.format(res.getString("help_text"), new Object[] { prog, RELEASE_DATE }));
+            tidyPrintln(out, MessageFormat.format(res.getString("help_text"), new Object[]{prog, RELEASE_DATE}));
         }
         catch (MissingResourceException e)
         {
