@@ -54,6 +54,7 @@
 package org.w3c.tidy;
 
 import org.w3c.dom.DOMException;
+import org.w3c.dom.Text;
 
 
 /**
@@ -101,4 +102,24 @@ public class DOMTextImpl extends DOMCharacterDataImpl implements org.w3c.dom.Tex
         throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
     }
 
+    public String getWholeText()
+    {
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+
+    }
+
+    public boolean isElementContentWhitespace()
+    {
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+
+    }
+
+    public Text replaceWholeText(String content) throws DOMException
+    {
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+
+    }
 }

@@ -54,6 +54,7 @@
 package org.w3c.tidy;
 
 import org.w3c.dom.DOMException;
+import org.w3c.dom.TypeInfo;
 
 
 /**
@@ -294,4 +295,15 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
+    public TypeInfo getSchemaTypeInfo()
+    {
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public boolean isId()
+    {
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
 }

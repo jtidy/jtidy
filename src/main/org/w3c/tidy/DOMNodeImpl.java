@@ -55,6 +55,7 @@
 package org.w3c.tidy;
 
 import org.w3c.dom.DOMException;
+import org.w3c.dom.UserDataHandler;
 
 
 /**
@@ -583,5 +584,86 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     {
         // contributed by dlp@users.sourceforge.net
         return this.adaptee.attributes != null;
+    }
+
+    public short compareDocumentPosition(org.w3c.dom.Node other) throws DOMException
+    {
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public String getBaseURI()
+    {
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public Object getFeature(String feature, String version)
+    {
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public String getTextContent() throws DOMException
+    {
+
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public Object getUserData(String key)
+    {
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public boolean isDefaultNamespace(String namespaceURI)
+    {
+
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public boolean isEqualNode(org.w3c.dom.Node arg)
+    {
+
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public boolean isSameNode(org.w3c.dom.Node other)
+    {
+
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public String lookupNamespaceURI(String prefix)
+    {
+
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public String lookupPrefix(String namespaceURI)
+    {
+
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public void setTextContent(String textContent) throws DOMException
+    {
+
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+
+    }
+
+    public Object setUserData(String key, Object data, UserDataHandler handler)
+    {
+
+        //@todo DOM java 1.5
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 }

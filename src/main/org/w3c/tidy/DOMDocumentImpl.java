@@ -53,6 +53,7 @@
  */
 package org.w3c.tidy;
 
+import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMException;
 
 
@@ -309,4 +310,87 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
+    public org.w3c.dom.Node adoptNode(org.w3c.dom.Node source) throws DOMException
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public String getDocumentURI()
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public DOMConfiguration getDomConfig()
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public String getInputEncoding()
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public boolean getStrictErrorChecking()
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public String getXmlEncoding()
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public boolean getXmlStandalone()
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public String getXmlVersion()
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public void normalizeDocument()
+    {
+        //@todo DOM2
+    }
+
+    public org.w3c.dom.Node renameNode(org.w3c.dom.Node n, String namespaceURI, String qualifiedName)
+        throws DOMException
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public void setDocumentURI(String documentURI)
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public void setStrictErrorChecking(boolean strictErrorChecking)
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public void setXmlStandalone(boolean xmlStandalone) throws DOMException
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public void setXmlVersion(String xmlVersion) throws DOMException
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
 }

@@ -53,7 +53,9 @@
  */
 package org.w3c.tidy;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.TypeInfo;
 
 
 /**
@@ -403,4 +405,27 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
+    public TypeInfo getSchemaTypeInfo()
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public void setIdAttribute(String name, boolean isId) throws DOMException
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
+
+    public void setIdAttributeNS(String namespaceURI, String localName, boolean isId) throws DOMException
+    {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+    }
 }
