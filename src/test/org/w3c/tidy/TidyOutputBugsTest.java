@@ -723,7 +723,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     public void test502348() throws Exception
     {
         executeTidyTest("502348.html");
-        assertWarnings(1);
+        assertWarnings(2);
     }
 
     /**
