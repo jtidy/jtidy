@@ -178,26 +178,27 @@
                 reports actual values.
             </action>
 
-            <action dev="fgiust" type="fix" issue="473490">Document Type Declaration for proprietary documents</action>
-            <action dev="fgiust" type="fix" issue="475643">Hex character references not handled</action>
-            <action dev="fgiust" type="fix" issue="427819">OPTION w/illegal FONT eats whitespace</action>
-            <action dev="fgiust" type="fix" issue="431731">Inline emphasis inconsistent propagation</action>
-            <action dev="fgiust" type="fix" issue="431965">XHTML Strict seen as Transitional w/div</action>
-            <action dev="fgiust" type="fix" issue="433672">Anchor enclosing Header tags is omitted</action>
-            <action dev="fgiust" type="fix" issue="435919">Nested &lt;q&gt;&lt;/q&gt;'s not handled correctly</action>
-            <action dev="fgiust" type="fix" issue="441568">Font tags handling different</action>
-            <action dev="fgiust" type="fix" issue="441740">XHTML 1.1 Support</action>
-            <action dev="fgiust" type="fix" issue="443381">end tags for empty elements in XHTML</action>
-            <action dev="fgiust" type="fix" issue="487283">&lt;/select&gt; does not terminate &lt;option&gt;</action>
-            <action dev="fgiust" type="fix" issue="434100">Error actually reported as a warning</action>
-            <action dev="fgiust" type="fix" issue="438956">Bad head-endtag reported incorrectly</action>
-            <action dev="fgiust" type="fix" issue="538536">Extra endtags not detected</action>
+            <action dev="fgiust" type="fix" issue="473490">Document Type Declaration for proprietary documents.</action>
+            <action dev="fgiust" type="fix" issue="475643">Hex character references not handled.</action>
+            <action dev="fgiust" type="fix" issue="427819">OPTION w/illegal FONT eats whitespace.</action>
+            <action dev="fgiust" type="fix" issue="431731">Inline emphasis inconsistent propagation.</action>
+            <action dev="fgiust" type="fix" issue="431965">XHTML Strict seen as Transitional w/div.</action>
+            <action dev="fgiust" type="fix" issue="433672">Anchor enclosing Header tags is omitted.</action>
+            <action dev="fgiust" type="fix" issue="435919">Nested &lt;q&gt;&lt;/q&gt;'s not handled correctly.</action>
+            <action dev="fgiust" type="fix" issue="441568">Font tags handling different.</action>
+            <action dev="fgiust" type="fix" issue="441740">XHTML 1.1 Support.</action>
+            <action dev="fgiust" type="fix" issue="443381">end tags for empty elements in XHTML.</action>
+            <action dev="fgiust" type="fix" issue="487283">&lt;/select&gt; does not terminate &lt;option&gt;.</action>
+            <action dev="fgiust" type="fix" issue="434100">Error actually reported as a warning.</action>
+            <action dev="fgiust" type="fix" issue="438956">Bad head-endtag reported incorrectly.</action>
+            <action dev="fgiust" type="fix" issue="538536">Extra endtags not detected.</action>
             <action dev="fgiust" type="fix" issue="648768" due-to="Liam Quinn">
-                Fix for character references &gt;= 32768
+                Fix for character references &gt;= 32768.
             </action>
-            <action dev="fgiust" type="fix" issue="547976">Case of attribute values</action>
-            <action dev="fgiust" type="fix" issue="500236">Microsoft Access exported HTML files</action>
-            <action dev="fgiust" type="fix" issue="517550">Parser misinterprets ?xml-stylesheet PI</action>
+            <action dev="fgiust" type="fix" issue="547976">Case of attribute values.</action>
+            <action dev="fgiust" type="fix" issue="500236">Microsoft Access exported HTML files.</action>
+            <action dev="fgiust" type="fix" issue="517550">Parser misinterprets ?xml-stylesheet PI.</action>
+            <action dev="fgiust" type="fix" issue="427821">XHTML TRANSITIONAL doctype set wrongly.</action>
         </release>
         <release version="04aug2000r7" date="August 1, 2001" description="">
             <action dev="" type="fix">

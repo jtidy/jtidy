@@ -1277,16 +1277,16 @@ public class Lexer
                 fpi = "-//W3C//DTD XHTML 1.0 Strict//EN";
                 sysid = VOYAGER_STRICT;
             }
-            else if (TidyUtils.toBoolean(this.versions & Dict.VERS_LOOSE))
-            {
-                fpi = "-//W3C//DTD XHTML 1.0 Transitional//EN";
-                sysid = VOYAGER_LOOSE;
-            }
             else if (TidyUtils.toBoolean(this.versions & Dict.VERS_FRAMESET))
             {
                 // use XHTML frames
                 fpi = "-//W3C//DTD XHTML 1.0 Frameset//EN";
                 sysid = VOYAGER_FRAMESET;
+            }
+            else if (TidyUtils.toBoolean(this.versions & Dict.VERS_LOOSE))
+            {
+                fpi = "-//W3C//DTD XHTML 1.0 Transitional//EN";
+                sysid = VOYAGER_LOOSE;
             }
             else if (TidyUtils.toBoolean(this.versions & Dict.VERS_XHTML11))
             {
