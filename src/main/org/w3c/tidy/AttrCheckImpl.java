@@ -109,6 +109,21 @@ public final class AttrCheckImpl
     private static AttrCheck checkTarget = new CheckTarget();
 
     /**
+     * checker for "submit" attribute.
+     */
+    private static AttrCheck checkFsubmit = new CheckFsubmit();
+
+    /**
+     * checker for "clear" attribute.
+     */
+    private static AttrCheck checkClear = new CheckClear();
+
+    /**
+     * checker for "shape" attribute.
+     */
+    private static AttrCheck checkShape = new CheckShape();
+
+    /**
      * utility class, don't instantiate.
      */
     private AttrCheckImpl()
@@ -408,6 +423,89 @@ public final class AttrCheckImpl
     }
 
     /**
+     * AttrCheck implementation for checking the "submit" attribute.
+     */
+    public static class CheckFsubmit implements AttrCheck
+    {
+
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
+        public void check(Lexer lexer, Node node, AttVal attval)
+        {
+            if (attval == null || attval.value == null || attval.value.length() == 0)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
+            }
+
+            String value = attval.value;
+
+            if (!("get".equalsIgnoreCase(value) || "post".equalsIgnoreCase(value)))
+            {
+                lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+            }
+        }
+    }
+
+    /**
+     * AttrCheck implementation for checking the "clear" attribute.
+     */
+    public static class CheckClear implements AttrCheck
+    {
+
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
+        public void check(Lexer lexer, Node node, AttVal attval)
+        {
+            if (attval == null || attval.value == null || attval.value.length() == 0)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
+            }
+
+            String value = attval.value;
+
+            if (!("none".equalsIgnoreCase(value) || "left".equalsIgnoreCase(value) || "right".equalsIgnoreCase(value) || "all"
+                .equalsIgnoreCase(value)))
+            {
+                lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+            }
+
+        }
+    }
+
+    /**
+     * AttrCheck implementation for checking the "shape" attribute.
+     */
+    public static class CheckShape implements AttrCheck
+    {
+
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
+        public void check(Lexer lexer, Node node, AttVal attval)
+        {
+            if (attval == null || attval.value == null || attval.value.length() == 0)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
+            }
+
+            String value = attval.value;
+
+            if (!("rect".equalsIgnoreCase(value)
+                || "default".equalsIgnoreCase(value)
+                || "circle".equalsIgnoreCase(value) || "poly".equalsIgnoreCase(value)))
+            {
+                lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+            }
+
+        }
+    }
+
+    /**
      * AttrCheck implementation for checking ids.
      */
     public static class CheckId implements AttrCheck
@@ -541,6 +639,33 @@ public final class AttrCheckImpl
     public static AttrCheck getCheckTarget()
     {
         return checkTarget;
+    }
+
+    /**
+     * Getter for the CheckFsubmit instance.
+     * @return checker for "submit" attribute
+     */
+    public static AttrCheck getCheckFsubmit()
+    {
+        return checkFsubmit;
+    }
+
+    /**
+     * Getter for the CheckClear instance.
+     * @return checker for "clear" attribute
+     */
+    public static AttrCheck getCheckClear()
+    {
+        return checkClear;
+    }
+
+    /**
+     * Getter for the CheckShape instance.
+     * @return checker for "shape" attribute
+     */
+    public static AttrCheck getCheckShape()
+    {
+        return checkShape;
     }
 
 }
