@@ -1,5 +1,0 @@
-Main-Class: org.w3c.tidy.Tidy
-
-Name: org/w3c/tidy/Tidy.class
-Java-Bean: True
-
