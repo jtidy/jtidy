@@ -3044,7 +3044,7 @@ public class Lexer
 
         list = null;
 
-        for (; !endOfInput();)
+        while (!endOfInput())
         {
             attribute = parseAttribute(isempty, asp, php);
 
