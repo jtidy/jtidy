@@ -119,19 +119,99 @@ public final class AttrCheckImpl
 
         /**
          * @see AttrCheck#check(Lexer, Node, AttVal)
+         * @todo add error messages
+         * @todo add configuration option?
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            if (attval.value == null)
+            /*
+             * if (attval.value == null) { lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE); }
+             * else if (lexer.configuration.fixBackslash) { attval.value = attval.value.replace('\\', '/'); }
+             */
+
+            char c;
+            StringBuffer dest;
+            String p = attval.value;
+            boolean escapeFound = false;
+            boolean backslashFound = false;
+            int i = 0;
+
+            if (p == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
             }
-            else if (lexer.configuration.fixBackslash)
+
+            for (i = 0; i < p.length(); ++i)
+            {
+                c = p.charAt(i);
+                // find \
+                if (c == '\\')
+                {
+                    backslashFound = true;
+                }
+                // find non-ascii chars
+                else if ((c > 0x7e) || (c <= 0x20) || (c == '<') || (c == '>'))
+                {
+                    escapeFound = true;
+                }
+            }
+
+            // backslashes found, fix them
+            if (lexer.configuration.fixBackslash && backslashFound)
             {
                 attval.value = attval.value.replace('\\', '/');
+                p = attval.value;
             }
-        }
 
+            // non-ascii chars found, fix them
+            if (lexer.configuration.fixUri && escapeFound)
+            {
+                dest = new StringBuffer();
+
+                for (i = 0; i < p.length(); ++i)
+                {
+                    c = p.charAt(i);
+                    if ((c > 0x7e) || (c <= 0x20) || (c == '<') || (c == '>'))
+                    {
+                        dest.append('%');
+                        dest.append(Integer.toHexString(c).toUpperCase());
+                    }
+                    else
+                    {
+                        dest.append(c);
+                    }
+                }
+
+                attval.value = dest.toString();
+            }
+            if (backslashFound)
+            {
+                if (lexer.configuration.fixBackslash)
+                {
+                    lexer.report.attrError(lexer, node, attval, Report.FIXED_BACKSLASH);
+                }
+                else
+                {
+                    lexer.report.attrError(lexer, node, attval, Report.BACKSLASH_IN_URI);
+                }
+            }
+            if (escapeFound)
+            {
+                if (lexer.configuration.fixUri)
+                {
+                    lexer.report.attrError(lexer, node, attval, Report.ESCAPED_ILLEGAL_URI);
+                }
+                else
+                {
+                    lexer.report.attrError(lexer, node, attval, Report.ILLEGAL_URI_REFERENCE);
+                }
+
+                lexer.badChars |= Report.INVALID_URI;
+            }
+
+
+        }
     }
 
     /**

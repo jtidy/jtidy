@@ -170,6 +170,16 @@ public final class Report
     public static final short INVALID_XML_ID = 74;
     public static final short UNEXPECTED_END_OF_FILE_ATTR = 75;
 
+    /* character encoding errors */
+
+    public static final short VENDOR_SPECIFIC_CHARS = 76;
+    public static final short INVALID_SGML_CHARS = 77;
+    public static final short INVALID_UTF8 = 78;
+    public static final short INVALID_UTF16 = 79;
+    public static final short ENCODING_MISMATCH = 80;
+    public static final short INVALID_URI = 81;
+    public static final short INVALID_NCR = 82;
+
     /* accessibility flaws */
 
     public static final short MISSING_IMAGE_ALT = 1;

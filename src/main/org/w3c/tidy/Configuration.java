@@ -334,6 +334,11 @@ public class Configuration implements java.io.Serializable
      * fix URLs by replacing \ with /.
      */
     protected boolean fixBackslash = true;
+    
+    /**
+     * properly escape URLs.
+     */
+    protected boolean fixUri = true;
 
     /**
      * newline+indent before each attribute.
