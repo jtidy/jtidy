@@ -204,7 +204,7 @@ In addition, JTidy provides a DOM interface to the document that is being proces
     <dependency>
         <groupId>maven-plugins</groupId>
         <artifactId>maven-findbugs-plugin</artifactId>
-        <version>0.7.2</version>
+        <version>0.8.2</version>
         <type>plugin</type>
         <properties>
             <comment>maven plugin for the findbug report</comment>
