@@ -698,7 +698,7 @@ public class Tidy implements Serializable
         // read command line
         Properties properties = new Properties();
 
-        while (argCount > 1)
+        while (argCount > 0)
         {
             if (argv[argIndex].startsWith("-"))
             {
@@ -855,7 +855,7 @@ public class Tidy implements Serializable
                 }
             }
 
-            if (argCount > 1)
+            if (argCount > 0)
             {
                 file = argv[argIndex];
             }
@@ -880,7 +880,7 @@ public class Tidy implements Serializable
             --argCount;
             ++argIndex;
 
-            if (argCount <= 1)
+            if (argCount <= 0)
             {
                 break;
             }

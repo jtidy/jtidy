@@ -55,6 +55,8 @@ package org.w3c.tidy;
 
 import java.io.PrintWriter;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -78,9 +80,14 @@ public final class Report
     public static final String ACCESS_URL = "http://www.w3.org/WAI/GL";
 
     /**
+     * Release date.
+     */
+    public static final Date RELEASE_DATE = new Date(1096227718000L);
+
+    /**
      * Release date String.
      */
-    public static final String RELEASE_DATE = "4th August 2004";
+    public static final String RELEASE_DATE_STRING = new SimpleDateFormat("dd MMM yyyy").format(RELEASE_DATE);
 
     /**
      * invalid entity: missing semicolon.
