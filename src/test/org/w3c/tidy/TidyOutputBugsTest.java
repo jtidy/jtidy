@@ -949,16 +949,6 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [649812] : Does TidyLib correctly handle Mac files?.
-     * @throws Exception any exception generated during the test @todo complete test
-     */
-    public void test649812() throws Exception
-    {
-        throw new Error("Test not yet implemented");
-        //executeTidyTest("649812.html");
-    }
-
-    /**
      * test for Tidy [655338] : Tidy leaves XML decl in wrong place.
      * @throws Exception any exception generated during the test
      */

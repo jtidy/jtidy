@@ -74,6 +74,16 @@ public class TidyEncodingBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [649812] : Does TidyLib correctly handle Mac files?. (test is UTF16)
+     * @throws Exception any exception generated during the test
+     */
+    public void test649812() throws Exception
+    {
+        // doesn't work for missing encoding support in test case!
+        executeTidyTest("649812.html");
+    }
+
+    /**
      * test for Tidy [658230] : Big5.
      * @throws Exception any exception generated during the test
      */
