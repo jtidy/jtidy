@@ -54,9 +54,6 @@
 
 package org.w3c.tidy;
 
-import org.w3c.dom.DOMException;
-
-
 /**
  * DOMDocumentTypeImpl.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
@@ -110,7 +107,7 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
     }
 
     /**
-     * NOT SUPPORTED.
+     * @todo DOM level 2 getEntities() Not implemented. Returns null.
      * @see org.w3c.dom.DocumentType#getEntities()
      */
     public org.w3c.dom.NamedNodeMap getEntities()
@@ -119,43 +116,39 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
     }
 
     /**
-     * NOT SUPPORTED.
+     * @todo DOM level 2 getNotations() Not implemented. Returns null.
      * @see org.w3c.dom.DocumentType#getNotations()
      */
     public org.w3c.dom.NamedNodeMap getNotations()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 getPublicId() Not implemented. Returns null.
      * @see org.w3c.dom.DocumentType#getPublicId()
      */
     public String getPublicId()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 getSystemId() Not implemented. Returns null.
      * @see org.w3c.dom.DocumentType#getSystemId()
      */
     public String getSystemId()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 getInternalSubset() Not implemented. Returns null.
      * @see org.w3c.dom.DocumentType#getInternalSubset()
      */
     public String getInternalSubset()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
 }

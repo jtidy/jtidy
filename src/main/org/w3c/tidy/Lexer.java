@@ -626,7 +626,7 @@ public class Lexer
 
         for (i = 0; i < count[0]; i++)
         {
-            addByte(buf[i]); //uint
+            addByte(buf[i]); // uint
         }
 
     }
@@ -732,14 +732,14 @@ public class Lexer
         ch = EntityTable.getDefaultEntityTable().entityCode(str);
 
         // drops invalid numeric entities from XML mode. Fix by Pablo Mayrgundter 17-08-2004
-        //        if ((this.configuration.xmlOut || this.configuration.xHTML) // only for xml output
-        //            && !((ch >= 0x20 && ch <= 0xD7FF) // Check the common-case first.
-        //                || ch == 0x9 || ch == 0xA || ch == 0xD // Then white-space.
-        //            || (ch >= 0xE000 && ch <= 0xFFFD)))
-        //        {
-        //            this.lexsize = start;
-        //            return;
-        //        }
+        // if ((this.configuration.xmlOut || this.configuration.xHTML) // only for xml output
+        // && !((ch >= 0x20 && ch <= 0xD7FF) // Check the common-case first.
+        // || ch == 0x9 || ch == 0xA || ch == 0xD // Then white-space.
+        // || (ch >= 0xE000 && ch <= 0xFFFD)))
+        // {
+        // this.lexsize = start;
+        // return;
+        // }
 
         // deal with unrecognized or invalid entities
         // #433012 - fix by Randy Waki 17 Feb 01
@@ -1590,15 +1590,15 @@ public class Lexer
             // Namespace is the same for all XHTML variants
             // Also, don't return yet. Still need to add DOCTYPE declaration.
             //
-            //          for (i = 0; i < W3CVersion.length; ++i)
-            //            {
-            //                if (guessed == W3CVersion[i].code)
-            //                {
-            //                    fixHTMLNameSpace(root, W3CVersion[i].profile);
-            //                    break;
-            //                }
-            //            }
-            //            return true;
+            // for (i = 0; i < W3CVersion.length; ++i)
+            // {
+            // if (guessed == W3CVersion[i].code)
+            // {
+            // fixHTMLNameSpace(root, W3CVersion[i].profile);
+            // break;
+            // }
+            // }
+            // return true;
         }
 
         if (doctype == null)
@@ -2060,7 +2060,7 @@ public class Lexer
                             this.state = LEX_ENDTAG;
                             this.lexbuf[this.lexsize] = (byte) '\0'; // debug
 
-                            // @todo check: changed from
+                            // changed from
                             // this.in.curcol -= 2;
                             this.columns -= 2;
 
@@ -2302,7 +2302,7 @@ public class Lexer
                     // </letter
                     this.txtstart = this.lexsize - 1;
 
-                    // @todo check: changed from
+                    // changed from
                     // this.in.curcol -= 2;
                     this.columns -= 2;
 
@@ -3078,7 +3078,7 @@ public class Lexer
                 c = TidyUtils.toLower((char) c);
             }
 
-            //  ++len; #427672 - handle attribute names with multibyte chars - fix by Randy Waki - 10 Aug 00
+            // ++len; #427672 - handle attribute names with multibyte chars - fix by Randy Waki - 10 Aug 00
             addCharToLexer(c);
 
             lastc = c;

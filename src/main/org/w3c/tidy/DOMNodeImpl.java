@@ -87,7 +87,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
      */
     public String getNodeValue()
     {
-        String value = ""; //BAK 10/10/2000 replaced null
+        String value = ""; // BAK 10/10/2000 replaced null
         if (adaptee.type == Node.TEXT_NODE
             || adaptee.type == Node.CDATA_TAG
             || adaptee.type == Node.COMMENT_TAG
@@ -166,6 +166,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
      */
     public org.w3c.dom.Node getParentNode()
     {
+        // Attributes are not children in the DOM, and do not have parents
         if (adaptee.parent != null)
         {
             return adaptee.parent.getAdapter();
@@ -509,13 +510,12 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     }
 
     /**
-     * DOM2 - not implemented.
+     * Do nothing: text nodes in html documents are important and jtidy already removes useless text during parsing.
      * @see org.w3c.dom.Node#normalize()
      */
     public void normalize()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // do nothing
     }
 
     /**
@@ -528,53 +528,45 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     }
 
     /**
-     * DOM2 - not implemented.
      * @see org.w3c.dom.Node#getNamespaceURI()
      */
     public String getNamespaceURI()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
     /**
-     * DOM2 - not implemented.
      * @see org.w3c.dom.Node#getPrefix()
      */
     public String getPrefix()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
     /**
-     * DOM2 - not implemented.
      * @see org.w3c.dom.Node#setPrefix(java.lang.String)
      */
     public void setPrefix(String prefix) throws DOMException
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // The namespace prefix of this node, or null if it is unspecified. When it is defined to be null, setting it
+        // has no effect, including if the node is read-only.
+        // do nothing
     }
 
     /**
-     * DOM2 - not implemented.
      * @see org.w3c.dom.Node#getLocalName()
      */
     public String getLocalName()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return getNodeName();
     }
 
     /**
-     * DOM2 - not implemented.
      * @see org.w3c.dom.Node#isSupported(java.lang.String, java.lang.String)
      */
     public boolean isSupported(String feature, String version)
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return false;
     }
 
     /**
@@ -586,84 +578,108 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         return this.adaptee.attributes != null;
     }
 
+    /**
+     * @todo DOM level 3 compareDocumentPosition() Not implemented.
+     * @see org.w3c.dom.Node#compareDocumentPosition(org.w3c.dom.Node)
+     */
     public short compareDocumentPosition(org.w3c.dom.Node other) throws DOMException
     {
-        //@todo DOM java 1.5
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
+    /**
+     * @todo DOM level 3 getBaseURI() Not implemented. Returns null.
+     * @see org.w3c.dom.Node#getBaseURI()
+     */
     public String getBaseURI()
     {
-        //@todo DOM java 1.5
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
+    /**
+     * @todo DOM level 3 getFeature() Not implemented. Returns null.
+     * @see org.w3c.dom.Node#getFeature(java.lang.String, java.lang.String)
+     */
     public Object getFeature(String feature, String version)
     {
-        //@todo DOM java 1.5
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
+    /**
+     * @todo DOM level 3 getTextContent() Not implemented. Returns null.
+     * @see org.w3c.dom.Node#getTextContent()
+     */
     public String getTextContent() throws DOMException
     {
-
-        //@todo DOM java 1.5
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
+    /**
+     * @todo DOM level 3 getUserData() Not implemented. Returns null.
+     * @see org.w3c.dom.Node#getUserData(java.lang.String)
+     */
     public Object getUserData(String key)
     {
-        //@todo DOM java 1.5
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
+    /**
+     * @see org.w3c.dom.Node#isDefaultNamespace(java.lang.String)
+     */
     public boolean isDefaultNamespace(String namespaceURI)
     {
-
-        //@todo DOM java 1.5
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return false;
     }
 
+    /**
+     * @todo DOM level 3 isEqualNode() Not implemented. Returns false.
+     * @see org.w3c.dom.Node#isEqualNode(org.w3c.dom.Node)
+     */
     public boolean isEqualNode(org.w3c.dom.Node arg)
     {
-
-        //@todo DOM java 1.5
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return false;
     }
 
+    /**
+     * @todo DOM level 3 isSameNode() Not implemented. Returns false.
+     * @see org.w3c.dom.Node#isSameNode(org.w3c.dom.Node)
+     */
     public boolean isSameNode(org.w3c.dom.Node other)
     {
-
-        //@todo DOM java 1.5
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return false;
     }
 
+    /**
+     * @see org.w3c.dom.Node#lookupNamespaceURI(java.lang.String)
+     */
     public String lookupNamespaceURI(String prefix)
     {
-
-        //@todo DOM java 1.5
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
+    /**
+     * @see org.w3c.dom.Node#lookupPrefix(java.lang.String)
+     */
     public String lookupPrefix(String namespaceURI)
     {
-
-        //@todo DOM java 1.5
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
+    /**
+     * @todo DOM level 3 setTextContent() Not implemented. Throws NO_MODIFICATION_ALLOWED_ERR
+     * @see org.w3c.dom.Node#setTextContent(java.lang.String)
+     */
     public void setTextContent(String textContent) throws DOMException
     {
-
-        //@todo DOM java 1.5
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
-
+        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Node is read only");
     }
 
+    /**
+     * @todo DOM level 3 setUserData() Not implemented. Returns null.
+     * @see org.w3c.dom.Node#setUserData(java.lang.String, java.lang.Object, org.w3c.dom.UserDataHandler)
+     */
     public Object setUserData(String key, Object data, UserDataHandler handler)
     {
-
-        //@todo DOM java 1.5
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 }

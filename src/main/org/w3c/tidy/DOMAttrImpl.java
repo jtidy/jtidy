@@ -64,7 +64,7 @@ import org.w3c.dom.TypeInfo;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr
+public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Cloneable
 {
 
     /**
@@ -127,11 +127,10 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr
      */
     public boolean getSpecified()
     {
-        return true;
+        return avAdaptee.value != null;
     }
 
     /**
-     * Returns value of this attribute. If this attribute has a null value, then the attribute name is returned instead.
      * @see org.w3c.dom.Attr#getValue
      */
     public String getValue()
@@ -149,84 +148,77 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr
     }
 
     /**
-     * Not supported.
      * @see org.w3c.dom.Node#getParentNode()
      */
     public org.w3c.dom.Node getParentNode()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // Attr.getParentNode() should always return null
+        // http://www.w3.org/TR/DOM-Level-2-Core/core.html#ID-637646024
+        return null;
     }
 
     /**
-     * Not supported.
+     * @todo DOM level 2 getChildNodes() Not implemented. Returns an empty NodeList.
      * @see org.w3c.dom.Node#getChildNodes()
      */
     public org.w3c.dom.NodeList getChildNodes()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // Calling getChildNodes on a DOM Attr node does return the children of the Attr, which are the text and
+        // EntityReference nodes that make up the Attr's content.
+        return new DOMNodeListImpl(null);
     }
 
     /**
-     * Not supported.
+     * @todo DOM level 2 getFirstChild() Not implemented. Returns null.
      * @see org.w3c.dom.Node#getFirstChild()
      */
     public org.w3c.dom.Node getFirstChild()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
     /**
-     * Not supported.
+     * @todo DOM level 2 getLastChild() Not implemented. Returns null.
      * @see org.w3c.dom.Node#getLastChild()
      */
     public org.w3c.dom.Node getLastChild()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
     /**
-     * Not supported.
      * @see org.w3c.dom.Node#getPreviousSibling()
      */
     public org.w3c.dom.Node getPreviousSibling()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
-
+        // Attr.getPreviousSibling() should always return null
+        return null;
     }
 
     /**
-     * Not supported.
      * @see org.w3c.dom.Node#getNextSibling()
      */
     public org.w3c.dom.Node getNextSibling()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // Attr.getNextSibling() should always return null
+        return null;
     }
 
     /**
-     * Not supported.
      * @see org.w3c.dom.Node#getAttributes()
      */
     public org.w3c.dom.NamedNodeMap getAttributes()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
     /**
-     * Not supported.
+     * @todo DOM level 2 getOwnerDocument() Not implemented. Returns null.
      * @see org.w3c.dom.Node#getOwnerDocument()
      */
     public org.w3c.dom.Document getOwnerDocument()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
     /**
@@ -266,44 +258,66 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr
     }
 
     /**
-     * Not supported.
      * @see org.w3c.dom.Node#hasChildNodes()
      */
     public boolean hasChildNodes()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return false;
     }
 
     /**
-     * Not supported.
      * @see org.w3c.dom.Node#cloneNode(boolean)
      */
     public org.w3c.dom.Node cloneNode(boolean deep)
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // http://java.sun.com/j2se/1.5.0/docs/api/index.html?org/w3c/dom/Attr.html
+        // Cloning an Attr always clones its children, since they represent its value, no matter whether this is a deep
+        // clone or not.
+        return (org.w3c.dom.Node) clone();
     }
 
     /**
-     * Not implemented.
+     * @todo DOM level 2 getOwnerElement() Not implemented. Returns null.
      * @see org.w3c.dom.Attr#getOwnerElement()
      */
     public org.w3c.dom.Element getOwnerElement()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
+    /**
+     * @todo DOM level 3 getSchemaTypeInfo() Not implemented. Returns null.
+     * @see org.w3c.dom.Attr#getSchemaTypeInfo()
+     */
     public TypeInfo getSchemaTypeInfo()
     {
-        //@todo DOM java 1.5
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
+    /**
+     * @see org.w3c.dom.Attr#isId()
+     */
     public boolean isId()
     {
-        //@todo DOM java 1.5
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return "id".equals(this.avAdaptee.getAttribute());
+    }
+
+    /**
+     * @see java.lang.Object#clone()
+     */
+    protected Object clone()
+    {
+        DOMAttrImpl clone;
+        try
+        {
+            clone = (DOMAttrImpl) super.clone();
+        }
+        catch (CloneNotSupportedException e)
+        {
+            // should never happen
+            throw new RuntimeException("Clone not supported");
+        }
+        clone.avAdaptee = (AttVal) this.avAdaptee.clone();
+        return clone;
     }
 }

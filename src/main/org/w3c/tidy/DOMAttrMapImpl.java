@@ -142,52 +142,79 @@ public class DOMAttrMapImpl implements org.w3c.dom.NamedNodeMap
     }
 
     /**
-     * Not supported.
+     * @todo DOM level 2 setNamedItem() Not implemented. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.NamedNodeMap#setNamedItem
      */
     public org.w3c.dom.Node setNamedItem(org.w3c.dom.Node arg) throws DOMException
     {
-        //@todo DOM2
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
-     * Not supported.
      * @see org.w3c.dom.NamedNodeMap#removeNamedItem
      */
     public org.w3c.dom.Node removeNamedItem(String name) throws DOMException
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        AttVal att = this.first;
+        AttVal previous = null;
+
+        while (att != null)
+        {
+            if (att.attribute.equals(name))
+            {
+                if (previous == null)
+                {
+                    this.first = att.getNext();
+                }
+                else
+                {
+                    previous.setNext(att.getNext());
+                }
+
+                break;
+            }
+            previous = att;
+            att = att.next;
+        }
+
+        if (att != null)
+        {
+            return att.getAdapter();
+        }
+
+        throw new DOMException(DOMException.NOT_FOUND_ERR, "Named item " + name + "Not found");
     }
 
     /**
-     * Not supported.
+     * Not supported, returns <code>DOMException.NOT_SUPPORTED_ERR</code>.
      * @see org.w3c.dom.NamedNodeMap#getNamedItemNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.Node getNamedItemNS(String namespaceURI, String localName)
     {
-        //@todo DOM2
+        // NOT_SUPPORTED_ERR: May be raised if the implementation does not support the feature "XML" and the language
+        // exposed through the Document does not support XML Namespaces (such as HTML 4.01).
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
-     * Not supported.
+     * Not supported, returns <code>DOMException.NOT_SUPPORTED_ERR</code>.
      * @see org.w3c.dom.NamedNodeMap#setNamedItemNS(org.w3c.dom.Node)
      */
     public org.w3c.dom.Node setNamedItemNS(org.w3c.dom.Node arg) throws org.w3c.dom.DOMException
     {
-        //@todo DOM2
+        // NOT_SUPPORTED_ERR: May be raised if the implementation does not support the feature "XML" and the language
+        // exposed through the Document does not support XML Namespaces (such as HTML 4.01).
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
-     * Not supported.
+     * Not supported, returns <code>DOMException.NOT_SUPPORTED_ERR</code>.
      * @see org.w3c.dom.NamedNodeMap#removeNamedItemNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.Node removeNamedItemNS(String namespaceURI, String localName) throws org.w3c.dom.DOMException
     {
-        //@todo DOM2
+        // NOT_SUPPORTED_ERR: May be raised if the implementation does not support the feature "XML" and the language
+        // exposed through the Document does not support XML Namespaces (such as HTML 4.01).
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 

@@ -82,6 +82,11 @@ public class DOMNodeListImpl implements org.w3c.dom.NodeList
      */
     public org.w3c.dom.Node item(int index)
     {
+        if (parent == null)
+        {
+            return null;
+        }
+
         int i = 0;
         Node node = this.parent.content;
         while (node != null)
@@ -106,6 +111,11 @@ public class DOMNodeListImpl implements org.w3c.dom.NodeList
      */
     public int getLength()
     {
+        if (parent == null)
+        {
+            return 0;
+        }
+
         int len = 0;
         Node node = this.parent.content;
         while (node != null)

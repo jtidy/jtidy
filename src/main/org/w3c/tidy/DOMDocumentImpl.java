@@ -121,11 +121,11 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
+     * @todo DOM level 2 getImplementation() Not implemented. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#getImplementation
      */
     public org.w3c.dom.DOMImplementation getImplementation()
     {
-        //@todo DOM2
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
@@ -170,11 +170,11 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
+     * @todo DOM level 2 createDocumentFragment() Not implemented. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#createDocumentFragment
      */
     public org.w3c.dom.DocumentFragment createDocumentFragment()
     {
-        //@todo DOM2
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
@@ -209,20 +209,23 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
+     * @todo DOM level 2 createCDATASection() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#createCDATASection
      */
     public org.w3c.dom.CDATASection createCDATASection(String data) throws DOMException
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // NOT_SUPPORTED_ERR: Raised if this document is an HTML document.
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "HTML document");
     }
 
     /**
+     * @todo DOM level 2 createProcessingInstruction() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#createProcessingInstruction
      */
     public org.w3c.dom.ProcessingInstruction createProcessingInstruction(String target, String data)
         throws DOMException
     {
+        // NOT_SUPPORTED_ERR: Raised if this document is an HTML document.
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "HTML document");
     }
 
@@ -242,12 +245,13 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
+     * @todo DOM level 2 createEntityReference() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#createEntityReference
      */
     public org.w3c.dom.EntityReference createEntityReference(String name) throws DOMException
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // NOT_SUPPORTED_ERR: Raised if this document is an HTML document
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "createEntityReference not supported");
     }
 
     /**
@@ -259,138 +263,178 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 importNode() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#importNode(org.w3c.dom.Node, boolean)
      */
     public org.w3c.dom.Node importNode(org.w3c.dom.Node importedNode, boolean deep) throws org.w3c.dom.DOMException
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "importNode not supported");
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 createAttributeNS() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#createAttributeNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.Attr createAttributeNS(String namespaceURI, String qualifiedName)
         throws org.w3c.dom.DOMException
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "createAttributeNS not supported");
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 createElementNS() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#createElementNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.Element createElementNS(String namespaceURI, String qualifiedName)
         throws org.w3c.dom.DOMException
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "createElementNS not supported");
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 getElementsByTagNameNS() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#getElementsByTagNameNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.NodeList getElementsByTagNameNS(String namespaceURI, String localName)
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "getElementsByTagNameNS not supported");
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 getElementById() Not implemented. Returns null.
      * @see org.w3c.dom.Document#getElementById(java.lang.String)
      */
     public org.w3c.dom.Element getElementById(String elementId)
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
+    /**
+     * @todo DOM level 3 adoptNode() Not implemented.
+     * @see org.w3c.dom.Document#adoptNode(org.w3c.dom.Node)
+     */
     public org.w3c.dom.Node adoptNode(org.w3c.dom.Node source) throws DOMException
     {
-        //@todo DOM2
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
+    /**
+     * @todo DOM level 3 getDocumentURI() Not implemented. Returns null.
+     * @see org.w3c.dom.Document#getDocumentURI()
+     */
     public String getDocumentURI()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
+    /**
+     * @todo DOM level 3 getDomConfig() Not implemented. Returns null.
+     * @see org.w3c.dom.Document#getDomConfig()
+     */
     public DOMConfiguration getDomConfig()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
+    /**
+     * @todo DOM level 3 getInputEncoding() Not implemented. Returns null.
+     * @see org.w3c.dom.Document#getInputEncoding()
+     */
     public String getInputEncoding()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
+    /**
+     * @todo DOM level 3 getStrictErrorChecking() Not implemented. Returns true.
+     * @see org.w3c.dom.Document#getStrictErrorChecking()
+     */
     public boolean getStrictErrorChecking()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return true;
     }
 
+    /**
+     * @todo DOM level 3 getXmlEncoding() Not implemented. Returns null.
+     * @see org.w3c.dom.Document#getXmlEncoding()
+     */
     public String getXmlEncoding()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
+    /**
+     * @todo DOM level 3 getXmlStandalone() Not implemented. Returns false.
+     * @see org.w3c.dom.Document#getXmlStandalone()
+     */
     public boolean getXmlStandalone()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return false;
     }
 
+    /**
+     * @todo DOM level 3 getXmlVersion() Not implemented. Always returns "1.0".
+     * @see org.w3c.dom.Document#getXmlVersion()
+     */
     public String getXmlVersion()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // An attribute specifying, as part of the XML declaration, the version number of this document. If there is no
+        // declaration and if this document supports the "XML" feature, the value is "1.0"
+        return "1.0";
     }
 
+    /**
+     * @todo DOM level 3 normalizeDocument() Not implemented. Do nothing.
+     * @see org.w3c.dom.Document#normalizeDocument()
+     */
     public void normalizeDocument()
     {
-        //@todo DOM2
+        // do nothing
     }
 
+    /**
+     * @todo DOM level 3 renameNode() Not implemented. Throws NOT_SUPPORTED_ERR.
+     * @see org.w3c.dom.Document#renameNode(org.w3c.dom.Node, java.lang.String, java.lang.String)
+     */
     public org.w3c.dom.Node renameNode(org.w3c.dom.Node n, String namespaceURI, String qualifiedName)
         throws DOMException
     {
-        //@todo DOM2
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
+    /**
+     * @todo DOM level 3 setDocumentURI() Not implemented. Do nothing.
+     * @see org.w3c.dom.Document#setDocumentURI(java.lang.String)
+     */
     public void setDocumentURI(String documentURI)
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // do nothing
     }
 
+    /**
+     * @todo DOM level 3 setStrictErrorChecking() Not implemented. Do nothing.
+     * @see org.w3c.dom.Document#setStrictErrorChecking(boolean)
+     */
     public void setStrictErrorChecking(boolean strictErrorChecking)
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // do nothing
     }
 
+    /**
+     * @todo DOM level 3 setXmlStandalone() Not implemented. Do nothing.
+     * @see org.w3c.dom.Document#setXmlStandalone(boolean)
+     */
     public void setXmlStandalone(boolean xmlStandalone) throws DOMException
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // do nothing
     }
 
+    /**
+     * @todo DOM level 3 setXmlVersion() Not implemented. Do nothing.
+     * @see org.w3c.dom.Document#setXmlVersion(java.lang.String)
+     */
     public void setXmlVersion(String xmlVersion) throws DOMException
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // do nothing
     }
 }

@@ -317,115 +317,121 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
     }
 
     /**
+     * @todo DOM level 2 getOwnerDocument() Not supported. Do nothing.
      * @see org.w3c.dom.Element#normalize
      */
     public void normalize()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // do nothing
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 getAttributeNS() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Element#getAttributeNS(java.lang.String, java.lang.String)
      */
     public String getAttributeNS(String namespaceURI, String localName)
     {
-        //@todo DOM2
+        // DOMException - NOT_SUPPORTED_ERR: May be raised if the implementation does not support the feature "XML" and
+        // the language exposed through the Document does not support XML Namespaces (such as HTML 4.01).
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 setAttributeNS() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Element#setAttributeNS(java.lang.String, java.lang.String, java.lang.String)
      */
     public void setAttributeNS(String namespaceURI, String qualifiedName, String value) throws org.w3c.dom.DOMException
     {
-        //@todo DOM2
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 removeAttributeNS() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Element#removeAttributeNS(java.lang.String, java.lang.String)
      */
     public void removeAttributeNS(String namespaceURI, String localName) throws org.w3c.dom.DOMException
     {
-        //@todo DOM2
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 getAttributeNodeNS() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Element#getAttributeNodeNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.Attr getAttributeNodeNS(String namespaceURI, String localName)
     {
-        //@todo DOM2
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 setAttributeNodeNS() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Element#setAttributeNodeNS(org.w3c.dom.Attr)
      */
     public org.w3c.dom.Attr setAttributeNodeNS(org.w3c.dom.Attr newAttr) throws org.w3c.dom.DOMException
     {
-        //@todo DOM2
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 getElementsByTagNameNS() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Element#getElementsByTagNameNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.NodeList getElementsByTagNameNS(String namespaceURI, String localName)
     {
-        //@todo DOM2
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 hasAttribute() Not supported. Returns false.
      * @see org.w3c.dom.Element#hasAttribute(java.lang.String)
      */
     public boolean hasAttribute(String name)
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return false;
     }
 
     /**
-     * DOM2 - not implemented.
+     * @todo DOM level 2 hasAttribute() Not supported. Returns false.
      * @see org.w3c.dom.Element#hasAttributeNS(java.lang.String, java.lang.String)
      */
     public boolean hasAttributeNS(String namespaceURI, String localName)
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return false;
     }
 
+    /**
+     * @todo DOM level 3 getSchemaTypeInfo() Not supported. Returns null.
+     * @see org.w3c.dom.Element#getSchemaTypeInfo()
+     */
     public TypeInfo getSchemaTypeInfo()
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        return null;
     }
 
+    /**
+     * @todo DOM level 3 setIdAttribute() Not supported. Throws NOT_SUPPORTED_ERR.
+     * @see org.w3c.dom.Element#setIdAttribute(java.lang.String, boolean)
+     */
     public void setIdAttribute(String name, boolean isId) throws DOMException
     {
-        //@todo DOM2
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
+    /**
+     * @todo DOM level 3 setIdAttributeNode() Not supported. Throws NOT_SUPPORTED_ERR.
+     * @see org.w3c.dom.Element#setIdAttributeNode(org.w3c.dom.Attr, boolean)
+     */
     public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException
     {
-        //@todo DOM2
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
+    /**
+     * @todo DOM level 3 setIdAttributeNS() Not supported. Throws NOT_SUPPORTED_ERR.
+     * @see org.w3c.dom.Element#setIdAttributeNS(java.lang.String, java.lang.String, boolean)
+     */
     public void setIdAttributeNS(String namespaceURI, String localName, boolean isId) throws DOMException
     {
-        //@todo DOM2
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 }
