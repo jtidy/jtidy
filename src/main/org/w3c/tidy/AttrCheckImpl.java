@@ -496,6 +496,13 @@ public final class AttrCheckImpl
                 return;
             }
 
+            // don't check for <col width=...> and <colgroup width=...>
+            if ("width".equalsIgnoreCase(attval.attribute)
+                && (node.tag == lexer.configuration.tt.tagCol || node.tag == lexer.configuration.tt.tagColgroup))
+            {
+                return;
+            }
+
             String p = attval.value;
 
             if (p.length() == 0 || (!Character.isDigit(p.charAt(0)) && !('%' == p.charAt(0))))
@@ -706,6 +713,13 @@ public final class AttrCheckImpl
             if (attval == null || attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
+            }
+
+            // don't check <frameset cols=... rows=...>
+            if (("cols".equalsIgnoreCase(attval.attribute) || "rows".equalsIgnoreCase(attval.attribute))
+                && node.tag == lexer.configuration.tt.tagFrameset)
+            {
                 return;
             }
 

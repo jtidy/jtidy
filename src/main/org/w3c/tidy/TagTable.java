@@ -450,6 +450,11 @@ public class TagTable
     protected Dict tagCol;
 
     /**
+     * colgroup tag.
+     */
+    protected Dict tagColgroup;
+
+    /**
      * br tag.
      */
     protected Dict tagBr;
@@ -677,6 +682,7 @@ public class TagTable
         tagTh = lookup("th");
         tagTr = lookup("tr");
         tagCol = lookup("col");
+        tagCol = lookup("colgroup");
         tagBr = lookup("br");
         tagA = lookup("a");
         tagLink = lookup("link");
