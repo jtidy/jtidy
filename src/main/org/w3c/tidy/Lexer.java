@@ -54,6 +54,7 @@
 package org.w3c.tidy;
 
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -76,19 +77,39 @@ import java.util.Vector;
 public class Lexer
 {
 
+    /**
+     * state: ignore whitespace.
+     */
     public static final short IGNORE_WHITESPACE = 0;
 
+    /**
+     * state: mixed content.
+     */
     public static final short MIXED_CONTENT = 1;
 
+    /**
+     * state: preformatted.
+     */
     public static final short PREFORMATTED = 2;
 
+    /**
+     * state: ignore markup.
+     */
     public static final short IGNORE_MARKUP = 3;
 
-    // the 3 URIs for the XHTML 1.0 DTDs
+    /**
+     * URI for XHTML 1.0 transitional DTD.
+     */
     private static final String VOYAGER_LOOSE = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd";
 
+    /**
+     * URI for XHTML 1.0 strict DTD.
+     */
     private static final String VOYAGER_STRICT = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd";
 
+    /**
+     * URI for XHTML 1.0 frameset DTD.
+     */
     private static final String VOYAGER_FRAMESET = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd";
 
     /**
@@ -101,6 +122,9 @@ public class Lexer
      */
     private static final String VOYAGER_BASIC = "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd";
 
+    /**
+     * xhtml namespace.
+     */
     private static final String XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 
     private static Lexer.W3CVersionInfo[] W3CVersion = {
@@ -166,162 +190,183 @@ public class Lexer
     /**
      * file stream.
      */
-    public StreamIn in;
+    protected StreamIn in;
 
     /**
      * error output stream.
      */
-    public PrintWriter errout;
+    protected PrintWriter errout;
 
     /**
      * for accessibility errors.
      */
-    public short badAccess;
+    protected short badAccess;
 
     /**
      * for bad style errors.
      */
-    public short badLayout;
+    protected short badLayout;
 
     /**
      * for bad char encodings.
      */
-    public short badChars;
+    protected short badChars;
 
     /**
      * for mismatched/mispositioned form tags.
      */
-    public short badForm;
+    protected short badForm;
 
     /**
      * count of warnings in this document.
      */
-    public short warnings;
+    protected short warnings;
 
     /**
      * count of errors.
      */
-    public short errors;
+    protected short errors;
 
     /**
      * lines seen.
      */
-    public int lines;
+    protected int lines;
 
     /**
      * at start of current token.
      */
-    public int columns;
+    protected int columns;
 
     /**
      * used to collapse contiguous white space.
      */
-    public boolean waswhite;
+    protected boolean waswhite;
 
     /**
      * true after token has been pushed back.
      */
-    public boolean pushed;
+    protected boolean pushed;
 
     /**
      * when space is moved after end tag.
      */
-    public boolean insertspace;
+    protected boolean insertspace;
 
     /**
      * Netscape compatibility.
      */
-    public boolean excludeBlocks;
+    protected boolean excludeBlocks;
 
     /**
      * true if moved out of table.
      */
-    public boolean exiled;
+    protected boolean exiled;
 
     /**
      * true if xmlns attribute on html element.
      */
-    public boolean isvoyager;
+    protected boolean isvoyager;
 
     /**
      * bit vector of HTML versions.
      */
-    public short versions;
+    protected short versions;
 
     /**
      * version as given by doctype (if any).
      */
-    public int doctype;
+    protected int doctype;
 
     /**
      * set if html or PUBLIC is missing.
      */
-    public boolean badDoctype;
+    protected boolean badDoctype;
 
     /**
      * start of current node.
      */
-    public int txtstart;
+    protected int txtstart;
 
     /**
      * end of current node.
      */
-    public int txtend;
+    protected int txtend;
 
     /**
      * state of lexer's finite state machine.
      */
-    public short state;
+    protected short state;
 
-    public Node token;
+    /**
+     * current node.
+     */
+    protected Node token;
 
     /**
      * Lexer character buffer parse tree nodes span onto this buffer which contains the concatenated text contents of
      * all of the elements. Lexsize must be reset for each file. Byte buffer of UTF-8 chars.
      */
-    public byte[] lexbuf;
+    protected byte[] lexbuf;
 
     /**
      * allocated.
      */
-    public int lexlength;
+    protected int lexlength;
 
     /**
      * used.
      */
-    public int lexsize;
+    protected int lexsize;
 
     /**
      * Inline stack for compatibility with Mosaic. For deferring text node.
      */
-    public Node inode;
+    protected Node inode;
 
     /**
      * for inferring inline tags.
      */
-    public int insert;
+    protected int insert;
 
-    public Stack istack;
+    /**
+     * stack.
+     */
+    protected Stack istack;
 
     /**
      * start of frame.
      */
-    public int istackbase;
+    protected int istackbase;
 
     /**
      * used for cleaning up presentation markup.
      */
-    public Style styles;
+    protected Style styles;
 
-    public Configuration configuration;
+    /**
+     * configuration.
+     */
+    protected Configuration configuration;
 
-    protected boolean seenEndBody; // used by parser
+    /**
+     * already seen end body tag?
+     */
+    protected boolean seenEndBody;
 
+    /**
+     * already seen end html tag?
+     */
     protected boolean seenEndHtml;
 
+    /**
+     * report.
+     */
     protected Report report;
 
-    private Vector nodeList;
+    /**
+     * node list.
+     */
+    private List nodeList;
 
     public Lexer(StreamIn in, Configuration configuration, Report report)
     {
@@ -341,37 +386,37 @@ public class Lexer
     public Node newNode()
     {
         Node node = new Node();
-        this.nodeList.addElement(node);
+        this.nodeList.add(node);
         return node;
     }
 
     public Node newNode(short type, byte[] textarray, int start, int end)
     {
         Node node = new Node(type, textarray, start, end);
-        this.nodeList.addElement(node);
+        this.nodeList.add(node);
         return node;
     }
 
     public Node newNode(short type, byte[] textarray, int start, int end, String element)
     {
         Node node = new Node(type, textarray, start, end, element, this.configuration.tt);
-        this.nodeList.addElement(node);
+        this.nodeList.add(node);
         return node;
     }
 
     public Node cloneNode(Node node)
     {
         Node cnode = (Node) node.clone();
-        this.nodeList.addElement(cnode);
+        this.nodeList.add(cnode);
         for (AttVal att = cnode.attributes; att != null; att = att.next)
         {
             if (att.asp != null)
             {
-                this.nodeList.addElement(att.asp);
+                this.nodeList.add(att.asp);
             }
             if (att.php != null)
             {
-                this.nodeList.addElement(att.php);
+                this.nodeList.add(att.php);
             }
         }
         return cnode;
@@ -384,11 +429,11 @@ public class Lexer
         {
             if (att.asp != null)
             {
-                this.nodeList.addElement(att.asp);
+                this.nodeList.add(att.asp);
             }
             if (att.php != null)
             {
-                this.nodeList.addElement(att.php);
+                this.nodeList.add(att.php);
             }
         }
         return cattrs;
@@ -399,7 +444,7 @@ public class Lexer
         Node node;
         for (int i = 0; i < this.nodeList.size(); i++)
         {
-            node = (Node) (this.nodeList.elementAt(i));
+            node = (Node) (this.nodeList.get(i));
             if (node.textarray == oldtextarray)
             {
                 node.textarray = newtextarray;
@@ -903,6 +948,7 @@ public class Lexer
                     // compute length of identifier e.g. "HTML 4.0 Transitional"
                     for (j = i + 13; j < doctype.end && this.lexbuf[j] != (byte) '/'; ++j)
                     {
+                        //
                     }
                     len = j - i - 13;
                     p = getString(this.lexbuf, i + 13, len);
@@ -923,6 +969,7 @@ public class Lexer
                     // compute length of identifier e.g. "HTML 2.0"
                     for (j = i + 14; j < doctype.end && this.lexbuf[j] != (byte) '/'; ++j)
                     {
+                        //
                     }
                     len = j - i - 14;
 
@@ -949,6 +996,7 @@ public class Lexer
 
         for (node = root.content; node != null && node.tag != this.configuration.tt.tagHtml; node = node.next)
         {
+            //
         }
 
         if (node != null)
@@ -1574,7 +1622,8 @@ public class Lexer
     }
 
     /**
-     * modes for GetToken():
+     * Gets a token.
+     * @param mode one of the following:
      * <ul>
      * <li><code>MixedContent</code>-- for elements which don't accept PCDATA</li>
      * <li><code>Preformatted</code>-- white spacepreserved as is</li>
@@ -2080,8 +2129,8 @@ public class Lexer
                         if ((this.token.tag.versions & Dict.VERS_PROPRIETARY) != 0)
                         {
                             // #427810 - fix by Gary Deschaines 24 May 00
-                            if (this.configuration.makeClean
-                                && (this.token.tag != this.configuration.tt.tagNobr && this.token.tag != this.configuration.tt.tagWbr))
+                            if (this.configuration.makeClean && (this.token.tag != this.configuration.tt.tagNobr && //
+                                this.token.tag != this.configuration.tt.tagWbr))
                             {
                                 report.warning(this, null, this.token, Report.PROPRIETARY_ELEMENT);
                             }
@@ -2864,7 +2913,7 @@ public class Lexer
     {
         int len = 0;
         int start;
-        boolean seen_gt = false;
+        boolean seenGt = false;
         boolean munge = true;
         int c = 0;
         int lastc, delim, quotewarning;
@@ -3035,7 +3084,7 @@ public class Lexer
 
                 if (c == '>')
                 {
-                    seen_gt = true;
+                    seenGt = true;
                 }
             }
 
@@ -3102,7 +3151,7 @@ public class Lexer
             addCharToLexer(c);
         }
 
-        if (quotewarning > 10 && seen_gt && munge)
+        if (quotewarning > 10 && seenGt && munge)
         {
             // there is almost certainly a missing trailing quote mark as we have see too many newlines, < or >
             // characters. an exception is made for Javascript attributes and the javascript URL scheme which may
@@ -3603,7 +3652,7 @@ public class Lexer
         mapStr("ABCDEFGHIJKLMNOPQRSTUVWXYZ", (short) (UPPERCASE | LETTER | NAMECHAR));
     }
 
-    private static short MAP(char c)
+    private static short map(char c)
     {
         return (c < 128 ? lexmap[c] : 0);
     }
@@ -3623,7 +3672,7 @@ public class Lexer
      */
     private static boolean isWhite(char c)
     {
-        short m = MAP(c);
+        short m = map(c);
 
         return (m & WHITE) != 0;
     }
@@ -3632,7 +3681,7 @@ public class Lexer
     {
         short m;
 
-        m = MAP(c);
+        m = map(c);
 
         return (m & DIGIT) != 0;
     }
@@ -3641,14 +3690,14 @@ public class Lexer
     {
         short m;
 
-        m = MAP(c);
+        m = map(c);
 
         return (m & LETTER) != 0;
     }
 
     protected static boolean isNamechar(char c)
     {
-        short map = MAP(c);
+        short map = map(c);
 
         return (map & NAMECHAR) != 0;
     }
@@ -3660,7 +3709,7 @@ public class Lexer
      */
     private static boolean isLower(char c)
     {
-        short map = MAP(c);
+        short map = map(c);
 
         return (map & LOWERCASE) != 0;
     }
@@ -3672,7 +3721,7 @@ public class Lexer
      */
     private static boolean isUpper(char c)
     {
-        short map = MAP(c);
+        short map = map(c);
 
         return (map & UPPERCASE) != 0;
     }
@@ -3684,7 +3733,7 @@ public class Lexer
      */
     private static char toLower(char c)
     {
-        short m = MAP(c);
+        short m = map(c);
 
         if ((m & UPPERCASE) != 0)
         {
@@ -3701,7 +3750,7 @@ public class Lexer
      */
     private static char toUpper(char c)
     {
-        short m = MAP(c);
+        short m = map(c);
 
         if ((m & LOWERCASE) != 0)
         {
@@ -3742,8 +3791,6 @@ public class Lexer
      */
     static int lastChar(String str)
     {
-        int n;
-
         if (str != null && str.length() > 0)
         {
             return str.charAt(str.length() - 1);
