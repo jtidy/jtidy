@@ -103,12 +103,19 @@ public class TidyTestCase extends TestCase
     protected StringWriter errorLog;
 
     /**
+     * Tidy output.
+     */
+    protected String tidyOut;
+
+    /**
      * @see junit.framework.TestCase#tearDown()
      */
     protected void tearDown() throws Exception
     {
         this.tidy = null;
         this.errorLog = null;
+        this.tidyOut = null;
+
         super.tearDown();
     }
 
@@ -146,10 +153,12 @@ public class TidyTestCase extends TestCase
         String outFileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".out";
         URL outFile = getClass().getClassLoader().getResource(outFileName);
 
+        this.tidyOut = out.toString();
+
         if (outFile != null)
         {
             log.debug("Comparing file using [" + outFileName + "]");
-            assertEquals(out.toString(), outFile);
+            assertEquals(this.tidyOut, outFile);
         }
     }
 
@@ -169,13 +178,17 @@ public class TidyTestCase extends TestCase
         URL inputURL = getClass().getClassLoader().getResource(fileName);
         assertNotNull("Can't find input file [" + fileName + "]", inputURL);
 
-        return this.tidy.parseDOM(inputURL.openStream(), null);
+        // out
+        OutputStream out = new ByteArrayOutputStream();
+
+        Document doc = this.tidy.parseDOM(inputURL.openStream(), out);
+        this.tidyOut = out.toString();
+
+        return doc;
     }
 
     /**
-     * assert generated output and test file are equals. Note this implementation doesn't handle encoding yet! @todo
-     * add encoding support @todo comparison skipping tidy-inserted generator meta tag @todo backup comparison not
-     * considering wrapping
+     * assert generated output and test file are equals.
      * @param tidyOutput tidy output as string
      * @param correctFile URL used to load the file for comparison
      * @throws FileNotFoundException if test file is not found
