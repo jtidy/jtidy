@@ -58,7 +58,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyOutputBugsTest("test427845"));
         suite.addTest(new TidyOutputBugsTest("test431739"));
         suite.addTest(new TidyOutputBugsTest("test431898"));
-        suite.addTest(new TidyOutputBugsTest("test431965"));
         suite.addTest(new TidyOutputBugsTest("test433012"));
         suite.addTest(new TidyOutputBugsTest("test433360"));
         suite.addTest(new TidyOutputBugsTest("test433666"));
@@ -69,7 +68,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyOutputBugsTest("test437468"));
         suite.addTest(new TidyOutputBugsTest("test438954"));
         suite.addTest(new TidyOutputBugsTest("test441508"));
-        suite.addTest(new TidyOutputBugsTest("test441740"));
         suite.addTest(new TidyOutputBugsTest("test443576"));
         suite.addTest(new TidyOutputBugsTest("test443678"));
         suite.addTest(new TidyOutputBugsTest("test445074"));
