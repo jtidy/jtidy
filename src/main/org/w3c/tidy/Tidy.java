@@ -1391,8 +1391,6 @@ public class Tidy implements Serializable
                 doctype = document.findDocType();
                 if (document.content != null)
                 {
-                    this.report.reportVersion(errout, lexer, inputStreamName, doctype);
-
                     if (configuration.xHTML)
                     {
                         lexer.setXHTMLDocType(document);
@@ -1416,16 +1414,11 @@ public class Tidy implements Serializable
 
                 if (!configuration.quiet && document.content != null)
                 {
-                    // this.report.reportVersion(errout, lexer, inputStreamName, doctype);
-                    this.report.reportNumWarnings(errout, lexer);
+                    this.report.reportVersion(errout, lexer, inputStreamName, doctype);
                 }
             }
 
-            parseWarnings = lexer.warnings;
-            parseErrors = lexer.errors;
-
             // Try to close the InputStream but only if if we created it.
-
             if ((file != null) && (in != System.in))
             {
                 try
@@ -1436,6 +1429,13 @@ public class Tidy implements Serializable
                 {
                     // ignore
                 }
+            }
+
+            if (!configuration.quiet)
+            {
+                parseWarnings = lexer.warnings;
+                parseErrors = lexer.errors;
+                this.report.reportNumWarnings(errout, lexer);
             }
 
             if (lexer.errors > 0 && !configuration.forceOutput)
