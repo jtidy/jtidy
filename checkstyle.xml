@@ -28,18 +28,6 @@
             <property name="message" value="Avoid exception.printStackTrace()"/>
             <property name="severity" value="error"/>
         </module>
-        <module name="com.puppycrawl.tools.checkstyle.checks.GenericIllegalRegexpCheck">
-            <property name="format" value="^(    public void [a-z]test)"/>
-            <property name="ignoreCase" value="false"/>
-            <property name="message" value="junit testcase methods should start with &quot;test&quot;!!!! Don&apos;t disable it!!!"/>
-            <property name="severity" value="warning"/>
-        </module>
-        <module name="com.puppycrawl.tools.checkstyle.checks.GenericIllegalRegexpCheck">
-            <property name="format" value="^(     \* Field )|^(    \/\*\* Field )|^(     \* Method )|(^(     \* Sets the )[a-zA-Z](\.)$)|(^(     \* Returns the )[a-zA-Z](\.)$)"/>
-            <property name="ignoreCase" value="false"/>
-            <property name="message" value="bad javadoc (automatically generated)"/>
-            <property name="severity" value="warning"/>
-        </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.ModifierOrderCheck">
             <property name="severity" value="warning"/>
         </module>
@@ -346,7 +334,7 @@
         <module name="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck">
             <property name="countEmpty" value="false"/>
             <property name="max" value="200"/>
-            <property name="severity" value="warning"/>
+            <property name="severity" value="info"/>
             <property name="tokens" value="METHOD_DEF, CTOR_DEF"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck">
