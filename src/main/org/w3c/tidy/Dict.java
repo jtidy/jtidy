@@ -144,19 +144,40 @@ public class Dict
 
     public static final short VERS_BASIC = 2048;
 
-    public static final short VERS_ALL = (VERS_HTML20 | VERS_HTML32 | VERS_HTML40_STRICT | VERS_HTML40_LOOSE | VERS_FRAMESET);
-
-    public static final short VERS_HTML40 = (VERS_HTML40_STRICT | VERS_HTML40_LOOSE | VERS_FRAMESET);
-
-    public static final short VERS_LOOSE = (VERS_HTML32 | VERS_HTML40_LOOSE | VERS_FRAMESET);
-
-    public static final short VERS_IFRAME = (VERS_HTML40_LOOSE | VERS_FRAMESET);
-
-    public static final short VERS_FROM32 = (VERS_HTML40_STRICT | VERS_LOOSE);
-
+    /**
+     * all tags and attributes are ok in proprietary version of HTML.
+     */
     public static final short VERS_PROPRIETARY = (VERS_NETSCAPE | VERS_MICROSOFT | VERS_SUN);
 
-    public static final short VERS_EVERYTHING = (VERS_ALL | VERS_PROPRIETARY);
+    /**
+     * tags/attrs in HTML4 but not in earlier version.
+     */
+    public static final short VERS_HTML40 = (VERS_HTML40_STRICT | VERS_HTML40_LOOSE | VERS_FRAMESET);
+
+    /**
+     * tags/attrs which are in all versions of HTML except strict.
+     */
+    public static final short VERS_LOOSE = (VERS_HTML32 | VERS_HTML40_LOOSE | VERS_FRAMESET);
+
+    /**
+     * tags/attrs in HTML 4 loose and frameset.
+     */
+    public static final short VERS_IFRAME = (VERS_HTML40_LOOSE | VERS_FRAMESET);
+
+    /**
+     * tags/attrs in all versions from HTML 3.2 onwards.
+     */
+    public static final short VERS_FROM32 = (VERS_HTML40_STRICT | VERS_LOOSE);
+
+    /**
+     * versions with on... attributes.
+     */
+    public static final short VERS_EVENTS = (VERS_HTML40 | VERS_XHTML11);
+
+    /**
+     * tags/attrs in any version.
+     */
+    public static final short VERS_ALL = (VERS_HTML20 | VERS_HTML32 | VERS_HTML40 | VERS_XHTML11 | VERS_BASIC);
 
     public String name;
 

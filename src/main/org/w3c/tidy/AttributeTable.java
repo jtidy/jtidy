@@ -249,24 +249,24 @@ public class AttributeTable
         new Attribute("noshade", Dict.VERS_LOOSE, AttrCheckImpl.BOOL), // HR
         new Attribute("nowrap", Dict.VERS_LOOSE, AttrCheckImpl.BOOL), // table cells
         new Attribute("object", Dict.VERS_HTML40_LOOSE, null), // APPLET
-        new Attribute("onblur", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onchange", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onclick", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("ondblclick", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onkeydown", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onkeypress", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onkeyup", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onload", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onmousedown", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onmousemove", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onmouseout", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onmouseover", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onmouseup", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onsubmit", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onreset", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onselect", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onunload", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
-        new Attribute("onfocus", Dict.VERS_HTML40, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onblur", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onchange", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onclick", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("ondblclick", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onkeydown", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onkeypress", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onkeyup", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onload", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onmousedown", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onmousemove", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onmouseout", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onmouseover", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onmouseup", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onsubmit", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onreset", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onselect", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onunload", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
+        new Attribute("onfocus", Dict.VERS_EVENTS, AttrCheckImpl.SCRIPT), // event
         new Attribute("onafterupdate", Dict.VERS_MICROSOFT, AttrCheckImpl.SCRIPT), // form fields
         new Attribute("onbeforeupdate", Dict.VERS_MICROSOFT, AttrCheckImpl.SCRIPT), // form fields
         new Attribute("onerrorupdate", Dict.VERS_MICROSOFT, AttrCheckImpl.SCRIPT), // form fields
@@ -316,6 +316,7 @@ public class AttributeTable
         new Attribute("width", Dict.VERS_ALL, AttrCheckImpl.LENGTH), // pixels only for TD/TH
         new Attribute("wrap", Dict.VERS_NETSCAPE, null), // textarea
         new Attribute("xml:lang", Dict.VERS_XML, null), // XML language
+        new Attribute("xml:space", Dict.VERS_XML, null), // XML language
         new Attribute("xmlns", Dict.VERS_ALL, null), // name space
         new Attribute("rbspan", Dict.VERS_XHTML11, AttrCheckImpl.NUMBER), // ruby markup
     };
