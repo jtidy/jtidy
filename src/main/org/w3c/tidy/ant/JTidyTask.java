@@ -202,6 +202,7 @@ public class JTidyTask extends Task
 
         File subdir = dir;
 
+        // @todo remove jse 1.4 code!
         String[] split = path.split("[\\\\/]");
         for (int i = 0; i < split.length; i++)
         {
