@@ -408,7 +408,7 @@ public class TidyTestCase extends TestCase
      * @param fileName file name as given by URL.getFile()
      * @return String fileName
      */
-    private String cleanUpFilePath(String fileName)
+    protected String cleanUpFilePath(String fileName)
     {
         if (fileName.length() > 3 && fileName.charAt(2) == ':')
         {

@@ -53,6 +53,8 @@
  */
 package org.w3c.tidy;
 
+import java.net.URL;
+
 /**
  * Testcase for Tidy resolved bugs.
  * <p>
@@ -71,8 +73,11 @@ public class TidyBugsTest extends TidyTestCase
      */
     public void test431895() throws Exception
     {
-        throw new Error("Test not yet implemented");
-        // executeTidyTest("431895.html");
+        URL inputURL = getClass().getClassLoader().getResource("431895.html");
+
+        Tidy.main(new String[] { cleanUpFilePath(inputURL.getFile())});
+
+        // should check system out... jtidy r7 behave as expected with a manual check
     }
 
 }
