@@ -296,7 +296,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [431898] : Tidy messes up X(HT)ML documents. [fixed]
+     * test for Tidy [431898] : Tidy messes up X(HT)ML documents.
      * @throws Exception any exception generated during the test
      */
     public void test431898() throws Exception
@@ -527,6 +527,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     public void test441740() throws Exception
     {
         executeTidyTest("441740.xhtml");
+        assertLogContains("XHTML 1.1");
     }
 
     /**

@@ -52,7 +52,7 @@
             <action dev="fgiust" type="fix" issue="514348">Incorrect wrap behaviour.</action>
             <action dev="fgiust" type="fix" issue="">Remove empty lines between tags in XML.</action>
             <action dev="fgiust" type="fix" issue="427666">Slides not numbered in zero-padded fmt.</action>
-            <action dev="fgiust" type="fix" issue="431898">Tidy messes up X(HT)ML documents.</action>
+            <action dev="fgiust" type="fix" issue="445074">XHTML requires form method="post"</action>
             <action dev="fgiust" type="fix" issue="433604">
                 Tidy inserts
                 <![CDATA[&nbsp;]]>
