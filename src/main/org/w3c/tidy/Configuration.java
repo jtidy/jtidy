@@ -1222,9 +1222,6 @@ public class Configuration implements Serializable
             return -1;
         }
 
-        // remap to standard java name
-        name = TidyUtils.toJavaEncodingName(name);
-
         for (int j = 1; j < ENCODING_NAMES.length; j++)
         {
             if (name.equals(ENCODING_NAMES[j]))
