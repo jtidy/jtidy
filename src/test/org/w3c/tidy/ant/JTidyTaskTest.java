@@ -54,12 +54,17 @@
 package org.w3c.tidy.ant;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 
 import junit.framework.TestCase;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.Parameter;
+import org.apache.tools.ant.util.FileUtils;
 
 
 /**
@@ -93,6 +98,7 @@ public class JTidyTaskTest extends TestCase
         task = new JTidyTask();
         Project p = new Project();
         task.setProject(p);
+        task.init();
         tempDir = System.getProperty("java.io.tmpdir");
         testDir = new File(getClass().getClassLoader().getResource("test.dir").getPath()).getParent();
     }
@@ -187,6 +193,26 @@ public class JTidyTaskTest extends TestCase
     /**
      * Test with invalid parameters.
      */
+    public void testScrFileDoesntExist()
+    {
+
+        task.setSrcfile(new File("xyz.123"));
+        task.setDestfile(new File("test.out"));
+        task.validateParameters();
+        try
+        {
+            task.execute();
+            fail("Missing source file not detected");
+        }
+        catch (BuildException e)
+        {
+            // ok
+        }
+    }
+
+    /**
+     * Test with invalid parameters.
+     */
     public void testInvalidProperties()
     {
         try
@@ -218,11 +244,9 @@ public class JTidyTaskTest extends TestCase
 
         assertTrue("Expected output file not created", new File(tempDir, "file1.html").exists());
         assertTrue("Expected output file not created", new File(tempDir, "file2.html").exists());
-        assertTrue("Expected output file not created", new File(tempDir, "file3.html").exists());
 
         new File(tempDir, "file1.html").delete();
         new File(tempDir, "file2.html").delete();
-        new File(tempDir, "file3.html").delete();
     }
 
     /**
@@ -241,8 +265,9 @@ public class JTidyTaskTest extends TestCase
 
         assertTrue("Expected output file not created", new File(tempDir, "ant/file1.html").exists());
         assertTrue("Expected output file not created", new File(tempDir, "ant/file2.html").exists());
-        assertTrue("Expected output file not created", new File(tempDir, "ant/file3.html").exists());
 
+        new File(tempDir, "ant/file1.html").delete();
+        new File(tempDir, "ant/file2.html").delete();
         new File(tempDir, "ant").delete();
     }
 
@@ -263,11 +288,148 @@ public class JTidyTaskTest extends TestCase
 
         assertTrue("Expected output file not created", new File(tempDir, "file1.html").exists());
         assertTrue("Expected output file not created", new File(tempDir, "file2.html").exists());
-        assertTrue("Expected output file not created", new File(tempDir, "file3.html").exists());
 
         new File(tempDir, "file1.html").delete();
         new File(tempDir, "file2.html").delete();
-        new File(tempDir, "file3.html").delete();
+    }
+
+    /**
+     * Test nested parameter element.
+     */
+    public void testWithParameters()
+    {
+        FileSet fileset = new FileSet();
+        fileset.setDir(new File(testDir));
+        fileset.setIncludes("ant/*1.html");
+
+        task.addFileset(fileset);
+        task.setDestdir(new File(tempDir));
+        task.setFlatten(true);
+        Parameter parameter = new Parameter();
+        parameter.setName("tidy-mark");
+        parameter.setValue("false");
+        task.addConfiguredParameter(parameter);
+        task.execute();
+
+        assertTrue("Expected output file not created", new File(tempDir, "file1.html").exists());
+
+        try
+        {
+            Reader reader = new FileReader(new File(tempDir, "file1.html"));
+            String output = FileUtils.readFully(reader);
+            reader.close();
+
+            // output file should not contain "generator"
+            assertTrue("Configured parameter doesn't have effect on output.", output.indexOf("generator") == -1);
+        }
+        catch (IOException e)
+        {
+            fail("Unable to read generated file.");
+        }
+
+        new File(tempDir, "file1.html").delete();
+    }
+
+    /**
+     * Test with a properties file.
+     */
+    public void testWithProperties()
+    {
+        FileSet fileset = new FileSet();
+        fileset.setDir(new File(testDir));
+        fileset.setIncludes("ant/*1.html");
+
+        task.addFileset(fileset);
+        task.setDestdir(new File(tempDir));
+        task.setFlatten(true);
+        task.setProperties(new File(testDir, "default.cfg"));
+
+        task.execute();
+
+        assertTrue("Expected output file not created", new File(tempDir, "file1.html").exists());
+
+        try
+        {
+            Reader reader = new FileReader(new File(tempDir, "file1.html"));
+            String output = FileUtils.readFully(reader);
+            reader.close();
+
+            // output file should not contain "generator"
+            assertTrue("Configured parameter doesn't have effect on output.", output.indexOf("generator") == -1);
+        }
+        catch (IOException e)
+        {
+            fail("Unable to read generated file.");
+        }
+
+        new File(tempDir, "file1.html").delete();
+    }
+
+    /**
+     * Test with a fileset.
+     */
+    public void testFailonerrorFalse()
+    {
+        task.setSrcfile(new File(testDir, "ant/file3.html"));
+        task.setDestdir(new File(tempDir));
+        task.setFailonerror(false);
+
+        task.execute();
+
+        // ok if no buildexception is thrown
+    }
+
+    /**
+     * Test with a fileset.
+     */
+    public void testFailonerrorTrue()
+    {
+        task.setSrcfile(new File(testDir, "ant/file3.html"));
+        task.setDestdir(new File(tempDir));
+        task.setFailonerror(true);
+
+        try
+        {
+            task.execute();
+            fail("Expected BuildException not thrown.");
+        }
+        catch (BuildException e)
+        {
+            // ok if buildexception IS thrown
+        }
+    }
+
+    /**
+     * Test with srcfile/destdir.
+     */
+    public void testSrcfileDestDir()
+    {
+        task.setSrcfile(new File(testDir, "ant/file1.html"));
+        task.setDestdir(new File(tempDir));
+        task.setFailonerror(true);
+
+        task.execute();
+
+        assertTrue("Expected output file not created", new File(tempDir, "file1.html").exists());
+
+        new File(tempDir, "file1.html").delete();
+    }
+
+    /**
+     * Test with srcfile/destfile.
+     */
+    public void testSrcfileDestFile()
+    {
+        task.setSrcfile(new File(testDir, "ant/file1.html"));
+        task.setDestfile(new File(tempDir, "newfile.html"));
+        task.setFailonerror(true);
+
+        task.execute();
+
+        assertTrue("Expected output file not created", new File(tempDir, "newfile.html").exists());
+        assertFalse("Expected output file is a dir!", new File(tempDir, "newfile.html").isDirectory());
+
+        new File(tempDir, "newfile.html").delete();
     }
 
 }

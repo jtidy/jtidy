@@ -83,18 +83,12 @@ import org.w3c.tidy.Tidy;
 
 /**
  * JTidy ant task.
- * 
- * <pre>
- * &lt;tidy destdir="" >
- *   &lt;fileset dir="" />
- * &lt;/tidy>
- * </pre>
- * 
- * <table><thead>
+ * <h3>Parameters</h3>
+ * <table cellspacing="0" border="1"> <thead>
  * <tr>
- * <td>Attribute</td>
- * <td>Description</td>
- * <td>Required</td>
+ * <th>Attribute</th>
+ * <th>Description</th>
+ * <th>Required</th>
  * </tr>
  * </thead> <tbody>
  * <tr>
@@ -130,15 +124,40 @@ import org.w3c.tidy.Tidy;
  * <td>No; defaults to false.</td>
  * </tr>
  * </tbody> </table>
- * <h3>Examples</h3>
+ * <h3>Nested elements</h3>
+ * <ul>
+ * <li><strong>Fileset </strong>: if you need to run tidy on more than one file, you can specify nested filesets.</li>
+ * <li><strong>Parameter </strong>: you can specify any tidy configuration option directly using a nested
+ * <code>parameter</code> element.</li>
+ * </ul>
+ * <h3>Setup</h3>
+ * <p>
+ * Adds the following <code>typedef</code> to setup the JTidy task in your build.xml:
+ * </p>
  * 
  * <pre>
  * &lt;taskdef name="tidy" classname="org.w3c.tidy.ant.JTidyTask"/>
  * </pre>
  * 
+ * <p>
+ * This will work if JTidy jar is copied to ant lib directory. If you need to reference the jar elsewhere on the
+ * filesystem you can add a nested classpath element:
+ * </p>
+ * 
+ * <pre>
+ * &lt;taskdef name="tidy" classname="org.w3c.tidy.ant.JTidyTask">
+ *   &lt;classpath>
+ *     &lt;pathelement location="${lib.dir}/jtidy.jar"/>
+ *   &lt;/classpath>
+ * &lt;/taskdef>
+ * </pre>
+ * 
+ * <h3>Examples</h3>
+ * 
  * <pre>
  * &lt;tidy destdir="out" properties="/path/to/tidy.properties">
  *   &lt;fileset dir="inputdir" />
+ *   &lt;parameter name="drop-font-tags" value="true" />
  * &lt/tidy>
  * </pre>
  * 
@@ -314,12 +333,6 @@ public class JTidyTask extends Task
      */
     public void execute() throws BuildException
     {
-        // so we can simply use execute() in tests
-        if (tidy == null)
-        {
-            init();
-        }
-
         // validate
         validateParameters();
 
@@ -329,11 +342,6 @@ public class JTidyTask extends Task
             try
             {
                 this.props.load(new FileInputStream(this.properties));
-            }
-            catch (FileNotFoundException e)
-            {
-                // should not happen
-                throw new BuildException("Unable to find properties file " + properties, e);
             }
             catch (IOException e)
             {
@@ -351,17 +359,11 @@ public class JTidyTask extends Task
             // process a single file
             executeSingle();
         }
-        else if (this.filesets.size() > 0)
+        else
         {
             // process filesets
             executeSet();
         }
-        else
-        {
-            // should not happen, condition is already validated in validateParameters()
-            throw new BuildException("No srcfile or nested filesets configured.");
-        }
-
     }
 
     /**
@@ -369,31 +371,19 @@ public class JTidyTask extends Task
      */
     protected void executeSingle()
     {
-        if (srcfile.exists())
-        {
-            if (destfile == null)
-            {
-                if (destdir == null)
-                {
-                    throw new BuildException("No destfile or destdir configured.");
-                }
-                destfile = new File(destdir, srcfile.getName());
-            }
-            processFile(srcfile, destfile);
 
-        }
-        else
+        if (!srcfile.exists())
         {
-            String message = "Could not find source file " + srcfile.getAbsolutePath() + ".";
-            if (!failonerror)
-            {
-                log(message);
-            }
-            else
-            {
-                throw new BuildException(message);
-            }
+            throw new BuildException("Could not find source file " + srcfile.getAbsolutePath() + ".");
         }
+
+        if (destfile == null)
+        {
+            // destdir can't be null, condition is checked in validateParameters()
+            destfile = new File(destdir, srcfile.getName());
+        }
+
+        processFile(srcfile, destfile);
     }
 
     /**
@@ -427,15 +417,7 @@ public class JTidyTask extends Task
             for (int j = 0; j < sourceFiles.length; j++)
             {
                 String[] mapped = mapper.mapFileName(sourceFiles[j]);
-                if (mapped == null || mapped.length == 0)
-                {
-                    throw new BuildException("Uh oh, unable to map "
-                        + sourceFiles[j]
-                        + "using from "
-                        + fileSet.getDir(getProject()).getAbsolutePath()
-                        + "and to "
-                        + this.destdir.getAbsolutePath());
-                }
+
                 processFile(new File(inputdir, sourceFiles[j]), new File(this.destdir, mapped[0]));
             }
         }
@@ -457,7 +439,7 @@ public class JTidyTask extends Task
         {
             is = new BufferedInputStream(new FileInputStream(inputFile));
         }
-        catch (FileNotFoundException e)
+        catch (IOException e)
         {
             throw new BuildException("Unable to open file " + inputFile);
         }
@@ -466,11 +448,11 @@ public class JTidyTask extends Task
         {
             outputFile.getParentFile().mkdirs();
             outputFile.createNewFile();
-            os = new BufferedOutputStream(new FileOutputStream(outputFile, false));
+            os = new BufferedOutputStream(new FileOutputStream(outputFile));
         }
-        catch (IOException e2)
+        catch (IOException e)
         {
-            throw new BuildException("Unable to open destination file " + outputFile, e2);
+            throw new BuildException("Unable to open destination file " + outputFile, e);
         }
 
         tidy.parse(is, os);
@@ -491,6 +473,12 @@ public class JTidyTask extends Task
         catch (IOException e1)
         {
             // ignore
+        }
+
+        // cleanup empty files
+        if (tidy.getParseErrors() > 0 && !tidy.getForceOutput())
+        {
+            outputFile.delete();
         }
 
         if (failonerror && tidy.getParseErrors() > 0)
