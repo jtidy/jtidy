@@ -263,7 +263,7 @@ public class Configuration implements java.io.Serializable
         value = _properties.getProperty("indent-attributes");
         if (value != null)
         {
-            IndentAttributes = parseBool(value, "ident-attributes");
+            IndentAttributes = parseBool(value, "indent-attributes");
         }
 
         value = _properties.getProperty("hide-endtags");
