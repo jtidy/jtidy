@@ -1109,8 +1109,12 @@ public class Configuration implements Serializable
      */
     protected void setInCharEncodingName(String encoding)
     {
-        this.inCharEncodingName = encoding;
-        this.inCharEncoding = convertCharEncoding(encoding);
+        String javaEncoding = TidyUtils.toJavaEncodingName(encoding);
+        if (javaEncoding != null)
+        {
+            this.inCharEncodingName = javaEncoding;
+            this.inCharEncoding = convertCharEncoding(encoding);
+        }
     }
 
     /**
@@ -1164,8 +1168,12 @@ public class Configuration implements Serializable
      */
     protected void setOutCharEncodingName(String encoding)
     {
-        this.outCharEncodingName = encoding;
-        this.outCharEncoding = convertCharEncoding(encoding);
+        String javaEncoding = TidyUtils.toJavaEncodingName(encoding);
+        if (javaEncoding != null)
+        {
+            this.outCharEncodingName = encoding;
+            this.outCharEncoding = convertCharEncoding(encoding);
+        }
     }
 
     /**
