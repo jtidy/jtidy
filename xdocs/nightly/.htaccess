@@ -1,4 +1,5 @@
 IndexOptions DescriptionWidth=*
 IndexOptions NameWidth=*
-#HeaderName .header
-#ReadmeName .footer
+HeaderName .header.html
+ReadmeName .footer.html
+Options Includes Indexes
