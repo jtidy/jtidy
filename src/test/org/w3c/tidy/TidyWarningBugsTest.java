@@ -1,4 +1,4 @@
-/**
+/*
  *  Java HTML Tidy - JTidy
  *  HTML parser and pretty printer
  *
@@ -398,6 +398,17 @@ public class TidyWarningBugsTest extends TidyTestCase
         executeTidyTest("516370.xhtml");
         assertWarnings(4);
         assertLogContains("XML ID syntax");
+    }
+
+    /**
+     * test for Tidy [517528] : Parser complains about xml:lang.
+     * @throws Exception any exception generated during the test
+     */
+    public void test517528() throws Exception
+    {
+        executeTidyTest("517528.html");
+
+        assertNoWarnings();
     }
 
     /**
