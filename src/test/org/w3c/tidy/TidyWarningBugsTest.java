@@ -396,6 +396,22 @@ public class TidyWarningBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [545067] : Implicit closing of head broken.
+     * @throws Exception any exception generated during the test
+     */
+    public void test545067() throws Exception
+    {
+        // should NOT output:
+        // line 3 column 1 - Warning: <p> isn't allowed in <head> elements
+        // since body tags implicitly terminate the <head> section
+
+        // ok in jtidy r7
+
+        executeTidyTest("545067.html");
+        assertLogDoesntContains("<head>");
+    }
+
+    /**
      * test for Tidy [553468] : Doesn't warn about &lt;u&gt; in XHTML strict.
      * @throws Exception any exception generated during the test
      */

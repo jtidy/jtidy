@@ -825,17 +825,6 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [545067] : Implicit closing of head broken.
-     * @throws Exception any exception generated during the test @todo complete test
-     */
-    public void test545067() throws Exception
-    {
-        // no output in tidy
-        throw new Error("Test not yet implemented");
-        //executeTidyTest("545067.html");
-    }
-
-    /**
      * test for Tidy [552861] : &lt;td with=""> not recognized.
      * @throws Exception any exception generated during the test
      */
