@@ -481,6 +481,7 @@ public final class ParserImpl
             // node must be body
             html.insertNodeAtEnd(node);
             parseTag(lexer, node, mode);
+            lexer.seenEndHtml = true;
         }
 
     }
@@ -2428,8 +2429,8 @@ public final class ParserImpl
                         {
                             checkstack = false;
 
-                            if (!TidyUtils.toBoolean(element.tag.model & Dict.CM_MIXED)) // #431731 - fix by Randy Waki
-                            // 25 Dec 00
+                            // #431731 - fix by Randy Waki 25 Dec 00
+                            if (!TidyUtils.toBoolean(element.tag.model & Dict.CM_MIXED))
                             {
                                 if (lexer.inlineDup(node) > 0)
                                 {
@@ -2788,7 +2789,8 @@ public final class ParserImpl
                         lexer.report.warning(lexer, rowgroup, node, Report.TAG_NOT_ALLOWED_IN);
                         lexer.exiled = true;
 
-                        if (node.type != Node.TEXT_NODE) // #427662 was (!node.type == TextNode) fix by Young 04 Aug 00
+                        // #427662 was (!node.type == TextNode) fix by Young 04 Aug 00
+                        if (node.type != Node.TEXT_NODE)
                         {
                             parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
                         }
