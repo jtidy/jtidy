@@ -188,5 +188,23 @@ public class JTidyBugsTest extends TidyTestCase
         assertWarnings(10);
     }
 
+    /**
+     * test for JTidy [943559]: Form between td. Tidy C mark this as an error, Jtidy adds a useless table.
+     * @throws Exception any exception generated during the test
+     */
+    public void test943559() throws Exception
+    {
+        executeTidyTest("943559.html");
+    }
+
+    /**
+     * test for JTidy [935796]: Quote entities converted to literals.
+     * @throws Exception any exception generated during the test
+     */
+    public void test935796() throws Exception
+    {
+        executeTidyTest("935796.html");
+    }
+
 
 }
