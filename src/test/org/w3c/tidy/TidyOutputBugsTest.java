@@ -184,6 +184,15 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [427835] : DTD not inserted, but DTD URI Namespace.
+     * @throws Exception any exception generated during the test
+     */
+    public void test427835() throws Exception
+    {
+        executeTidyTest("427835.html");
+    }
+
+    /**
      * test for Tidy [427836] : OBJECT should be wrapped in BODY.
      * @throws Exception any exception generated during the test
      */

@@ -65,15 +65,6 @@ public class TidyWordBugsTest extends TidyTestCase
 {
 
     /**
-     * test for Tidy [427835] : -clean has no effect.
-     * @throws Exception any exception generated during the test
-     */
-    public void test427835() throws Exception
-    {
-        executeTidyTest("427835.html");
-    }
-
-    /**
      * test for Tidy [431721] : Cleaning list bullets for Word 2000.
      * @throws Exception any exception generated during the test
      */
