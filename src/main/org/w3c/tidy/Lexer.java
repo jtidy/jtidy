@@ -2587,6 +2587,12 @@ public class Lexer
                 return null;
             }
 
+            if (c == '=')
+            {
+                report.attrError(this, this.token, null, Report.UNEXPECTED_EQUALSIGN);
+                continue;
+            }
+
             if (c == '"' || c == '\'')
             {
                 report.attrError(this, this.token, null, Report.UNEXPECTED_QUOTEMARK);

@@ -85,7 +85,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyOutputBugsTest("test445394"));
         suite.addTest(new TidyOutputBugsTest("test445557"));
         suite.addTest(new TidyOutputBugsTest("test449348"));
-        suite.addTest(new TidyOutputBugsTest("test456596"));
         suite.addTest(new TidyOutputBugsTest("test467863"));
         suite.addTest(new TidyOutputBugsTest("test467865"));
         suite.addTest(new TidyOutputBugsTest("test470663"));
