@@ -75,12 +75,13 @@ import java.util.Properties;
 public class Tidy implements Serializable
 {
 
+    /**
+     * Serial Version UID to avoid problems during serialization.
+     */
     static final long serialVersionUID = -2794371560623987718L;
 
-    private boolean initialized;
-
     /**
-     * error output stream.
+     * Error output stream.
      */
     private PrintWriter errout;
 
@@ -96,6 +97,9 @@ public class Tidy implements Serializable
 
     private Report report;
 
+    /**
+     * Instantiates a new Tidy instance. It's reccomended that a new instance is used at each parsing.
+     */
     public Tidy()
     {
         this.report = new Report();
@@ -126,9 +130,12 @@ public class Tidy implements Serializable
         configuration.errfile = null;
         stderr = new PrintWriter(System.err, true);
         errout = stderr;
-        initialized = true;
     }
 
+    /**
+     * Returns the actual configuration
+     * @return tidy configuration
+     */
     public Configuration getConfiguration()
     {
         return configuration;
@@ -158,1038 +165,6 @@ public class Tidy implements Serializable
     }
 
     /**
-     * Errout - the error output stream.
-     * @return error output stream.
-     */
-    public PrintWriter getErrout()
-    {
-        return errout;
-    }
-
-    public void setErrout(PrintWriter out)
-    {
-        this.errout = out;
-    }
-
-    /**
-     * Spaces - default indentation.
-     * @see Configuration#spaces
-     */
-    public void setSpaces(int spaces)
-    {
-        configuration.spaces = spaces;
-    }
-
-    public int getSpaces()
-    {
-        return configuration.spaces;
-    }
-
-    /**
-     * Wraplen - default wrap margin.
-     * @see Configuration#wraplen
-     */
-    public void setWraplen(int wraplen)
-    {
-        configuration.wraplen = wraplen;
-    }
-
-    public int getWraplen()
-    {
-        return configuration.wraplen;
-    }
-
-    /**
-     * Sets the character encoding used both for input and for output.
-     * @deprecated
-     */
-    public void setCharEncoding(int charencoding)
-    {
-        configuration.adjustCharEncoding(charencoding);
-    }
-
-    /**
-     * Returns the configured character encoding.
-     * @return character encoding constant
-     * @deprecated from r8 tidy can use different encoding for input and output. This method will only return the
-     * <strong>input </strong> character encoding.
-     */
-    public int getCharEncoding()
-    {
-        return configuration.getInCharEncoding();
-    }
-
-    /**
-     * Tabsize.
-     * @see Configuration#tabsize
-     */
-    public void setTabsize(int tabsize)
-    {
-        configuration.tabsize = tabsize;
-    }
-
-    public int getTabsize()
-    {
-        return configuration.tabsize;
-    }
-
-    /**
-     * Errfile - file name to write errors to.
-     * @see Configuration#errfile
-     */
-    public void setErrfile(String errfile)
-    {
-        configuration.errfile = errfile;
-    }
-
-    public String getErrfile()
-    {
-        return configuration.errfile;
-    }
-
-    /**
-     * Writeback - if true then output tidied markup NOTE: this property is ignored when parsing from an InputStream.
-     * @see Configuration#writeback
-     */
-    public void setWriteback(boolean writeback)
-    {
-        configuration.writeback = writeback;
-    }
-
-    public boolean getWriteback()
-    {
-        return configuration.writeback;
-    }
-
-    /**
-     * OnlyErrors - if true normal output is suppressed.
-     * @see Configuration#onlyErrors
-     */
-    public void setOnlyErrors(boolean onlyErrors)
-    {
-        configuration.onlyErrors = onlyErrors;
-    }
-
-    public boolean getOnlyErrors()
-    {
-        return configuration.onlyErrors;
-    }
-
-    /**
-     * ShowWarnings - however errors are always shown.
-     * @see Configuration#showWarnings
-     */
-    public void setShowWarnings(boolean showWarnings)
-    {
-        configuration.showWarnings = showWarnings;
-    }
-
-    public boolean getShowWarnings()
-    {
-        return configuration.showWarnings;
-    }
-
-    /**
-     * Quiet - no 'Parsing X', guessed DTD or summary.
-     * @see Configuration#quiet
-     */
-    public void setQuiet(boolean quiet)
-    {
-        configuration.quiet = quiet;
-    }
-
-    public boolean getQuiet()
-    {
-        return configuration.quiet;
-    }
-
-    /**
-     * IndentContent - indent content of appropriate tags.
-     * @see Configuration#indentContent
-     */
-    public void setIndentContent(boolean indentContent)
-    {
-        configuration.indentContent = indentContent;
-    }
-
-    public boolean getIndentContent()
-    {
-        return configuration.indentContent;
-    }
-
-    /**
-     * SmartIndent - does text/block level content effect indentation.
-     * @see Configuration#smartIndent
-     */
-    public void setSmartIndent(boolean smartIndent)
-    {
-        configuration.smartIndent = smartIndent;
-    }
-
-    public boolean getSmartIndent()
-    {
-        return configuration.smartIndent;
-    }
-
-    /**
-     * HideEndTags - suppress optional end tags.
-     * @see Configuration#hideEndTags
-     */
-    public void setHideEndTags(boolean hideEndTags)
-    {
-        configuration.hideEndTags = hideEndTags;
-    }
-
-    public boolean getHideEndTags()
-    {
-        return configuration.hideEndTags;
-    }
-
-    /**
-     * XmlTags - treat input as XML.
-     * @see Configuration#xmlTags
-     */
-    public void setXmlTags(boolean xmlTags)
-    {
-        configuration.xmlTags = xmlTags;
-    }
-
-    public boolean getXmlTags()
-    {
-        return configuration.xmlTags;
-    }
-
-    /**
-     * XmlOut - create output as XML.
-     * @see Configuration#xmlOut
-     */
-    public void setXmlOut(boolean xmlOut)
-    {
-        configuration.xmlOut = xmlOut;
-    }
-
-    public boolean getXmlOut()
-    {
-        return configuration.xmlOut;
-    }
-
-    /**
-     * XHTML - output extensible HTML.
-     * @see Configuration#xHTML
-     */
-    public void setXHTML(boolean xhtml)
-    {
-        configuration.xHTML = xhtml;
-    }
-
-    public boolean getXHTML()
-    {
-        return configuration.xHTML;
-    }
-
-    //    /**
-    //     * RawOut - avoid mapping values > 127 to entities.
-    //     * @see Configuration#rawOut
-    //     * @todo not implemented
-    //     */
-    //    public void setRawOut(boolean rawOut)
-    //    {
-    //        configuration.rawOut = rawOut;
-    //    }
-    //
-    //    public boolean getRawOut()
-    //    {
-    //        return configuration.rawOut;
-    //    }
-
-    /**
-     * UpperCaseTags - output tags in upper not lower case.
-     * @see Configuration#upperCaseTags
-     */
-    public void setUpperCaseTags(boolean upperCaseTags)
-    {
-        configuration.upperCaseTags = upperCaseTags;
-    }
-
-    public boolean getUpperCaseTags()
-    {
-        return configuration.upperCaseTags;
-    }
-
-    /**
-     * UpperCaseAttrs - output attributes in upper not lower case.
-     * @see Configuration#upperCaseAttrs
-     */
-    public void setUpperCaseAttrs(boolean upperCaseAttrs)
-    {
-        configuration.upperCaseAttrs = upperCaseAttrs;
-    }
-
-    public boolean getUpperCaseAttrs()
-    {
-        return configuration.upperCaseAttrs;
-    }
-
-    /**
-     * make-clean - remove presentational clutter.
-     * @param makeClean true to remove presentational clutter
-     * @see Configuration#makeClean
-     */
-    public void setMakeClean(boolean makeClean)
-    {
-        configuration.makeClean = makeClean;
-    }
-
-    /**
-     * make-clean - remove presentational clutter.
-     * @return true if tidy will remove presentational clutter
-     */
-    public boolean getMakeClean()
-    {
-        return configuration.makeClean;
-    }
-
-    /**
-     * make-bare - remove Microsoft cruft.
-     * @param makeBare true to remove Microsoft cruft
-     * @see Configuration#makeBare
-     */
-    public void setMakeBare(boolean makeBare)
-    {
-        configuration.makeBare = makeBare;
-    }
-
-    /**
-     * make-clean - remove Microsoft cruft.
-     * @return true if tidy will remove Microsoft cruft
-     */
-    public boolean getMakeBare()
-    {
-        return configuration.makeBare;
-    }
-
-    /**
-     * BreakBeforeBR - o/p newline before &lt;br&gt; or not?
-     * @see Configuration#breakBeforeBR
-     */
-    public void setBreakBeforeBR(boolean breakBeforeBR)
-    {
-        configuration.breakBeforeBR = breakBeforeBR;
-    }
-
-    public boolean getBreakBeforeBR()
-    {
-        return configuration.breakBeforeBR;
-    }
-
-    /**
-     * BurstSlides - create slides on each h2 element.
-     * @see Configuration#burstSlides
-     */
-    public void setBurstSlides(boolean burstSlides)
-    {
-        configuration.burstSlides = burstSlides;
-    }
-
-    public boolean getBurstSlides()
-    {
-        return configuration.burstSlides;
-    }
-
-    /**
-     * NumEntities - use numeric entities.
-     * @see Configuration#numEntities
-     */
-    public void setNumEntities(boolean numEntities)
-    {
-        configuration.numEntities = numEntities;
-    }
-
-    public boolean getNumEntities()
-    {
-        return configuration.numEntities;
-    }
-
-    /**
-     * QuoteMarks - output " marks as &amp;quot;.
-     * @see Configuration#quoteMarks
-     */
-    public void setQuoteMarks(boolean quoteMarks)
-    {
-        configuration.quoteMarks = quoteMarks;
-    }
-
-    public boolean getQuoteMarks()
-    {
-        return configuration.quoteMarks;
-    }
-
-    /**
-     * QuoteNbsp - output non-breaking space as entity.
-     * @see Configuration#quoteNbsp
-     */
-    public void setQuoteNbsp(boolean quoteNbsp)
-    {
-        configuration.quoteNbsp = quoteNbsp;
-    }
-
-    public boolean getQuoteNbsp()
-    {
-        return configuration.quoteNbsp;
-    }
-
-    /**
-     * QuoteAmpersand - output naked ampersand as &amp;.
-     * @see Configuration#quoteAmpersand
-     */
-    public void setQuoteAmpersand(boolean quoteAmpersand)
-    {
-        configuration.quoteAmpersand = quoteAmpersand;
-    }
-
-    public boolean getQuoteAmpersand()
-    {
-        return configuration.quoteAmpersand;
-    }
-
-    /**
-     * WrapAttVals - wrap within attribute values.
-     * @see Configuration#wrapAttVals
-     */
-    public void setWrapAttVals(boolean wrapAttVals)
-    {
-        configuration.wrapAttVals = wrapAttVals;
-    }
-
-    public boolean getWrapAttVals()
-    {
-        return configuration.wrapAttVals;
-    }
-
-    /**
-     * WrapScriptlets - wrap within JavaScript string literals.
-     * @see Configuration#wrapScriptlets
-     */
-    public void setWrapScriptlets(boolean wrapScriptlets)
-    {
-        configuration.wrapScriptlets = wrapScriptlets;
-    }
-
-    public boolean getWrapScriptlets()
-    {
-        return configuration.wrapScriptlets;
-    }
-
-    /**
-     * WrapSection - wrap within &lt;![ ... ]&gt; section tags
-     * @see Configuration#wrapSection
-     */
-    public void setWrapSection(boolean wrapSection)
-    {
-        configuration.wrapSection = wrapSection;
-    }
-
-    public boolean getWrapSection()
-    {
-        return configuration.wrapSection;
-    }
-
-    /**
-     * AltText - default text for alt attribute.
-     * @see Configuration#altText
-     */
-    public void setAltText(String altText)
-    {
-        configuration.altText = altText;
-    }
-
-    public String getAltText()
-    {
-        return configuration.altText;
-    }
-
-    /**
-     * Slidestyle - style sheet for slides.
-     * @see Configuration#slidestyle
-     */
-    public void setSlidestyle(String slidestyle)
-    {
-        configuration.slidestyle = slidestyle;
-    }
-
-    public String getSlidestyle()
-    {
-        return configuration.slidestyle;
-    }
-
-    /**
-     * XmlPi - add &lt;?xml?&gt; for XML docs.
-     * @see Configuration#xmlPi
-     */
-    public void setXmlPi(boolean xmlPi)
-    {
-        configuration.xmlPi = xmlPi;
-    }
-
-    public boolean getXmlPi()
-    {
-        return configuration.xmlPi;
-    }
-
-    /**
-     * DropFontTags - discard presentation tags.
-     * @see Configuration#dropFontTags
-     */
-    public void setDropFontTags(boolean dropFontTags)
-    {
-        configuration.dropFontTags = dropFontTags;
-    }
-
-    public boolean getDropFontTags()
-    {
-        return configuration.dropFontTags;
-    }
-
-    /**
-     * drop-proprietary-attributes - discard proprietary attributes.
-     * @see Configuration#dropProprietaryAttributes
-     */
-    public void setDropProprietaryAttributes(boolean dropProprietaryAttributes)
-    {
-        configuration.dropProprietaryAttributes = dropProprietaryAttributes;
-    }
-
-    public boolean getDropProprietaryAttributes()
-    {
-        return configuration.dropProprietaryAttributes;
-    }
-
-    /**
-     * DropEmptyParas - discard empty p elements.
-     * @see Configuration#dropEmptyParas
-     */
-    public void setDropEmptyParas(boolean dropEmptyParas)
-    {
-        configuration.dropEmptyParas = dropEmptyParas;
-    }
-
-    public boolean getDropEmptyParas()
-    {
-        return configuration.dropEmptyParas;
-    }
-
-    /**
-     * FixComments - fix comments with adjacent hyphens.
-     * @see Configuration#fixComments
-     */
-    public void setFixComments(boolean fixComments)
-    {
-        configuration.fixComments = fixComments;
-    }
-
-    public boolean getFixComments()
-    {
-        return configuration.fixComments;
-    }
-
-    /**
-     * WrapAsp - wrap within ASP pseudo elements.
-     * @see Configuration#wrapAsp
-     */
-    public void setWrapAsp(boolean wrapAsp)
-    {
-        configuration.wrapAsp = wrapAsp;
-    }
-
-    public boolean getWrapAsp()
-    {
-        return configuration.wrapAsp;
-    }
-
-    /**
-     * WrapJste - wrap within JSTE pseudo elements.
-     * @see Configuration#wrapJste
-     */
-    public void setWrapJste(boolean wrapJste)
-    {
-        configuration.wrapJste = wrapJste;
-    }
-
-    public boolean getWrapJste()
-    {
-        return configuration.wrapJste;
-    }
-
-    /**
-     * WrapPhp - wrap within PHP pseudo elements.
-     * @see Configuration#wrapPhp
-     */
-    public void setWrapPhp(boolean wrapPhp)
-    {
-        configuration.wrapPhp = wrapPhp;
-    }
-
-    public boolean getWrapPhp()
-    {
-        return configuration.wrapPhp;
-    }
-
-    /**
-     * FixBackslash - fix URLs by replacing \ with /.
-     * @see Configuration#fixBackslash
-     */
-    public void setFixBackslash(boolean fixBackslash)
-    {
-        configuration.fixBackslash = fixBackslash;
-    }
-
-    public boolean getFixBackslash()
-    {
-        return configuration.fixBackslash;
-    }
-
-    /**
-     * IndentAttributes - newline+indent before each attribute.
-     * @see Configuration#indentAttributes
-     */
-    public void setIndentAttributes(boolean indentAttributes)
-    {
-        configuration.indentAttributes = indentAttributes;
-    }
-
-    public boolean getIndentAttributes()
-    {
-        return configuration.indentAttributes;
-    }
-
-    /**
-     * DocType - user specified doctype .
-     * @param doctype <code>omit | auto | strict | loose | <em>fpi</em></code> where the <em>fpi </em> is a string
-     * similar to &quot;-//ACME//DTD HTML 3.14159//EN&quot; Note: for <em>fpi </em> include the double-quotes in the
-     * string.
-     * @see Configuration#docTypeStr
-     * @see Configuration#docTypeMode
-     */
-    public void setDocType(String doctype)
-    {
-        if (doctype != null)
-        {
-            configuration.docTypeStr = (String) ParsePropertyImpl.DOCTYPE.parse(doctype, "doctype", configuration);
-        }
-    }
-
-    public String getDocType()
-    {
-        String result = null;
-        switch (configuration.docTypeMode)
-        {
-            case Configuration.DOCTYPE_OMIT :
-                result = "omit";
-                break;
-            case Configuration.DOCTYPE_AUTO :
-                result = "auto";
-                break;
-            case Configuration.DOCTYPE_STRICT :
-                result = "strict";
-                break;
-            case Configuration.DOCTYPE_LOOSE :
-                result = "loose";
-                break;
-            case Configuration.DOCTYPE_USER :
-                result = configuration.docTypeStr;
-                break;
-        }
-        return result;
-    }
-
-    /**
-     * LogicalEmphasis - replace i by em and b by strong.
-     * @see Configuration#logicalEmphasis
-     */
-    public void setLogicalEmphasis(boolean logicalEmphasis)
-    {
-        configuration.logicalEmphasis = logicalEmphasis;
-    }
-
-    public boolean getLogicalEmphasis()
-    {
-        return configuration.logicalEmphasis;
-    }
-
-    /**
-     * XmlPIs - if set to true PIs must end with ?&gt;.
-     * @see Configuration#xmlPIs
-     */
-    public void setXmlPIs(boolean xmlPIs)
-    {
-        configuration.xmlPIs = xmlPIs;
-    }
-
-    public boolean getXmlPIs()
-    {
-        return configuration.xmlPIs;
-    }
-
-    /**
-     * EncloseText - if true text at body is wrapped in &lt;p&gt;'s.
-     * @see Configuration#encloseBodyText
-     */
-    public void setEncloseText(boolean encloseText)
-    {
-        configuration.encloseBodyText = encloseText;
-    }
-
-    public boolean getEncloseText()
-    {
-        return configuration.encloseBodyText;
-    }
-
-    /**
-     * EncloseBlockText - if true text in blocks is wrapped in &lt;p&gt;'s.
-     * @see Configuration#encloseBlockText
-     */
-    public void setEncloseBlockText(boolean encloseBlockText)
-    {
-        configuration.encloseBlockText = encloseBlockText;
-    }
-
-    public boolean getEncloseBlockText()
-    {
-        return configuration.encloseBlockText;
-    }
-
-    /**
-     * KeepFileTimes - if true last modified time is preserved <strong>this is NOT supported at this time. </strong>
-     * @see Configuration#keepFileTimes
-     */
-    public void setKeepFileTimes(boolean keepFileTimes)
-    {
-        configuration.keepFileTimes = keepFileTimes;
-    }
-
-    public boolean getKeepFileTimes()
-    {
-        return configuration.keepFileTimes;
-    }
-
-    /**
-     * Word2000 - draconian cleaning for Word2000.
-     * @see Configuration#word2000
-     */
-    public void setWord2000(boolean word2000)
-    {
-        configuration.word2000 = word2000;
-    }
-
-    public boolean getWord2000()
-    {
-        return configuration.word2000;
-    }
-
-    /**
-     * TidyMark - add meta element indicating tidied doc.
-     * @see Configuration#tidyMark
-     */
-    public void setTidyMark(boolean tidyMark)
-    {
-        configuration.tidyMark = tidyMark;
-    }
-
-    public boolean getTidyMark()
-    {
-        return configuration.tidyMark;
-    }
-
-    /**
-     * XmlSpace - if set to yes adds xml:space attr as needed.
-     * @see Configuration#xmlSpace
-     */
-    public void setXmlSpace(boolean xmlSpace)
-    {
-        configuration.xmlSpace = xmlSpace;
-    }
-
-    public boolean getXmlSpace()
-    {
-        return configuration.xmlSpace;
-    }
-
-    /**
-     * Emacs - if true format error output for GNU Emacs.
-     * @see Configuration#emacs
-     */
-    public void setEmacs(boolean emacs)
-    {
-        configuration.emacs = emacs;
-    }
-
-    public boolean getEmacs()
-    {
-        return configuration.emacs;
-    }
-
-    /**
-     * LiteralAttribs - if true attributes may use newlines.
-     * @see Configuration#literalAttribs
-     */
-    public void setLiteralAttribs(boolean literalAttribs)
-    {
-        configuration.literalAttribs = literalAttribs;
-    }
-
-    public boolean getLiteralAttribs()
-    {
-        return configuration.literalAttribs;
-    }
-
-    /**
-     * print-body-only - output BODY content only.
-     * @param bodyOnly true = print only the document body
-     * @see Configuration#bodyOnly
-     */
-    public void setPrintBodyOnly(boolean bodyOnly)
-    {
-        configuration.bodyOnly = bodyOnly;
-    }
-
-    /**
-     * print-body-only - output BODY content only.
-     * @return true if tidy will print only the document body
-     */
-    public boolean getPrintBodyOnly()
-    {
-        return configuration.bodyOnly;
-    }
-
-    /**
-     * fix-uri - fix uri references applying URI encoding if necessary.
-     * @param fixUri true = fix uri references
-     * @see Configuration#fixUri
-     */
-    public void setFixUri(boolean fixUri)
-    {
-        configuration.fixUri = fixUri;
-    }
-
-    /**
-     * fix-uri- output BODY content only.
-     * @return true if tidy will fix uri references
-     */
-    public boolean getFixUri()
-    {
-        return configuration.fixUri;
-    }
-
-    /**
-     * lower-literals - folds known attribute values to lower case.
-     * @param lowerLiterals true = folds known attribute values to lower case
-     * @see Configuration#lowerLiterals
-     */
-    public void setLowerLiterals(boolean lowerLiterals)
-    {
-        configuration.lowerLiterals = lowerLiterals;
-    }
-
-    /**
-     * lower-literals - folds known attribute values to lower case.
-     * @return true if tidy will folds known attribute values to lower case
-     */
-    public boolean getLowerLiterals()
-    {
-        return configuration.lowerLiterals;
-    }
-
-    /**
-     * hide-comments - hides all (real) comments in output.
-     * @param hideComments true = hides all comments in output
-     * @see Configuration#hideComments
-     */
-    public void setHideComments(boolean hideComments)
-    {
-        configuration.hideComments = hideComments;
-    }
-
-    /**
-     * hide-comments - hides all (real) comments in output.
-     * @return true if tidy will hide all comments in output
-     */
-    public boolean getHideComments()
-    {
-        return configuration.hideComments;
-    }
-
-    /**
-     * indent-cdata - indent CDATA sections.
-     * @param indentCdata true = indent CDATA sections
-     * @see Configuration#indentCdata
-     */
-    public void setIndentCdata(boolean indentCdata)
-    {
-        configuration.indentCdata = indentCdata;
-    }
-
-    /**
-     * indent-cdata - indent CDATA sections.
-     * @return true if tidy will indent CDATA sections
-     */
-    public boolean getIndentCdata()
-    {
-        return configuration.indentCdata;
-    }
-
-    /**
-     * force-output - output document even if errors were found.
-     * @param forceOutput true = output document even if errors were found
-     * @see Configuration#forceOutput
-     */
-    public void setForceOutput(boolean forceOutput)
-    {
-        configuration.forceOutput = forceOutput;
-    }
-
-    /**
-     * force-output - output document even if errors were found.
-     * @return true if tidy will output document even if errors were found
-     */
-    public boolean getForceOutput()
-    {
-        return configuration.forceOutput;
-    }
-
-    /**
-     * show-errors - set the number of errors to put out.
-     * @param showErrors number of errors to put out
-     * @see Configuration#showErrors
-     */
-    public void setShowErrors(int showErrors)
-    {
-        configuration.showErrors = showErrors;
-    }
-
-    /**
-     * show-errors - number of errors to put out.
-     * @return the number of errors tidy will put out
-     */
-    public int getShowErrors()
-    {
-        return configuration.showErrors;
-    }
-
-    /**
-     * ascii-chars - convert quotes and dashes to nearest ASCII char.
-     * @param asciiChars true = convert quotes and dashes to nearest ASCII char
-     * @see Configuration#asciiChars
-     */
-    public void setAsciiChars(boolean asciiChars)
-    {
-        configuration.asciiChars = asciiChars;
-    }
-
-    /**
-     * ascii-chars - convert quotes and dashes to nearest ASCII char.
-     * @return true if tidy will convert quotes and dashes to nearest ASCII char
-     */
-    public boolean getAsciiChars()
-    {
-        return configuration.asciiChars;
-    }
-
-    /**
-     * join-classes - join multiple class attributes.
-     * @param joinClasses true = join multiple class attributes
-     * @see Configuration#joinClasses
-     */
-    public void setJoinClasses(boolean joinClasses)
-    {
-        configuration.joinClasses = joinClasses;
-    }
-
-    /**
-     * join-classes - join multiple class attributes.
-     * @return true if tidy will join multiple class attributes
-     */
-    public boolean getJoinClasses()
-    {
-        return configuration.joinClasses;
-    }
-
-    /**
-     * join-styles - join multiple style attributes.
-     * @param joinStyles true = join multiple style attributes
-     * @see Configuration#joinStyles
-     */
-    public void setJoinStyles(boolean joinStyles)
-    {
-        configuration.joinStyles = joinStyles;
-    }
-
-    /**
-     * join-styles - join multiple style attributes.
-     * @return true if tidy will join multiple style attributes
-     */
-    public boolean getJoinStyles()
-    {
-        return configuration.joinStyles;
-    }
-
-    /**
-     * replace-color - replace hex color attribute values with names.
-     * @param replaceColor true = replace hex color attribute values with names
-     * @see Configuration#replaceColor
-     */
-    public void setReplaceColor(boolean replaceColor)
-    {
-        configuration.replaceColor = replaceColor;
-    }
-
-    /**
-     * replace-color - replace hex color attribute values with names.
-     * @return true if tidy will replace hex color attribute values with names
-     */
-    public boolean getReplaceColor()
-    {
-        return configuration.replaceColor;
-    }
-
-    /**
-     * escape-cdata - replace CDATA sections with escaped text.
-     * @param escapeCdata true = replace CDATA sections with escaped text
-     * @see Configuration#escapeCdata
-     */
-    public void setEscapeCdata(boolean escapeCdata)
-    {
-        configuration.escapeCdata = escapeCdata;
-    }
-
-    /**
-     * escape-cdata -replace CDATA sections with escaped text.
-     * @return true if tidy will replace CDATA sections with escaped text
-     */
-    public boolean getEscapeCdata()
-    {
-        return configuration.escapeCdata;
-    }
-
-    /**
-     * repeated-attributes - keep first or last duplicate attribute.
-     * @param repeatedAttributes <code>Configuration.KEEP_FIRST | Configuration.KEEP_LAST</code>
-     * @see Configuration#duplicateAttrs
-     */
-    public void setRepeatedAttributes(int repeatedAttributes)
-    {
-        configuration.duplicateAttrs = repeatedAttributes;
-    }
-
-    /**
-     * repeated-attributes - keep first or last duplicate attribute.
-     * @return <code>Configuration.KEEP_FIRST | Configuration.KEEP_LAST</code>
-     */
-    public int getRepeatedAttributes()
-    {
-        return configuration.duplicateAttrs;
-    }
-
-    /**
      * InputStreamName - the name of the input stream (printed in the header information).
      * @param name input stream name
      */
@@ -1204,6 +179,20 @@ public class Tidy implements Serializable
     public String getInputStreamName()
     {
         return inputStreamName;
+    }
+
+    /**
+     * Errout - the error output stream.
+     * @return error output stream.
+     */
+    public PrintWriter getErrout()
+    {
+        return errout;
+    }
+
+    public void setErrout(PrintWriter out)
+    {
+        this.errout = out;
     }
 
     /**
@@ -1267,11 +256,6 @@ public class Tidy implements Serializable
         Node doctype;
         PPrint pprint;
         boolean inputHadBOM = false;
-
-        if (!initialized)
-        {
-            return null;
-        }
 
         if (errout == null)
         {
@@ -2040,4 +1024,1328 @@ public class Tidy implements Serializable
     {
         this.report.addMessageListener(listener);
     }
+
+    /// CONFIGURATION ///
+
+    /**
+     * <code>indent-spaces</code>- default indentation.
+     * @param spaces number of spaces used for indentation
+     * @see Configuration#spaces
+     */
+    public void setSpaces(int spaces)
+    {
+        configuration.spaces = spaces;
+    }
+
+    /**
+     * <code>indent-spaces</code>- default indentation.
+     * @return number of spaces used for indentation
+     * @see Configuration#spaces
+     */
+    public int getSpaces()
+    {
+        return configuration.spaces;
+    }
+
+    /**
+     * <code>wrap</code>- default wrap margin.
+     * @param wraplen default wrap margin
+     * @see Configuration#wraplen
+     */
+    public void setWraplen(int wraplen)
+    {
+        configuration.wraplen = wraplen;
+    }
+
+    /**
+     * <code>wrap</code>- default wrap margin.
+     * @return default wrap margin
+     * @see Configuration#wraplen
+     */
+    public int getWraplen()
+    {
+        return configuration.wraplen;
+    }
+
+    /**
+     * <code>tab-size</code>- tab size in chars.
+     * @param tabsize tab size in chars
+     * @see Configuration#tabsize
+     */
+    public void setTabsize(int tabsize)
+    {
+        configuration.tabsize = tabsize;
+    }
+
+    /**
+     * <code>tab-size</code>- tab size in chars.
+     * @return tab size in chars
+     * @see Configuration#tabsize
+     */
+    public int getTabsize()
+    {
+        return configuration.tabsize;
+    }
+
+    /**
+     * Errfile - file name to write errors to.
+     * @param errfile file name to write errors to
+     * @see Configuration#errfile
+     */
+    public void setErrfile(String errfile)
+    {
+        configuration.errfile = errfile;
+    }
+
+    /**
+     * Errfile - file name to write errors to.
+     * @return error file name
+     * @see Configuration#errfile
+     */
+    public String getErrfile()
+    {
+        return configuration.errfile;
+    }
+
+    /**
+     * writeback - if true then output tidied markup. NOTE: this property is ignored when parsing from an InputStream.
+     * @param writeback <code>true</code>= output tidied markup
+     * @see Configuration#writeback
+     */
+    public void setWriteback(boolean writeback)
+    {
+        configuration.writeback = writeback;
+    }
+
+    /**
+     * writeback - if true then output tidied markup. NOTE: this property is ignored when parsing from an InputStream.
+     * @return <code>true</code> if tidy will output tidied markup in input file
+     * @see Configuration#writeback
+     */
+    public boolean getWriteback()
+    {
+        return configuration.writeback;
+    }
+
+    /**
+     * only-errors - if true normal output is suppressed.
+     * @param onlyErrors if <code>true</code> normal output is suppressed.
+     * @see Configuration#onlyErrors
+     */
+    public void setOnlyErrors(boolean onlyErrors)
+    {
+        configuration.onlyErrors = onlyErrors;
+    }
+
+    /**
+     * only-errors - if true normal output is suppressed.
+     * @return <code>true</code> if normal output is suppressed.
+     * @see Configuration#onlyErrors
+     */
+    public boolean getOnlyErrors()
+    {
+        return configuration.onlyErrors;
+    }
+
+    /**
+     * show-warnings - show warnings? (errors are always shown).
+     * @param showWarnings if <code>false</code> warnings are not shown
+     * @see Configuration#showWarnings
+     */
+    public void setShowWarnings(boolean showWarnings)
+    {
+        configuration.showWarnings = showWarnings;
+    }
+
+    /**
+     * show-warnings - show warnings? (errors are always shown).
+     * @return <code>false</code> if warnings are not shown
+     * @see Configuration#showWarnings
+     */
+    public boolean getShowWarnings()
+    {
+        return configuration.showWarnings;
+    }
+
+    /**
+     * quiet - no 'Parsing X', guessed DTD or summary.
+     * @param quiet <code>true</code>= don't output summary, warnings or errors
+     * @see Configuration#quiet
+     */
+    public void setQuiet(boolean quiet)
+    {
+        configuration.quiet = quiet;
+    }
+
+    /**
+     * quiet - no 'Parsing X', guessed DTD or summary.
+     * @return <code>true</code> if tidy will not output summary, warnings or errors
+     * @see Configuration#quiet
+     */
+    public boolean getQuiet()
+    {
+        return configuration.quiet;
+    }
+
+    /**
+     * indent - indent content of appropriate tags.
+     * @param indentContent indent content of appropriate tags
+     * @see Configuration#indentContent
+     */
+    public void setIndentContent(boolean indentContent)
+    {
+        configuration.indentContent = indentContent;
+    }
+
+    /**
+     * indent - indent content of appropriate tags.
+     * @return <code>true</code> if tidy will indent content of appropriate tags
+     * @see Configuration#indentContent
+     */
+    public boolean getIndentContent()
+    {
+        return configuration.indentContent;
+    }
+
+    /**
+     * SmartIndent - does text/block level content effect indentation.
+     * @param smartIndent <code>true</code> if text/block level content should effect indentation
+     * @see Configuration#smartIndent
+     */
+    public void setSmartIndent(boolean smartIndent)
+    {
+        configuration.smartIndent = smartIndent;
+    }
+
+    /**
+     * SmartIndent - does text/block level content effect indentation.
+     * @return <code>true</code> if text/block level content should effect indentation
+     * @see Configuration#smartIndent
+     */
+    public boolean getSmartIndent()
+    {
+        return configuration.smartIndent;
+    }
+
+    /**
+     * hide-endtags - suppress optional end tags.
+     * @param hideEndTags <code>true</code>= suppress optional end tags
+     * @see Configuration#hideEndTags
+     */
+    public void setHideEndTags(boolean hideEndTags)
+    {
+        configuration.hideEndTags = hideEndTags;
+    }
+
+    /**
+     * hide-endtags - suppress optional end tags.
+     * @return <code>true</code> if tidy will suppress optional end tags
+     * @see Configuration#hideEndTags
+     */
+    public boolean getHideEndTags()
+    {
+        return configuration.hideEndTags;
+    }
+
+    /**
+     * input-xml - treat input as XML.
+     * @param xmlTags <code>true</code> if tidy should treat input as XML
+     * @see Configuration#xmlTags
+     */
+    public void setXmlTags(boolean xmlTags)
+    {
+        configuration.xmlTags = xmlTags;
+    }
+
+    /**
+     * input-xml - treat input as XML.
+     * @return <code>true</code> if tidy will treat input as XML
+     * @see Configuration#xmlTags
+     */
+    public boolean getXmlTags()
+    {
+        return configuration.xmlTags;
+    }
+
+    /**
+     * output-xml - create output as XML.
+     * @param xmlOut <code>true</code> if tidy should create output as xml
+     * @see Configuration#xmlOut
+     */
+    public void setXmlOut(boolean xmlOut)
+    {
+        configuration.xmlOut = xmlOut;
+    }
+
+    /**
+     * output-xml - create output as XML.
+     * @return <code>true</code> if tidy will create output as xml
+     * @see Configuration#xmlOut
+     */
+    public boolean getXmlOut()
+    {
+        return configuration.xmlOut;
+    }
+
+    /**
+     * output-xhtml - output extensible HTML.
+     * @param xhtml <code>true</code> if tidy should output XHTML
+     * @see Configuration#xHTML
+     */
+    public void setXHTML(boolean xhtml)
+    {
+        configuration.xHTML = xhtml;
+    }
+
+    /**
+     * output-xhtml - output extensible HTML.
+     * @retur <code>true</code> if tidy will output XHTML
+     * @see Configuration#xHTML
+     */
+    public boolean getXHTML()
+    {
+        return configuration.xHTML;
+    }
+
+    /**
+     * uppercase-tags - output tags in upper case.
+     * @param upperCaseTags <code>true</code> if tidy should output tags in upper case (default is lowercase)
+     * @see Configuration#upperCaseTags
+     */
+    public void setUpperCaseTags(boolean upperCaseTags)
+    {
+        configuration.upperCaseTags = upperCaseTags;
+    }
+
+    /**
+     * uppercase-tags - output tags in upper case.
+     * @return <code>true</code> if tidy should will tags in upper case
+     * @see Configuration#upperCaseTags
+     */
+    public boolean getUpperCaseTags()
+    {
+        return configuration.upperCaseTags;
+    }
+
+    /**
+     * uppercase-attributes - output attributes in upper case.
+     * @param upperCaseAttrs <code>true</code> if tidy should output attributes in upper case (default is lowercase)
+     * @see Configuration#upperCaseAttrs
+     */
+    public void setUpperCaseAttrs(boolean upperCaseAttrs)
+    {
+        configuration.upperCaseAttrs = upperCaseAttrs;
+    }
+
+    /**
+     * uppercase-attributes - output attributes in upper case.
+     * @return <code>true</code> if tidy should will attributes in upper case
+     * @see Configuration#upperCaseAttrs
+     */
+    public boolean getUpperCaseAttrs()
+    {
+        return configuration.upperCaseAttrs;
+    }
+
+    /**
+     * make-clean - remove presentational clutter.
+     * @param makeClean true to remove presentational clutter
+     * @see Configuration#makeClean
+     */
+    public void setMakeClean(boolean makeClean)
+    {
+        configuration.makeClean = makeClean;
+    }
+
+    /**
+     * make-clean - remove presentational clutter.
+     * @return true if tidy will remove presentational clutter
+     * @see Configuration#makeClean
+     */
+    public boolean getMakeClean()
+    {
+        return configuration.makeClean;
+    }
+
+    /**
+     * make-bare - remove Microsoft cruft.
+     * @param makeBare true to remove Microsoft cruft
+     * @see Configuration#makeBare
+     */
+    public void setMakeBare(boolean makeBare)
+    {
+        configuration.makeBare = makeBare;
+    }
+
+    /**
+     * make-clean - remove Microsoft cruft.
+     * @return true if tidy will remove Microsoft cruft
+     * @see Configuration#makeBare
+     */
+    public boolean getMakeBare()
+    {
+        return configuration.makeBare;
+    }
+
+    /**
+     * break-before-br - output newline before &lt;br&gt;.
+     * @param breakBeforeBR <code>true</code> if tidy should output a newline before &lt;br&gt;
+     * @see Configuration#breakBeforeBR
+     */
+    public void setBreakBeforeBR(boolean breakBeforeBR)
+    {
+        configuration.breakBeforeBR = breakBeforeBR;
+    }
+
+    /**
+     * break-before-br - output newline before &lt;br&gt;.
+     * @return <code>true</code> if tidy will output a newline before &lt;br&gt;
+     * @see Configuration#breakBeforeBR
+     */
+    public boolean getBreakBeforeBR()
+    {
+        return configuration.breakBeforeBR;
+    }
+
+    /**
+     * <code>split</code>- create slides on each h2 element.
+     * @param burstSlides <code>true</code> if tidy should create slides on each h2 element
+     * @see Configuration#burstSlides
+     */
+    public void setBurstSlides(boolean burstSlides)
+    {
+        configuration.burstSlides = burstSlides;
+    }
+
+    /**
+     * <code>split</code>- create slides on each h2 element.
+     * @return <code>true</code> if tidy will create slides on each h2 element
+     * @see Configuration#burstSlides
+     */
+    public boolean getBurstSlides()
+    {
+        return configuration.burstSlides;
+    }
+
+    /**
+     * <code>numeric-entities</code>- output entities other than the built-in HTML entities in the numeric rather
+     * than the named entity form.
+     * @param numEntities <code>true</code> if tidy should output entities in the numeric form.
+     * @see Configuration#numEntities
+     */
+    public void setNumEntities(boolean numEntities)
+    {
+        configuration.numEntities = numEntities;
+    }
+
+    /**
+     * <code>numeric-entities</code>- output entities other than the built-in HTML entities in the numeric rather
+     * than the named entity form.
+     * @return <code>true</code> if tidy will output entities in the numeric form.
+     * @see Configuration#numEntities
+     */
+    public boolean getNumEntities()
+    {
+        return configuration.numEntities;
+    }
+
+    /**
+     * <code>quote-marks</code>- output " marks as &amp;quot;.
+     * @param quoteMarks <code>true</code> if tidy should output " marks as &amp;quot;
+     * @see Configuration#quoteMarks
+     */
+    public void setQuoteMarks(boolean quoteMarks)
+    {
+        configuration.quoteMarks = quoteMarks;
+    }
+
+    /**
+     * <code>quote-marks</code>- output " marks as &amp;quot;.
+     * @return <code>true</code> if tidy will output " marks as &amp;quot;
+     * @see Configuration#quoteMarks
+     */
+    public boolean getQuoteMarks()
+    {
+        return configuration.quoteMarks;
+    }
+
+    /**
+     * <code>quote-nbsp</code>- output non-breaking space as entity.
+     * @param quoteNbsp <code>true</code> if tidy should output non-breaking space as entity
+     * @see Configuration#quoteNbsp
+     */
+    public void setQuoteNbsp(boolean quoteNbsp)
+    {
+        configuration.quoteNbsp = quoteNbsp;
+    }
+
+    /**
+     * <code>quote-nbsp</code>- output non-breaking space as entity.
+     * @return <code>true</code> if tidy will output non-breaking space as entity
+     * @see Configuration#quoteNbsp
+     */
+    public boolean getQuoteNbsp()
+    {
+        return configuration.quoteNbsp;
+    }
+
+    /**
+     * <code>quote-ampersand</code>- output naked ampersand as &amp;.
+     * @param quoteAmpersand <code>true</code> if tidy should output naked ampersand as &amp;
+     * @see Configuration#quoteAmpersand
+     */
+    public void setQuoteAmpersand(boolean quoteAmpersand)
+    {
+        configuration.quoteAmpersand = quoteAmpersand;
+    }
+
+    /**
+     * <code>quote-ampersand</code>- output naked ampersand as &amp;.
+     * @return <code>true</code> if tidy will output naked ampersand as &amp;
+     * @see Configuration#quoteAmpersand
+     */
+    public boolean getQuoteAmpersand()
+    {
+        return configuration.quoteAmpersand;
+    }
+
+    /**
+     * <code>wrap-attributes</code>- wrap within attribute values.
+     * @param wrapAttVals <code>true</code> if tidy should wrap within attribute values
+     * @see Configuration#wrapAttVals
+     */
+    public void setWrapAttVals(boolean wrapAttVals)
+    {
+        configuration.wrapAttVals = wrapAttVals;
+    }
+
+    /**
+     * <code>wrap-attributes</code>- wrap within attribute values.
+     * @return <code>true</code> if tidy will wrap within attribute values
+     * @see Configuration#wrapAttVals
+     */
+    public boolean getWrapAttVals()
+    {
+        return configuration.wrapAttVals;
+    }
+
+    /**
+     * <code>wrap-script-literals</code>- wrap within JavaScript string literals.
+     * @param wrapScriptlets <code>true</code> if tidy should wrap within JavaScript string literals
+     * @see Configuration#wrapScriptlets
+     */
+    public void setWrapScriptlets(boolean wrapScriptlets)
+    {
+        configuration.wrapScriptlets = wrapScriptlets;
+    }
+
+    /**
+     * <code>wrap-script-literals</code>- wrap within JavaScript string literals.
+     * @return <code>true</code> if tidy will wrap within JavaScript string literals
+     * @see Configuration#wrapScriptlets
+     */
+    public boolean getWrapScriptlets()
+    {
+        return configuration.wrapScriptlets;
+    }
+
+    /**
+     * <code>wrap-sections</code>- wrap within &lt;![ ... ]&gt; section tags
+     * @param wrapSection <code>true</code> if tidy should wrap within &lt;![ ... ]&gt; section tags
+     * @see Configuration#wrapSection
+     */
+    public void setWrapSection(boolean wrapSection)
+    {
+        configuration.wrapSection = wrapSection;
+    }
+
+    /**
+     * <code>wrap-sections</code>- wrap within &lt;![ ... ]&gt; section tags
+     * @return <code>true</code> if tidy will wrap within &lt;![ ... ]&gt; section tags
+     * @see Configuration#wrapSection
+     */
+    public boolean getWrapSection()
+    {
+        return configuration.wrapSection;
+    }
+
+    /**
+     * <code>alt-text</code>- default text for alt attribute.
+     * @param altText default text for alt attribute
+     * @see Configuration#altText
+     */
+    public void setAltText(String altText)
+    {
+        configuration.altText = altText;
+    }
+
+    /**
+     * <code>alt-text</code>- default text for alt attribute.
+     * @return default text for alt attribute
+     * @see Configuration#altText
+     */
+    public String getAltText()
+    {
+        return configuration.altText;
+    }
+
+    /**
+     * <code>add-xml-pi</code>- add &lt;?xml?&gt; for XML docs.
+     * @param xmlPi <code>true</code> if tidy should add &lt;?xml?&gt; for XML docs
+     * @see Configuration#xmlPi
+     */
+    public void setXmlPi(boolean xmlPi)
+    {
+        configuration.xmlPi = xmlPi;
+    }
+
+    /**
+     * <code>add-xml-pi</code>- add &lt;?xml?&gt; for XML docs.
+     * @return <code>true</code> if tidy will add &lt;?xml?&gt; for XML docs
+     * @see Configuration#xmlPi
+     */
+    public boolean getXmlPi()
+    {
+        return configuration.xmlPi;
+    }
+
+    /**
+     * <code>drop-font-tags</code>- discard presentation tags.
+     * @param dropFontTags <code>true</code> if tidy should discard presentation tags
+     * @see Configuration#dropFontTags
+     */
+    public void setDropFontTags(boolean dropFontTags)
+    {
+        configuration.dropFontTags = dropFontTags;
+    }
+
+    /**
+     * <code>drop-font-tags</code>- discard presentation tags.
+     * @return <code>true</code> if tidy will discard presentation tags
+     * @see Configuration#dropFontTags
+     */
+    public boolean getDropFontTags()
+    {
+        return configuration.dropFontTags;
+    }
+
+    /**
+     * <code>drop-proprietary-attributes</code>- discard proprietary attributes.
+     * @param dropProprietaryAttributes <code>true</code> if tidy should discard proprietary attributes
+     * @see Configuration#dropProprietaryAttributes
+     */
+    public void setDropProprietaryAttributes(boolean dropProprietaryAttributes)
+    {
+        configuration.dropProprietaryAttributes = dropProprietaryAttributes;
+    }
+
+    /**
+     * <code>drop-proprietary-attributes</code>- discard proprietary attributes.
+     * @return <code>true</code> if tidy will discard proprietary attributes
+     * @see Configuration#dropProprietaryAttributes
+     */
+    public boolean getDropProprietaryAttributes()
+    {
+        return configuration.dropProprietaryAttributes;
+    }
+
+    /**
+     * <code>drop-empty-paras</code>- discard empty p elements.
+     * @param dropEmptyParas <code>true</code> if tidy should discard empty p elements
+     * @see Configuration#dropEmptyParas
+     */
+    public void setDropEmptyParas(boolean dropEmptyParas)
+    {
+        configuration.dropEmptyParas = dropEmptyParas;
+    }
+
+    /**
+     * <code>drop-empty-paras</code>- discard empty p elements.
+     * @return <code>true</code> if tidy will discard empty p elements
+     * @see Configuration#dropEmptyParas
+     */
+    public boolean getDropEmptyParas()
+    {
+        return configuration.dropEmptyParas;
+    }
+
+    /**
+     * <code>fix-bad-comments</code>- fix comments with adjacent hyphens.
+     * @param fixComments <code>true</code> if tidy should fix comments with adjacent hyphens
+     * @see Configuration#fixComments
+     */
+    public void setFixComments(boolean fixComments)
+    {
+        configuration.fixComments = fixComments;
+    }
+
+    /**
+     * <code>fix-bad-comments</code>- fix comments with adjacent hyphens.
+     * @return <code>true</code> if tidy will fix comments with adjacent hyphens
+     * @see Configuration#fixComments
+     */
+    public boolean getFixComments()
+    {
+        return configuration.fixComments;
+    }
+
+    /**
+     * <code>wrap-asp</code>- wrap within ASP pseudo elements.
+     * @param wrapAsp <code>true</code> if tidy should wrap within ASP pseudo elements
+     * @see Configuration#wrapAsp
+     */
+    public void setWrapAsp(boolean wrapAsp)
+    {
+        configuration.wrapAsp = wrapAsp;
+    }
+
+    /**
+     * <code>wrap-asp</code>- wrap within ASP pseudo elements.
+     * @return <code>true</code> if tidy will wrap within ASP pseudo elements
+     * @see Configuration#wrapAsp
+     */
+    public boolean getWrapAsp()
+    {
+        return configuration.wrapAsp;
+    }
+
+    /**
+     * <code>wrap-jste</code>- wrap within JSTE pseudo elements.
+     * @param wrapJste <code>true</code> if tidy should wrap within JSTE pseudo elements
+     * @see Configuration#wrapJste
+     */
+    public void setWrapJste(boolean wrapJste)
+    {
+        configuration.wrapJste = wrapJste;
+    }
+
+    /**
+     * <code>wrap-jste</code>- wrap within JSTE pseudo elements.
+     * @return <code>true</code> if tidy will wrap within JSTE pseudo elements
+     * @see Configuration#wrapJste
+     */
+    public boolean getWrapJste()
+    {
+        return configuration.wrapJste;
+    }
+
+    /**
+     * <code>wrap-php</code>- wrap within PHP pseudo elements.
+     * @param wrapPhp <code>true</code> if tidy should wrap within PHP pseudo elements
+     * @see Configuration#wrapPhp
+     */
+    public void setWrapPhp(boolean wrapPhp)
+    {
+        configuration.wrapPhp = wrapPhp;
+    }
+
+    /**
+     * <code>wrap-php</code>- wrap within PHP pseudo elements.
+     * @return <code>true</code> if tidy will wrap within PHP pseudo elements
+     * @see Configuration#wrapPhp
+     */
+    public boolean getWrapPhp()
+    {
+        return configuration.wrapPhp;
+    }
+
+    /**
+     * <code>fix-backslash</code>- fix URLs by replacing \ with /.
+     * @param fixBackslash <code>true</code> if tidy should fix URLs by replacing \ with /
+     * @see Configuration#fixBackslash
+     */
+    public void setFixBackslash(boolean fixBackslash)
+    {
+        configuration.fixBackslash = fixBackslash;
+    }
+
+    /**
+     * <code>fix-backslash</code>- fix URLs by replacing \ with /.
+     * @return <code>true</code> if tidy will fix URLs by replacing \ with /
+     * @see Configuration#fixBackslash
+     */
+    public boolean getFixBackslash()
+    {
+        return configuration.fixBackslash;
+    }
+
+    /**
+     * <code>indent-attributes</code>- newline+indent before each attribute.
+     * @param indentAttributes <code>true</code> if tidy should output a newline+indent before each attribute
+     * @see Configuration#indentAttributes
+     */
+    public void setIndentAttributes(boolean indentAttributes)
+    {
+        configuration.indentAttributes = indentAttributes;
+    }
+
+    /**
+     * <code>indent-attributes</code>- newline+indent before each attribute.
+     * @return <code>true</code> if tidy will output a newline+indent before each attribute
+     * @see Configuration#indentAttributes
+     */
+    public boolean getIndentAttributes()
+    {
+        return configuration.indentAttributes;
+    }
+
+    /**
+     * <code>doctype</code>- user specified doctype.
+     * @param doctype <code>omit | auto | strict | loose | <em>fpi</em></code> where the <em>fpi </em> is a string
+     * similar to &quot;-//ACME//DTD HTML 3.14159//EN&quot; Note: for <em>fpi </em> include the double-quotes in the
+     * string.
+     * @see Configuration#docTypeStr
+     * @see Configuration#docTypeMode
+     */
+    public void setDocType(String doctype)
+    {
+        if (doctype != null)
+        {
+            configuration.docTypeStr = (String) ParsePropertyImpl.DOCTYPE.parse(doctype, "doctype", configuration);
+        }
+    }
+
+    /**
+     * <code>doctype</code>- user specified doctype.
+     * @return <code>omit | auto | strict | loose | <em>fpi</em></code> where the <em>fpi </em> is a string similar
+     * to &quot;-//ACME//DTD HTML 3.14159//EN&quot; Note: for <em>fpi </em> include the double-quotes in the string.
+     * @see Configuration#docTypeStr
+     * @see Configuration#docTypeMode
+     */
+    public String getDocType()
+    {
+        String result = null;
+        switch (configuration.docTypeMode)
+        {
+            case Configuration.DOCTYPE_OMIT :
+                result = "omit";
+                break;
+            case Configuration.DOCTYPE_AUTO :
+                result = "auto";
+                break;
+            case Configuration.DOCTYPE_STRICT :
+                result = "strict";
+                break;
+            case Configuration.DOCTYPE_LOOSE :
+                result = "loose";
+                break;
+            case Configuration.DOCTYPE_USER :
+                result = configuration.docTypeStr;
+                break;
+        }
+        return result;
+    }
+
+    /**
+     * <code>logical-emphasis</code>- replace i by em and b by strong.
+     * @param logicalEmphasis <code>true</code> if tidy should replace i by em and b by strong
+     * @see Configuration#logicalEmphasis
+     */
+    public void setLogicalEmphasis(boolean logicalEmphasis)
+    {
+        configuration.logicalEmphasis = logicalEmphasis;
+    }
+
+    /**
+     * <code>logical-emphasis</code>- replace i by em and b by strong.
+     * @return <code>true</code> if tidy will replace i by em and b by strong
+     * @see Configuration#logicalEmphasis
+     */
+    public boolean getLogicalEmphasis()
+    {
+        return configuration.logicalEmphasis;
+    }
+
+    /**
+     * <code>assume-xml-procins</code> This option specifies if Tidy should change the parsing of processing
+     * instructions to require ?> as the terminator rather than >. This option is automatically set if the input is in
+     * XML.
+     * @param xmlPIs <code>true</code> if tidy should expect a ?> at the end of processing instructions
+     * @see Configuration#xmlPIs
+     */
+    public void setXmlPIs(boolean xmlPIs)
+    {
+        configuration.xmlPIs = xmlPIs;
+    }
+
+    /**
+     * <code>assume-xml-procins</code> This option specifies if Tidy should change the parsing of processing
+     * instructions to require ?> as the terminator rather than >. This option is automatically set if the input is in
+     * XML.
+     * @return <code>true</code> if tidy will expect a ?> at the end of processing instructions
+     * @see Configuration#xmlPIs
+     */
+    public boolean getXmlPIs()
+    {
+        return configuration.xmlPIs;
+    }
+
+    /**
+     * <code>enclose-text</code>- if true text at body is wrapped in &lt;p&gt;'s.
+     * @param encloseText <code>true</code> if tidy should wrap text at body in &lt;p&gt;'s.
+     * @see Configuration#encloseBodyText
+     */
+    public void setEncloseText(boolean encloseText)
+    {
+        configuration.encloseBodyText = encloseText;
+    }
+
+    /**
+     * <code>enclose-text</code>- if true text at body is wrapped in &lt;p&gt;'s.
+     * @return <code>true</code> if tidy will wrap text at body in &lt;p&gt;'s.
+     * @see Configuration#encloseBodyText
+     */
+    public boolean getEncloseText()
+    {
+        return configuration.encloseBodyText;
+    }
+
+    /**
+     * <code>enclose-block-text</code>- if true text in blocks is wrapped in &lt;p&gt;'s.
+     * @param encloseBlockText <code>true</code> if tidy should wrap text text in blocks in &lt;p&gt;'s.
+     * @see Configuration#encloseBlockText
+     */
+    public void setEncloseBlockText(boolean encloseBlockText)
+    {
+        configuration.encloseBlockText = encloseBlockText;
+    }
+
+    /**
+     * <code>enclose-block-text</code>- if true text in blocks is wrapped in &lt;p&gt;'s. return <code>true</code>
+     * if tidy should will text text in blocks in &lt;p&gt;'s.
+     * @see Configuration#encloseBlockText
+     */
+    public boolean getEncloseBlockText()
+    {
+        return configuration.encloseBlockText;
+    }
+
+    /**
+     * <code>word-2000</code>- draconian cleaning for Word2000.
+     * @param word2000 <code>true</code> if tidy should clean word2000 documents
+     * @see Configuration#word2000
+     */
+    public void setWord2000(boolean word2000)
+    {
+        configuration.word2000 = word2000;
+    }
+
+    /**
+     * <code>word-2000</code>- draconian cleaning for Word2000.
+     * @return <code>true</code> if tidy will clean word2000 documents
+     * @see Configuration#word2000
+     */
+    public boolean getWord2000()
+    {
+        return configuration.word2000;
+    }
+
+    /**
+     * <code>tidy-mark</code>- add meta element indicating tidied doc.
+     * @param tidyMark <code>true</code> if tidy should add meta element indicating tidied doc
+     * @see Configuration#tidyMark
+     */
+    public void setTidyMark(boolean tidyMark)
+    {
+        configuration.tidyMark = tidyMark;
+    }
+
+    /**
+     * <code>tidy-mark</code>- add meta element indicating tidied doc.
+     * @return <code>true</code> if tidy will add meta element indicating tidied doc
+     * @see Configuration#tidyMark
+     */
+    public boolean getTidyMark()
+    {
+        return configuration.tidyMark;
+    }
+
+    /**
+     * <code>add-xml-space</code>- if set to yes adds xml:space attr as needed.
+     * @param xmlSpace <code>true</code> if tidy should add xml:space attr as needed
+     * @see Configuration#xmlSpace
+     */
+    public void setXmlSpace(boolean xmlSpace)
+    {
+        configuration.xmlSpace = xmlSpace;
+    }
+
+    /**
+     * <code>add-xml-space</code>- if set to yes adds xml:space attr as needed.
+     * @return <code>true</code> if tidy will add xml:space attr as needed
+     * @see Configuration#xmlSpace
+     */
+    public boolean getXmlSpace()
+    {
+        return configuration.xmlSpace;
+    }
+
+    /**
+     * <code>gnu-emacs</code>- if true format error output for GNU Emacs.
+     * @param emacs <code>true</code> if tidy should format error output for GNU Emacs
+     * @see Configuration#emacs
+     */
+    public void setEmacs(boolean emacs)
+    {
+        configuration.emacs = emacs;
+    }
+
+    /**
+     * <code>gnu-emacs</code>- if true format error output for GNU Emacs.
+     * @return <code>true</code> if tidy will format error output for GNU Emacs
+     * @see Configuration#emacs
+     */
+    public boolean getEmacs()
+    {
+        return configuration.emacs;
+    }
+
+    /**
+     * <code>literal-attributes</code>- if true attributes may use newlines.
+     * @param literalAttribs <code>true</code> if attributes may use newlines
+     * @see Configuration#literalAttribs
+     */
+    public void setLiteralAttribs(boolean literalAttribs)
+    {
+        configuration.literalAttribs = literalAttribs;
+    }
+
+    /**
+     * <code>literal-attributes</code>- if true attributes may use newlines.
+     * @return <code>true</code> if attributes may use newlines
+     * @see Configuration#literalAttribs
+     */
+    public boolean getLiteralAttribs()
+    {
+        return configuration.literalAttribs;
+    }
+
+    /**
+     * <code>print-body-only</code>- output BODY content only.
+     * @param bodyOnly true = print only the document body
+     * @see Configuration#bodyOnly
+     */
+    public void setPrintBodyOnly(boolean bodyOnly)
+    {
+        configuration.bodyOnly = bodyOnly;
+    }
+
+    /**
+     * <code>print-body-only</code>- output BODY content only.
+     * @return true if tidy will print only the document body
+     */
+    public boolean getPrintBodyOnly()
+    {
+        return configuration.bodyOnly;
+    }
+
+    /**
+     * <code>fix-uri</code>- fix uri references applying URI encoding if necessary.
+     * @param fixUri true = fix uri references
+     * @see Configuration#fixUri
+     */
+    public void setFixUri(boolean fixUri)
+    {
+        configuration.fixUri = fixUri;
+    }
+
+    /**
+     * <code>fix-uri</code>- output BODY content only.
+     * @return true if tidy will fix uri references
+     */
+    public boolean getFixUri()
+    {
+        return configuration.fixUri;
+    }
+
+    /**
+     * <code>lower-literals</code>- folds known attribute values to lower case.
+     * @param lowerLiterals true = folds known attribute values to lower case
+     * @see Configuration#lowerLiterals
+     */
+    public void setLowerLiterals(boolean lowerLiterals)
+    {
+        configuration.lowerLiterals = lowerLiterals;
+    }
+
+    /**
+     * <code>lower-literals</code>- folds known attribute values to lower case.
+     * @return true if tidy will folds known attribute values to lower case
+     */
+    public boolean getLowerLiterals()
+    {
+        return configuration.lowerLiterals;
+    }
+
+    /**
+     * <code>hide-comments</code>- hides all (real) comments in output.
+     * @param hideComments true = hides all comments in output
+     * @see Configuration#hideComments
+     */
+    public void setHideComments(boolean hideComments)
+    {
+        configuration.hideComments = hideComments;
+    }
+
+    /**
+     * <code>hide-comments</code>- hides all (real) comments in output.
+     * @return true if tidy will hide all comments in output
+     */
+    public boolean getHideComments()
+    {
+        return configuration.hideComments;
+    }
+
+    /**
+     * <code>indent-cdata</code>- indent CDATA sections.
+     * @param indentCdata true = indent CDATA sections
+     * @see Configuration#indentCdata
+     */
+    public void setIndentCdata(boolean indentCdata)
+    {
+        configuration.indentCdata = indentCdata;
+    }
+
+    /**
+     * <code>indent-cdata</code>- indent CDATA sections.
+     * @return true if tidy will indent CDATA sections
+     */
+    public boolean getIndentCdata()
+    {
+        return configuration.indentCdata;
+    }
+
+    /**
+     * <code>force-output</code>- output document even if errors were found.
+     * @param forceOutput true = output document even if errors were found
+     * @see Configuration#forceOutput
+     */
+    public void setForceOutput(boolean forceOutput)
+    {
+        configuration.forceOutput = forceOutput;
+    }
+
+    /**
+     * <code>force-output</code>- output document even if errors were found.
+     * @return true if tidy will output document even if errors were found
+     */
+    public boolean getForceOutput()
+    {
+        return configuration.forceOutput;
+    }
+
+    /**
+     * <code>show-errors</code>- set the number of errors to put out.
+     * @param showErrors number of errors to put out
+     * @see Configuration#showErrors
+     */
+    public void setShowErrors(int showErrors)
+    {
+        configuration.showErrors = showErrors;
+    }
+
+    /**
+     * <code>show-errors</code>- number of errors to put out.
+     * @return the number of errors tidy will put out
+     */
+    public int getShowErrors()
+    {
+        return configuration.showErrors;
+    }
+
+    /**
+     * <code>ascii-chars</code>- convert quotes and dashes to nearest ASCII char.
+     * @param asciiChars true = convert quotes and dashes to nearest ASCII char
+     * @see Configuration#asciiChars
+     */
+    public void setAsciiChars(boolean asciiChars)
+    {
+        configuration.asciiChars = asciiChars;
+    }
+
+    /**
+     * <code>ascii-chars</code>- convert quotes and dashes to nearest ASCII char.
+     * @return true if tidy will convert quotes and dashes to nearest ASCII char
+     */
+    public boolean getAsciiChars()
+    {
+        return configuration.asciiChars;
+    }
+
+    /**
+     * <code>join-classes</code>- join multiple class attributes.
+     * @param joinClasses true = join multiple class attributes
+     * @see Configuration#joinClasses
+     */
+    public void setJoinClasses(boolean joinClasses)
+    {
+        configuration.joinClasses = joinClasses;
+    }
+
+    /**
+     * <code>join-classes</code>- join multiple class attributes.
+     * @return true if tidy will join multiple class attributes
+     */
+    public boolean getJoinClasses()
+    {
+        return configuration.joinClasses;
+    }
+
+    /**
+     * <code>join-styles</code>- join multiple style attributes.
+     * @param joinStyles true = join multiple style attributes
+     * @see Configuration#joinStyles
+     */
+    public void setJoinStyles(boolean joinStyles)
+    {
+        configuration.joinStyles = joinStyles;
+    }
+
+    /**
+     * <code>join-styles</code>- join multiple style attributes.
+     * @return true if tidy will join multiple style attributes
+     */
+    public boolean getJoinStyles()
+    {
+        return configuration.joinStyles;
+    }
+
+    /**
+     * <code>replace-color</code>- replace hex color attribute values with names.
+     * @param replaceColor true = replace hex color attribute values with names
+     * @see Configuration#replaceColor
+     */
+    public void setReplaceColor(boolean replaceColor)
+    {
+        configuration.replaceColor = replaceColor;
+    }
+
+    /**
+     * <code>replace-color</code>- replace hex color attribute values with names.
+     * @return true if tidy will replace hex color attribute values with names
+     */
+    public boolean getReplaceColor()
+    {
+        return configuration.replaceColor;
+    }
+
+    /**
+     * <code>escape-cdata</code>- replace CDATA sections with escaped text.
+     * @param escapeCdata true = replace CDATA sections with escaped text
+     * @see Configuration#escapeCdata
+     */
+    public void setEscapeCdata(boolean escapeCdata)
+    {
+        configuration.escapeCdata = escapeCdata;
+    }
+
+    /**
+     * <code>escape-cdata</code> -replace CDATA sections with escaped text.
+     * @return true if tidy will replace CDATA sections with escaped text
+     */
+    public boolean getEscapeCdata()
+    {
+        return configuration.escapeCdata;
+    }
+
+    /**
+     * <code>repeated-attributes</code>- keep first or last duplicate attribute.
+     * @param repeatedAttributes <code>Configuration.KEEP_FIRST | Configuration.KEEP_LAST</code>
+     * @see Configuration#duplicateAttrs
+     */
+    public void setRepeatedAttributes(int repeatedAttributes)
+    {
+        configuration.duplicateAttrs = repeatedAttributes;
+    }
+
+    /**
+     * <code>repeated-attributes</code>- keep first or last duplicate attribute.
+     * @return <code>Configuration.KEEP_FIRST | Configuration.KEEP_LAST</code>
+     */
+    public int getRepeatedAttributes()
+    {
+        return configuration.duplicateAttrs;
+    }
+
+    /**
+     * <code>keep-time</code>- if true last modified time is preserved.
+     * @param keepFileTimes <code>true</code> if tidy should preserved last modified time in input file.
+     * @todo <strong>this is NOT supported at this time. </strong>
+     * @see Configuration#keepFileTimes
+     */
+    public void setKeepFileTimes(boolean keepFileTimes)
+    {
+        configuration.keepFileTimes = keepFileTimes;
+    }
+
+    /**
+     * <code>keep-time</code>- if true last modified time is preserved.
+     * @return <code>true</code> if tidy will preserved last modified time in input file.
+     * @todo <strong>this is NOT supported at this time. </strong>
+     * @see Configuration#keepFileTimes
+     */
+    public boolean getKeepFileTimes()
+    {
+        return configuration.keepFileTimes;
+    }
+
+    /**
+     * Sets the character encoding used both for input and for output.
+     * @param charencoding encoding constant
+     * @deprecated set input/output encoding using java encoding names
+     */
+    public void setCharEncoding(int charencoding)
+    {
+        configuration.adjustCharEncoding(charencoding);
+    }
+
+    /**
+     * Returns the configured character encoding.
+     * @return character encoding constant
+     * @deprecated from r8 tidy can use different encoding for input and output. This method will only return the
+     * <strong>input </strong> character encoding.
+     */
+    public int getCharEncoding()
+    {
+        return configuration.getInCharEncoding();
+    }
+
+    /**
+     * @param slidestyle N/A
+     * @deprecated does nothing
+     */
+    public void setSlidestyle(String slidestyle)
+    {
+        configuration.slidestyle = slidestyle;
+    }
+
+    /**
+     * @deprecated does nothing
+     * @return <code>null</code>
+     */
+    public String getSlidestyle()
+    {
+        return null;
+    }
+
+    /**
+     * RawOut - avoid mapping values > 127 to entities.
+     * @deprecated use setNumEntities(boolean)
+     * @see #setNumEntities(boolean)
+     */
+    public void setRawOut(boolean rawOut)
+    {
+        setNumEntities(rawOut);
+    }
+
+    /**
+     * RawOut - avoid mapping values > 127 to entities.
+     * @deprecated use setNumEntities(boolean)
+     * @see #setNumEntities(boolean)
+     */
+    public boolean getRawOut()
+    {
+        return getNumEntities();
+    }
+
 }

@@ -71,16 +71,34 @@ import java.text.NumberFormat;
 public class PPrint
 {
 
+    /**
+     * position: normal.
+     */
     private static final short NORMAL = 0;
 
+    /**
+     * position: preformatted text.
+     */
     private static final short PREFORMATTED = 1;
 
+    /**
+     * position: comment.
+     */
     private static final short COMMENT = 2;
 
+    /**
+     * position: attribute value.
+     */
     private static final short ATTRIBVALUE = 4;
 
+    /**
+     * position: nowrap.
+     */
     private static final short NOWRAP = 8;
 
+    /**
+     * position: cdata.
+     */
     private static final short CDATA = 16;
 
     /**
@@ -145,19 +163,36 @@ public class PPrint
 
     private boolean inString;
 
+    /**
+     * Current slide number.
+     */
     private int slide;
 
+    /**
+     * Total slides count.
+     */
     private int count;
 
     private Node slidecontent;
 
+    /**
+     * current configuration.
+     */
     private Configuration configuration;
 
+    /**
+     * Instantiates a new PPrint.
+     * @param configuration configuration
+     */
     public PPrint(Configuration configuration)
     {
         this.configuration = configuration;
     }
 
+    /**
+     * @param ind
+     * @return
+     */
     int cWrapLen(int ind)
     {
         /* #431953 - start RJ Wraplen adjusted for smooth international ride */
@@ -202,51 +237,14 @@ public class PPrint
             null,
             bytes,
             start + 1);
-        // err = DecodeUTF8BytesToChar(&n, str[0], (unsigned char *)&str[1], NULL, NULL, &bytes);
+
         if (err)
         {
-            n[0] = 0xFFFD; /* replacement char */
+            n[0] = 0xFFFD; // replacement char
         }
         ch[0] = n[0];
         return bytes[0] - 1;
 
-    }
-
-    /* store char c as UTF-8 encoded byte stream */
-    public static int OLDputUTF8(byte[] buf, int start, int c)
-    {
-        if (c < 128)
-        {
-            buf[start++] = (byte) c;
-        }
-        else if (c <= 0x7FF)
-        {
-            buf[start++] = (byte) (0xC0 | (c >> 6));
-            buf[start++] = (byte) (0x80 | (c & 0x3F));
-        }
-        else if (c <= 0xFFFF)
-        {
-            buf[start++] = (byte) (0xE0 | (c >> 12));
-            buf[start++] = (byte) (0x80 | ((c >> 6) & 0x3F));
-            buf[start++] = (byte) (0x80 | (c & 0x3F));
-        }
-        else if (c <= 0x1FFFFF)
-        {
-            buf[start++] = (byte) (0xF0 | (c >> 18));
-            buf[start++] = (byte) (0x80 | ((c >> 12) & 0x3F));
-            buf[start++] = (byte) (0x80 | ((c >> 6) & 0x3F));
-            buf[start++] = (byte) (0x80 | (c & 0x3F));
-        }
-        else
-        {
-            buf[start++] = (byte) (0xF8 | (c >> 24));
-            buf[start++] = (byte) (0x80 | ((c >> 18) & 0x3F));
-            buf[start++] = (byte) (0x80 | ((c >> 12) & 0x3F));
-            buf[start++] = (byte) (0x80 | ((c >> 6) & 0x3F));
-            buf[start++] = (byte) (0x80 | (c & 0x3F));
-        }
-
-        return start;
     }
 
     /**
@@ -341,6 +339,10 @@ public class PPrint
         return index + len;
     }
 
+    /**
+     * @param fout
+     * @param indent
+     */
     private void wrapLine(Out fout, int indent)
     {
         int i, p, q;
@@ -400,6 +402,11 @@ public class PPrint
         wraphere = 0;
     }
 
+    /**
+     * @param fout
+     * @param indent
+     * @param inString
+     */
     private void wrapAttrVal(Out fout, int indent, boolean inString)
     {
         int i, p, q;
@@ -455,6 +462,10 @@ public class PPrint
         wraphere = 0;
     }
 
+    /**
+     * @param fout
+     * @param indent
+     */
     public void flushLine(Out fout, int indent)
     {
         int i;
@@ -486,6 +497,10 @@ public class PPrint
         inAttVal = false;
     }
 
+    /**
+     * @param fout
+     * @param indent
+     */
     public void condFlushLine(Out fout, int indent)
     {
         int i;
@@ -517,15 +532,19 @@ public class PPrint
         }
     }
 
+    /**
+     * @param c
+     * @param mode
+     */
     private void printChar(int c, short mode)
     {
         String entity;
         boolean breakable = false; // #431953 - RJ
 
-        if (c == ' ' && !((mode & (PREFORMATTED | COMMENT | ATTRIBVALUE | CDATA)) != 0))
+        if (c == ' ' && !TidyUtils.toBoolean(mode & (PREFORMATTED | COMMENT | ATTRIBVALUE | CDATA)))
         {
             // coerce a space character to a non-breaking space
-            if ((mode & NOWRAP) != 0)
+            if (TidyUtils.toBoolean(mode & NOWRAP))
             {
                 // by default XML doesn't define &nbsp;
                 if (this.configuration.numEntities || this.configuration.xmlTags)
@@ -556,14 +575,14 @@ public class PPrint
         }
 
         // comment characters are passed raw
-        if ((mode & (COMMENT | CDATA)) != 0)
+        if (TidyUtils.toBoolean(mode & (COMMENT | CDATA)))
         {
             addC(c, linelen++);
             return;
         }
 
         // except in CDATA map < to &lt; etc.
-        if (!((mode & CDATA) != 0))
+        if (TidyUtils.toBoolean(mode & CDATA))
         {
             if (c == '<')
             {
@@ -779,7 +798,7 @@ public class PPrint
         }
 
         // if preformatted text, map &nbsp; to space
-        if (c == 160 && ((mode & PREFORMATTED) != 0))
+        if (c == 160 && TidyUtils.toBoolean(mode & PREFORMATTED))
         {
             addC(' ', linelen++);
             return;
@@ -969,6 +988,9 @@ public class PPrint
         }
     }
 
+    /**
+     * @param str
+     */
     private void printString(String str)
     {
         for (int i = 0; i < str.length(); i++)
@@ -977,6 +999,13 @@ public class PPrint
         }
     }
 
+    /**
+     * @param fout
+     * @param indent
+     * @param value
+     * @param delim
+     * @param wrappable
+     */
     private void printAttrValue(Out fout, int indent, String value, int delim, boolean wrappable)
     {
         int c;
@@ -1138,6 +1167,12 @@ public class PPrint
         addC(delim, linelen++);
     }
 
+    /**
+     * @param fout
+     * @param indent
+     * @param node
+     * @param attr
+     */
     private void printAttribute(Out fout, int indent, Node node, AttVal attr)
     {
         String name;
@@ -1213,6 +1248,12 @@ public class PPrint
         }
     }
 
+    /**
+     * @param fout
+     * @param indent
+     * @param node
+     * @param attr
+     */
     private void printAttrs(Out fout, int indent, Node node, AttVal attr)
     {
         Attribute attribute;
@@ -1229,7 +1270,7 @@ public class PPrint
                 attribute = attr.dict;
 
                 if (!this.configuration.dropProprietaryAttributes
-                    || !(attribute == null || ((attribute.getVersions() & Dict.VERS_PROPRIETARY) != 0)))
+                    || !(attribute == null || TidyUtils.toBoolean(attribute.getVersions() & Dict.VERS_PROPRIETARY)))
                 {
                     printAttribute(fout, indent, node, attr);
                 }
@@ -1267,7 +1308,7 @@ public class PPrint
         Node prev;
         int c;
 
-        if (node == null || node.tag == null || !((node.tag.model & Dict.CM_INLINE) != 0))
+        if (node == null || node.tag == null || !TidyUtils.toBoolean(node.tag.model & Dict.CM_INLINE))
         {
             return true;
         }
@@ -1292,6 +1333,13 @@ public class PPrint
         return afterSpace(node.parent);
     }
 
+    /**
+     * @param lexer
+     * @param fout
+     * @param mode
+     * @param indent
+     * @param node
+     */
     private void printTag(Lexer lexer, Out fout, short mode, int indent, Node node)
     {
         String p;
@@ -1323,7 +1371,7 @@ public class PPrint
 
         addC('>', linelen++);
 
-        if ((node.type != Node.START_END_TAG || configuration.xHTML) && !((mode & PREFORMATTED) != 0))
+        if ((node.type != Node.START_END_TAG || configuration.xHTML) && !TidyUtils.toBoolean(mode & PREFORMATTED))
         {
             if (indent + linelen >= this.configuration.wraplen)
             {
@@ -1335,8 +1383,8 @@ public class PPrint
 
                 // wrap after start tag if is <br/> or if it's not inline
                 // fix for [514348]
-                if (!((mode & NOWRAP) != 0)
-                    && (!((node.tag.model & Dict.CM_INLINE) != 0) || (node.tag == tt.tagBr))
+                if (!TidyUtils.toBoolean(mode & NOWRAP)
+                    && (!TidyUtils.toBoolean(node.tag.model & Dict.CM_INLINE) || (node.tag == tt.tagBr))
                     && afterSpace(node))
                 {
                     wraphere = linelen;
@@ -1351,6 +1399,11 @@ public class PPrint
 
     }
 
+    /**
+     * @param mode
+     * @param indent
+     * @param node
+     */
     private void printEndTag(short mode, int indent, Node node)
     {
         String p;
@@ -1358,7 +1411,7 @@ public class PPrint
         // Netscape ignores SGML standard by not ignoring a line break before </A> or </U> etc.
         // To avoid rendering this as an underlined space, I disable line wrapping before inline end tags
 
-        // if (indent + linelen < this.configuration.wraplen && !((mode & NOWRAP) != 0))
+        // if (indent + linelen < this.configuration.wraplen && !TidyUtils.toBoolean(mode & NOWRAP))
         // {
         //     wraphere = linelen;
         // }
@@ -1377,6 +1430,11 @@ public class PPrint
         addC('>', linelen++);
     }
 
+    /**
+     * @param fout
+     * @param indent
+     * @param node
+     */
     private void printComment(Out fout, int indent, Node node)
     {
         if (this.configuration.hideComments)
@@ -1419,6 +1477,12 @@ public class PPrint
         }
     }
 
+    /**
+     * @param fout
+     * @param indent
+     * @param lexer
+     * @param node
+     */
     private void printDocType(Out fout, int indent, Lexer lexer, Node node)
     {
         int i, c = 0;
@@ -1499,6 +1563,11 @@ public class PPrint
         condFlushLine(fout, indent);
     }
 
+    /**
+     * @param fout
+     * @param indent
+     * @param node
+     */
     private void printPI(Out fout, int indent, Node node)
     {
         if (indent + linelen < this.configuration.wraplen)
@@ -1938,11 +2007,11 @@ public class PPrint
 
         if (this.configuration.smartIndent)
         {
-            if (node.content != null && ((node.tag.model & Dict.CM_NO_INDENT) != 0))
+            if (node.content != null && TidyUtils.toBoolean(node.tag.model & Dict.CM_NO_INDENT))
             {
                 for (node = node.content; node != null; node = node.next)
                 {
-                    if (node.tag != null && (node.tag.model & Dict.CM_BLOCK) != 0)
+                    if (node.tag != null && TidyUtils.toBoolean(node.tag.model & Dict.CM_BLOCK))
                     {
                         return true;
                     }
@@ -1951,7 +2020,7 @@ public class PPrint
                 return false;
             }
 
-            if ((node.tag.model & Dict.CM_HEADING) != 0)
+            if (TidyUtils.toBoolean(node.tag.model & Dict.CM_HEADING))
             {
                 return false;
             }
@@ -1967,7 +2036,7 @@ public class PPrint
             }
         }
 
-        if ((node.tag.model & (Dict.CM_FIELD | Dict.CM_OBJECT)) != 0)
+        if (TidyUtils.toBoolean(node.tag.model & (Dict.CM_FIELD | Dict.CM_OBJECT)))
         {
             return true;
         }
@@ -1977,7 +2046,7 @@ public class PPrint
             return true;
         }
 
-        return !((node.tag.model & Dict.CM_INLINE) != 0);
+        return !TidyUtils.toBoolean(node.tag.model & Dict.CM_INLINE);
     }
 
     /**
@@ -2011,6 +2080,13 @@ public class PPrint
         }
     }
 
+    /**
+     * @param fout
+     * @param mode
+     * @param indent
+     * @param lexer
+     * @param node
+     */
     public void printTree(Out fout, short mode, int indent, Lexer lexer, Node node)
     {
         Node content, last;
@@ -2068,9 +2144,10 @@ public class PPrint
         {
             printPhp(fout, indent, node);
         }
-        else if ((node.tag.model & Dict.CM_EMPTY) != 0 || (node.type == Node.START_END_TAG && !configuration.xHTML))
+        else if (TidyUtils.toBoolean(node.tag.model & Dict.CM_EMPTY)
+            || (node.type == Node.START_END_TAG && !configuration.xHTML))
         {
-            if (!((node.tag.model & Dict.CM_INLINE) != 0))
+            if (!TidyUtils.toBoolean(node.tag.model & Dict.CM_INLINE))
             {
                 condFlushLine(fout, indent);
             }
@@ -2136,7 +2213,7 @@ public class PPrint
             {
                 printScriptStyle(fout, (short) (mode | PREFORMATTED | NOWRAP | CDATA), indent, lexer, node);
             }
-            else if ((node.tag.model & Dict.CM_INLINE) != 0)
+            else if (TidyUtils.toBoolean(node.tag.model & Dict.CM_INLINE))
             {
                 if (this.configuration.makeClean)
                 {
@@ -2204,7 +2281,7 @@ public class PPrint
 
                 // do not omit elements with attributes
                 if (!this.configuration.hideEndTags
-                    || !(node.tag != null && ((node.tag.model & Dict.CM_OMITST) != 0))
+                    || !(node.tag != null && TidyUtils.toBoolean(node.tag.model & Dict.CM_OMITST))
                     || node.attributes != null)
                 {
                     printTag(lexer, fout, mode, indent, node);
@@ -2213,9 +2290,9 @@ public class PPrint
                     {
                         condFlushLine(fout, indent);
                     }
-                    else if ((node.tag.model & Dict.CM_HTML) != 0
+                    else if (TidyUtils.toBoolean(node.tag.model & Dict.CM_HTML)
                         || node.tag == tt.tagNoframes
-                        || ((node.tag.model & Dict.CM_HEAD) != 0 && !(node.tag == tt.tagTitle)))
+                        || (TidyUtils.toBoolean(node.tag.model & Dict.CM_HEAD) && !(node.tag == tt.tagTitle)))
                     {
                         flushLine(fout, indent);
                     }
@@ -2256,13 +2333,15 @@ public class PPrint
 
                 // don't flush line for td and th
                 if (shouldIndent(node)
-                    || (((node.tag.model & Dict.CM_HTML) != 0 || node.tag == tt.tagNoframes || ((node.tag.model & Dict.CM_HEAD) != 0 && !(node.tag == tt.tagTitle))) && !this.configuration.hideEndTags))
+                    || ((TidyUtils.toBoolean(node.tag.model & Dict.CM_HTML) || node.tag == tt.tagNoframes || //
+                    (TidyUtils.toBoolean(node.tag.model & Dict.CM_HEAD) && !(node.tag == tt.tagTitle))) && //
+                    !this.configuration.hideEndTags))
                 {
                     condFlushLine(
                         fout,
                         (this.configuration.indentContent ? indent + this.configuration.spaces : indent));
 
-                    if (!this.configuration.hideEndTags || !((node.tag.model & Dict.CM_OPT) != 0))
+                    if (!this.configuration.hideEndTags || !TidyUtils.toBoolean(node.tag.model & Dict.CM_OPT))
                     {
                         printEndTag(mode, indent, node);
 
@@ -2277,7 +2356,7 @@ public class PPrint
                 }
                 else
                 {
-                    if (!this.configuration.hideEndTags || !((node.tag.model & Dict.CM_OPT) != 0))
+                    if (!this.configuration.hideEndTags || !TidyUtils.toBoolean(node.tag.model & Dict.CM_OPT))
                     {
                         printEndTag(mode, indent, node);
                     }
@@ -2289,7 +2368,8 @@ public class PPrint
                 // if (!this.configuration.indentContent
                 //     && node.next != null
                 //     && !this.configuration.hideEndTags
-                //     && (node.tag.model & (Dict.CM_BLOCK | Dict.CM_TABLE | Dict.CM_LIST | Dict.CM_DEFLIST)) != 0)
+                //     && (node.tag.model
+                //     & TidyUtils.toBoolean(Dict.CM_BLOCK | Dict.CM_TABLE | Dict.CM_LIST | Dict.CM_DEFLIST)))
                 //     {
                 //         flushLine(fout, indent);
                 //     }
@@ -2297,6 +2377,13 @@ public class PPrint
         }
     }
 
+    /**
+     * @param fout
+     * @param mode
+     * @param indent
+     * @param lexer
+     * @param node
+     */
     public void printXMLTree(Out fout, short mode, int indent, Lexer lexer, Node node)
     {
         TagTable tt = this.configuration.tt;
@@ -2357,7 +2444,9 @@ public class PPrint
         {
             printPhp(fout, indent, node);
         }
-        else if ((node.tag.model & Dict.CM_EMPTY) != 0 || node.type == Node.START_END_TAG && !configuration.xHTML)
+        else if (TidyUtils.toBoolean(node.tag.model & Dict.CM_EMPTY)
+            || node.type == Node.START_END_TAG
+            && !configuration.xHTML)
         {
             condFlushLine(fout, indent);
             printTag(lexer, fout, mode, indent, node);
@@ -2458,6 +2547,10 @@ public class PPrint
         return n;
     }
 
+    /**
+     * @param fout
+     * @param indent
+     */
     private void printNavBar(Out fout, int indent)
     {
         String buf;
@@ -2504,12 +2597,6 @@ public class PPrint
      * Called from printTree to print the content of a slide from the node slidecontent. On return slidecontent points
      * to the node starting the next slide or null. The variables slide and count are used to customise the navigation
      * bar.
-     * @param fout
-     * @param mode
-     * @param indent
-     * @param lexer
-     */
-    /**
      * @param fout
      * @param mode
      * @param indent
@@ -2590,7 +2677,7 @@ public class PPrint
                 && !this.configuration.indentContent
                 && last.type == Node.TEXT_NODE
                 && content.tag != null
-                && (content.tag.model & Dict.CM_BLOCK) != 0)
+                && TidyUtils.toBoolean(content.tag.model & Dict.CM_BLOCK))
             {
                 flushLine(fout, indent);
                 flushLine(fout, indent);

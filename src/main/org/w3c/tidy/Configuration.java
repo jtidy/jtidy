@@ -228,7 +228,6 @@ public class Configuration implements Serializable
         addConfigOption(new Flag("add-xml-pi", "xmlPi", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("add-xml-decl", "xmlPi", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("assume-xml-procins", "xmlPIs", ParsePropertyImpl.BOOL));
-        addConfigOption(new Flag("raw", "rawOut", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("uppercase-tags", "upperCaseTags", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("uppercase-attributes", "upperCaseAttrs", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("bare", "makeBare", ParsePropertyImpl.BOOL));
@@ -255,6 +254,7 @@ public class Configuration implements Serializable
         addConfigOption(new Flag("fix-backslash", "fixBackslash", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("gnu-emacs", "emacs", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("output-bom", "outputBOM", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("only-errors", "onlyErrors", ParsePropertyImpl.BOOL));
 
         addConfigOption(new Flag("markup", "onlyErrors", ParsePropertyImpl.INVBOOL));
 
@@ -316,6 +316,7 @@ public class Configuration implements Serializable
 
     /**
      * style sheet for slides.
+     * @deprecated does nothing
      */
     protected String slidestyle;
 
@@ -393,11 +394,6 @@ public class Configuration implements Serializable
      * add <code>&lt;?xml?&gt;</code> for XML docs.
      */
     protected boolean xmlPi;
-
-    /**
-     * avoid mapping values > 127 to entities.
-     */
-    protected boolean rawOut;
 
     /**
      * output tags in upper not lower case.
@@ -515,7 +511,7 @@ public class Configuration implements Serializable
     protected boolean indentAttributes;
 
     /**
-     * if set to yes PIs must end with <code>?&gt;</code>.
+     * If set to yes PIs must end with <code>?&gt;</code>.
      */
     protected boolean xmlPIs;
 
