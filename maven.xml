@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="rebuild-all" xmlns:m="maven" xmlns:j="jelly:core" xmlns:u="jelly:util">
+
+	<goal name="rebuild-all">
+		<j:set var="goals" value="clean,jar:jar,eclipseplugin:zip,site:generate" />
+		<mkdir dir="${maven.build.dir}" />
+		<u:tokenize var="goals" delim=",">${goals}</u:tokenize>
+		<j:forEach items="${goals}" var="goal" indexVar="goalNumber">
+			Now attaining goal number ${goalNumber}, which is ${goal}
+			<attainGoal name="${goal}" />
+		</j:forEach>
+	</goal>
+
+</project>

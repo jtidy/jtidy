@@ -1,0 +1,198 @@
+<project>
+    <pomVersion>3</pomVersion>
+    <groupId>jtidy</groupId>
+    <artifactId>jtidy</artifactId>
+    <name>jtidy</name>
+    <currentVersion>1.8-SNAPSHOT</currentVersion>
+  <organization>
+    <name>sourceforge</name>
+    <identifier>sourceforge</identifier>
+    <url>http://sourceforge.net</url>
+    <logo>http://sourceforge.net/sflogo.php?group_id=13153&amp;type=2</logo>
+  </organization>
+    <inceptionYear>2000</inceptionYear>
+    <package>org.w3c.tidy</package>
+    <logo>/images/logo.png</logo>
+    <shortDescription>JTidy is a Java port of HTML Tidy, a HTML syntax checker and pretty printer.</shortDescription>
+    <description>
+    	JTidy is a Java port of HTML Tidy, a HTML syntax checker and pretty printer.
+    	Like its non-Java cousin, JTidy can be used as a tool for cleaning up 
+    	malformed and faulty HTML. In addition, JTidy provides a DOM interface 
+    	to the document that is being processed, which effectively makes you able 
+    	to use JTidy as a DOM parser for real-world HTML.
+    </description>
+
+  <url>http://${pom.groupId}.sf.net</url>
+  <issueTrackingUrl>http://sourceforge.net/tracker/?group_id=13153</issueTrackingUrl>
+  <siteAddress>shell.sf.net</siteAddress>
+  <siteDirectory>/home/groups/j/jt/jtidye/htdocs</siteDirectory>
+  <distributionDirectory>http://sourceforge.net/project/showfiles.php?group_id=13153</distributionDirectory>
+  
+  <repository>
+    <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/${pom.groupId}:${pom.groupId}2</connection>
+    <url>http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/${pom.groupId}/${pom.groupId}2/</url>
+  </repository>
+
+
+
+  <versions>
+    <version>
+      <id>04aug2000r7</id>
+      <name>04aug2000r7</name>
+      <tag>04aug2000r7</tag>
+    </version>
+    <version>
+      <id>04aug2000r6</id>
+      <name>04aug2000r6</name>
+      <tag>04aug2000r6</tag>
+    </version>
+    <version>
+      <id>04aug2000r5</id>
+      <name>04aug2000r5</name>
+      <tag>04aug2000r5</tag>
+    </version>
+    <version>
+      <id>04aug2000r4</id>
+      <name>04aug2000r4</name>
+      <tag>04aug2000r4</tag>
+    </version>
+    <version>
+      <id>04aug2000r3</id>
+      <name>04aug2000r3</name>
+      <tag>04aug2000r3</tag>
+    </version>
+    <version>
+      <id>04aug2000r2</id>
+      <name>04aug2000r2</name>
+      <tag>04aug2000r2</tag>
+    </version>    
+  </versions>
+  
+    <mailingLists>
+    	<!--
+        <mailingList>
+            <name>${pom.name} Dev List</name>
+        </mailingList>
+        <mailingList>
+            <name>${pom.name} User List</name>
+        </mailingList>
+        -->
+    </mailingLists>
+
+  <developers>
+    <developer>
+      <name>Fabrizio Giustina</name>
+      <id>fgiust</id>
+      <email>fgiust AT users.sourceforge.net</email>
+      <organization>Sourceforge</organization>
+      <roles>
+        <role>Current project admin and developer</role>
+      </roles>
+      <timezone>+18</timezone>
+    </developer>
+   
+    <developer>
+      <name>Andy Tripp</name>
+      <id>atripp</id>
+      <email>atripp AT users.sourceforge.net</email>
+      <organization>Sourceforge</organization>
+      <roles>
+        <role>Project admin</role>
+      </roles>
+      <timezone></timezone>
+    </developer>
+    
+    <developer>
+      <name>Russell Gold</name>
+      <id>russgold</id>
+      <email>russgold AT users.sourceforge.net</email>
+      <organization>Sourceforge</organization>
+      <roles>
+        <role>Project admin</role>
+      </roles>
+      <timezone></timezone>
+    </developer>
+    
+    <developer>
+      <name>Gary L Peskin</name>
+      <id>garypeskin</id>
+      <email>garypeskin AT users.sourceforge.net</email>
+      <organization>Sourceforge</organization>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone></timezone>
+    </developer>
+    
+    <developer>
+      <name>Sami Lempinen</name>
+      <id>lempinen</id>
+      <email>lempinen AT users.sourceforge.net</email>
+      <organization>Sourceforge</organization>
+      <roles>
+        <role>release manager</role>
+      </roles>
+      <timezone></timezone>
+    </developer>
+    
+    
+  </developers>
+
+    
+  <dependencies>
+
+    <dependency>
+      <id>xml-apis</id>
+      <version>1.0.b2</version>
+    </dependency>
+    
+    <dependency>
+      <id>xerces</id>
+      <version>2.4.0</version>
+    </dependency>
+
+    <dependency>
+      <id>maven</id>
+      <version>1.0-rc1</version>
+    </dependency>
+    
+    <!-- plugin dependencies -->
+	<dependency>
+	  <groupId>maven</groupId>
+	  <artifactId>maven-checkstyle-plugin</artifactId>
+	  <version>2.2</version>
+	  <type>plugin</type>
+	</dependency>
+
+	<dependency>
+	  <groupId>maven</groupId>
+	  <artifactId>maven-statcvs-plugin</artifactId>
+	  <version>2.0</version>
+	  <type>plugin</type>
+	</dependency>
+    
+    </dependencies>
+    
+  <build>
+    <sourceDirectory>${basedir}/src/main</sourceDirectory>
+  </build>
+    
+  
+  <reports>
+    <report>maven-license-plugin</report>
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-changes-plugin</report>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-jdepend-plugin</report>
+    <report>maven-pmd-plugin</report>
+    <report>maven-jxr-plugin</report>
+    <report>maven-tasklist-plugin</report>
+    <report>maven-simian-plugin</report>
+    <report>maven-changelog-plugin</report>
+    <report>maven-file-activity-plugin</report>
+    <report>maven-developer-activity-plugin</report>
+    <report>maven-statcvs-plugin</report>
+    <report>maven-linkcheck-plugin</report>
+  </reports>
+    
+</project>
