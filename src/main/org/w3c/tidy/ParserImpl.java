@@ -544,7 +544,14 @@ public final class ParserImpl
 
             while ((node = lexer.getToken(Lexer.MixedContent)) != null)
             {
-                if (node.tag == title.tag && node.type == Node.EndTag)
+                // [438658] : Missing / in title endtag makes 2 titles
+                if (node.tag == title.tag && node.type == Node.StartTag)
+                {
+                    Report.warning(lexer, title, node, Report.COERCE_TO_ENDTAG);
+                    node.type = Node.EndTag;
+                    continue;
+                }
+                else if (node.tag == title.tag && node.type == Node.EndTag)
                 {
                     title.closed = true;
                     Node.trimSpaces(lexer, title);
