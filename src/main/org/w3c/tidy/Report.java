@@ -622,11 +622,6 @@ public final class Report
      */
     private TidyMessageListener listener;
 
-    /**
-     * not used for anything yet.
-     */
-    private int optionerrors;
-
     static
     {
         try
@@ -904,8 +899,7 @@ public final class Report
                     lexer,
                     "encoding_mismatch",
                     new Object[]{
-                        ParsePropertyImpl.CHAR_ENCODING.getFriendlyName(null, new Integer(lexer.configuration
-                            .getInCharEncoding()), lexer.configuration),
+                        lexer.configuration.getInCharEncodingName(),
                         ParsePropertyImpl.CHAR_ENCODING.getFriendlyName(null, new Integer(c), lexer.configuration)},
                     Level.WARNING);
             }
@@ -1804,6 +1798,10 @@ public final class Report
         printMessage(errout, "bad_tree", null, Level.ERROR);
     }
 
+    /**
+     * Adds a message listener.
+     * @param listener TidyMessageListener
+     */
     public void addMessageListener(TidyMessageListener listener)
     {
         this.listener = listener;

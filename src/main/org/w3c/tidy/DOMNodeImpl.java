@@ -84,7 +84,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     /**
      * @see org.w3c.dom.Node#getNodeValue
      */
-    public String getNodeValue() throws DOMException
+    public String getNodeValue()
     {
         String value = ""; //BAK 10/10/2000 replaced null
         if (adaptee.type == Node.TEXT_NODE
@@ -104,7 +104,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     /**
      * @see org.w3c.dom.Node#setNodeValue
      */
-    public void setNodeValue(String nodeValue) throws DOMException
+    public void setNodeValue(String nodeValue)
     {
         if (adaptee.type == Node.TEXT_NODE
             || adaptee.type == Node.CDATA_TAG
@@ -169,10 +169,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         {
             return adaptee.parent.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     /**
@@ -192,10 +189,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         {
             return adaptee.content.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     /**
@@ -207,10 +201,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         {
             return adaptee.last.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     /**
@@ -222,10 +213,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         {
             return adaptee.prev.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     /**
@@ -237,10 +225,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         {
             return adaptee.next.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     /**
@@ -271,16 +256,13 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         {
             return (org.w3c.dom.Document) node.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     /**
      * @see org.w3c.dom.Node#insertBefore
      */
-    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) throws DOMException
+    public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild)
     {
         // TODO - handle newChild already in tree
 
@@ -343,7 +325,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     /**
      * @see org.w3c.dom.Node#replaceChild
      */
-    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) throws DOMException
+    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild)
     {
         // TODO - handle newChild already in tree
 
@@ -433,7 +415,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     /**
      * @see org.w3c.dom.Node#removeChild
      */
-    public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild) throws DOMException
+    public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild)
     {
         if (oldChild == null)
         {
@@ -466,7 +448,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     /**
      * @see org.w3c.dom.Node#appendChild
      */
-    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) throws DOMException
+    public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild)
     {
         // TODO - handle newChild already in tree
 
@@ -517,7 +499,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     }
 
     /**
-     * @see org.w3c.dom.Node#cloneNode
+     * @see org.w3c.dom.Node#cloneNode(boolean)
      */
     public org.w3c.dom.Node cloneNode(boolean deep)
     {
@@ -538,7 +520,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
 
     /**
      * DOM2 - not implemented.
-     * @see org.w3c.dom.Node#supports(java.lang.String, java.lang.String)
+     * @see #isSupported(java.lang.String, java.lang.String)
      */
     public boolean supports(String feature, String version)
     {
