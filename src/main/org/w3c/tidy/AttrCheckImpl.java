@@ -59,8 +59,24 @@ package org.w3c.tidy;
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
  * @version $Revision $ ($Author $)
  */
-public class AttrCheckImpl
+public final class AttrCheckImpl
 {
+
+    private static AttrCheck checkUrl = new CheckUrl();
+    private static AttrCheck checkScript = new CheckScript();
+    private static AttrCheck checkAlign = new CheckAlign();
+    private static AttrCheck checkValign = new CheckValign();
+    private static AttrCheck checkBool = new CheckBool();
+    private static AttrCheck checkId = new CheckId();
+    private static AttrCheck checkName = new CheckName();
+
+    /**
+     * utility class, don't instantiate.
+     */
+    private AttrCheckImpl()
+    {
+        // emty private constructor
+    }
 
     public static class CheckUrl implements AttrCheck
     {
@@ -194,45 +210,37 @@ public class AttrCheckImpl
 
     public static AttrCheck getCheckUrl()
     {
-        return _checkUrl;
+        return checkUrl;
     }
 
     public static AttrCheck getCheckScript()
     {
-        return _checkScript;
+        return checkScript;
     }
 
     public static AttrCheck getCheckAlign()
     {
-        return _checkAlign;
+        return checkAlign;
     }
 
     public static AttrCheck getCheckValign()
     {
-        return _checkValign;
+        return checkValign;
     }
 
     public static AttrCheck getCheckBool()
     {
-        return _checkBool;
+        return checkBool;
     }
 
     public static AttrCheck getCheckId()
     {
-        return _checkId;
+        return checkId;
     }
 
     public static AttrCheck getCheckName()
     {
-        return _checkName;
+        return checkName;
     }
-
-    private static AttrCheck _checkUrl = new CheckUrl();
-    private static AttrCheck _checkScript = new CheckScript();
-    private static AttrCheck _checkAlign = new CheckAlign();
-    private static AttrCheck _checkValign = new CheckValign();
-    private static AttrCheck _checkBool = new CheckBool();
-    private static AttrCheck _checkId = new CheckId();
-    private static AttrCheck _checkName = new CheckName();
 
 }
