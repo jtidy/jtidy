@@ -1222,8 +1222,10 @@ public class Configuration implements java.io.Serializable
 
     /**
      * parse character encoding option.
-     * @param s option value
+     * @param s option value. Can be RAW, ASCII, LATIN1, UTF8, ISO2022, MACROMAN, UTF16LE, UTF16BE, UTF16, WIN1252,
+     * BIG5, SHIFTJIS
      * @param option option name
+     * @return character encoding code
      */
     private int parseCharEncoding(String s, String option)
     {
