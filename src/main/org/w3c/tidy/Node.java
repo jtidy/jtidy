@@ -429,7 +429,7 @@ public class Node implements Cloneable
                             // this doesn't handle CSS comments and leading/trailing white-space very well see
                             // http://www.w3.org/TR/css-style-attr
 
-                            int end = current.value.length();
+                            int end = current.value.length() - 1;
 
                             if (current.value.charAt(end) == ';')
                             {

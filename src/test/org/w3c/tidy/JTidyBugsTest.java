@@ -233,4 +233,13 @@ public class JTidyBugsTest extends TidyTestCase
         executeTidyTest("935796.html");
     }
 
+    /**
+     * test for JTidy [1024661]: Error Parsing duplicate style.
+     * @throws Exception any exception generated during the test
+     */
+    public void test1024661() throws Exception
+    {
+        executeTidyTest("1024661.html");
+    }
+
 }
