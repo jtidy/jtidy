@@ -68,7 +68,6 @@ import java.util.Vector;
  * compacted to single space chars. If XmlTags is no then Tag names are folded to upper case and attribute names to
  * lower case. Not yet done: - Doctype subset and marked sections
  * </p>
- * 
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @version $Revision $ ($Author $)
@@ -531,7 +530,6 @@ public class Lexer
      */
     public void parseEntity(short mode)
     {
-        short map;
         int start;
         boolean first = true;
         boolean semicolon = false;
@@ -564,16 +562,15 @@ public class Lexer
             }
 
             first = false;
-            map = MAP((char) c);
 
             // AQ: Added flag for numeric entities so that numeric entities with missing semi-colons are recognized.
             // Eg. "&#114e&#112;..." is recognized as "rep"
-            if (numeric && ((c == 'x') || ((map & DIGIT) != 0)))
+            if (numeric && ((c == 'x') || isDigit((char) c)))
             {
                 addCharToLexer(c);
                 continue;
             }
-            if (!numeric && ((map & NAMECHAR) != 0))
+            if (!numeric && isNamechar((char) c))
             {
                 addCharToLexer(c);
                 continue;
@@ -590,7 +587,7 @@ public class Lexer
 
         // deal with unrecognized entities
         // #433012 - fix by Randy Waki 17 Feb 01
-        if (ch <= 0 || (ch >= 256 && c != ';')) 
+        if (ch <= 0 || (ch >= 256 && c != ';'))
         {
             // set error position just before offending character
             this.lines = this.in.curline;
@@ -643,17 +640,15 @@ public class Lexer
 
     public char parseTagName()
     {
-        short map;
         int c;
 
         // fold case of first char in buffer
 
         c = this.lexbuf[this.txtstart];
-        map = MAP((char) c);
 
-        if (!this.configuration.xmlTags && (map & UPPERCASE) != 0)
+        if (!this.configuration.xmlTags && isUpper((char) c))
         {
-            c += ('a' - 'A');
+            c = toLower((char) c);
             this.lexbuf[this.txtstart] = (byte) c;
         }
 
@@ -664,17 +659,16 @@ public class Lexer
             {
                 break;
             }
-            map = MAP((char) c);
 
-            if ((map & NAMECHAR) == 0)
+            if (!isNamechar((char) c))
             {
                 break;
             }
 
             // fold case of subsequent chars
-            if (!this.configuration.xmlTags && (map & UPPERCASE) != 0)
+            if (!this.configuration.xmlTags && isUpper((char) c))
             {
-                c += ('a' - 'A');
+                c = toLower((char) c);
             }
 
             addCharToLexer(c);
@@ -694,7 +688,6 @@ public class Lexer
 
     /**
      * choose what version to use for new doctype.
-     * 
      * @param root
      * @return
      */
@@ -1556,7 +1549,6 @@ public class Lexer
      */
     public Node getToken(short mode)
     {
-        short map;
         int c = 0;
         int badcomment = 0;
         MutableBoolean isempty = new MutableBoolean();
@@ -1623,12 +1615,11 @@ public class Lexer
             {
                 case LEX_CONTENT :
                     // element content
-                    map = MAP((char) c);
 
                     // Discard white space if appropriate.
                     // Its cheaper to do this here rather than in parser methods for elements that
                     // don't have mixed content.
-                    if (((map & WHITE) != 0) && (mode == IgnoreWhitespace) && this.lexsize == this.txtstart + 1)
+                    if (isWhite((char) c) && (mode == IgnoreWhitespace) && this.lexsize == this.txtstart + 1)
                     {
                         --this.lexsize;
                         this.waswhite = false;
@@ -1643,7 +1634,7 @@ public class Lexer
                         continue;
                     }
 
-                    if ((map & WHITE) != 0)
+                    if (isWhite((char) c))
                     {
                         // was previous char white?
                         if (this.waswhite)
@@ -1696,9 +1687,8 @@ public class Lexer
                         }
 
                         addCharToLexer(c);
-                        map = MAP((char) c);
 
-                        if ((map & LETTER) != 0)
+                        if (isLetter((char) c))
                         {
                             this.lexsize -= 3;
                             this.txtend = this.lexsize;
@@ -1785,9 +1775,7 @@ public class Lexer
                                     break;
                                 }
 
-                                map = MAP((char) c);
-
-                                if ((map & WHITE) == 0)
+                                if (!isWhite((char) c))
                                 {
                                     continue;
                                 }
@@ -1804,9 +1792,7 @@ public class Lexer
                                         break;
                                     }
 
-                                    map = MAP((char) c);
-
-                                    if ((map & WHITE) != 0)
+                                    if (isWhite((char) c))
                                     {
                                         continue;
                                     }
@@ -1922,10 +1908,8 @@ public class Lexer
                         continue;
                     }
 
-                    map = MAP((char) c);
-
                     // check for start tag
-                    if ((map & LETTER) != 0)
+                    if (isLetter((char) c))
                     {
                         this.in.ungetChar(c); // push back letter
                         this.lexsize -= 2; // discard " <" + letter
@@ -2163,9 +2147,8 @@ public class Lexer
 
                 case LEX_DOCTYPE :
                     // seen <!d so look for '> ' munging whitespace
-                    map = MAP((char) c);
 
-                    if ((map & WHITE) != 0)
+                    if (isWhite((char) c))
                     {
                         if (this.waswhite)
                         {
@@ -2522,7 +2505,6 @@ public class Lexer
     {
         int start = 0;
         // int len = 0; Removed by BUGFIX for 126265
-        short map;
         String attr;
         int c = 0;
 
@@ -2587,9 +2569,7 @@ public class Lexer
                 return null;
             }
 
-            map = MAP((char) c);
-
-            if ((map & WHITE) == 0)
+            if (!isWhite((char) c))
             {
                 break;
             }
@@ -2612,9 +2592,7 @@ public class Lexer
                 break;
             }
 
-            map = MAP((char) c);
-
-            if ((map & WHITE) != 0)
+            if (isWhite((char) c))
             {
                 break;
             }
@@ -2622,9 +2600,9 @@ public class Lexer
             // what should be done about non-namechar characters?
             // currently these are incorporated into the attr name
 
-            if (!this.configuration.xmlTags && (map & UPPERCASE) != 0)
+            if (!this.configuration.xmlTags && isUpper((char) c))
             {
-                c += ('a' - 'A');
+                c = toLower((char) c);
             }
 
             //  ++len; Removed by BUGFIX for 126265
@@ -2648,7 +2626,7 @@ public class Lexer
      */
     public int parseServerInstruction()
     {
-        int c, map, delim = '"';
+        int c, delim = '"';
         boolean isrule = false;
 
         c = this.in.readChar();
@@ -2687,9 +2665,7 @@ public class Lexer
             // then also finish value on whitespace
             if (!isrule)
             {
-                map = MAP((char) c);
-
-                if ((map & WHITE) != 0)
+                if (isWhite((char) c))
                 {
                     break;
                 }
@@ -2758,7 +2734,6 @@ public class Lexer
     {
         int len = 0;
         int start;
-        short map;
         boolean seen_gt = false;
         boolean munge = true;
         int c = 0;
@@ -2788,9 +2763,7 @@ public class Lexer
                 break;
             }
 
-            map = MAP((char) c);
-
-            if ((map & WHITE) == 0)
+            if (!isWhite((char) c))
             {
                 break;
             }
@@ -2817,9 +2790,7 @@ public class Lexer
                 break;
             }
 
-            map = MAP((char) c);
-
-            if ((map & WHITE) == 0)
+            if (!isWhite((char) c))
             {
                 break;
             }
@@ -2958,9 +2929,7 @@ public class Lexer
                 }
             }
 
-            map = MAP((char) c);
-
-            if ((map & WHITE) != 0)
+            if (isWhite((char) c))
             {
                 if (delim == (char) 0)
                 {
@@ -2984,9 +2953,9 @@ public class Lexer
                     }
                 }
             }
-            else if (foldCase && (map & UPPERCASE) != 0)
+            else if (foldCase && isUpper((char) c))
             {
-                c += ('a' - 'A');
+                c = toLower((char) c);
             }
 
             addCharToLexer(c);
@@ -3034,15 +3003,13 @@ public class Lexer
     // attr must be non-null
     public static boolean isValidAttrName(String attr)
     {
-        short map;
         char c;
         int i;
 
         // first character should be a letter
         c = attr.charAt(0);
-        map = MAP(c);
 
-        if (!((map & LETTER) != 0))
+        if (!isLetter(c))
         {
             return false;
         }
@@ -3051,9 +3018,8 @@ public class Lexer
         for (i = 1; i < attr.length(); i++)
         {
             c = attr.charAt(i);
-            map = MAP(c);
 
-            if ((map & NAMECHAR) != 0)
+            if (isNamechar(c))
             {
                 continue;
             }
@@ -3487,6 +3453,11 @@ public class Lexer
         return (c < 128 ? lexmap[c] : 0);
     }
 
+    /**
+     * Determines if the specified character is whitespace.
+     * @param c char
+     * @return <code>true</code> if char is whitespace.
+     */
     private static boolean isWhite(char c)
     {
         short m = MAP(c);
@@ -3512,6 +3483,42 @@ public class Lexer
         return (m & LETTER) != 0;
     }
 
+    private static boolean isNamechar(char c)
+    {
+        short map = MAP(c);
+
+        return (map & NAMECHAR) != 0;
+    }
+
+    /**
+     * Determines if the specified character is a lowercase character.
+     * @param c char
+     * @return <code>true</code> if char is lower case.
+     */
+    private static boolean isLower(char c)
+    {
+        short map = MAP(c);
+
+        return (map & LOWERCASE) != 0;
+    }
+
+    /**
+     * Determines if the specified character is a uppercase character.
+     * @param c char
+     * @return <code>true</code> if char is upper case.
+     */
+    private static boolean isUpper(char c)
+    {
+        short map = MAP(c);
+
+        return (map & UPPERCASE) != 0;
+    }
+
+    /**
+     * Maps the given character to its lowercase equivalent.
+     * @param c char
+     * @return lowercase char.
+     */
     private static char toLower(char c)
     {
         short m = MAP(c);
@@ -3524,6 +3531,11 @@ public class Lexer
         return c;
     }
 
+    /**
+     * Maps the given character to its uppercase equivalent.
+     * @param c char
+     * @return uppercase char.
+     */
     private static char toUpper(char c)
     {
         short m = MAP(c);
@@ -3538,25 +3550,23 @@ public class Lexer
 
     public static char foldCase(char c, boolean tocaps, boolean xmlTags)
     {
-        short m;
 
         if (!xmlTags)
         {
-            m = MAP(c);
 
             if (tocaps)
             {
-                if ((m & LOWERCASE) != 0)
+                if (isLower(c))
                 {
-                    c = (char) (c + 'A' - 'a');
+                    c = toUpper(c);
                 }
             }
             else
             {
                 // force to lower case
-                if ((m & UPPERCASE) != 0)
+                if (isUpper(c))
                 {
-                    c = (char) (c + 'a' - 'A');
+                    c = toLower(c);
                 }
             }
         }
