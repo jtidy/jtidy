@@ -53,15 +53,15 @@
 */
 package org.w3c.tidy;
 
+import java.awt.Image;
+import java.beans.SimpleBeanInfo;
+
 /**
  * BeanInfo for Tidy.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
  * @version $Revision$ ($Author$)
  */
-import java.awt.Image;
-import java.beans.SimpleBeanInfo;
-
 public class TidyBeanInfo extends SimpleBeanInfo
 {
 
