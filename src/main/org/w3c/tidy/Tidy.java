@@ -992,7 +992,7 @@ public class Tidy implements Serializable
      * @param indentCdata true = indent CDATA sections
      * @see Configuration#indentCdata
      */
-    public void setindentCdata(boolean indentCdata)
+    public void setIndentCdata(boolean indentCdata)
     {
         configuration.indentCdata = indentCdata;
     }
@@ -1001,7 +1001,7 @@ public class Tidy implements Serializable
      * indent-cdata - indent CDATA sections.
      * @return true if tidy will indent CDATA sections
      */
-    public boolean getindentCdata()
+    public boolean getIndentCdata()
     {
         return configuration.indentCdata;
     }
@@ -1011,7 +1011,7 @@ public class Tidy implements Serializable
      * @param forceOutput true = output document even if errors were found
      * @see Configuration#forceOutput
      */
-    public void setforceOutput(boolean forceOutput)
+    public void setForceOutput(boolean forceOutput)
     {
         configuration.forceOutput = forceOutput;
     }
@@ -1020,9 +1020,85 @@ public class Tidy implements Serializable
      * force-output - output document even if errors were found.
      * @return true if tidy will output document even if errors were found
      */
-    public boolean getforceOutput()
+    public boolean getForceOutput()
     {
         return configuration.forceOutput;
+    }
+
+    /**
+     * show-errors - set the number of errors to put out.
+     * @param showErrors number of errors to put out
+     * @see Configuration#showErrors
+     */
+    public void setShowErrors(int showErrors)
+    {
+        configuration.showErrors = showErrors;
+    }
+
+    /**
+     * show-errors - number of errors to put out.
+     * @return the number of errors tidy will put out
+     */
+    public int getShowErrors()
+    {
+        return configuration.showErrors;
+    }
+
+    /**
+     * ascii-chars - convert quotes and dashes to nearest ASCII char.
+     * @param asciiChars true = convert quotes and dashes to nearest ASCII char
+     * @see Configuration#asciiChars
+     */
+    public void setAsciiChars(boolean asciiChars)
+    {
+        configuration.asciiChars = asciiChars;
+    }
+
+    /**
+     * ascii-chars - convert quotes and dashes to nearest ASCII char.
+     * @return true if tidy will convert quotes and dashes to nearest ASCII char
+     */
+    public boolean getAsciiChars()
+    {
+        return configuration.asciiChars;
+    }
+
+    /**
+     * join-classes - join multiple class attributes.
+     * @param joinClasses true = join multiple class attributes
+     * @see Configuration#joinClasses
+     */
+    public void setJoinClasses(boolean joinClasses)
+    {
+        configuration.joinClasses = joinClasses;
+    }
+
+    /**
+     * join-classes - join multiple class attributes.
+     * @return true if tidy will join multiple class attributes
+     */
+    public boolean getJoinClasses()
+    {
+        return configuration.joinClasses;
+    }
+
+    /**
+     * join-styles - join multiple style attributes.
+     * @param joinStyles true = join multiple style attributes
+     * @see Configuration#joinStyles
+     */
+    public void setJoinStyles(boolean joinStyles)
+    {
+        configuration.joinStyles = joinStyles;
+    }
+
+    /**
+     * join-styles - join multiple style attributes.
+     * @return true if tidy will join multiple style attributes
+     */
+    public boolean getJoinStyles()
+    {
+        return configuration.joinStyles;
     }
 
     /**

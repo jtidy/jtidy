@@ -103,6 +103,7 @@ public class Configuration implements java.io.Serializable
 
     /**
      * treatment of doctype: omit.
+     * @todo should be an enumeration DocTypeMode
      */
     public static final int DOCTYPE_OMIT = 0;
 
@@ -125,6 +126,17 @@ public class Configuration implements java.io.Serializable
      * treatment of doctype: user.
      */
     public static final int DOCTYPE_USER = 4;
+
+    /**
+     * Keep last duplicate attribute.
+     * @todo should be an enumeration DupAttrMode
+     */
+    public static final int KEEP_LAST = 0;
+
+    /**
+     * Keep first duplicate attribute.
+     */
+    public static final int KEEP_FIRST = 1;
 
     /**
      * default indentation.
@@ -150,6 +162,11 @@ public class Configuration implements java.io.Serializable
      * see doctype property.
      */
     protected int docTypeMode = DOCTYPE_AUTO;
+
+    /**
+     * Keep first or last duplicate attribute.
+     */
+    protected int dupAttrMode = KEEP_LAST;
 
     /**
      * default text for alt attribute.
@@ -422,6 +439,26 @@ public class Configuration implements java.io.Serializable
     protected boolean forceOutput;
 
     /**
+     * number of errors to put out.
+     */
+    protected int showErrors = 6;
+
+    /**
+     * convert quotes and dashes to nearest ASCII char.
+     */
+    protected boolean asciiChars = true;
+
+    /**
+     * join multiple class attributes.
+     */
+    protected boolean joinClasses;
+
+    /**
+     * join multiple style attributes.
+     */
+    protected boolean joinStyles = true;
+
+    /**
      * TagTable associated with this Configuration.
      */
     protected TagTable tt;
@@ -563,6 +600,30 @@ public class Configuration implements java.io.Serializable
         if (value != null)
         {
             this.forceOutput = parseBool(value, "force-output");
+        }
+
+        value = properties.getProperty("show-errors");
+        if (value != null)
+        {
+            this.showErrors = parseInt(value, "show-errors");
+        }
+
+        value = properties.getProperty("ascii-chars");
+        if (value != null)
+        {
+            this.asciiChars = parseBool(value, "ascii-chars");
+        }
+
+        value = properties.getProperty("join-classes");
+        if (value != null)
+        {
+            this.joinClasses = parseBool(value, "join-classes");
+        }
+
+        value = properties.getProperty("join-styles");
+        if (value != null)
+        {
+            this.joinStyles = parseBool(value, "join-styles");
         }
 
         value = properties.getProperty("replace-color");
@@ -1111,26 +1172,25 @@ public class Configuration implements java.io.Serializable
         {
             word = t.nextToken();
         }
-
-        if (Lexer.wstrcasecmp(word, "omit") == 0)
+        // #443663 - fix by Terry Teague 23 Jul 01
+        if ("auto".equalsIgnoreCase(word))
+        {
+            docTypeMode = DOCTYPE_AUTO;
+        }
+        else if ("omit".equalsIgnoreCase(word))
         {
             docTypeMode = DOCTYPE_OMIT;
         }
-        else if (Lexer.wstrcasecmp(word, "strict") == 0)
+        else if ("strict".equalsIgnoreCase(word))
         {
             docTypeMode = DOCTYPE_STRICT;
         }
-        else if (Lexer.wstrcasecmp(word, "loose") == 0 || Lexer.wstrcasecmp(word, "transitional") == 0)
+        else if ("loose".equalsIgnoreCase(word) || "transitional".equalsIgnoreCase(word))
         {
             docTypeMode = DOCTYPE_LOOSE;
         }
-        else if (Lexer.wstrcasecmp(word, "auto") == 0)
-        {
-            docTypeMode = DOCTYPE_AUTO;
-        }
         else
         {
-            docTypeMode = DOCTYPE_AUTO;
             report.badArgument(option);
         }
         return null;
