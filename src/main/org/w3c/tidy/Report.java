@@ -967,6 +967,17 @@ public final class Report
                     lexer.errout.println(e.toString());
                 }
             }
+            if ((lexer.badChars & INVALID_URI) != 0)
+            {
+                try
+                {
+                    tidyPrintln(lexer.errout, res.getString("invaliduri_summary"));
+                }
+                catch (MissingResourceException e)
+                {
+                    lexer.errout.println(e.toString());
+                }
+            }
         }
 
         if (lexer.badForm != 0)
