@@ -187,6 +187,79 @@ public final class Report
         p.println(msg);
     }
 
+    /**
+     * Generates a complete message for the warning/error adding:
+     * <ul>
+     * <li>position in file</li>
+     * <li>prefix for the error level (warning: | error:)</li>
+     * <li>message read from ResourceBundle</li>
+     * <li>optional parameters added to message using MessageFormat</li>
+     * </ul>
+     * @param lexer Lexer
+     * @param message key for the ResourceBundle
+     * @param params optional parameters added with MessageFormat
+     * @param level message level. One of <code>TidyMessage.LEVEL_ERROR</code>,
+     * <code>TidyMessage.LEVEL_WARNING</code>,<code>TidyMessage.LEVEL_INFO</code>
+     * @return formatted message
+     * @throws MissingResourceException if <code>message</code> key is not available in jtidy resource bundle.
+     * @see TidyMessage
+     */
+    protected String getMessage(Lexer lexer, String message, Object[] params, short level)
+        throws MissingResourceException
+    {
+        String resource;
+        resource = res.getString(message);
+
+        String position = getPosition(lexer);
+        String prefix;
+
+        switch (level)
+        {
+            case TidyMessage.Level.ERROR :
+                prefix = res.getString("error");
+                break;
+            case TidyMessage.Level.WARNING :
+                prefix = res.getString("warning");
+                break;
+            default :
+                prefix = "";
+                break;
+        }
+
+        if (params != null)
+        {
+            return position + prefix + MessageFormat.format(resource, params);
+        }
+        else
+        {
+            return position + prefix + message;
+        }
+    }
+
+    /**
+     * Prints a message to lexer.errout after calling getMessage().
+     * @param lexer Lexer
+     * @param message key for the ResourceBundle
+     * @param params optional parameters added with MessageFormat
+     * @param level message level. One of <code>TidyMessage.LEVEL_ERROR</code>,
+     * <code>TidyMessage.LEVEL_WARNING</code>,<code>TidyMessage.LEVEL_INFO</code>
+     * @see TidyMessage
+     */
+    private void printMessage(Lexer lexer, String message, Object[] params, short level)
+    {
+        String resource;
+        try
+        {
+            resource = getMessage(lexer, message, params, level);
+        }
+        catch (MissingResourceException e)
+        {
+            lexer.errout.println(e.toString());
+            return;
+        }
+        tidyPrintln(lexer.errout, resource);
+    }
+
     public void showVersion(PrintWriter p)
     {
         tidyPrintln(p, "Java HTML Tidy release date: " + RELEASE_DATE);
@@ -556,28 +629,13 @@ public final class Report
 
         if (code == MISSING_ENDTAG_FOR)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer)
-                    + MessageFormat.format(res.getString("missing_endtag_for"), new Object[]{element.element}));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "missing_endtag_for", new Object[]{element.element}, TidyMessage.Level.WARNING);
         }
         else if (code == MISSING_ENDTAG_BEFORE)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer)
-                    + MessageFormat.format(res.getString("missing_endtag_before") + getTagName(node),
-                        new Object[]{element.element}));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "missing_endtag_before", new Object[]{element.element, getTagName(node)},
+                TidyMessage.Level.WARNING);
+
         }
         else if (code == DISCARDING_UNEXPECTED)
         {
