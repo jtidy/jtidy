@@ -9,6 +9,10 @@
 		</layout>
     </appender>
     
+    <category name="runtidy">
+        <priority value="info" />
+    </category>
+    
     <root>
         <priority value="debug" />
         <appender-ref ref="ConsoleAppender"/>

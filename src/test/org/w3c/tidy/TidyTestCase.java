@@ -79,10 +79,6 @@ import org.w3c.dom.Document;
 public class TidyTestCase extends TestCase
 {
 
-    /**
-     * logger.
-     */
-    private static Log log = LogFactory.getLog(TidyTestCase.class);
 
     /**
      * Tidy executable name, if you want to produce output files for comparison.
@@ -90,9 +86,11 @@ public class TidyTestCase extends TestCase
     private static final String TIDY_EXECUTABLE = "tidy.exe";
 
     /**
-     * flag used to enable/disable output file generation using tidy c executable.
+     * Logger used to enable/disable output file generation using tidy c executable. Setting this logger to
+     * <code>debug</code> in your log4j configuration file will cause the TIDY_EXECUTABLE to be run against the actual
+     * test file. If set to false the command line used to manually run tidy will appear in the log.
      */
-    private static final boolean RUN_TIDY_EXECUTABLE = false;
+    private static final Log RUN_TIDY_EXECUTABLE = LogFactory.getLog("runtidy");
 
     /**
      * Tidy test instance.
@@ -108,6 +106,12 @@ public class TidyTestCase extends TestCase
      * Tidy output.
      */
     protected String tidyOut;
+
+    /**
+     * logger.
+     */
+    private Log log = LogFactory.getLog(TidyTestCase.class);
+
     /**
      * Instantiate a new Test case.
      * @param name test name
@@ -217,7 +221,8 @@ public class TidyTestCase extends TestCase
      */
     protected void assertEquals(String tidyOutput, URL correctFile) throws FileNotFoundException, IOException
     {
-        diff(new BufferedReader(new StringReader(tidyOutput)),
+        diff(
+            new BufferedReader(new StringReader(tidyOutput)),
             new BufferedReader(new FileReader(correctFile.getFile())));
 
     }
@@ -334,10 +339,7 @@ public class TidyTestCase extends TestCase
             configurationFile = getClass().getClassLoader().getResource("default.cfg");
         }
 
-        if (RUN_TIDY_EXECUTABLE)
-        {
-            generateOutputUsingTidyC(inputURL.getFile(), configurationFile.getFile());
-        }
+        generateOutputUsingTidyC(inputURL.getFile(), configurationFile.getFile(), RUN_TIDY_EXECUTABLE.isDebugEnabled());
 
         // if configuration file exists load and set it
         Properties testProperties = new Properties();
@@ -372,8 +374,15 @@ public class TidyTestCase extends TestCase
 
         if ((tidyLine != null) || (testLine != null))
         {
-            fail("Wrong output, file comparison failed at line [" + (i - 1) + "]:\n" + "[tidy][" + tidyLine + "]\n"
-                + "[test][" + testLine + "]");
+            fail("Wrong output, file comparison failed at line ["
+                + (i - 1)
+                + "]:\n"
+                + "[tidy]["
+                + tidyLine
+                + "]\n"
+                + "[test]["
+                + testLine
+                + "]");
         }
         return;
     }
@@ -383,24 +392,35 @@ public class TidyTestCase extends TestCase
      * jtidy. A file ".out" will be written in the same folder of the input file.
      * @param inputFileName input file for tidy.
      * @param configurationFileName configuration file name (default if there is no not test-specific file).
+     * @param runIt if true the output is generated using tidy, if false simply output the command line.
      */
-    private void generateOutputUsingTidyC(String inputFileName, String configurationFileName)
+    private void generateOutputUsingTidyC(String inputFileName, String configurationFileName, boolean runIt)
     {
 
         String outputFileName = inputFileName.substring(0, inputFileName.lastIndexOf(".")) + ".out";
 
-        String strCmd = TIDY_EXECUTABLE + " -config \"" + cleanUpFilePath(configurationFileName) + "\" -o \""
-            + cleanUpFilePath(outputFileName) + "\" \"" + cleanUpFilePath(inputFileName) + "\"";
+        String strCmd = TIDY_EXECUTABLE
+            + " -config \""
+            + cleanUpFilePath(configurationFileName)
+            + "\" -o \""
+            + cleanUpFilePath(outputFileName)
+            + "\" \""
+            + cleanUpFilePath(inputFileName)
+            + "\"";
 
-        log.debug("running [" + strCmd + "]");
+        log.debug("cmd line:\n***\n" + strCmd + "\n***");
 
-        try
+        if (runIt)
         {
-            Runtime.getRuntime().exec(strCmd);
-        }
-        catch (IOException e)
-        {
-            log.warn("Error running [" + strCmd + "] cmd: " + e.getMessage());
+            log.debug("running " + TIDY_EXECUTABLE);
+            try
+            {
+                Runtime.getRuntime().exec(strCmd);
+            }
+            catch (IOException e)
+            {
+                log.warn("Error running [" + strCmd + "] cmd: " + e.getMessage());
+            }
         }
 
     }
