@@ -128,7 +128,7 @@ public class OutImpl implements Out
             public void doPut(byte[] buf, int[] count)
             {
                 impl.outcUTF8Bytes(buf, count);
-            };
+            }
         } // set the out instance direclty
             .setOut(this);
     }
