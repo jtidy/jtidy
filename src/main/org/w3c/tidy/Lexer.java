@@ -3244,8 +3244,7 @@ public class Lexer
         }
 
         // skip white space before the '='
-
-        for (;;)
+        while (true)
         {
             c = this.in.readChar();
 
@@ -3271,7 +3270,7 @@ public class Lexer
 
         // skip white space after '='
 
-        for (;;)
+        while (true)
         {
             c = this.in.readChar();
 
@@ -3313,7 +3312,7 @@ public class Lexer
         start = this.lexsize;
         c = '\0';
 
-        for (;;)
+        while (true)
         {
             lastc = c; // track last character
             c = this.in.readChar();
@@ -3857,7 +3856,7 @@ public class Lexer
         }
 
         node = newNode(Node.START_TAG, this.lexbuf, this.txtstart, this.txtend);
-        
+
         // GLP: Bugfix 126261. Remove when this change is fixed in istack.c in the original Tidy
         node.implicit = true;
         is = (IStack) this.istack.elementAt(this.insert);
