@@ -279,7 +279,9 @@ public class Lexer
     public Style styles;
 
     public Configuration configuration;
-    protected int seenBodyEndTag; // used by parser
+    protected int seenEndBody; // used by parser
+    
+    protected int seenEndHtml;
 
     private Vector nodeList;
 
@@ -315,8 +317,11 @@ public class Lexer
         this.istackbase = 0;
         this.styles = null;
         this.configuration = configuration;
-        this.seenBodyEndTag = 0;
         this.nodeList = new Vector();
+        /* #538536 Extra endtags not detected */
+        this.seenEndBody = 0;
+        this.seenEndHtml = 0;
+
     }
 
     public Node newNode()

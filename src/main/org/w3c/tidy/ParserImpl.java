@@ -158,7 +158,7 @@ public class ParserImpl
             Node noframes = null;
 
             lexer.configuration.xmlTags = false;
-            lexer.seenBodyEndTag = 0;
+            lexer.seenEndBody = 0;
             TagTable tt = lexer.configuration.tt;
 
             for (;;)
@@ -571,7 +571,7 @@ public class ParserImpl
                 {
                     body.closed = true;
                     Node.trimSpaces(lexer, body);
-                    lexer.seenBodyEndTag = 1;
+                    lexer.seenEndBody = 1;
                     mode = Lexer.IgnoreWhitespace;
 
                     if (body.parent.tag == tt.tagNoframes)
@@ -631,9 +631,9 @@ public class ParserImpl
                     continue;
                 }
 
-                if (lexer.seenBodyEndTag == 1 && !iswhitenode)
+                if (lexer.seenEndBody == 1 && !iswhitenode)
                 {
-                    ++lexer.seenBodyEndTag;
+                    ++lexer.seenEndBody;
                     Report.warning(lexer, body, node, Report.CONTENT_AFTER_BODY);
                 }
 
