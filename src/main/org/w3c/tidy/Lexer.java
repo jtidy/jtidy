@@ -3569,7 +3569,7 @@ public class Lexer
         return (m & WHITE) != 0;
     }
 
-    private static boolean isDigit(char c)
+    protected static boolean isDigit(char c)
     {
         short m;
 
@@ -3578,7 +3578,7 @@ public class Lexer
         return (m & DIGIT) != 0;
     }
 
-    private static boolean isLetter(char c)
+    protected static boolean isLetter(char c)
     {
         short m;
 

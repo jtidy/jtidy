@@ -72,17 +72,14 @@ public final class AllWorkingTests
         suite.addTest(new TidyWarningBugsTest("test431719"));
         suite.addTest(new TidyWarningBugsTest("test431883"));
         suite.addTest(new TidyWarningBugsTest("test431956"));
-        suite.addTest(new TidyWarningBugsTest("test431964"));
         suite.addTest(new TidyWarningBugsTest("test433021"));
         suite.addTest(new TidyWarningBugsTest("test435917"));
         suite.addTest(new TidyWarningBugsTest("test435917b"));
+        suite.addTest(new TidyWarningBugsTest("test450389"));
         suite.addTest(new TidyWarningBugsTest("test501230"));
-        suite.addTest(new TidyWarningBugsTest("test501669"));
-        suite.addTest(new TidyWarningBugsTest("test525081"));
         suite.addTest(new TidyWarningBugsTest("test545067"));
         suite.addTest(new TidyWarningBugsTest("test553468"));
         suite.addTest(new TidyWarningBugsTest("test706260"));
-
         return suite;
     }
 

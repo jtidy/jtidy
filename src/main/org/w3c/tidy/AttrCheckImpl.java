@@ -53,6 +53,11 @@
  */
 package org.w3c.tidy;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+
 /**
  * Check attribute values implementations.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
@@ -66,72 +71,92 @@ public final class AttrCheckImpl
     /**
      * checker for URLs.
      */
-    public static final AttrCheck CHECK_URL = new CheckUrl();
+    public static final AttrCheck URL = new CheckUrl();
 
     /**
      * checker for scripts.
      */
-    public static final AttrCheck CHECK_SCRIPT = new CheckScript();
+    public static final AttrCheck SCRIPT = new CheckScript();
 
     /**
      * checker for "name" attribute.
      */
-    public static final AttrCheck CHECK_NAME = new CheckName();
+    public static final AttrCheck NAME = new CheckName();
 
     /**
      * checker for ids.
      */
-    public static final AttrCheck CHECK_ID = new CheckId();
+    public static final AttrCheck ID = new CheckId();
 
     /**
      * checker for "align" attribute.
      */
-    public static final AttrCheck CHECK_ALIGN = new CheckAlign();
+    public static final AttrCheck ALIGN = new CheckAlign();
 
     /**
      * checker for "valign" attribute.
      */
-    public static final AttrCheck CHECK_VALIGN = new CheckValign();
+    public static final AttrCheck VALIGN = new CheckValign();
 
     /**
      * checker for boolean attributes.
      */
-    public static final AttrCheck CHECK_BOOL = new CheckBool();
+    public static final AttrCheck BOOL = new CheckBool();
 
     /**
      * checker for "lenght" attribute.
      */
-    public static final AttrCheck CHECK_LENGTH = new CheckLength();
+    public static final AttrCheck LENGTH = new CheckLength();
 
     /**
      * checker for "target" attribute.
      */
-    public static final AttrCheck CHECK_TARGET = new CheckTarget();
+    public static final AttrCheck TARGET = new CheckTarget();
 
     /**
      * checker for "submit" attribute.
      */
-    public static final AttrCheck CHECK_FSUBMIT = new CheckFsubmit();
+    public static final AttrCheck FSUBMIT = new CheckFsubmit();
 
     /**
      * checker for "clear" attribute.
      */
-    public static final AttrCheck CHECK_CLEAR = new CheckClear();
+    public static final AttrCheck CLEAR = new CheckClear();
 
     /**
      * checker for "shape" attribute.
      */
-    public static final AttrCheck CHECK_SHAPE = new CheckShape();
+    public static final AttrCheck SHAPE = new CheckShape();
 
     /**
      * checker for "number" attribute.
      */
-    public static final AttrCheck CHECK_NUMBER = new CheckNumber();
+    public static final AttrCheck NUMBER = new CheckNumber();
 
     /**
      * checker for "scope" attribute.
      */
-    public static final AttrCheck CHECK_SCOPE = new CheckScope();
+    public static final AttrCheck SCOPE = new CheckScope();
+
+    /**
+     * checker for "color" attribute.
+     */
+    public static final AttrCheck COLOR = new CheckColor();
+
+    /**
+     * checker for "vtype" attribute.
+     */
+    public static final AttrCheck VTYPE = new CheckVType();
+
+    /**
+     * checker for "scroll" attribute.
+     */
+    public static final AttrCheck SCROLL = new CheckScroll();
+
+    /**
+     * checker for "dir" attribute.
+     */
+    public static final AttrCheck TEXTDIR = new CheckTextDir();
 
     /**
      * utility class, don't instantiate.
@@ -271,11 +296,16 @@ public final class AttrCheckImpl
         {
             String value;
 
-            /* IMG, OBJECT, APPLET and EMBED use align for vertical position */
+            // IMG, OBJECT, APPLET and EMBED use align for vertical position
             if (node.tag != null && ((node.tag.model & Dict.CM_IMG) != 0))
             {
-                CHECK_VALIGN.check(lexer, node, attval);
+                VALIGN.check(lexer, node, attval);
                 return;
+            }
+
+            if (attval.value != null && lexer.configuration.lowerLiterals)
+            {
+                attval.value = attval.value.toLowerCase();
             }
 
             value = attval.value;
@@ -306,6 +336,11 @@ public final class AttrCheckImpl
         public void check(Lexer lexer, Node node, AttVal attval)
         {
             String value;
+
+            if (attval.value != null && lexer.configuration.lowerLiterals)
+            {
+                attval.value = attval.value.toLowerCase();
+            }
 
             value = attval.value;
 
@@ -354,6 +389,15 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
+            if (attval.value == null)
+            {
+                return;
+            }
+
+            if (lexer.configuration.lowerLiterals)
+            {
+                attval.value = attval.value.toLowerCase();
+            }
         }
 
     }
@@ -375,7 +419,7 @@ public final class AttrCheckImpl
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
             }
-            if ("".equals(p) || !Character.isDigit(p.charAt(0)))
+            if (p.length() == 0 || (!Character.isDigit(p.charAt(0)) && !('%' == p.charAt(0))))
             {
                 lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
             }
@@ -475,10 +519,15 @@ public final class AttrCheckImpl
                 return;
             }
 
+            if (lexer.configuration.lowerLiterals)
+            {
+                attval.value = attval.value.toLowerCase();
+            }
+
             String value = attval.value;
 
-            if (!("none".equalsIgnoreCase(value) || "left".equalsIgnoreCase(value) || "right".equalsIgnoreCase(value) || "all"
-                .equalsIgnoreCase(value)))
+            if (!("none".equalsIgnoreCase(value) || "left".equalsIgnoreCase(value) //
+                || "right".equalsIgnoreCase(value) || "all".equalsIgnoreCase(value)))
             {
                 lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
             }
@@ -501,6 +550,11 @@ public final class AttrCheckImpl
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
+            }
+
+            if (lexer.configuration.lowerLiterals)
+            {
+                attval.value = attval.value.toLowerCase();
             }
 
             String value = attval.value;
@@ -526,6 +580,11 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
+
+            if (attval.value != null && lexer.configuration.lowerLiterals)
+            {
+                attval.value = attval.value.toLowerCase();
+            }
 
             String value = attval.value;
 
@@ -634,6 +693,228 @@ public final class AttrCheckImpl
         {
         }
 
+    }
+
+    /**
+     * AttrCheck implementation for checking colors.
+     */
+    public static class CheckColor implements AttrCheck
+    {
+
+        /**
+         * valid html colors.
+         */
+        private static final Map COLORS = new HashMap();
+
+        static
+        {
+            COLORS.put("black", "#000000");
+            COLORS.put("green", "#008000");
+            COLORS.put("silver", "#C0C0C0");
+            COLORS.put("lime", "#00FF00");
+            COLORS.put("gray", "#808080");
+            COLORS.put("olive", "#808000");
+            COLORS.put("white", "#FFFFFF");
+            COLORS.put("yellow", "#FFFF00");
+            COLORS.put("maroon", "#800000");
+            COLORS.put("navy", "#000080");
+            COLORS.put("red", "#FF0000");
+            COLORS.put("blue", "#0000FF");
+            COLORS.put("purple", "#800080");
+            COLORS.put("teal", "#008080");
+            COLORS.put("fuchsia", "#FF00FF");
+            COLORS.put("aqua", "#00FFFF");
+        }
+
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
+        public void check(Lexer lexer, Node node, AttVal attval)
+        {
+            boolean hexUppercase = true;
+            boolean invalid = false;
+            boolean found = false;
+
+            if (attval == null || attval.value == null)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
+            }
+
+            String given = attval.value;
+
+            Iterator colorIter = COLORS.entrySet().iterator();
+
+            while (colorIter.hasNext())
+            {
+                Map.Entry color = (Map.Entry) colorIter.next();
+
+                if (given.charAt(0) == '#')
+                {
+                    if (given.length() != 7)
+                    {
+                        lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+                        invalid = true;
+                        break;
+                    }
+                    else if (given.equalsIgnoreCase((String) color.getValue()))
+                    {
+                        if (lexer.configuration.replaceColor)
+                        {
+                            attval.value = (String) color.getKey();
+                        }
+                        found = true;
+                        break;
+                    }
+                }
+                else if (Lexer.isLetter(given.charAt(0)))
+                {
+                    if (given.equalsIgnoreCase((String) color.getKey()))
+                    {
+                        if (lexer.configuration.replaceColor)
+                        {
+                            attval.value = (String) color.getKey();
+                        }
+                        found = true;
+                        break;
+                    }
+                }
+                else
+                {
+
+                    lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+
+                    invalid = true;
+                    break;
+                }
+            }
+            if (!found && !invalid)
+            {
+                if (given.charAt(0) == '#')
+                {
+                    // check if valid hex digits and letters
+
+                    for (int i = 1; i < 7; ++i)
+                    {
+                        if (!Lexer.isDigit(given.charAt(i))
+                            && ("abcdef".indexOf(Character.toLowerCase(given.charAt(i))) == -1))
+                        {
+                            lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+                            invalid = true;
+                            break;
+                        }
+                    }
+                    // convert hex letters to uppercase
+                    if (!invalid && hexUppercase)
+                    {
+                        for (int i = 1; i < 7; ++i)
+                        {
+                            attval.value = given.toUpperCase();
+                        }
+                    }
+                }
+
+                else
+                {
+                    // we could search for more colors and mark the file as HTML Proprietary, but I don't thinks
+                    // it's worth the effort, so values not in HTML 4.01 are invalid
+                    lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+                    invalid = true;
+                }
+            }
+        }
+    }
+
+    /**
+     * AttrCheck implementation for checking valuetype.
+     */
+    public static class CheckVType implements AttrCheck
+    {
+
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
+        public void check(Lexer lexer, Node node, AttVal attval)
+        {
+            if (attval.value != null && lexer.configuration.lowerLiterals)
+            {
+                attval.value = attval.value.toLowerCase();
+            }
+
+            String value = attval.value;
+
+            if (value == null)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+            }
+
+            if (!"data".equalsIgnoreCase(value) && !"object".equalsIgnoreCase(value) && !"ref".equalsIgnoreCase(value))
+            {
+                lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+            }
+        }
+    }
+
+    /**
+     * AttrCheck implementation for checking scroll.
+     */
+    public static class CheckScroll implements AttrCheck
+    {
+
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
+        public void check(Lexer lexer, Node node, AttVal attval)
+        {
+
+            if (attval.value != null && lexer.configuration.lowerLiterals)
+            {
+                attval.value = attval.value.toLowerCase();
+            }
+
+            String value = attval.value;
+
+            if (value == null)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+            }
+
+            if (!"no".equalsIgnoreCase(value) && !"auto".equalsIgnoreCase(value) && !"yes".equalsIgnoreCase(value))
+            {
+                lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+            }
+        }
+    }
+
+    /**
+     * AttrCheck implementation for checking dir.
+     */
+    public static class CheckTextDir implements AttrCheck
+    {
+
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
+        public void check(Lexer lexer, Node node, AttVal attval)
+        {
+
+            if (attval.value != null && lexer.configuration.lowerLiterals)
+            {
+                attval.value = attval.value.toLowerCase();
+            }
+
+            String value = attval.value;
+
+            if (value == null)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+            }
+
+            if (!"rtl".equalsIgnoreCase(value) && !"ltr".equalsIgnoreCase(value))
+            {
+                lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+            }
+        }
     }
 
 }
