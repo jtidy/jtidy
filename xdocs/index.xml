@@ -19,6 +19,12 @@
       </p>
     </section>
     <section name="News">
+      <subsection name="January 21, 2004">
+		    <p>
+          Site updated using the latest maven version: test report is a lot more readable now (formatting has been fixed in the
+          latest junit-report plugin)... new site layout (using a tweaked version of the maven xdoc plugin: xhtml + tableless CSS)			
+        </p>
+      </subsection>
 		<subsection name="January 16, 2004">
 		<p>
 			<strong>183</strong> test cases fully implemented now. All the test cases from Tidy and some new tests for JTidy
