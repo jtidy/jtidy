@@ -118,7 +118,7 @@ In addition, JTidy provides a DOM interface to the document that is being proces
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.0.3</version>
+            <version>1.0.4</version>
             <type>jar</type>
             <properties>
                 <comment>Only used in junit tests. Not needed at runtime.</comment>
@@ -127,7 +127,7 @@ In addition, JTidy provides a DOM interface to the document that is being proces
         <dependency>
             <groupId>ant</groupId>
             <artifactId>ant</artifactId>
-            <version>1.6</version>
+            <version>1.6.2</version>
             <type>jar</type>
             <url>http://ant.apache.org</url>
             <properties>
