@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
-<meta name="generator" content="HTML Tidy, see www.w3.org">
 <title>[ #427677 ] TrimInitialSpace() can trim too much</title>
 </head>
 <body>

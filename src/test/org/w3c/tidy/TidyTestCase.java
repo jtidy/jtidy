@@ -271,16 +271,19 @@ public class TidyTestCase extends TestCase
             }
             log.debug(message.toString());
         }
+
         //creates a new Tidy
         this.tidy = new Tidy();
 
-        // if configuration file exists load and set it
-        if (configurationFile != null)
+        if (configurationFile == null)
         {
-            Properties testProperties = new Properties();
-            testProperties.load(configurationFile.openStream());
-            this.tidy.setConfigurationFromProps(testProperties);
+            configurationFile = getClass().getClassLoader().getResource("default.cfg");
         }
+
+        // if configuration file exists load and set it
+        Properties testProperties = new Properties();
+        testProperties.load(configurationFile.openStream());
+        this.tidy.setConfigurationFromProps(testProperties);
 
         // set up error log
         this.errorLog = new StringWriter();
