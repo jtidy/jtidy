@@ -232,7 +232,7 @@ public final class Report
         }
         else
         {
-            return position + prefix + message;
+            return position + prefix + resource;
         }
     }
 
@@ -635,90 +635,36 @@ public final class Report
         {
             printMessage(lexer, "missing_endtag_before", new Object[]{element.element, getTagName(node)},
                 TidyMessage.Level.WARNING);
-
         }
         else if (code == DISCARDING_UNEXPECTED)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("discarding_unexpected")
-                    + getTagName(node));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "discarding_unexpected", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
         }
         else if (code == NESTED_EMPHASIS)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("nested_emphasis") + getTagName(node));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "nested_emphasis", new Object[]{getTagName(node)}, TidyMessage.Level.INFO);
         }
         else if (code == COERCE_TO_ENDTAG)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer)
-                    + MessageFormat.format(res.getString("coerce_to_endtag"), new Object[]{element.element}));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "coerce_to_endtag", new Object[]{element.element}, TidyMessage.Level.INFO);
         }
         else if (code == NON_MATCHING_ENDTAG)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("non_matching_endtag_1")
-                    + getTagName(node)
-                    + MessageFormat.format(res.getString("non_matching_endtag_2"), new Object[]{element.element}));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "non_matching_endtag", new Object[]{getTagName(node), element.element},
+                TidyMessage.Level.WARNING);
         }
         else if (code == TAG_NOT_ALLOWED_IN)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                    + MessageFormat.format(res.getString("tag_not_allowed_in"), new Object[]{element.element}));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "tag_not_allowed_in", new Object[]{getTagName(node), element.element},
+                TidyMessage.Level.WARNING);
         }
         else if (code == DOCTYPE_AFTER_TAGS)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("doctype_after_tags"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "doctype_after_tags", null, TidyMessage.Level.WARNING);
         }
         else if (code == MISSING_STARTTAG)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer)
-                    + MessageFormat.format(res.getString("missing_starttag"), new Object[]{node.element}));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "missing_starttag", new Object[]{node.element}, TidyMessage.Level.WARNING);
         }
         else if (code == UNEXPECTED_ENDTAG)
         {

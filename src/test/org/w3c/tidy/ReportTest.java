@@ -117,5 +117,80 @@ public class ReportTest extends TestCase
         assertEquals(message, "line 12 column 34 - Warning: missing </test> before bee");
     }
 
+    /**
+     * test getMessage with the <code>discarding_unexpected</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageDiscardingUnexpected() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "discarding_unexpected", new Object[]{"test"},
+            TidyMessage.Level.WARNING);
+        assertEquals(message, "line 12 column 34 - Warning: discarding unexpected test");
+    }
+
+    /**
+     * test getMessage with the <code>nested_emphasis</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageNestedEmphasis() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "nested_emphasis", new Object[]{"test"}, TidyMessage.Level.INFO);
+        assertEquals(message, "line 12 column 34 - nested emphasis test");
+    }
+
+    /**
+     * test getMessage with the <code>coerce_to_endtag</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageCoerceToEndtag() throws Exception
+    {
+        String message = this.report
+            .getMessage(lexer, "coerce_to_endtag", new Object[]{"test"}, TidyMessage.Level.INFO);
+        assertEquals(message, "line 12 column 34 - <test> is probably intended as </test>");
+    }
+
+    /**
+     * test getMessage with the <code>non_matching_endtag</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageNonMatchingEndtag() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "non_matching_endtag", new Object[]{"<test>", "bee"},
+            TidyMessage.Level.WARNING);
+        assertEquals(message, "line 12 column 34 - Warning: replacing unexpected <test> by </bee>");
+    }
+
+    /**
+     * test getMessage with the <code>tag_not_allowed_in</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageTagNonAllowedIn() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "tag_not_allowed_in", new Object[]{"<test>", "bee"},
+            TidyMessage.Level.WARNING);
+        assertEquals(message, "line 12 column 34 - Warning: <test> isn't allowed in <bee> elements");
+    }
+
+    /**
+     * test getMessage with the <code>doctype_after_tags</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageDoctypeAfterTags() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "doctype_after_tags", null, TidyMessage.Level.WARNING);
+        assertEquals(message, "line 12 column 34 - Warning: <!DOCTYPE> isn't allowed after elements");
+    }
+
+    /**
+     * test getMessage with the <code>missing_starttag</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageMissingStarttag() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "missing_starttag", new Object[]{"test"},
+            TidyMessage.Level.WARNING);
+        assertEquals(message, "line 12 column 34 - Warning: missing <test>");
+    }
+
 
 }
