@@ -295,16 +295,6 @@ public class Configuration implements Serializable
     protected int wraplen = 68;
 
     /**
-     * default input character encoding (LATIN1).
-     */
-    protected int inCharEncoding = LATIN1;
-
-    /**
-     * default output character encoding (ASCII).
-     */
-    protected int outCharEncoding = ASCII;
-
-    /**
      * default tab size (8).
      */
     protected int tabsize = 8;
@@ -673,6 +663,16 @@ public class Configuration implements Serializable
      * bytes for the newline marker.
      */
     protected byte[] newline = (System.getProperty("line.separator")).getBytes();
+
+    /**
+     * default input character encoding (LATIN1).
+     */
+    private int inCharEncoding = LATIN1;
+
+    /**
+     * default output character encoding (ASCII).
+     */
+    private int outCharEncoding = ASCII;
 
     /**
      * configuration properties.
@@ -1074,5 +1074,41 @@ public class Configuration implements Serializable
             return this.name.compareTo(((Flag) o).name);
         }
 
+    }
+
+    /**
+     * Getter for <code>inCharEncoding</code>.
+     * @return Returns the inCharEncoding.
+     */
+    protected int getInCharEncoding()
+    {
+        return this.inCharEncoding;
+    }
+
+    /**
+     * Setter for <code>inCharEncoding</code>.
+     * @param inCharEncoding The inCharEncoding to set.
+     */
+    protected void setInCharEncoding(int inCharEncoding)
+    {
+        this.inCharEncoding = inCharEncoding;
+    }
+
+    /**
+     * Getter for <code>outCharEncoding</code>.
+     * @return Returns the outCharEncoding.
+     */
+    protected int getOutCharEncoding()
+    {
+        return this.outCharEncoding;
+    }
+
+    /**
+     * Setter for <code>outCharEncoding</code>.
+     * @param outCharEncoding The outCharEncoding to set.
+     */
+    protected void setOutCharEncoding(int outCharEncoding)
+    {
+        this.outCharEncoding = outCharEncoding;
     }
 }

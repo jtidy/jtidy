@@ -99,7 +99,7 @@ public class StreamInImplTest extends TestCase
     {
         InputStream stream = new ByteArrayInputStream(new byte[]{97, 97, 97});
         in = new StreamInImpl(stream, Configuration.ASCII, 8);
-        lexer.configuration.inCharEncoding = Configuration.ASCII;
+        lexer.configuration.setInCharEncoding(Configuration.ASCII);
         in.setLexer(lexer);
 
         char thechar = (char) in.readCharFromStream();
@@ -115,7 +115,7 @@ public class StreamInImplTest extends TestCase
     {
         InputStream stream = new ByteArrayInputStream(new byte[]{00, 97, 00, 97});
         in = new StreamInImpl(stream, Configuration.UTF16BE, 8);
-        lexer.configuration.inCharEncoding = Configuration.UTF16BE;
+        lexer.configuration.setInCharEncoding(Configuration.UTF16BE);
         in.setLexer(lexer);
 
         char thechar = (char) in.readCharFromStream();
@@ -131,7 +131,7 @@ public class StreamInImplTest extends TestCase
     {
         InputStream stream = new ByteArrayInputStream(new byte[]{-1, -2, 97, 00});
         in = new StreamInImpl(stream, Configuration.UTF16, 8);
-        lexer.configuration.inCharEncoding = Configuration.UTF16;
+        lexer.configuration.setInCharEncoding(Configuration.UTF16);
         in.setLexer(lexer);
 
         char thechar = (char) in.readCharFromStream();
@@ -147,7 +147,7 @@ public class StreamInImplTest extends TestCase
     {
         InputStream stream = new ByteArrayInputStream(new byte[]{-2, -1, 00, 97});
         in = new StreamInImpl(stream, Configuration.UTF16, 8);
-        lexer.configuration.inCharEncoding = Configuration.UTF16;
+        lexer.configuration.setInCharEncoding(Configuration.UTF16);
         in.setLexer(lexer);
 
         char thechar = (char) in.readCharFromStream();

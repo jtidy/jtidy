@@ -61,6 +61,7 @@ import java.io.UnsupportedEncodingException;
 
 
 /**
+ * StreamIn Implementation using java writers.
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
@@ -119,6 +120,13 @@ public class StreamInJavaImpl implements StreamIn
 
     private int tabs;
 
+    /**
+     * Instantiates a new StreamInJavaImpl.
+     * @param stream
+     * @param encoding
+     * @param tabsize
+     * @throws UnsupportedEncodingException
+     */
     public StreamInJavaImpl(InputStream stream, String encoding, int tabsize) throws UnsupportedEncodingException
     {
         reader = new InputStreamReader(stream, encoding);
@@ -286,6 +294,13 @@ public class StreamInJavaImpl implements StreamIn
     public int getCurline()
     {
         return this.curline;
+    }
+
+    /**
+     * @see org.w3c.tidy.StreamIn#setLexer(org.w3c.tidy.Lexer)
+     */
+    public void setLexer(Lexer lexer)
+    {
     }
 
 }

@@ -63,15 +63,22 @@ package org.w3c.tidy;
 public class DOMNodeListImpl implements org.w3c.dom.NodeList
 {
 
+    /**
+     * Parent Node.
+     */
     private Node parent;
 
+    /**
+     * Instantiates a new DOM node list.
+     * @param parent parent Node
+     */
     protected DOMNodeListImpl(Node parent)
     {
         this.parent = parent;
     }
 
     /**
-     * @see org.w3c.dom.NodeList#item
+     * @see org.w3c.dom.NodeList#item(int)
      */
     public org.w3c.dom.Node item(int index)
     {

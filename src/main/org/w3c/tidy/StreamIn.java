@@ -83,13 +83,32 @@ public interface StreamIn
 
     /**
      * reads a char from the stream.
+     * @return char
      */
     int readCharFromStream();
 
+    /**
+     * Read a char.
+     * @return char
+     */
     int readChar();
 
+    /**
+     * Unget a char.
+     * @param c char
+     */
     void ungetChar(int c);
 
+    /**
+     * Has end of stream been reached?
+     * @return <code>true</code> if end of stream has been reached
+     */
     boolean isEndOfStream();
+
+    /**
+     * Setter for lexer instance (needed for error reporting).
+     * @param lexer Lexer
+     */
+    void setLexer(Lexer lexer);
 
 }

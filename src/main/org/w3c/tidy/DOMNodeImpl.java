@@ -67,8 +67,15 @@ import org.w3c.dom.DOMException;
 public class DOMNodeImpl implements org.w3c.dom.Node
 {
 
+    /**
+     * Wrapped tidy node.
+     */
     protected Node adaptee;
 
+    /**
+     * Intantiates a new DOM node.
+     * @param adaptee wrapped Tidy node
+     */
     protected DOMNodeImpl(Node adaptee)
     {
         this.adaptee = adaptee;
@@ -521,6 +528,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.Node#normalize()
      */
     public void normalize()
     {
@@ -530,16 +538,16 @@ public class DOMNodeImpl implements org.w3c.dom.Node
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.Node#supports(java.lang.String, java.lang.String)
      */
     public boolean supports(String feature, String version)
     {
-        //@todo DOM2
-        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
-        // return isSupported(feature, version);
+        return isSupported(feature, version);
     }
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.Node#getNamespaceURI()
      */
     public String getNamespaceURI()
     {
@@ -549,6 +557,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.Node#getPrefix()
      */
     public String getPrefix()
     {
@@ -558,6 +567,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.Node#setPrefix(java.lang.String)
      */
     public void setPrefix(String prefix) throws DOMException
     {
@@ -567,6 +577,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.Node#getLocalName()
      */
     public String getLocalName()
     {
@@ -576,6 +587,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.Node#isSupported(java.lang.String, java.lang.String)
      */
     public boolean isSupported(String feature, String version)
     {

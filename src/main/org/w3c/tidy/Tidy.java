@@ -201,8 +201,7 @@ public class Tidy implements Serializable
 
     /**
      * Sets the character encoding used both for input and for output.
-     * @see Configuration#inCharEncoding
-     * @see Configuration#outCharEncoding
+     * @deprecated
      */
     public void setCharEncoding(int charencoding)
     {
@@ -217,7 +216,7 @@ public class Tidy implements Serializable
      */
     public int getCharEncoding()
     {
-        return configuration.inCharEncoding;
+        return configuration.getInCharEncoding();
     }
 
     /**
@@ -1299,7 +1298,8 @@ public class Tidy implements Serializable
         if (in != null)
         {
 
-            StreamInImpl streamIn = new StreamInImpl(in, configuration.inCharEncoding, configuration.tabsize);
+            StreamIn streamIn = StreamInFactory.getStreamIn(configuration, in);
+
             lexer = new Lexer(streamIn, configuration, this.report);
             lexer.errout = errout;
 
@@ -1314,10 +1314,10 @@ public class Tidy implements Serializable
             }
 
             // skip byte order mark
-            if (lexer.configuration.inCharEncoding == Configuration.UTF8
-                || lexer.configuration.inCharEncoding == Configuration.UTF16LE
-                || lexer.configuration.inCharEncoding == Configuration.UTF16BE
-                || lexer.configuration.inCharEncoding == Configuration.UTF16)
+            if (lexer.configuration.getInCharEncoding() == Configuration.UTF8
+                || lexer.configuration.getInCharEncoding() == Configuration.UTF16LE
+                || lexer.configuration.getInCharEncoding() == Configuration.UTF16BE
+                || lexer.configuration.getInCharEncoding() == Configuration.UTF16)
             {
                 int c = lexer.in.readChar();
                 if (c == EncodingUtils.UNICODE_BOM)
@@ -1373,7 +1373,7 @@ public class Tidy implements Serializable
                     cleaner.emFromI(document);
                 }
 
-                if (configuration.word2000 && cleaner.isWord2000(document, configuration.tt))
+                if (configuration.word2000 && cleaner.isWord2000(document))
                 {
                     // prune Word2000's <![if ...]> ... <![endif]>
                     cleaner.dropSections(lexer, document);
@@ -1509,9 +1509,8 @@ public class Tidy implements Serializable
                     {
                         pprint = new PPrint(configuration);
                         FileOutputStream fis = new FileOutputStream(file);
-                        Out o = new OutImpl(this.configuration, configuration.outCharEncoding); // normal output stream
-                        o.setOut(fis);
 
+                        Out o = OutFactory.getOut(this.configuration, fis);
                         // Output a Byte Order Mark if required
                         if (configuration.outputBOM || (inputHadBOM && configuration.smartBOM))
                         {
@@ -1544,8 +1543,7 @@ public class Tidy implements Serializable
                 {
                     pprint = new PPrint(configuration);
 
-                    Out o = new OutImpl(this.configuration, configuration.outCharEncoding); // normal output stream
-                    o.setOut(out);
+                    Out o = OutFactory.getOut(this.configuration, out); // normal output stream
 
                     if (configuration.outputBOM || (inputHadBOM && configuration.smartBOM))
                     {
@@ -1661,11 +1659,12 @@ public class Tidy implements Serializable
 
         if (out != null)
         {
-            Out o = new OutImpl(this.configuration, configuration.outCharEncoding);
+
+            Out o = OutFactory.getOut(this.configuration, out);
+
             Lexer lexer = new Lexer(null, this.configuration, this.report);
 
             pprint = new PPrint(configuration);
-            o.setOut(out);
 
             if (configuration.xmlTags)
             {
@@ -2037,4 +2036,8 @@ public class Tidy implements Serializable
         return 0;
     }
 
+    public void addMessageListener(TidyMessageListener listener)
+    {
+        this.report.addMessageListener(listener);
+    }
 }

@@ -66,6 +66,10 @@ import org.w3c.dom.DOMException;
 public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
 {
 
+    /**
+     * Instantiates a new DOM element.
+     * @param adaptee Tidy Node.
+     */
     protected DOMElementImpl(Node adaptee)
     {
         super(adaptee);
@@ -88,7 +92,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
     }
 
     /**
-     * @see org.w3c.dom.Element#getAttribute
+     * @see org.w3c.dom.Element#getAttribute(java.lang.String)
      */
     public String getAttribute(String name)
     {
@@ -117,7 +121,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
     }
 
     /**
-     * @see org.w3c.dom.Element#setAttribute
+     * @see org.w3c.dom.Element#setAttribute(java.lang.String, java.lang.String)
      */
     public void setAttribute(String name, String value) throws DOMException
     {
@@ -156,7 +160,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
     }
 
     /**
-     * @see org.w3c.dom.Element#removeAttribute
+     * @see org.w3c.dom.Element#removeAttribute(java.lang.String)
      */
     public void removeAttribute(String name) throws DOMException
     {
@@ -190,7 +194,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
     }
 
     /**
-     * @see org.w3c.dom.Element#getAttributeNode
+     * @see org.w3c.dom.Element#getAttributeNode(java.lang.String)
      */
     public org.w3c.dom.Attr getAttributeNode(String name)
     {
@@ -219,7 +223,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
     }
 
     /**
-     * @see org.w3c.dom.Element#setAttributeNode
+     * @see org.w3c.dom.Element#setAttributeNode(org.w3c.dom.Attr)
      */
     public org.w3c.dom.Attr setAttributeNode(org.w3c.dom.Attr newAttr) throws DOMException
     {
@@ -266,7 +270,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
     }
 
     /**
-     * @see org.w3c.dom.Element#removeAttributeNode
+     * @see org.w3c.dom.Element#removeAttributeNode(org.w3c.dom.Attr)
      */
     public org.w3c.dom.Attr removeAttributeNode(org.w3c.dom.Attr oldAttr) throws DOMException
     {
@@ -307,7 +311,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
     }
 
     /**
-     * @see org.w3c.dom.Element#getElementsByTagName
+     * @see org.w3c.dom.Element#getElementsByTagName(java.lang.String)
      */
     public org.w3c.dom.NodeList getElementsByTagName(String name)
     {
@@ -325,6 +329,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.Element#getAttributeNS(java.lang.String, java.lang.String)
      */
     public String getAttributeNS(String namespaceURI, String localName)
     {
@@ -334,7 +339,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
 
     /**
      * DOM2 - not implemented.
-     * @exception org.w3c.dom.DOMException
+     * @see org.w3c.dom.Element#setAttributeNS(java.lang.String, java.lang.String, java.lang.String)
      */
     public void setAttributeNS(String namespaceURI, String qualifiedName, String value) throws org.w3c.dom.DOMException
     {
@@ -344,7 +349,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
 
     /**
      * DOM2 - not implemented.
-     * @exception org.w3c.dom.DOMException
+     * @see org.w3c.dom.Element#removeAttributeNS(java.lang.String, java.lang.String)
      */
     public void removeAttributeNS(String namespaceURI, String localName) throws org.w3c.dom.DOMException
     {
@@ -354,6 +359,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.Element#getAttributeNodeNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.Attr getAttributeNodeNS(String namespaceURI, String localName)
     {
@@ -363,7 +369,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
 
     /**
      * DOM2 - not implemented.
-     * @exception org.w3c.dom.DOMException
+     * @see org.w3c.dom.Element#setAttributeNodeNS(org.w3c.dom.Attr)
      */
     public org.w3c.dom.Attr setAttributeNodeNS(org.w3c.dom.Attr newAttr) throws org.w3c.dom.DOMException
     {
@@ -373,6 +379,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.Element#getElementsByTagNameNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.NodeList getElementsByTagNameNS(String namespaceURI, String localName)
     {
@@ -382,6 +389,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.Element#hasAttribute(java.lang.String)
      */
     public boolean hasAttribute(String name)
     {
@@ -391,6 +399,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.Element#hasAttributeNS(java.lang.String, java.lang.String)
      */
     public boolean hasAttributeNS(String namespaceURI, String localName)
     {

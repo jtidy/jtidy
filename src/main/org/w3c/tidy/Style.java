@@ -63,30 +63,39 @@ package org.w3c.tidy;
 public class Style
 {
 
+    /**
+     * Tag name.
+     */
     protected String tag;
 
+    /**
+     * Tag class.
+     */
     protected String tagClass;
 
+    /**
+     * Style properties.
+     */
     protected String properties;
 
+    /**
+     * Next linked style element.
+     */
     protected Style next;
 
+    /**
+     * Instantiates a new style.
+     * @param tag Tag name
+     * @param tagClass Tag class
+     * @param properties Style properties
+     * @param next Next linked style element. Can be null.
+     */
     public Style(String tag, String tagClass, String properties, Style next)
     {
         this.tag = tag;
         this.tagClass = tagClass;
         this.properties = properties;
         this.next = next;
-    }
-
-    public Style(String tag, String tagClass, String properties)
-    {
-        this(tag, tagClass, properties, null);
-    }
-
-    public Style()
-    {
-        this(null, null, null, null);
     }
 
 }

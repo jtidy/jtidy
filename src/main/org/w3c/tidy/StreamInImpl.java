@@ -60,7 +60,8 @@ import org.w3c.tidy.EncodingUtils.GetBytes;
 
 
 /**
- * Input Stream Implementation.
+ * Input Stream Implementation. This implementation is from the c version of tidy and it doesn't take advantage of java
+ * readers.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @author Fabrizio Giustina
@@ -508,7 +509,7 @@ public class StreamInImpl implements StreamIn
                     // non-fatal error
                 }
                 this.encoding = Configuration.UTF16BE;
-                this.lexer.configuration.inCharEncoding = Configuration.UTF16BE;
+                this.lexer.configuration.setInCharEncoding(Configuration.UTF16BE);
                 return EncodingUtils.UNICODE_BOM; // return decoded BOM
             }
             else if (bom == EncodingUtils.UNICODE_BOM_LE)
@@ -520,7 +521,7 @@ public class StreamInImpl implements StreamIn
                     // non-fatal error
                 }
                 this.encoding = Configuration.UTF16LE;
-                this.lexer.configuration.inCharEncoding = Configuration.UTF16LE;
+                this.lexer.configuration.setInCharEncoding(Configuration.UTF16LE);
                 return EncodingUtils.UNICODE_BOM; // return decoded BOM
             }
             else
@@ -540,7 +541,7 @@ public class StreamInImpl implements StreamIn
                         this.lexer.report.encodingError(this.lexer, Report.ENCODING_MISMATCH, Configuration.UTF8);
                         // non-fatal error
                     }
-                    this.lexer.configuration.inCharEncoding = Configuration.UTF8;
+                    this.lexer.configuration.setInCharEncoding(Configuration.UTF8);
                     return EncodingUtils.UNICODE_BOM; // return decoded BOM
                 }
                 else

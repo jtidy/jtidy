@@ -425,14 +425,14 @@ public class Lexer
     protected Report report;
 
     /**
-     * node list.
-     */
-    private List nodeList;
-
-    /**
      * Root node is saved here.
      */
     protected Node root;
+
+    /**
+     * node list.
+     */
+    private List nodeList;
 
     /**
      * Instantiates a new Lexer.
@@ -483,6 +483,17 @@ public class Lexer
         return node;
     }
 
+    /**
+     * Creates a new node and add it to nodelist.
+     * @param type node type: Node.ROOT_NODE | Node.DOCTYPE_TAG | Node.COMMENT_TAG | Node.PROC_INS_TAG | Node.TEXT_NODE |
+     * Node.START_TAG | Node.END_TAG | Node.START_END_TAG | Node.CDATA_TAG | Node.SECTION_TAG | Node. ASP_TAG |
+     * Node.JSTE_TAG | Node.PHP_TAG | Node.XML_DECL
+     * @param textarray array of bytes contained in the Node
+     * @param start start position
+     * @param end end position
+     * @param element tag name
+     * @return Node
+     */
     public Node newNode(short type, byte[] textarray, int start, int end, String element)
     {
         Node node = new Node(type, textarray, start, end, element, this.configuration.tt);
@@ -539,7 +550,8 @@ public class Lexer
     }
 
     /**
-     * Used for creating preformatted text from Word2000.
+     * Adds a new line node. Used for creating preformatted text from Word2000.
+     * @return new line node
      */
     public Node newLineNode()
     {
@@ -555,6 +567,8 @@ public class Lexer
     /**
      * Should always be able convert to/from UTF-8, so encoding exceptions are converted to an Error to avoid adding
      * throws declarations in lots of methods.
+     * @param str
+     * @return
      */
     public static byte[] getBytes(String str)
     {
@@ -568,6 +582,12 @@ public class Lexer
         }
     }
 
+    /**
+     * @param bytes
+     * @param offset
+     * @param length
+     * @return
+     */
     public static String getString(byte[] bytes, int offset, int length)
     {
         try
@@ -580,11 +600,17 @@ public class Lexer
         }
     }
 
+    /**
+     * @return
+     */
     public boolean endOfInput()
     {
         return this.in.isEndOfStream();
     }
 
+    /**
+     * @param c
+     */
     public void addByte(int c)
     {
         if (this.lexsize + 1 >= this.lexlength)
@@ -614,6 +640,9 @@ public class Lexer
         this.lexbuf[this.lexsize] = (byte) '\0'; // debug
     }
 
+    /**
+     * @param c
+     */
     public void changeChar(byte c)
     {
         if (this.lexsize > 0)
@@ -661,6 +690,9 @@ public class Lexer
 
     }
 
+    /**
+     * @param str
+     */
     public void addStringToLexer(String str)
     {
         for (int i = 0; i < str.length(); i++)
@@ -671,6 +703,7 @@ public class Lexer
 
     /**
      * Parse an html entity.
+     * @param mode mode
      */
     public void parseEntity(short mode)
     {
@@ -721,8 +754,8 @@ public class Lexer
             {
                 // #431953 - start RJ
                 if (!this.configuration.ncr
-                    || this.configuration.inCharEncoding == Configuration.BIG5
-                    || this.configuration.inCharEncoding == Configuration.SHIFTJIS)
+                    || this.configuration.getInCharEncoding() == Configuration.BIG5
+                    || this.configuration.getInCharEncoding() == Configuration.SHIFTJIS)
                 {
                     this.in.ungetChar(c);
                     return;
@@ -863,6 +896,9 @@ public class Lexer
         }
     }
 
+    /**
+     * @return
+     */
     public char parseTagName()
     {
         int c;
@@ -936,7 +972,7 @@ public class Lexer
 
     /**
      * Choose what version to use for new doctype.
-     * @return
+     * @return html version constant
      */
     public short htmlVersion()
     {
@@ -972,6 +1008,10 @@ public class Lexer
         return Dict.VERS_UNKNOWN;
     }
 
+    /**
+     * Choose what version to use for new doctype.
+     * @return html version name
+     */
     public String htmlVersionName()
     {
         short guessed;
@@ -1043,39 +1083,18 @@ public class Lexer
     }
 
     /**
-     * return true if substring s is in p and isn't all in upper case this is used to check the case of SYSTEM, PUBLIC,
-     * DTD and EN len is how many chars to check in p.
+     * @param doctype
+     * @return
      */
-    private static boolean findBadSubString(String s, String p, int len)
-    {
-        int n = s.length();
-        int i = 0;
-        String ps;
-
-        while (n < len)
-        {
-            ps = p.substring(i, i + n);
-            if (s.equalsIgnoreCase(ps))
-            {
-                return (!ps.equals(s.substring(0, n)));
-            }
-
-            ++i;
-            --len;
-        }
-
-        return false;
-    }
-
     public boolean checkDocTypeKeyWords(Node doctype)
     {
         int len = doctype.end - doctype.start;
         String s = getString(this.lexbuf, doctype.start, len);
 
-        return !(findBadSubString("SYSTEM", s, len)
-            || findBadSubString("PUBLIC", s, len)
-            || findBadSubString("//DTD", s, len)
-            || findBadSubString("//W3C", s, len) || findBadSubString("//EN", s, len));
+        return !(TidyUtils.findBadSubString("SYSTEM", s, len)
+            || TidyUtils.findBadSubString("PUBLIC", s, len)
+            || TidyUtils.findBadSubString("//DTD", s, len)
+            || TidyUtils.findBadSubString("//W3C", s, len) || TidyUtils.findBadSubString("//EN", s, len));
     }
 
     /**
@@ -1177,6 +1196,10 @@ public class Lexer
         return 0;
     }
 
+    /**
+     * @param root
+     * @param profile
+     */
     public void fixHTMLNameSpace(Node root, String profile)
     {
         Node node;
@@ -1219,6 +1242,8 @@ public class Lexer
     /**
      * Put DOCTYPE declaration between the &lt:?xml version "1.0" ... ?&gt; declaration, if any, and the
      * <code>html</code> tag. Should also work for any comments, etc. that may precede the <code>html</code> tag.
+     * @param root
+     * @return
      */
     Node newXhtmlDocTypeNode(Node root)
     {
@@ -1251,6 +1276,10 @@ public class Lexer
         return newdoctype;
     }
 
+    /**
+     * @param root
+     * @return
+     */
     public boolean setXHTMLDocType(Node root)
     {
         String fpi = " ";
@@ -1411,6 +1440,9 @@ public class Lexer
         return false;
     }
 
+    /**
+     * @return
+     */
     public short apparentVersion()
     {
         switch (this.doctype)
@@ -1481,7 +1513,11 @@ public class Lexer
         return this.htmlVersion();
     }
 
-    // fixup doctype if missing
+    /**
+     * Fixup doctype if missing.
+     * @param root
+     * @return
+     */
     public boolean fixDocType(Node root)
     {
         Node doctype;
@@ -1685,8 +1721,10 @@ public class Lexer
     }
 
     /**
-     * ensure XML document starts with <code>&lt;?XML version="1.0"?&gt;</code>. Add encoding attribute if not using
+     * Ensure XML document starts with <code>&lt;?XML version="1.0"?&gt;</code>. Add encoding attribute if not using
      * ASCII or UTF-8 output.
+     * @param root
+     * @return
      */
     public boolean fixXmlDecl(Node root)
     {
@@ -1717,13 +1755,13 @@ public class Lexer
 
         // We need to insert a check if declared encoding and output encoding mismatch
         // and fix the Xml declaration accordingly!!!
-        if (encoding == null && this.configuration.outCharEncoding != Configuration.UTF8)
+        if (encoding == null && this.configuration.getOutCharEncoding() != Configuration.UTF8)
         {
-            if (this.configuration.outCharEncoding == Configuration.LATIN1)
+            if (this.configuration.getOutCharEncoding() == Configuration.LATIN1)
             {
                 xml.addAttribute("encoding", "iso-8859-1");
             }
-            if (this.configuration.outCharEncoding == Configuration.ISO2022)
+            if (this.configuration.getOutCharEncoding() == Configuration.ISO2022)
             {
                 xml.addAttribute("encoding", "iso-2022");
             }
@@ -1737,6 +1775,10 @@ public class Lexer
         return true;
     }
 
+    /**
+     * @param name
+     * @return
+     */
     public Node inferredTag(String name)
     {
         Node node;
@@ -1746,6 +1788,10 @@ public class Lexer
         return node;
     }
 
+    /**
+     * @param node
+     * @return
+     */
     public static boolean expectsContent(Node node)
     {
         if (node.type != Node.START_TAG)
@@ -1768,8 +1814,10 @@ public class Lexer
     }
 
     /**
-     * create a text node for the contents of a CDATA element like style or script which ends with &lt;/foo> for some
+     * Create a text node for the contents of a CDATA element like style or script which ends with &lt;/foo> for some
      * foo.
+     * @param container
+     * @return
      */
     public Node getCDATA(Node container)
     {
@@ -1930,6 +1978,10 @@ public class Lexer
         return null;
     }
 
+    /**
+     * 
+     *
+     */
     public void ungetToken()
     {
         this.pushed = true;
@@ -1943,6 +1995,8 @@ public class Lexer
      * <li><code>Preformatted</code>-- white spacepreserved as is</li>
      * <li><code>IgnoreMarkup</code>-- for CDATA elements such as script, style</li>
      * </ul>
+     * @param mode
+     * @return
      */
     public Node getToken(short mode)
     {
@@ -3130,8 +3184,9 @@ public class Lexer
     }
 
     /**
-     * invoked when &lt; is seen in place of attribute value but terminates on whitespace if not ASP, PHP or Tango this
+     * Invoked when &lt; is seen in place of attribute value but terminates on whitespace if not ASP, PHP or Tango this
      * routine recognizes ' and " quoted strings.
+     * @return
      */
     public int parseServerInstruction()
     {
@@ -3236,14 +3291,14 @@ public class Lexer
         return delim;
     }
 
-    // values start with "=" or " = " etc.
-    // doesn't consume the ">" at end of start tag
-
     /**
      * @param pdelim passed as an array reference to allow modification
      */
     public String parseValue(String name, boolean foldCase, boolean[] isempty, int[] pdelim)
     {
+        // values start with "=" or " = " etc.
+        // doesn't consume the ">" at end of start tag
+
         int len = 0;
         int start;
         boolean seenGt = false;
@@ -3584,6 +3639,8 @@ public class Lexer
      * numeric code (see next item). The backslash followed by at most four hexadecimal digits (0..9A..F) stands for the
      * Unicode character with that number. Any character except a hexadecimal digit can be escaped to remove its special
      * meaning, by putting a backslash in front.
+     * @param buf css selector name
+     * @return <code>true</code> if the given string is a valid css1 selector name
      */
     public static boolean isCSS1Selector(String buf)
     {
@@ -3629,7 +3686,10 @@ public class Lexer
         return valid;
     }
 
-    // swallows closing '>'
+    /**
+     * @param isempty
+     * @return
+     */
     public AttVal parseAttrs(boolean[] isempty)
     {
         AttVal av, list;
@@ -3697,7 +3757,7 @@ public class Lexer
     }
 
     /**
-     * push a copy of an inline node onto stack but don't push if implicit or OBJECT or APPLET (implicit tags are ones
+     * Push a copy of an inline node onto stack but don't push if implicit or OBJECT or APPLET (implicit tags are ones
      * generated from the istack) One issue arises with pushing inlines when the tag is already pushed. For instance:
      * <code>&lt;p>&lt;em> text &lt;p>&lt;em> more text</code> Shouldn't be mapped to
      * <code>&lt;p>&lt;em> text &lt;/em>&lt;/p>&lt;p>&lt;em>&lt;em> more text &lt;/em>&lt;/em></code>
@@ -3744,7 +3804,7 @@ public class Lexer
     }
 
     /**
-     * pop a copy of an inline node from the stack.
+     * Pop a copy of an inline node from the stack.
      * @param node Node to be popped
      */
     public void popInline(Node node)
@@ -3831,6 +3891,8 @@ public class Lexer
      * <h1><i>italic heading </i></h1>
      * This is implemented by setting the lexer into a mode where it gets tokens from the inline stack rather than from
      * the input stream.
+     * @param node
+     * @return
      */
     public int inlineDup(Node node)
     {
@@ -3846,6 +3908,9 @@ public class Lexer
         return n;
     }
 
+    /**
+     * @return
+     */
     public Node insertedToken()
     {
         Node node;
@@ -3896,6 +3961,10 @@ public class Lexer
         return node;
     }
 
+    /**
+     * @param element
+     * @return
+     */
     public boolean canPrune(Node element)
     {
         if (element.type == Node.TEXT_NODE)
@@ -3990,7 +4059,7 @@ public class Lexer
     }
 
     /**
-     * defer duplicates when entering a table or other element where the inlines shouldn't be duplicated.
+     * Defer duplicates when entering a table or other element where the inlines shouldn't be duplicated.
      */
     public void deferDup()
     {
@@ -3998,6 +4067,10 @@ public class Lexer
         this.inode = null;
     }
 
+    /**
+     * @param str
+     * @param code
+     */
     private static void mapStr(String str, short code)
     {
         int j;
@@ -4019,6 +4092,10 @@ public class Lexer
         mapStr("ABCDEFGHIJKLMNOPQRSTUVWXYZ", (short) (UPPERCASE | LETTER | NAMECHAR));
     }
 
+    /**
+     * @param c
+     * @return
+     */
     private static short map(char c)
     {
         return (c < 128 ? lexmap[c] : 0);
@@ -4040,19 +4117,24 @@ public class Lexer
     private static boolean isWhite(char c)
     {
         short m = map(c);
-
         return TidyUtils.toBoolean(m & WHITE);
     }
 
+    /**
+     * @param c
+     * @return
+     */
     protected static boolean isDigit(char c)
     {
         short m;
-
         m = map(c);
-
         return TidyUtils.toBoolean(m & DIGIT);
     }
 
+    /**
+     * @param c
+     * @return
+     */
     protected static boolean isLetter(char c)
     {
         short m;
@@ -4060,6 +4142,10 @@ public class Lexer
         return TidyUtils.toBoolean(m & LETTER);
     }
 
+    /**
+     * @param c
+     * @return
+     */
     protected static boolean isNamechar(char c)
     {
         short map = map(c);
@@ -4125,6 +4211,12 @@ public class Lexer
         return c;
     }
 
+    /**
+     * @param c
+     * @param tocaps
+     * @param xmlTags
+     * @return
+     */
     public static char foldCase(char c, boolean tocaps, boolean xmlTags)
     {
 
@@ -4153,6 +4245,8 @@ public class Lexer
 
     /**
      * Return last char in string. This is useful when trailing quotemark is missing on an attribute
+     * @param str
+     * @return
      */
     static int lastChar(String str)
     {
@@ -4164,7 +4258,9 @@ public class Lexer
     }
 
     /**
-     * acceptable content for pre elements.
+     * Acceptable content for pre elements.
+     * @param node
+     * @return
      */
     protected boolean preContent(Node node)
     {

@@ -66,6 +66,10 @@ import org.w3c.dom.DOMException;
 public class DOMTextImpl extends DOMCharacterDataImpl implements org.w3c.dom.Text
 {
 
+    /**
+     * Instantiates a new DOM text node.
+     * @param adaptee wrapped Tidy node
+     */
     protected DOMTextImpl(Node adaptee)
     {
         super(adaptee);
@@ -88,7 +92,8 @@ public class DOMTextImpl extends DOMCharacterDataImpl implements org.w3c.dom.Tex
     }
 
     /**
-     * @see org.w3c.dom.Text#splitText
+     * NOT SUPPORTED.
+     * @see org.w3c.dom.Text#splitText(int)
      */
     public org.w3c.dom.Text splitText(int offset) throws DOMException
     {

@@ -61,6 +61,7 @@ import java.io.Writer;
 
 
 /**
+ * Output implementation using java writers.
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
@@ -73,18 +74,22 @@ public class OutJavaImpl implements Out
     private Writer writer;
 
     /**
-     * configuration.
+     * Newline string.
      */
-    private Configuration configuration;
+    private String newline;
 
     /**
-     * 
+     * Constructor.
+     * @param configuration actual configuration instance (needed for newline configuration)
+     * @param encoding encoding name
+     * @param out output stream
+     * @throws UnsupportedEncodingException if the undelining OutputStreamWriter doesn't support the rquested encoding.
      */
-    public OutJavaImpl(OutputStream stream, String encoding, Configuration configuration)
+    public OutJavaImpl(Configuration configuration, String encoding, OutputStream out)
         throws UnsupportedEncodingException
     {
-        this.writer = new OutputStreamWriter(stream, encoding);
-        this.configuration = configuration;
+        this.writer = new OutputStreamWriter(out, encoding);
+        this.newline = new String(configuration.newline);
     }
 
     /**
@@ -126,23 +131,13 @@ public class OutJavaImpl implements Out
     {
         try
         {
-            writer.write("\n");
-            // @todo use configured newline
+            writer.write(this.newline);
         }
         catch (IOException e)
         {
             // @todo throws exception
             System.err.println("WriterOutImpl.newline: " + e.toString());
         }
-    }
-
-    /**
-     * @see org.w3c.tidy.Out#setOut(java.io.OutputStream)
-     */
-    public void setOut(OutputStream out)
-    {
-        // @todo Auto-generated method stub
-
     }
 
     /**

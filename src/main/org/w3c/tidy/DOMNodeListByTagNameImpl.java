@@ -65,16 +65,36 @@ package org.w3c.tidy;
 public class DOMNodeListByTagNameImpl implements org.w3c.dom.NodeList
 {
 
+    /**
+     * First node.
+     */
     private Node first;
 
-    private String tagName = "*";
+    /**
+     * Tag name.
+     */
+    private String tagName;
 
+    /**
+     * Current index.
+     */
     private int currIndex;
 
+    /**
+     * Max index (number of nodes).
+     */
     private int maxIndex;
 
+    /**
+     * Current node.
+     */
     private Node currNode;
 
+    /**
+     * Instantiates a new DOMNodeListByTagName.
+     * @param first first node.
+     * @param tagName tag name
+     */
     protected DOMNodeListByTagNameImpl(Node first, String tagName)
     {
         this.first = first;
@@ -111,6 +131,10 @@ public class DOMNodeListByTagNameImpl implements org.w3c.dom.NodeList
         return currIndex;
     }
 
+    /**
+     * Traverse the node list.
+     * @param node Node
+     */
     protected void preTraverse(Node node)
     {
         if (node == null)

@@ -598,6 +598,11 @@ public final class Report
     private String currentFile;
 
     /**
+     * message listener for error reporting.
+     */
+    private TidyMessageListener listener;
+
+    /**
      * not used for anything yet.
      */
     private int optionerrors;
@@ -638,7 +643,7 @@ public final class Report
      * @throws MissingResourceException if <code>message</code> key is not available in jtidy resource bundle.
      * @see TidyMessage
      */
-    protected String getMessage(Lexer lexer, String message, Object[] params, short level)
+    protected String getMessage(Lexer lexer, String message, Object[] params, Level level)
         throws MissingResourceException
     {
         String resource;
@@ -657,27 +662,41 @@ public final class Report
 
         String prefix;
 
-        switch (level)
+        if (level == Level.ERROR)
         {
-            case Level.ERROR :
-                prefix = res.getString("error");
-                break;
-            case Level.WARNING :
-                prefix = res.getString("warning");
-                break;
-            default :
-                prefix = "";
-                break;
+            prefix = res.getString("error");
         }
-
-        if (params != null)
+        else if (level == Level.WARNING)
         {
-            return position + prefix + MessageFormat.format(resource, params);
+            prefix = res.getString("warning");
         }
         else
         {
-            return position + prefix + resource;
+            prefix = "";
         }
+
+        String messageString;
+
+        if (params != null)
+        {
+            messageString = MessageFormat.format(resource, params);
+        }
+        else
+        {
+            messageString = resource;
+        }
+
+        if (listener != null)
+        {
+            TidyMessage msg = new TidyMessage(
+                (lexer != null) ? lexer.lines : 0,
+                (lexer != null) ? lexer.columns : 0,
+                level,
+                messageString);
+            listener.messageReceived(msg);
+        }
+
+        return position + prefix + messageString;
     }
 
     /**
@@ -689,7 +708,7 @@ public final class Report
      * <code>TidyMessage.LEVEL_WARNING</code>,<code>TidyMessage.LEVEL_INFO</code>
      * @see TidyMessage
      */
-    private void printMessage(Lexer lexer, String message, Object[] params, short level)
+    private void printMessage(Lexer lexer, String message, Object[] params, Level level)
     {
         String resource;
         try
@@ -714,7 +733,7 @@ public final class Report
      * <code>TidyMessage.LEVEL_WARNING</code>,<code>TidyMessage.LEVEL_INFO</code>
      * @see TidyMessage
      */
-    private void printMessage(PrintWriter errout, String message, Object[] params, short level)
+    private void printMessage(PrintWriter errout, String message, Object[] params, Level level)
     {
         String resource;
         try
@@ -865,8 +884,8 @@ public final class Report
                     lexer,
                     "encoding_mismatch",
                     new Object[]{
-                        ParsePropertyImpl.CHAR_ENCODING.getFriendlyName(null, new Integer(
-                            lexer.configuration.inCharEncoding), lexer.configuration),
+                        ParsePropertyImpl.CHAR_ENCODING.getFriendlyName(null, new Integer(lexer.configuration
+                            .getInCharEncoding()), lexer.configuration),
                         ParsePropertyImpl.CHAR_ENCODING.getFriendlyName(null, new Integer(c), lexer.configuration)},
                     Level.WARNING);
             }
@@ -1025,6 +1044,10 @@ public final class Report
                     getTagName(node),
                     attribute.attribute,
                     attribute.value}, Level.WARNING);
+                break;
+
+            case XML_ID_SYNTAX :
+                printMessage(lexer, "xml_id_sintax", new Object[]{getTagName(node), attribute.attribute}, Level.WARNING);
                 break;
 
             case XML_ATTRIBUTE_VALUE :
@@ -1440,11 +1463,11 @@ public final class Report
             {
                 int encodingChoiche = 0;
 
-                if (lexer.configuration.inCharEncoding == Configuration.WIN1252)
+                if (lexer.configuration.getInCharEncoding() == Configuration.WIN1252)
                 {
                     encodingChoiche = 1;
                 }
-                else if (lexer.configuration.inCharEncoding == Configuration.MACROMAN)
+                else if (lexer.configuration.getInCharEncoding() == Configuration.MACROMAN)
                 {
                     encodingChoiche = 2;
                 }
@@ -1460,11 +1483,11 @@ public final class Report
             {
                 int encodingChoiche = 0;
 
-                if (lexer.configuration.inCharEncoding == Configuration.WIN1252)
+                if (lexer.configuration.getInCharEncoding() == Configuration.WIN1252)
                 {
                     encodingChoiche = 1;
                 }
-                else if (lexer.configuration.inCharEncoding == Configuration.MACROMAN)
+                else if (lexer.configuration.getInCharEncoding() == Configuration.MACROMAN)
                 {
                     encodingChoiche = 2;
                 }
@@ -1719,4 +1742,8 @@ public final class Report
         printMessage(errout, "bad_tree", null, Level.ERROR);
     }
 
+    public void addMessageListener(TidyMessageListener listener)
+    {
+        this.listener = listener;
+    }
 }

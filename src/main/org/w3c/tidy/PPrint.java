@@ -71,58 +71,6 @@ import java.text.NumberFormat;
 public class PPrint
 {
 
-    /* page transition effects */
-
-    public static final short EFFECT_BLEND = -1;
-
-    public static final short EFFECT_BOX_IN = 0;
-
-    public static final short EFFECT_BOX_OUT = 1;
-
-    public static final short EFFECT_CIRCLE_IN = 2;
-
-    public static final short EFFECT_CIRCLE_OUT = 3;
-
-    public static final short EFFECT_WIPE_UP = 4;
-
-    public static final short EFFECT_WIPE_DOWN = 5;
-
-    public static final short EFFECT_WIPE_RIGHT = 6;
-
-    public static final short EFFECT_WIPE_LEFT = 7;
-
-    public static final short EFFECT_VERT_BLINDS = 8;
-
-    public static final short EFFECT_HORZ_BLINDS = 9;
-
-    public static final short EFFECT_CHK_ACROSS = 10;
-
-    public static final short EFFECT_CHK_DOWN = 11;
-
-    public static final short EFFECT_RND_DISSOLVE = 12;
-
-    public static final short EFFECT_SPLIT_VIRT_IN = 13;
-
-    public static final short EFFECT_SPLIT_VIRT_OUT = 14;
-
-    public static final short EFFECT_SPLIT_HORZ_IN = 15;
-
-    public static final short EFFECT_SPLIT_HORZ_OUT = 16;
-
-    public static final short EFFECT_STRIPS_LEFT_DOWN = 17;
-
-    public static final short EFFECT_STRIPS_LEFT_UP = 18;
-
-    public static final short EFFECT_STRIPS_RIGHT_DOWN = 19;
-
-    public static final short EFFECT_STRIPS_RIGHT_UP = 20;
-
-    public static final short EFFECT_RND_BARS_HORZ = 21;
-
-    public static final short EFFECT_RND_BARS_VERT = 22;
-
-    public static final short EFFECT_RANDOM = 23;
-
     private static final short NORMAL = 0;
 
     private static final short PREFORMATTED = 1;
@@ -135,24 +83,54 @@ public class PPrint
 
     private static final short CDATA = 16;
 
+    /**
+     * Start cdata token.
+     */
     private static final String CDATA_START = "<![CDATA[";
 
+    /**
+     * End cdata token.
+     */
     private static final String CDATA_END = "]]>";
 
+    /**
+     * Javascript comment start.
+     */
     private static final String JS_COMMENT_START = "//";
 
+    /**
+     * Javascript comment end.
+     */
     private static final String JS_COMMENT_END = "";
 
+    /**
+     * VB comment start.
+     */
     private static final String VB_COMMENT_START = "\'";
 
+    /**
+     * VB comment end.
+     */
     private static final String VB_COMMENT_END = "";
 
+    /**
+     * CSS comment start.
+     */
     private static final String CSS_COMMENT_START = "/*";
 
+    /**
+     * CSS comment end.
+     */
     private static final String CSS_COMMENT_END = "*/";
 
+    /**
+     * Default comment start.
+     */
     private static final String DEFAULT_COMMENT_START = "";
 
+    /**
+     * Default comment end.
+     */
     private static final String DEFAULT_COMMENT_END = "";
 
     private int[] linebuf;
@@ -273,6 +251,10 @@ public class PPrint
 
     /**
      * store char c as UTF-8 encoded byte stream.
+     * @param buf
+     * @param start
+     * @param c
+     * @return
      */
     public static int putUTF8(byte[] buf, int start, int c)
     {
@@ -634,7 +616,7 @@ public class PPrint
                 return;
             }
 
-            if (c == 160 && this.configuration.outCharEncoding != Configuration.RAW)
+            if (c == 160 && this.configuration.getOutCharEncoding() != Configuration.RAW)
             {
                 if (this.configuration.makeBare)
                 {
@@ -671,10 +653,10 @@ public class PPrint
         }
 
         // #431953 - start RJ
-        if (this.configuration.outCharEncoding == Configuration.ISO2022
-            || this.configuration.outCharEncoding == Configuration.RAW) // Handle encoding-specific issues
+        if (this.configuration.getOutCharEncoding() == Configuration.ISO2022
+            || this.configuration.getOutCharEncoding() == Configuration.RAW) // Handle encoding-specific issues
         {
-            switch (this.configuration.outCharEncoding)
+            switch (this.configuration.getOutCharEncoding())
             {
                 case Configuration.UTF8 :
                     // Chinese doesn't have spaces, so it needs other kinds of breaks
@@ -833,7 +815,7 @@ public class PPrint
         }
 
         /* don't map latin-1 chars to entities */
-        if (this.configuration.outCharEncoding == Configuration.LATIN1)
+        if (this.configuration.getOutCharEncoding() == Configuration.LATIN1)
         {
             if (c > 255) /* multi byte chars */
             {
@@ -879,16 +861,16 @@ public class PPrint
         }
 
         // don't map utf8 chars to entities
-        if (this.configuration.outCharEncoding == Configuration.UTF8)
+        if (this.configuration.getOutCharEncoding() == Configuration.UTF8)
         {
             addC(c, linelen++);
             return;
         }
 
         // don't map utf16 chars to entities
-        if (this.configuration.outCharEncoding == Configuration.UTF16
-            || this.configuration.outCharEncoding == Configuration.UTF16LE
-            || this.configuration.outCharEncoding == Configuration.UTF16BE)
+        if (this.configuration.getOutCharEncoding() == Configuration.UTF16
+            || this.configuration.getOutCharEncoding() == Configuration.UTF16LE
+            || this.configuration.getOutCharEncoding() == Configuration.UTF16BE)
         {
             addC(c, linelen++);
             return;
@@ -898,7 +880,7 @@ public class PPrint
         if (this.configuration.xmlTags)
         {
             // if ASCII use numeric entities for chars > 127
-            if (c > 127 && this.configuration.outCharEncoding == Configuration.ASCII)
+            if (c > 127 && this.configuration.getOutCharEncoding() == Configuration.ASCII)
             {
                 entity = "&#" + c + ";";
 
@@ -916,7 +898,7 @@ public class PPrint
         }
 
         // default treatment for ASCII
-        if (this.configuration.outCharEncoding == Configuration.ASCII && (c > 126 || (c < ' ' && c != '\t')))
+        if (this.configuration.getOutCharEncoding() == Configuration.ASCII && (c > 126 || (c < ' ' && c != '\t')))
         {
             if (!this.configuration.numEntities)
             {
@@ -949,6 +931,12 @@ public class PPrint
     /**
      * The line buffer is uint not char so we can hold Unicode values unencoded. The translation to UTF-8 is deferred to
      * the outc routine called to flush the line buffer.
+     * @param fout
+     * @param mode
+     * @param indent
+     * @param textarray
+     * @param start
+     * @param end
      */
     private void printText(Out fout, short mode, int indent, byte[] textarray, int start, int end)
     {
@@ -1271,6 +1259,8 @@ public class PPrint
     /**
      * Line can be wrapped immediately after inline start tag provided if follows a text node ending in a space, or it
      * parent is an inline element that that rule applies to. This behaviour was reverse engineered from Netscape 3.0
+     * @param node
+     * @return
      */
     private static boolean afterSpace(Node node)
     {
@@ -1560,7 +1550,10 @@ public class PPrint
     }
 
     /**
-     * note ASP and JSTE share <% ... %> syntax
+     * note ASP and JSTE share <% ... %> syntax.
+     * @param fout
+     * @param indent
+     * @param node
      */
     private void printAsp(Out fout, int indent, Node node)
     {
@@ -1593,6 +1586,9 @@ public class PPrint
 
     /**
      * JSTE also supports <# ... #> syntax
+     * @param fout
+     * @param indent
+     * @param node
      */
     private void printJste(Out fout, int indent, Node node)
     {
@@ -1618,6 +1614,9 @@ public class PPrint
 
     /**
      * PHP is based on XML processing instructions.
+     * @param fout
+     * @param indent
+     * @param node
      */
     private void printPhp(Out fout, int indent, Node node)
     {
@@ -1648,6 +1647,11 @@ public class PPrint
         this.configuration.wraplen = savewraplen;
     }
 
+    /**
+     * @param fout
+     * @param indent
+     * @param node
+     */
     private void printCDATA(Out fout, int indent, Node node)
     {
         int savewraplen = this.configuration.wraplen;
@@ -1681,6 +1685,11 @@ public class PPrint
         this.configuration.wraplen = savewraplen;
     }
 
+    /**
+     * @param fout
+     * @param indent
+     * @param node
+     */
     private void printSection(Out fout, int indent, Node node)
     {
         int savewraplen = this.configuration.wraplen;
@@ -1739,6 +1748,8 @@ public class PPrint
     /**
      * Is text node and already ends w/ a newline? Used to pretty print CDATA/PRE text content. If it already ends on a
      * newline, it is not necessary to print another before printing end tag.
+     * @param lexer
+     * @param node
      * @param Lexer lexer
      * @param Node text node
      * @return <code>true</code> if text node ends with a newline
@@ -2489,6 +2500,16 @@ public class PPrint
      * Called from printTree to print the content of a slide from the node slidecontent. On return slidecontent points
      * to the node starting the next slide or null. The variables slide and count are used to customise the navigation
      * bar.
+     * @param fout
+     * @param mode
+     * @param indent
+     * @param lexer
+     */
+    /**
+     * @param fout
+     * @param mode
+     * @param indent
+     * @param lexer
      */
     public void printSlide(Out fout, short mode, int indent, Lexer lexer)
     {
@@ -2618,20 +2639,16 @@ public class PPrint
 
     /**
      * Add meta element for page transition effect, this works on IE but not NS.
+     * @param lexer
+     * @param root
+     * @param duration
      */
-    public void addTransitionEffect(Lexer lexer, Node root, short effect, double duration)
+    public void addTransitionEffect(Lexer lexer, Node root, double duration)
     {
         Node head = root.findHEAD(lexer.configuration.tt);
         String transition;
 
-        if (0 <= effect && effect <= 23)
-        {
-            transition = "revealTrans(Duration=" + (new Double(duration)).toString() + ",Transition=" + effect + ")";
-        }
-        else
-        {
-            transition = "blendTrans(Duration=" + (new Double(duration)).toString() + ")";
-        }
+        transition = "blendTrans(Duration=" + (new Double(duration)).toString() + ")";
 
         if (head != null)
         {
@@ -2642,6 +2659,11 @@ public class PPrint
         }
     }
 
+    /**
+     * Creates slides from h2.
+     * @param lexer Lexer
+     * @param root root node
+     */
     public void createSlides(Lexer lexer, Node root)
     {
         Node body;
@@ -2653,7 +2675,8 @@ public class PPrint
         body = root.findBody(lexer.configuration.tt);
         count = countSlides(body);
         slidecontent = body.content;
-        addTransitionEffect(lexer, root, EFFECT_BLEND, 3.0);
+
+        addTransitionEffect(lexer, root, 3.0);
 
         for (slide = 1; slide <= count; ++slide)
         {
@@ -2662,8 +2685,8 @@ public class PPrint
             try
             {
                 FileOutputStream fis = new FileOutputStream(buf);
-                Out out = new OutImpl(this.configuration, this.configuration.outCharEncoding);
-                out.setOut(fis);
+                Out out = OutFactory.getOut(configuration, fis);
+
                 printTree(out, (short) 0, 0, lexer, root);
                 flushLine(out, 0);
                 out.close();

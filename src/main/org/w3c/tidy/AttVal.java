@@ -106,10 +106,21 @@ public class AttVal extends Object implements Cloneable
      */
     protected Attr adapter;
 
+    /**
+     * Instantiates a new empty AttVal.
+     */
     public AttVal()
     {
     }
 
+    /**
+     * Instantiates a new AttVal.
+     * @param next next linked AttVal
+     * @param dict Attribute from dictionary
+     * @param delim delimitator for attribute value
+     * @param attribute attribute name
+     * @param value attribute value
+     */
     public AttVal(AttVal next, Attribute dict, int delim, String attribute, String value)
     {
         this.next = next;
@@ -119,6 +130,16 @@ public class AttVal extends Object implements Cloneable
         this.value = value;
     }
 
+    /**
+     * Instantiates a new AttVal.
+     * @param next next linked AttVal
+     * @param dict Attribute from dictionary
+     * @param asp contained asp node
+     * @param php contained php node
+     * @param delim delimitator for attribute value
+     * @param attribute attribute name
+     * @param value attribute value
+     */
     public AttVal(AttVal next, Attribute dict, Node asp, Node php, int delim, String attribute, String value)
     {
         this.next = next;
@@ -161,6 +182,10 @@ public class AttVal extends Object implements Cloneable
         return av;
     }
 
+    /**
+     * Is this a boolean attribute.
+     * @return <code>true</code> if this is a boolean attribute
+     */
     public boolean isBoolAttribute()
     {
         Attribute attr = this.dict;
@@ -175,6 +200,12 @@ public class AttVal extends Object implements Cloneable
         return false;
     }
 
+    /**
+     * Check the attribute value for uppercase letters (only if the value should be lowercase, required for literal
+     * values in xhtml).
+     * @param lexer Lexer
+     * @param node Node which contains this attribute
+     */
     void checkLowerCaseAttrValue(Lexer lexer, Node node)
     {
         if (this.value == null)
@@ -198,12 +229,19 @@ public class AttVal extends Object implements Cloneable
         }
     }
 
-    /* ignore unknown attributes for proprietary elements */
+    /**
+     * Check attribute name/value and report errors.
+     * @param lexer Lexer
+     * @param node node which contains this attribute
+     * @return Attribute
+     */
     public Attribute checkAttribute(Lexer lexer, Node node)
     {
         TagTable tt = lexer.configuration.tt;
 
         Attribute attr = this.dict;
+
+        // ignore unknown attributes for proprietary elements
         if (attr != null)
         {
 
@@ -242,6 +280,10 @@ public class AttVal extends Object implements Cloneable
         return attr;
     }
 
+    /**
+     * Return the org.w3c.dom.Attr adapter.
+     * @return org.w3c.dom.Attr adapter
+     */
     protected org.w3c.dom.Attr getAdapter()
     {
         if (this.adapter == null)

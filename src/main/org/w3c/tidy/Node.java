@@ -218,6 +218,9 @@ public class Node implements Cloneable
      */
     protected Dict tag;
 
+    /**
+     * Tag name.
+     */
     protected String element;
 
     /**
@@ -236,7 +239,7 @@ public class Node implements Cloneable
     protected org.w3c.dom.Node adapter;
 
     /**
-     * instantiates a new text node.
+     * Instantiates a new text node.
      */
     public Node()
     {
@@ -272,6 +275,17 @@ public class Node implements Cloneable
         this.content = null;
     }
 
+    /**
+     * Instantiates a new node.
+     * @param type node type: Node.ROOT_NODE | Node.DOCTYPE_TAG | Node.COMMENT_TAG | Node.PROC_INS_TAG | Node.TEXT_NODE |
+     * Node.START_TAG | Node.END_TAG | Node.START_END_TAG | Node.CDATA_TAG | Node.SECTION_TAG | Node. ASP_TAG |
+     * Node.JSTE_TAG | Node.PHP_TAG | Node.XML_DECL
+     * @param textarray array of bytes contained in the Node
+     * @param start start position
+     * @param end end position
+     * @param element tag name
+     * @param tt tag table instance
+     */
     public Node(short type, byte[] textarray, int start, int end, String element, TagTable tt)
     {
         this.parent = null;
@@ -297,7 +311,7 @@ public class Node implements Cloneable
     }
 
     /**
-     * used to clone heading nodes when split by an hr.
+     * Used to clone heading nodes when split by an hr.
      * @see java.lang.Object#clone()
      */
     protected Object clone()
@@ -597,7 +611,9 @@ public class Node implements Cloneable
     }
 
     /**
-     * remove node from markup tree and discard it.
+     * Remove node from markup tree and discard it.
+     * @param element discarded node
+     * @return next node
      */
     public static Node discardElement(Node element)
     {
@@ -656,7 +672,9 @@ public class Node implements Cloneable
     }
 
     /**
-     * insert node into markup tree in pace of element which is moved to become the child of the node.
+     * Insert node into markup tree in pace of element which is moved to become the child of the node.
+     * @param element child node. Will be inserted as a child of element
+     * @param node parent node
      */
     public static void insertNodeAsParent(Node element, Node node)
     {
@@ -693,7 +711,9 @@ public class Node implements Cloneable
     }
 
     /**
-     * insert node into markup tree before element.
+     * Insert node into markup tree before element.
+     * @param element child node. Will be insertedbefore element
+     * @param node following node
      */
     public static void insertNodeBeforeElement(Node element, Node node)
     {
@@ -717,7 +737,7 @@ public class Node implements Cloneable
     }
 
     /**
-     * insert node into markup tree after element.
+     * Insert node into markup tree after element.
      * @param node new node to insert
      */
     public void insertNodeAfterElement(Node node)
@@ -746,6 +766,11 @@ public class Node implements Cloneable
         node.prev = this;
     }
 
+    /**
+     * Trim an empty element.
+     * @param lexer Lexer
+     * @param element empty node to be removed
+     */
     public static void trimEmptyElement(Lexer lexer, Node element)
     {
         TagTable tt = lexer.configuration.tt;
@@ -769,8 +794,11 @@ public class Node implements Cloneable
     }
 
     /**
-     * This maps <em> hello </em> <strong>world </strong> to <em> hello </em> <strong>world </strong> If last child of
+     * This maps <em> hello </em> <strong>world </strong> to <em> hello </em> <strong>world </strong>. If last child of
      * element is a text node then trim trailing white space character moving it to after element's end tag.
+     * @param lexer Lexer
+     * @param element node
+     * @param last last child of element
      */
     public static void trimTrailingSpace(Lexer lexer, Node element, Node last)
     {
@@ -815,6 +843,12 @@ public class Node implements Cloneable
         }
     }
 
+    /**
+     * Escapes the given tag.
+     * @param lexer Lexer
+     * @param element node to be escaped
+     * @return escaped node
+     */
     protected static Node escapeTag(Lexer lexer, Node element)
     {
         Node node = lexer.newNode();
@@ -887,6 +921,9 @@ public class Node implements Cloneable
      * This maps <code>&lt;p> hello &lt;em> world &lt;/em></code> to <code>&lt;p> hello &lt;em> world &lt;/em></code>.
      * Trims initial space, by moving it before the start tag, or if this element is the first in parent's content, then
      * by discarding the space.
+     * @param lexer Lexer
+     * @param element parent node
+     * @param text text node
      */
     public static void trimInitialSpace(Lexer lexer, Node element, Node text)
     {
@@ -1125,6 +1162,12 @@ public class Node implements Cloneable
         }
     }
 
+    /**
+     * Coerce a node.
+     * @param lexer Lexer
+     * @param node Node
+     * @param tag tag dictionary reference
+     */
     public static void coerceNode(Lexer lexer, Node node, Dict tag)
     {
         Node tmp = lexer.inferredTag(tag.name);
@@ -1169,6 +1212,12 @@ public class Node implements Cloneable
         this.next = null;
     }
 
+    /**
+     * Insert a node at the end.
+     * @param element parent node
+     * @param node will be inserted at the end of element
+     * @return <code>true</code> if the node has been inserted
+     */
     public static boolean insertMisc(Node element, Node node)
     {
         if (node.type == COMMENT_TAG
@@ -1455,6 +1504,10 @@ public class Node implements Cloneable
         this.type = newType;
     }
 
+    /**
+     * Used to check script node for script language.
+     * @return <code>true</code> if the script node contains javascript
+     */
     public boolean isJavaScript()
     {
         boolean result = false;

@@ -185,6 +185,35 @@ public final class TidyUtils
     }
 
     /**
+     * Return true if substring s is in p and isn't all in upper case. This is used to check the case of SYSTEM, PUBLIC,
+     * DTD and EN.
+     * @param s substring
+     * @param p full string
+     * @param len how many chars to check in p
+     * @return true if substring s is in p and isn't all in upper case
+     */
+    public static boolean findBadSubString(String s, String p, int len)
+    {
+        int n = s.length();
+        int i = 0;
+        String ps;
+
+        while (n < len)
+        {
+            ps = p.substring(i, i + n);
+            if (s.equalsIgnoreCase(ps))
+            {
+                return (!ps.equals(s.substring(0, n)));
+            }
+
+            ++i;
+            --len;
+        }
+
+        return false;
+    }
+
+    /**
      * Is the given char a valid xml letter?
      * @param c char
      * @return <code>true</code> if the char is a valid xml letter
@@ -401,7 +430,7 @@ public final class TidyUtils
     }
 
     /**
-     * Is the given char a valid in xml name?
+     * Is the given char valid in xml name?
      * @param c char
      * @return <code>true</code> if the char is a valid xml name char
      */
@@ -535,7 +564,7 @@ public final class TidyUtils
     }
 
     /**
-     * Is the given character a single or doubble quote?
+     * Is the given character a single or double quote?
      * @param c char
      * @return <code>true</code> if c is " or '
      */

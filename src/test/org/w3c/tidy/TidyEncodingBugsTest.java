@@ -100,7 +100,8 @@ public class TidyEncodingBugsTest extends TidyTestCase
     {
         // assume the expected output has the same encoding tidy has in its configuration
         String encodingName = ParsePropertyImpl.CHAR_ENCODING.getFriendlyName("out-encoding", new Integer(tidy
-            .getConfiguration().outCharEncoding), tidy.getConfiguration());
+            .getConfiguration()
+            .getOutCharEncoding()), tidy.getConfiguration());
 
         // BOM fix - if le or be is specified java will output the BOM at the beginning of the stream
         if (encodingName.equals("utf-16be") || encodingName.equals("utf-16le"))

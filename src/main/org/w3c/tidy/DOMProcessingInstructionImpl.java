@@ -66,6 +66,10 @@ import org.w3c.dom.DOMException;
 public class DOMProcessingInstructionImpl extends DOMNodeImpl implements org.w3c.dom.ProcessingInstruction
 {
 
+    /**
+     * Instantiates a new DOM processing instruction.
+     * @param adaptee wrapped Tidy node
+     */
     protected DOMProcessingInstructionImpl(Node adaptee)
     {
         super(adaptee);
@@ -80,7 +84,7 @@ public class DOMProcessingInstructionImpl extends DOMNodeImpl implements org.w3c
     }
 
     /**
-     * @todo not implemented
+     * Not implemented.
      * @see org.w3c.dom.ProcessingInstruction#getTarget
      */
     public String getTarget()
@@ -98,7 +102,7 @@ public class DOMProcessingInstructionImpl extends DOMNodeImpl implements org.w3c
     }
 
     /**
-     * @see org.w3c.dom.ProcessingInstruction#setData
+     * @see org.w3c.dom.ProcessingInstruction#setData(java.lang.String)
      */
     public void setData(String data) throws DOMException
     {

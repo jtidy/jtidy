@@ -54,6 +54,8 @@
 package org.w3c.tidy;
 
 /**
+ * Message sent to listeners for validation errors/warnings and info.
+ * @see Tidy#addMessageListener(TidyMessageListener)
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
@@ -61,45 +63,135 @@ public final class TidyMessage
 {
 
     /**
-     * dont't instantiate.
+     * Line in the source file (can be 0 if the message is not related to a particular line, such as a summary message).
      */
-    private TidyMessage()
+    private int line;
+
+    /**
+     * Column in the source file (can be 0 if the message is not related to a particular column, such as a summary
+     * message).
+     */
+    private int column;
+
+    /**
+     * Level for this message. Can be TidyMessage.Level.SUMMARY | TidyMessage.Level.INFO | TidyMessage.Level.WARNING |
+     * TidyMessage.Level.ERROR.
+     */
+    private Level level;
+
+    /**
+     * Formatted text for this message.
+     */
+    private String message;
+
+    /**
+     * Instantiates a new message.
+     * @param line Line number in the source file
+     * @param column Column number in the source file
+     * @param level severity
+     * @param message message text
+     */
+    public TidyMessage(int line, int column, Level level, String message)
     {
+        this.line = line;
+        this.column = column;
+        this.level = level;
+        this.message = message;
     }
 
     /**
-     * error gravity enumeration.
+     * Getter for <code>column</code>.
+     * @return Returns the column.
+     */
+    public int getColumn()
+    {
+        return this.column;
+    }
+
+    /**
+     * Getter for <code>level</code>.
+     * @return Returns the level.
+     */
+    public Level getLevel()
+    {
+        return this.level;
+    }
+
+    /**
+     * Getter for <code>line</code>.
+     * @return Returns the line.
+     */
+    public int getLine()
+    {
+        return this.line;
+    }
+
+    /**
+     * Getter for <code>message</code>.
+     * @return Returns the message.
+     */
+    public String getMessage()
+    {
+        return this.message;
+    }
+
+    /**
+     * Message severity enumeration.
      * @author fgiust
      * @version $Revision$ ($Author$)
      */
-    static final class Level
+    static final class Level implements Comparable
     {
 
         /**
-         * level = summary.
+         * level = summary (0).
          */
-        public static final short SUMMARY = 0;
+        public static final Level SUMMARY = new Level(0);
 
         /**
-         * level = info.
+         * level = info (1).
          */
-        public static final short INFO = 1;
+        public static final Level INFO = new Level(1);
 
         /**
-         * level = warning.
+         * level = warning (2).
          */
-        public static final short WARNING = 2;
+        public static final Level WARNING = new Level(2);
 
         /**
-         * level = error.
+         * level = error (3).
          */
-        public static final short ERROR = 3;
+        public static final Level ERROR = new Level(3);
 
         /**
-         * don't instantiate.
+         * short value for this level.
          */
-        private Level()
+        private short code;
+
+        /**
+         * Instantiates a new message with the given code.
+         * @param code int value for this level
+         */
+        private Level(int code)
         {
+            this.code = (short) code;
+        }
+
+        /**
+         * Returns the int value for this level.
+         * @return int value for this level
+         */
+        public short getCode()
+        {
+            return this.code;
+        }
+
+        /**
+         * @see java.lang.Comparable#compareTo(Object)
+         */
+        public int compareTo(Object object)
+        {
+            return this.code - ((Level) object).code;
         }
 
     }

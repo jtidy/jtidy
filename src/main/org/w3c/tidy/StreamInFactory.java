@@ -53,41 +53,61 @@
  */
 package org.w3c.tidy;
 
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+
+
 /**
- * Tidy Output interface.
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
+ * Tidy Input factory.
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public interface Out
+public final class StreamInFactory
 {
 
     /**
-     * writes an char.
-     * @param c char to write
+     * Don't instantiate.
      */
-    void outc(int c);
+    private StreamInFactory()
+    {
+    }
 
     /**
-     * writes a byte.
-     * @param c byte to write
+     * Returns the appropriate StreamIn implementation.
+     * @param config configuration instance
+     * @param stream input stream
+     * @return StreamIn instance
      */
-    void outc(byte c);
-
-    /**
-     * writes a newline.
-     */
-    void newline();
-
-    /**
-     * Output a Byte Order Mark if required.
-     */
-    void outBOM();
-
-    /**
-     * Flush and close the stream.
-     */
-    void close();
-
+    public static StreamIn getStreamIn(Configuration config, InputStream stream)
+    {
+        // @todo added factory to test the java StraeamIn implementation
+        if (true)
+        {
+            return new StreamInImpl(stream, config.getInCharEncoding(), config.tabsize);
+        }
+        try
+        {
+            switch (config.getInCharEncoding())
+            {
+                case Configuration.ASCII :
+                    return new StreamInJavaImpl(stream, "US-ASCII", config.tabsize);
+                case Configuration.LATIN1 :
+                    return new StreamInJavaImpl(stream, "ISO-8859-1", config.tabsize);
+                case Configuration.UTF8 :
+                    return new StreamInJavaImpl(stream, "UTF-8", config.tabsize);
+                case Configuration.UTF16 :
+                    return new StreamInJavaImpl(stream, "UTF-16", config.tabsize);
+                case Configuration.UTF16LE :
+                    return new StreamInJavaImpl(stream, "UTF-16LE", config.tabsize);
+                case Configuration.UTF16BE :
+                    return new StreamInJavaImpl(stream, "UTF-16BE", config.tabsize);
+                default :
+                    return new StreamInImpl(stream, config.getInCharEncoding(), config.tabsize);
+            }
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            return new StreamInImpl(stream, config.getInCharEncoding(), config.tabsize);
+        }
+    }
 }

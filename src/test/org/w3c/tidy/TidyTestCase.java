@@ -58,6 +58,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -96,6 +97,11 @@ public class TidyTestCase extends TestCase
      * Tidy test instance.
      */
     protected Tidy tidy;
+
+    /**
+     * message listener.
+     */
+    protected TestMessageListener messageListener;
 
     /**
      * Error out.
@@ -187,6 +193,18 @@ public class TidyTestCase extends TestCase
             log.debug("log:\n---- log ----\n" + this.errorLog + "\n---- log ----");
         }
 
+        // check messages
+        String messagesFileName = inputURL.getFile().substring(0, inputURL.getFile().lastIndexOf(".")) + ".msg";
+        URL messagesFile = getClass().getClassLoader().getResource(messagesFileName);
+
+        // save messages
+        if (messagesFile == null)
+        {
+            FileWriter fw = new FileWriter(messagesFileName);
+            fw.write(this.messageListener.messagesToXml());
+            fw.close();
+        }
+
         // existing file for comparison
         String outFileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".out";
         URL outFile = getClass().getClassLoader().getResource(outFileName);
@@ -236,7 +254,8 @@ public class TidyTestCase extends TestCase
     {
         // assume the expected output has the same encoding tidy has in its configuration
         String encodingName = ParsePropertyImpl.CHAR_ENCODING.getFriendlyName("out-encoding", new Integer(tidy
-            .getConfiguration().outCharEncoding), tidy.getConfiguration());
+            .getConfiguration()
+            .getOutCharEncoding()), tidy.getConfiguration());
 
         diff(
             new BufferedReader((new InputStreamReader(new ByteArrayInputStream(tidyOutput.getBytes()), encodingName))),
@@ -330,6 +349,7 @@ public class TidyTestCase extends TestCase
     {
         // config file names
         String configFileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".cfg";
+        String messagesFileName = fileName.substring(0, fileName.lastIndexOf("."));
 
         // input file
         URL inputURL = getClass().getClassLoader().getResource(fileName);
@@ -365,6 +385,9 @@ public class TidyTestCase extends TestCase
         // set up error log
         this.errorLog = new StringWriter();
         this.tidy.setErrout(new PrintWriter(this.errorLog));
+
+        this.messageListener = new TestMessageListener(messagesFileName);
+        this.tidy.addMessageListener(messageListener);
     }
 
     /**

@@ -170,6 +170,11 @@ public final class ParserImpl
     {
     }
 
+    /**
+     * @param lexer
+     * @param node
+     * @param mode
+     */
     protected static void parseTag(Lexer lexer, Node node, short mode)
     {
         // Fix by GLP 2000-12-21. Need to reset insertspace if this

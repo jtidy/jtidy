@@ -64,9 +64,10 @@ public interface Parser
 {
 
     /**
-     * @param lexer
+     * Parse the given node.
+     * @param lexer Lexer
      * @param node node created by the lexer upon seeing the start tag, or by the parser when the start tag is inferred
-     * @param mode
+     * @param mode content mode
      */
     void parse(Lexer lexer, Node node, short mode);
 

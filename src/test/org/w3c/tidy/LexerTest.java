@@ -57,7 +57,7 @@ import junit.framework.TestCase;
 
 
 /**
- * Tests for utility methods in Lexer
+ * Tests for utility methods in Lexer.
  * @author Fabrizio Giustina
  * @version $Revision $ ($Author $)
  */

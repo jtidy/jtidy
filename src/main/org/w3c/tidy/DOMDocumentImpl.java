@@ -66,20 +66,20 @@ import org.w3c.dom.DOMException;
 public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
 {
 
-    private TagTable tt; // a DOM Document has its own TagTable.
+    /**
+     * A DOM Document has its own TagTable.
+     */
+    private TagTable tt;
 
+    /**
+     * Instantiates a new Dom document with a default tag table.
+     * @param adaptee tidy Node
+     */
     protected DOMDocumentImpl(Node adaptee)
     {
         super(adaptee);
         this.tt = new TagTable();
     }
-
-    public void setTagTable(TagTable tt)
-    {
-        this.tt = tt;
-    }
-
-    /* --------------------- DOM ---------------------------- */
 
     /**
      * @see org.w3c.dom.Node#getNodeName
@@ -271,7 +271,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
 
     /**
      * DOM2 - not implemented.
-     * @exception org.w3c.dom.DOMException
+     * @see org.w3c.dom.Document#importNode(org.w3c.dom.Node, boolean)
      */
     public org.w3c.dom.Node importNode(org.w3c.dom.Node importedNode, boolean deep) throws org.w3c.dom.DOMException
     {
@@ -281,7 +281,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
 
     /**
      * DOM2 - not implemented.
-     * @exception org.w3c.dom.DOMException
+     * @see org.w3c.dom.Document#createAttributeNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.Attr createAttributeNS(String namespaceURI, String qualifiedName)
         throws org.w3c.dom.DOMException
@@ -292,7 +292,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
 
     /**
      * DOM2 - not implemented.
-     * @exception org.w3c.dom.DOMException
+     * @see org.w3c.dom.Document#createElementNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.Element createElementNS(String namespaceURI, String qualifiedName)
         throws org.w3c.dom.DOMException
@@ -303,6 +303,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.Document#getElementsByTagNameNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.NodeList getElementsByTagNameNS(String namespaceURI, String localName)
     {
@@ -312,6 +313,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.Document#getElementById(java.lang.String)
      */
     public org.w3c.dom.Element getElementById(String elementId)
     {

@@ -67,7 +67,7 @@ import java.util.Map;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public class TagTable
+public final class TagTable
 {
 
     /**
@@ -649,7 +649,10 @@ public class TagTable
      */
     private Map tagHashtable = new Hashtable();
 
-    public TagTable()
+    /**
+     * Instantiates a new tag table with known tags.
+     */
+    protected TagTable()
     {
         for (int i = 0; i < TAGS.length; i++)
         {
@@ -721,16 +724,30 @@ public class TagTable
         tagBlink = lookup("blink");
     }
 
+    /**
+     * Setter for the current configuration instance.
+     * @param configuration configuration instance
+     */
     public void setConfiguration(Configuration configuration)
     {
         this.configuration = configuration;
     }
 
+    /**
+     * Lookup a tag definition by its name.
+     * @param name tag name
+     * @return tag definition (Dict)
+     */
     public Dict lookup(String name)
     {
         return (Dict) tagHashtable.get(name);
     }
 
+    /**
+     * Installs a new tag in the tag table, or modify an existing one.
+     * @param dict tag definition
+     * @return installed Dict instance
+     */
     public Dict install(Dict dict)
     {
         Dict d = (Dict) tagHashtable.get(dict.name);
@@ -749,7 +766,11 @@ public class TagTable
         }
     }
 
-    /* public interface for finding tag by name */
+    /**
+     * Finds a tag by name.
+     * @param node Node to find. If the element is found the tag property of node will be set.
+     * @return true if the tag is found, false otherwise
+     */
     public boolean findTag(Node node)
     {
         Dict np;
@@ -773,6 +794,11 @@ public class TagTable
         return false;
     }
 
+    /**
+     * Finds a parser fo the given node.
+     * @param node Node
+     * @return parser for the node
+     */
     public Parser findParser(Node node)
     {
         Dict np;
@@ -790,7 +816,9 @@ public class TagTable
     }
 
     /**
-     * may id or name serve as anchor?
+     * May id or name serve as anchor?
+     * @param node Node
+     * @return <code>true</code> if tag can serve as an anchor
      */
     boolean isAnchorElement(Node node)
     {
@@ -803,6 +831,11 @@ public class TagTable
             || node.tag == this.tagMap;
     }
 
+    /**
+     * Defines a new tag.
+     * @param tagType tag type. Can be TAGTYPE_BLOCK | TAGTYPE_EMPTY | TAGTYPE_PRE | TAGTYPE_INLINE
+     * @param name tag name
+     */
     public void defineTag(short tagType, String name)
     {
         Parser tagParser;
@@ -904,7 +937,8 @@ public class TagTable
     }
 
     /**
-     * free node's attributes.
+     * Free node's attributes.
+     * @param node Node
      */
     public void freeAttrs(Node node)
     {
@@ -921,7 +955,8 @@ public class TagTable
     }
 
     /**
-     * removes anchor for specific node.
+     * Removes anchor for specific node.
+     * @param node Node
      */
     void removeAnchorByNode(Node node)
     {
@@ -959,7 +994,8 @@ public class TagTable
     }
 
     /**
-     * initialize a new anchor.
+     * Initialize a new anchor.
+     * @return a new anchor element
      */
     Anchor newAnchor()
     {
@@ -968,7 +1004,10 @@ public class TagTable
     }
 
     /**
-     * add new anchor to namespace.
+     * Adds a new anchor to namespace.
+     * @param name anchor name
+     * @param node destination for this anchor
+     * @return Anchor
      */
     Anchor addAnchor(String name, Node node)
     {
@@ -996,7 +1035,9 @@ public class TagTable
     }
 
     /**
-     * return node associated with anchor.
+     * Return node associated with anchor.
+     * @param name anchor name
+     * @return node associated with anchor
      */
     Node getNodeByAnchor(String name)
     {

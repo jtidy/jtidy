@@ -63,22 +63,32 @@ package org.w3c.tidy;
 public class StyleProp
 {
 
+    /**
+     * Style name.
+     */
     protected String name;
 
+    /**
+     * Style value.
+     */
     protected String value;
 
+    /**
+     * Next linked style property.
+     */
     protected StyleProp next;
 
+    /**
+     * Instantiates a new style property.
+     * @param name Style name
+     * @param value Style value
+     * @param next Next linked style property. Can be null.
+     */
     public StyleProp(String name, String value, StyleProp next)
     {
         this.name = name;
         this.value = value;
         this.next = next;
-    }
-
-    public StyleProp(String name, String value)
-    {
-        this(name, value, null);
     }
 
 }

@@ -140,7 +140,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr
     }
 
     /**
-     * @see org.w3c.dom.Attr#setValue
+     * @see org.w3c.dom.Attr#setValue(java.lang.String)
      */
     public void setValue(String value)
     {

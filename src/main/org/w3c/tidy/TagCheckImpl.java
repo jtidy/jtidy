@@ -140,6 +140,9 @@ public final class TagCheckImpl
     {
     }
 
+    /**
+     * Checker implementation for html tag.
+     */
     public static class CheckHTML implements TagCheck
     {
 
@@ -148,12 +151,14 @@ public final class TagCheckImpl
          */
         private static final String XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 
+        /**
+         * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         */
         public void check(Lexer lexer, Node node)
         {
 
             AttVal attval;
             AttVal xmlns;
-            Attribute attribute;
 
             xmlns = node.getAttrByName("xmlns");
 
@@ -172,15 +177,21 @@ public final class TagCheckImpl
 
             for (attval = node.attributes; attval != null; attval = attval.next)
             {
-                attribute = attval.checkAttribute(lexer, node);
+                attval.checkAttribute(lexer, node);
             }
         }
 
     }
 
+    /**
+     * Checker implementation for script tags.
+     */
     public static class CheckSCRIPT implements TagCheck
     {
 
+        /**
+         * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         */
         public void check(Lexer lexer, Node node)
         {
             AttVal lang, type;
@@ -218,9 +229,15 @@ public final class TagCheckImpl
 
     }
 
+    /**
+     * Checker implementation for table.
+     */
     public static class CheckTABLE implements TagCheck
     {
 
+        /**
+         * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         */
         public void check(Lexer lexer, Node node)
         {
             AttVal attval;
@@ -270,9 +287,15 @@ public final class TagCheckImpl
 
     }
 
+    /**
+     * Checker implementation for table caption.
+     */
     public static class CheckCaption implements TagCheck
     {
 
+        /**
+         * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         */
         public void check(Lexer lexer, Node node)
         {
             AttVal attval;
@@ -308,9 +331,15 @@ public final class TagCheckImpl
 
     }
 
+    /**
+     * Checker implementation for hr.
+     */
     public static class CheckHR implements TagCheck
     {
 
+        /**
+         * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         */
         public void check(Lexer lexer, Node node)
         {
             AttVal av = node.getAttrByName("src");
@@ -324,9 +353,15 @@ public final class TagCheckImpl
         }
     }
 
+    /**
+     * Checker implementation for image tags.
+     */
     public static class CheckIMG implements TagCheck
     {
 
+        /**
+         * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         */
         public void check(Lexer lexer, Node node)
         {
             AttVal attval;
@@ -393,9 +428,15 @@ public final class TagCheckImpl
 
     }
 
+    /**
+     * Checker implementation for area.
+     */
     public static class CheckAREA implements TagCheck
     {
 
+        /**
+         * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         */
         public void check(Lexer lexer, Node node)
         {
             AttVal attval;
@@ -432,9 +473,15 @@ public final class TagCheckImpl
 
     }
 
+    /**
+     * Checker implementation for anchors.
+     */
     public static class CheckAnchor implements TagCheck
     {
 
+        /**
+         * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         */
         public void check(Lexer lexer, Node node)
         {
             node.checkAttributes(lexer);
@@ -443,9 +490,15 @@ public final class TagCheckImpl
         }
     }
 
+    /**
+     * Checker implementation for image maps.
+     */
     public static class CheckMap implements TagCheck
     {
 
+        /**
+         * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         */
         public void check(Lexer lexer, Node node)
         {
             node.checkAttributes(lexer);
@@ -454,9 +507,15 @@ public final class TagCheckImpl
         }
     }
 
+    /**
+     * Checker implementation for style tags.
+     */
     public static class CheckSTYLE implements TagCheck
     {
 
+        /**
+         * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         */
         public void check(Lexer lexer, Node node)
         {
             AttVal type = node.getAttrByName("type");
@@ -474,7 +533,7 @@ public final class TagCheckImpl
     }
 
     /**
-     * reports missing action attribute.
+     * Checker implementation for forms. Reports missing action attribute.
      */
     public static class CheckForm implements TagCheck
     {
@@ -497,7 +556,7 @@ public final class TagCheckImpl
     }
 
     /**
-     * reports missing content attribute.
+     * Checker implementation for meta tags. Reports missing content attribute.
      */
     public static class CheckMeta implements TagCheck
     {
@@ -521,9 +580,15 @@ public final class TagCheckImpl
         }
     }
 
+    /**
+     * Checker implementation for table cells.
+     */
     public static class CheckTableCell implements TagCheck
     {
 
+        /**
+         * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         */
         public void check(Lexer lexer, Node node)
         {
             node.checkAttributes(lexer);
@@ -543,6 +608,9 @@ public final class TagCheckImpl
     public static class CheckLINK implements TagCheck
     {
 
+        /**
+         * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         */
         public void check(Lexer lexer, Node node)
         {
             AttVal rel = node.getAttrByName("rel");

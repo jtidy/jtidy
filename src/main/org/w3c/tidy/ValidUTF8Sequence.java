@@ -80,6 +80,13 @@ public class ValidUTF8Sequence
      */
     char[] validBytes = new char[8];
 
+    /**
+     * Instantiates a new ValidUTF8Sequence.
+     * @param lowChar low utf8 char
+     * @param highChar high utf8 char
+     * @param numBytes number of bytes in the sequence
+     * @param validBytes valid bytes array
+     */
     public ValidUTF8Sequence(int lowChar, int highChar, int numBytes, char[] validBytes)
     {
         this.lowChar = lowChar;
@@ -89,4 +96,3 @@ public class ValidUTF8Sequence
     }
 
 }
-

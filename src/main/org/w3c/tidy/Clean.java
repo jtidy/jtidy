@@ -95,11 +95,22 @@ public class Clean
      */
     private TagTable tt;
 
+    /**
+     * Instantiates a new Clean.
+     * @param tagTable tag table instance
+     */
     public Clean(TagTable tagTable)
     {
         this.tt = tagTable;
     }
 
+    /**
+     * Insert a css style property.
+     * @param props StyleProp instance
+     * @param name property name
+     * @param value property value
+     * @return StyleProp containin the given property
+     */
     private StyleProp insertProperty(StyleProp props, String name, String value)
     {
         StyleProp first, prev, prop;
@@ -114,13 +125,13 @@ public class Clean
 
             if (cmp == 0)
             {
-                /* this property is already defined, ignore new value */
+                // this property is already defined, ignore new value
                 return first;
             }
 
             if (cmp > 0) // props.name > name
             {
-                /* insert before this */
+                // insert before this
 
                 prop = new StyleProp(name, value, props);
 
@@ -140,7 +151,7 @@ public class Clean
             props = props.next;
         }
 
-        prop = new StyleProp(name, value);
+        prop = new StyleProp(name, value, null);
 
         if (prev != null)
         {
@@ -155,9 +166,10 @@ public class Clean
     }
 
     /**
-     * Create sorted linked list of properties from style string It temporarily places nulls in place of ':' and ';' to
-     * delimit the strings for the property name and value. Some systems don't allow you to null literal strings, so to
-     * avoid this, a copy is made first.
+     * Create sorted linked list of properties from style string.
+     * @param prop StyleProp
+     * @param style style string
+     * @return StyleProp with given style
      */
     private StyleProp createProps(StyleProp prop, String style)
     {
@@ -226,14 +238,18 @@ public class Clean
         return prop;
     }
 
+    /**
+     * Create a css property.
+     * @param props StyleProp
+     * @return css property as String
+     */
     private String createPropString(StyleProp props)
     {
         String style = "";
         int len;
         StyleProp prop;
 
-        /* compute length */
-
+        // compute length
         for (len = 0, prop = props; prop != null; prop = prop.next)
         {
             len += prop.name.length() + 2;
@@ -258,8 +274,11 @@ public class Clean
         return style;
     }
 
-    /*
-     * create string with merged properties
+    /**
+     * Creates a string with merged properties.
+     * @param style css style
+     * @param property css properties
+     * @return merged string
      */
     private String addProperty(String style, String property)
     {
@@ -287,6 +306,13 @@ public class Clean
         return str;
     }
 
+    /**
+     * Finds a css style.
+     * @param lexer Lexer
+     * @param tag tag name
+     * @param properties css properties
+     * @return style string
+     */
     private String findStyle(Lexer lexer, String tag, String properties)
     {
         Style style;
@@ -306,7 +332,9 @@ public class Clean
 
     /**
      * Find style attribute in node, and replace it by corresponding class attribute. Search for class in style
-     * dictionary otherwise gensym new class and add to dictionary. Assumes that node doesn't have a class attribute
+     * dictionary otherwise gensym new class and add to dictionary. Assumes that node doesn't have a class attribute.
+     * @param lexer Lexer
+     * @param node node with a style attribute
      */
     private void style2Rule(Lexer lexer, Node node)
     {
@@ -320,9 +348,8 @@ public class Clean
             classname = findStyle(lexer, node.element, styleattr.value);
             classattr = node.getAttrByName("class");
 
-            /*
-             * if there already is a class attribute then append class name after a space
-             */
+            // if there already is a class attribute then append class name after a space
+
             if (classattr != null)
             {
                 classattr.value = classattr.value + " " + classname;
@@ -330,13 +357,19 @@ public class Clean
             }
             else
             {
-                /* reuse style attribute for class attribute */
+                // reuse style attribute for class attribute
                 styleattr.attribute = "class";
                 styleattr.value = classname;
             }
         }
     }
 
+    /**
+     * Adds a css rule for color.
+     * @param lexer Lexer
+     * @param selector css selector
+     * @param color color value
+     */
     private void addColorRule(Lexer lexer, String selector, String color)
     {
         if (color != null)
@@ -349,7 +382,7 @@ public class Clean
     }
 
     /**
-     * move presentation attribs from body to style element.
+     * Move presentation attribs from body to style element.
      * 
      * <pre>
      * background="foo" . body { background-image: url(foo) }
@@ -359,6 +392,9 @@ public class Clean
      * vlink="foo" . :visited { color: foo }
      * alink="foo" . :active { color: foo }
      * </pre>
+     * 
+     * @param lexer Lexer
+     * @param body body node
      */
     private void cleanBodyAttrs(Lexer lexer, Node body)
     {
@@ -447,6 +483,12 @@ public class Clean
         }
     }
 
+    /**
+     * Check deprecated attributes in body tag.
+     * @param lexer Lexer
+     * @param doc document root node
+     * @return <code>true</code> is the body doesn't contain deprecated attributes, false otherwise.
+     */
     private boolean niceBody(Lexer lexer, Node doc)
     {
         Node body = doc.findBody(lexer.configuration.tt);
@@ -469,7 +511,9 @@ public class Clean
     }
 
     /**
-     * create style element using rules from dictionary.
+     * Create style element using rules from dictionary.
+     * @param lexer Lexer
+     * @param doc root node
      */
     private void createStyleElement(Lexer lexer, Node doc)
     {
@@ -485,7 +529,7 @@ public class Clean
         node = lexer.newNode(Node.START_TAG, null, 0, 0, "style");
         node.implicit = true;
 
-        /* insert type attribute */
+        // insert type attribute
         av = new AttVal(null, null, '"', "type", "text/css");
         av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(av);
         node.attributes = av;
@@ -529,6 +573,7 @@ public class Clean
 
     /**
      * Ensure bidirectional links are consistent.
+     * @param node root node
      */
     private void fixNodeLinks(Node node)
     {
@@ -560,6 +605,7 @@ public class Clean
 
     /**
      * Used to strip child of node when the node has one and only one child.
+     * @param node parent node
      */
     private void stripOnlyChild(Node node)
     {
@@ -576,7 +622,11 @@ public class Clean
         }
     }
 
-    /* used to strip font start and end tags */
+    /**
+     * Used to strip font start and end tags.
+     * @param element
+     * @param pnode
+     */
     private void discardContainer(Node element, Node[] pnode)
     {
         Node node;
@@ -642,6 +692,8 @@ public class Clean
 
     /**
      * Add style property to element, creating style attribute as needed and adding ; delimiter.
+     * @param node node
+     * @param property property added to node
      */
     private void addStyleProperty(Node node, String property)
     {
@@ -655,7 +707,7 @@ public class Clean
             }
         }
 
-        /* if style attribute already exists then insert property */
+        // if style attribute already exists then insert property
 
         if (av != null)
         {
@@ -666,7 +718,7 @@ public class Clean
         }
         else
         {
-            /* else create new style attribute */
+            // else create new style attribute
             av = new AttVal(node.attributes, null, '"', "style", property);
             av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(av);
             node.attributes = av;
@@ -674,9 +726,12 @@ public class Clean
     }
 
     /**
-     * Create new string that consists of the combined style properties in s1 and s2 To merge property lists, we build a
-     * linked list of property/values and insert properties into the list in order, merging values for the same property
-     * name.
+     * Create new string that consists of the combined style properties in s1 and s2. To merge property lists, we build
+     * a linked list of property/values and insert properties into the list in order, merging values for the same
+     * property name.
+     * @param s1 first property
+     * @param s2 second property
+     * @return merged properties
      */
     private String mergeProperties(String s1, String s2)
     {
@@ -689,6 +744,11 @@ public class Clean
         return s;
     }
 
+    /**
+     * Merge class attributes from 2 nodes.
+     * @param node Node
+     * @param child Child node
+     */
     private void mergeClasses(Node node, Node child)
     {
         AttVal av;
@@ -722,25 +782,28 @@ public class Clean
         }
         else if (s2 != null) // copy class names from child
         {
-            av = new AttVal();
-            av.attribute = "class";
-            av.value = s2;
-            av.delim = '"';
-            av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(av);
-            av.next = node.attributes;
+            av = new AttVal(
+                node.attributes,
+                AttributeTable.getDefaultAttributeTable().findAttribute(av),
+                '"',
+                "class",
+                s2);
             node.attributes = av;
         }
     }
 
+    /**
+     * Merge style from 2 nodes.
+     * @param node Node
+     * @param child Child node
+     */
     private void mergeStyles(Node node, Node child)
     {
         AttVal av;
         String s1, s2, style;
 
-        /*
-         * the child may have a class attribute used for attaching styles, if so the class name needs to be copied to
-         * node's class
-         */
+        // the child may have a class attribute used for attaching styles, if so the class name needs to be copied to
+        // node's class
         mergeClasses(node, child);
 
         for (s2 = null, av = child.attributes; av != null; av = av.next)
@@ -763,13 +826,13 @@ public class Clean
 
         if (s1 != null)
         {
-            if (s2 != null) /* merge styles from both */
+            if (s2 != null) // merge styles from both
             {
                 style = mergeProperties(s1, s2);
                 av.value = style;
             }
         }
-        else if (s2 != null) /* copy style of child */
+        else if (s2 != null) // copy style of child
         {
             av = new AttVal(node.attributes, null, '"', "style", s2);
             av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(av);
@@ -777,6 +840,11 @@ public class Clean
         }
     }
 
+    /**
+     * Map a % font size to a named font size.
+     * @param size size in %
+     * @return font size name
+     */
     private String fontSize2Name(String size)
     {
         String[] sizes = {"60%", "70%", "80%", null, "120%", "150%", "200%"};
@@ -828,11 +896,21 @@ public class Clean
         return "larger"; /* "140%" */
     }
 
+    /**
+     * Adds a font-family style.
+     * @param node Node
+     * @param face font face
+     */
     private void addFontFace(Node node, String face)
     {
         addStyleProperty(node, "font-family: " + face);
     }
 
+    /**
+     * Adds a font size style.
+     * @param node Node
+     * @param size font size
+     */
     private void addFontSize(Node node, String size)
     {
         String value;
@@ -866,19 +944,31 @@ public class Clean
         }
     }
 
+    /**
+     * Adds a font color style.
+     * @param node Node
+     * @param color color value
+     */
     private void addFontColor(Node node, String color)
     {
         addStyleProperty(node, "color: " + color);
     }
 
+    /**
+     * Adds an align style.
+     * @param node Node
+     * @param align align value
+     */
     private void addAlign(Node node, String align)
     {
-        /* force alignment value to lower case */
+        // force alignment value to lower case
         addStyleProperty(node, "text-align: " + align.toLowerCase());
     }
 
     /**
      * Add style properties to node corresponding to the font face, size and color attributes.
+     * @param node font tag
+     * @param av attribute list for node
      */
     private void addFontStyles(Node node, AttVal av)
     {
@@ -902,7 +992,9 @@ public class Clean
     }
 
     /**
-     * Symptom: <code>&ltp align=center></code> Action: <code>&lt;p style="text-align: center"></code>.
+     * Symptom: <code>&lt;p align=center></code>. Action: <code>&lt;p style="text-align: center"></code>.
+     * @param lexer Lexer
+     * @param node node with center attribute. Will be modified to use css style.
      */
     private void textAlign(Lexer lexer, Node node)
     {
@@ -936,11 +1028,14 @@ public class Clean
     }
 
     /**
-     * Symptom: <code>&lt;dir>&lt;li></code> where <code>&lt;li></code> is only child Action: coerce
+     * Symptom: <code>&lt;dir>&lt;li></code> where <code>&lt;li></code> is only child. Action: coerce
      * <code>&lt;dir> &lt;li></code> to <code>&lt;div></code> with indent. The clean up rules use the pnode argument
      * to return the next node when the original node has been deleted.
+     * @param lexer Lexer
+     * @param node dir tag
+     * @return <code>true</code> if a dir tag has been coerced to a div
      */
-    private boolean dir2Div(Lexer lexer, Node node, Node[] pnode)
+    private boolean dir2Div(Lexer lexer, Node node)
     {
         Node child;
 
@@ -954,7 +1049,6 @@ public class Clean
             }
 
             // check child has no peers
-
             if (child.next != null)
             {
                 return false;
@@ -971,41 +1065,11 @@ public class Clean
             }
 
             // coerce dir to div
-
             node.tag = this.tt.tagDiv;
             node.element = "div";
             addStyleProperty(node, "margin-left: 2em");
             stripOnlyChild(node);
             return true;
-
-            //#if 0
-            //Node content;
-            //Node last;
-            //content = child.content;
-            //last = child.last;
-            //child.content = null;
-
-            /* adjust parent and set margin on contents of <li> */
-
-            //for (child = content; child != null; child = child.next)
-            //{
-            //    child.parent = node.parent;
-            //    addStyleProperty(child, "margin-left: 1em");
-            //}
-            /* hook first/last into sequence */
-
-            //if (content != null)
-            //{
-            //    content.prev = node.prev;
-            //    last.next = node.next;
-            //    fixNodeLinks(content);
-            //    fixNodeLinks(last);
-            //}
-            //node.next = null;
-            /* ensure that new node is cleaned */
-            //pnode.setObject(cleanNode(lexer, content));
-            //return true;
-            //#endif
         }
 
         return false;
@@ -1018,8 +1082,12 @@ public class Clean
      * &lt;center>
      * </pre>.
      * <p>
-     * Action: replace <code>&lt;center></code> by <code>&ltdiv style="text-align: center"></code>
+     * Action: replace <code>&lt;center></code> by <code>&lt;div style="text-align: center"></code>
      * </p>
+     * @param lexer Lexer
+     * @param node center tag
+     * @param pnode
+     * @return <code>true</code> if a center tag has been replaced by a div
      */
     private boolean center2Div(Lexer lexer, Node node, Node[] pnode)
     {
@@ -1095,10 +1163,13 @@ public class Clean
     }
 
     /**
-     * Symptom: <code>&lt;div>&lt;div>...&lt;/div>&lt;/div></code> Action: merge the two divs This is useful after
+     * Symptom: <code>&lt;div>&lt;div>...&lt;/div>&lt;/div></code> Action: merge the two divs. This is useful after
      * nested &lt;dir>s used by Word for indenting have been converted to &lt;div>s.
+     * @param lexer Lexer
+     * @param node first div
+     * @return true if the divs have been merged
      */
-    private boolean mergeDivs(Lexer lexer, Node node, Node[] pnode)
+    private boolean mergeDivs(Lexer lexer, Node node)
     {
         Node child;
 
@@ -1138,7 +1209,11 @@ public class Clean
      * </ul>
      * </li>
      * </ul>
-     * Action: discard outer list
+     * Action: discard outer list.
+     * @param lexer Lexer
+     * @param node Node
+     * @param pnode passed in as array to allow modifications.
+     * @return <code>true</code> if nested lists have been found and replaced
      */
     private boolean nestedList(Lexer lexer, Node node, Node[] pnode)
     {
@@ -1242,7 +1317,10 @@ public class Clean
      * This code also replaces the align attribute by a style attribute. However, to avoid CSS problems with Navigator
      * 4, this isn't done for the elements: caption, tr and table
      * </p>
+     * @param lexer Lexer
+     * @param node
      * @param pnode passed as an array to allow modifications
+     * @return
      */
     private boolean blockStyle(Lexer lexer, Node node, Node[] pnode)
     {
@@ -1252,7 +1330,7 @@ public class Clean
         {
             if (node.tag != this.tt.tagTable && node.tag != this.tt.tagTr && node.tag != this.tt.tagLi)
             {
-                /* check for align attribute */
+                // check for align attribute
                 if (node.tag != this.tt.tagCaption)
                 {
                     textAlign(lexer, node);
@@ -1265,8 +1343,7 @@ public class Clean
                     return false;
                 }
 
-                /* check child has no peers */
-
+                // check child has no peers
                 if (child.next != null)
                 {
                     return false;
@@ -1303,7 +1380,10 @@ public class Clean
 
     /**
      * the only child of table cell or an inline element such as em.
+     * @param lexer
+     * @param node
      * @param pnode passed as an array to allow modifications
+     * @return
      */
     private boolean inlineStyle(Lexer lexer, Node node, Node[] pnode)
     {
@@ -1318,8 +1398,7 @@ public class Clean
                 return false;
             }
 
-            /* check child has no peers */
-
+            // check child has no peers
             if (child.next != null)
             {
                 return false;
@@ -1356,7 +1435,10 @@ public class Clean
     /**
      * Replace font elements by span elements, deleting the font element's attributes and replacing them by a single
      * style attribute.
+     * @param lexer
+     * @param node
      * @param pnode passed as an array to allow modifications
+     * @return
      */
     private boolean font2Span(Lexer lexer, Node node, Node[] pnode)
     {
@@ -1370,7 +1452,7 @@ public class Clean
                 return false;
             }
 
-            /* if FONT is only child of parent element then leave alone */
+            // if FONT is only child of parent element then leave alone
             if (node.parent.content == node && node.next == null)
             {
                 return false;
@@ -1378,7 +1460,7 @@ public class Clean
 
             addFontStyles(node, node.attributes);
 
-            /* extract style attribute and free the rest */
+            // extract style attribute and free the rest
             av = node.attributes;
             style = null;
 
@@ -1408,6 +1490,9 @@ public class Clean
 
     /**
      * Applies all matching rules to a node.
+     * @param lexer
+     * @param node
+     * @return
      */
     private Node cleanNode(Lexer lexer, Node node)
     {
@@ -1419,7 +1504,7 @@ public class Clean
         {
             o[0] = next;
 
-            b = dir2Div(lexer, node, o);
+            b = dir2Div(lexer, node);
             next = o[0];
             if (b)
             {
@@ -1442,7 +1527,7 @@ public class Clean
                 continue;
             }
 
-            b = mergeDivs(lexer, node, o);
+            b = mergeDivs(lexer, node);
             next = o[0];
             if (b)
             {
@@ -1476,10 +1561,14 @@ public class Clean
         return next;
     }
 
-    /*
+    /**
      * Special case: if the current node is destroyed by CleanNode() lower in the tree, this node and its parent no
      * longer exist. So we must jump back up the CreateStyleProperties() call stack until we have a valid node
      * reference.
+     * @param lexer Lexer
+     * @param node Node
+     * @param prepl
+     * @return
      */
     private Node createStyleProperties(Lexer lexer, Node node, Node[] prepl)
     {
@@ -1502,6 +1591,10 @@ public class Clean
         return cleanNode(lexer, node);
     }
 
+    /**
+     * @param lexer Lexer
+     * @param node
+     */
     private void defineStyleRules(Lexer lexer, Node node)
     {
         Node child;
@@ -1517,6 +1610,11 @@ public class Clean
         style2Rule(lexer, node);
     }
 
+    /**
+     * Clean an html tree.
+     * @param lexer Lexer
+     * @param doc root node
+     */
     public void cleanTree(Lexer lexer, Node doc)
     {
         Node[] repl = new Node[1];
@@ -1532,6 +1630,7 @@ public class Clean
 
     /**
      * simplifies <b><b>... </b> ... </b> etc.
+     * @param node root Node
      */
     public void nestedEmphasis(Node node)
     {
@@ -1546,7 +1645,7 @@ public class Clean
                 && node.parent != null
                 && node.parent.tag == node.tag)
             {
-                /* strip redundant inner element */
+                // strip redundant inner element
                 o[0] = next;
                 discardContainer(node, o);
                 next = o[0];
@@ -1564,7 +1663,8 @@ public class Clean
     }
 
     /**
-     * replace i by em and b by strong.
+     * Replace i by em and b by strong.
+     * @param node root Node
      */
     public void emFromI(Node node)
     {
@@ -1593,6 +1693,7 @@ public class Clean
     /**
      * Some people use dir or ul without an li to indent the content. The pattern to look for is a list with a single
      * implicit li. This is recursively replaced by an implicit blockquote.
+     * @param node root Node
      */
     public void list2BQ(Node node)
     {
@@ -1621,6 +1722,7 @@ public class Clean
     /**
      * Replace implicit blockquote by div with an indent taking care to reduce nested blockquotes to a single div with
      * the indent set to match the nesting depth.
+     * @param node root Node
      */
     public void bQ2Div(Node node)
     {
@@ -1670,6 +1772,11 @@ public class Clean
         }
     }
 
+    /**
+     * Find the enclosing table cell for the given node.
+     * @param node Node
+     * @return enclosing cell node
+     */
     Node findEnclosingCell(Node node)
     {
         Node check;
@@ -1686,6 +1793,9 @@ public class Clean
 
     /**
      * node is <code>&lt;![if ...]&gt;</code> prune up to <code>&lt;![endif]&gt;</code>.
+     * @param lexer Lexer
+     * @param node Node
+     * @return cleaned up Node
      */
     public Node pruneSection(Lexer lexer, Node node)
     {
@@ -1733,6 +1843,11 @@ public class Clean
         return node;
     }
 
+    /**
+     * Drop if/endif sections inserted by word2000.
+     * @param lexer Lexer
+     * @param node Node root node
+     */
     public void dropSections(Lexer lexer, Node node)
     {
         while (node != null)
@@ -1761,6 +1876,10 @@ public class Clean
         }
     }
 
+    /**
+     * Remove word2000 attributes from node.
+     * @param node node to cleanup
+     */
     public void purgeWord2000Attributes(Node node)
     {
         AttVal attr = null;
@@ -1808,6 +1927,9 @@ public class Clean
 
     /**
      * Word2000 uses span excessively, so we strip span out.
+     * @param lexer Lexer
+     * @param span Node span
+     * @return cleaned node
      */
     public Node stripSpan(Lexer lexer, Node span)
     {
@@ -1855,7 +1977,9 @@ public class Clean
     }
 
     /**
-     * map non-breaking spaces to regular spaces.
+     * Map non-breaking spaces to regular spaces.
+     * @param lexer Lexer
+     * @param node Node
      */
     private void normalizeSpaces(Lexer lexer, Node node)
     {
@@ -1896,7 +2020,9 @@ public class Clean
     }
 
     /**
-     * used to hunt for hidden preformatted sections.
+     * Used to hunt for hidden preformatted sections.
+     * @param node checked node
+     * @return <code>true</code> if the node has a "margin-top: 0" or "margin-bottom: 0" style
      */
     boolean noMargins(Node node)
     {
@@ -1923,7 +2049,10 @@ public class Clean
     }
 
     /**
-     * does element have a single space as its content?
+     * Does element have a single space as its content?
+     * @param lexer Lexer
+     * @param node checked node
+     * @return <code>true</code> if the element has a single space as its content
      */
     boolean singleSpace(Lexer lexer, Node node)
     {
@@ -1966,6 +2095,8 @@ public class Clean
      * This is a major clean up to strip out all the extra stuff you get when you save as web page from Word 2000. It
      * doesn't yet know what to do with VML tags, but these will appear as errors unless you declare them as new tags,
      * such as o:p which needs to be declared as inline.
+     * @param lexer Lexer
+     * @param node node to clean up
      */
     public void cleanWord2000(Lexer lexer, Node node)
     {
@@ -2149,12 +2280,17 @@ public class Clean
         }
     }
 
-    public boolean isWord2000(Node root, TagTable tagTable)
+    /**
+     * Check if the current document is a converted Word document.
+     * @param root root Node
+     * @return <code>true</code> if the document has been geenrated by Microsoft Word.
+     */
+    public boolean isWord2000(Node root)
     {
         AttVal attval;
         Node node;
         Node head;
-        Node html = root.findHTML(tagTable);
+        Node html = root.findHTML(this.tt);
 
         if (html != null && html.getAttrByName("xmlns:o") != null)
         {
@@ -2203,7 +2339,9 @@ public class Clean
     }
 
     /**
-     * where appropriate move object elements from head to body.
+     * Where appropriate move object elements from head to body.
+     * @param lexer Lexer
+     * @param html html node
      */
     static void bumpObject(Lexer lexer, Node html)
     {
@@ -2257,4 +2395,5 @@ public class Clean
             }
         }
     }
+
 }

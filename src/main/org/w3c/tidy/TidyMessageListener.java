@@ -54,40 +54,18 @@
 package org.w3c.tidy;
 
 /**
- * Tidy Output interface.
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
+ * Listener interface for validation errors/warnings and info.
+ * @see Tidy#addMessageListener(TidyMessageListener)
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public interface Out
+public interface TidyMessageListener
 {
 
     /**
-     * writes an char.
-     * @param c char to write
+     * Called by tidy when a warning or error occurs.
+     * @param message Tidy message
      */
-    void outc(int c);
-
-    /**
-     * writes a byte.
-     * @param c byte to write
-     */
-    void outc(byte c);
-
-    /**
-     * writes a newline.
-     */
-    void newline();
-
-    /**
-     * Output a Byte Order Mark if required.
-     */
-    void outBOM();
-
-    /**
-     * Flush and close the stream.
-     */
-    void close();
+    void messageReceived(TidyMessage message);
 
 }

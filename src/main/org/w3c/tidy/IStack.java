@@ -69,6 +69,9 @@ package org.w3c.tidy;
 public class IStack
 {
 
+    /**
+     * Next element in the stack.
+     */
     protected IStack next;
 
     /**
@@ -81,14 +84,9 @@ public class IStack
      */
     protected String element;
 
+    /**
+     * Attributes.
+     */
     protected AttVal attributes;
-
-    public IStack()
-    {
-        this.next = null;
-        this.tag = null;
-        this.element = null;
-        this.attributes = null;
-    }
 
 }

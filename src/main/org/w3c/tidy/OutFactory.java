@@ -53,41 +53,32 @@
  */
 package org.w3c.tidy;
 
+import java.io.OutputStream;
+
+
 /**
- * Tidy Output interface.
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
+ * Tidy Output factory.
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public interface Out
+public final class OutFactory
 {
 
     /**
-     * writes an char.
-     * @param c char to write
+     * Don't instantiate.
      */
-    void outc(int c);
+    private OutFactory()
+    {
+    }
 
     /**
-     * writes a byte.
-     * @param c byte to write
+     * Returns the appropriate Out implementation.
+     * @param config configuration instance
+     * @param stream output stream
+     * @return out instance
      */
-    void outc(byte c);
-
-    /**
-     * writes a newline.
-     */
-    void newline();
-
-    /**
-     * Output a Byte Order Mark if required.
-     */
-    void outBOM();
-
-    /**
-     * Flush and close the stream.
-     */
-    void close();
-
+    public static Out getOut(Configuration config, OutputStream stream)
+    {
+        return new OutImpl(config, config.getOutCharEncoding(), stream);
+    }
 }

@@ -81,7 +81,7 @@ public class DOMAttrMapImpl implements org.w3c.dom.NamedNodeMap
     }
 
     /**
-     * @see org.w3c.dom.NamedNodeMap#getNamedItem
+     * @see org.w3c.dom.NamedNodeMap#getNamedItem(java.lang.String)
      */
     public org.w3c.dom.Node getNamedItem(String name)
     {

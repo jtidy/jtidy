@@ -60,7 +60,8 @@ import org.w3c.tidy.EncodingUtils.PutBytes;
 
 
 /**
- * Output Stream Implementation.
+ * Output implementation. This implementation is from the c version of tidy and it doesn't take advantage of java
+ * writers.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @author Fabrizio Giustina
@@ -90,20 +91,22 @@ public class OutImpl implements Out
     private PutBytes putBytes;
 
     /**
-     * reference to configuration.
+     * Reference to configuration.
      */
     private Configuration configuration;
 
     /**
      * Constructor.
      * @param configuration actual configuration instance (needed for newline configuration)
-     * @param encoding encoding
+     * @param encoding encoding constant
+     * @param out output stream
      */
-    public OutImpl(Configuration configuration, int encoding)
+    public OutImpl(Configuration configuration, int encoding, OutputStream out)
     {
         this.configuration = configuration;
         this.encoding = encoding;
         this.state = EncodingUtils.FSM_ASCII;
+        this.out = out;
 
         this.putBytes = new PutBytes()
         {

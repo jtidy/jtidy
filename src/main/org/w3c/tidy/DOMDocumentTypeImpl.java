@@ -67,6 +67,10 @@ import org.w3c.dom.DOMException;
 public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.DocumentType
 {
 
+    /**
+     * Instantiates a new DOM document type.
+     * @param adaptee Tidy Node
+     */
     protected DOMDocumentTypeImpl(Node adaptee)
     {
         super(adaptee);
@@ -105,12 +109,19 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
         return value;
     }
 
+    /**
+     * NOT SUPPORTED.
+     * @see org.w3c.dom.DocumentType#getEntities()
+     */
     public org.w3c.dom.NamedNodeMap getEntities()
     {
-        // NOT SUPPORTED
         return null;
     }
 
+    /**
+     * NOT SUPPORTED.
+     * @see org.w3c.dom.DocumentType#getNotations()
+     */
     public org.w3c.dom.NamedNodeMap getNotations()
     {
         //@todo DOM2
@@ -119,6 +130,7 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.DocumentType#getPublicId()
      */
     public String getPublicId()
     {
@@ -128,6 +140,7 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.DocumentType#getSystemId()
      */
     public String getSystemId()
     {
@@ -137,6 +150,7 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
 
     /**
      * DOM2 - not implemented.
+     * @see org.w3c.dom.DocumentType#getInternalSubset()
      */
     public String getInternalSubset()
     {
