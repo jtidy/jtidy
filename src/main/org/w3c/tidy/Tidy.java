@@ -668,206 +668,198 @@ public class Tidy implements Serializable
      */
     protected int mainExec(String[] argv)
     {
-        int totalerrors = 0;
-        int totalwarnings = 0;
         String file;
-        String s;
-        int argc = argv.length + 1;
+        int argCount = argv.length;
         int argIndex = 0;
-        String arg;
-        String errorfile = "stderr";
 
         // read command line
 
-        while (argc > 0)
+        while (argCount > 1)
         {
-            if (argc > 1 && argv[argIndex].startsWith("-"))
+            if (argv[argIndex].startsWith("-"))
             {
                 // support -foo and --foo
-                arg = argv[argIndex].substring(1);
-
-                if (arg.length() > 0 && arg.charAt(0) == '-')
+                String argName = argv[argIndex].toLowerCase();
+                while (argName.length() > 0 && argName.charAt(0) == '-')
                 {
-                    arg = arg.substring(1);
+                    argName = argName.substring(1);
                 }
 
-                if (arg.equalsIgnoreCase("xml"))
+                // optional value for non boolean options
+                String argValue = null;
+                if (argCount > 2 && !argv[argIndex + 1].startsWith("-"))
                 {
-                    configuration.xmlTags = true;
+                    argValue = argv[argIndex + 1];
+                    --argCount;
+                    ++argIndex;
                 }
-                else if (arg.equalsIgnoreCase("asxml") || arg.equalsIgnoreCase("asxhtml"))
-                {
-                    configuration.xHTML = true;
-                }
-                else if (arg.equalsIgnoreCase("ashtml"))
-                {
-                    configuration.htmlOut = true;
-                }
-                else if (arg.equalsIgnoreCase("indent"))
-                {
-                    configuration.indentContent = true;
-                    configuration.smartIndent = true;
-                }
-                else if (arg.equalsIgnoreCase("omit"))
-                {
-                    configuration.hideEndTags = true;
-                }
-                else if (arg.equalsIgnoreCase("upper"))
-                {
-                    configuration.upperCaseTags = true;
-                }
-                else if (arg.equalsIgnoreCase("clean"))
-                {
-                    configuration.makeClean = true;
-                }
-                else if (arg.equalsIgnoreCase("bare"))
-                {
-                    configuration.makeBare = true;
-                }
-                else if (arg.equalsIgnoreCase("raw"))
-                {
-                    configuration.rawOut = true;
-                }
-                else if (arg.equalsIgnoreCase("numeric"))
-                {
-                    configuration.numEntities = true;
-                }
-                else if (arg.equalsIgnoreCase("modify"))
-                {
-                    configuration.writeback = true;
-                }
-                else if (arg.equalsIgnoreCase("change") || arg.equalsIgnoreCase("update")) // obsolete
-                {
-                    configuration.writeback = true;
-                }
-                else if (arg.equalsIgnoreCase("errors"))
-                {
-                    configuration.onlyErrors = true;
-                }
-                else if (arg.equalsIgnoreCase("quiet"))
-                {
-                    configuration.quiet = true;
-                }
-                else if (arg.equalsIgnoreCase("slides"))
-                {
-                    configuration.burstSlides = true;
-                }
-                else if (arg.equalsIgnoreCase("help") || arg.equalsIgnoreCase("h") || argv[argIndex].charAt(1) == '?')
+
+                if (argName.equals("help") || argName.equals("h") || argName.equals("?"))
                 {
                     this.report.helpText(new PrintWriter(System.out, true));
                     return 0;
                 }
-                else if (arg.equalsIgnoreCase("help-config"))
+                else if (argName.equals("help-config"))
                 {
                     configuration.printConfigOptions(new PrintWriter(System.out, true), false);
                     return 0;
                 }
-                else if (arg.equalsIgnoreCase("show-config"))
+                else if (argName.equals("show-config"))
                 {
                     configuration.adjust(); // ensure config is self-consistent
                     configuration.printConfigOptions(errout, true);
                     return 0;
                 }
-                else if (arg.equalsIgnoreCase("config"))
-                {
-                    if (argc >= 3)
-                    {
-                        configuration.parseFile(argv[argIndex + 1]);
-                        --argc;
-                        ++argIndex;
-                    }
-                }
-                // #431953 - start RJ
-                else if (arg.equalsIgnoreCase("language") || arg.equalsIgnoreCase("lang"))
-                {
-                    if (argc >= 3)
-                    {
-                        configuration.language = argv[2];
-                        --argc;
-                        ++argIndex;
-                    }
-                }
-                // #431953 - end RJ
-                else if (arg.equalsIgnoreCase("file") || arg.equalsIgnoreCase("-file") || arg.equalsIgnoreCase("f"))
-                {
-                    if (argc >= 3)
-                    {
-                        configuration.errfile = argv[argIndex + 1];
-                        --argc;
-                        ++argIndex;
-                    }
-                }
-                else if (arg.equalsIgnoreCase("wrap") || arg.equalsIgnoreCase("-wrap") || arg.equalsIgnoreCase("w"))
-                {
-                    if (argc >= 3)
-                    {
-                        configuration.wraplen = Integer.parseInt(argv[argIndex + 1]);
-                        --argc;
-                        ++argIndex;
-                    }
-                }
-                else if (arg.equalsIgnoreCase("version")
-                    || arg.equalsIgnoreCase("-version")
-                    || arg.equalsIgnoreCase("v"))
+                else if (argName.equals("version") || argName.equals("v"))
                 {
                     this.report.showVersion(errout);
                     return 0;
                 }
-                else if (TidyUtils.isCharEncodingSupported(arg)) // this test should handle any encoding name
+                else if (argName.equals("xml"))
                 {
-                    configuration.setInOutEncodingName(arg);
+                    configuration.xmlTags = true;
+                }
+                else if (argName.equals("asxml") || argName.equals("asxhtml"))
+                {
+                    configuration.xHTML = true;
+                }
+                else if (argName.equals("ashtml"))
+                {
+                    configuration.htmlOut = true;
+                }
+                else if (argName.equals("indent"))
+                {
+                    configuration.indentContent = true;
+                    configuration.smartIndent = true;
+                }
+                else if (argName.equals("omit"))
+                {
+                    configuration.hideEndTags = true;
+                }
+                else if (argName.equals("upper"))
+                {
+                    configuration.upperCaseTags = true;
+                }
+                else if (argName.equals("clean"))
+                {
+                    configuration.makeClean = true;
+                }
+                else if (argName.equals("bare"))
+                {
+                    configuration.makeBare = true;
+                }
+                else if (argName.equals("raw"))
+                {
+                    configuration.rawOut = true;
+                }
+                else if (argName.equals("numeric"))
+                {
+                    configuration.numEntities = true;
+                }
+                else if (argName.equals("modify"))
+                {
+                    configuration.writeback = true;
+                }
+                else if (argName.equals("change") || argName.equals("update")) // obsolete
+                {
+                    configuration.writeback = true;
+                }
+                else if (argName.equals("errors"))
+                {
+                    configuration.onlyErrors = true;
+                }
+                else if (argName.equals("quiet"))
+                {
+                    configuration.quiet = true;
+                }
+                else if (argName.equals("slides"))
+                {
+                    configuration.burstSlides = true;
+                }
+                else if (argName.equals("config"))
+                {
+                    if (argValue != null)
+                    {
+                        configuration.parseFile(argValue);
+                    }
+                }
+                else if (argName.equals("language") || argName.equals("lang"))
+                {
+                    if (argValue != null)
+                    {
+                        configuration.language = argValue;
+                    }
+                }
+                else if (argName.equals("file") || argName.equals("f"))
+                {
+                    if (argValue != null)
+                    {
+                        configuration.errfile = argValue;
+                    }
+                }
+                else if (argName.equals("wrap") || argName.equals("w"))
+                {
+                    if (argValue != null)
+                    {
+                        configuration.wraplen = Integer.parseInt(argValue);
+                    }
+                }
+                else if (TidyUtils.isCharEncodingSupported(argName)) // this test should handle any encoding name
+                {
+                    configuration.setInOutEncodingName(argName);
                 }
                 else
                 {
-                    s = argv[argIndex];
 
-                    for (int i = 1; i < s.length(); i++)
+                    for (int i = 0; i < argName.length(); i++)
                     {
-                        if (s.charAt(i) == 'i')
+                        switch (argName.charAt(i))
                         {
-                            configuration.indentContent = true;
-                            configuration.smartIndent = true;
-                        }
-                        else if (s.charAt(i) == 'o')
-                        {
-                            configuration.hideEndTags = true;
-                        }
-                        else if (s.charAt(i) == 'u')
-                        {
-                            configuration.upperCaseTags = true;
-                        }
-                        else if (s.charAt(i) == 'c')
-                        {
-                            configuration.makeClean = true;
-                        }
-                        else if (s.charAt(i) == 'b')
-                        {
-                            configuration.makeBare = true;
-                        }
-                        else if (s.charAt(i) == 'n')
-                        {
-                            configuration.numEntities = true;
-                        }
-                        else if (s.charAt(i) == 'm')
-                        {
-                            configuration.writeback = true;
-                        }
-                        else if (s.charAt(i) == 'e')
-                        {
-                            configuration.onlyErrors = true;
-                        }
-                        else if (s.charAt(i) == 'q')
-                        {
-                            configuration.quiet = true;
-                        }
-                        else
-                        {
-                            this.report.unknownOption(this.errout, s.charAt(i));
+                            case 'i' :
+                                configuration.indentContent = true;
+                                configuration.smartIndent = true;
+                                break;
+
+                            case 'o' :
+                                configuration.hideEndTags = true;
+                                break;
+
+                            case 'u' :
+                                configuration.upperCaseTags = true;
+                                break;
+
+                            case 'c' :
+                                configuration.makeClean = true;
+                                break;
+
+                            case 'b' :
+                                configuration.makeBare = true;
+                                break;
+
+                            case 'n' :
+                                configuration.numEntities = true;
+                                break;
+
+                            case 'm' :
+                                configuration.writeback = true;
+                                break;
+
+                            case 'e' :
+                                configuration.onlyErrors = true;
+                                break;
+
+                            case 'q' :
+                                configuration.quiet = true;
+                                break;
+
+                            default :
+                                this.report.unknownOption(this.errout, argName.charAt(i));
+                                break;
                         }
                     }
                 }
 
-                --argc;
+                --argCount;
                 ++argIndex;
                 continue;
             }
@@ -878,6 +870,9 @@ public class Tidy implements Serializable
             // user specified error file
             if (configuration.errfile != null)
             {
+
+                String errorfile = "stderr";
+
                 // is it same as the currently opened file?
                 if (!configuration.errfile.equals(errorfile))
                 {
@@ -903,7 +898,7 @@ public class Tidy implements Serializable
                 }
             }
 
-            if (argc > 1)
+            if (argCount > 1)
             {
                 file = argv[argIndex];
             }
@@ -915,8 +910,6 @@ public class Tidy implements Serializable
             try
             {
                 parse(null, file, System.out);
-                totalwarnings += this.parseWarnings;
-                totalerrors += this.parseErrors;
             }
             catch (FileNotFoundException fnfe)
             {
@@ -927,16 +920,16 @@ public class Tidy implements Serializable
                 this.report.unknownFile(this.errout, file);
             }
 
-            --argc;
+            --argCount;
             ++argIndex;
 
-            if (argc <= 1)
+            if (argCount <= 1)
             {
                 break;
             }
         }
 
-        if (totalerrors + totalwarnings > 0 && !configuration.quiet)
+        if (this.parseErrors + this.parseWarnings > 0 && !configuration.quiet)
         {
             this.report.generalInfo(this.errout);
         }
@@ -947,13 +940,12 @@ public class Tidy implements Serializable
         }
 
         // return status can be used by scripts
-
-        if (totalerrors > 0)
+        if (this.parseErrors > 0)
         {
             return 2;
         }
 
-        if (totalwarnings > 0)
+        if (this.parseWarnings > 0)
         {
             return 1;
         }
