@@ -2348,13 +2348,9 @@ public class Lexer
                             this.token.checkAttributes(this);
                         }
 
-                    }
-
-                    // FG repair attributes fo xml on input or output
-                    if (this.configuration.xmlTags | this.configuration.xmlOut | this.configuration.xHTML)
-                    {
                         // should this be called before attribute checks?
                         this.token.repairDuplicateAttributes(this);
+
                     }
 
                     return this.token; // return start tag

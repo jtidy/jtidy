@@ -387,7 +387,6 @@ public class TidyOutputBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [433666] : Attempt to repair duplicate attributes.
-     * @todo HIGH PRIORITY.
      * @throws Exception any exception generated during the test
      */
     public void test433666() throws Exception
