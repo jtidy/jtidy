@@ -1024,7 +1024,7 @@ public class Tidy implements Serializable
             // store pointer to lexer in input stream to allow character encoding errors to be reported
             lexer.in.lexer = lexer;
 
-            this.report.setFilename(file); // #431895 - fix by Dave Bryan 04 Jan 01
+            this.report.setFilename(inputStreamName); // #431895 - fix by Dave Bryan 04 Jan 01
 
             // Tidy doesn't alter the doctype for generic XML docs
             if (configuration.xmlTags)
@@ -1036,7 +1036,7 @@ public class Tidy implements Serializable
                 lexer.warnings = 0;
                 if (!configuration.quiet)
                 {
-                    this.report.helloMessage(errout, this.report.RELEASE_DATE, inputStreamName);
+                    this.report.helloMessage(errout, Report.RELEASE_DATE);
                 }
 
                 document = ParserImpl.parseDocument(lexer);

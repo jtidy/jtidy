@@ -204,7 +204,10 @@ public final class Report
 
     private static ResourceBundle res;
 
-    private String currentFile; /* sasdjb 01May00 for GNU Emacs error parsing */
+    /**
+     * Printed in GNU Emacs messages.
+     */
+    private String currentFile;
 
     static
     {
@@ -381,7 +384,7 @@ public final class Report
             if (lexer.configuration.emacs)
             {
                 return MessageFormat.format(res.getString("emacs_format"), new Object[]{
-                    currentFile,
+                    this.currentFile,
                     new Integer(lexer.lines),
                     new Integer(lexer.columns)})
                     + " ";
@@ -1028,13 +1031,13 @@ public final class Report
         }
     }
 
-    public void helloMessage(PrintWriter errout, String date, String filename)
+    public void helloMessage(PrintWriter errout, String date)
     {
-        currentFile = filename; /* for use with Gnu Emacs */
-
         try
         {
-            tidyPrintln(errout, MessageFormat.format(res.getString("hello_message"), new Object[]{date, filename}));
+            tidyPrintln(errout, MessageFormat.format(res.getString("hello_message"), new Object[]{
+                date,
+                this.currentFile}));
         }
         catch (MissingResourceException e)
         {
@@ -1048,7 +1051,7 @@ public final class Report
      */
     public void setFilename(String filename)
     {
-        currentFile = filename; // for use with Gnu Emacs
+        this.currentFile = filename; // for use with Gnu Emacs
     }
 
     public void reportVersion(PrintWriter errout, Lexer lexer, String filename, Node doctype)
