@@ -61,6 +61,35 @@ package org.w3c.tidy;
  */
 public class Attribute
 {
+    private String name;
+    private boolean nowrap;
+    private boolean literal;
+    private short versions;
+    private AttrCheck attrchk;
+
+    /**
+     * @param literal The literal to set.
+     */
+    public void setLiteral(boolean literal)
+    {
+        this.literal = literal;
+    }
+
+    /**
+     * @param name The name to set.
+     */
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    /**
+     * @param nowrap The nowrap to set.
+     */
+    public void setNowrap(boolean nowrap)
+    {
+        this.nowrap = nowrap;
+    }
 
     public Attribute(String name, boolean nowrap, short versions, AttrCheck attrchk)
     {
@@ -80,10 +109,44 @@ public class Attribute
         this.attrchk = attrchk;
     }
 
-    public String name;
-    public boolean nowrap;
-    public boolean literal;
-    public short versions;
-    public AttrCheck attrchk;
+    /**
+     * @return Returns the attrchk.
+     */
+    public AttrCheck getAttrchk()
+    {
+        return this.attrchk;
+    }
+
+    /**
+     * @return Returns the literal.
+     */
+    public boolean isLiteral()
+    {
+        return this.literal;
+    }
+
+    /**
+     * @return Returns the name.
+     */
+    public String getName()
+    {
+        return this.name;
+    }
+
+    /**
+     * @return Returns the nowrap.
+     */
+    public boolean isNowrap()
+    {
+        return this.nowrap;
+    }
+
+    /**
+     * @return Returns the versions.
+     */
+    public short getVersions()
+    {
+        return this.versions;
+    }
 
 }

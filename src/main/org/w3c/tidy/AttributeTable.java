@@ -75,7 +75,7 @@ public class AttributeTable
 
     public Attribute install(Attribute attr)
     {
-        return (Attribute) this.attributeHashtable.put(attr.name, attr);
+        return (Attribute) this.attributeHashtable.put(attr.getName(), attr);
     }
 
     /* public method for finding attribute definition by name */
@@ -97,7 +97,7 @@ public class AttributeTable
         Attribute np;
 
         np = lookup(attrname);
-        return (np != null && np.attrchk == AttrCheckImpl.getCheckUrl());
+        return (np != null && np.getAttrchk() == AttrCheckImpl.getCheckUrl());
     }
 
     public boolean isScript(String attrname)
@@ -105,7 +105,7 @@ public class AttributeTable
         Attribute np;
 
         np = lookup(attrname);
-        return (np != null && np.attrchk == AttrCheckImpl.getCheckScript());
+        return (np != null && np.getAttrchk() == AttrCheckImpl.getCheckScript());
     }
 
     public boolean isLiteralAttribute(String attrname)
@@ -113,7 +113,7 @@ public class AttributeTable
         Attribute np;
 
         np = lookup(attrname);
-        return (np != null && np.literal);
+        return (np != null && np.isLiteral());
     }
 
     /*
@@ -129,7 +129,7 @@ public class AttributeTable
             attrib = install(new Attribute(name, Dict.VERS_PROPRIETARY, null));
         }
 
-        attrib.literal = true;
+        attrib.setLiteral(true);
     }
 
     private Hashtable attributeHashtable = new Hashtable();
@@ -348,9 +348,9 @@ public class AttributeTable
 
             attrHeight = defaultAttributeTable.lookup("height");
 
-            attrAlt.nowrap = true;
-            attrValue.nowrap = true;
-            attrContent.nowrap = true;
+            attrAlt.setNowrap(true);
+            attrValue.setNowrap(true);
+            attrContent.setNowrap(true);
         }
         return defaultAttributeTable;
     }

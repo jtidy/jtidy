@@ -823,7 +823,7 @@ public class PPrint
         {
             if (AttributeTable.getDefaultAttributeTable().isScript(name))
                 wrappable = this.configuration.WrapScriptlets;
-            else if (!attr.dict.nowrap && this.configuration.WrapAttVals)
+            else if (!attr.dict.isNowrap() && this.configuration.WrapAttVals)
                 wrappable = true;
         }
 

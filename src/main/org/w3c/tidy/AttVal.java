@@ -136,7 +136,7 @@ public class AttVal extends Object implements Cloneable
         Attribute attribute = this.dict;
         if (attribute != null)
         {
-            if (attribute.attrchk == AttrCheckImpl.getCheckBool())
+            if (attribute.getAttrchk() == AttrCheckImpl.getCheckBool())
             {
                 return true;
             }
@@ -163,7 +163,7 @@ public class AttVal extends Object implements Cloneable
             {
                 lexer.versions &= Dict.VERS_ALL;
             }
-            else if ((attribute.versions & Dict.VERS_XML) != 0)
+            else if ((attribute.getVersions() & Dict.VERS_XML) != 0)
             {
                 if (!(lexer.configuration.XmlTags || lexer.configuration.XmlOut))
                 {
@@ -172,12 +172,12 @@ public class AttVal extends Object implements Cloneable
             }
             else
             {
-                lexer.versions &= attribute.versions;
+                lexer.versions &= attribute.getVersions();
             }
 
-            if (attribute.attrchk != null)
+            if (attribute.getAttrchk() != null)
             {
-                attribute.attrchk.check(lexer, node, this);
+                attribute.getAttrchk().check(lexer, node, this);
             }
         }
         else if (
