@@ -91,16 +91,22 @@ public class Lexer
 
     private static final String VOYAGER_FRAMESET = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd";
 
+    /**
+     * URI for XHTML 1.1.
+     */
     private static final String VOYAGER_11 = "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd";
+
+    /**
+     * URI for XHTML Basic 1.0.
+     */
+    private static final String VOYAGER_BASIC = "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd";
 
     private static final String XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 
     private static Lexer.W3CVersionInfo[] W3CVersion = {
-        new W3CVersionInfo("HTML 4.01", "XHTML 1.1", VOYAGER_11, Dict.VERS_XHTML11),
         new W3CVersionInfo("HTML 4.01", "XHTML 1.0 Strict", VOYAGER_STRICT, Dict.VERS_HTML40_STRICT),
         new W3CVersionInfo("HTML 4.01 Transitional", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML40_LOOSE),
         new W3CVersionInfo("HTML 4.01 Frameset", "XHTML 1.0 Frameset", VOYAGER_FRAMESET, Dict.VERS_FRAMESET),
-        new W3CVersionInfo("HTML 4.0", "XHTML 1.1", VOYAGER_11, Dict.VERS_XHTML11),
         new W3CVersionInfo("HTML 4.0", "XHTML 1.0 Strict", VOYAGER_STRICT, Dict.VERS_HTML40_STRICT),
         new W3CVersionInfo("HTML 4.0 Transitional", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML40_LOOSE),
         new W3CVersionInfo("HTML 4.0 Frameset", "XHTML 1.0 Frameset", VOYAGER_FRAMESET, Dict.VERS_FRAMESET),
@@ -723,10 +729,6 @@ public class Lexer
      */
     public short HTMLVersion()
     {
-        short versions;
-
-        versions = this.versions;
-
         if ((versions & Dict.VERS_HTML20) != 0)
         {
             return Dict.VERS_HTML20;
@@ -737,7 +739,10 @@ public class Lexer
         {
             return Dict.VERS_HTML32;
         }
-
+        if ((versions & Dict.VERS_XHTML11) != 0)
+        {
+            return Dict.VERS_XHTML11;
+        }
         if ((versions & Dict.VERS_HTML40_STRICT) != 0)
         {
             return Dict.VERS_HTML40_STRICT;
@@ -1165,14 +1170,6 @@ public class Lexer
                 }
 
                 break; // to replace old version by new
-
-            case Dict.VERS_XHTML11 :
-                if ((this.versions & Dict.VERS_XHTML11) != 0)
-                {
-                    return Dict.VERS_XHTML11;
-                }
-
-                break;
 
             case Dict.VERS_HTML40_STRICT :
                 if ((this.versions & Dict.VERS_HTML40_STRICT) != 0)

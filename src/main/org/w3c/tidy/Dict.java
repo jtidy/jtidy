@@ -142,6 +142,8 @@ public class Dict
 
     public static final short VERS_XHTML11 = 1024;
 
+    public static final short VERS_BASIC = 2048;
+
     public static final short VERS_ALL = (VERS_HTML20 | VERS_HTML32 | VERS_HTML40_STRICT | VERS_HTML40_LOOSE | VERS_FRAMESET);
 
     public static final short VERS_HTML40 = (VERS_HTML40_STRICT | VERS_HTML40_LOOSE | VERS_FRAMESET);
