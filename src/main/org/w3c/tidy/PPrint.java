@@ -1950,7 +1950,7 @@ public class PPrint
         condFlushLine(fout, indent);
 
         /* first print the h2 element and navbar */
-        if (slidecontent.tag == tt.tagH2)
+        if (slidecontent!= null && slidecontent.tag == tt.tagH2)
         {
             printNavBar(fout, indent);
 
