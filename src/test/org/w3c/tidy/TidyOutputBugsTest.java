@@ -743,6 +743,7 @@ public class TidyOutputBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [508936] : Parse CSS Selector prefix in config file.
+     * @todo more tests needed, config file contains 6 different test values
      * @throws Exception any exception generated during the test
      */
     public void test508936() throws Exception
