@@ -61,11 +61,13 @@
       <action dev="fgiust" type="add"> Missing doctype is now reported. </action>
       <action dev="fgiust" type="fix"> Invalid values for table cell attributes are now reported. </action>
       <action dev="fgiust" type="add" issue="433021"> Identify attribute whose value is bad. </action>
-      <action dev="fgiust" type="add" issue="432677">Null value changed to "value" for -asxml.</action>
+      <action dev="fgiust" type="fix" issue="432677">Null value changed to "value" for -asxml.</action>
       <action dev="fgiust" type="fix" issue="427825">Problems nesting user defined inline tags.</action>
       <action dev="fgiust" type="fix" issue="531964"><![CDATA[<p/> gets tidied into <p /></p>.]]></action>
       <action dev="fgiust" type="fix" issue="456596"> Missing attribute name garbles output.</action>
       <action dev="fgiust" type="fix" issue="480406">Single document element discarded.</action>
+      <action dev="fgiust" type="fix" issue="471264">Single document element discarded.</action>
+      <action dev="fgiust" type="fix" issue="487204">Reduce blank lines in output.</action>
     </release>
     <release version="04aug2000r7" date="August 1, 2001" description="">
       <action dev="" type="fix"> TagTable is no longer a Singleton, which brings us one step closer to having the 
