@@ -1294,7 +1294,7 @@ public class Tidy implements Serializable
                             // Feature request #434940 - fix by Dave Raggett/Ignacio Vazquez-Abrams 21 Jun 01
                             pprint.PrintBody(o, lexer, document, configuration.xmlOut);
                         }
-                        else if (configuration.xmlOut)
+                        else if (configuration.xmlOut && !configuration.xHTML)
                         {
                             pprint.printXMLTree(o, (short) 0, 0, lexer, document);
                         }
@@ -1321,7 +1321,7 @@ public class Tidy implements Serializable
                         // Feature request #434940 - fix by Dave Raggett/Ignacio Vazquez-Abrams 21 Jun 01
                         pprint.PrintBody(o, lexer, document, configuration.xmlOut);
                     }
-                    else if (configuration.xmlOut)
+                    else if (configuration.xmlOut && !configuration.xHTML)
                     {
                         pprint.printXMLTree(o, (short) 0, 0, lexer, document);
                     }
