@@ -771,114 +771,43 @@ public final class Report
         }
         else if (code == INCONSISTENT_VERSION)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("inconsistent_version"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "inconsistent_version", null, TidyMessage.Level.WARNING);
         }
         else if (code == MALFORMED_DOCTYPE)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("malformed_doctype"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "malformed_doctype", null, TidyMessage.Level.WARNING);
         }
         else if (code == CONTENT_AFTER_BODY)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("content_after_body"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "content_after_body", null, TidyMessage.Level.WARNING);
         }
         else if (code == MALFORMED_COMMENT)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("malformed_comment"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "malformed_comment", null, TidyMessage.Level.WARNING);
         }
         else if (code == BAD_COMMENT_CHARS)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("bad_comment_chars"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "bad_comment_chars", null, TidyMessage.Level.WARNING);
         }
         else if (code == BAD_XML_COMMENT)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("bad_xml_comment"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "bad_xml_comment", null, TidyMessage.Level.WARNING);
         }
         else if (code == BAD_CDATA_CONTENT)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("bad_cdata_content"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "bad_cdata_content", null, TidyMessage.Level.WARNING);
         }
         else if (code == INCONSISTENT_NAMESPACE)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("inconsistent_namespace"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "inconsistent_namespace", null, TidyMessage.Level.WARNING);
         }
         else if (code == DTYPE_NOT_UPPER_CASE)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("dtype_not_upper_case"));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "dtype_not_upper_case", null, TidyMessage.Level.WARNING);
         }
         else if (code == UNEXPECTED_END_OF_FILE)
         {
-            try
-            {
-                tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("unexpected_end_of_file")
-                    + getTagName(element));
-            }
-            catch (MissingResourceException e)
-            {
-                lexer.errout.println(e.toString());
-            }
+            printMessage(lexer, "unexpected_end_of_file", new Object[]{getTagName(element)}, TidyMessage.Level.WARNING);
         }
     }
 

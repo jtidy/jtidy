@@ -305,4 +305,105 @@ public class ReportTest extends TestCase
         assertEquals("line 12 column 34 - Warning: <test> not inside 'noframes' element", message);
     }
 
+    /**
+     * test getMessage with the <code>inconsistent_version</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageInconsistentVersion() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "inconsistent_version", null, TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: html doctype doesn't match content", message);
+    }
+
+    /**
+     * test getMessage with the <code>malformed_doctype</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageMalformedDoctype() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "malformed_doctype", null, TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: expected \"html PUBLIC\" or \"html SYSTEM\"", message);
+    }
+
+    /**
+     * test getMessage with the <code>content_after_body</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageContentAfterBody() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "content_after_body", null, TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: content occurs after end of body", message);
+    }
+
+    /**
+     * test getMessage with the <code>malformed_comment</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageMalformedComment() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "malformed_comment", null, TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: adjacent hyphens within comment", message);
+    }
+
+    /**
+     * test getMessage with the <code>bad_comment_chars</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageBadCommentChars() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "bad_comment_chars", null, TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: expecting -- or >", message);
+    }
+
+    /**
+     * test getMessage with the <code>bad_xml_comment</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageBadXmlComment() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "bad_xml_comment", null, TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: XML comments can't contain --", message);
+    }
+
+    /**
+     * test getMessage with the <code>bad_cdata_content</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageBadCdataComment() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "bad_cdata_content", null, TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: '<' + '/' + letter not allowed here", message);
+    }
+
+    /**
+     * test getMessage with the <code>inconsistent_namespace</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageInconsistentNamespace() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "inconsistent_namespace", null, TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: html namespace doesn't match content", message);
+    }
+
+    /**
+     * test getMessage with the <code>dtype_not_upper_case</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageDtypeNotUpperCase() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "dtype_not_upper_case", null, TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: SYSTEM, PUBLIC, W3C, DTD, EN must be upper case", message);
+    }
+
+    /**
+     * test getMessage with the <code>unexpected_end_of_file</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageUnexpectedEndOfFile() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "unexpected_end_of_file", new Object[]{"<test>"},
+            TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: end of file while parsing attributes <test>", message);
+    }
+
 }
