@@ -352,6 +352,7 @@ public class CheckAttribsImpl
         public void check(Lexer lexer, Node node)
         {
             node.checkUniqueAttributes(lexer);
+            node.checkAttributes(lexer);
 
             lexer.fixId(node);
         }
