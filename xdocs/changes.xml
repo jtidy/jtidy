@@ -18,39 +18,39 @@
       <action dev="fgiust" type="add">
           Junit tests added to build process.
       </action>     
-      <action dev="fgiust" type="fix">
-          Fixed [610244]: NullPointerException in parsing bad html (Tidy crashes while trying to insert a node 
-          into markup tree before element when parent is null). Thanks to Liam Quinn for the patch.
+      <action dev="fgiust" type="fix" issue="610244" due-to="Liam Quinn" due-to-email="">
+          NullPointerException in parsing: Tidy crashes while trying to insert a node 
+          into markup tree before element when parent is null.
       </action>         
-      <action dev="fgiust" type="add">
-          Added german translation. Submitted by Paul Ebermann.
+      <action dev="fgiust" type="add" due-to="Paul Ebermann">
+          Added german translation.
       </action>            
-      <action dev="fgiust" type="add">
-          Added spanish translation. Submitted by Senén de Diego.
+      <action dev="fgiust" type="add" due-to="Senén de Diego">
+          Added spanish translation.
       </action>              
-      <action dev="fgiust" type="add">
-          A JTidy ant task has been added: <code>org.w3c.tidy.ant.JTidyTask</code>. Donated to JTidy by Nikola Ken Barozzi.
+      <action dev="fgiust" type="add" due-to="Nikola Ken Barozzi">
+          A JTidy ant task has been added: <code>org.w3c.tidy.ant.JTidyTask</code>.
       </action>      
-      <action dev="fgiust" type="fix">
-          Applied fix for Tidy test case [431716]: NullPointerException in generating slides.
+      <action dev="fgiust" type="fix" issue="431716">
+          NullPointerException in generating slides.
       </action>         
-      <action dev="fgiust" type="fix">
-          Applied fix for Tidy test case [427675] Frameset followed by frame infinite loop.
+      <action dev="fgiust" type="fix" issue="427675">
+          Frameset followed by frame infinite loop.
       </action>          
-      <action dev="fgiust" type="fix">
-          Fixed jtidy [522003] Typo in Configuration.parseProps(): indent-attributes parameter ignored.
+      <action dev="fgiust" type="fix" issue="522003">
+          Typo in Configuration.parseProps(): indent-attributes parameter ignored.
       </action>             
-      <action dev="fgiust" type="fix">
-          Fixed [427671] : LI w/FRAME/FRAMESET/OPTGROUP/OPTION loop.
+      <action dev="fgiust" type="fix" issue="427671">
+          LI w/FRAME/FRAMESET/OPTGROUP/OPTION loop.
       </action>           
-      <action dev="fgiust" type="fix">
-          Fixed [427840] : Span causes infinite loop.
+      <action dev="fgiust" type="fix" issue="427840">
+          Span causes infinite loop.
       </action>           
-      <action dev="fgiust" type="fix">
-          Fixed [539369] Infinite loop %lt;/frame> after %lt;/frameset>
+      <action dev="fgiust" type="fix" issue="539369">
+          Infinite loop <![CDATA[ </frame> after </frameset> ]]>
       </action>
-      <action dev="fgiust" type="fix">
-          Fixed [880523] DOM2 methods should throw DOMException if unsupported: now unimplemented DOM methods properly return DOMException.NOT_SUPPORTED_ERR
+      <action dev="fgiust" type="fix" issue="880523">
+          DOM2 methods should throw DOMException if unsupported: now unimplemented DOM methods properly return DOMException.NOT_SUPPORTED_ERR
       </action>
     </release>
     
