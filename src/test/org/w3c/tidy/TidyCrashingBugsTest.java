@@ -211,8 +211,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
      */
     public void test539369() throws Exception
     {
-        fail("test disabled till fixed (infinite loop)");
-        //executeTidyTest("539369.html");
+        executeTidyTest("539369.html");
     }
 
     /**

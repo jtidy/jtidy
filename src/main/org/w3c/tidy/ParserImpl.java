@@ -2912,9 +2912,21 @@ public class ParserImpl
 
                 if ((node.tag == tt.tagFrame || node.tag == tt.tagFrameset))
                 {
-                    Report.warning(lexer, noframes, node, Report.MISSING_ENDTAG_BEFORE);
+
                     Node.trimSpaces(lexer, noframes);
-                    lexer.ungetToken();
+
+                    // fix for [539369]
+                    if (node.type == Node.EndTag)
+                    {
+                        Report.warning(lexer, noframes, node, Report.DISCARDING_UNEXPECTED);
+                        // Throw it away
+                    }
+                    else
+                    {
+                        Report.warning(lexer, noframes, node, Report.MISSING_ENDTAG_BEFORE);
+
+                        lexer.ungetToken();
+                    }
                     return;
                 }
 

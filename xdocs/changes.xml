@@ -45,6 +45,9 @@
       </action>           
       <action dev="fgiust" type="fix">
           Fixed [427840] : Span causes infinite loop.
+      </action>           
+      <action dev="fgiust" type="fix">
+          Fixed [539369] Infinite loop %lt;/frame> after %lt;/frameset>
       </action>
     </release>
     
