@@ -3,7 +3,11 @@
 
     <goal name="rebuild-all" prereqs="pom,clean,ant,dist" />
 
-    <goal name="nightly" prereqs="clean,ant,jar:install,dist,copy-nightly,site:sshdeploy" />
+    <goal name="nightly" prereqs="multiproject:clean,multiproject:install,dist,copy-nightly,multiproject:site-deploy" />
+
+    <preGoal name="dist:prepare-src-filesystem">
+        <attainGoal name="ant" />
+    </preGoal>
 
     <postGoal name="dist:prepare-src-filesystem">
         <copy todir="${maven.dist.src.assembly.dir}">
