@@ -62,7 +62,13 @@ table td, table th {
     font-size: 8pt;
 }
 
-
+table.bodyTable {
+  border-collapse: collapse;
+}
+table.bodyTable td, table.bodyTable th{
+  border: 1px solid #fff;
+  padding: 3px 5px 3px 5px;
+}
 
 #breadcrumbs {
     background-color: transparent;
@@ -117,7 +123,7 @@ h3 {
 }
 
 #navcolumn ul {
-    margin: 8px 0 12px 0;
+    margin: 2px 0 12px 0;
 }
 
 #navcolumn li {
@@ -231,4 +237,3 @@ i {content: "\"/*" }
 table {
   width: 100%;
 }
-
