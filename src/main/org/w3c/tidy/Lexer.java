@@ -589,9 +589,10 @@ public class Lexer
         ch = EntityTable.getDefaultEntityTable().entityCode(str);
 
         // deal with unrecognized entities
-        if (ch <= 0)
+        // #433012 - fix by Randy Waki 17 Feb 01
+        if (ch <= 0 || (ch >= 256 && c != ';')) 
         {
-            // set error position just before offending chararcter
+            // set error position just before offending character
             this.lines = this.in.curline;
             this.columns = startcol;
 
