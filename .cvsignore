@@ -8,3 +8,4 @@ log
 .project
 junit*.properties
 .*
+build.xml
