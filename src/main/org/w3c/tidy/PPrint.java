@@ -73,47 +73,83 @@ public class PPrint
     /* page transition effects */
 
     public static final short EFFECT_BLEND = -1;
+
     public static final short EFFECT_BOX_IN = 0;
+
     public static final short EFFECT_BOX_OUT = 1;
+
     public static final short EFFECT_CIRCLE_IN = 2;
+
     public static final short EFFECT_CIRCLE_OUT = 3;
+
     public static final short EFFECT_WIPE_UP = 4;
+
     public static final short EFFECT_WIPE_DOWN = 5;
+
     public static final short EFFECT_WIPE_RIGHT = 6;
+
     public static final short EFFECT_WIPE_LEFT = 7;
+
     public static final short EFFECT_VERT_BLINDS = 8;
+
     public static final short EFFECT_HORZ_BLINDS = 9;
+
     public static final short EFFECT_CHK_ACROSS = 10;
+
     public static final short EFFECT_CHK_DOWN = 11;
+
     public static final short EFFECT_RND_DISSOLVE = 12;
+
     public static final short EFFECT_SPLIT_VIRT_IN = 13;
+
     public static final short EFFECT_SPLIT_VIRT_OUT = 14;
+
     public static final short EFFECT_SPLIT_HORZ_IN = 15;
+
     public static final short EFFECT_SPLIT_HORZ_OUT = 16;
+
     public static final short EFFECT_STRIPS_LEFT_DOWN = 17;
+
     public static final short EFFECT_STRIPS_LEFT_UP = 18;
+
     public static final short EFFECT_STRIPS_RIGHT_DOWN = 19;
+
     public static final short EFFECT_STRIPS_RIGHT_UP = 20;
+
     public static final short EFFECT_RND_BARS_HORZ = 21;
+
     public static final short EFFECT_RND_BARS_VERT = 22;
+
     public static final short EFFECT_RANDOM = 23;
 
     private static final short NORMAL = 0;
+
     private static final short PREFORMATTED = 1;
+
     private static final short COMMENT = 2;
+
     private static final short ATTRIBVALUE = 4;
+
     private static final short NOWRAP = 8;
+
     private static final short CDATA = 16;
 
     private int[] linebuf;
+
     private int lbufsize;
+
     private int linelen;
+
     private int wraphere;
+
     private boolean inAttVal;
+
     private boolean InString;
 
     private int slide = 0;
+
     private int count = 0;
+
     private Node slidecontent;
 
     private Configuration configuration;
@@ -944,7 +980,8 @@ public class PPrint
 
         for (int i = 0; i < name.length(); i++)
         {
-            addC(Lexer.foldCase(name.charAt(i), this.configuration.upperCaseAttrs, this.configuration.xmlTags),
+            addC(
+                Lexer.foldCase(name.charAt(i), this.configuration.upperCaseAttrs, this.configuration.xmlTags),
                 linelen++);
         }
 
@@ -958,6 +995,7 @@ public class PPrint
             if (this.configuration.xmlTags || this.configuration.xmlOut)
             {
                 printAttrValue(fout, indent, attr.attribute, attr.delim, true);
+
             }
             else if (!attr.isBoolAttribute() && !Node.isNewNode(node))
             {
@@ -1009,7 +1047,9 @@ public class PPrint
         }
 
         // add xml:space attribute to pre and other elements
-        if (configuration.xmlOut && configuration.xmlSpace && ParserImpl.XMLPreserveWhiteSpace(node, configuration.tt)
+        if (configuration.xmlOut
+            && configuration.xmlSpace
+            && ParserImpl.XMLPreserveWhiteSpace(node, configuration.tt)
             && node.getAttrByName("xml:space") == null)
         {
             printString(" xml:space=\"preserve\"");
@@ -1091,7 +1131,8 @@ public class PPrint
 
                 // wrap after start tag if is <br/> or if it's not inline
                 // fix for [514348]
-                if (!((mode & NOWRAP) != 0) && (!((node.tag.model & Dict.CM_INLINE) != 0) || (node.tag == tt.tagBr))
+                if (!((mode & NOWRAP) != 0)
+                    && (!((node.tag.model & Dict.CM_INLINE) != 0) || (node.tag == tt.tagBr))
                     && afterSpace(node))
                 {
                     wraphere = linelen;
@@ -1250,7 +1291,6 @@ public class PPrint
         this.configuration.quoteMarks = q;
         condFlushLine(fout, indent);
     }
-
 
     private void printPI(Out fout, int indent, Node node)
     {
@@ -1414,7 +1454,12 @@ public class PPrint
         addC('!', linelen++);
         addC('[', linelen++);
 
-        printText(fout, (this.configuration.wrapSection ? CDATA : COMMENT), indent, node.textarray, node.start,
+        printText(
+            fout,
+            (this.configuration.wrapSection ? CDATA : COMMENT),
+            indent,
+            node.textarray,
+            node.start,
             node.end);
 
         addC(']', linelen++);
@@ -1567,7 +1612,9 @@ public class PPrint
                 condFlushLine(fout, indent);
             }
 
-            if (node.tag == tt.tagBr && node.prev != null && node.prev.tag != tt.tagBr
+            if (node.tag == tt.tagBr
+                && node.prev != null
+                && node.prev.tag != tt.tagBr
                 && this.configuration.breakBeforeBR)
             {
                 flushLine(fout, indent);
@@ -1715,7 +1762,8 @@ public class PPrint
                     {
                         condFlushLine(fout, indent);
                     }
-                    else if ((node.tag.model & Dict.CM_HTML) != 0 || node.tag == tt.tagNoframes
+                    else if ((node.tag.model & Dict.CM_HTML) != 0
+                        || node.tag == tt.tagNoframes
                         || ((node.tag.model & Dict.CM_HEAD) != 0 && !(node.tag == tt.tagTitle)))
                     {
                         flushLine(fout, indent);
@@ -1735,15 +1783,22 @@ public class PPrint
                     for (content = node.content; content != null; content = content.next)
                     {
                         // kludge for naked text before block level tag
-                        if (last != null && !this.configuration.indentContent && last.type == Node.TextNode
-                            && content.tag != null && (content.tag.model & Dict.CM_BLOCK) != 0)
+                        if (last != null
+                            && !this.configuration.indentContent
+                            && last.type == Node.TextNode
+                            && content.tag != null
+                            && (content.tag.model & Dict.CM_BLOCK) != 0)
                         {
                             flushLine(fout, indent);
                             flushLine(fout, indent);
                         }
 
-                        printTree(fout, mode, (shouldIndent(node) ? indent + this.configuration.spaces : indent),
-                            lexer, content);
+                        printTree(
+                            fout,
+                            mode,
+                            (shouldIndent(node) ? indent + this.configuration.spaces : indent),
+                            lexer,
+                            content);
 
                         last = content;
                     }
@@ -1753,7 +1808,8 @@ public class PPrint
                 if (shouldIndent(node)
                     || (((node.tag.model & Dict.CM_HTML) != 0 || node.tag == tt.tagNoframes || ((node.tag.model & Dict.CM_HEAD) != 0 && !(node.tag == tt.tagTitle))) && !this.configuration.hideEndTags))
                 {
-                    condFlushLine(fout,
+                    condFlushLine(
+                        fout,
                         (this.configuration.indentContent ? indent + this.configuration.spaces : indent));
 
                     if (!this.configuration.hideEndTags || !((node.tag.model & Dict.CM_OPT) != 0))
@@ -1779,7 +1835,9 @@ public class PPrint
                     flushLine(fout, indent);
                 }
 
-                if (!this.configuration.indentContent && node.next != null && !this.configuration.hideEndTags
+                if (!this.configuration.indentContent
+                    && node.next != null
+                    && !this.configuration.hideEndTags
                     && (node.tag.model & (Dict.CM_BLOCK | Dict.CM_LIST | Dict.CM_DEFLIST | Dict.CM_TABLE)) != 0)
                 {
                     flushLine(fout, indent);
@@ -1999,7 +2057,8 @@ public class PPrint
 
         /* insert div for onclick handler */
         String s;
-        s = "<div onclick=\"document.location='slide" + numberFormat.format(slide < count ? slide + 1 : 1)
+        s = "<div onclick=\"document.location='slide"
+            + numberFormat.format(slide < count ? slide + 1 : 1)
             + ".html'\">";
         // #427666 - fix by Eric Rossen 02 Aug 00
         printString(s);
@@ -2036,8 +2095,12 @@ public class PPrint
             // condFlushLine(fout, indent);
 
             // print the h2 element
-            printTree(fout, mode, (this.configuration.indentContent ? indent + this.configuration.spaces : indent),
-                lexer, slidecontent);
+            printTree(
+                fout,
+                mode,
+                (this.configuration.indentContent ? indent + this.configuration.spaces : indent),
+                lexer,
+                slidecontent);
 
             slidecontent = slidecontent.next;
         }
@@ -2055,15 +2118,22 @@ public class PPrint
             }
 
             // kludge for naked text before block level tag
-            if (last != null && !this.configuration.indentContent && last.type == Node.TextNode && content.tag != null
+            if (last != null
+                && !this.configuration.indentContent
+                && last.type == Node.TextNode
+                && content.tag != null
                 && (content.tag.model & Dict.CM_BLOCK) != 0)
             {
                 flushLine(fout, indent);
                 flushLine(fout, indent);
             }
 
-            printTree(fout, mode, (this.configuration.indentContent ? indent + this.configuration.spaces : indent),
-                lexer, content);
+            printTree(
+                fout,
+                mode,
+                (this.configuration.indentContent ? indent + this.configuration.spaces : indent),
+                lexer,
+                content);
 
             last = content;
         }
