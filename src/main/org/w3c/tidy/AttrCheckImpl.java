@@ -888,7 +888,7 @@ public final class AttrCheckImpl
             boolean invalid = false;
             boolean found = false;
 
-            if (attval.value == null)
+            if (attval.value == null || attval.value.length() == 0)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
