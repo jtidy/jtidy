@@ -1,4 +1,4 @@
-/**
+/*
  *  Java HTML Tidy - JTidy
  *  HTML parser and pretty printer
  *
@@ -55,26 +55,24 @@ package org.w3c.tidy.ant;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
-import org.w3c.dom.Document;
+import org.apache.tools.ant.Task;
 import org.w3c.tidy.Tidy;
 
 
 /**
  * JTidy ant task, kindly donated to JTidy by Nicola Ken Barozzi from the krysalis project. See
  * http://sourceforge.net/tracker/index.php?func=detail&aid=780131&group_id=13153&atid=363153
- * 
  * @author <a href="mailto:barozzi@nicolaken.com">Nicola Ken Barozzi </a>
  * @version $Revision$ ($Author$)
  */
 
-public class JTidyTask extends org.apache.tools.ant.Task
+public class JTidyTask extends Task
 {
 
     /**
@@ -107,10 +105,8 @@ public class JTidyTask extends org.apache.tools.ant.Task
      */
     private boolean summary;
 
-
     /**
      * sets the input file.
-     * 
      * @param file input file
      */
     public void setSrc(String file)
@@ -120,7 +116,6 @@ public class JTidyTask extends org.apache.tools.ant.Task
 
     /**
      * sets the destination file.
-     * 
      * @param file destination file
      */
     public void setDest(String file)
@@ -130,7 +125,6 @@ public class JTidyTask extends org.apache.tools.ant.Task
 
     /**
      * sets the tidy log file.
-     * 
      * @param file file name
      */
     public void setLog(String file)
@@ -140,7 +134,6 @@ public class JTidyTask extends org.apache.tools.ant.Task
 
     /**
      * show warnings?
-     * 
      * @param showWarnings boolean
      */
     public void setWarn(String showWarnings)
@@ -150,7 +143,6 @@ public class JTidyTask extends org.apache.tools.ant.Task
 
     /**
      * show tidy summary?
-     * 
      * @param showSummary boolean
      */
     public void setSummary(String showSummary)
@@ -178,47 +170,37 @@ public class JTidyTask extends org.apache.tools.ant.Task
 
     /**
      * Run the task.
-     * 
      * @exception BuildException The exception raised during task execution.
      */
     public void execute() throws BuildException
     {
         try
         {
-            PrintWriter writer = new PrintWriter(new FileWriter(log));
 
-            tidy.setErrout(writer);
+            PrintWriter logWriter = null;
+
+            if (log != null)
+            {
+                logWriter = new PrintWriter(new FileWriter(log));
+            }
+            tidy.setErrout(logWriter);
 
             // Extract the document using JTidy and stream it.
             BufferedInputStream in = new BufferedInputStream(new FileInputStream(src));
+            FileOutputStream out = new FileOutputStream(dest);
 
-            // FileOutputStream out = new FileOutputStream(dest);
-            PrintWriter out = new PrintWriter(new FileWriter(dest));
+            tidy.parse(in, out);
 
-            // using null as output to get dom so to remove duplicate attributes
-            Document domDoc = tidy.parseDOM(in, null);
-
-            domDoc.normalize();
-            OutputFormat format = new OutputFormat();
-
-            format.setIndenting(true);
-            format.setEncoding("ISO-8859-1");
-            format.setPreserveSpace(true);
-            format.setLineSeparator("\n");
-            XMLSerializer serializer = new XMLSerializer(out, format);
-
-            serializer.serialize(domDoc);
             out.flush();
             out.close();
             in.close();
-            writer.flush();
-            writer.close();
+            logWriter.flush();
+            logWriter.close();
         }
         catch (IOException ioe)
         {
             throw new BuildException(ioe);
         }
     }
-
 
 }
