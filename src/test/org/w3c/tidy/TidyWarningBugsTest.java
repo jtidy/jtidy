@@ -256,13 +256,25 @@ public class TidyWarningBugsTest extends TidyTestCase
      */
     public void test435917() throws Exception
     {
-        // line 11 column 1 - Warning: <input> attribute with missing trailing quote mark
-        // Info: Doctype given is "-//W3C//DTD HTML 4.01 Transitional//EN"
-        // Info: Document content looks like HTML 4.01 Transitional
-        // 1 warning, 0 errors were found!
+        // should not report: invalid attribute "onfocus"
 
         executeTidyTest("435917.html");
         assertWarnings(1);
+    }
+    
+    /**
+     * test for Tidy [435917] : missing "=" in attribute confuses tidy.
+     * @throws Exception any exception generated during the test
+     */
+    public void test435917b() throws Exception
+    {
+        // line 11 column 1 - Warning: <input> attribute with missing trailing quote mark
+
+        // should not report:
+        // line 11 column 2 - Warning: <input> unknown attribute value "null"
+
+        executeTidyTest("435917.html");
+        assertLogDoesntContains("null");
     }
 
     /**
