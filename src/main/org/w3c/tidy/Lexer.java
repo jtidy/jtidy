@@ -857,9 +857,32 @@ public class Lexer
         return (char) c;
     }
 
+    /**
+     * calls addCharToLexer for any char in the string.
+     * @param str input String
+     */
     public void addStringLiteral(String str)
     {
-        for (int i = 0; i < str.length(); i++)
+        int len = str.length();
+        for (int i = 0; i < len; i++)
+        {
+            addCharToLexer(str.charAt(i));
+        }
+    }
+
+    /**
+     * calls addCharToLexer for any char in the string till len is reached.
+     * @param str input String
+     * @param len length of the substring to be added
+     */
+    void addStringLiteralLen(String str, int len)
+    {
+        int strlen = str.length();
+        if (strlen < len)
+        {
+            len = strlen;
+        }
+        for (int i = 0; i < len; i++)
         {
             addCharToLexer(str.charAt(i));
         }
@@ -1182,7 +1205,9 @@ public class Lexer
         String fpi = " ";
         String sysid = "";
         String namespace = XHTML_NAMESPACE;
+        String dtdsub = null;
         Node doctype;
+        int dtdlen = 0;
 
         doctype = root.findDocType();
 
@@ -1250,7 +1275,28 @@ public class Lexer
             return false;
         }
 
-        if (doctype == null)
+        if (doctype != null)
+        {
+            // Look for internal DTD subset
+            if (configuration.xHTML || configuration.xmlOut)
+            {
+
+                int len = doctype.end - doctype.start + 1;
+                String start = getString(this.lexbuf, doctype.start, len);
+
+                int dtdbeg = wstrnchr(start, len, '[');
+                if (dtdbeg >= 0)
+                {
+                    int dtdend = wstrnchr(start + dtdbeg, len - dtdbeg, ']');
+                    if (dtdend >= 0)
+                    {
+                        dtdlen = dtdend + 1;
+                        dtdsub = start + dtdbeg;
+                    }
+                }
+            }
+        }
+        else
         {
             if ((doctype = newXhtmlDocTypeNode(root)) == null)
             {
@@ -1276,7 +1322,7 @@ public class Lexer
             addStringLiteral("\"");
         }
 
-        if (sysid.length() + 6 >= this.configuration.wraplen)
+        if (this.configuration.wraplen != 0 && sysid.length() + 6 >= this.configuration.wraplen)
         {
             addStringLiteral("\n\"");
         }
@@ -1289,6 +1335,12 @@ public class Lexer
         // add system identifier
         addStringLiteral(sysid);
         addStringLiteral("\"");
+
+        if (dtdlen > 0 && dtdsub != null)
+        {
+            addCharToLexer(' ');
+            addStringLiteralLen(dtdsub, dtdlen);
+        }
 
         this.txtend = this.lexsize;
 
@@ -3651,6 +3703,20 @@ public class Lexer
     boolean wsubstrncase(String s1, int len1, String s2)
     {
         return wsubstrn(s1.toLowerCase(), len1, s2.toLowerCase());
+    }
+
+    /**
+     * return offset of cc from beginning of s1, -1 if not found.
+     */
+    int wstrnchr(String s1, int len1, char cc)
+    {
+        int indexOf = s1.indexOf(cc);
+        if (indexOf < len1)
+        {
+            return indexOf;
+        }
+
+        return -1;
     }
 
     public static boolean wsubstr(String s1, String s2)

@@ -1557,9 +1557,8 @@ public class PPrint
             return false;
         }
 
-        // @todo check, was: char* start = lexer->lexbuf + node->start;
-        String start = String.valueOf(node.textarray);
         int len = node.end - node.start + 1;
+        String start = Lexer.getString(lexer.lexbuf, node.start, len);
 
         int indexOfCData = start.indexOf(CDATA_START);
         return indexOfCData > -1 && indexOfCData <= len;
