@@ -91,7 +91,11 @@ public abstract class StreamIn
     public int encoding;
     public InputStream stream;
     public boolean endOfStream;
-    public Object lexer; /* needed for error reporting */
+    
+    /**
+     * needed for error reporting
+     */
+    public Lexer lexer; 
 
     /* read char from stream */
     public abstract int readCharFromStream();

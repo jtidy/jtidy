@@ -55,7 +55,6 @@ package org.w3c.tidy;
 
 /**
  * HTML Parser implementation.
- * 
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @version $Revision $ ($Author $)
@@ -200,7 +199,7 @@ public final class ParserImpl
 
         if (node.type == Node.StartTag || node.type == Node.StartEndTag)
         {
-            Report.warning(lexer, element, node, Report.TAG_NOT_ALLOWED_IN);
+            lexer.report.warning(lexer, element, node, Report.TAG_NOT_ALLOWED_IN);
 
             while (element.tag != tt.tagHtml)
             {
@@ -223,7 +222,7 @@ public final class ParserImpl
         }
         else
         {
-            Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+            lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
         }
     }
 
@@ -257,7 +256,7 @@ public final class ParserImpl
 
                 if (node.tag == html.tag && node.type == Node.EndTag)
                 {
-                    Report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -296,7 +295,7 @@ public final class ParserImpl
                 {
                     if (node.type != Node.StartTag && frameset == null)
                     {
-                        Report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
                     }
 
                     continue;
@@ -313,7 +312,7 @@ public final class ParserImpl
                 {
                     if (node.type != Node.StartTag)
                     {
-                        Report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
@@ -325,7 +324,7 @@ public final class ParserImpl
                         {
                             noframes = lexer.inferredTag("noframes");
                             Node.insertNodeAtEnd(frameset, noframes);
-                            Report.warning(lexer, html, noframes, Report.INSERTING_TAG);
+                            lexer.report.warning(lexer, html, noframes, Report.INSERTING_TAG);
                         }
 
                         parseTag(lexer, noframes, mode);
@@ -340,13 +339,13 @@ public final class ParserImpl
                 {
                     if (node.type != Node.StartTag)
                     {
-                        Report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
                     if (frameset != null)
                     {
-                        Report.error(lexer, html, node, Report.DUPLICATE_FRAMESET);
+                        lexer.report.error(lexer, html, node, Report.DUPLICATE_FRAMESET);
                     }
                     else
                     {
@@ -374,13 +373,13 @@ public final class ParserImpl
                 {
                     if (node.type != Node.StartTag)
                     {
-                        Report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
                     if (frameset == null)
                     {
-                        Report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
                         node = lexer.inferredTag("body");
                         break;
                     }
@@ -406,7 +405,7 @@ public final class ParserImpl
                     // #427675 - discard illegal frame element following a frameset - fix by Randy Waki 11 Oct 00
                     if (frameset != null && node.tag == tt.tagFrame)
                     {
-                        Report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
                 }
@@ -424,7 +423,7 @@ public final class ParserImpl
                     }
                     else
                     {
-                        Report.warning(lexer, html, node, Report.NOFRAMES_CONTENT);
+                        lexer.report.warning(lexer, html, node, Report.NOFRAMES_CONTENT);
                     }
 
                     parseTag(lexer, noframes, mode);
@@ -482,7 +481,7 @@ public final class ParserImpl
                 // discard unknown tags
                 if (node.tag == null)
                 {
-                    Report.warning(lexer, head, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, head, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -500,7 +499,7 @@ public final class ParserImpl
 
                         if (hasTitle > 1)
                         {
-                            Report.warning(lexer, head, node, Report.TOO_MANY_ELEMENTS);
+                            lexer.report.warning(lexer, head, node, Report.TOO_MANY_ELEMENTS);
                         }
                     }
                     else if (node.tag == tt.tagBase)
@@ -509,12 +508,12 @@ public final class ParserImpl
 
                         if (hasBase > 1)
                         {
-                            Report.warning(lexer, head, node, Report.TOO_MANY_ELEMENTS);
+                            lexer.report.warning(lexer, head, node, Report.TOO_MANY_ELEMENTS);
                         }
                     }
                     else if (node.tag == tt.tagNoscript)
                     {
-                        Report.warning(lexer, head, node, Report.TAG_NOT_ALLOWED_IN);
+                        lexer.report.warning(lexer, head, node, Report.TAG_NOT_ALLOWED_IN);
                     }
 
                     Node.insertNodeAtEnd(head, node);
@@ -523,12 +522,12 @@ public final class ParserImpl
                 }
 
                 // discard unexpected text nodes and end tags
-                Report.warning(lexer, head, node, Report.DISCARDING_UNEXPECTED);
+                lexer.report.warning(lexer, head, node, Report.DISCARDING_UNEXPECTED);
             }
 
             if (hasTitle == 0)
             {
-                Report.warning(lexer, head, null, Report.MISSING_TITLE_ELEMENT);
+                lexer.report.warning(lexer, head, null, Report.MISSING_TITLE_ELEMENT);
                 Node.insertNodeAtEnd(head, lexer.inferredTag("title"));
             }
         }
@@ -547,7 +546,7 @@ public final class ParserImpl
                 // [438658] : Missing / in title endtag makes 2 titles
                 if (node.tag == title.tag && node.type == Node.StartTag)
                 {
-                    Report.warning(lexer, title, node, Report.COERCE_TO_ENDTAG);
+                    lexer.report.warning(lexer, title, node, Report.COERCE_TO_ENDTAG);
                     node.type = Node.EndTag;
                     continue;
                 }
@@ -584,18 +583,18 @@ public final class ParserImpl
                 // discard unknown tags
                 if (node.tag == null)
                 {
-                    Report.warning(lexer, title, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, title, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
                 // pushback unexpected tokens
-                Report.warning(lexer, title, node, Report.MISSING_ENDTAG_BEFORE);
+                lexer.report.warning(lexer, title, node, Report.MISSING_ENDTAG_BEFORE);
                 lexer.ungetToken();
                 Node.trimSpaces(lexer, title);
                 return;
             }
 
-            Report.warning(lexer, title, node, Report.MISSING_ENDTAG_FOR);
+            lexer.report.warning(lexer, title, node, Report.MISSING_ENDTAG_FOR);
         }
 
     }
@@ -680,7 +679,7 @@ public final class ParserImpl
                 {
                     if (node.type == Node.StartTag || node.type == Node.StartEndTag || lexer.seenEndHtml == 1)
                     {
-                        Report.warning(lexer, body, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, body, node, Report.DISCARDING_UNEXPECTED);
                     }
                     else
                     {
@@ -707,7 +706,7 @@ public final class ParserImpl
                 if (lexer.seenEndBody == 1 && !iswhitenode)
                 {
                     ++lexer.seenEndBody;
-                    Report.warning(lexer, body, node, Report.CONTENT_AFTER_BODY);
+                    lexer.report.warning(lexer, body, node, Report.CONTENT_AFTER_BODY);
                 }
 
                 // mixed content model permits text
@@ -758,7 +757,7 @@ public final class ParserImpl
                 // discard unknown and PARAM tags
                 if (node.tag == null || node.tag == tt.tagParam)
                 {
-                    Report.warning(lexer, body, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, body, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -772,7 +771,7 @@ public final class ParserImpl
                     // avoid this error message being issued twice
                     if (!((node.tag.model & Dict.CM_HEAD) != 0))
                     {
-                        Report.warning(lexer, body, node, Report.TAG_NOT_ALLOWED_IN);
+                        lexer.report.warning(lexer, body, node, Report.TAG_NOT_ALLOWED_IN);
                     }
 
                     if ((node.tag.model & Dict.CM_HTML) != 0)
@@ -883,7 +882,7 @@ public final class ParserImpl
 
                     if (node.implicit)
                     {
-                        Report.warning(lexer, body, node, Report.INSERTING_TAG);
+                        lexer.report.warning(lexer, body, node, Report.INSERTING_TAG);
                     }
 
                     Node.insertNodeAtEnd(body, node);
@@ -892,7 +891,7 @@ public final class ParserImpl
                 }
 
                 // discard unexpected tags
-                Report.warning(lexer, body, node, Report.DISCARDING_UNEXPECTED);
+                lexer.report.warning(lexer, body, node, Report.DISCARDING_UNEXPECTED);
             }
         }
 
@@ -925,7 +924,7 @@ public final class ParserImpl
 
                 if (node.tag == null)
                 {
-                    Report.warning(lexer, frameset, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, frameset, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -942,7 +941,7 @@ public final class ParserImpl
                 {
                     lexer.ungetToken();
                     node = lexer.inferredTag("noframes");
-                    Report.warning(lexer, frameset, node, Report.INSERTING_TAG);
+                    lexer.report.warning(lexer, frameset, node, Report.INSERTING_TAG);
                 }
 
                 if (node.type == Node.StartTag && (node.tag.model & Dict.CM_FRAMES) != 0)
@@ -959,10 +958,10 @@ public final class ParserImpl
                 }
 
                 // discard unexpected tags
-                Report.warning(lexer, frameset, node, Report.DISCARDING_UNEXPECTED);
+                lexer.report.warning(lexer, frameset, node, Report.DISCARDING_UNEXPECTED);
             }
 
-            Report.warning(lexer, frameset, node, Report.MISSING_ENDTAG_FOR);
+            lexer.report.warning(lexer, frameset, node, Report.MISSING_ENDTAG_FOR);
         }
 
     }
@@ -985,7 +984,7 @@ public final class ParserImpl
             // {
             //     if (element.attributes == null)
             //         {
-            //             Report.warning(lexer, element.parent, element, Report.DISCARDING_UNEXPECTED);
+            //             lexer.report.warning(lexer, element.parent, element, Report.DISCARDING_UNEXPECTED);
             //             Node.discardElement(element);
             //             return;
             //         }
@@ -1096,13 +1095,13 @@ public final class ParserImpl
                 {
                     if (element.content != null && node.attributes == null)
                     {
-                        Report.warning(lexer, element, node, Report.COERCE_TO_ENDTAG);
+                        lexer.report.warning(lexer, element, node, Report.COERCE_TO_ENDTAG);
                         node.type = Node.EndTag;
                         lexer.ungetToken();
                         continue;
                     }
 
-                    Report.warning(lexer, element, node, Report.NESTED_EMPHASIS);
+                    lexer.report.warning(lexer, element, node, Report.NESTED_EMPHASIS);
                 }
 
                 if (node.type == Node.TextNode)
@@ -1133,7 +1132,7 @@ public final class ParserImpl
                 {
                     if (node.type == Node.StartTag || node.type == Node.StartEndTag)
                     {
-                        Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
@@ -1162,7 +1161,7 @@ public final class ParserImpl
                 // ignore unknown and PARAM tags
                 if (node.tag == null || node.tag == tt.tagParam)
                 {
-                    Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -1200,12 +1199,12 @@ public final class ParserImpl
                         {
                             if (node.tag == tt.tagA && node.tag != element.tag)
                             {
-                                Report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
+                                lexer.report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
                                 lexer.ungetToken();
                             }
                             else
                             {
-                                Report.warning(lexer, element, node, Report.NON_MATCHING_ENDTAG);
+                                lexer.report.warning(lexer, element, node, Report.NON_MATCHING_ENDTAG);
                             }
 
                             if (!((mode & Lexer.Preformatted) != 0))
@@ -1217,7 +1216,7 @@ public final class ParserImpl
                         }
 
                         // if parent is <a> then discard unexpected inline end tag
-                        Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     } // special case </tr> etc. for stuff moved in front of table
                     else if (lexer.exiled && node.tag.model != 0 && (node.tag.model & Dict.CM_TABLE) != 0)
@@ -1234,11 +1233,11 @@ public final class ParserImpl
                 {
                     if (node.tag == element.tag)
                     {
-                        Report.warning(lexer, element, node, Report.NON_MATCHING_ENDTAG);
+                        lexer.report.warning(lexer, element, node, Report.NON_MATCHING_ENDTAG);
                     }
                     else
                     {
-                        Report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
+                        lexer.report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
                         lexer.ungetToken();
                     }
                     if (!((mode & Lexer.Preformatted) != 0))
@@ -1262,14 +1261,14 @@ public final class ParserImpl
                     if (node.type != Node.EndTag && node.attributes == null)
                     {
                         node.type = Node.EndTag;
-                        Report.warning(lexer, element, node, Report.COERCE_TO_ENDTAG);
+                        lexer.report.warning(lexer, element, node, Report.COERCE_TO_ENDTAG);
                         lexer.popInline(node);
                         lexer.ungetToken();
                         continue;
                     }
 
                     lexer.ungetToken();
-                    Report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
+                    lexer.report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
                     lexer.popInline(element);
                     if (!((mode & Lexer.Preformatted) != 0))
                     {
@@ -1285,11 +1284,11 @@ public final class ParserImpl
                     {
                         if (node.type != Node.StartTag && node.type != Node.StartEndTag)
                         {
-                            Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                            lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
                             continue;
                         }
 
-                        Report.warning(lexer, element, node, Report.TAG_NOT_ALLOWED_IN);
+                        lexer.report.warning(lexer, element, node, Report.TAG_NOT_ALLOWED_IN);
 
                         // insert center as parent if heading is empty
                         if (element.content == null)
@@ -1317,11 +1316,11 @@ public final class ParserImpl
                     {
                         if (node.type != Node.StartTag && node.type != Node.StartEndTag)
                         {
-                            Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                            lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
                             continue;
                         }
 
-                        Report.warning(lexer, element, node, Report.TAG_NOT_ALLOWED_IN);
+                        lexer.report.warning(lexer, element, node, Report.TAG_NOT_ALLOWED_IN);
 
                         // insert hr before heading if heading is empty
                         if (element.content == null)
@@ -1354,11 +1353,11 @@ public final class ParserImpl
 
                         if (node.type != Node.StartTag && node.type != Node.StartEndTag)
                         {
-                            Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                            lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
                             continue;
                         }
 
-                        Report.warning(lexer, element, node, Report.TAG_NOT_ALLOWED_IN);
+                        lexer.report.warning(lexer, element, node, Report.TAG_NOT_ALLOWED_IN);
                         dd = lexer.inferredTag("dd");
 
                         // insert hr within dd before dt if dt is empty
@@ -1396,7 +1395,7 @@ public final class ParserImpl
                         {
                             if (!((element.tag.model & Dict.CM_OPT) != 0) && !element.implicit)
                             {
-                                Report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
+                                lexer.report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
                             }
 
                             if (element.tag == tt.tagA)
@@ -1422,13 +1421,13 @@ public final class ParserImpl
                 {
                     if (node.type != Node.StartTag)
                     {
-                        Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
                     if (!((element.tag.model & Dict.CM_OPT) != 0))
                     {
-                        Report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
+                        lexer.report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
                     }
 
                     if ((node.tag.model & Dict.CM_HEAD) != 0 && !((node.tag.model & Dict.CM_BLOCK) != 0))
@@ -1469,7 +1468,7 @@ public final class ParserImpl
                 {
                     if (node.implicit)
                     {
-                        Report.warning(lexer, element, node, Report.INSERTING_TAG);
+                        lexer.report.warning(lexer, element, node, Report.INSERTING_TAG);
                     }
 
                     // trim white space before <br>
@@ -1484,12 +1483,12 @@ public final class ParserImpl
                 }
 
                 // discard unexpected tags
-                Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
             }
 
             if (!((element.tag.model & Dict.CM_OPT) != 0))
             {
-                Report.warning(lexer, element, node, Report.MISSING_ENDTAG_FOR);
+                lexer.report.warning(lexer, element, node, Report.MISSING_ENDTAG_FOR);
             }
 
             Node.trimEmptyElement(lexer, element);
@@ -1534,7 +1533,7 @@ public final class ParserImpl
 
                 if (node.type != Node.TextNode && node.tag == null)
                 {
-                    Report.warning(lexer, list, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, list, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -1545,13 +1544,13 @@ public final class ParserImpl
                     if (node.tag == tt.tagForm)
                     {
                         lexer.badForm = 1;
-                        Report.warning(lexer, list, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, list, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
                     if (node.tag != null && (node.tag.model & Dict.CM_INLINE) != 0)
                     {
-                        Report.warning(lexer, list, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, list, node, Report.DISCARDING_UNEXPECTED);
                         lexer.popInline(node);
                         continue;
                     }
@@ -1560,7 +1559,7 @@ public final class ParserImpl
                     {
                         if (node.tag == parent.tag)
                         {
-                            Report.warning(lexer, list, node, Report.MISSING_ENDTAG_BEFORE);
+                            lexer.report.warning(lexer, list, node, Report.MISSING_ENDTAG_BEFORE);
                             lexer.ungetToken();
 
                             if ((list.tag.model & Dict.CM_OBSOLETE) != 0)
@@ -1573,7 +1572,7 @@ public final class ParserImpl
                         }
                     }
 
-                    Report.warning(lexer, list, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, list, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -1583,14 +1582,14 @@ public final class ParserImpl
 
                     if (node.tag != null && (node.tag.model & Dict.CM_BLOCK) != 0 && lexer.excludeBlocks)
                     {
-                        Report.warning(lexer, list, node, Report.MISSING_ENDTAG_BEFORE);
+                        lexer.report.warning(lexer, list, node, Report.MISSING_ENDTAG_BEFORE);
                         Node.trimEmptyElement(lexer, list);
                         return;
                     }
 
                     node = lexer.inferredTag("li");
                     node.addAttribute("style", "list-style: none");
-                    Report.warning(lexer, list, node, Report.MISSING_STARTTAG);
+                    lexer.report.warning(lexer, list, node, Report.MISSING_STARTTAG);
                 }
 
                 // node should be <LI>
@@ -1603,7 +1602,7 @@ public final class ParserImpl
                 Node.coerceNode(lexer, list, tt.tagUl);
             }
 
-            Report.warning(lexer, list, node, Report.MISSING_ENDTAG_FOR);
+            lexer.report.warning(lexer, list, node, Report.MISSING_ENDTAG_FOR);
             Node.trimEmptyElement(lexer, list);
         }
 
@@ -1643,12 +1642,12 @@ public final class ParserImpl
                 {
                     lexer.ungetToken();
                     node = lexer.inferredTag("dt");
-                    Report.warning(lexer, list, node, Report.MISSING_STARTTAG);
+                    lexer.report.warning(lexer, list, node, Report.MISSING_STARTTAG);
                 }
 
                 if (node.tag == null)
                 {
-                    Report.warning(lexer, list, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, list, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -1659,7 +1658,7 @@ public final class ParserImpl
                     if (node.tag == tt.tagForm)
                     {
                         lexer.badForm = 1;
-                        Report.warning(lexer, list, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, list, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
@@ -1667,7 +1666,7 @@ public final class ParserImpl
                     {
                         if (node.tag == parent.tag)
                         {
-                            Report.warning(lexer, list, node, Report.MISSING_ENDTAG_BEFORE);
+                            lexer.report.warning(lexer, list, node, Report.MISSING_ENDTAG_BEFORE);
 
                             lexer.ungetToken();
                             Node.trimEmptyElement(lexer, list);
@@ -1705,7 +1704,7 @@ public final class ParserImpl
 
                     if (!((node.tag.model & (Dict.CM_BLOCK | Dict.CM_INLINE)) != 0))
                     {
-                        Report.warning(lexer, list, node, Report.TAG_NOT_ALLOWED_IN);
+                        lexer.report.warning(lexer, list, node, Report.TAG_NOT_ALLOWED_IN);
                         Node.trimEmptyElement(lexer, list);
                         return;
                     }
@@ -1718,12 +1717,12 @@ public final class ParserImpl
                     }
 
                     node = lexer.inferredTag("dd");
-                    Report.warning(lexer, list, node, Report.MISSING_STARTTAG);
+                    lexer.report.warning(lexer, list, node, Report.MISSING_STARTTAG);
                 }
 
                 if (node.type == Node.EndTag)
                 {
-                    Report.warning(lexer, list, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, list, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -1732,7 +1731,7 @@ public final class ParserImpl
                 parseTag(lexer, node, Lexer.IgnoreWhitespace);
             }
 
-            Report.warning(lexer, list, node, Report.MISSING_ENDTAG_FOR);
+            lexer.report.warning(lexer, list, node, Report.MISSING_ENDTAG_FOR);
             Node.trimEmptyElement(lexer, list);
         }
 
@@ -1772,7 +1771,7 @@ public final class ParserImpl
                 {
                     if (node.type == Node.StartTag || node.type == Node.StartEndTag)
                     {
-                        Report.warning(lexer, pre, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, pre, node, Report.DISCARDING_UNEXPECTED);
                     }
 
                     continue;
@@ -1807,7 +1806,7 @@ public final class ParserImpl
                 // discard unknown and PARAM tags
                 if (node.tag == null || node.tag == tt.tagParam)
                 {
-                    Report.warning(lexer, pre, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, pre, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -1815,7 +1814,7 @@ public final class ParserImpl
                 {
                     if (node.type == Node.StartTag)
                     {
-                        Report.warning(lexer, pre, node, Report.USING_BR_INPLACE_OF);
+                        lexer.report.warning(lexer, pre, node, Report.USING_BR_INPLACE_OF);
 
                         // trim white space before <p> in <pre>
                         Node.trimSpaces(lexer, pre);
@@ -1826,7 +1825,7 @@ public final class ParserImpl
                     }
                     else
                     {
-                        Report.warning(lexer, pre, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, pre, node, Report.DISCARDING_UNEXPECTED);
                     }
                     continue;
                 }
@@ -1844,7 +1843,7 @@ public final class ParserImpl
                     if (node.tag == tt.tagForm)
                     {
                         lexer.badForm = 1;
-                        Report.warning(lexer, pre, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, pre, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
@@ -1852,7 +1851,7 @@ public final class ParserImpl
                     {
                         if (node.tag == parent.tag)
                         {
-                            Report.warning(lexer, pre, node, Report.MISSING_ENDTAG_BEFORE);
+                            lexer.report.warning(lexer, pre, node, Report.MISSING_ENDTAG_BEFORE);
 
                             lexer.ungetToken();
                             Node.trimSpaces(lexer, pre);
@@ -1867,11 +1866,11 @@ public final class ParserImpl
                 {
                     if (node.type != Node.StartTag)
                     {
-                        Report.warning(lexer, pre, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, pre, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
-                    Report.warning(lexer, pre, node, Report.MISSING_ENDTAG_BEFORE);
+                    lexer.report.warning(lexer, pre, node, Report.MISSING_ENDTAG_BEFORE);
                     lexer.excludeBlocks = true;
 
                     // check if we need to infer a container
@@ -1900,7 +1899,7 @@ public final class ParserImpl
                     continue;
                 }
 
-                // if (!((node.tag.model & Dict.CM_INLINE) != 0)) { Report.warning(lexer, pre, node,
+                // if (!((node.tag.model & Dict.CM_INLINE) != 0)) { lexer.report.warning(lexer, pre, node,
                 // Report.MISSING_ENDTAG_BEFORE); lexer.ungetToken(); return; }
 
                 if (node.type == Node.StartTag || node.type == Node.StartEndTag)
@@ -1917,10 +1916,10 @@ public final class ParserImpl
                 }
 
                 // discard unexpected tags
-                Report.warning(lexer, pre, node, Report.DISCARDING_UNEXPECTED);
+                lexer.report.warning(lexer, pre, node, Report.DISCARDING_UNEXPECTED);
             }
 
-            Report.warning(lexer, pre, node, Report.MISSING_ENDTAG_FOR);
+            lexer.report.warning(lexer, pre, node, Report.MISSING_ENDTAG_FOR);
             Node.trimEmptyElement(lexer, pre);
         }
 
@@ -1950,7 +1949,7 @@ public final class ParserImpl
 
             if (element.tag == tt.tagForm && element.isDescendantOf(tt.tagForm))
             {
-                Report.warning(lexer, element, null, Report.ILLEGAL_NESTING);
+                lexer.report.warning(lexer, element, null, Report.ILLEGAL_NESTING);
             }
 
             // InlineDup() asks the lexer to insert inline emphasis tags currently pushed on the istack, but take care
@@ -1998,7 +1997,7 @@ public final class ParserImpl
                 {
                     if (node.type == Node.StartTag || node.type == Node.StartEndTag)
                     {
-                        Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
                     }
 
                     continue;
@@ -2008,7 +2007,7 @@ public final class ParserImpl
                 {
                     if (node.tag == null)
                     {
-                        Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
 
                         continue;
                     }
@@ -2032,7 +2031,7 @@ public final class ParserImpl
                             {
                                 if (!((element.tag.model & Dict.CM_OPT) != 0))
                                 {
-                                    Report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
+                                    lexer.report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
                                 }
 
                                 lexer.ungetToken();
@@ -2121,7 +2120,7 @@ public final class ParserImpl
                     }
 
                     // otherwise discard it
-                    Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -2135,14 +2134,14 @@ public final class ParserImpl
                     }
 
                     // otherwise discard it
-                    Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
                 // ignore unknown start/end tags
                 if (node.tag == null)
                 {
-                    Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -2154,7 +2153,7 @@ public final class ParserImpl
                 {
                     if (node.type != Node.StartTag && node.type != Node.StartEndTag)
                     {
-                        Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
@@ -2173,7 +2172,7 @@ public final class ParserImpl
                         if (node.tag == tt.tagFrame || node.tag == tt.tagFrameset || node.tag == tt.tagOptgroup
                             || node.tag == tt.tagOption)
                         {
-                            Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                            lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
                             continue;
                         }
                     }
@@ -2217,7 +2216,7 @@ public final class ParserImpl
                         {
                             if (!((element.tag.model & Dict.CM_OPT) != 0))
                             {
-                                Report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
+                                lexer.report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
                             }
 
                             lexer.ungetToken();
@@ -2237,7 +2236,7 @@ public final class ParserImpl
                         // things like list items
                         if (!((element.tag.model & Dict.CM_OPT) != 0) && !element.implicit)
                         {
-                            Report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
+                            lexer.report.warning(lexer, element, node, Report.MISSING_ENDTAG_BEFORE);
                         }
 
                         if ((node.tag.model & Dict.CM_HEAD) != 0)
@@ -2331,7 +2330,7 @@ public final class ParserImpl
 
                     if (node.implicit)
                     {
-                        Report.warning(lexer, element, node, Report.INSERTING_TAG);
+                        lexer.report.warning(lexer, element, node, Report.INSERTING_TAG);
                     }
 
                     parseTag(lexer, node, Lexer.IgnoreWhitespace // Lexer.MixedContent
@@ -2345,12 +2344,12 @@ public final class ParserImpl
                     lexer.popInline(node); // if inline end tag
                 }
 
-                Report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
             }
 
             if (!((element.tag.model & Dict.CM_OPT) != 0))
             {
-                Report.warning(lexer, element, node, Report.MISSING_ENDTAG_FOR);
+                lexer.report.warning(lexer, element, node, Report.MISSING_ENDTAG_FOR);
             }
 
             if ((element.tag.model & Dict.CM_OBJECT) != 0)
@@ -2401,7 +2400,7 @@ public final class ParserImpl
                 // discard unknown tags
                 if (node.tag == null && node.type != Node.TextNode)
                 {
-                    Report.warning(lexer, table, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, table, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -2413,12 +2412,12 @@ public final class ParserImpl
                     {
                         lexer.ungetToken();
                         node = lexer.inferredTag("tr");
-                        Report.warning(lexer, table, node, Report.MISSING_STARTTAG);
+                        lexer.report.warning(lexer, table, node, Report.MISSING_STARTTAG);
                     }
                     else if (node.type == Node.TextNode || (node.tag.model & (Dict.CM_BLOCK | Dict.CM_INLINE)) != 0)
                     {
                         Node.insertNodeBeforeElement(table, node);
-                        Report.warning(lexer, table, node, Report.TAG_NOT_ALLOWED_IN);
+                        lexer.report.warning(lexer, table, node, Report.TAG_NOT_ALLOWED_IN);
                         lexer.exiled = true;
 
                         if (!(node.type == Node.TextNode)) // #427662 - was (!node->type == TextNode) - fix by Young
@@ -2443,13 +2442,13 @@ public final class ParserImpl
                     if (node.tag == tt.tagForm)
                     {
                         lexer.badForm = 1;
-                        Report.warning(lexer, table, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, table, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
                     if (node.tag != null && (node.tag.model & (Dict.CM_TABLE | Dict.CM_ROW)) != 0)
                     {
-                        Report.warning(lexer, table, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, table, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
@@ -2457,7 +2456,7 @@ public final class ParserImpl
                     {
                         if (node.tag == parent.tag)
                         {
-                            Report.warning(lexer, table, node, Report.MISSING_ENDTAG_BEFORE);
+                            lexer.report.warning(lexer, table, node, Report.MISSING_ENDTAG_BEFORE);
                             lexer.ungetToken();
                             lexer.istackbase = istackbase;
                             Node.trimEmptyElement(lexer, table);
@@ -2469,7 +2468,7 @@ public final class ParserImpl
                 if (!((node.tag.model & Dict.CM_TABLE) != 0))
                 {
                     lexer.ungetToken();
-                    Report.warning(lexer, table, node, Report.TAG_NOT_ALLOWED_IN);
+                    lexer.report.warning(lexer, table, node, Report.TAG_NOT_ALLOWED_IN);
                     lexer.istackbase = istackbase;
                     Node.trimEmptyElement(lexer, table);
                     return;
@@ -2484,10 +2483,10 @@ public final class ParserImpl
                 }
 
                 // discard unexpected text nodes and end tags
-                Report.warning(lexer, table, node, Report.DISCARDING_UNEXPECTED);
+                lexer.report.warning(lexer, table, node, Report.DISCARDING_UNEXPECTED);
             }
 
-            Report.warning(lexer, table, node, Report.MISSING_ENDTAG_FOR);
+            lexer.report.warning(lexer, table, node, Report.MISSING_ENDTAG_FOR);
             Node.trimEmptyElement(lexer, table);
             lexer.istackbase = istackbase;
         }
@@ -2522,7 +2521,7 @@ public final class ParserImpl
                     if (node.tag == tt.tagForm)
                     {
                         lexer.badForm = 1;
-                        Report.warning(lexer, colgroup, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, colgroup, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
@@ -2552,7 +2551,7 @@ public final class ParserImpl
                 // discard unknown tags
                 if (node.tag == null)
                 {
-                    Report.warning(lexer, colgroup, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, colgroup, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -2564,7 +2563,7 @@ public final class ParserImpl
 
                 if (node.type == Node.EndTag)
                 {
-                    Report.warning(lexer, colgroup, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, colgroup, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -2621,7 +2620,7 @@ public final class ParserImpl
                 // discard unknown tags
                 if (node.tag == null && node.type != Node.TextNode)
                 {
-                    Report.warning(lexer, rowgroup, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, rowgroup, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -2635,12 +2634,12 @@ public final class ParserImpl
                     {
                         lexer.ungetToken();
                         node = lexer.inferredTag("tr");
-                        Report.warning(lexer, rowgroup, node, Report.MISSING_STARTTAG);
+                        lexer.report.warning(lexer, rowgroup, node, Report.MISSING_STARTTAG);
                     }
                     else if (node.type == Node.TextNode || (node.tag.model & (Dict.CM_BLOCK | Dict.CM_INLINE)) != 0)
                     {
                         Node.moveBeforeTable(rowgroup, node, tt);
-                        Report.warning(lexer, rowgroup, node, Report.TAG_NOT_ALLOWED_IN);
+                        lexer.report.warning(lexer, rowgroup, node, Report.TAG_NOT_ALLOWED_IN);
                         lexer.exiled = true;
 
                         if (node.type != Node.TextNode)
@@ -2653,7 +2652,7 @@ public final class ParserImpl
                     }
                     else if ((node.tag.model & Dict.CM_HEAD) != 0)
                     {
-                        Report.warning(lexer, rowgroup, node, Report.TAG_NOT_ALLOWED_IN);
+                        lexer.report.warning(lexer, rowgroup, node, Report.TAG_NOT_ALLOWED_IN);
                         moveToHead(lexer, rowgroup, node);
                         continue;
                     }
@@ -2666,13 +2665,13 @@ public final class ParserImpl
                     if (node.tag == tt.tagForm)
                     {
                         lexer.badForm = 1;
-                        Report.warning(lexer, rowgroup, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, rowgroup, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
                     if (node.tag == tt.tagTr || node.tag == tt.tagTd || node.tag == tt.tagTh)
                     {
-                        Report.warning(lexer, rowgroup, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, rowgroup, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
@@ -2702,14 +2701,14 @@ public final class ParserImpl
 
                 if (node.type == Node.EndTag)
                 {
-                    Report.warning(lexer, rowgroup, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, rowgroup, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
                 if (!(node.tag == tt.tagTr))
                 {
                     node = lexer.inferredTag("tr");
-                    Report.warning(lexer, rowgroup, node, Report.MISSING_STARTTAG);
+                    lexer.report.warning(lexer, rowgroup, node, Report.MISSING_STARTTAG);
                     lexer.ungetToken();
                 }
 
@@ -2760,13 +2759,13 @@ public final class ParserImpl
                     if (node.tag == tt.tagForm)
                     {
                         lexer.badForm = 1;
-                        Report.warning(lexer, row, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, row, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
                     if (node.tag == tt.tagTd || node.tag == tt.tagTh)
                     {
-                        Report.warning(lexer, row, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, row, node, Report.DISCARDING_UNEXPECTED);
                         continue;
                     }
 
@@ -2790,14 +2789,14 @@ public final class ParserImpl
                 // discard unknown tags
                 if (node.tag == null && node.type != Node.TextNode)
                 {
-                    Report.warning(lexer, row, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, row, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
                 // discard unexpected <table> element
                 if (node.tag == tt.tagTable)
                 {
-                    Report.warning(lexer, row, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, row, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -2811,7 +2810,7 @@ public final class ParserImpl
 
                 if (node.type == Node.EndTag)
                 {
-                    Report.warning(lexer, row, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, row, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
@@ -2824,12 +2823,12 @@ public final class ParserImpl
                     {
                         lexer.ungetToken();
                         node = lexer.inferredTag("td");
-                        Report.warning(lexer, row, node, Report.MISSING_STARTTAG);
+                        lexer.report.warning(lexer, row, node, Report.MISSING_STARTTAG);
                     }
                     else if (node.type == Node.TextNode || (node.tag.model & (Dict.CM_BLOCK | Dict.CM_INLINE)) != 0)
                     {
                         Node.moveBeforeTable(row, node, tt);
-                        Report.warning(lexer, row, node, Report.TAG_NOT_ALLOWED_IN);
+                        lexer.report.warning(lexer, row, node, Report.TAG_NOT_ALLOWED_IN);
                         lexer.exiled = true;
 
                         if (node.type != Node.TextNode)
@@ -2842,7 +2841,7 @@ public final class ParserImpl
                     }
                     else if ((node.tag.model & Dict.CM_HEAD) != 0)
                     {
-                        Report.warning(lexer, row, node, Report.TAG_NOT_ALLOWED_IN);
+                        lexer.report.warning(lexer, row, node, Report.TAG_NOT_ALLOWED_IN);
                         moveToHead(lexer, row, node);
                         continue;
                     }
@@ -2850,7 +2849,7 @@ public final class ParserImpl
 
                 if (!(node.tag == tt.tagTd || node.tag == tt.tagTh))
                 {
-                    Report.warning(lexer, row, node, Report.TAG_NOT_ALLOWED_IN);
+                    lexer.report.warning(lexer, row, node, Report.TAG_NOT_ALLOWED_IN);
                     continue;
                 }
 
@@ -2902,12 +2901,12 @@ public final class ParserImpl
                     // fix for [539369]
                     if (node.type == Node.EndTag)
                     {
-                        Report.warning(lexer, noframes, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, noframes, node, Report.DISCARDING_UNEXPECTED);
                         // Throw it away
                     }
                     else
                     {
-                        Report.warning(lexer, noframes, node, Report.MISSING_ENDTAG_BEFORE);
+                        lexer.report.warning(lexer, noframes, node, Report.MISSING_ENDTAG_BEFORE);
 
                         lexer.ungetToken();
                     }
@@ -2918,7 +2917,7 @@ public final class ParserImpl
                 {
                     if (node.type == Node.StartTag || node.type == Node.StartEndTag)
                     {
-                        Report.warning(lexer, noframes, node, Report.DISCARDING_UNEXPECTED);
+                        lexer.report.warning(lexer, noframes, node, Report.DISCARDING_UNEXPECTED);
                     }
 
                     continue;
@@ -2945,7 +2944,7 @@ public final class ParserImpl
                     node = lexer.inferredTag("body");
                     if (lexer.configuration.xmlOut)
                     {
-                        Report.warning(lexer, noframes, node, Report.INSERTING_TAG);
+                        lexer.report.warning(lexer, noframes, node, Report.INSERTING_TAG);
                     }
                     Node.insertNodeAtEnd(noframes, node);
                     parseTag(lexer, node, Lexer.IgnoreWhitespace);
@@ -2953,10 +2952,10 @@ public final class ParserImpl
                     continue;
                 }
                 // discard unexpected end tags
-                Report.warning(lexer, noframes, node, Report.DISCARDING_UNEXPECTED);
+                lexer.report.warning(lexer, noframes, node, Report.DISCARDING_UNEXPECTED);
             }
 
-            Report.warning(lexer, noframes, node, Report.MISSING_ENDTAG_FOR);
+            lexer.report.warning(lexer, noframes, node, Report.MISSING_ENDTAG_FOR);
         }
 
     }
@@ -2995,10 +2994,10 @@ public final class ParserImpl
                 }
 
                 // discard unexpected tags
-                Report.warning(lexer, field, node, Report.DISCARDING_UNEXPECTED);
+                lexer.report.warning(lexer, field, node, Report.DISCARDING_UNEXPECTED);
             }
 
-            Report.warning(lexer, field, node, Report.MISSING_ENDTAG_FOR);
+            lexer.report.warning(lexer, field, node, Report.MISSING_ENDTAG_FOR);
         }
 
     }
@@ -3052,14 +3051,14 @@ public final class ParserImpl
 
                 if (node.tag == tt.tagFont)
                 {
-                    Report.warning(lexer, field, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, field, node, Report.DISCARDING_UNEXPECTED);
                     continue;
                 }
 
                 // terminate element on other tags
                 if (!((field.tag.model & Dict.CM_OPT) != 0))
                 {
-                    Report.warning(lexer, field, node, Report.MISSING_ENDTAG_BEFORE);
+                    lexer.report.warning(lexer, field, node, Report.MISSING_ENDTAG_BEFORE);
                 }
 
                 lexer.ungetToken();
@@ -3069,7 +3068,7 @@ public final class ParserImpl
 
             if (!((field.tag.model & Dict.CM_OPT) != 0))
             {
-                Report.warning(lexer, field, node, Report.MISSING_ENDTAG_FOR);
+                lexer.report.warning(lexer, field, node, Report.MISSING_ENDTAG_FOR);
             }
         }
 
@@ -3104,7 +3103,7 @@ public final class ParserImpl
                 {
                     if (node.tag == tt.tagOptgroup)
                     {
-                        Report.warning(lexer, field, node, Report.CANT_BE_NESTED);
+                        lexer.report.warning(lexer, field, node, Report.CANT_BE_NESTED);
                     }
 
                     Node.insertNodeAtEnd(field, node);
@@ -3113,7 +3112,7 @@ public final class ParserImpl
                 }
 
                 // discard unexpected tags
-                Report.warning(lexer, field, node, Report.DISCARDING_UNEXPECTED);
+                lexer.report.warning(lexer, field, node, Report.DISCARDING_UNEXPECTED);
             }
         }
 
@@ -3243,14 +3242,14 @@ public final class ParserImpl
                 }
                 else
                 {
-                    Report.warning(lexer, document, node, Report.DISCARDING_UNEXPECTED);
+                    lexer.report.warning(lexer, document, node, Report.DISCARDING_UNEXPECTED);
                 }
                 continue;
             }
 
             if (node.type == Node.EndTag)
             {
-                Report.warning(lexer, document, node, Report.DISCARDING_UNEXPECTED); //TODO?
+                lexer.report.warning(lexer, document, node, Report.DISCARDING_UNEXPECTED); //TODO?
                 continue;
             }
 
@@ -3281,7 +3280,6 @@ public final class ParserImpl
      * <code>xsl:text</code>. Finally, if a <code>TagTable</code> was passed in and the element appears as the
      * "pre" element in the <code>TagTable</code>, then <code>true</code> will be returned. Otherwise, <code>false</code>
      * is returned.
-     * 
      * @param element The <code>Node</code> to test to see if whitespace should be preserved.
      * @param tt The <code>TagTable</code> to test for the <code>getNodePre()</code> function. This may be <code>null</code>,
      * in which case this test is bypassed.
@@ -3351,7 +3349,7 @@ public final class ParserImpl
             // discard unexpected end tags
             if (node.type == Node.EndTag)
             {
-                Report.error(lexer, element, node, Report.UNEXPECTED_ENDTAG);
+                lexer.report.error(lexer, element, node, Report.UNEXPECTED_ENDTAG);
                 continue;
             }
 
@@ -3415,7 +3413,7 @@ public final class ParserImpl
             // discard unexpected end tags
             if (node.type == Node.EndTag)
             {
-                Report.warning(lexer, null, node, Report.UNEXPECTED_ENDTAG);
+                lexer.report.warning(lexer, null, node, Report.UNEXPECTED_ENDTAG);
                 continue;
             }
 
@@ -3434,7 +3432,7 @@ public final class ParserImpl
                 }
                 else
                 {
-                    Report.warning(lexer, document, node, Report.DISCARDING_UNEXPECTED); // TODO
+                    lexer.report.warning(lexer, document, node, Report.DISCARDING_UNEXPECTED); // TODO
                 }
                 continue;
             }
@@ -3461,7 +3459,7 @@ public final class ParserImpl
 
         if (doctype != null && !lexer.checkDocTypeKeyWords(doctype))
         {
-            Report.warning(lexer, doctype, null, Report.DTYPE_NOT_UPPER_CASE);
+            lexer.report.warning(lexer, doctype, null, Report.DTYPE_NOT_UPPER_CASE);
         }
 
         // ensure presence of initial <?XML version="1.0"?>

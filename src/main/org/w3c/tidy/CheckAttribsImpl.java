@@ -1,62 +1,62 @@
 /**
-*  Java HTML Tidy - JTidy
-*  HTML parser and pretty printer
-*
-*  Copyright (c) 1998-2000 World Wide Web Consortium (Massachusetts
-*  Institute of Technology, Institut National de Recherche en
-*  Informatique et en Automatique, Keio University). All Rights
-*  Reserved.
-*
-*  Contributing Author(s):
-*
-*     Dave Raggett <dsr@w3.org>
-*     Andy Quick <ac.quick@sympatico.ca> (translation to Java)
-*     Gary L Peskin <garyp@firstech.com> (Java development)
-*     Sami Lempinen <sami@lempinen.net> (release management)
-*     Fabrizio Giustina <fgiust at users.sourceforge.net>
-*
-*  The contributing author(s) would like to thank all those who
-*  helped with testing, bug fixes, and patience.  This wouldn't
-*  have been possible without all of you.
-*
-*  COPYRIGHT NOTICE:
-* 
-*  This software and documentation is provided "as is," and
-*  the copyright holders and contributing author(s) make no
-*  representations or warranties, express or implied, including
-*  but not limited to, warranties of merchantability or fitness
-*  for any particular purpose or that the use of the software or
-*  documentation will not infringe any third party patents,
-*  copyrights, trademarks or other rights. 
-*
-*  The copyright holders and contributing author(s) will not be
-*  liable for any direct, indirect, special or consequential damages
-*  arising out of any use of the software or documentation, even if
-*  advised of the possibility of such damage.
-*
-*  Permission is hereby granted to use, copy, modify, and distribute
-*  this source code, or portions hereof, documentation and executables,
-*  for any purpose, without fee, subject to the following restrictions:
-*
-*  1. The origin of this source code must not be misrepresented.
-*  2. Altered versions must be plainly marked as such and must
-*     not be misrepresented as being the original source.
-*  3. This Copyright notice may not be removed or altered from any
-*     source or altered source distribution.
-* 
-*  The copyright holders and contributing author(s) specifically
-*  permit, without fee, and encourage the use of this source code
-*  as a component for supporting the Hypertext Markup Language in
-*  commercial products. If you use this source code in a product,
-*  acknowledgment is not required but would be appreciated.
-*
-*/
+ *  Java HTML Tidy - JTidy
+ *  HTML parser and pretty printer
+ *
+ *  Copyright (c) 1998-2000 World Wide Web Consortium (Massachusetts
+ *  Institute of Technology, Institut National de Recherche en
+ *  Informatique et en Automatique, Keio University). All Rights
+ *  Reserved.
+ *
+ *  Contributing Author(s):
+ *
+ *     Dave Raggett <dsr@w3.org>
+ *     Andy Quick <ac.quick@sympatico.ca> (translation to Java)
+ *     Gary L Peskin <garyp@firstech.com> (Java development)
+ *     Sami Lempinen <sami@lempinen.net> (release management)
+ *     Fabrizio Giustina <fgiust at users.sourceforge.net>
+ *
+ *  The contributing author(s) would like to thank all those who
+ *  helped with testing, bug fixes, and patience.  This wouldn't
+ *  have been possible without all of you.
+ *
+ *  COPYRIGHT NOTICE:
+ * 
+ *  This software and documentation is provided "as is," and
+ *  the copyright holders and contributing author(s) make no
+ *  representations or warranties, express or implied, including
+ *  but not limited to, warranties of merchantability or fitness
+ *  for any particular purpose or that the use of the software or
+ *  documentation will not infringe any third party patents,
+ *  copyrights, trademarks or other rights. 
+ *
+ *  The copyright holders and contributing author(s) will not be
+ *  liable for any direct, indirect, special or consequential damages
+ *  arising out of any use of the software or documentation, even if
+ *  advised of the possibility of such damage.
+ *
+ *  Permission is hereby granted to use, copy, modify, and distribute
+ *  this source code, or portions hereof, documentation and executables,
+ *  for any purpose, without fee, subject to the following restrictions:
+ *
+ *  1. The origin of this source code must not be misrepresented.
+ *  2. Altered versions must be plainly marked as such and must
+ *     not be misrepresented as being the original source.
+ *  3. This Copyright notice may not be removed or altered from any
+ *     source or altered source distribution.
+ * 
+ *  The copyright holders and contributing author(s) specifically
+ *  permit, without fee, and encourage the use of this source code
+ *  as a component for supporting the Hypertext Markup Language in
+ *  commercial products. If you use this source code in a product,
+ *  acknowledgment is not required but would be appreciated.
+ *
+ */
 package org.w3c.tidy;
 
 /**
  * Check HTML attributes implementation.
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
+ * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
+ * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @version $Revision $ ($Author $)
  */
 public class CheckAttribsImpl
@@ -112,7 +112,7 @@ public class CheckAttribsImpl
 
             if (type == null)
             {
-                Report.attrError(lexer, node, "type", Report.MISSING_ATTRIBUTE);
+                lexer.report.attrError(lexer, node, "type", Report.MISSING_ATTRIBUTE);
 
                 /* check for javascript */
 
@@ -162,7 +162,7 @@ public class CheckAttribsImpl
             if (!hasSummary && lexer.doctype != Dict.VERS_HTML20 && lexer.doctype != Dict.VERS_HTML32)
             {
                 lexer.badAccess |= Report.MISSING_SUMMARY;
-                Report.attrError(lexer, node, "summary", Report.MISSING_ATTRIBUTE);
+                lexer.report.attrError(lexer, node, "summary", Report.MISSING_ATTRIBUTE);
             }
 
             /* convert <table border> to <table border="1"> */
@@ -177,11 +177,11 @@ public class CheckAttribsImpl
                     }
                 }
             }
-            
+
             /* <table height="..."> is proprietary */
             if ((attval = node.getAttrByName("height")) != null)
             {
-                Report.attrError(lexer, node, "height", Report.PROPRIETARY_ATTRIBUTE);
+                lexer.report.attrError(lexer, node, "height", Report.PROPRIETARY_ATTRIBUTE);
                 lexer.versions &= Dict.VERS_PROPRIETARY;
             }
 
@@ -220,7 +220,7 @@ public class CheckAttribsImpl
                 }
                 else
                 {
-                    Report.attrError(lexer, node, value, Report.BAD_ATTRIBUTE_VALUE);
+                    lexer.report.attrError(lexer, node, value, Report.BAD_ATTRIBUTE_VALUE);
                 }
             }
         }
@@ -234,7 +234,7 @@ public class CheckAttribsImpl
         {
             if (node.getAttrByName("src") != null)
             {
-                Report.attrError(lexer, node, "src", Report.PROPRIETARY_ATTR_VALUE);
+                lexer.report.attrError(lexer, node, "src", Report.PROPRIETARY_ATTR_VALUE);
             }
         }
     }
@@ -287,7 +287,7 @@ public class CheckAttribsImpl
             if (!hasAlt)
             {
                 lexer.badAccess |= Report.MISSING_IMAGE_ALT;
-                Report.attrError(lexer, node, "alt", Report.MISSING_ATTRIBUTE);
+                lexer.report.attrError(lexer, node, "alt", Report.MISSING_ATTRIBUTE);
                 if (lexer.configuration.altText != null)
                 {
                     node.addAttribute("alt", lexer.configuration.altText);
@@ -296,12 +296,12 @@ public class CheckAttribsImpl
 
             if (!hasSrc && !hasDataFld)
             {
-                Report.attrError(lexer, node, "src", Report.MISSING_ATTRIBUTE);
+                lexer.report.attrError(lexer, node, "src", Report.MISSING_ATTRIBUTE);
             }
 
             if (hasIsMap && !hasUseMap)
             {
-                Report.attrError(lexer, node, "ismap", Report.MISSING_IMAGEMAP);
+                lexer.report.attrError(lexer, node, "ismap", Report.MISSING_IMAGEMAP);
             }
         }
 
@@ -336,11 +336,11 @@ public class CheckAttribsImpl
             if (!hasAlt)
             {
                 lexer.badAccess |= Report.MISSING_LINK_ALT;
-                Report.attrError(lexer, node, "alt", Report.MISSING_ATTRIBUTE);
+                lexer.report.attrError(lexer, node, "alt", Report.MISSING_ATTRIBUTE);
             }
             if (!hasHref)
             {
-                Report.attrError(lexer, node, "href", Report.MISSING_ATTRIBUTE);
+                lexer.report.attrError(lexer, node, "href", Report.MISSING_ATTRIBUTE);
             }
         }
 
@@ -380,7 +380,7 @@ public class CheckAttribsImpl
 
             if (type == null)
             {
-                Report.attrError(lexer, node, "type", Report.MISSING_ATTRIBUTE);
+                lexer.report.attrError(lexer, node, "type", Report.MISSING_ATTRIBUTE);
 
                 node.addAttribute("type", "text/css");
             }
@@ -419,7 +419,7 @@ public class CheckAttribsImpl
 
                 if (type == null)
                 {
-                    Report.attrError(lexer, node, "type", Report.MISSING_ATTRIBUTE);
+                    lexer.report.attrError(lexer, node, "type", Report.MISSING_ATTRIBUTE);
 
                     node.addAttribute("type", "text/css");
                 }

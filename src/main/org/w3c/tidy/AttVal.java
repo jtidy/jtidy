@@ -172,7 +172,7 @@ public class AttVal extends Object implements Cloneable
             {
                 if (!(lexer.configuration.xmlTags || lexer.configuration.xmlOut))
                 {
-                    Report.attrError(lexer, node, this.attribute, Report.XML_ATTRIBUTE_VALUE);
+                    lexer.report.attrError(lexer, node, this.attribute, Report.XML_ATTRIBUTE_VALUE);
                 }
             }
             else
@@ -191,7 +191,7 @@ public class AttVal extends Object implements Cloneable
                 && this.asp == null
                 && !(node.tag != null && ((node.tag.versions & Dict.VERS_PROPRIETARY) != 0)))
         {
-            Report.attrError(lexer, node, this.attribute, Report.UNKNOWN_ATTRIBUTE);
+            lexer.report.attrError(lexer, node, this.attribute, Report.UNKNOWN_ATTRIBUTE);
         }
 
         return attribute;
@@ -219,7 +219,7 @@ public class AttVal extends Object implements Cloneable
 
         if (count > 0)
         {
-            Report.attrError(lexer, node, this.attribute, Report.REPEATED_ATTRIBUTE);
+            lexer.report.attrError(lexer, node, this.attribute, Report.REPEATED_ATTRIBUTE);
         }
     }
 

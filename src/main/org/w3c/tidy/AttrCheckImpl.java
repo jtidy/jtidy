@@ -123,7 +123,7 @@ public final class AttrCheckImpl
         {
             if (attval.value == null)
             {
-                Report.attrError(lexer, node, attval.attribute, Report.MISSING_ATTR_VALUE);
+                lexer.report.attrError(lexer, node, attval.attribute, Report.MISSING_ATTR_VALUE);
             }
             else if (lexer.configuration.fixBackslash)
             {
@@ -172,12 +172,12 @@ public final class AttrCheckImpl
 
             if (value == null)
             {
-                Report.attrError(lexer, node, attval.attribute, Report.MISSING_ATTR_VALUE);
+                lexer.report.attrError(lexer, node, attval.attribute, Report.MISSING_ATTR_VALUE);
             }
             else if (!(Lexer.wstrcasecmp(value, "left") == 0 || Lexer.wstrcasecmp(value, "center") == 0
                 || Lexer.wstrcasecmp(value, "right") == 0 || Lexer.wstrcasecmp(value, "justify") == 0))
             {
-                Report.attrError(lexer, node, attval.value, Report.BAD_ATTRIBUTE_VALUE);
+                lexer.report.attrError(lexer, node, attval.value, Report.BAD_ATTRIBUTE_VALUE);
             }
         }
 
@@ -200,7 +200,7 @@ public final class AttrCheckImpl
 
             if (value == null)
             {
-                Report.attrError(lexer, node, attval.attribute, Report.MISSING_ATTR_VALUE);
+                lexer.report.attrError(lexer, node, attval.attribute, Report.MISSING_ATTR_VALUE);
             }
             else if (Lexer.wstrcasecmp(value, "top") == 0 || Lexer.wstrcasecmp(value, "middle") == 0
                 || Lexer.wstrcasecmp(value, "bottom") == 0 || Lexer.wstrcasecmp(value, "baseline") == 0)
@@ -211,18 +211,18 @@ public final class AttrCheckImpl
             {
                 if (!(node.tag != null && ((node.tag.model & Dict.CM_IMG) != 0)))
                 {
-                    Report.attrError(lexer, node, value, Report.BAD_ATTRIBUTE_VALUE);
+                    lexer.report.attrError(lexer, node, value, Report.BAD_ATTRIBUTE_VALUE);
                 }
             }
             else if (Lexer.wstrcasecmp(value, "texttop") == 0 || Lexer.wstrcasecmp(value, "absmiddle") == 0
                 || Lexer.wstrcasecmp(value, "absbottom") == 0 || Lexer.wstrcasecmp(value, "textbottom") == 0)
             {
                 lexer.versions &= Dict.VERS_PROPRIETARY;
-                Report.attrError(lexer, node, value, Report.PROPRIETARY_ATTR_VALUE);
+                lexer.report.attrError(lexer, node, value, Report.PROPRIETARY_ATTR_VALUE);
             }
             else
             {
-                Report.attrError(lexer, node, value, Report.BAD_ATTRIBUTE_VALUE);
+                lexer.report.attrError(lexer, node, value, Report.BAD_ATTRIBUTE_VALUE);
             }
         }
 
@@ -259,7 +259,7 @@ public final class AttrCheckImpl
 
             if (p == null)
             {
-                Report.attrError(lexer, node, attval.attribute, Report.MISSING_ATTR_VALUE);
+                lexer.report.attrError(lexer, node, attval.attribute, Report.MISSING_ATTR_VALUE);
             }
             if ("".equals(p) || !Character.isDigit(p.charAt(0)))
             {
@@ -299,7 +299,7 @@ public final class AttrCheckImpl
             String p = attval.value;
             if (p == null)
             {
-                Report.attrError(lexer, node, attval.attribute, Report.MISSING_ATTR_VALUE);
+                lexer.report.attrError(lexer, node, attval.attribute, Report.MISSING_ATTR_VALUE);
                 return;
             }
 

@@ -282,11 +282,13 @@ public class Lexer
     protected int seenEndBody; // used by parser
 
     protected int seenEndHtml;
+    protected Report report;
 
     private Vector nodeList;
 
-    public Lexer(StreamIn in, Configuration configuration)
+    public Lexer(StreamIn in, Configuration configuration, Report report)
     {
+        this.report = report;
         this.in = in;
         this.lines = 1;
         this.columns = 1;
@@ -595,7 +597,7 @@ public class Lexer
 
             if (this.lexsize > start + 1)
             {
-                Report.entityError(this, Report.UNKNOWN_ENTITY, str, ch);
+                report.entityError(this, report.UNKNOWN_ENTITY, str, ch);
 
                 if (semicolon)
                 {
@@ -605,7 +607,7 @@ public class Lexer
             else
             {
                 // naked &
-                Report.entityError(this, Report.UNESCAPED_AMPERSAND, str, ch);
+                report.entityError(this, report.UNESCAPED_AMPERSAND, str, ch);
             }
         }
         else
@@ -616,7 +618,7 @@ public class Lexer
                 // set error position just before offending chararcter
                 this.lines = this.in.curline;
                 this.columns = startcol;
-                Report.entityError(this, Report.MISSING_SEMICOLON, str, c);
+                report.entityError(this, report.MISSING_SEMICOLON, str, c);
             }
 
             this.lexsize = start;
@@ -843,7 +845,7 @@ public class Lexer
 
         if (!checkDocTypeKeyWords(doctype))
         {
-            Report.warning(this, doctype, null, Report.DTYPE_NOT_UPPER_CASE);
+            report.warning(this, doctype, null, report.DTYPE_NOT_UPPER_CASE);
         }
 
         // give up if all we are given is the system id for the doctype
@@ -945,7 +947,7 @@ public class Lexer
             {
                 if (!attr.value.equals(profile))
                 {
-                    Report.warning(this, node, null, Report.INCONSISTENT_NAMESPACE);
+                    report.warning(this, node, null, report.INCONSISTENT_NAMESPACE);
                     attr.value = profile;
                 }
             }
@@ -1156,7 +1158,7 @@ public class Lexer
                 break;
         }
 
-        Report.warning(this, null, null, Report.INCONSISTENT_VERSION);
+        report.warning(this, null, null, report.INCONSISTENT_VERSION);
         return this.HTMLVersion();
     }
 
@@ -1168,7 +1170,7 @@ public class Lexer
 
         if (this.badDoctype)
         {
-            Report.warning(this, null, null, Report.MALFORMED_DOCTYPE);
+            report.warning(this, null, null, report.MALFORMED_DOCTYPE);
         }
 
         doctype = root.findDocType();
@@ -1449,7 +1451,7 @@ public class Lexer
                     this.lines = this.in.curline;
                     this.columns = this.in.curcol - 3;
 
-                    Report.warning(this, null, null, Report.BAD_CDATA_CONTENT);
+                    report.warning(this, null, null, report.BAD_CDATA_CONTENT);
                 }
 
                 start = this.lexsize + 1; // to first letter
@@ -1471,7 +1473,7 @@ public class Lexer
                 this.lines = this.in.curline;
                 this.columns = this.in.curcol - 3;
 
-                Report.warning(this, null, null, Report.BAD_CDATA_CONTENT);
+                report.warning(this, null, null, report.BAD_CDATA_CONTENT);
 
                 // if javascript insert backslash before /
 
@@ -1522,7 +1524,7 @@ public class Lexer
 
         if (c == StreamIn.EndOfStream)
         {
-            Report.warning(this, container, null, Report.MISSING_ENDTAG_FOR);
+            report.warning(this, container, null, report.MISSING_ENDTAG_FOR);
         }
 
         if (this.txtend > this.txtstart)
@@ -1754,7 +1756,7 @@ public class Lexer
                                 continue;
                             }
 
-                            Report.warning(this, null, null, Report.MALFORMED_COMMENT);
+                            report.warning(this, null, null, report.MALFORMED_COMMENT);
                         }
                         else if (c == 'd' || c == 'D')
                         {
@@ -2026,7 +2028,7 @@ public class Lexer
 
                     if (this.token.tag == null)
                     {
-                        Report.error(this, null, this.token, Report.UNKNOWN_ELEMENT);
+                        report.error(this, null, this.token, report.UNKNOWN_ELEMENT);
                     }
                     else if (!this.configuration.xmlTags)
                     {
@@ -2038,12 +2040,12 @@ public class Lexer
                             if (this.configuration.makeClean
                                 && (this.token.tag != this.configuration.tt.tagNobr && this.token.tag != this.configuration.tt.tagWbr))
                             {
-                                Report.warning(this, null, this.token, Report.PROPRIETARY_ELEMENT);
+                                report.warning(this, null, this.token, report.PROPRIETARY_ELEMENT);
                             }
                             // #427810 - fix by Terry Teague 2 Jul 01
                             else if (!this.configuration.makeClean)
                             {
-                                Report.warning(this, null, this.token, Report.PROPRIETARY_ELEMENT);
+                                report.warning(this, null, this.token, report.PROPRIETARY_ELEMENT);
                             }
                         }
 
@@ -2084,7 +2086,7 @@ public class Lexer
                         {
                             if (badcomment != 0)
                             {
-                                Report.warning(this, null, null, Report.MALFORMED_COMMENT);
+                                report.warning(this, null, null, report.MALFORMED_COMMENT);
                             }
 
                             this.txtend = this.lexsize - 2; // AQ 8Jul2000
@@ -2213,7 +2215,7 @@ public class Lexer
 
                         if (c == StreamIn.EndOfStream)
                         {
-                            Report.warning(this, null, null, Report.UNEXPECTED_END_OF_FILE);
+                            report.warning(this, null, null, report.UNEXPECTED_END_OF_FILE);
                             this.in.ungetChar(c);
                             continue;
                         }
@@ -2398,7 +2400,7 @@ public class Lexer
         {
             if (c == StreamIn.EndOfStream)
             {
-                Report.warning(this, null, null, Report.MALFORMED_COMMENT);
+                report.warning(this, null, null, report.MALFORMED_COMMENT);
             }
 
             this.txtend = this.lexsize;
@@ -2552,19 +2554,19 @@ public class Lexer
                 }
 
                 this.in.ungetChar(c);
-                Report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
+                report.attrError(this, this.token, null, report.UNEXPECTED_GT);
                 return null;
             }
 
             if (c == '"' || c == '\'')
             {
-                Report.attrError(this, this.token, null, Report.UNEXPECTED_QUOTEMARK);
+                report.attrError(this, this.token, null, report.UNEXPECTED_QUOTEMARK);
                 continue;
             }
 
             if (c == StreamIn.EndOfStream)
             {
-                Report.attrError(this, this.token, null, Report.UNEXPECTED_END_OF_FILE);
+                report.attrError(this, this.token, null, report.UNEXPECTED_END_OF_FILE);
                 this.in.ungetChar(c);
                 return null;
             }
@@ -2681,14 +2683,14 @@ public class Lexer
 
                     if (endOfInput()) // #427840 - fix by Terry Teague 30 Jun 01
                     {
-                        Report.attrError(this, this.token, null, Report.UNEXPECTED_END_OF_FILE);
+                        report.attrError(this, this.token, null, report.UNEXPECTED_END_OF_FILE);
                         this.in.ungetChar(c);
                         return 0;
                     }
                     if (c == '>') // #427840 - fix by Terry Teague 30 Jun 01
                     {
                         this.in.ungetChar(c);
-                        Report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
+                        report.attrError(this, this.token, null, report.UNEXPECTED_GT);
                         return 0;
                     }
 
@@ -2707,14 +2709,14 @@ public class Lexer
 
                     if (endOfInput()) // #427840 - fix by Terry Teague 30 Jun 01
                     {
-                        Report.attrError(this, this.token, null, Report.UNEXPECTED_END_OF_FILE);
+                        report.attrError(this, this.token, null, report.UNEXPECTED_END_OF_FILE);
                         this.in.ungetChar(c);
                         return 0;
                     }
                     if (c == '>') // #427840 - fix by Terry Teague 30 Jun 01
                     {
                         this.in.ungetChar(c);
-                        Report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
+                        report.attrError(this, this.token, null, report.UNEXPECTED_GT);
                         return 0;
                     }
 
@@ -2830,7 +2832,7 @@ public class Lexer
 
             if (c == StreamIn.EndOfStream)
             {
-                Report.attrError(this, this.token, null, Report.UNEXPECTED_END_OF_FILE);
+                report.attrError(this, this.token, null, report.UNEXPECTED_END_OF_FILE);
                 this.in.ungetChar(c);
                 break;
             }
@@ -2845,14 +2847,14 @@ public class Lexer
 
                 if (c == '"' || c == '\'')
                 {
-                    Report.attrError(this, this.token, null, Report.UNEXPECTED_QUOTEMARK);
+                    report.attrError(this, this.token, null, report.UNEXPECTED_QUOTEMARK);
                     break;
                 }
 
                 if (c == '<')
                 {
                     // this.in.ungetChar(c);
-                    Report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
+                    report.attrError(this, this.token, null, report.UNEXPECTED_GT);
                     // break;
                 }
 
@@ -2971,7 +2973,7 @@ public class Lexer
                 && !(AttributeTable.getDefaultAttributeTable().isUrl(name) && (getString(this.lexbuf, start, 11))
                     .equals("javascript:")))
             {
-                Report.error(this, null, null, Report.SUSPECTED_MISSING_QUOTE);
+                report.error(this, null, null, report.SUSPECTED_MISSING_QUOTE);
             }
         }
 
@@ -3078,7 +3080,7 @@ public class Lexer
             else
             {
                 av = new AttVal(null, null, null, null, 0, attribute, value);
-                Report.attrError(this, this.token, value, Report.BAD_ATTRIBUTE_VALUE);
+                report.attrError(this, this.token, value, report.BAD_ATTRIBUTE_VALUE);
             }
         }
 
@@ -3408,7 +3410,7 @@ public class Lexer
             {
                 if (!id.value.equals(name.value))
                 {
-                    Report.attrError(this, node, "name", Report.ID_NAME_MISMATCH);
+                    report.attrError(this, node, "name", report.ID_NAME_MISMATCH);
                 }
             }
             else if (this.configuration.xmlOut)

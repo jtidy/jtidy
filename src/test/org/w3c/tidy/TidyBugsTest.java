@@ -87,8 +87,8 @@ public class TidyBugsTest extends TidyTestCase
     public void test431895() throws Exception
     {
         URL inputURL = getClass().getClassLoader().getResource("431895.html");
-
-        Tidy.mainExec(new String[]{"-q", "-e", cleanUpFilePath(inputURL.getFile())});
+        Tidy tidyInstance = new Tidy();
+        tidyInstance.mainExec(new String[]{"-q", "-e", cleanUpFilePath(inputURL.getFile())});
 
         // should check system out...
     }

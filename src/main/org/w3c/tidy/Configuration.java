@@ -191,8 +191,11 @@ public class Configuration implements java.io.Serializable
 
     private transient Properties properties = new Properties();
 
-    public Configuration()
+    private Report report;
+    
+    protected Configuration(Report report)
     {
+        this.report = report;
     }
 
     public void addProps(Properties p)
@@ -607,7 +610,7 @@ public class Configuration implements java.io.Serializable
         }
     }
 
-    private static int parseInt(String s, String option)
+    private int parseInt(String s, String option)
     {
         int i = 0;
         try
@@ -616,13 +619,13 @@ public class Configuration implements java.io.Serializable
         }
         catch (NumberFormatException e)
         {
-            Report.badArgument(option);
+            report.badArgument(option);
             i = -1;
         }
         return i;
     }
 
-    private static boolean parseBool(String s, String option)
+    private boolean parseBool(String s, String option)
     {
         boolean b = false;
         if (s != null && s.length() > 0)
@@ -638,13 +641,13 @@ public class Configuration implements java.io.Serializable
             }
             else
             {
-                Report.badArgument(option);
+                report.badArgument(option);
             }
         }
         return b;
     }
 
-    private static boolean parseInvBool(String s, String option)
+    private boolean parseInvBool(String s, String option)
     {
         boolean b = false;
         if (s != null && s.length() > 0)
@@ -660,13 +663,13 @@ public class Configuration implements java.io.Serializable
             }
             else
             {
-                Report.badArgument(option);
+                report.badArgument(option);
             }
         }
         return !b;
     }
 
-    private static String parseName(String s, String option)
+    private String parseName(String s, String option)
     {
         StringTokenizer t = new StringTokenizer(s);
         String rs = null;
@@ -676,12 +679,12 @@ public class Configuration implements java.io.Serializable
         }
         else
         {
-            Report.badArgument(option);
+            report.badArgument(option);
         }
         return rs;
     }
 
-    private static int parseCharEncoding(String s, String option)
+    private int parseCharEncoding(String s, String option)
     {
         int result = ASCII;
 
@@ -711,7 +714,7 @@ public class Configuration implements java.io.Serializable
         }
         else
         {
-            Report.badArgument(option);
+            report.badArgument(option);
         }
 
         return result;
@@ -749,7 +752,7 @@ public class Configuration implements java.io.Serializable
         }
         else
         {
-            Report.badArgument(option);
+            report.badArgument(option);
         }
         return b;
     }
@@ -833,7 +836,7 @@ public class Configuration implements java.io.Serializable
         else
         {
             docTypeMode = DOCTYPE_AUTO;
-            Report.badArgument(option);
+            report.badArgument(option);
         }
         return null;
     }

@@ -55,10 +55,9 @@ package org.w3c.tidy;
 
 /**
  * Used for elements and text nodes element name is null for text nodes start and end are offsets into lexbuf which
- * contains the textual content of all elements in the parse tree. parent and content allow traversal of the parse
- * tree in any direction. attributes are represented as a linked list of AttVal nodes which hold the strings for
+ * contains the textual content of all elements in the parse tree. parent and content allow traversal of the parse tree
+ * in any direction. attributes are represented as a linked list of AttVal nodes which hold the strings for
  * attribute/value pairs.
- * 
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @version $Revision $ ($Author $)
@@ -219,11 +218,13 @@ public class Node
 
     protected org.w3c.dom.Node adapter;
 
-    public Node() {
+    public Node()
+    {
         this(TextNode, null, 0, 0);
     }
 
-    public Node(short type, byte[] textarray, int start, int end) {
+    public Node(short type, byte[] textarray, int start, int end)
+    {
         this.parent = null;
         this.prev = null;
         this.next = null;
@@ -242,7 +243,8 @@ public class Node
         this.content = null;
     }
 
-    public Node(short type, byte[] textarray, int start, int end, String element, TagTable tt) {
+    public Node(short type, byte[] textarray, int start, int end, String element, TagTable tt)
+    {
         this.parent = null;
         this.prev = null;
         this.next = null;
@@ -588,7 +590,7 @@ public class Node
         {
             if (element.type != TextNode)
             {
-                Report.warning(lexer, element, null, Report.TRIM_EMPTY_ELEMENT);
+                lexer.report.warning(lexer, element, null, Report.TRIM_EMPTY_ELEMENT);
             }
 
             discardElement(element);
@@ -603,8 +605,8 @@ public class Node
     }
 
     /**
-     * This maps <em> hello </em> <strong>world </strong> to <em> hello </em> <strong>world </strong> If last child
-     * of element is a text node then trim trailing white space character moving it to after element's end tag.
+     * This maps <em> hello </em> <strong>world </strong> to <em> hello </em> <strong>world </strong> If last child of
+     * element is a text node then trim trailing white space character moving it to after element's end tag.
      */
     public static void trimTrailingSpace(Lexer lexer, Node element, Node last)
     {
@@ -756,7 +758,7 @@ public class Node
     {
         TagTable tt = lexer.configuration.tt;
 
-        Report.warning(lexer, element, doctype, Report.DOCTYPE_AFTER_TAGS);
+        lexer.report.warning(lexer, element, doctype, Report.DOCTYPE_AFTER_TAGS);
 
         while (element.tag != tt.tagHtml)
         {
@@ -798,8 +800,8 @@ public class Node
     }
 
     /**
-     * unexpected content in table row is moved to just before the table in accordance with Netscape and IE. This
-     * code assumes that node hasn't been inserted into the row.
+     * unexpected content in table row is moved to just before the table in accordance with Netscape and IE. This code
+     * assumes that node hasn't been inserted into the row.
      */
     public static void moveBeforeTable(Node row, Node node, TagTable tt)
     {
@@ -842,14 +844,14 @@ public class Node
         {
             cell = lexer.inferredTag("td");
             insertNodeAtEnd(row, cell);
-            Report.warning(lexer, row, cell, Report.MISSING_STARTTAG);
+            lexer.report.warning(lexer, row, cell, Report.MISSING_STARTTAG);
         }
     }
 
     public static void coerceNode(Lexer lexer, Node node, Dict tag)
     {
         Node tmp = lexer.inferredTag(tag.name);
-        Report.warning(lexer, node, tmp, Report.OBSOLETE_ELEMENT);
+        lexer.report.warning(lexer, node, tmp, Report.OBSOLETE_ELEMENT);
         node.was = node.tag;
         node.tag = tag;
         node.type = StartTag;
@@ -903,8 +905,8 @@ public class Node
     }
 
     /**
-     * used to determine how attributes without values should be printed this was introduced to deal with user
-     * defined tags e.g. Cold Fusion
+     * used to determine how attributes without values should be printed this was introduced to deal with user defined
+     * tags e.g. Cold Fusion
      */
     public static boolean isNewNode(Node node)
     {

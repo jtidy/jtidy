@@ -1,56 +1,56 @@
 /**
-*  Java HTML Tidy - JTidy
-*  HTML parser and pretty printer
-*
-*  Copyright (c) 1998-2000 World Wide Web Consortium (Massachusetts
-*  Institute of Technology, Institut National de Recherche en
-*  Informatique et en Automatique, Keio University). All Rights
-*  Reserved.
-*
-*  Contributing Author(s):
-*
-*     Dave Raggett <dsr@w3.org>
-*     Andy Quick <ac.quick@sympatico.ca> (translation to Java)
-*     Gary L Peskin <garyp@firstech.com> (Java development)
-*     Sami Lempinen <sami@lempinen.net> (release management)
-*     Fabrizio Giustina <fgiust at users.sourceforge.net>
-*
-*  The contributing author(s) would like to thank all those who
-*  helped with testing, bug fixes, and patience.  This wouldn't
-*  have been possible without all of you.
-*
-*  COPYRIGHT NOTICE:
-* 
-*  This software and documentation is provided "as is," and
-*  the copyright holders and contributing author(s) make no
-*  representations or warranties, express or implied, including
-*  but not limited to, warranties of merchantability or fitness
-*  for any particular purpose or that the use of the software or
-*  documentation will not infringe any third party patents,
-*  copyrights, trademarks or other rights. 
-*
-*  The copyright holders and contributing author(s) will not be
-*  liable for any direct, indirect, special or consequential damages
-*  arising out of any use of the software or documentation, even if
-*  advised of the possibility of such damage.
-*
-*  Permission is hereby granted to use, copy, modify, and distribute
-*  this source code, or portions hereof, documentation and executables,
-*  for any purpose, without fee, subject to the following restrictions:
-*
-*  1. The origin of this source code must not be misrepresented.
-*  2. Altered versions must be plainly marked as such and must
-*     not be misrepresented as being the original source.
-*  3. This Copyright notice may not be removed or altered from any
-*     source or altered source distribution.
-* 
-*  The copyright holders and contributing author(s) specifically
-*  permit, without fee, and encourage the use of this source code
-*  as a component for supporting the Hypertext Markup Language in
-*  commercial products. If you use this source code in a product,
-*  acknowledgment is not required but would be appreciated.
-*
-*/
+ *  Java HTML Tidy - JTidy
+ *  HTML parser and pretty printer
+ *
+ *  Copyright (c) 1998-2000 World Wide Web Consortium (Massachusetts
+ *  Institute of Technology, Institut National de Recherche en
+ *  Informatique et en Automatique, Keio University). All Rights
+ *  Reserved.
+ *
+ *  Contributing Author(s):
+ *
+ *     Dave Raggett <dsr@w3.org>
+ *     Andy Quick <ac.quick@sympatico.ca> (translation to Java)
+ *     Gary L Peskin <garyp@firstech.com> (Java development)
+ *     Sami Lempinen <sami@lempinen.net> (release management)
+ *     Fabrizio Giustina <fgiust at users.sourceforge.net>
+ *
+ *  The contributing author(s) would like to thank all those who
+ *  helped with testing, bug fixes, and patience.  This wouldn't
+ *  have been possible without all of you.
+ *
+ *  COPYRIGHT NOTICE:
+ * 
+ *  This software and documentation is provided "as is," and
+ *  the copyright holders and contributing author(s) make no
+ *  representations or warranties, express or implied, including
+ *  but not limited to, warranties of merchantability or fitness
+ *  for any particular purpose or that the use of the software or
+ *  documentation will not infringe any third party patents,
+ *  copyrights, trademarks or other rights. 
+ *
+ *  The copyright holders and contributing author(s) will not be
+ *  liable for any direct, indirect, special or consequential damages
+ *  arising out of any use of the software or documentation, even if
+ *  advised of the possibility of such damage.
+ *
+ *  Permission is hereby granted to use, copy, modify, and distribute
+ *  this source code, or portions hereof, documentation and executables,
+ *  for any purpose, without fee, subject to the following restrictions:
+ *
+ *  1. The origin of this source code must not be misrepresented.
+ *  2. Altered versions must be plainly marked as such and must
+ *     not be misrepresented as being the original source.
+ *  3. This Copyright notice may not be removed or altered from any
+ *     source or altered source distribution.
+ * 
+ *  The copyright holders and contributing author(s) specifically
+ *  permit, without fee, and encourage the use of this source code
+ *  as a component for supporting the Hypertext Markup Language in
+ *  commercial products. If you use this source code in a product,
+ *  acknowledgment is not required but would be appreciated.
+ *
+ */
 package org.w3c.tidy;
 
 import java.io.FileInputStream;
@@ -64,10 +64,11 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.Properties;
 
+
 /**
  * HTML parser and pretty printer.
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
+ * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
+ * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @version $Revision$ ($Author$)
  */
 public class Tidy implements Serializable
@@ -87,9 +88,39 @@ public class Tidy implements Serializable
     private int parseErrors;
     private int parseWarnings;
 
+    private Report report;
+
     public Tidy()
     {
-        init();
+        this.report = new Report();
+        configuration = new Configuration(this.report);
+        if (configuration == null)
+        {
+            return;
+        }
+
+        AttributeTable at = AttributeTable.getDefaultAttributeTable();
+        if (at == null)
+        {
+            return;
+        }
+        TagTable tt = new TagTable();
+        if (tt == null)
+        {
+            return;
+        }
+        tt.setConfiguration(configuration);
+        configuration.tt = tt;
+        EntityTable et = EntityTable.getDefaultEntityTable();
+        if (et == null)
+        {
+            return;
+        }
+
+        configuration.errfile = null;
+        stderr = new PrintWriter(System.err, true);
+        errout = stderr;
+        initialized = true;
     }
 
     public Configuration getConfiguration()
@@ -678,8 +709,8 @@ public class Tidy implements Serializable
     }
 
     /**
-     * DocType - user specified doctype omit | auto | strict | loose |<i>fpi</i> where the <i>fpi</i> is a string
-     * similar to &quot;-//ACME//DTD HTML 3.14159//EN&quot; Note: for <i>fpi</i> include the double-quotes in the
+     * DocType - user specified doctype omit | auto | strict | loose | <i>fpi </i> where the <i>fpi </i> is a string
+     * similar to &quot;-//ACME//DTD HTML 3.14159//EN&quot; Note: for <i>fpi </i> include the double-quotes in the
      * string.
      * @see Configuration#docTypeStr
      * @see Configuration#docTypeMode
@@ -774,7 +805,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * KeepFileTimes - if true last modified time is preserved <strong>this is NOT supported at this time.</strong>
+     * KeepFileTimes - if true last modified time is preserved <strong>this is NOT supported at this time. </strong>
      * @see Configuration#keepFileTimes
      */
     public void setKeepFileTimes(boolean keepFileTimes)
@@ -890,41 +921,6 @@ public class Tidy implements Serializable
     }
 
     /**
-     * first time initialization which should precede reading the command line
-     */
-    private void init()
-    {
-        configuration = new Configuration();
-        if (configuration == null)
-        {
-            return;
-        }
-
-        AttributeTable at = AttributeTable.getDefaultAttributeTable();
-        if (at == null)
-        {
-            return;
-        }
-        TagTable tt = new TagTable();
-        if (tt == null)
-        {
-            return;
-        }
-        tt.setConfiguration(configuration);
-        configuration.tt = tt;
-        EntityTable et = EntityTable.getDefaultEntityTable();
-        if (et == null)
-        {
-            return;
-        }
-
-        configuration.errfile = null;
-        stderr = new PrintWriter(System.err, true);
-        errout = stderr;
-        initialized = true;
-    }
-
-    /**
      * Parses InputStream in and returns the root Node. If out is non-null, pretty prints to OutputStream out.
      */
     public Node parse(InputStream in, OutputStream out)
@@ -954,7 +950,7 @@ public class Tidy implements Serializable
         Lexer lexer;
         Node document = null;
         Node doctype;
-        Out o = new OutImpl(); // normal output stream 
+        Out o = new OutImpl(); // normal output stream
         PPrint pprint;
 
         if (!initialized)
@@ -986,7 +982,10 @@ public class Tidy implements Serializable
 
         if (in != null)
         {
-            lexer = new Lexer(new StreamInImpl(in, configuration.charEncoding, configuration.tabsize), configuration);
+            lexer = new Lexer(
+                new StreamInImpl(in, configuration.charEncoding, configuration.tabsize),
+                configuration,
+                this.report);
             lexer.errout = errout;
 
             // store pointer to lexer in input stream to allow character encoding errors to be reported
@@ -1002,14 +1001,14 @@ public class Tidy implements Serializable
                 lexer.warnings = 0;
                 if (!configuration.quiet)
                 {
-                    Report.helloMessage(errout, Report.RELEASE_DATE, inputStreamName);
+                    this.report.helloMessage(errout, this.report.RELEASE_DATE, inputStreamName);
                 }
 
                 document = ParserImpl.parseDocument(lexer);
 
                 if (!document.checkNodeIntegrity())
                 {
-                    Report.badTree(errout);
+                    this.report.badTree(errout);
                     return null;
                 }
 
@@ -1045,14 +1044,14 @@ public class Tidy implements Serializable
 
                 if (!document.checkNodeIntegrity())
                 {
-                    Report.badTree(errout);
+                    this.report.badTree(errout);
                     return null;
                 }
                 doctype = document.findDocType();
                 if (document.content != null)
                 {
-                    Report.reportVersion(errout, lexer, inputStreamName, doctype);
-                    
+                    this.report.reportVersion(errout, lexer, inputStreamName, doctype);
+
                     if (configuration.xHTML)
                     {
                         lexer.setXHTMLDocType(document);
@@ -1076,8 +1075,8 @@ public class Tidy implements Serializable
 
                 if (!configuration.quiet && document.content != null)
                 {
-                    // Report.reportVersion(errout, lexer, inputStreamName, doctype);
-                    Report.reportNumWarnings(errout, lexer);
+                    // this.report.reportVersion(errout, lexer, inputStreamName, doctype);
+                    this.report.reportNumWarnings(errout, lexer);
                 }
             }
 
@@ -1099,7 +1098,7 @@ public class Tidy implements Serializable
 
             if (lexer.errors > 0)
             {
-                Report.needsAuthorIntervention(errout);
+                this.report.needsAuthorIntervention(errout);
             }
 
             o.state = StreamIn.FSM_ASCII;
@@ -1113,7 +1112,7 @@ public class Tidy implements Serializable
 
                     body = null;
                     // remove doctype to avoid potential clash with markup introduced when bursting into slides
-                    
+
                     // discard the document type
                     doctype = document.findDocType();
 
@@ -1141,12 +1140,12 @@ public class Tidy implements Serializable
                     if (body != null)
                     {
                         pprint = new PPrint(configuration);
-                        Report.reportNumberOfSlides(errout, pprint.countSlides(body));
+                        this.report.reportNumberOfSlides(errout, pprint.countSlides(body));
                         pprint.createSlides(lexer, document);
                     }
                     else
                     {
-                        Report.missingBody(errout);
+                        this.report.missingBody(errout);
                     }
                 }
                 else if (configuration.writeback && (file != null))
@@ -1192,7 +1191,7 @@ public class Tidy implements Serializable
 
             }
 
-            Report.errorSummary(lexer);
+            this.report.errorSummary(lexer);
         }
         return document;
     }
@@ -1273,7 +1272,8 @@ public class Tidy implements Serializable
      */
     public static void main(String[] argv)
     {
-        int returnCode = Tidy.mainExec(argv);
+        Tidy tidy = new Tidy();
+        int returnCode = tidy.mainExec(argv);
         System.exit(returnCode);
     }
 
@@ -1283,7 +1283,7 @@ public class Tidy implements Serializable
      * @param argv command line parameters
      * @return return code
      */
-    protected static int mainExec(String[] argv)
+    protected int mainExec(String[] argv)
     {
         int totalerrors = 0;
         int totalwarnings = 0;
@@ -1293,13 +1293,9 @@ public class Tidy implements Serializable
         String s;
         int argc = argv.length + 1;
         int argIndex = 0;
-        Tidy tidy;
-        Configuration configuration;
         String arg;
         String current_errorfile = "stderr";
 
-        tidy = new Tidy();
-        configuration = tidy.getConfiguration();
 
         // read command line
 
@@ -1394,7 +1390,7 @@ public class Tidy implements Serializable
                 }
                 else if (arg.equals("help") || argv[argIndex].charAt(1) == '?' || argv[argIndex].charAt(1) == 'h')
                 {
-                    Report.helpText(new PrintWriter(System.out, true), prog);
+                    this.report.helpText(new PrintWriter(System.out, true), prog);
                     return 1;
                 }
                 else if (arg.equals("config"))
@@ -1406,8 +1402,8 @@ public class Tidy implements Serializable
                         ++argIndex;
                     }
                 }
-                else if (
-                    argv[argIndex].equals("-file") || argv[argIndex].equals("--file") || argv[argIndex].equals("-f"))
+                else if (argv[argIndex].equals("-file") || argv[argIndex].equals("--file")
+                    || argv[argIndex].equals("-f"))
                 {
                     if (argc >= 3)
                     {
@@ -1416,8 +1412,8 @@ public class Tidy implements Serializable
                         ++argIndex;
                     }
                 }
-                else if (
-                    argv[argIndex].equals("-wrap") || argv[argIndex].equals("--wrap") || argv[argIndex].equals("-w"))
+                else if (argv[argIndex].equals("-wrap") || argv[argIndex].equals("--wrap")
+                    || argv[argIndex].equals("-w"))
                 {
                     if (argc >= 3)
                     {
@@ -1426,12 +1422,10 @@ public class Tidy implements Serializable
                         ++argIndex;
                     }
                 }
-                else if (
-                    argv[argIndex].equals("-version")
-                        || argv[argIndex].equals("--version")
-                        || argv[argIndex].equals("-v"))
+                else if (argv[argIndex].equals("-version") || argv[argIndex].equals("--version")
+                    || argv[argIndex].equals("-v"))
                 {
-                    Report.showVersion(tidy.getErrout());
+                    this.report.showVersion(errout);
                     return 0;
                 }
                 else
@@ -1475,7 +1469,7 @@ public class Tidy implements Serializable
                         }
                         else
                         {
-                            Report.unknownOption(tidy.getErrout(), s.charAt(i));
+                            this.report.unknownOption(this.errout, s.charAt(i));
                         }
                     }
                 }
@@ -1496,22 +1490,22 @@ public class Tidy implements Serializable
                 {
                     // no so close previous error file
 
-                    if (tidy.getErrout() != tidy.getStderr())
+                    if (this.errout != this.stderr)
                     {
-                        tidy.getErrout().close();
+                        this.errout.close();
                     }
 
                     // and try to open the new error file
                     try
                     {
-                        tidy.setErrout(new PrintWriter(new FileWriter(configuration.errfile), true));
+                        this.setErrout(new PrintWriter(new FileWriter(configuration.errfile), true));
                         current_errorfile = configuration.errfile;
                     }
                     catch (IOException e)
                     {
                         // can't be opened so fall back to stderr
                         current_errorfile = "stderr";
-                        tidy.setErrout(tidy.getStderr());
+                        this.setErrout(stderr);
                     }
                 }
             }
@@ -1527,17 +1521,17 @@ public class Tidy implements Serializable
 
             try
             {
-                document = tidy.parse(null, file, System.out);
-                totalwarnings += tidy.parseWarnings;
-                totalerrors += tidy.parseErrors;
+                document = parse(null, file, System.out);
+                totalwarnings += this.parseWarnings;
+                totalerrors += this.parseErrors;
             }
             catch (FileNotFoundException fnfe)
             {
-                Report.unknownFile(tidy.getErrout(), prog, file);
+                this.report.unknownFile(this.errout, prog, file);
             }
             catch (IOException ioe)
             {
-                Report.unknownFile(tidy.getErrout(), prog, file);
+                this.report.unknownFile(this.errout, prog, file);
             }
 
             --argc;
@@ -1551,12 +1545,12 @@ public class Tidy implements Serializable
 
         if (totalerrors + totalwarnings > 0)
         {
-            Report.generalInfo(tidy.getErrout());
+            this.report.generalInfo(this.errout);
         }
 
-        if (tidy.getErrout() != tidy.getStderr())
+        if (this.errout != this.stderr)
         {
-            tidy.getErrout().close();
+            this.errout.close();
         }
 
         // return status can be used by scripts

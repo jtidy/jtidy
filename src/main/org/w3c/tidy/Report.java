@@ -178,31 +178,31 @@ public final class Report
     /**
      * don't instantiate.
      */
-    private Report() {
+    protected Report() {
     }
 
-    public static void tidyPrint(PrintWriter p, String msg)
+    public void tidyPrint(PrintWriter p, String msg)
     {
         p.print(msg);
     }
 
-    public static void tidyPrintln(PrintWriter p, String msg)
+    public void tidyPrintln(PrintWriter p, String msg)
     {
         p.println(msg);
     }
 
-    public static void tidyPrintln(PrintWriter p)
+    public void tidyPrintln(PrintWriter p)
     {
         p.println();
     }
 
-    public static void showVersion(PrintWriter p)
+    public void showVersion(PrintWriter p)
     {
         tidyPrintln(p, "Java HTML Tidy release date: " + RELEASE_DATE);
         tidyPrintln(p, "See http://www.w3.org/People/Raggett for details");
     }
 
-    public static void tag(Lexer lexer, Node tag)
+    public void tag(Lexer lexer, Node tag)
     {
         if (tag != null)
         {
@@ -230,7 +230,7 @@ public final class Report
     }
 
     /* lexer is not defined when this is called */
-    public static void unknownOption(String option)
+    public void unknownOption(String option)
     {
         optionerrors++;
         try
@@ -244,7 +244,7 @@ public final class Report
     }
 
     /* lexer is not defined when this is called */
-    public static void badArgument(String option)
+    public void badArgument(String option)
     {
         optionerrors++;
         try
@@ -257,7 +257,7 @@ public final class Report
         }
     }
 
-    public static void position(Lexer lexer)
+    public void position(Lexer lexer)
     {
         try
         {
@@ -281,7 +281,7 @@ public final class Report
         }
     }
 
-    public static void encodingError(Lexer lexer, short code, int c)
+    public void encodingError(Lexer lexer, short code, int c)
     {
         lexer.warnings++;
 
@@ -307,7 +307,7 @@ public final class Report
         }
     }
 
-    public static void entityError(Lexer lexer, short code, String entity, int c)
+    public void entityError(Lexer lexer, short code, String entity, int c)
     {
         lexer.warnings++;
 
@@ -355,7 +355,7 @@ public final class Report
         }
     }
 
-    public static void attrError(Lexer lexer, Node node, String attr, short code)
+    public void attrError(Lexer lexer, Node node, String attr, short code)
     {
         lexer.warnings++;
 
@@ -573,7 +573,7 @@ public final class Report
         }
     }
 
-    public static void warning(Lexer lexer, Node element, Node node, short code)
+    public void warning(Lexer lexer, Node element, Node node, short code)
     {
 
         TagTable tt = lexer.configuration.tt;
@@ -1043,7 +1043,7 @@ public final class Report
         }
     }
 
-    public static void error(Lexer lexer, Node element, Node node, short code)
+    public void error(Lexer lexer, Node element, Node node, short code)
     {
         lexer.warnings++;
 
@@ -1120,7 +1120,7 @@ public final class Report
         tidyPrintln(lexer.errout);
     }
 
-    public static void errorSummary(Lexer lexer)
+    public void errorSummary(Lexer lexer)
     {
         /* adjust badAccess to that its null if frames are ok */
         if ((lexer.badAccess & (USING_FRAMES | USING_NOFRAMES)) != 0)
@@ -1295,7 +1295,7 @@ public final class Report
         }
     }
 
-    public static void unknownOption(PrintWriter errout, char c)
+    public void unknownOption(PrintWriter errout, char c)
     {
         try
         {
@@ -1308,7 +1308,7 @@ public final class Report
         }
     }
 
-    public static void unknownFile(PrintWriter errout, String program, String file)
+    public void unknownFile(PrintWriter errout, String program, String file)
     {
         try
         {
@@ -1320,7 +1320,7 @@ public final class Report
         }
     }
 
-    public static void needsAuthorIntervention(PrintWriter errout)
+    public void needsAuthorIntervention(PrintWriter errout)
     {
         try
         {
@@ -1332,7 +1332,7 @@ public final class Report
         }
     }
 
-    public static void missingBody(PrintWriter errout)
+    public void missingBody(PrintWriter errout)
     {
         try
         {
@@ -1344,7 +1344,7 @@ public final class Report
         }
     }
 
-    public static void reportNumberOfSlides(PrintWriter errout, int count)
+    public void reportNumberOfSlides(PrintWriter errout, int count)
     {
         try
         {
@@ -1356,7 +1356,7 @@ public final class Report
         }
     }
 
-    public static void generalInfo(PrintWriter errout)
+    public void generalInfo(PrintWriter errout)
     {
         try
         {
@@ -1368,7 +1368,7 @@ public final class Report
         }
     }
 
-    public static void helloMessage(PrintWriter errout, String date, String filename)
+    public void helloMessage(PrintWriter errout, String date, String filename)
     {
         currentFile = filename; /* for use with Gnu Emacs */
 
@@ -1382,7 +1382,7 @@ public final class Report
         }
     }
 
-    public static void reportVersion(PrintWriter errout, Lexer lexer, String filename, Node doctype)
+    public void reportVersion(PrintWriter errout, Lexer lexer, String filename, Node doctype)
     {
         int i, c;
         int state = 0;
@@ -1428,7 +1428,7 @@ public final class Report
         }
     }
 
-    public static void reportNumWarnings(PrintWriter errout, Lexer lexer)
+    public void reportNumWarnings(PrintWriter errout, Lexer lexer)
     {
         if (lexer.warnings > 0)
         {
@@ -1455,7 +1455,7 @@ public final class Report
         }
     }
 
-    public static void helpText(PrintWriter out, String prog)
+    public void helpText(PrintWriter out, String prog)
     {
         try
         {
@@ -1467,7 +1467,7 @@ public final class Report
         }
     }
 
-    public static void badTree(PrintWriter errout)
+    public void badTree(PrintWriter errout)
     {
         try
         {
