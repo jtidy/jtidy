@@ -475,6 +475,7 @@ public class StreamInImpl implements StreamIn
         readRawBytesFromStream(tempchar, count, false);
         if (count[0] <= 0)
         {
+            endOfStream = true;
             return END_OF_STREAM;
         }
 
@@ -493,6 +494,7 @@ public class StreamInImpl implements StreamIn
             if (c == END_OF_STREAM)
             {
                 lookingForBOM = false;
+                endOfStream = true;
                 return END_OF_STREAM;
             }
 
@@ -637,6 +639,7 @@ public class StreamInImpl implements StreamIn
             readRawBytesFromStream(tempchar, count, false);
             if (count[0] <= 0)
             {
+                endOfStream = true;
                 return END_OF_STREAM;
             }
             c1 = tempchar[0];
@@ -655,6 +658,7 @@ public class StreamInImpl implements StreamIn
             readRawBytesFromStream(tempchar, count, false);
             if (count[0] <= 0)
             {
+                endOfStream = true;
                 return END_OF_STREAM;
             }
             c1 = tempchar[0];
@@ -673,6 +677,7 @@ public class StreamInImpl implements StreamIn
             boolean err = EncodingUtils.decodeUTF8BytesToChar(n, c, new byte[0], this.getBytes, count2, 0);
             if (!err && (n[0] == END_OF_STREAM) && (count2[0] == 1)) /* EOF */
             {
+                endOfStream = true;
                 return END_OF_STREAM;
             }
             else if (err)
@@ -714,6 +719,7 @@ public class StreamInImpl implements StreamIn
 
                 if (count[0] <= 0)
                 {
+                    endOfStream = true;
                     return END_OF_STREAM;
                 }
 

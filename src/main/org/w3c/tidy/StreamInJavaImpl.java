@@ -156,18 +156,9 @@ public class StreamInJavaImpl implements StreamIn
         {
             // @todo how to handle?
             endOfStream = true;
-            return -1;
+            return END_OF_STREAM;
         }
 
-        if (c == '\n')
-        {
-            curcol = 1;
-            curline++;
-        }
-        else if (c == '\t')
-        {
-            curcol += tabsize - (curcol % tabsize);
-        }
         return c;
     }
 
@@ -210,6 +201,7 @@ public class StreamInJavaImpl implements StreamIn
 
         if (c < 0)
         {
+            endOfStream = true;
             return END_OF_STREAM;
         }
 
@@ -219,7 +211,7 @@ public class StreamInJavaImpl implements StreamIn
             this.curline++;
             return c;
         }
-        else if (c == '\r')
+        else if (c == '\r') // \r\n
         {
             c = readCharFromStream();
             if (c != '\n')
