@@ -8,16 +8,20 @@ DATE=`date`
 . .shrc
 
 mkdir jtidy
-cd tidy
+cd jtidy
 
 echo "*** getting sources from cvs ***"
 cvs -d $CVSREPO login 
-cvs -d $CVSREPO co all
+cvs -Q -d $CVSREPO co all 
+
+
+
 cd jtidy
 
 echo "*** start build ***"
-maven -e -o nightly
+maven -eo nightly
+
 
 echo "*** removing work dir ***"
 cd ../..
-rm -Rf tidy
+rm -Rf jtidy

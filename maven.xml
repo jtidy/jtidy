@@ -3,8 +3,9 @@
 
     <goal name="rebuild-all" prereqs="pom,clean,ant,dist" />
 
-    <goal name="nightly" prereqs="multiproject:clean,multiproject:install,dist" />
-    <!-- multiproject:site-deploy -->
+    <goal name="nightly"
+        prereqs="multiproject:clean,multiproject:install,dist,multiproject:site,copy-snapshots, site:sshdeploy" />
+
     <preGoal name="dist:prepare-src-filesystem">
         <attainGoal name="ant" />
     </preGoal>
@@ -17,15 +18,22 @@
         </copy>
     </postGoal>
 
-    <preGoal name="site:sshdeploy">
+    <goal name="copy-snapshots">
         <mkdir dir="${maven.build.dir}/docs/nightly" />
         <copy todir="${maven.build.dir}/docs/nightly">
+            <fileset dir="${maven.build.dir}/distributions" />
+            <fileset dir="../jtidyservlet/target">
+                <include name="*.jar" />
+            </fileset>
+            <fileset dir="../jtidyservlet-webapp/target">
+                <include name="*.war" />
+            </fileset>
             <fileset dir="${maven.build.dir}/distributions" />
         </copy>
         <mkdir dir="${maven.build.dir}/docs/maven" />
         <copy file="${maven.build.dir}/${pom.artifactId}-${pom.currentVersion}.jar"
             todir="${maven.build.dir}/docs/maven/${pom.groupId}/jars" />
-    </preGoal>
+    </goal>
 
 </project>
 
