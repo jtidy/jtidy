@@ -167,22 +167,15 @@ public final class ParserImpl
 
     protected static void parseTag(Lexer lexer, Node node, short mode)
     {
-        // Local fix by GLP 2000-12-21. Need to reset insertspace if this
+        // Fix by GLP 2000-12-21. Need to reset insertspace if this
         // is both a non-inline and empty tag (base, link, meta, isindex, hr, area).
-        // Remove this code once the fix is made in Tidy.
-        // if ((node.tag.model & Dict.CM_EMPTY) != 0)
-        // { lexer.waswhite = false; return; } else if (!((node.tag.model & Dict.CM_INLINE) != 0))
-        // lexer.insertspace = false;
-
-        if (!((node.tag.model & Dict.CM_INLINE) != 0))
-        {
-            lexer.insertspace = false;
-        }
-
         if ((node.tag.model & Dict.CM_EMPTY) != 0)
         {
             lexer.waswhite = false;
-            return;
+        }
+        else if (!((node.tag.model & Dict.CM_INLINE) != 0))
+        {
+            lexer.insertspace = false;
         }
 
         if (node.tag.parser == null || node.type == Node.StartEndTag)
@@ -357,7 +350,6 @@ public final class ParserImpl
                     parseTag(lexer, node, mode);
 
                     // see if it includes a noframes element so that we can merge subsequent noframes elements
-
 
                     for (node = frameset.content; node != null; node = node.next)
                     {
@@ -612,7 +604,6 @@ public final class ParserImpl
             // accordingly. This will unfortunately screw up scripts which include < + letter, < + !, < + ? or < + / +
             // letter
 
-
             Node node;
 
             node = lexer.getCDATA(script);
@@ -695,7 +686,8 @@ public final class ParserImpl
 
                 iswhitenode = false;
 
-                if (node.type == Node.TextNode && node.end <= node.start + 1
+                if (node.type == Node.TextNode
+                    && node.end <= node.start + 1
                     && node.textarray[node.start] == (byte) ' ')
                 {
                     iswhitenode = true;
@@ -1092,9 +1084,16 @@ public final class ParserImpl
                 // <u> ... <u> map 2nd <u> to </u> if 1st is explicit
                 // otherwise emphasis nesting is probably unintentional
                 // big and small have cumulative effect to leave them alone
-                if (node.type == Node.StartTag && node.tag == element.tag && lexer.isPushed(node) && !node.implicit
-                    && !element.implicit && node.tag != null && ((node.tag.model & Dict.CM_INLINE) != 0)
-                    && node.tag != tt.tagA && node.tag != tt.tagFont && node.tag != tt.tagBig
+                if (node.type == Node.StartTag
+                    && node.tag == element.tag
+                    && lexer.isPushed(node)
+                    && !node.implicit
+                    && !element.implicit
+                    && node.tag != null
+                    && ((node.tag.model & Dict.CM_INLINE) != 0)
+                    && node.tag != tt.tagA
+                    && node.tag != tt.tagFont
+                    && node.tag != tt.tagBig
                     && node.tag != tt.tagSmall)
                 {
                     if (element.content != null && node.attributes == null)
@@ -1193,8 +1192,10 @@ public final class ParserImpl
                             continue;
                         }
                     }
-                    else if ((node.tag.model & Dict.CM_INLINE) != 0 && node.tag != tt.tagA
-                        && !((node.tag.model & Dict.CM_OBJECT) != 0) && (element.tag.model & Dict.CM_INLINE) != 0)
+                    else if ((node.tag.model & Dict.CM_INLINE) != 0
+                        && node.tag != tt.tagA
+                        && !((node.tag.model & Dict.CM_OBJECT) != 0)
+                        && (element.tag.model & Dict.CM_INLINE) != 0)
                     {
                         // allow any inline end tag to end current element
                         lexer.popInline(element);
@@ -1256,7 +1257,8 @@ public final class ParserImpl
 
                 // #427827 - fix by Randy Waki and Bjoern Hoehrmann 23 Aug 00
                 // if (node.tag == tt.tagA && !node.implicit && lexer.isPushed(node))
-                if (node.tag == tt.tagA && !node.implicit
+                if (node.tag == tt.tagA
+                    && !node.implicit
                     && (element.tag == tt.tagA || element.isDescendantOf(tt.tagA)))
                 {
                     // coerce <a> to </a> unless it has some attributes
@@ -1977,7 +1979,8 @@ public final class ParserImpl
             while ((node = lexer.getToken(mode)) != null)
             {
                 // end tag for this element
-                if (node.type == Node.EndTag && node.tag != null
+                if (node.type == Node.EndTag
+                    && node.tag != null
                     && (node.tag == element.tag || element.was == node.tag))
                 {
 
@@ -2071,7 +2074,8 @@ public final class ParserImpl
                 {
                     boolean iswhitenode = false;
 
-                    if (node.type == Node.TextNode && node.end <= node.start + 1
+                    if (node.type == Node.TextNode
+                        && node.end <= node.start + 1
                         && lexer.lexbuf[node.start] == (byte) ' ')
                     {
                         iswhitenode = true;
@@ -2152,7 +2156,6 @@ public final class ParserImpl
                 // Allow Dict.CM_INLINE elements here. Allow Dict.CM_BLOCK elements here unless lexer.excludeBlocks is
                 // yes. LI and DD are special cased. Otherwise infer end tag for this element.
 
-
                 if (!((node.tag.model & Dict.CM_INLINE) != 0))
                 {
                     if (node.type != Node.StartTag && node.type != Node.StartEndTag)
@@ -2173,7 +2176,9 @@ public final class ParserImpl
 
                     if (element.tag == tt.tagLi)
                     {
-                        if (node.tag == tt.tagFrame || node.tag == tt.tagFrameset || node.tag == tt.tagOptgroup
+                        if (node.tag == tt.tagFrame
+                            || node.tag == tt.tagFrameset
+                            || node.tag == tt.tagOptgroup
                             || node.tag == tt.tagOption)
                         {
                             lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
@@ -2253,7 +2258,8 @@ public final class ParserImpl
 
                         if ((node.tag.model & Dict.CM_LIST) != 0)
                         {
-                            if (element.parent != null && element.parent.tag != null
+                            if (element.parent != null
+                                && element.parent.tag != null
                                 && element.parent.tag.parser == getParseList())
                             {
                                 Node.trimSpaces(lexer, element);
@@ -2631,7 +2637,6 @@ public final class ParserImpl
                 // if TD or TH then infer <TR> if text or inline or block move before table if head content move to
                 // head
 
-
                 if (node.type != Node.EndTag)
                 {
                     if (node.tag == tt.tagTd || node.tag == tt.tagTh)
@@ -2819,7 +2824,6 @@ public final class ParserImpl
                 }
 
                 // if text or inline or block move before table if head content move to head
-
 
                 if (node.type != Node.EndTag)
                 {
@@ -3313,7 +3317,8 @@ public final class ParserImpl
         }
 
         // kludge for html docs without explicit xml:space attribute
-        if (Lexer.wstrcasecmp(element.element, "pre") == 0 || Lexer.wstrcasecmp(element.element, "script") == 0
+        if (Lexer.wstrcasecmp(element.element, "pre") == 0
+            || Lexer.wstrcasecmp(element.element, "script") == 0
             || Lexer.wstrcasecmp(element.element, "style") == 0)
         {
             return true;
@@ -3373,7 +3378,6 @@ public final class ParserImpl
 
         // if first child is text then trim initial space and delete text node if it is empty.
 
-
         node = element.content;
 
         if (node != null && node.type == Node.TextNode && mode != Lexer.PREFORMATTED)
@@ -3390,7 +3394,6 @@ public final class ParserImpl
         }
 
         // if last child is text then trim final space and delete the text node if it is empty
-
 
         node = element.last;
 
