@@ -605,7 +605,7 @@ public class PPrint
         // The following converts dashes and quotation marks to the nearest ASCII equivalent.
         // My thanks to Andrzej Novosiolov for his help with this code.
 
-        if (this.configuration.makeClean)
+        if (this.configuration.makeClean && this.configuration.asciiChars)
         {
             if (c >= 0x2013 && c <= 0x201E)
             {
