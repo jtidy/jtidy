@@ -843,7 +843,7 @@ public final class Report
      * @param code error code
      * @param c invalid char
      */
-    public void encodingError(Lexer lexer, short code, int c)
+    public void encodingError(Lexer lexer, int code, int c)
     {
         lexer.warnings++;
 

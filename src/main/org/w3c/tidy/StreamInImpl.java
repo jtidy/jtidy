@@ -325,6 +325,60 @@ public class StreamInImpl implements StreamIn
                 break;
             }
 
+            // handle surrogate pairs
+            if ((this.encoding == Configuration.UTF16LE)
+                || (this.encoding == Configuration.UTF16)
+                || (this.encoding == Configuration.UTF16BE))
+            {
+                if (c > EncodingUtils.MAX_UTF8_FROM_UCS4)
+                {
+                    // invalid UTF-16 value
+                    this.lexer.report.encodingError(this.lexer, Report.INVALID_UTF16 | Report.DISCARDED_CHAR, c);
+                    c = 0;
+                }
+                // high surrogate
+                else if (c >= EncodingUtils.UTF16_LOW_SURROGATE_BEGIN && c <= EncodingUtils.UTF16_LOW_SURROGATE_END)
+                {
+                    int n, m;
+
+                    n = c;
+
+                    m = readCharFromStream();
+                    if (m < 0)
+                        return END_OF_STREAM;
+                    // low surrogate
+                    if (m >= EncodingUtils.UTF16_HIGH_SURROGATE_BEGIN && m <= EncodingUtils.UTF16_HIGH_SURROGATE_END)
+                    {
+                        // pair found, recombine them
+                        c = (n - EncodingUtils.UTF16_LOW_SURROGATE_BEGIN)
+                            * 0x400
+                            + (m - EncodingUtils.UTF16_HIGH_SURROGATE_BEGIN)
+                            + 0x10000;
+
+                        // check for invalid pairs
+                        if (((c & 0x0000FFFE) == 0x0000FFFE)
+                            || ((c & 0x0000FFFF) == 0x0000FFFF)
+                            || (c < EncodingUtils.UTF16_SURROGATES_BEGIN))
+                        {
+                            this.lexer.report
+                                .encodingError(this.lexer, Report.INVALID_UTF16 | Report.DISCARDED_CHAR, c);
+                            c = 0;
+                        }
+                    }
+                    else
+                    {
+                        // not a valid pair
+                        this.lexer.report.encodingError(this.lexer, Report.INVALID_UTF16 | Report.DISCARDED_CHAR, c);
+                        c = 0;
+                        // should we unget the just read char?
+                    }
+                }
+                else
+                {
+                    // false recombination needed
+                }
+            }
+
             if (this.encoding == Configuration.MACROMAN)
             {
                 c = EncodingUtils.decodeMacRoman(c);

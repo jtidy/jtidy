@@ -63,12 +63,25 @@ public final class EncodingUtils
     /**
      * utf16 low surrogate.
      */
-    private static final int LOW_UTF16_SURROGATE = 0xD800;
+    public static final int LOW_UTF16_SURROGATE = 0xD800;
+
+    public static final int UTF16_SURROGATES_BEGIN = 0x10000;
+
+    public static final int MAX_UTF16_FROM_UCS4 = 0x10FFFF;
+
+    /* UTF-16 surrogate pair areas */
+    public static final int UTF16_LOW_SURROGATE_BEGIN = 0xD800;
+
+    public static final int UTF16_LOW_SURROGATE_END = 0xDBFF;
+
+    public static final int UTF16_HIGH_SURROGATE_BEGIN = 0xDC00;
+
+    public static final int UTF16_HIGH_SURROGATE_END = 0xDFFF;
 
     /**
      * utf16 high surrogate.
      */
-    private static final int HIGH_UTF16_SURROGATE = 0xDFFF;
+    public static final int HIGH_UTF16_SURROGATE = 0xDFFF;
 
     /**
      * Utf 8 bye swap: invalid char.
@@ -677,7 +690,7 @@ public final class EncodingUtils
     /**
      * max utf8 valid char value.
      */
-    private static final int MAX_UTF8_FROM_UCS4 = 0x10FFFF;
+    public static final int MAX_UTF8_FROM_UCS4 = 0x10FFFF;
 
     /**
      * Offset for utf8 sequences.
