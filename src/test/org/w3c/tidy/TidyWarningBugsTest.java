@@ -320,7 +320,6 @@ public class TidyWarningBugsTest extends TidyTestCase
 
         executeTidyTest("438956.html");
 
-        // jtidy incorrectly reports only 1 (bad) warning: <body> isn't allowed in <body> elements
         assertWarnings(2);
     }
 
@@ -413,6 +412,23 @@ public class TidyWarningBugsTest extends TidyTestCase
 
         executeTidyTest("525081.html");
         assertNoWarnings();
+    }
+
+    /**
+     * test for Tidy [538536] : Extra endtags not detected.
+     * @throws Exception any exception generated during the test
+     */
+    public void test538536() throws Exception
+    {
+        // line 5 column 1 - Warning: content occurs after end of body
+        // line 9 column 1 - Warning: discarding unexpected </html>
+        // Info: Doctype given is "-//W3C//DTD HTML 4.01//EN"
+        // Info: Document content looks like HTML 4.01 Strict
+        // 2 warnings, 0 errors were found!
+
+        executeTidyTest("538536.html");
+        assertNoErrors();
+        assertWarnings(2);
     }
 
     /**

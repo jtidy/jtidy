@@ -118,7 +118,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyWarningBugsTest("test433670"));
         suite.addTest(new TidyWarningBugsTest("test434047"));
         suite.addTest(new TidyWarningBugsTest("test435922"));
-        suite.addTest(new TidyWarningBugsTest("test438956"));
         suite.addTest(new TidyWarningBugsTest("test446019"));
         suite.addTest(new TidyWarningBugsTest("test516370"));
         suite.addTest(new TidyWarningBugsTest("test552861"));
