@@ -76,7 +76,7 @@ public class TidyUtils
      */
     static boolean toBoolean(int value)
     {
-        return value == 1;
+        return value != 0;
     }
 
     /**
