@@ -88,7 +88,7 @@ public class Configuration implements java.io.Serializable
     protected int spaces = 2; 
     /** default wrap margin. */
     protected int wraplen = 68; 
-    protected int CharEncoding = ASCII;
+    protected int charEncoding = ASCII;
     protected int tabsize = 4;
 
     /** see doctype property. */
@@ -105,91 +105,91 @@ public class Configuration implements java.io.Serializable
     protected boolean writeback; 
 
     /** if true normal output is suppressed. */
-    protected boolean OnlyErrors; 
+    protected boolean onlyErrors; 
     /** however errors are always shown. */
-    protected boolean ShowWarnings = true;
+    protected boolean showWarnings = true;
     /** no 'Parsing X', guessed DTD or summary. */
-    protected boolean Quiet; 
+    protected boolean quiet; 
     /** indent content of appropriate tags. */
-    protected boolean IndentContent;
+    protected boolean indentContent;
     /** does text/block level content effect indentation. */
-    protected boolean SmartIndent; 
+    protected boolean smartIndent; 
     /** suppress optional end tags. */
-    protected boolean HideEndTags;
+    protected boolean hideEndTags;
     /** treat input as XML. */
-    protected boolean XmlTags;
+    protected boolean xmlTags;
     /** create output as XML. */
-    protected boolean XmlOut;
+    protected boolean xmlOut;
     /** output extensible HTML. */
     protected boolean xHTML; 
     /** add <?xml?> for XML docs. */
-    protected boolean XmlPi; 
+    protected boolean xmlPi; 
     /** avoid mapping values > 127 to entities. */
-    protected boolean RawOut; 
+    protected boolean rawOut; 
     /** output tags in upper not lower case. */
-    protected boolean UpperCaseTags; 
+    protected boolean upperCaseTags; 
     /** output attributes in upper not lower case. */
-    protected boolean UpperCaseAttrs;
+    protected boolean upperCaseAttrs;
     /** remove presentational clutter. */
-    protected boolean MakeClean; 
+    protected boolean makeClean; 
     /** replace i by em and b by strong. */
-    protected boolean LogicalEmphasis;
+    protected boolean logicalEmphasis;
     /** discard presentation tags. */
-    protected boolean DropFontTags; 
+    protected boolean dropFontTags; 
     /** discard empty p elements. */
-    protected boolean DropEmptyParas = true;
+    protected boolean dropEmptyParas = true;
     /** fix comments with adjacent hyphens. */
-    protected boolean FixComments = true;
+    protected boolean fixComments = true;
     /** o/p newline before br or not? */
-    protected boolean BreakBeforeBR; 
+    protected boolean breakBeforeBR; 
     /** create slides on each h2 element. */
-    protected boolean BurstSlides; 
+    protected boolean burstSlides; 
     /** use numeric entities. */
-    protected boolean NumEntities;
+    protected boolean numEntities;
     /** output " marks as &quot;. */
-    protected boolean QuoteMarks; 
+    protected boolean quoteMarks; 
     /** output non-breaking space as entity. */
-    protected boolean QuoteNbsp = true; 
+    protected boolean quoteNbsp = true; 
     /** output naked ampersand as &amp;. */
-    protected boolean QuoteAmpersand = true;
+    protected boolean quoteAmpersand = true;
     /** wrap within attribute values. */
-    protected boolean WrapAttVals; 
+    protected boolean wrapAttVals; 
     /** wrap within JavaScript string literals. */
-    protected boolean WrapScriptlets; 
+    protected boolean wrapScriptlets; 
     /** wrap within CDATA section tags. */
-    protected boolean WrapSection = true;
+    protected boolean wrapSection = true;
     /** wrap within ASP pseudo elements. */
-    protected boolean WrapAsp = true; 
+    protected boolean wrapAsp = true; 
     /** wrap within JSTE pseudo elements. */
-    protected boolean WrapJste = true;
+    protected boolean wrapJste = true;
     /** wrap within PHP pseudo elements. */
-    protected boolean WrapPhp = true; 
+    protected boolean wrapPhp = true; 
     /** fix URLs by replacing \ with /. */
-    protected boolean FixBackslash = true;
+    protected boolean fixBackslash = true;
     /** newline+indent before each attribute. */
-    protected boolean IndentAttributes; 
+    protected boolean indentAttributes; 
     /** if set to yes PIs must end with ?>. */
-    protected boolean XmlPIs; 
+    protected boolean xmlPIs; 
     /** if set to yes adds xml:space attr as needed. */
-    protected boolean XmlSpace; 
+    protected boolean xmlSpace; 
     /** if yes text at body is wrapped in p's. */
-    protected boolean EncloseBodyText; 
+    protected boolean encloseBodyText; 
     /** if yes text in blocks is wrapped in p's. */
-    protected boolean EncloseBlockText; 
+    protected boolean encloseBlockText; 
     /** if yes last modied time is preserved. */
-    protected boolean KeepFileTimes = true; 
+    protected boolean keepFileTimes = true; 
     /** draconian cleaning for Word2000. */
-    protected boolean Word2000; 
+    protected boolean word2000; 
     /** add meta element indicating tidied doc. */
-    protected boolean TidyMark = true;
+    protected boolean tidyMark = true;
     /** if true format error output for GNU Emacs. */
-    protected boolean Emacs; 
+    protected boolean emacs; 
     /** if true attributes may use newlines. */
-    protected boolean LiteralAttribs; 
+    protected boolean literalAttribs; 
     /** TagTable associated with this Configuration. */
     protected TagTable tt; 
 
-    private transient Properties _properties = new Properties();
+    private transient Properties properties = new Properties();
 
     public Configuration()
     {
@@ -202,7 +202,7 @@ public class Configuration implements java.io.Serializable
         {
             String key = (String) enum.nextElement();
             String value = p.getProperty(key);
-            _properties.put(key, value);
+            properties.put(key, value);
         }
         parseProps();
     }
@@ -211,7 +211,7 @@ public class Configuration implements java.io.Serializable
     {
         try
         {
-            _properties.load(new FileInputStream(filename));
+            properties.load(new FileInputStream(filename));
         }
         catch (IOException e)
         {
@@ -225,344 +225,344 @@ public class Configuration implements java.io.Serializable
     {
         String value;
 
-        value = _properties.getProperty("indent-spaces");
+        value = properties.getProperty("indent-spaces");
         if (value != null)
         {
             spaces = parseInt(value, "indent-spaces");
         }
 
-        value = _properties.getProperty("wrap");
+        value = properties.getProperty("wrap");
         if (value != null)
         {
             wraplen = parseInt(value, "wrap");
         }
 
-        value = _properties.getProperty("wrap-attributes");
+        value = properties.getProperty("wrap-attributes");
         if (value != null)
         {
-            WrapAttVals = parseBool(value, "wrap-attributes");
+            wrapAttVals = parseBool(value, "wrap-attributes");
         }
 
-        value = _properties.getProperty("wrap-script-literals");
+        value = properties.getProperty("wrap-script-literals");
         if (value != null)
         {
-            WrapScriptlets = parseBool(value, "wrap-script-literals");
+            wrapScriptlets = parseBool(value, "wrap-script-literals");
         }
 
-        value = _properties.getProperty("wrap-sections");
+        value = properties.getProperty("wrap-sections");
         if (value != null)
         {
-            WrapSection = parseBool(value, "wrap-sections");
+            wrapSection = parseBool(value, "wrap-sections");
         }
 
-        value = _properties.getProperty("wrap-asp");
+        value = properties.getProperty("wrap-asp");
         if (value != null)
         {
-            WrapAsp = parseBool(value, "wrap-asp");
+            wrapAsp = parseBool(value, "wrap-asp");
         }
 
-        value = _properties.getProperty("wrap-jste");
+        value = properties.getProperty("wrap-jste");
         if (value != null)
         {
-            WrapJste = parseBool(value, "wrap-jste");
+            wrapJste = parseBool(value, "wrap-jste");
         }
 
-        value = _properties.getProperty("wrap-php");
+        value = properties.getProperty("wrap-php");
         if (value != null)
         {
-            WrapPhp = parseBool(value, "wrap-php");
+            wrapPhp = parseBool(value, "wrap-php");
         }
 
-        value = _properties.getProperty("literal-attributes");
+        value = properties.getProperty("literal-attributes");
         if (value != null)
         {
-            LiteralAttribs = parseBool(value, "literal-attributes");
+            literalAttribs = parseBool(value, "literal-attributes");
         }
 
-        value = _properties.getProperty("tab-size");
+        value = properties.getProperty("tab-size");
         if (value != null)
         {
             tabsize = parseInt(value, "tab-size");
         }
 
-        value = _properties.getProperty("markup");
+        value = properties.getProperty("markup");
         if (value != null)
         {
-            OnlyErrors = parseInvBool(value, "markup");
+            onlyErrors = parseInvBool(value, "markup");
         }
 
-        value = _properties.getProperty("quiet");
+        value = properties.getProperty("quiet");
         if (value != null)
         {
-            Quiet = parseBool(value, "quiet");
+            quiet = parseBool(value, "quiet");
         }
 
-        value = _properties.getProperty("tidy-mark");
+        value = properties.getProperty("tidy-mark");
         if (value != null)
         {
-            TidyMark = parseBool(value, "tidy-mark");
+            tidyMark = parseBool(value, "tidy-mark");
         }
 
-        value = _properties.getProperty("indent");
+        value = properties.getProperty("indent");
         if (value != null)
         {
-            IndentContent = parseIndent(value, "indent");
+            indentContent = parseIndent(value, "indent");
         }
 
-        value = _properties.getProperty("indent-attributes");
+        value = properties.getProperty("indent-attributes");
         if (value != null)
         {
-            IndentAttributes = parseBool(value, "indent-attributes");
+            indentAttributes = parseBool(value, "indent-attributes");
         }
 
-        value = _properties.getProperty("hide-endtags");
+        value = properties.getProperty("hide-endtags");
         if (value != null)
         {
-            HideEndTags = parseBool(value, "hide-endtags");
+            hideEndTags = parseBool(value, "hide-endtags");
         }
 
-        value = _properties.getProperty("input-xml");
+        value = properties.getProperty("input-xml");
         if (value != null)
         {
-            XmlTags = parseBool(value, "input-xml");
+            xmlTags = parseBool(value, "input-xml");
         }
 
-        value = _properties.getProperty("output-xml");
+        value = properties.getProperty("output-xml");
         if (value != null)
         {
-            XmlOut = parseBool(value, "output-xml");
+            xmlOut = parseBool(value, "output-xml");
         }
 
-        value = _properties.getProperty("output-xhtml");
+        value = properties.getProperty("output-xhtml");
         if (value != null)
         {
             xHTML = parseBool(value, "output-xhtml");
         }
 
-        value = _properties.getProperty("add-xml-pi");
+        value = properties.getProperty("add-xml-pi");
         if (value != null)
         {
-            XmlPi = parseBool(value, "add-xml-pi");
+            xmlPi = parseBool(value, "add-xml-pi");
         }
 
-        value = _properties.getProperty("add-xml-decl");
+        value = properties.getProperty("add-xml-decl");
         if (value != null)
         {
-            XmlPi = parseBool(value, "add-xml-decl");
+            xmlPi = parseBool(value, "add-xml-decl");
         }
 
-        value = _properties.getProperty("assume-xml-procins");
+        value = properties.getProperty("assume-xml-procins");
         if (value != null)
         {
-            XmlPIs = parseBool(value, "assume-xml-procins");
+            xmlPIs = parseBool(value, "assume-xml-procins");
         }
 
-        value = _properties.getProperty("raw");
+        value = properties.getProperty("raw");
         if (value != null)
         {
-            RawOut = parseBool(value, "raw");
+            rawOut = parseBool(value, "raw");
         }
 
-        value = _properties.getProperty("uppercase-tags");
+        value = properties.getProperty("uppercase-tags");
         if (value != null)
         {
-            UpperCaseTags = parseBool(value, "uppercase-tags");
+            upperCaseTags = parseBool(value, "uppercase-tags");
         }
 
-        value = _properties.getProperty("uppercase-attributes");
+        value = properties.getProperty("uppercase-attributes");
         if (value != null)
         {
-            UpperCaseAttrs = parseBool(value, "uppercase-attributes");
+            upperCaseAttrs = parseBool(value, "uppercase-attributes");
         }
 
-        value = _properties.getProperty("clean");
+        value = properties.getProperty("clean");
         if (value != null)
         {
-            MakeClean = parseBool(value, "clean");
+            makeClean = parseBool(value, "clean");
         }
 
-        value = _properties.getProperty("logical-emphasis");
+        value = properties.getProperty("logical-emphasis");
         if (value != null)
         {
-            LogicalEmphasis = parseBool(value, "logical-emphasis");
+            logicalEmphasis = parseBool(value, "logical-emphasis");
         }
 
-        value = _properties.getProperty("word-2000");
+        value = properties.getProperty("word-2000");
         if (value != null)
         {
-            Word2000 = parseBool(value, "word-2000");
+            word2000 = parseBool(value, "word-2000");
         }
 
-        value = _properties.getProperty("drop-empty-paras");
+        value = properties.getProperty("drop-empty-paras");
         if (value != null)
         {
-            DropEmptyParas = parseBool(value, "drop-empty-paras");
+            dropEmptyParas = parseBool(value, "drop-empty-paras");
         }
 
-        value = _properties.getProperty("drop-font-tags");
+        value = properties.getProperty("drop-font-tags");
         if (value != null)
         {
-            DropFontTags = parseBool(value, "drop-font-tags");
+            dropFontTags = parseBool(value, "drop-font-tags");
         }
 
-        value = _properties.getProperty("enclose-text");
+        value = properties.getProperty("enclose-text");
         if (value != null)
         {
-            EncloseBodyText = parseBool(value, "enclose-text");
+            encloseBodyText = parseBool(value, "enclose-text");
         }
 
-        value = _properties.getProperty("enclose-block-text");
+        value = properties.getProperty("enclose-block-text");
         if (value != null)
         {
-            EncloseBlockText = parseBool(value, "enclose-block-text");
+            encloseBlockText = parseBool(value, "enclose-block-text");
         }
 
-        value = _properties.getProperty("alt-text");
+        value = properties.getProperty("alt-text");
         if (value != null)
         {
             altText = value;
         }
 
-        value = _properties.getProperty("add-xml-space");
+        value = properties.getProperty("add-xml-space");
         if (value != null)
         {
-            XmlSpace = parseBool(value, "add-xml-space");
+            xmlSpace = parseBool(value, "add-xml-space");
         }
 
-        value = _properties.getProperty("fix-bad-comments");
+        value = properties.getProperty("fix-bad-comments");
         if (value != null)
         {
-            FixComments = parseBool(value, "fix-bad-comments");
+            fixComments = parseBool(value, "fix-bad-comments");
         }
 
-        value = _properties.getProperty("split");
+        value = properties.getProperty("split");
         if (value != null)
         {
-            BurstSlides = parseBool(value, "split");
+            burstSlides = parseBool(value, "split");
         }
 
-        value = _properties.getProperty("break-before-br");
+        value = properties.getProperty("break-before-br");
         if (value != null)
         {
-            BreakBeforeBR = parseBool(value, "break-before-br");
+            breakBeforeBR = parseBool(value, "break-before-br");
         }
 
-        value = _properties.getProperty("numeric-entities");
+        value = properties.getProperty("numeric-entities");
         if (value != null)
         {
-            NumEntities = parseBool(value, "numeric-entities");
+            numEntities = parseBool(value, "numeric-entities");
         }
 
-        value = _properties.getProperty("quote-marks");
+        value = properties.getProperty("quote-marks");
         if (value != null)
         {
-            QuoteMarks = parseBool(value, "quote-marks");
+            quoteMarks = parseBool(value, "quote-marks");
         }
 
-        value = _properties.getProperty("quote-nbsp");
+        value = properties.getProperty("quote-nbsp");
         if (value != null)
         {
-            QuoteNbsp = parseBool(value, "quote-nbsp");
+            quoteNbsp = parseBool(value, "quote-nbsp");
         }
 
-        value = _properties.getProperty("quote-ampersand");
+        value = properties.getProperty("quote-ampersand");
         if (value != null)
         {
-            QuoteAmpersand = parseBool(value, "quote-ampersand");
+            quoteAmpersand = parseBool(value, "quote-ampersand");
         }
 
-        value = _properties.getProperty("write-back");
+        value = properties.getProperty("write-back");
         if (value != null)
         {
             writeback = parseBool(value, "write-back");
         }
 
-        value = _properties.getProperty("keep-time");
+        value = properties.getProperty("keep-time");
         if (value != null)
         {
-            KeepFileTimes = parseBool(value, "keep-time");
+            keepFileTimes = parseBool(value, "keep-time");
         }
 
-        value = _properties.getProperty("show-warnings");
+        value = properties.getProperty("show-warnings");
         if (value != null)
         {
-            ShowWarnings = parseBool(value, "show-warnings");
+            showWarnings = parseBool(value, "show-warnings");
         }
 
-        value = _properties.getProperty("error-file");
+        value = properties.getProperty("error-file");
         if (value != null)
         {
             errfile = parseName(value, "error-file");
         }
 
-        value = _properties.getProperty("slide-style");
+        value = properties.getProperty("slide-style");
         if (value != null)
         {
             slidestyle = parseName(value, "slide-style");
         }
 
-        value = _properties.getProperty("new-inline-tags");
+        value = properties.getProperty("new-inline-tags");
         if (value != null)
         {
             parseInlineTagNames(value, "new-inline-tags");
         }
 
-        value = _properties.getProperty("new-blocklevel-tags");
+        value = properties.getProperty("new-blocklevel-tags");
         if (value != null)
         {
             parseBlockTagNames(value, "new-blocklevel-tags");
         }
 
-        value = _properties.getProperty("new-empty-tags");
+        value = properties.getProperty("new-empty-tags");
         if (value != null)
         {
             parseEmptyTagNames(value, "new-empty-tags");
         }
 
-        value = _properties.getProperty("new-pre-tags");
+        value = properties.getProperty("new-pre-tags");
         if (value != null)
         {
             parsePreTagNames(value, "new-pre-tags");
         }
 
-        value = _properties.getProperty("char-encoding");
+        value = properties.getProperty("char-encoding");
         if (value != null)
         {
-            CharEncoding = parseCharEncoding(value, "char-encoding");
+            charEncoding = parseCharEncoding(value, "char-encoding");
         }
 
-        value = _properties.getProperty("doctype");
+        value = properties.getProperty("doctype");
         if (value != null)
         {
             docTypeStr = parseDocType(value, "doctype");
         }
 
-        value = _properties.getProperty("fix-backslash");
+        value = properties.getProperty("fix-backslash");
         if (value != null)
         {
-            FixBackslash = parseBool(value, "fix-backslash");
+            fixBackslash = parseBool(value, "fix-backslash");
         }
 
-        value = _properties.getProperty("gnu-emacs");
+        value = properties.getProperty("gnu-emacs");
         if (value != null)
         {
-            Emacs = parseBool(value, "gnu-emacs");
+            emacs = parseBool(value, "gnu-emacs");
         }
     }
 
     /* ensure that config is self consistent */
     public void adjust()
     {
-        if (EncloseBlockText)
+        if (encloseBlockText)
         {
-            EncloseBodyText = true;
+            encloseBodyText = true;
         }
 
         /* avoid the need to set IndentContent when SmartIndent is set */
 
-        if (SmartIndent)
+        if (smartIndent)
         {
-            IndentContent = true;
+            indentContent = true;
         }
 
         /* disable wrapping */
@@ -572,7 +572,7 @@ public class Configuration implements java.io.Serializable
         }
 
         /* Word 2000 needs o:p to be declared as inline */
-        if (Word2000)
+        if (word2000)
         {
             tt.defineInlineTag("o:p");
         }
@@ -580,23 +580,23 @@ public class Configuration implements java.io.Serializable
         /* XHTML is written in lower case */
         if (xHTML)
         {
-            XmlOut = true;
-            UpperCaseTags = false;
-            UpperCaseAttrs = false;
+            xmlOut = true;
+            upperCaseTags = false;
+            upperCaseAttrs = false;
         }
 
         /* if XML in, then XML out */
-        if (XmlTags)
+        if (xmlTags)
         {
-            XmlOut = true;
-            XmlPIs = true;
+            xmlOut = true;
+            xmlPIs = true;
         }
 
         /* XML requires end tags */
-        if (XmlOut)
+        if (xmlOut)
         {
-            QuoteAmpersand = true;
-            HideEndTags = false;
+            quoteAmpersand = true;
+            hideEndTags = false;
         }
     }
 
@@ -713,32 +713,32 @@ public class Configuration implements java.io.Serializable
     /* slight hack to avoid changes to pprint.c */
     private boolean parseIndent(String s, String option)
     {
-        boolean b = IndentContent;
+        boolean b = indentContent;
 
         if (Lexer.wstrcasecmp(s, "yes") == 0)
         {
             b = true;
-            SmartIndent = false;
+            smartIndent = false;
         }
         else if (Lexer.wstrcasecmp(s, "true") == 0)
         {
             b = true;
-            SmartIndent = false;
+            smartIndent = false;
         }
         else if (Lexer.wstrcasecmp(s, "no") == 0)
         {
             b = false;
-            SmartIndent = false;
+            smartIndent = false;
         }
         else if (Lexer.wstrcasecmp(s, "false") == 0)
         {
             b = false;
-            SmartIndent = false;
+            smartIndent = false;
         }
         else if (Lexer.wstrcasecmp(s, "auto") == 0)
         {
             b = true;
-            SmartIndent = true;
+            smartIndent = true;
         }
         else
         {
@@ -783,7 +783,7 @@ public class Configuration implements java.io.Serializable
         }
     }
 
-    /*
+    /**
      * doctype: omit | auto | strict | loose | <fpi> where the fpi is a string similar to "-//ACME//DTD HTML
      * 3.14159//EN"
      */

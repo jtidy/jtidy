@@ -249,7 +249,7 @@ public class Report
         try
         {
             /* Change formatting to be parsable by GNU Emacs */
-            if (lexer.configuration.Emacs)
+            if (lexer.configuration.emacs)
             {
                 tidyPrint(
                     lexer.errout,
@@ -278,7 +278,7 @@ public class Report
     {
         lexer.warnings++;
 
-        if (lexer.configuration.ShowWarnings)
+        if (lexer.configuration.showWarnings)
         {
             position(lexer);
 
@@ -305,7 +305,7 @@ public class Report
     {
         lexer.warnings++;
 
-        if (lexer.configuration.ShowWarnings)
+        if (lexer.configuration.showWarnings)
         {
             position(lexer);
 
@@ -361,7 +361,7 @@ public class Report
             return;
         }
 
-        if (lexer.configuration.ShowWarnings)
+        if (lexer.configuration.showWarnings)
         {
             /* on end of file adjust reported position to end of input */
             if (code == UNEXPECTED_END_OF_FILE)
@@ -574,7 +574,7 @@ public class Report
             return;
         }
 
-        if (lexer.configuration.ShowWarnings)
+        if (lexer.configuration.showWarnings)
         {
             /* on end of file adjust reported position to end of input */
             if (code == UNEXPECTED_END_OF_FILE)

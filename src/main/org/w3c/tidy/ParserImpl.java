@@ -157,7 +157,7 @@ public class ParserImpl
             Node frameset = null;
             Node noframes = null;
 
-            lexer.configuration.XmlTags = false;
+            lexer.configuration.xmlTags = false;
             lexer.seenBodyEndTag = 0;
             TagTable tt = lexer.configuration.tt;
 
@@ -645,7 +645,7 @@ public class ParserImpl
                         continue;
                     }
 
-                    if (lexer.configuration.EncloseBodyText && !iswhitenode)
+                    if (lexer.configuration.encloseBodyText && !iswhitenode)
                     {
                         Node para;
 
@@ -2048,7 +2048,7 @@ public class ParserImpl
                         iswhitenode = true;
                     }
 
-                    if (lexer.configuration.EncloseBlockText && !iswhitenode)
+                    if (lexer.configuration.encloseBlockText && !iswhitenode)
                     {
                         lexer.ungetToken();
                         node = lexer.inferredTag("p");
@@ -2959,7 +2959,7 @@ public class ParserImpl
                 {
                     lexer.ungetToken();
                     node = lexer.inferredTag("body");
-                    if (lexer.configuration.XmlOut)
+                    if (lexer.configuration.xmlOut)
                     {
                         Report.warning(lexer, noframes, node, Report.INSERTING_TAG);
                     }
@@ -3460,7 +3460,7 @@ public class ParserImpl
         document = lexer.newNode();
         document.type = Node.RootNode;
         doctype = null;
-        lexer.configuration.XmlTags = true;
+        lexer.configuration.xmlTags = true;
 
         while (true)
         {
@@ -3522,7 +3522,7 @@ public class ParserImpl
         }
 
         /* ensure presence of initial <?XML version="1.0"?> */
-        if (lexer.configuration.XmlPi)
+        if (lexer.configuration.xmlPi)
         {
             lexer.fixXMLPI(document);
         }

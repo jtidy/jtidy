@@ -165,17 +165,17 @@ public class Tidy implements java.io.Serializable
 
     /**
      * CharEncoding
-     * @see org.w3c.tidy.Configuration#CharEncoding
+     * @see org.w3c.tidy.Configuration#charEncoding
      */
 
     public void setCharEncoding(int charencoding)
     {
-        configuration.CharEncoding = charencoding;
+        configuration.charEncoding = charencoding;
     }
 
     public int getCharEncoding()
     {
-        return configuration.CharEncoding;
+        return configuration.charEncoding;
     }
 
     /**
@@ -225,122 +225,122 @@ public class Tidy implements java.io.Serializable
 
     /**
      * OnlyErrors - if true normal output is suppressed
-     * @see org.w3c.tidy.Configuration#OnlyErrors
+     * @see org.w3c.tidy.Configuration#onlyErrors
      */
 
     public void setOnlyErrors(boolean OnlyErrors)
     {
-        configuration.OnlyErrors = OnlyErrors;
+        configuration.onlyErrors = OnlyErrors;
     }
 
     public boolean getOnlyErrors()
     {
-        return configuration.OnlyErrors;
+        return configuration.onlyErrors;
     }
 
     /**
      * ShowWarnings - however errors are always shown
-     * @see org.w3c.tidy.Configuration#ShowWarnings
+     * @see org.w3c.tidy.Configuration#showWarnings
      */
 
     public void setShowWarnings(boolean ShowWarnings)
     {
-        configuration.ShowWarnings = ShowWarnings;
+        configuration.showWarnings = ShowWarnings;
     }
 
     public boolean getShowWarnings()
     {
-        return configuration.ShowWarnings;
+        return configuration.showWarnings;
     }
 
     /**
      * Quiet - no 'Parsing X', guessed DTD or summary
-     * @see org.w3c.tidy.Configuration#Quiet
+     * @see org.w3c.tidy.Configuration#quiet
      */
 
     public void setQuiet(boolean Quiet)
     {
-        configuration.Quiet = Quiet;
+        configuration.quiet = Quiet;
     }
 
     public boolean getQuiet()
     {
-        return configuration.Quiet;
+        return configuration.quiet;
     }
 
     /**
      * IndentContent - indent content of appropriate tags
-     * @see org.w3c.tidy.Configuration#IndentContent
+     * @see org.w3c.tidy.Configuration#indentContent
      */
 
     public void setIndentContent(boolean IndentContent)
     {
-        configuration.IndentContent = IndentContent;
+        configuration.indentContent = IndentContent;
     }
 
     public boolean getIndentContent()
     {
-        return configuration.IndentContent;
+        return configuration.indentContent;
     }
 
     /**
      * SmartIndent - does text/block level content effect indentation
-     * @see org.w3c.tidy.Configuration#SmartIndent
+     * @see org.w3c.tidy.Configuration#smartIndent
      */
 
     public void setSmartIndent(boolean SmartIndent)
     {
-        configuration.SmartIndent = SmartIndent;
+        configuration.smartIndent = SmartIndent;
     }
 
     public boolean getSmartIndent()
     {
-        return configuration.SmartIndent;
+        return configuration.smartIndent;
     }
 
     /**
      * HideEndTags - suppress optional end tags
-     * @see org.w3c.tidy.Configuration#HideEndTags
+     * @see org.w3c.tidy.Configuration#hideEndTags
      */
 
     public void setHideEndTags(boolean HideEndTags)
     {
-        configuration.HideEndTags = HideEndTags;
+        configuration.hideEndTags = HideEndTags;
     }
 
     public boolean getHideEndTags()
     {
-        return configuration.HideEndTags;
+        return configuration.hideEndTags;
     }
 
     /**
      * XmlTags - treat input as XML
-     * @see org.w3c.tidy.Configuration#XmlTags
+     * @see org.w3c.tidy.Configuration#xmlTags
      */
 
     public void setXmlTags(boolean XmlTags)
     {
-        configuration.XmlTags = XmlTags;
+        configuration.xmlTags = XmlTags;
     }
 
     public boolean getXmlTags()
     {
-        return configuration.XmlTags;
+        return configuration.xmlTags;
     }
 
     /**
      * XmlOut - create output as XML
-     * @see org.w3c.tidy.Configuration#XmlOut
+     * @see org.w3c.tidy.Configuration#xmlOut
      */
 
     public void setXmlOut(boolean XmlOut)
     {
-        configuration.XmlOut = XmlOut;
+        configuration.xmlOut = XmlOut;
     }
 
     public boolean getXmlOut()
     {
-        return configuration.XmlOut;
+        return configuration.xmlOut;
     }
 
     /**
@@ -360,197 +360,197 @@ public class Tidy implements java.io.Serializable
 
     /**
      * RawOut - avoid mapping values > 127 to entities
-     * @see org.w3c.tidy.Configuration#RawOut
+     * @see org.w3c.tidy.Configuration#rawOut
      */
 
     public void setRawOut(boolean RawOut)
     {
-        configuration.RawOut = RawOut;
+        configuration.rawOut = RawOut;
     }
 
     public boolean getRawOut()
     {
-        return configuration.RawOut;
+        return configuration.rawOut;
     }
 
     /**
      * UpperCaseTags - output tags in upper not lower case
-     * @see org.w3c.tidy.Configuration#UpperCaseTags
+     * @see org.w3c.tidy.Configuration#upperCaseTags
      */
 
     public void setUpperCaseTags(boolean UpperCaseTags)
     {
-        configuration.UpperCaseTags = UpperCaseTags;
+        configuration.upperCaseTags = UpperCaseTags;
     }
 
     public boolean getUpperCaseTags()
     {
-        return configuration.UpperCaseTags;
+        return configuration.upperCaseTags;
     }
 
     /**
      * UpperCaseAttrs - output attributes in upper not lower case
-     * @see org.w3c.tidy.Configuration#UpperCaseAttrs
+     * @see org.w3c.tidy.Configuration#upperCaseAttrs
      */
 
     public void setUpperCaseAttrs(boolean UpperCaseAttrs)
     {
-        configuration.UpperCaseAttrs = UpperCaseAttrs;
+        configuration.upperCaseAttrs = UpperCaseAttrs;
     }
 
     public boolean getUpperCaseAttrs()
     {
-        return configuration.UpperCaseAttrs;
+        return configuration.upperCaseAttrs;
     }
 
     /**
      * MakeClean - remove presentational clutter
-     * @see org.w3c.tidy.Configuration#MakeClean
+     * @see org.w3c.tidy.Configuration#makeClean
      */
 
     public void setMakeClean(boolean MakeClean)
     {
-        configuration.MakeClean = MakeClean;
+        configuration.makeClean = MakeClean;
     }
 
     public boolean getMakeClean()
     {
-        return configuration.MakeClean;
+        return configuration.makeClean;
     }
 
     /**
      * BreakBeforeBR - o/p newline before &lt;br&gt; or not?
-     * @see org.w3c.tidy.Configuration#BreakBeforeBR
+     * @see org.w3c.tidy.Configuration#breakBeforeBR
      */
 
     public void setBreakBeforeBR(boolean BreakBeforeBR)
     {
-        configuration.BreakBeforeBR = BreakBeforeBR;
+        configuration.breakBeforeBR = BreakBeforeBR;
     }
 
     public boolean getBreakBeforeBR()
     {
-        return configuration.BreakBeforeBR;
+        return configuration.breakBeforeBR;
     }
 
     /**
      * BurstSlides - create slides on each h2 element
-     * @see org.w3c.tidy.Configuration#BurstSlides
+     * @see org.w3c.tidy.Configuration#burstSlides
      */
 
     public void setBurstSlides(boolean BurstSlides)
     {
-        configuration.BurstSlides = BurstSlides;
+        configuration.burstSlides = BurstSlides;
     }
 
     public boolean getBurstSlides()
     {
-        return configuration.BurstSlides;
+        return configuration.burstSlides;
     }
 
     /**
      * NumEntities - use numeric entities
-     * @see org.w3c.tidy.Configuration#NumEntities
+     * @see org.w3c.tidy.Configuration#numEntities
      */
 
     public void setNumEntities(boolean NumEntities)
     {
-        configuration.NumEntities = NumEntities;
+        configuration.numEntities = NumEntities;
     }
 
     public boolean getNumEntities()
     {
-        return configuration.NumEntities;
+        return configuration.numEntities;
     }
 
     /**
      * QuoteMarks - output " marks as &amp;quot;
-     * @see org.w3c.tidy.Configuration#QuoteMarks
+     * @see org.w3c.tidy.Configuration#quoteMarks
      */
 
     public void setQuoteMarks(boolean QuoteMarks)
     {
-        configuration.QuoteMarks = QuoteMarks;
+        configuration.quoteMarks = QuoteMarks;
     }
 
     public boolean getQuoteMarks()
     {
-        return configuration.QuoteMarks;
+        return configuration.quoteMarks;
     }
 
     /**
      * QuoteNbsp - output non-breaking space as entity
-     * @see org.w3c.tidy.Configuration#QuoteNbsp
+     * @see org.w3c.tidy.Configuration#quoteNbsp
      */
 
     public void setQuoteNbsp(boolean QuoteNbsp)
     {
-        configuration.QuoteNbsp = QuoteNbsp;
+        configuration.quoteNbsp = QuoteNbsp;
     }
 
     public boolean getQuoteNbsp()
     {
-        return configuration.QuoteNbsp;
+        return configuration.quoteNbsp;
     }
 
     /**
      * QuoteAmpersand - output naked ampersand as &amp;
-     * @see org.w3c.tidy.Configuration#QuoteAmpersand
+     * @see org.w3c.tidy.Configuration#quoteAmpersand
      */
 
     public void setQuoteAmpersand(boolean QuoteAmpersand)
     {
-        configuration.QuoteAmpersand = QuoteAmpersand;
+        configuration.quoteAmpersand = QuoteAmpersand;
     }
 
     public boolean getQuoteAmpersand()
     {
-        return configuration.QuoteAmpersand;
+        return configuration.quoteAmpersand;
     }
 
     /**
      * WrapAttVals - wrap within attribute values
-     * @see org.w3c.tidy.Configuration#WrapAttVals
+     * @see org.w3c.tidy.Configuration#wrapAttVals
      */
 
     public void setWrapAttVals(boolean WrapAttVals)
     {
-        configuration.WrapAttVals = WrapAttVals;
+        configuration.wrapAttVals = WrapAttVals;
     }
 
     public boolean getWrapAttVals()
     {
-        return configuration.WrapAttVals;
+        return configuration.wrapAttVals;
     }
 
     /**
      * WrapScriptlets - wrap within JavaScript string literals
-     * @see org.w3c.tidy.Configuration#WrapScriptlets
+     * @see org.w3c.tidy.Configuration#wrapScriptlets
      */
 
     public void setWrapScriptlets(boolean WrapScriptlets)
     {
-        configuration.WrapScriptlets = WrapScriptlets;
+        configuration.wrapScriptlets = WrapScriptlets;
     }
 
     public boolean getWrapScriptlets()
     {
-        return configuration.WrapScriptlets;
+        return configuration.wrapScriptlets;
     }
 
     /**
      * WrapSection - wrap within &lt;![ ... ]&gt; section tags
-     * @see org.w3c.tidy.Configuration#WrapSection
+     * @see org.w3c.tidy.Configuration#wrapSection
      */
 
     public void setWrapSection(boolean WrapSection)
     {
-        configuration.WrapSection = WrapSection;
+        configuration.wrapSection = WrapSection;
     }
 
     public boolean getWrapSection()
     {
-        return configuration.WrapSection;
+        return configuration.wrapSection;
     }
 
     /**
@@ -585,137 +585,137 @@ public class Tidy implements java.io.Serializable
 
     /**
      * XmlPi - add &lt;?xml?&gt; for XML docs
-     * @see org.w3c.tidy.Configuration#XmlPi
+     * @see org.w3c.tidy.Configuration#xmlPi
      */
 
     public void setXmlPi(boolean XmlPi)
     {
-        configuration.XmlPi = XmlPi;
+        configuration.xmlPi = XmlPi;
     }
 
     public boolean getXmlPi()
     {
-        return configuration.XmlPi;
+        return configuration.xmlPi;
     }
 
     /**
      * DropFontTags - discard presentation tags
-     * @see org.w3c.tidy.Configuration#DropFontTags
+     * @see org.w3c.tidy.Configuration#dropFontTags
      */
 
     public void setDropFontTags(boolean DropFontTags)
     {
-        configuration.DropFontTags = DropFontTags;
+        configuration.dropFontTags = DropFontTags;
     }
 
     public boolean getDropFontTags()
     {
-        return configuration.DropFontTags;
+        return configuration.dropFontTags;
     }
 
     /**
      * DropEmptyParas - discard empty p elements
-     * @see org.w3c.tidy.Configuration#DropEmptyParas
+     * @see org.w3c.tidy.Configuration#dropEmptyParas
      */
 
     public void setDropEmptyParas(boolean DropEmptyParas)
     {
-        configuration.DropEmptyParas = DropEmptyParas;
+        configuration.dropEmptyParas = DropEmptyParas;
     }
 
     public boolean getDropEmptyParas()
     {
-        return configuration.DropEmptyParas;
+        return configuration.dropEmptyParas;
     }
 
     /**
      * FixComments - fix comments with adjacent hyphens
-     * @see org.w3c.tidy.Configuration#FixComments
+     * @see org.w3c.tidy.Configuration#fixComments
      */
 
     public void setFixComments(boolean FixComments)
     {
-        configuration.FixComments = FixComments;
+        configuration.fixComments = FixComments;
     }
 
     public boolean getFixComments()
     {
-        return configuration.FixComments;
+        return configuration.fixComments;
     }
 
     /**
      * WrapAsp - wrap within ASP pseudo elements
-     * @see org.w3c.tidy.Configuration#WrapAsp
+     * @see org.w3c.tidy.Configuration#wrapAsp
      */
 
     public void setWrapAsp(boolean WrapAsp)
     {
-        configuration.WrapAsp = WrapAsp;
+        configuration.wrapAsp = WrapAsp;
     }
 
     public boolean getWrapAsp()
     {
-        return configuration.WrapAsp;
+        return configuration.wrapAsp;
     }
 
     /**
      * WrapJste - wrap within JSTE pseudo elements
-     * @see org.w3c.tidy.Configuration#WrapJste
+     * @see org.w3c.tidy.Configuration#wrapJste
      */
 
     public void setWrapJste(boolean WrapJste)
     {
-        configuration.WrapJste = WrapJste;
+        configuration.wrapJste = WrapJste;
     }
 
     public boolean getWrapJste()
     {
-        return configuration.WrapJste;
+        return configuration.wrapJste;
     }
 
     /**
      * WrapPhp - wrap within PHP pseudo elements
-     * @see org.w3c.tidy.Configuration#WrapPhp
+     * @see org.w3c.tidy.Configuration#wrapPhp
      */
 
     public void setWrapPhp(boolean WrapPhp)
     {
-        configuration.WrapPhp = WrapPhp;
+        configuration.wrapPhp = WrapPhp;
     }
 
     public boolean getWrapPhp()
     {
-        return configuration.WrapPhp;
+        return configuration.wrapPhp;
     }
 
     /**
      * FixBackslash - fix URLs by replacing \ with /
-     * @see org.w3c.tidy.Configuration#FixBackslash
+     * @see org.w3c.tidy.Configuration#fixBackslash
      */
 
     public void setFixBackslash(boolean FixBackslash)
     {
-        configuration.FixBackslash = FixBackslash;
+        configuration.fixBackslash = FixBackslash;
     }
 
     public boolean getFixBackslash()
     {
-        return configuration.FixBackslash;
+        return configuration.fixBackslash;
     }
 
     /**
      * IndentAttributes - newline+indent before each attribute
-     * @see org.w3c.tidy.Configuration#IndentAttributes
+     * @see org.w3c.tidy.Configuration#indentAttributes
      */
 
     public void setIndentAttributes(boolean IndentAttributes)
     {
-        configuration.IndentAttributes = IndentAttributes;
+        configuration.indentAttributes = IndentAttributes;
     }
 
     public boolean getIndentAttributes()
     {
-        return configuration.IndentAttributes;
+        return configuration.indentAttributes;
     }
 
     /**
@@ -760,152 +760,152 @@ public class Tidy implements java.io.Serializable
 
     /**
      * LogicalEmphasis - replace i by em and b by strong
-     * @see org.w3c.tidy.Configuration#LogicalEmphasis
+     * @see org.w3c.tidy.Configuration#logicalEmphasis
      */
 
     public void setLogicalEmphasis(boolean LogicalEmphasis)
     {
-        configuration.LogicalEmphasis = LogicalEmphasis;
+        configuration.logicalEmphasis = LogicalEmphasis;
     }
 
     public boolean getLogicalEmphasis()
     {
-        return configuration.LogicalEmphasis;
+        return configuration.logicalEmphasis;
     }
 
     /**
      * XmlPIs - if set to true PIs must end with ?>
-     * @see org.w3c.tidy.Configuration#XmlPIs
+     * @see org.w3c.tidy.Configuration#xmlPIs
      */
 
     public void setXmlPIs(boolean XmlPIs)
     {
-        configuration.XmlPIs = XmlPIs;
+        configuration.xmlPIs = XmlPIs;
     }
 
     public boolean getXmlPIs()
     {
-        return configuration.XmlPIs;
+        return configuration.xmlPIs;
     }
 
     /**
      * EncloseText - if true text at body is wrapped in &lt;p&gt;'s
-     * @see org.w3c.tidy.Configuration#EncloseBodyText
+     * @see org.w3c.tidy.Configuration#encloseBodyText
      */
 
     public void setEncloseText(boolean EncloseText)
     {
-        configuration.EncloseBodyText = EncloseText;
+        configuration.encloseBodyText = EncloseText;
     }
 
     public boolean getEncloseText()
     {
-        return configuration.EncloseBodyText;
+        return configuration.encloseBodyText;
     }
 
     /**
      * EncloseBlockText - if true text in blocks is wrapped in &lt;p&gt;'s
-     * @see org.w3c.tidy.Configuration#EncloseBlockText
+     * @see org.w3c.tidy.Configuration#encloseBlockText
      */
 
     public void setEncloseBlockText(boolean EncloseBlockText)
     {
-        configuration.EncloseBlockText = EncloseBlockText;
+        configuration.encloseBlockText = EncloseBlockText;
     }
 
     public boolean getEncloseBlockText()
     {
-        return configuration.EncloseBlockText;
+        return configuration.encloseBlockText;
     }
 
     /**
      * KeepFileTimes - if true last modified time is preserved <br><b>this is NOT supported at this time.</b>
-     * @see org.w3c.tidy.Configuration#KeepFileTimes
+     * @see org.w3c.tidy.Configuration#keepFileTimes
      */
 
     public void setKeepFileTimes(boolean KeepFileTimes)
     {
-        configuration.KeepFileTimes = KeepFileTimes;
+        configuration.keepFileTimes = KeepFileTimes;
     }
 
     public boolean getKeepFileTimes()
     {
-        return configuration.KeepFileTimes;
+        return configuration.keepFileTimes;
     }
 
     /**
      * Word2000 - draconian cleaning for Word2000
-     * @see org.w3c.tidy.Configuration#Word2000
+     * @see org.w3c.tidy.Configuration#word2000
      */
 
     public void setWord2000(boolean Word2000)
     {
-        configuration.Word2000 = Word2000;
+        configuration.word2000 = Word2000;
     }
 
     public boolean getWord2000()
     {
-        return configuration.Word2000;
+        return configuration.word2000;
     }
 
     /**
      * TidyMark - add meta element indicating tidied doc
-     * @see org.w3c.tidy.Configuration#TidyMark
+     * @see org.w3c.tidy.Configuration#tidyMark
      */
 
     public void setTidyMark(boolean TidyMark)
     {
-        configuration.TidyMark = TidyMark;
+        configuration.tidyMark = TidyMark;
     }
 
     public boolean getTidyMark()
     {
-        return configuration.TidyMark;
+        return configuration.tidyMark;
     }
 
     /**
      * XmlSpace - if set to yes adds xml:space attr as needed
-     * @see org.w3c.tidy.Configuration#XmlSpace
+     * @see org.w3c.tidy.Configuration#xmlSpace
      */
 
     public void setXmlSpace(boolean XmlSpace)
     {
-        configuration.XmlSpace = XmlSpace;
+        configuration.xmlSpace = XmlSpace;
     }
 
     public boolean getXmlSpace()
     {
-        return configuration.XmlSpace;
+        return configuration.xmlSpace;
     }
 
     /**
      * Emacs - if true format error output for GNU Emacs
-     * @see org.w3c.tidy.Configuration#Emacs
+     * @see org.w3c.tidy.Configuration#emacs
      */
 
     public void setEmacs(boolean Emacs)
     {
-        configuration.Emacs = Emacs;
+        configuration.emacs = Emacs;
     }
 
     public boolean getEmacs()
     {
-        return configuration.Emacs;
+        return configuration.emacs;
     }
 
     /**
      * LiteralAttribs - if true attributes may use newlines
-     * @see org.w3c.tidy.Configuration#LiteralAttribs
+     * @see org.w3c.tidy.Configuration#literalAttribs
      */
 
     public void setLiteralAttribs(boolean LiteralAttribs)
     {
-        configuration.LiteralAttribs = LiteralAttribs;
+        configuration.literalAttribs = LiteralAttribs;
     }
 
     public boolean getLiteralAttribs()
     {
-        return configuration.LiteralAttribs;
+        return configuration.literalAttribs;
     }
 
     /**
@@ -1048,7 +1048,7 @@ public class Tidy implements java.io.Serializable
 
         if (in != null)
         {
-            lexer = new Lexer(new StreamInImpl(in, configuration.CharEncoding, configuration.tabsize), configuration);
+            lexer = new Lexer(new StreamInImpl(in, configuration.charEncoding, configuration.tabsize), configuration);
             lexer.errout = errout;
 
             /*
@@ -1057,14 +1057,14 @@ public class Tidy implements java.io.Serializable
             lexer.in.lexer = lexer;
 
             /* Tidy doesn't alter the doctype for generic XML docs */
-            if (configuration.XmlTags)
+            if (configuration.xmlTags)
             {
                 document = ParserImpl.parseXMLDocument(lexer);
             }
             else
             {
                 lexer.warnings = 0;
-                if (!configuration.Quiet)
+                if (!configuration.quiet)
                 {
                     Report.helloMessage(errout, Report.RELEASE_DATE, inputStreamName);
                 }
@@ -1087,12 +1087,12 @@ public class Tidy implements java.io.Serializable
                 cleaner.bQ2Div(document);
 
                 /* replaces i by em and b by strong */
-                if (configuration.LogicalEmphasis)
+                if (configuration.logicalEmphasis)
                 {
                     cleaner.emFromI(document);
                 }
 
-                if (configuration.Word2000 && cleaner.isWord2000(document, configuration.tt))
+                if (configuration.word2000 && cleaner.isWord2000(document, configuration.tt))
                 {
                     /* prune Word2000's <![if ...]> ... <![endif]> */
                     cleaner.dropSections(lexer, document);
@@ -1102,7 +1102,7 @@ public class Tidy implements java.io.Serializable
                 }
 
                 /* replaces presentational markup by style rules */
-                if (configuration.MakeClean || configuration.DropFontTags)
+                if (configuration.makeClean || configuration.dropFontTags)
                 {
                     cleaner.cleanTree(lexer, document);
                 }
@@ -1124,19 +1124,19 @@ public class Tidy implements java.io.Serializable
                         lexer.fixDocType(document);
                     }
 
-                    if (configuration.TidyMark)
+                    if (configuration.tidyMark)
                     {
                         lexer.addGenerator(document);
                     }
                 }
 
                 /* ensure presence of initial <?XML version="1.0"?> */
-                if (configuration.XmlOut && configuration.XmlPi)
+                if (configuration.xmlOut && configuration.xmlPi)
                 {
                     lexer.fixXMLPI(document);
                 }
 
-                if (!configuration.Quiet && document.content != null)
+                if (!configuration.quiet && document.content != null)
                 {
                     Report.reportVersion(errout, lexer, inputStreamName, doctype);
                     Report.reportNumWarnings(errout, lexer);
@@ -1165,11 +1165,11 @@ public class Tidy implements java.io.Serializable
             }
 
             o.state = StreamIn.FSM_ASCII;
-            o.encoding = configuration.CharEncoding;
+            o.encoding = configuration.charEncoding;
 
-            if (!configuration.OnlyErrors && lexer.errors == 0)
+            if (!configuration.onlyErrors && lexer.errors == 0)
             {
-                if (configuration.BurstSlides)
+                if (configuration.burstSlides)
                 {
                     Node body;
 
@@ -1219,7 +1219,7 @@ public class Tidy implements java.io.Serializable
                         pprint = new PPrint(configuration);
                         o.out = new FileOutputStream(file);
 
-                        if (configuration.XmlTags)
+                        if (configuration.xmlTags)
                         {
                             pprint.printXMLTree(o, (short) 0, 0, lexer, document);
                         }
@@ -1241,7 +1241,7 @@ public class Tidy implements java.io.Serializable
                     pprint = new PPrint(configuration);
                     o.out = out;
 
-                    if (configuration.XmlTags)
+                    if (configuration.xmlTags)
                     {
                         pprint.printXMLTree(o, (short) 0, 0, lexer, document);
                     }
@@ -1313,14 +1313,14 @@ public class Tidy implements java.io.Serializable
         document = ((DOMDocumentImpl) doc).adaptee;
 
         o.state = StreamIn.FSM_ASCII;
-        o.encoding = configuration.CharEncoding;
+        o.encoding = configuration.charEncoding;
 
         if (out != null)
         {
             pprint = new PPrint(configuration);
             o.out = out;
 
-            if (configuration.XmlTags)
+            if (configuration.xmlTags)
             {
                 pprint.printXMLTree(o, (short) 0, 0, null, document);
             }
@@ -1388,7 +1388,7 @@ public class Tidy implements java.io.Serializable
 
                 if (arg.equals("xml"))
                 {
-                    configuration.XmlTags = true;
+                    configuration.xmlTags = true;
                 }
                 else if (arg.equals("asxml") || arg.equals("asxhtml"))
                 {
@@ -1396,48 +1396,48 @@ public class Tidy implements java.io.Serializable
                 }
                 else if (arg.equals("indent"))
                 {
-                    configuration.IndentContent = true;
-                    configuration.SmartIndent = true;
+                    configuration.indentContent = true;
+                    configuration.smartIndent = true;
                 }
                 else if (arg.equals("omit"))
                 {
-                    configuration.HideEndTags = true;
+                    configuration.hideEndTags = true;
                 }
                 else if (arg.equals("upper"))
                 {
-                    configuration.UpperCaseTags = true;
+                    configuration.upperCaseTags = true;
                 }
                 else if (arg.equals("clean"))
                 {
-                    configuration.MakeClean = true;
+                    configuration.makeClean = true;
                 }
                 else if (arg.equals("raw"))
                 {
-                    configuration.CharEncoding = Configuration.RAW;
+                    configuration.charEncoding = Configuration.RAW;
                 }
                 else if (arg.equals("ascii"))
                 {
-                    configuration.CharEncoding = Configuration.ASCII;
+                    configuration.charEncoding = Configuration.ASCII;
                 }
                 else if (arg.equals("latin1"))
                 {
-                    configuration.CharEncoding = Configuration.LATIN1;
+                    configuration.charEncoding = Configuration.LATIN1;
                 }
                 else if (arg.equals("utf8"))
                 {
-                    configuration.CharEncoding = Configuration.UTF8;
+                    configuration.charEncoding = Configuration.UTF8;
                 }
                 else if (arg.equals("iso2022"))
                 {
-                    configuration.CharEncoding = Configuration.ISO2022;
+                    configuration.charEncoding = Configuration.ISO2022;
                 }
                 else if (arg.equals("mac"))
                 {
-                    configuration.CharEncoding = Configuration.MACROMAN;
+                    configuration.charEncoding = Configuration.MACROMAN;
                 }
                 else if (arg.equals("numeric"))
                 {
-                    configuration.NumEntities = true;
+                    configuration.numEntities = true;
                 }
                 else if (arg.equals("modify"))
                 {
@@ -1453,15 +1453,15 @@ public class Tidy implements java.io.Serializable
                 }
                 else if (arg.equals("errors"))
                 {
-                    configuration.OnlyErrors = true;
+                    configuration.onlyErrors = true;
                 }
                 else if (arg.equals("quiet"))
                 {
-                    configuration.Quiet = true;
+                    configuration.quiet = true;
                 }
                 else if (arg.equals("slides"))
                 {
-                    configuration.BurstSlides = true;
+                    configuration.burstSlides = true;
                 }
                 else if (arg.equals("help") || argv[argIndex].charAt(1) == '?' || argv[argIndex].charAt(1) == 'h')
                 {
@@ -1513,24 +1513,24 @@ public class Tidy implements java.io.Serializable
                     {
                         if (s.charAt(i) == 'i')
                         {
-                            configuration.IndentContent = true;
-                            configuration.SmartIndent = true;
+                            configuration.indentContent = true;
+                            configuration.smartIndent = true;
                         }
                         else if (s.charAt(i) == 'o')
                         {
-                            configuration.HideEndTags = true;
+                            configuration.hideEndTags = true;
                         }
                         else if (s.charAt(i) == 'u')
                         {
-                            configuration.UpperCaseTags = true;
+                            configuration.upperCaseTags = true;
                         }
                         else if (s.charAt(i) == 'c')
                         {
-                            configuration.MakeClean = true;
+                            configuration.makeClean = true;
                         }
                         else if (s.charAt(i) == 'n')
                         {
-                            configuration.NumEntities = true;
+                            configuration.numEntities = true;
                         }
                         else if (s.charAt(i) == 'm')
                         {
@@ -1538,11 +1538,11 @@ public class Tidy implements java.io.Serializable
                         }
                         else if (s.charAt(i) == 'e')
                         {
-                            configuration.OnlyErrors = true;
+                            configuration.onlyErrors = true;
                         }
                         else if (s.charAt(i) == 'q')
                         {
-                            configuration.Quiet = true;
+                            configuration.quiet = true;
                         }
                         else
                         {

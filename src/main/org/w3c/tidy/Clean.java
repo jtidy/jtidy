@@ -982,7 +982,7 @@ public class Clean
     {
         if (node.tag == this.tt.tagCenter)
         {
-            if (lexer.configuration.DropFontTags)
+            if (lexer.configuration.dropFontTags)
             {
                 if (node.content != null)
                 {
@@ -1283,7 +1283,7 @@ public class Clean
                 return false;
             }
 
-            if (child.tag == this.tt.tagB && lexer.configuration.LogicalEmphasis)
+            if (child.tag == this.tt.tagB && lexer.configuration.logicalEmphasis)
             {
                 mergeStyles(node, child);
                 addStyleProperty(node, "font-weight: bold");
@@ -1291,7 +1291,7 @@ public class Clean
                 return true;
             }
 
-            if (child.tag == this.tt.tagI && lexer.configuration.LogicalEmphasis)
+            if (child.tag == this.tt.tagI && lexer.configuration.logicalEmphasis)
             {
                 mergeStyles(node, child);
                 addStyleProperty(node, "font-style: italic");
@@ -1321,7 +1321,7 @@ public class Clean
 
         if (node.tag == this.tt.tagFont)
         {
-            if (lexer.configuration.DropFontTags)
+            if (lexer.configuration.dropFontTags)
             {
                 discardContainer(node, pnode);
                 return false;
@@ -1465,7 +1465,7 @@ public class Clean
     {
         doc = createStyleProperties(lexer, doc);
 
-        if (!lexer.configuration.MakeClean)
+        if (!lexer.configuration.makeClean)
         {
             defineStyleRules(lexer, doc);
             createStyleElement(lexer, doc);

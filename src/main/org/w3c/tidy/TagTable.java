@@ -504,7 +504,7 @@ public class TagTable
     {
         Dict np;
 
-        if (configuration != null && configuration.XmlTags)
+        if (configuration != null && configuration.xmlTags)
         {
             node.tag = xmlTags;
             return true;

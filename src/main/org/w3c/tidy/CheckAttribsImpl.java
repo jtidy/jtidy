@@ -166,7 +166,7 @@ public class CheckAttribsImpl
             }
 
             /* convert <table border> to <table border="1"> */
-            if (lexer.configuration.XmlOut)
+            if (lexer.configuration.xmlOut)
             {
                 attval = node.getAttrByName("border");
                 if (attval != null)

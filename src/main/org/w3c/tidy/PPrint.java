@@ -366,7 +366,7 @@ public class PPrint
                 wrapLine(fout, indent);
             }
 
-            if (!inAttVal || this.configuration.IndentAttributes)
+            if (!inAttVal || this.configuration.indentAttributes)
             {
                 for (i = 0; i < indent; ++i)
                 {
@@ -397,7 +397,7 @@ public class PPrint
                 wrapLine(fout, indent);
             }
 
-            if (!inAttVal || this.configuration.IndentAttributes)
+            if (!inAttVal || this.configuration.indentAttributes)
             {
                 for (i = 0; i < indent; ++i)
                 {
@@ -427,7 +427,7 @@ public class PPrint
             if ((mode & NOWRAP) != 0)
             {
                 /* by default XML doesn't define &nbsp; */
-                if (this.configuration.NumEntities || this.configuration.XmlTags)
+                if (this.configuration.numEntities || this.configuration.xmlTags)
                 {
                     addC('&', linelen++);
                     addC('#', linelen++);
@@ -486,7 +486,7 @@ public class PPrint
              * naked '&' chars can be left alone or quoted as &amp; The latter is required for XML where naked '&'
              * are illegal.
              */
-            if (c == '&' && this.configuration.QuoteAmpersand)
+            if (c == '&' && this.configuration.quoteAmpersand)
             {
                 addC('&', linelen++);
                 addC('a', linelen++);
@@ -496,7 +496,7 @@ public class PPrint
                 return;
             }
 
-            if (c == '"' && this.configuration.QuoteMarks)
+            if (c == '"' && this.configuration.quoteMarks)
             {
                 addC('&', linelen++);
                 addC('q', linelen++);
@@ -507,7 +507,7 @@ public class PPrint
                 return;
             }
 
-            if (c == '\'' && this.configuration.QuoteMarks)
+            if (c == '\'' && this.configuration.quoteMarks)
             {
                 addC('&', linelen++);
                 addC('#', linelen++);
@@ -517,13 +517,13 @@ public class PPrint
                 return;
             }
 
-            if (c == 160 && this.configuration.CharEncoding != Configuration.RAW)
+            if (c == 160 && this.configuration.charEncoding != Configuration.RAW)
             {
-                if (this.configuration.QuoteNbsp)
+                if (this.configuration.quoteNbsp)
                 {
                     addC('&', linelen++);
 
-                    if (this.configuration.NumEntities)
+                    if (this.configuration.numEntities)
                     {
                         addC('#', linelen++);
                         addC('1', linelen++);
@@ -550,8 +550,8 @@ public class PPrint
         }
 
         /* otherwise ISO 2022 characters are passed raw */
-        if (this.configuration.CharEncoding == Configuration.ISO2022
-            || this.configuration.CharEncoding == Configuration.RAW)
+        if (this.configuration.charEncoding == Configuration.ISO2022
+            || this.configuration.charEncoding == Configuration.RAW)
         {
             addC(c, linelen++);
             return;
@@ -571,7 +571,7 @@ public class PPrint
          * his help with this code.
          */
 
-        if (this.configuration.MakeClean)
+        if (this.configuration.makeClean)
         {
             if (c >= 0x2013 && c <= 0x201E)
             {
@@ -596,11 +596,11 @@ public class PPrint
         }
 
         /* don't map latin-1 chars to entities */
-        if (this.configuration.CharEncoding == Configuration.LATIN1)
+        if (this.configuration.charEncoding == Configuration.LATIN1)
         {
             if (c > 255) /* multi byte chars */
             {
-                if (!this.configuration.NumEntities)
+                if (!this.configuration.numEntities)
                 {
                     entity = EntityTable.getDefaultEntityTable().entityName((short) c);
                     if (entity != null)
@@ -642,17 +642,17 @@ public class PPrint
         }
 
         /* don't map utf8 chars to entities */
-        if (this.configuration.CharEncoding == Configuration.UTF8)
+        if (this.configuration.charEncoding == Configuration.UTF8)
         {
             addC(c, linelen++);
             return;
         }
 
         /* use numeric entities only for XML */
-        if (this.configuration.XmlTags)
+        if (this.configuration.xmlTags)
         {
             /* if ASCII use numeric entities for chars > 127 */
-            if (c > 127 && this.configuration.CharEncoding == Configuration.ASCII)
+            if (c > 127 && this.configuration.charEncoding == Configuration.ASCII)
             {
                 entity = "&#" + c + ";";
 
@@ -672,7 +672,7 @@ public class PPrint
         /* default treatment for ASCII */
         if (c > 126 || (c < ' ' && c != '\t'))
         {
-            if (!this.configuration.NumEntities)
+            if (!this.configuration.numEntities)
             {
                 entity = EntityTable.getDefaultEntityTable().entityName((short) c);
                 if (entity != null)
@@ -774,7 +774,7 @@ public class PPrint
         addC('=', linelen++);
 
         /* don't wrap after "=" for xml documents */
-        if (!this.configuration.XmlOut)
+        if (!this.configuration.xmlOut)
         {
 
             if (indent + linelen < this.configuration.wraplen)
@@ -835,7 +835,7 @@ public class PPrint
                 }
                 else if (c == '"')
                 {
-                    if (this.configuration.QuoteMarks)
+                    if (this.configuration.quoteMarks)
                     {
                         addC('&', linelen++);
                         addC('q', linelen++);
@@ -859,7 +859,7 @@ public class PPrint
                 }
                 else if (c == '\'')
                 {
-                    if (this.configuration.QuoteMarks)
+                    if (this.configuration.quoteMarks)
                     {
                         addC('&', linelen++);
                         addC('#', linelen++);
@@ -909,7 +909,7 @@ public class PPrint
         String name;
         boolean wrappable = false;
 
-        if (this.configuration.IndentAttributes)
+        if (this.configuration.indentAttributes)
         {
             flushLine(fout, indent);
             indent += this.configuration.spaces;
@@ -922,13 +922,13 @@ public class PPrint
             wrapLine(fout, indent);
         }
 
-        if (!this.configuration.XmlTags && !this.configuration.XmlOut && attr.dict != null)
+        if (!this.configuration.xmlTags && !this.configuration.xmlOut && attr.dict != null)
         {
             if (AttributeTable.getDefaultAttributeTable().isScript(name))
             {
-                wrappable = this.configuration.WrapScriptlets;
+                wrappable = this.configuration.wrapScriptlets;
             }
-            else if (!attr.dict.isNowrap() && this.configuration.WrapAttVals)
+            else if (!attr.dict.isNowrap() && this.configuration.wrapAttVals)
             {
                 wrappable = true;
             }
@@ -947,7 +947,7 @@ public class PPrint
 
         for (int i = 0; i < name.length(); i++)
         {
-            addC((int) Lexer.foldCase(name.charAt(i), this.configuration.UpperCaseAttrs, this.configuration.XmlTags),
+            addC((int) Lexer.foldCase(name.charAt(i), this.configuration.upperCaseAttrs, this.configuration.xmlTags),
                 linelen++);
         }
 
@@ -958,7 +958,7 @@ public class PPrint
 
         if (attr.value == null)
         {
-            if (this.configuration.XmlTags || this.configuration.XmlOut)
+            if (this.configuration.xmlTags || this.configuration.xmlOut)
             {
                 printAttrValue(fout, indent, attr.attribute, attr.delim, true);
             }
@@ -1004,7 +1004,7 @@ public class PPrint
         }
 
         /* add xml:space attribute to pre and other elements */
-        if (configuration.XmlOut && configuration.XmlSpace && ParserImpl.XMLPreserveWhiteSpace(node, configuration.tt)
+        if (configuration.xmlOut && configuration.xmlSpace && ParserImpl.XMLPreserveWhiteSpace(node, configuration.tt)
             && node.getAttrByName("xml:space") == null)
         {
             printString(fout, indent, " xml:space=\"preserve\"");
@@ -1062,13 +1062,13 @@ public class PPrint
         p = node.element;
         for (int i = 0; i < p.length(); i++)
         {
-            addC((int) Lexer.foldCase(p.charAt(i), this.configuration.UpperCaseTags, this.configuration.XmlTags),
+            addC((int) Lexer.foldCase(p.charAt(i), this.configuration.upperCaseTags, this.configuration.xmlTags),
                 linelen++);
         }
 
         printAttrs(fout, indent, node, node.attributes);
 
-        if ((this.configuration.XmlOut || lexer != null && lexer.isvoyager)
+        if ((this.configuration.xmlOut || lexer != null && lexer.isvoyager)
             && (node.type == Node.StartEndTag || (node.tag.model & Dict.CM_EMPTY) != 0))
         {
             addC(' ', linelen++); /* compatibility hack */
@@ -1127,7 +1127,7 @@ public class PPrint
         p = node.element;
         for (int i = 0; i < p.length(); i++)
         {
-            addC((int) Lexer.foldCase(p.charAt(i), this.configuration.UpperCaseTags, this.configuration.XmlTags),
+            addC((int) Lexer.foldCase(p.charAt(i), this.configuration.upperCaseTags, this.configuration.xmlTags),
                 linelen++);
         }
 
@@ -1173,9 +1173,9 @@ public class PPrint
 
     private void printDocType(Out fout, int indent, Node node)
     {
-        boolean q = this.configuration.QuoteMarks;
+        boolean q = this.configuration.quoteMarks;
 
-        this.configuration.QuoteMarks = false;
+        this.configuration.quoteMarks = false;
 
         if (indent + linelen < this.configuration.wraplen)
         {
@@ -1208,7 +1208,7 @@ public class PPrint
         }
 
         addC('>', linelen++);
-        this.configuration.QuoteMarks = q;
+        this.configuration.quoteMarks = q;
         condFlushLine(fout, indent);
     }
 
@@ -1241,7 +1241,7 @@ public class PPrint
 
         /* disable wrapping if so requested */
 
-        if (!this.configuration.WrapAsp || !this.configuration.WrapJste)
+        if (!this.configuration.wrapAsp || !this.configuration.wrapJste)
         {
             this.configuration.wraplen = 0xFFFFFF; /* a very large number */
         }
@@ -1256,7 +1256,7 @@ public class PPrint
         addC('<', linelen++);
         addC('%', linelen++);
 
-        printText(fout, (this.configuration.WrapAsp ? CDATA : COMMENT), indent, node.textarray, node.start, node.end);
+        printText(fout, (this.configuration.wrapAsp ? CDATA : COMMENT), indent, node.textarray, node.start, node.end);
 
         addC('%', linelen++);
         addC('>', linelen++);
@@ -1271,7 +1271,7 @@ public class PPrint
 
         /* disable wrapping if so requested */
 
-        if (!this.configuration.WrapJste)
+        if (!this.configuration.wrapJste)
         {
             this.configuration.wraplen = 0xFFFFFF; /* a very large number */
         }
@@ -1279,7 +1279,7 @@ public class PPrint
         addC('<', linelen++);
         addC('#', linelen++);
 
-        printText(fout, (this.configuration.WrapJste ? CDATA : COMMENT), indent, node.textarray, node.start, node.end);
+        printText(fout, (this.configuration.wrapJste ? CDATA : COMMENT), indent, node.textarray, node.start, node.end);
 
         addC('#', linelen++);
         addC('>', linelen++);
@@ -1294,7 +1294,7 @@ public class PPrint
 
         /* disable wrapping if so requested */
 
-        if (!this.configuration.WrapPhp)
+        if (!this.configuration.wrapPhp)
         {
             this.configuration.wraplen = 0xFFFFFF; /* a very large number */
         }
@@ -1309,7 +1309,7 @@ public class PPrint
         addC('<', linelen++);
         addC('?', linelen++);
 
-        printText(fout, (this.configuration.WrapPhp ? CDATA : COMMENT), indent, node.textarray, node.start, node.end);
+        printText(fout, (this.configuration.wrapPhp ? CDATA : COMMENT), indent, node.textarray, node.start, node.end);
 
         addC('?', linelen++);
         addC('>', linelen++);
@@ -1352,7 +1352,7 @@ public class PPrint
 
         /* disable wrapping if so requested */
 
-        if (!this.configuration.WrapSection)
+        if (!this.configuration.wrapSection)
         {
             this.configuration.wraplen = 0xFFFFFF; /* a very large number */
         }
@@ -1368,7 +1368,7 @@ public class PPrint
         addC('!', linelen++);
         addC('[', linelen++);
 
-        printText(fout, (this.configuration.WrapSection ? CDATA : COMMENT), indent, node.textarray, node.start,
+        printText(fout, (this.configuration.wrapSection ? CDATA : COMMENT), indent, node.textarray, node.start,
             node.end);
 
         addC(']', linelen++);
@@ -1381,12 +1381,12 @@ public class PPrint
     {
         TagTable tt = this.configuration.tt;
 
-        if (!this.configuration.IndentContent)
+        if (!this.configuration.indentContent)
         {
             return false;
         }
 
-        if (this.configuration.SmartIndent)
+        if (this.configuration.smartIndent)
         {
             if (node.content != null && ((node.tag.model & Dict.CM_NO_INDENT) != 0))
             {
@@ -1491,12 +1491,12 @@ public class PPrint
             }
 
             if (node.tag == tt.tagBr && node.prev != null && node.prev.tag != tt.tagBr
-                && this.configuration.BreakBeforeBR)
+                && this.configuration.breakBeforeBR)
             {
                 flushLine(fout, indent);
             }
 
-            if (this.configuration.MakeClean && node.tag == tt.tagWbr)
+            if (this.configuration.makeClean && node.tag == tt.tagWbr)
             {
                 printString(fout, indent, " ");
             }
@@ -1535,7 +1535,7 @@ public class PPrint
                 printEndTag(fout, mode, indent, node);
                 flushLine(fout, indent);
 
-                if (!this.configuration.IndentContent && node.next != null)
+                if (!this.configuration.indentContent && node.next != null)
                 {
                     flushLine(fout, indent);
                 }
@@ -1558,7 +1558,7 @@ public class PPrint
                 printEndTag(fout, mode, indent, node);
                 flushLine(fout, indent);
 
-                if (!this.configuration.IndentContent && node.next != null)
+                if (!this.configuration.indentContent && node.next != null)
                 {
                     flushLine(fout, indent);
 
@@ -1566,7 +1566,7 @@ public class PPrint
             }
             else if ((node.tag.model & Dict.CM_INLINE) != 0)
             {
-                if (this.configuration.MakeClean)
+                if (this.configuration.makeClean)
                 {
                     /* discards <font> and </font> tags */
                     if (node.tag == tt.tagFont)
@@ -1625,12 +1625,12 @@ public class PPrint
                 /* other tags */
                 condFlushLine(fout, indent);
 
-                if (this.configuration.SmartIndent && node.prev != null)
+                if (this.configuration.smartIndent && node.prev != null)
                 {
                     flushLine(fout, indent);
                 }
 
-                if (!this.configuration.HideEndTags || !(node.tag != null && ((node.tag.model & Dict.CM_OMITST) != 0)))
+                if (!this.configuration.hideEndTags || !(node.tag != null && ((node.tag.model & Dict.CM_OMITST) != 0)))
                 {
                     printTag(lexer, fout, mode, indent, node);
 
@@ -1645,9 +1645,9 @@ public class PPrint
                     }
                 }
 
-                if (node.tag == tt.tagBody && this.configuration.BurstSlides)
+                if (node.tag == tt.tagBody && this.configuration.burstSlides)
                 {
-                    printSlide(fout, mode, (this.configuration.IndentContent
+                    printSlide(fout, mode, (this.configuration.indentContent
                         ? indent + this.configuration.spaces
                         : indent), lexer);
                 }
@@ -1658,7 +1658,7 @@ public class PPrint
                     for (content = node.content; content != null; content = content.next)
                     {
                         /* kludge for naked text before block level tag */
-                        if (last != null && !this.configuration.IndentContent && last.type == Node.TextNode
+                        if (last != null && !this.configuration.indentContent && last.type == Node.TextNode
                             && content.tag != null && (content.tag.model & Dict.CM_BLOCK) != 0)
                         {
                             flushLine(fout, indent);
@@ -1674,13 +1674,13 @@ public class PPrint
 
                 /* don't flush line for td and th */
                 if (shouldIndent(node)
-                    || (((node.tag.model & Dict.CM_HTML) != 0 || node.tag == tt.tagNoframes || ((node.tag.model & Dict.CM_HEAD) != 0 && !(node.tag == tt.tagTitle))) && !this.configuration.HideEndTags))
+                    || (((node.tag.model & Dict.CM_HTML) != 0 || node.tag == tt.tagNoframes || ((node.tag.model & Dict.CM_HEAD) != 0 && !(node.tag == tt.tagTitle))) && !this.configuration.hideEndTags))
                 {
-                    condFlushLine(fout, (this.configuration.IndentContent
+                    condFlushLine(fout, (this.configuration.indentContent
                         ? indent + this.configuration.spaces
                         : indent));
 
-                    if (!this.configuration.HideEndTags || !((node.tag.model & Dict.CM_OPT) != 0))
+                    if (!this.configuration.hideEndTags || !((node.tag.model & Dict.CM_OPT) != 0))
                     {
                         printEndTag(fout, mode, indent, node);
                         flushLine(fout, indent);
@@ -1688,7 +1688,7 @@ public class PPrint
                 }
                 else
                 {
-                    if (!this.configuration.HideEndTags || !((node.tag.model & Dict.CM_OPT) != 0))
+                    if (!this.configuration.hideEndTags || !((node.tag.model & Dict.CM_OPT) != 0))
                     {
                         printEndTag(fout, mode, indent, node);
                     }
@@ -1696,7 +1696,7 @@ public class PPrint
                     flushLine(fout, indent);
                 }
 
-                if (!this.configuration.IndentContent && node.next != null && !this.configuration.HideEndTags
+                if (!this.configuration.indentContent && node.next != null && !this.configuration.hideEndTags
                     && (node.tag.model & (Dict.CM_BLOCK | Dict.CM_LIST | Dict.CM_DEFLIST | Dict.CM_TABLE)) != 0)
                 {
                     flushLine(fout, indent);
@@ -1932,10 +1932,10 @@ public class PPrint
 
             addC('<', linelen++);
 
-            addC((int) Lexer.foldCase('h', this.configuration.UpperCaseTags, this.configuration.XmlTags), linelen++);
-            addC((int) Lexer.foldCase('r', this.configuration.UpperCaseTags, this.configuration.XmlTags), linelen++);
+            addC((int) Lexer.foldCase('h', this.configuration.upperCaseTags, this.configuration.xmlTags), linelen++);
+            addC((int) Lexer.foldCase('r', this.configuration.upperCaseTags, this.configuration.xmlTags), linelen++);
 
-            if (this.configuration.XmlOut)
+            if (this.configuration.xmlOut)
             {
                 printString(fout, indent, " />");
             }
@@ -1944,7 +1944,7 @@ public class PPrint
                 addC('>', linelen++);
             }
 
-            if (this.configuration.IndentContent)
+            if (this.configuration.indentContent)
             {
                 condFlushLine(fout, indent);
             }
@@ -1954,7 +1954,7 @@ public class PPrint
             /* condFlushLine(fout, indent); */
 
             /* print the h2 element */
-            printTree(fout, mode, (this.configuration.IndentContent ? indent + this.configuration.spaces : indent),
+            printTree(fout, mode, (this.configuration.indentContent ? indent + this.configuration.spaces : indent),
                 lexer, slidecontent);
 
             slidecontent = slidecontent.next;
@@ -1973,14 +1973,14 @@ public class PPrint
             }
 
             /* kludge for naked text before block level tag */
-            if (last != null && !this.configuration.IndentContent && last.type == Node.TextNode && content.tag != null
+            if (last != null && !this.configuration.indentContent && last.type == Node.TextNode && content.tag != null
                 && (content.tag.model & Dict.CM_BLOCK) != 0)
             {
                 flushLine(fout, indent);
                 flushLine(fout, indent);
             }
 
-            printTree(fout, mode, (this.configuration.IndentContent ? indent + this.configuration.spaces : indent),
+            printTree(fout, mode, (this.configuration.indentContent ? indent + this.configuration.spaces : indent),
                 lexer, content);
 
             last = content;
@@ -1997,10 +1997,10 @@ public class PPrint
 
         addC('<', linelen++);
 
-        addC((int) Lexer.foldCase('h', this.configuration.UpperCaseTags, this.configuration.XmlTags), linelen++);
-        addC((int) Lexer.foldCase('r', this.configuration.UpperCaseTags, this.configuration.XmlTags), linelen++);
+        addC((int) Lexer.foldCase('h', this.configuration.upperCaseTags, this.configuration.xmlTags), linelen++);
+        addC((int) Lexer.foldCase('r', this.configuration.upperCaseTags, this.configuration.xmlTags), linelen++);
 
-        if (this.configuration.XmlOut)
+        if (this.configuration.xmlOut)
         {
             printString(fout, indent, " />");
         }
@@ -2009,7 +2009,7 @@ public class PPrint
             addC('>', linelen++);
         }
 
-        if (this.configuration.IndentContent)
+        if (this.configuration.indentContent)
         {
             condFlushLine(fout, indent);
         }
@@ -2062,7 +2062,7 @@ public class PPrint
         {
             buf = "slide" + slide + ".html";
             out.state = StreamIn.FSM_ASCII;
-            out.encoding = this.configuration.CharEncoding;
+            out.encoding = this.configuration.charEncoding;
 
             try
             {

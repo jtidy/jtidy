@@ -631,7 +631,7 @@ public class Lexer
 
             addCharToLexer(ch);
 
-            if (ch == '&' && !this.configuration.QuoteAmpersand)
+            if (ch == '&' && !this.configuration.quoteAmpersand)
             {
                 addCharToLexer('a');
                 addCharToLexer('m');
@@ -651,7 +651,7 @@ public class Lexer
         c = this.lexbuf[this.txtstart];
         map = MAP((char) c);
 
-        if (!this.configuration.XmlTags && (map & UPPERCASE) != 0)
+        if (!this.configuration.xmlTags && (map & UPPERCASE) != 0)
         {
             c += ('a' - 'A');
             this.lexbuf[this.txtstart] = (byte) c;
@@ -672,7 +672,7 @@ public class Lexer
             }
 
             // fold case of subsequent chars
-            if (!this.configuration.XmlTags && (map & UPPERCASE) != 0)
+            if (!this.configuration.xmlTags && (map & UPPERCASE) != 0)
             {
                 c += ('a' - 'A');
             }
@@ -1131,7 +1131,7 @@ public class Lexer
             Report.warning(this, null, null, Report.MALFORMED_DOCTYPE);
         }
 
-        if (this.configuration.XmlOut)
+        if (this.configuration.xmlOut)
         {
             return true;
         }
@@ -1227,7 +1227,7 @@ public class Lexer
         }
 
         /* for XML use the Voyager system identifier */
-        if (this.configuration.XmlOut || this.configuration.XmlTags || this.isvoyager)
+        if (this.configuration.xmlOut || this.configuration.xmlTags || this.isvoyager)
         {
             if (doctype != null)
             {
@@ -1323,7 +1323,7 @@ public class Lexer
         this.txtstart = this.lexsize;
         this.txtend = this.lexsize;
         addStringLiteral("xml version=\"1.0\"");
-        if (this.configuration.CharEncoding == Configuration.LATIN1)
+        if (this.configuration.charEncoding == Configuration.LATIN1)
         {
             addStringLiteral(" encoding=\"ISO-8859-1\"");
         }
@@ -1976,13 +1976,13 @@ public class Lexer
                     {
                         Report.error(this, null, this.token, Report.UNKNOWN_ELEMENT);
                     }
-                    else if (!this.configuration.XmlTags)
+                    else if (!this.configuration.xmlTags)
                     {
                         this.versions &= this.token.tag.versions;
 
                         if ((this.token.tag.versions & Dict.VERS_PROPRIETARY) != 0)
                         {
-                            if (!this.configuration.MakeClean
+                            if (!this.configuration.makeClean
                                 && (this.token.tag == this.configuration.tt.tagNobr
                                     || this.token.tag == this.configuration.tt.tagWbr))
                             {
@@ -2069,7 +2069,7 @@ public class Lexer
                         }
 
                         badcomment++;
-                        if (this.configuration.FixComments)
+                        if (this.configuration.fixComments)
                         {
                             this.lexbuf[this.lexsize - 2] = (byte) '=';
                         }
@@ -2131,7 +2131,7 @@ public class Lexer
                         }
                     }
 
-                    if (this.configuration.XmlPIs) /* insist on ?> as terminator */
+                    if (this.configuration.xmlPIs) /* insist on ?> as terminator */
                     {
                         if (c != '?')
                         {
@@ -2529,7 +2529,7 @@ public class Lexer
             /* what should be done about non-namechar characters? */
             /* currently these are incorporated into the attr name */
 
-            if (!this.configuration.XmlTags && (map & UPPERCASE) != 0)
+            if (!this.configuration.xmlTags && (map & UPPERCASE) != 0)
             {
                 c += ('a' - 'A');
             }
@@ -2679,7 +2679,7 @@ public class Lexer
          * Henry Zrepa reports that some folk are using the embed element with script attributes where newlines are
          * significant and must be preserved
          */
-        if (this.configuration.LiteralAttribs)
+        if (this.configuration.literalAttribs)
         {
             munge = false;
         }
@@ -3286,7 +3286,7 @@ public class Lexer
             return false;
         }
 
-        if (element.tag == this.configuration.tt.tagP && !this.configuration.DropEmptyParas)
+        if (element.tag == this.configuration.tt.tagP && !this.configuration.dropEmptyParas)
         {
             return false;
         }
@@ -3335,7 +3335,7 @@ public class Lexer
                     Report.attrError(this, node, "name", Report.ID_NAME_MISMATCH);
                 }
             }
-            else if (this.configuration.XmlOut)
+            else if (this.configuration.xmlOut)
             {
                 node.addAttribute("id", name.value);
             }

@@ -87,7 +87,7 @@ public final class AttrCheckImpl
             {
                 Report.attrError(lexer, node, attval.attribute, Report.MISSING_ATTR_VALUE);
             }
-            else if (lexer.configuration.FixBackslash)
+            else if (lexer.configuration.fixBackslash)
             {
                 attval.value = attval.value.replace('\\', '/');
             }
