@@ -67,22 +67,39 @@ public class AttributeTable
 {
 
     public static Attribute attrHref;
+
     public static Attribute attrSrc;
+
     public static Attribute attrId;
+
     public static Attribute attrName;
+
     public static Attribute attrSummary;
+
     public static Attribute attrAlt;
+
     public static Attribute attrLongdesc;
+
     public static Attribute attrUsemap;
+
     public static Attribute attrIsmap;
+
     public static Attribute attrLanguage;
+
     public static Attribute attrType;
+
     public static Attribute attrTitle;
+
     public static Attribute attrXmlns;
+
     public static Attribute attrValue;
+
     public static Attribute attrContent;
+
     public static Attribute attrDatafld;
+
     public static Attribute attrWidth;
+
     public static Attribute attrHeight;
 
     private static AttributeTable defaultAttributeTable;
@@ -334,38 +351,24 @@ public class AttributeTable
         new Attribute("style", Dict.VERS_HTML40, null),
         new Attribute("summary", Dict.VERS_HTML40, null),
         // TABLE
-        new Attribute("tabindex", Dict.VERS_HTML40, null),
-        // fields, OBJECT and A
-        new Attribute("target", Dict.VERS_HTML40, null),
-        // names a frame/window
-        new Attribute("text", Dict.VERS_LOOSE, null),
-        // BODY
-        new Attribute("title", Dict.VERS_HTML40, null),
-        // text tool tip
-        new Attribute("topmargin", Dict.VERS_MICROSOFT, null),
-        // used on BODY
-        new Attribute("type", Dict.VERS_FROM32, null),
-        // also used by SPACER
-        new Attribute("usemap", Dict.VERS_ALL, AttrCheckImpl.getCheckBool()),
-        // things with images
+        new Attribute("tabindex", Dict.VERS_HTML40, null), // fields, OBJECT and A
+        new Attribute("target", Dict.VERS_HTML40, null), // names a frame/window
+        new Attribute("text", Dict.VERS_LOOSE, null), // BODY
+        new Attribute("title", Dict.VERS_HTML40, null), // text tool tip
+        new Attribute("topmargin", Dict.VERS_MICROSOFT, null), // used on BODY
+        new Attribute("type", Dict.VERS_FROM32, null), // also used by SPACER
+        new Attribute("usemap", Dict.VERS_ALL, AttrCheckImpl.getCheckBool()), // things with images
         new Attribute("valign", Dict.VERS_FROM32, AttrCheckImpl.getCheckValign()),
-        new Attribute("value", Dict.VERS_ALL, null),
-        // OPTION, PARAM
-        new Attribute("valuetype", Dict.VERS_HTML40, null),
-        // PARAM: data, ref, object
-        new Attribute("version", Dict.VERS_ALL, null),
-        // HTML
-        new Attribute("vlink", Dict.VERS_LOOSE, null),
-        // BODY
-        new Attribute("vspace", Dict.VERS_LOOSE, null),
-        // IMG, OBJECT, APPLET
-        new Attribute("width", Dict.VERS_ALL, null),
-        // pixels only for TD/TH
-        new Attribute("wrap", Dict.VERS_NETSCAPE, null),
-        // textarea
-        new Attribute("xml:lang", Dict.VERS_XML, null),
-        // XML language
+        new Attribute("value", Dict.VERS_ALL, null), // OPTION, PARAM
+        new Attribute("valuetype", Dict.VERS_HTML40, null), // PARAM: data, ref, object
+        new Attribute("version", Dict.VERS_ALL, null), // HTML
+        new Attribute("vlink", Dict.VERS_LOOSE, null), // BODY
+        new Attribute("vspace", Dict.VERS_LOOSE, null), // IMG, OBJECT, APPLET
+        new Attribute("width", Dict.VERS_ALL, null), // pixels only for TD/TH
+        new Attribute("wrap", Dict.VERS_NETSCAPE, null), // textarea
+        new Attribute("xml:lang", Dict.VERS_XML, null), // XML language
         new Attribute("xmlns", Dict.VERS_ALL, null), // name space
+        new Attribute("rbspan", Dict.VERS_XHTML11, AttrCheckImpl.getCheckNumber()), // ruby markup
 
     };
 
