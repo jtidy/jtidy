@@ -56,6 +56,8 @@ package org.w3c.tidy;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.w3c.tidy.EncodingUtils.PutBytes;
+
 
 /**
  * Output Stream Implementation.
@@ -88,6 +90,37 @@ public class OutImpl implements Out
     private OutputStream out;
 
     /**
+     * putter callback.
+     */
+    private PutBytes putBytes;
+
+    /**
+     * 
+     */
+    public OutImpl()
+    {
+        super();
+
+        this.putBytes = new PutBytes()
+        {
+
+            OutImpl out;
+
+            PutBytes setOut(OutImpl out)
+            {
+                this.out = out;
+                return this;
+            }
+
+            public void doPut(byte[] buf, int[] count)
+            {
+                out.outcUTF8Bytes(buf, count);
+            };
+        } // set the out instance direclty
+            .setOut(this);
+    }
+
+    /**
      * Getter for <code>encoding</code>.
      * @return Returns the encoding.
      */
@@ -114,63 +147,99 @@ public class OutImpl implements Out
         return this.state;
     }
 
+    /**
+     * output UTF-8 bytes to output stream.
+     * @param buf array of bytes
+     * @param count number of bytes in buf to write
+     */
+    void outcUTF8Bytes(byte[] buf, int[] count)
+    {
+        try
+        {
+            for (int i = 0; i < count[0]; i++)
+            {
+                out.write(buf[i]);
+            }
+        }
+        catch (IOException e)
+        {
+            System.err.println("OutImpl.outcUTF8Bytes: " + e.toString());
+        }
+    }
+
+    /**
+     * .
+     * @see org.w3c.tidy.Out#outc(byte)
+     */
     public void outc(byte c)
     {
         outc(c & 0xFF); // Convert to unsigned.
     }
 
-    /* For mac users, should we map Unicode back to MacRoman? */
+    /**
+     * @see org.w3c.tidy.Out#outc(int)
+     */
     public void outc(int c)
     {
         int ch;
 
         try
         {
-            if (this.encoding == Configuration.UTF8)
+
+            if (this.encoding == Configuration.MACROMAN)
             {
                 if (c < 128)
                 {
-                    this.out.write(c);
-                }
-                else if (c <= 0x7FF)
-                {
-                    ch = (0xC0 | (c >> 6));
-                    this.out.write(ch);
-                    ch = (0x80 | (c & 0x3F));
-                    this.out.write(ch);
-                }
-                else if (c <= 0xFFFF)
-                {
-                    ch = (0xE0 | (c >> 12));
-                    this.out.write(ch);
-                    ch = (0x80 | ((c >> 6) & 0x3F));
-                    this.out.write(ch);
-                    ch = (0x80 | (c & 0x3F));
-                    this.out.write(ch);
-                }
-                else if (c <= 0x1FFFFF)
-                {
-                    ch = (0xF0 | (c >> 18));
-                    this.out.write(ch);
-                    ch = (0x80 | ((c >> 12) & 0x3F));
-                    this.out.write(ch);
-                    ch = (0x80 | ((c >> 6) & 0x3F));
-                    this.out.write(ch);
-                    ch = (0x80 | (c & 0x3F));
-                    this.out.write(ch);
+                    out.write(c);
                 }
                 else
                 {
-                    ch = (0xF8 | (c >> 24));
-                    this.out.write(ch);
-                    ch = (0x80 | ((c >> 18) & 0x3F));
-                    this.out.write(ch);
-                    ch = (0x80 | ((c >> 12) & 0x3F));
-                    this.out.write(ch);
-                    ch = (0x80 | ((c >> 6) & 0x3F));
-                    this.out.write(ch);
-                    ch = (0x80 | (c & 0x3F));
-                    this.out.write(ch);
+                    int i;
+
+                    for (i = 128; i < 256; i++)
+                    {
+                        if (EncodingUtils.decodeMacRoman(i - 128) == c)
+                        {
+                            out.write(i);
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+
+            if (this.encoding == Configuration.WIN1252)
+            {
+                if (c < 128 || (c > 159 && c < 256))
+                {
+                    out.write(c);
+                }
+                else
+                {
+                    int i;
+
+                    for (i = 128; i < 160; i++)
+                    {
+                        if (EncodingUtils.decodeWin1252(i - 128) == c)
+                        {
+                            out.write(i);
+                            break;
+                        }
+                    }
+                }
+            }
+            else if (this.encoding == Configuration.UTF8)
+            {
+                int[] count = new int[]{0};
+
+                EncodingUtils.encodeCharToUTF8Bytes(c, null, this.putBytes, count);
+                if (count[0] <= 0)
+                {
+                    /* ReportEncodingError(in->lexer, INVALID_UTF8 | REPLACED_CHAR, c); */
+                    /* replacement char 0xFFFD encoded as UTF-8 */
+                    out.write(0xEF);
+                    out.write(0xBF);
+                    out.write(0xBF);
                 }
             }
             else if (this.encoding == Configuration.ISO2022)
@@ -220,6 +289,10 @@ public class OutImpl implements Out
                         case StreamIn.FSM_NONASCII :
                             c &= 0x7F;
                             break;
+
+                        default :
+                            // should not reach here
+                            break;
                     }
                 }
 
@@ -235,9 +308,9 @@ public class OutImpl implements Out
                 else
                 {
                     ch = (c >> 8) & 0xFF;
-                    this.out.write(c);
+                    this.out.write(ch);
                     ch = c & 0xFF;
-                    this.out.write(c);
+                    this.out.write(ch);
                 }
             }
             // #431953 - end RJ
@@ -252,6 +325,9 @@ public class OutImpl implements Out
         }
     }
 
+    /**
+     * @see org.w3c.tidy.Out#newline()
+     */
     public void newline()
     {
         try
@@ -291,4 +367,5 @@ public class OutImpl implements Out
     {
         this.state = state;
     }
+
 }

@@ -624,45 +624,32 @@ public class Lexer
     {
         // Allow only valid XML characters. See: http://www.w3.org/TR/2004/REC-xml-20040204/#NT-Char
         // Fix by Pablo Mayrgundter 17-08-2004
-        if ((this.configuration.xmlOut || this.configuration.xHTML) // only for xml output
-            && !((c >= 0x20 && c <= 0xD7FF) // Check the common-case first.
-                || c == 0x9 || c == 0xA || c == 0xD // Then white-space.
-                || (c >= 0xE000 && c <= 0xFFFD) // Then high-range unicode.
-            || (c >= 0x10000 && c <= 0x10FFFF)))
+        /*
+         * if ((this.configuration.xmlOut || this.configuration.xHTML) // only for xml output && !((c >= 0x20 && c <=
+         * 0xD7FF) // Check the common-case first. || c == 0x9 || c == 0xA || c == 0xD // Then white-space. || (c >=
+         * 0xE000 && c <= 0xFFFD) // Then high-range unicode. || (c >= 0x10000 && c <= 0x10FFFF))) { return; }
+         */
+
+        int i = 0;
+        int[] count = new int[]{0};
+        byte[] buf = new byte[10]; // unsigned char
+
+        boolean err = EncodingUtils.encodeCharToUTF8Bytes(c, buf, null, count);
+        if (err)
         {
-            return;
+
+            // replacement char 0xFFFD encoded as UTF-8
+            buf[0] = (byte) 0xEF;
+            buf[1] = (byte) 0xBF;
+            buf[2] = (byte) 0xBD;
+            count[0] = 3;
         }
 
-        if (c < 128)
+        for (i = 0; i < count[0]; i++)
         {
-            addByte(c);
+            addByte(buf[i]); //uint
         }
-        else if (c <= 0x7FF)
-        {
-            addByte(0xC0 | (c >> 6));
-            addByte(0x80 | (c & 0x3F));
-        }
-        else if (c <= 0xFFFF)
-        {
-            addByte(0xE0 | (c >> 12));
-            addByte(0x80 | ((c >> 6) & 0x3F));
-            addByte(0x80 | (c & 0x3F));
-        }
-        else if (c <= 0x1FFFFF)
-        {
-            addByte(0xF0 | (c >> 18));
-            addByte(0x80 | ((c >> 12) & 0x3F));
-            addByte(0x80 | ((c >> 6) & 0x3F));
-            addByte(0x80 | (c & 0x3F));
-        }
-        else
-        {
-            addByte(0xF8 | (c >> 24));
-            addByte(0x80 | ((c >> 18) & 0x3F));
-            addByte(0x80 | ((c >> 12) & 0x3F));
-            addByte(0x80 | ((c >> 6) & 0x3F));
-            addByte(0x80 | (c & 0x3F));
-        }
+
     }
 
     public void addStringToLexer(String str)
@@ -767,11 +754,11 @@ public class Lexer
 
                     if (configuration.replacementCharEncoding == Configuration.WIN1252)
                     {
-                        c1 = StreamInImpl.decodeWin1252(ch);
+                        c1 = EncodingUtils.decodeWin1252(ch);
                     }
                     else if (configuration.replacementCharEncoding == Configuration.MACROMAN)
                     {
-                        c1 = StreamInImpl.decodeMacRoman(ch);
+                        c1 = EncodingUtils.decodeMacRoman(ch);
                     }
 
                     // "or" DISCARDED_CHAR with the other errors if discarding char; otherwise default is replacing

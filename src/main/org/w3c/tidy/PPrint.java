@@ -200,64 +200,42 @@ public class PPrint
     }
 
     /**
-     * return one less that the number of bytes used by UTF-8 char.
-     * <code>1010 A 1011 B 1100 C 1101 D 1110 E 1111 F</code>
-     * @param str points to 1st byte
+     * return one less than the number of bytes used by the UTF-8 byte sequence. The Unicode char is returned in ch.
+     * @param str points to the UTF-8 byte sequence
      * @param start starting offset in str
      * @param ch initialized to 1st byte, passed as an array to allow modification
      * @return one less that the number of bytes used by UTF-8 char
      */
     public static int getUTF8(byte[] str, int start, int[] ch)
     {
-        int c, n, i, bytes;
 
-        c = str[start] & 0xFF; // Convert to unsigned.
+        int[] n = new int[1];
 
-        if ((c & 0xE0) == 0xC0) /* 110X XXXX two bytes */
-        {
-            n = c & 31;
-            bytes = 2;
-        }
-        else if ((c & 0xF0) == 0xE0) /* 1110 XXXX three bytes */
-        {
-            n = c & 15;
-            bytes = 3;
-        }
-        else if ((c & 0xF8) == 0xF0) /* 1111 0XXX four bytes */
-        {
-            n = c & 7;
-            bytes = 4;
-        }
-        else if ((c & 0xFC) == 0xF8) /* 1111 10XX five bytes */
-        {
-            n = c & 3;
-            bytes = 5;
-        }
-        else if ((c & 0xFE) == 0xFC) /* 1111 110X six bytes */
-        {
-            n = c & 1;
-            bytes = 6;
-        }
-        else
-        {
-            /* 0XXX XXXX one byte */
-            ch[0] = c;
-            return 0;
-        }
+        int[] bytes = new int[]{0};
 
-        /* successor bytes should have the form 10XX XXXX */
-        for (i = 1; i < bytes; ++i)
-        {
-            c = str[start + i] & 0xFF; // Convert to unsigned.
-            n = (n << 6) | (c & 0x3F);
-        }
+        // first byte "str[0]" is passed in separately from the
+        // rest of the UTF-8 byte sequence starting at "str[1]"
+        byte[] successorBytes = str;
 
-        ch[0] = n;
-        return bytes - 1;
+        boolean err = EncodingUtils.decodeUTF8BytesToChar(
+            n,
+            TidyUtils.toUnsigned(str[start]),
+            successorBytes,
+            null,
+            bytes,
+            start + 1);
+        // err = DecodeUTF8BytesToChar(&n, str[0], (unsigned char *)&str[1], NULL, NULL, &bytes);
+        if (err)
+        {
+            n[0] = 0xFFFD; /* replacement char */
+        }
+        ch[0] = n[0];
+        return bytes[0] - 1;
+
     }
 
     /* store char c as UTF-8 encoded byte stream */
-    public static int putUTF8(byte[] buf, int start, int c)
+    public static int OLDputUTF8(byte[] buf, int start, int c)
     {
         if (c < 128)
         {
@@ -289,6 +267,28 @@ public class PPrint
             buf[start++] = (byte) (0x80 | ((c >> 6) & 0x3F));
             buf[start++] = (byte) (0x80 | (c & 0x3F));
         }
+
+        return start;
+    }
+
+    /**
+     * store char c as UTF-8 encoded byte stream.
+     */
+    public static int putUTF8(byte[] buf, int start, int c)
+    {
+        int[] count = new int[]{0};
+
+        boolean err = EncodingUtils.encodeCharToUTF8Bytes(c, buf, null, count);
+        if (err)
+        {
+            // replacement char 0xFFFD encoded as UTF-8
+            buf[0] = (byte) 0xEF;
+            buf[1] = (byte) 0xBF;
+            buf[2] = (byte) 0xBD;
+            count[0] = 3;
+        }
+
+        start += count[0];
 
         return start;
     }
