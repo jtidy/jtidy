@@ -1598,89 +1598,91 @@ public class Tidy implements Serializable
                     arg = arg.substring(1);
                 }
 
-                if (arg.equals("xml"))
+                if (arg.equalsIgnoreCase("xml"))
                 {
                     configuration.xmlTags = true;
                 }
-                else if (arg.equals("asxml") || arg.equals("asxhtml"))
+                else if (arg.equalsIgnoreCase("asxml") || arg.equalsIgnoreCase("asxhtml"))
                 {
                     configuration.xHTML = true;
                 }
-                else if (arg.equals("indent"))
+                else if (arg.equalsIgnoreCase("indent"))
                 {
                     configuration.indentContent = true;
                     configuration.smartIndent = true;
                 }
-                else if (arg.equals("omit"))
+                else if (arg.equalsIgnoreCase("omit"))
                 {
                     configuration.hideEndTags = true;
                 }
-                else if (arg.equals("upper"))
+                else if (arg.equalsIgnoreCase("upper"))
                 {
                     configuration.upperCaseTags = true;
                 }
-                else if (arg.equals("clean"))
+                else if (arg.equalsIgnoreCase("clean"))
                 {
                     configuration.makeClean = true;
                 }
-                else if (arg.equals("raw"))
+                else if (arg.equalsIgnoreCase("raw"))
                 {
                     configuration.charEncoding = Configuration.RAW;
                 }
-                else if (arg.equals("ascii"))
+                else if (arg.equalsIgnoreCase("ascii"))
                 {
                     configuration.charEncoding = Configuration.ASCII;
                 }
-                else if (arg.equals("latin1"))
+                else if (arg.equalsIgnoreCase("latin1"))
                 {
                     configuration.charEncoding = Configuration.LATIN1;
                 }
-                else if (arg.equals("utf8"))
+                else if (arg.equalsIgnoreCase("utf8"))
                 {
                     configuration.charEncoding = Configuration.UTF8;
                 }
-                else if (arg.equals("iso2022"))
+                else if (arg.equalsIgnoreCase("iso2022"))
                 {
                     configuration.charEncoding = Configuration.ISO2022;
                 }
-                else if (arg.equals("mac"))
+                else if (arg.equalsIgnoreCase("mac"))
                 {
                     configuration.charEncoding = Configuration.MACROMAN;
                 }
-                else if (arg.equals("numeric"))
+                else if (arg.equalsIgnoreCase("numeric"))
                 {
                     configuration.numEntities = true;
                 }
-                else if (arg.equals("modify"))
+                else if (arg.equalsIgnoreCase("modify"))
                 {
                     configuration.writeback = true;
                 }
-                else if (arg.equals("change")) // obsolete
+                else if (arg.equalsIgnoreCase("change")) // obsolete
                 {
                     configuration.writeback = true;
                 }
-                else if (arg.equals("update")) // obsolete
+                else if (arg.equalsIgnoreCase("update")) // obsolete
                 {
                     configuration.writeback = true;
                 }
-                else if (arg.equals("errors"))
+                else if (arg.equalsIgnoreCase("errors"))
                 {
                     configuration.onlyErrors = true;
                 }
-                else if (arg.equals("quiet"))
+                else if (arg.equalsIgnoreCase("quiet"))
                 {
                     configuration.quiet = true;
                 }
-                else if (arg.equals("slides"))
+                else if (arg.equalsIgnoreCase("slides"))
                 {
                     configuration.burstSlides = true;
                 }
-                else if (arg.equals("help") || argv[argIndex].charAt(1) == '?' || argv[argIndex].charAt(1) == 'h')
+                else if (arg.equalsIgnoreCase("help")
+                    || argv[argIndex].charAt(1) == '?'
+                    || argv[argIndex].charAt(1) == 'h')
                 {
                     this.report.helpText(new PrintWriter(System.out, true));
                     return 1;
                 }
-                else if (arg.equals("config"))
+                else if (arg.equalsIgnoreCase("config"))
                 {
                     if (argc >= 3)
                     {
@@ -1689,9 +1691,9 @@ public class Tidy implements Serializable
                         ++argIndex;
                     }
                 }
-                else if (argv[argIndex].equals("-file")
-                    || argv[argIndex].equals("--file")
-                    || argv[argIndex].equals("-f"))
+                else if (argv[argIndex].equalsIgnoreCase("-file")
+                    || argv[argIndex].equalsIgnoreCase("--file")
+                    || argv[argIndex].equalsIgnoreCase("-f"))
                 {
                     if (argc >= 3)
                     {
@@ -1700,9 +1702,9 @@ public class Tidy implements Serializable
                         ++argIndex;
                     }
                 }
-                else if (argv[argIndex].equals("-wrap")
-                    || argv[argIndex].equals("--wrap")
-                    || argv[argIndex].equals("-w"))
+                else if (argv[argIndex].equalsIgnoreCase("-wrap")
+                    || argv[argIndex].equalsIgnoreCase("--wrap")
+                    || argv[argIndex].equalsIgnoreCase("-w"))
                 {
                     if (argc >= 3)
                     {
@@ -1711,9 +1713,9 @@ public class Tidy implements Serializable
                         ++argIndex;
                     }
                 }
-                else if (argv[argIndex].equals("-version")
-                    || argv[argIndex].equals("--version")
-                    || argv[argIndex].equals("-v"))
+                else if (argv[argIndex].equalsIgnoreCase("-version")
+                    || argv[argIndex].equalsIgnoreCase("--version")
+                    || argv[argIndex].equalsIgnoreCase("-v"))
                 {
                     this.report.showVersion(errout);
                     return 0;
