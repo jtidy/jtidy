@@ -53,9 +53,14 @@
  */
 package org.w3c.tidy;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.Properties;
@@ -101,9 +106,6 @@ public class TidyTestCase extends TestCase
         // configuration file
         URL configurationFile = classLoader.getResource(configFileName);
 
-        // existing file for comparison
-        URL outFile = classLoader.getResource(outFileName);
-
         // debug runing test info
         if (log.isDebugEnabled())
         {
@@ -135,14 +137,74 @@ public class TidyTestCase extends TestCase
         // go!
         tidy.parse(inputURL.openStream(), out);
 
+        if (log.isDebugEnabled())
+        {
+            log.debug("\n---- out ----\n\n" + out + "\n\n---- out ----");
+        }
+
+        // existing file for comparison
+        URL outFile = classLoader.getResource(outFileName);
+
         if (outFile != null)
         {
             log.debug("Comparing file using [" + outFileName + "]");
-
-            if (log.isDebugEnabled())
-            {
-                log.debug("\n---- out ----\n\n" + out + "\n\n---- out ----");
-            }
+            assertEquals(out.toString(), outFile);
         }
     }
+
+    /**
+     * assert generated output and test file are equals. Note this implementation doesn't handle encoding yet! @todo
+     * add encoding support @todo comparison skipping tidy-inserted generator meta tag @todo comparison not considering
+     * wrapping
+     * @param tidyOutput tidy output as string
+     * @param correctFile URL used to load the file for comparison
+     * @throws FileNotFoundException if test file is not found
+     * @throws IOException in reading file
+     */
+    protected void assertEquals(String tidyOutput, URL correctFile) throws FileNotFoundException, IOException
+    {
+
+        diff(
+            new BufferedReader(new StringReader(tidyOutput)),
+            new BufferedReader(new FileReader(correctFile.getFile())));
+
+    }
+
+    /**
+     * Diff between two buffered readers. If comparison fails an AssertionFailedException is thrown with the line
+     * number, actual and expected output. Content is tested to be identical (same wrapping).
+     * @param tidyOutput reader for tidy generated output
+     * @param correctFile reader for test file
+     * @throws IOException in reading from readers
+     */
+    private static void diff(BufferedReader tidyOutput, BufferedReader correctFile) throws IOException
+    {
+        String tidyLine, testLine;
+        int i = 1;
+        do
+        {
+            tidyLine = tidyOutput.readLine();
+            testLine = correctFile.readLine();
+            i++;
+        }
+        while ((tidyLine != null) && (testLine != null) && (tidyLine.equals(testLine)));
+        tidyOutput.close();
+        correctFile.close();
+
+        if ((tidyLine != null) || (testLine != null))
+        {
+            fail(
+                "Wrong output, file comparison failed at line ["
+                    + (i - 1)
+                    + "]:\n"
+                    + "[tidy]["
+                    + tidyLine
+                    + "]\n"
+                    + "[test]["
+                    + testLine
+                    + "]");
+        }
+        return;
+    }
+
 }
