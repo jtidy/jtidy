@@ -804,7 +804,7 @@ public class ReportTest extends TestCase
             "num_warnings",
             new Object[]{new Integer(0), new Integer(33)},
             TidyMessage.Level.SUMMARY);
-        assertEquals("no warnings, 33 errors were found!\n", message);
+        assertEquals("no warnings, 33 errors were found!", message);
     }
 
 }
