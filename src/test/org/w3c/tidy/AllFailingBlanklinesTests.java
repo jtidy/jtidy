@@ -87,7 +87,6 @@ public final class AllFailingBlanklinesTests
         suite.addTest(new TidyOutputBugsTest("test435909"));
         suite.addTest(new TidyOutputBugsTest("test435920"));
         suite.addTest(new TidyOutputBugsTest("test438954"));
-        suite.addTest(new TidyOutputBugsTest("test443678"));
         suite.addTest(new TidyOutputBugsTest("test533105"));
         suite.addTest(new TidyOutputBugsTest("test533233"));
         suite.addTest(new TidyOutputBugsTest("test593705"));

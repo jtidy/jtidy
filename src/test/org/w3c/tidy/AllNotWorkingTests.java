@@ -120,7 +120,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyOutputBugsTest("test438954"));
         suite.addTest(new TidyOutputBugsTest("test441508"));
         suite.addTest(new TidyOutputBugsTest("test443576"));
-        suite.addTest(new TidyOutputBugsTest("test443678"));
         suite.addTest(new TidyOutputBugsTest("test445394"));
         suite.addTest(new TidyOutputBugsTest("test445557"));
         suite.addTest(new TidyOutputBugsTest("test449348"));

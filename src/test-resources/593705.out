@@ -2,7 +2,6 @@
 <html>
 <head>
 <title>[ 593705 ] Use of &lt; comparison symbol confuses Tidy</title>
-
 <script type="text/javascript">
   function foo( bar, baz )
   {

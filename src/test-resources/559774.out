@@ -1,0 +1,9 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>[559774] tidy version rejects all id values</title>
+</head>
+<body>
+<h2 id="abstract">header with a valid id</h2>
+</body>
+</html>

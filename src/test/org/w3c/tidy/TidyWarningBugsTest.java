@@ -496,6 +496,16 @@ public class TidyWarningBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [559774] : tidy version rejects all id values.
+     * @throws Exception any exception generated during the test
+     */
+    public void test559774() throws Exception
+    {
+        executeTidyTest("559774.html");
+        assertNoWarnings();
+    }
+
+    /**
      * test for Tidy [706260] : size not accepted for input.
      * @throws Exception any exception generated during the test
      */

@@ -678,9 +678,7 @@ public final class ParserImpl
             // accordingly. This will unfortunately screw up scripts which include < + letter, < + !, < + ? or < + / +
             // letter
 
-            Node node;
-
-            node = lexer.getCDATA(script);
+            Node node = lexer.getCDATA(script);
 
             if (node != null)
             {
@@ -1072,7 +1070,7 @@ public final class ParserImpl
             Node node, parent;
             TagTable tt = lexer.configuration.tt;
 
-            if ((element.tag.model & Dict.CM_EMPTY) != 0)
+            if (TidyUtils.toBoolean(element.tag.model & Dict.CM_EMPTY))
             {
                 return;
             }
@@ -1082,12 +1080,13 @@ public final class ParserImpl
             // inline stack provided they aren't implicit or OBJECT/APPLET. This test is carried out in PushInline and
             // PopInline, see istack.c We don't push SPAN to replicate current browser behavior
 
-            if (((element.tag.model & Dict.CM_BLOCK) != 0) || (element.tag == tt.tagDt))
+            if (TidyUtils.toBoolean(element.tag.model & Dict.CM_BLOCK) || (element.tag == tt.tagDt))
             {
                 lexer.inlineDup(null);
             }
-            else if ((element.tag.model & Dict.CM_INLINE) != 0 && element.tag != tt.tagSpan)
+            else if (TidyUtils.toBoolean(element.tag.model & Dict.CM_INLINE))
             {
+                // && element.tag != tt.tagSpan #540571 Inconsistent behaviour with span inline element
                 lexer.pushInline(element);
             }
 
@@ -1111,12 +1110,12 @@ public final class ParserImpl
                 // end tag for current element
                 if (node.tag == element.tag && node.type == Node.END_TAG)
                 {
-                    if ((element.tag.model & Dict.CM_INLINE) != 0)
+                    if (TidyUtils.toBoolean(element.tag.model & Dict.CM_INLINE))
                     {
                         lexer.popInline(node);
                     }
 
-                    if (!((mode & Lexer.PREFORMATTED) != 0))
+                    if (!TidyUtils.toBoolean(mode & Lexer.PREFORMATTED))
                     {
                         Node.trimSpaces(lexer, element);
                     }
@@ -1205,7 +1204,7 @@ public final class ParserImpl
                 if (node.type == Node.TEXT_NODE)
                 {
                     // only called for 1st child
-                    if (element.content == null && !((mode & Lexer.PREFORMATTED) != 0))
+                    if (element.content == null && !TidyUtils.toBoolean(mode & Lexer.PREFORMATTED))
                     {
                         Node.trimSpaces(lexer, element);
                     }

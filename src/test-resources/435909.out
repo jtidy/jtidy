@@ -2,7 +2,6 @@
 <html>
 <head>
 <title>[ #435909 ] &lt;noscript&gt;&lt;/noscript&gt; in &lt;head&gt;&lt;/head&gt;</title>
-
 <script type="text/javascript" language="javascript">
 <!-- to hide script/text from old browsers
 function foo()

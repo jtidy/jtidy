@@ -6,9 +6,7 @@
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[
-Tidy (vers 4th August 2004) Parsing "InputStream"
-]]></text>
+    <text><![CDATA[Tidy (vers 26-set-2004) Parsing "InputStream"]]></text>
   </message>
   <message>
     <code>29</code>
@@ -46,6 +44,13 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <text><![CDATA[missing <!DOCTYPE> declaration]]></text>
   </message>
   <message>
+    <code>9</code>
+    <level>1</level>
+    <line>21</line>
+    <column>9</column>
+    <text><![CDATA[nested emphasis <span>]]></text>
+  </message>
+  <message>
     <code>1</code>
     <level>2</level>
     <line>22</line>
@@ -78,7 +83,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[8 warnings, no errors were found!
-]]></text>
+    <text><![CDATA[9 warnings, no errors were found!]]></text>
   </message>
 </messages>

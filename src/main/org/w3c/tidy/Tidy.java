@@ -520,6 +520,12 @@ public class Tidy implements Serializable
 
                         Out o = OutFactory.getOut(this.configuration, fis);
 
+                        if (document.findDocType() == null)
+                        {
+                            // only use numeric character references if no doctype could be determined (e.g., because
+                            // the document contains proprietary features) to ensure well-formedness.
+                            configuration.numEntities = true;
+                        }
                         if (configuration.bodyOnly)
                         {
                             // Feature request #434940 - fix by Dave Raggett/Ignacio Vazquez-Abrams 21 Jun 01
@@ -548,6 +554,12 @@ public class Tidy implements Serializable
 
                     Out o = OutFactory.getOut(this.configuration, out); // normal output stream
 
+                    if (document.findDocType() == null)
+                    {
+                        // only use numeric character references if no doctype could be determined (e.g., because
+                        // the document contains proprietary features) to ensure well-formedness.
+                        configuration.numEntities = true;
+                    }
                     if (configuration.bodyOnly)
                     {
                         // Feature request #434940 - fix by Dave Raggett/Ignacio Vazquez-Abrams 21 Jun 01

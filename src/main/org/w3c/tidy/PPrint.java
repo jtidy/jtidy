@@ -1250,7 +1250,18 @@ public class PPrint
      */
     private void printAttrs(Out fout, int indent, Node node, AttVal attr)
     {
-        Attribute attribute;
+        // add xml:space attribute to pre and other elements
+        if (configuration.xmlOut
+            && configuration.xmlSpace
+            && ParserImpl.XMLPreserveWhiteSpace(node, configuration.tt)
+            && node.getAttrByName("xml:space") == null)
+        {
+            node.addAttribute("xml:space", "preserve");
+            if (attr != null)
+            {
+                attr = node.attributes;
+            }
+        }
 
         if (attr != null)
         {
@@ -1261,7 +1272,7 @@ public class PPrint
 
             if (attr.attribute != null)
             {
-                attribute = attr.dict;
+                Attribute attribute = attr.dict;
 
                 if (!this.configuration.dropProprietaryAttributes
                     || !(attribute == null || TidyUtils.toBoolean(attribute.getVersions() & Dict.VERS_PROPRIETARY)))
@@ -1281,14 +1292,6 @@ public class PPrint
             }
         }
 
-        // add xml:space attribute to pre and other elements
-        if (configuration.xmlOut
-            && configuration.xmlSpace
-            && ParserImpl.XMLPreserveWhiteSpace(node, configuration.tt)
-            && node.getAttrByName("xml:space") == null)
-        {
-            printString(" xml:space=\"preserve\"");
-        }
     }
 
     /**
@@ -1563,7 +1566,7 @@ public class PPrint
         // set CDATA to pass < and > unescaped
         printText(fout, CDATA, indent, node.textarray, node.start, node.end);
 
-        if (node.end <= 0 || node.textarray[node.end - 1] != (byte) '?') // #542029 - fix by Terry Teague 10 Apr 02
+        if (node.end <= 0 || node.textarray[node.end - 1] != '?') // #542029 - fix by Terry Teague 10 Apr 02
         {
             addC('?', linelen++);
         }
@@ -1593,7 +1596,7 @@ public class PPrint
 
         printAttrs(fout, indent, node, node.attributes);
 
-        if (node.end <= 0 || node.textarray[node.end - 1] != (byte) '?') // #542029 - fix by Terry Teague 10 Apr 02
+        if (node.end <= 0 || node.textarray[node.end - 1] != '?') // #542029 - fix by Terry Teague 10 Apr 02
         {
             addC('?', linelen++);
         }
@@ -1783,9 +1786,9 @@ public class PPrint
      * newline, it is not necessary to print another before printing end tag.
      * @param lexer Lexer
      * @param node text node
-     * @return <code>true</code> if text node ends with a newline
+     * @return text indent
      */
-    private boolean textEndsWithNewline(Lexer lexer, Node node)
+    private int textEndsWithNewline(Lexer lexer, Node node)
     {
         if (node.type == Node.TEXT_NODE && node.end > node.start)
         {
@@ -1798,9 +1801,12 @@ public class PPrint
                 --ix;
             }
 
-            return (node.textarray[ix] == '\n');
+            if (node.textarray[ix] == '\n')
+            {
+                return node.end - ix - 1; // #543262 tidy eats all memory
+            }
         }
-        return false;
+        return -1;
     }
 
     /**
@@ -1860,16 +1866,18 @@ public class PPrint
         String commentStart = DEFAULT_COMMENT_START;
         String commentEnd = DEFAULT_COMMENT_END;
         boolean hasCData = false;
-        boolean contentEndsOnNewline = false;
+        int contentIndent = -1;
 
         if (insideHead(node))
         {
-            flushLine(fout, indent);
+            // flushLine(fout, indent);
         }
 
         indent = 0;
+
+        // start script
         printTag(lexer, fout, mode, indent, node);
-        flushLine(fout, indent);
+        // flushLine(fout, indent); // extra newline
 
         if (lexer.configuration.xHTML && node.content != null)
         {
@@ -1912,18 +1920,19 @@ public class PPrint
 
         for (content = node.content; content != null; content = content.next)
         {
-            printTree(fout, (short) (mode | PREFORMATTED | NOWRAP | CDATA), indent, lexer, content);
+            printTree(fout, (short) (mode | PREFORMATTED | NOWRAP | CDATA), 0, lexer, content);
 
             if (content.next == null)
             {
-                contentEndsOnNewline = textEndsWithNewline(lexer, content);
+                contentIndent = textEndsWithNewline(lexer, content);
             }
 
         }
 
-        if (!contentEndsOnNewline)
+        if (contentIndent < 0)
         {
             condFlushLine(fout, indent);
+            contentIndent = 0;
         }
 
         if (lexer.configuration.xHTML && node.content != null)
@@ -1931,8 +1940,18 @@ public class PPrint
             if (!hasCData)
             {
                 // disable wrapping
-                int savewraplen = lexer.configuration.wraplen;
+                int ix, savewraplen = lexer.configuration.wraplen;
                 lexer.configuration.wraplen = 0xFFFFFF; // a very large number
+
+                // Add spaces to last text node to align w/ indent
+                if (contentIndent > 0 && linelen < contentIndent)
+                {
+                    linelen = contentIndent;
+                }
+                for (ix = 0; contentIndent < indent && ix < indent - contentIndent; ++ix)
+                {
+                    addC(' ', linelen++);
+                }
 
                 linelen = addAsciiString(commentStart, linelen);
                 linelen = addAsciiString(CDATA_END, linelen);
@@ -1940,7 +1959,7 @@ public class PPrint
 
                 // restore wrapping
                 lexer.configuration.wraplen = savewraplen;
-                condFlushLine(fout, indent);
+                condFlushLine(fout, 0);
             }
         }
 

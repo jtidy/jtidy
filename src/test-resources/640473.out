@@ -2,7 +2,6 @@
 <head>
 <title>[ 640473 ] new-empty-tags doesn't work, breaks doc</title>
 </head>
-
 <body>
 <foo>Foo <bar>bar</bar> foo foo
 <zippo>foo</foo>

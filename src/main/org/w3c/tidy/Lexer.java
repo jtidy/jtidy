@@ -3924,6 +3924,11 @@ public class Lexer
             return false;
         }
 
+        if (element.tag == this.configuration.tt.tagScript && element.getAttrByName("src") != null)
+        {
+            return false;
+        }
+
         // #540555 Empty title tag is trimmed
         if (element.tag == this.configuration.tt.tagTitle)
         {
@@ -3936,8 +3941,7 @@ public class Lexer
             return false;
         }
 
-        if (element.attributes != null
-            && (element.getAttrByName("id") != null || element.getAttrByName("name") != null))
+        if (element.getAttrByName("id") != null || element.getAttrByName("name") != null)
         {
             return false;
         }
