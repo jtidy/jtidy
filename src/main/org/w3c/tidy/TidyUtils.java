@@ -155,4 +155,23 @@ public final class TidyUtils
         return false;
     }
 
+    /**
+     * Check if the string valueToCheck is contained in validValues array (case insesitie comparison).
+     * @param validValues array of valid values
+     * @param valueToCheck value to search for
+     * @return <code>true</code> if valueToCheck is found in validValues
+     */
+    static boolean isInValuesIgnoreCase(String[] validValues, String valueToCheck)
+    {
+        int len = validValues.length;
+        for (int j = 0; j < len; j++)
+        {
+            if (validValues[j].equalsIgnoreCase(valueToCheck))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
