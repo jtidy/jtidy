@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:j="jelly:core" xmlns:u="jelly:util" default="rebuild-all">
 
-    <goal name="rebuild-all">
-        <j:set var="goals" value="pom,clean,ant,dist" />
-        <mkdir dir="${maven.build.dir}" />
-        <u:tokenize var="goals" delim=",">${goals}</u:tokenize>
-        <j:forEach items="${goals}" var="goal" indexVar="goalNumber">
-            Now attaining goal number ${goalNumber}, which is ${goal}
-            <attainGoal name="${goal}" />
-        </j:forEach>
-    </goal>
+    <goal name="rebuild-all" prereqs="pom,clean,ant,dist" />
 
+    <goal name="nightly" prereqs="clean,ant,jar:install,dist,copy-nightly,site:sshdeploy" />
 
     <postGoal name="dist:prepare-src-filesystem">
         <copy todir="${maven.dist.src.assembly.dir}">
@@ -26,14 +19,11 @@
             todir="${maven.build.dir}/docs/maven/${pom.groupId}/jars" />
     </preGoal>
 
-    <goal name="nightly">
-        <attainGoal name="rebuild-all" />
+    <goal name="copy-nightly">
         <mkdir dir="${maven.build.dir}/docs/nightly" />
         <copy todir="${maven.build.dir}/docs/nightly">
             <fileset dir="${maven.build.dir}/distributions" />
         </copy>
-        <attainGoal name="site:sshdeploy" />
     </goal>
-
 </project>
 
