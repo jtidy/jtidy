@@ -613,7 +613,11 @@ public class PPrint
 
             if (c == 160 && this.configuration.charEncoding != Configuration.RAW)
             {
-                if (this.configuration.quoteNbsp)
+                if (this.configuration.makeBare)
+                {
+                    addC(' ', linelen++);
+                }
+                else if (this.configuration.quoteNbsp)
                 {
                     addC('&', linelen++);
 
@@ -781,7 +785,7 @@ public class PPrint
         // The following converts dashes and quotation marks to the nearest ASCII equivalent.
         // My thanks to Andrzej Novosiolov for his help with this code.
 
-        if (this.configuration.makeClean && this.configuration.asciiChars)
+        if (this.configuration.makeClean && this.configuration.asciiChars || this.configuration.makeBare)
         {
             if (c >= 0x2013 && c <= 0x201E)
             {
