@@ -146,19 +146,14 @@ public class TidyWarningBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [431883] : Running Tidy on this file produces the diagnostic: Doctype given is "-//W3C//DTD HTML
-     * 3.2//EN" when the DOCTYPE is not as shown.
+     * test for Tidy [431883] : Given doctype reported incorrectly.
      * @throws Exception any exception generated during the test
      */
     public void test431883() throws Exception
     {
-        // line 40 column 1 - Warning: <table> lacks "summary" attribute
-        // Info: Doctype given is "-//W3C//DTD HTML 4.0//EN"
-        // Info: Document content looks like HTML 4.01 Strict
-
         executeTidyTest("431883.html");
-        // the warning for table lacking summary only shows up if tidy correctly skips the 3.2 false doctype
-        assertWarnings(1);
+        
+        assertLogContains("Doctype given is \"-//W3C//DTD HTML 4.0");
     }
 
     /**

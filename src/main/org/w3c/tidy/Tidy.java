@@ -1051,6 +1051,8 @@ public class Tidy implements Serializable
                 doctype = document.findDocType();
                 if (document.content != null)
                 {
+                    Report.reportVersion(errout, lexer, inputStreamName, doctype);
+                    
                     if (configuration.xHTML)
                     {
                         lexer.setXHTMLDocType(document);
@@ -1074,7 +1076,7 @@ public class Tidy implements Serializable
 
                 if (!configuration.quiet && document.content != null)
                 {
-                    Report.reportVersion(errout, lexer, inputStreamName, doctype);
+                    // Report.reportVersion(errout, lexer, inputStreamName, doctype);
                     Report.reportNumWarnings(errout, lexer);
                 }
             }
