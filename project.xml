@@ -2,6 +2,7 @@
     <pomVersion>4</pomVersion>
     <artifactId>jtidy</artifactId>
     <name>JTidy</name>
+    <id>jtidy</id>
     <groupId>jtidy</groupId>
     <type>jar</type>
     <version>r8-SNAPSHOT</version>
@@ -178,7 +179,7 @@ In addition, JTidy provides a DOM interface to the document that is being proces
         <dependency>
             <groupId>maven-validator</groupId>
             <artifactId>maven-xhtml-plugin</artifactId>
-            <version>1.1</version>
+            <version>1.2-SNAPSHOT</version>
             <type>plugin</type>
             <url>http://maven-validator.sourceforge.net</url>
         </dependency>
