@@ -33,6 +33,7 @@ public final class AllWorkingTests
         suite.addTestSuite(JTidyWarningBugsTest.class);
 
         suite.addTest(new JTidyBugsTest("test475643"));
+        suite.addTest(new JTidyBugsTest("test527118"));
         suite.addTest(new JTidyBugsTest("test538727"));
         suite.addTest(new JTidyBugsTest("test610244"));
         suite.addTest(new JTidyBugsTest("test648768"));
