@@ -690,13 +690,13 @@ public class StreamInImpl extends StreamIn
      * input stream Normally UTF-8 successor bytes are read using this routine.
      * @todo quick translation from c, needs working
      */
-    int readRawBytesFromStream(char buf[], int count, boolean unget)
+    void readRawBytesFromStream(char buf[], int[] count, boolean unget)
     {
         int i;
 
         try
         {
-            for (i = 0; i < count; i++)
+            for (i = 0; i < count[0]; i++)
             {
                 if (unget)
                 {
@@ -708,8 +708,8 @@ public class StreamInImpl extends StreamIn
                     if (c == EndOfStream) /* || buf[i] == (unsigned char)EndOfStream */
                     {
                         /* tidy_out(errout, "Attempt to unget EOF in ReadRawBytesFromStream\n"); *//* debug */
-                        count = -i;
-                        return count;
+                        count[0] = -i;
+                        return;
                     }
 
                     rawPushed = true;
@@ -757,14 +757,14 @@ public class StreamInImpl extends StreamIn
 
                         if (c == EndOfStream)
                         {
-                            count = -i;
+                            count[0] = -i;
                             break;
                         }
 
                         c = this.stream.read();
                         if (c == EndOfStream)
                         {
-                            count = -i;
+                            count[0] = -i;
                             break;
                         }
                         else
@@ -780,7 +780,7 @@ public class StreamInImpl extends StreamIn
         {
             System.err.println("StreamInImpl.readRawBytesFromStream: " + e.toString());
         }
-        return count;
+        return;
     }
 
     /**
@@ -792,12 +792,12 @@ public class StreamInImpl extends StreamIn
         boolean lookingForBOM = true;
         int n, c, i;
         char[] tempchar = new char[2];
-        int count;
+        int[] count = new int[1];
 
-        count = 1;
+        count[0] = 1;
 
-        count = readRawBytesFromStream(tempchar, count, false);
-        if (count <= 0)
+        readRawBytesFromStream(tempchar, count, false);
+        if (count[0] <= 0)
         {
             return EndOfStream;
         }
@@ -824,8 +824,8 @@ public class StreamInImpl extends StreamIn
                     return EndOfStream;
                 }
 
-                count = 1;
-                count = readRawBytesFromStream(tempchar, count, false);
+                count[0] = 1;
+                readRawBytesFromStream(tempchar, count, false);
                 c1 = tempchar[1];
 
                 bom = (c << 8) + c1;
@@ -850,8 +850,8 @@ public class StreamInImpl extends StreamIn
                 {
                     int c2;
 
-                    count = 1;
-                    count = readRawBytesFromStream(tempchar, count, false);
+                    count[0] = 1;
+                    readRawBytesFromStream(tempchar, count, false);
                     c2 = tempchar[1];
 
                     if (((c << 16) + (c1 << 8) + c2) == UNICODE_BOM_UTF8)
@@ -954,9 +954,9 @@ public class StreamInImpl extends StreamIn
             {
                 int c1;
 
-                count = 1;
-                count = readRawBytesFromStream(tempchar, count, false);
-                if (count <= 0)
+                count[0] = 1;
+                readRawBytesFromStream(tempchar, count, false);
+                if (count[0] <= 0)
                 {
                     return EndOfStream;
                 }
@@ -973,9 +973,9 @@ public class StreamInImpl extends StreamIn
             {
                 int c1;
 
-                count = 1;
-                count = readRawBytesFromStream(tempchar, count, false);
-                if (count <= 0)
+                count[0] = 1;
+                readRawBytesFromStream(tempchar, count, false);
+                if (count[0] <= 0)
                 {
                     return EndOfStream;
                 }
@@ -994,27 +994,27 @@ public class StreamInImpl extends StreamIn
                 if ((c & 0xE0) == 0xC0) /* 110X XXXX two bytes */
                 {
                     n = c & 31;
-                    count = 1;
+                    count[0] = 1;
                 }
                 else if ((c & 0xF0) == 0xE0) /* 1110 XXXX three bytes */
                 {
                     n = c & 15;
-                    count = 2;
+                    count[0] = 2;
                 }
                 else if ((c & 0xF8) == 0xF0) /* 1111 0XXX four bytes */
                 {
                     n = c & 7;
-                    count = 3;
+                    count[0] = 3;
                 }
                 else if ((c & 0xFC) == 0xF8) /* 1111 10XX five bytes */
                 {
                     n = c & 3;
-                    count = 4;
+                    count[0] = 4;
                 }
                 else if ((c & 0xFE) == 0xFC) /* 1111 110X six bytes */
                 {
                     n = c & 1;
-                    count = 5;
+                    count[0] = 5;
                 }
                 else
                 {
@@ -1023,7 +1023,7 @@ public class StreamInImpl extends StreamIn
                 }
 
                 /* successor bytes should have the form 10XX XXXX */
-                for (i = 1; i <= count; ++i)
+                for (i = 1; i <= count[0]; ++i)
                 {
                     c = this.stream.read();
 
@@ -1053,10 +1053,10 @@ public class StreamInImpl extends StreamIn
                 else
                 {
                     int c1;
-                    count = 1;
-                    count = readRawBytesFromStream(tempchar, count, false);
+                    count[0] = 1;
+                    readRawBytesFromStream(tempchar, count, false);
 
-                    if (count <= 0)
+                    if (count[0] <= 0)
                     {
                         return EndOfStream;
                     }
