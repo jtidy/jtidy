@@ -63,11 +63,11 @@ package org.w3c.tidy;
 public class StyleProp
 {
 
-    public String name;
+    protected String name;
 
-    public String value;
+    protected String value;
 
-    public StyleProp next;
+    protected StyleProp next;
 
     public StyleProp(String name, String value, StyleProp next)
     {

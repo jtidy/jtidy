@@ -199,15 +199,15 @@ public class Dict
      */
     public static final short TAGTYPE_PRE = 8;
 
-    public String name;
+    protected String name;
 
-    public short versions;
+    protected short versions;
 
-    public int model;
+    protected int model;
 
-    public Parser parser;
+    protected Parser parser;
 
-    public TagCheck chkattrs;
+    protected TagCheck chkattrs;
 
     public Dict(String name, short versions, int model, Parser parser, TagCheck chkattrs)
     {

@@ -98,32 +98,32 @@ public abstract class StreamIn
     public static final int UNICODE_BOM_UTF8 = 0xEFBBBF;
 
     /* non-raw input is cleaned up */
-    public int state; /* FSM for ISO2022 */
+    protected int state; /* FSM for ISO2022 */
 
-    public boolean pushed;
+    protected boolean pushed;
 
-    public int c;
+    protected int c;
 
-    public int tabs;
+    protected int tabs;
 
-    public int tabsize;
+    protected int tabsize;
 
-    public int lastcol;
+    protected int lastcol;
 
-    public int curcol;
+    protected int curcol;
 
-    public int curline;
+    protected int curline;
 
-    public int encoding;
+    protected int encoding;
 
-    public InputStream stream;
+    protected InputStream stream;
 
-    public boolean endOfStream;
+    protected boolean endOfStream;
 
     /**
      * needed for error reporting.
      */
-    public Lexer lexer;
+    protected Lexer lexer;
 
     /* read char from stream */
     public abstract int readCharFromStream();

@@ -66,19 +66,19 @@ import org.w3c.dom.Attr;
 public class AttVal extends Object implements Cloneable
 {
 
-    public AttVal next;
+    protected AttVal next;
 
-    public Attribute dict;
+    protected Attribute dict;
 
-    public Node asp;
+    protected Node asp;
 
-    public Node php;
+    protected Node php;
 
-    public int delim;
+    protected int delim;
 
-    public String attribute;
+    protected String attribute;
 
-    public String value;
+    protected String value;
 
     // DOM
     protected Attr adapter;

@@ -63,13 +63,13 @@ package org.w3c.tidy;
 public class Style
 {
 
-    public String tag;
+    protected String tag;
 
-    public String tagClass;
+    protected String tagClass;
 
-    public String properties;
+    protected String properties;
 
-    public Style next;
+    protected Style next;
 
     public Style(String tag, String tagClass, String properties, Style next)
     {

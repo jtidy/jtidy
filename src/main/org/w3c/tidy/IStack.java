@@ -69,19 +69,19 @@ package org.w3c.tidy;
 public class IStack
 {
 
-    public IStack next;
+    protected IStack next;
 
     /**
      * tag's dictionary definition.
      */
-    public Dict tag;
+    protected Dict tag;
 
     /**
      * name (null for text nodes).
      */
-    public String element;
+    protected String element;
 
-    public AttVal attributes;
+    protected AttVal attributes;
 
     public IStack()
     {

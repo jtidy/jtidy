@@ -53,6 +53,9 @@
  */
 package org.w3c.tidy;
 
+import java.io.OutputStream;
+
+
 /**
  * Output Stream.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
@@ -60,17 +63,14 @@ package org.w3c.tidy;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-import java.io.OutputStream;
-
-
 public abstract class Out
 {
 
-    public int encoding;
+    protected int encoding;
 
-    public int state; /* for ISO 2022 */
+    protected int state; /* for ISO 2022 */
 
-    public OutputStream out;
+    protected OutputStream out;
 
     public abstract void outc(int c);
 
