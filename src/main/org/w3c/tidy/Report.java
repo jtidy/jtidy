@@ -84,44 +84,58 @@ public final class Report
     /* error codes for entities */
 
     public static final short MISSING_SEMICOLON = 1;
-    public static final short UNKNOWN_ENTITY = 2;
-    public static final short UNESCAPED_AMPERSAND = 3;
+    public static final short MISSING_SEMICOLON_NCR = 2;
+    public static final short UNKNOWN_ENTITY = 3;
+    public static final short UNESCAPED_AMPERSAND = 4;
+    public static final short APOS_UNDEFINED = 5;
 
     /* error codes for element messages */
 
-    public static final short MISSING_ENDTAG_FOR = 1;
-    public static final short MISSING_ENDTAG_BEFORE = 2;
-    public static final short DISCARDING_UNEXPECTED = 3;
-    public static final short NESTED_EMPHASIS = 4;
-    public static final short NON_MATCHING_ENDTAG = 5;
-    public static final short TAG_NOT_ALLOWED_IN = 6;
-    public static final short MISSING_STARTTAG = 7;
-    public static final short UNEXPECTED_ENDTAG = 8;
-    public static final short USING_BR_INPLACE_OF = 9;
-    public static final short INSERTING_TAG = 10;
-    public static final short SUSPECTED_MISSING_QUOTE = 11;
-    public static final short MISSING_TITLE_ELEMENT = 12;
-    public static final short DUPLICATE_FRAMESET = 13;
-    public static final short CANT_BE_NESTED = 14;
-    public static final short OBSOLETE_ELEMENT = 15;
-    public static final short PROPRIETARY_ELEMENT = 16;
-    public static final short UNKNOWN_ELEMENT = 17;
-    public static final short TRIM_EMPTY_ELEMENT = 18;
-    public static final short COERCE_TO_ENDTAG = 19;
-    public static final short ILLEGAL_NESTING = 20;
-    public static final short NOFRAMES_CONTENT = 21;
-    public static final short CONTENT_AFTER_BODY = 22;
-    public static final short INCONSISTENT_VERSION = 23;
-    public static final short MALFORMED_COMMENT = 24;
-    public static final short BAD_COMMENT_CHARS = 25;
-    public static final short BAD_XML_COMMENT = 26;
-    public static final short BAD_CDATA_CONTENT = 27;
-    public static final short INCONSISTENT_NAMESPACE = 28;
-    public static final short DOCTYPE_AFTER_TAGS = 29;
-    public static final short MALFORMED_DOCTYPE = 30;
-    public static final short UNEXPECTED_END_OF_FILE = 31;
-    public static final short DTYPE_NOT_UPPER_CASE = 32;
-    public static final short TOO_MANY_ELEMENTS = 33;
+    public static final short MISSING_ENDTAG_FOR = 6;
+    public static final short MISSING_ENDTAG_BEFORE = 7;
+    public static final short DISCARDING_UNEXPECTED = 8;
+    public static final short NESTED_EMPHASIS = 9;
+    public static final short NON_MATCHING_ENDTAG = 10;
+    public static final short TAG_NOT_ALLOWED_IN = 11;
+    public static final short MISSING_STARTTAG = 12;
+    public static final short UNEXPECTED_ENDTAG = 13;
+    public static final short USING_BR_INPLACE_OF = 14;
+    public static final short INSERTING_TAG = 15;
+    public static final short SUSPECTED_MISSING_QUOTE = 16;
+    public static final short MISSING_TITLE_ELEMENT = 17;
+    public static final short DUPLICATE_FRAMESET = 18;
+    public static final short CANT_BE_NESTED = 19;
+    public static final short OBSOLETE_ELEMENT = 20;
+    public static final short PROPRIETARY_ELEMENT = 21;
+    public static final short UNKNOWN_ELEMENT = 22;
+    public static final short TRIM_EMPTY_ELEMENT = 23;
+    public static final short COERCE_TO_ENDTAG = 24;
+    public static final short ILLEGAL_NESTING = 25;
+    public static final short NOFRAMES_CONTENT = 26;
+    public static final short CONTENT_AFTER_BODY = 27;
+    public static final short INCONSISTENT_VERSION = 28;
+    public static final short MALFORMED_COMMENT = 29;
+    public static final short BAD_COMMENT_CHARS = 30;
+    public static final short BAD_XML_COMMENT = 31;
+    public static final short BAD_CDATA_CONTENT = 32;
+    public static final short INCONSISTENT_NAMESPACE = 33;
+    public static final short DOCTYPE_AFTER_TAGS = 34;
+    public static final short MALFORMED_DOCTYPE = 35;
+    public static final short UNEXPECTED_END_OF_FILE = 36;
+    public static final short DTYPE_NOT_UPPER_CASE = 37;
+    public static final short TOO_MANY_ELEMENTS = 38;
+    public static final short UNESCAPED_ELEMENT = 39;
+    public static final short NESTED_QUOTATION = 40;
+    public static final short ELEMENT_NOT_EMPTY = 41;
+    public static final short ENCODING_IO_CONFLICT = 42;
+    public static final short MIXED_CONTENT_IN_BLOCK = 43;
+    public static final short MISSING_DOCTYPE = 44;
+    public static final short SPACE_PRECEDING_XMLDECL = 45;
+    public static final short TOO_MANY_ELEMENTS_IN = 46;
+    public static final short UNEXPECTED_ENDTAG_IN = 47;
+    public static final short REPLACING_ELEMENT = 83;
+    public static final short REPLACING_UNEX_ELEMENT = 84;
+    public static final short COERCE_TO_ENDTAG_WARN = 85;
 
     /* error codes used for attribute messages */
 
@@ -137,7 +151,24 @@ public final class Report
     public static final short XML_ATTRIBUTE_VALUE = 57;
     public static final short MISSING_QUOTEMARK = 58;
     public static final short UNEXPECTED_QUOTEMARK = 59;
-    public static final short ID_NAME_MISMATCH = 59;
+    public static final short ID_NAME_MISMATCH = 60;
+
+    public static final short BACKSLASH_IN_URI = 61;
+    public static final short FIXED_BACKSLASH = 62;
+    public static final short ILLEGAL_URI_REFERENCE = 63;
+    public static final short ESCAPED_ILLEGAL_URI = 64;
+
+    public static final short NEWLINE_IN_URI = 65;
+    public static final short ANCHOR_NOT_UNIQUE = 66;
+
+    public static final short JOINING_ATTRIBUTE = 68;
+    public static final short UNEXPECTED_EQUALSIGN = 69;
+    public static final short ATTR_VALUE_NOT_LCASE = 70;
+    public static final short ID_SYNTAX = 71;
+    public static final short INVALID_ATTRIBUTE = 72;
+    public static final short BAD_ATTRIBUTE_VALUE_REPLACED = 73;
+    public static final short INVALID_XML_ID = 74;
+    public static final short UNEXPECTED_END_OF_FILE_ATTR = 75;
 
     /* accessibility flaws */
 
@@ -694,6 +725,10 @@ public final class Report
         else if (code == UNEXPECTED_END_OF_FILE)
         {
             printMessage(lexer, "unexpected_end_of_file", new Object[]{getTagName(element)}, TidyMessage.Level.WARNING);
+        }
+        else if (code == MISSING_DOCTYPE)
+        {
+            printMessage(lexer, "missing_doctype", null, TidyMessage.Level.WARNING);
         }
     }
 
