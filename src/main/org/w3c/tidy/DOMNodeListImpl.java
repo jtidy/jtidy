@@ -97,10 +97,8 @@ public class DOMNodeListImpl implements org.w3c.dom.NodeList
         {
             return node.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     /**

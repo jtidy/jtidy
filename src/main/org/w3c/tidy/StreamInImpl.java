@@ -553,21 +553,20 @@ public class StreamInImpl implements StreamIn
                     this.lexer.configuration.setInCharEncoding(Configuration.UTF8);
                     return EncodingUtils.UNICODE_BOM; // return decoded BOM
                 }
-                else
-                {
-                    // the 2nd and/or 3rd bytes weren't what we were expecting, so unget the extra 2 bytes
-                    rawPushed = true;
 
-                    if ((rawBufpos + 1) >= CHARBUF_SIZE)
-                    {
-                        System.arraycopy(rawBytebuf, 2, rawBytebuf, 0, CHARBUF_SIZE - 2);
-                        rawBufpos -= 2;
-                    }
-                    // make sure the bytes are pushed in the right order
-                    rawBytebuf[rawBufpos++] = (char) c2;
-                    rawBytebuf[rawBufpos++] = (char) c1;
-                    // drop through to code below, with the original char
+                // the 2nd and/or 3rd bytes weren't what we were expecting, so unget the extra 2 bytes
+                rawPushed = true;
+
+                if ((rawBufpos + 1) >= CHARBUF_SIZE)
+                {
+                    System.arraycopy(rawBytebuf, 2, rawBytebuf, 0, CHARBUF_SIZE - 2);
+                    rawBufpos -= 2;
                 }
+                // make sure the bytes are pushed in the right order
+                rawBytebuf[rawBufpos++] = (char) c2;
+                rawBytebuf[rawBufpos++] = (char) c1;
+                // drop through to code below, with the original char
+
             }
         }
 
@@ -734,10 +733,7 @@ public class StreamInImpl implements StreamIn
             }
         }
         // #431953 - end RJ
-        else
-        {
-            n[0] = c;
-        }
+        n[0] = c;
 
         return n[0];
     }

@@ -114,10 +114,8 @@ public class DOMNodeListByTagNameImpl implements org.w3c.dom.NodeList
         {
             return currNode.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     /**

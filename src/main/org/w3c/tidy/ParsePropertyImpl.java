@@ -912,19 +912,9 @@ public final class ParsePropertyImpl
         {
             if (configuration.newline.length == 1)
             {
-                if (configuration.newline[0] == '\n')
-                {
-                    return "lf";
-                }
-                else
-                {
-                    return "cr";
-                }
+                return (configuration.newline[0] == '\n') ? "lf" : "cr";
             }
-            else
-            {
-                return "crlf";
-            }
+            return "crlf";
         }
     }
 

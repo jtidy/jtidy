@@ -361,54 +361,53 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         {
             throw new DOMException(DOMException.NOT_FOUND_ERR, "oldChild not found");
         }
-        else
+
+        Node n;
+        Node ref = this.adaptee.content;
+        while (ref != null)
         {
-            Node n;
-            Node ref = this.adaptee.content;
-            while (ref != null)
+            if (ref.getAdapter() == oldChild)
             {
-                if (ref.getAdapter() == oldChild)
-                {
-                    break;
-                }
-                ref = ref.next;
+                break;
             }
-            if (ref == null)
+            ref = ref.next;
+        }
+        if (ref == null)
+        {
+            throw new DOMException(DOMException.NOT_FOUND_ERR, "oldChild not found");
+        }
+        newCh.adaptee.next = ref.next;
+        newCh.adaptee.prev = ref.prev;
+        newCh.adaptee.last = ref.last;
+        newCh.adaptee.parent = ref.parent;
+        newCh.adaptee.content = ref.content;
+        if (ref.parent != null)
+        {
+            if (ref.parent.content == ref)
             {
-                throw new DOMException(DOMException.NOT_FOUND_ERR, "oldChild not found");
+                ref.parent.content = newCh.adaptee;
             }
-            newCh.adaptee.next = ref.next;
-            newCh.adaptee.prev = ref.prev;
-            newCh.adaptee.last = ref.last;
-            newCh.adaptee.parent = ref.parent;
-            newCh.adaptee.content = ref.content;
-            if (ref.parent != null)
+            if (ref.parent.last == ref)
             {
-                if (ref.parent.content == ref)
-                {
-                    ref.parent.content = newCh.adaptee;
-                }
-                if (ref.parent.last == ref)
-                {
-                    ref.parent.last = newCh.adaptee;
-                }
-            }
-            if (ref.prev != null)
-            {
-                ref.prev.next = newCh.adaptee;
-            }
-            if (ref.next != null)
-            {
-                ref.next.prev = newCh.adaptee;
-            }
-            for (n = ref.content; n != null; n = n.next)
-            {
-                if (n.parent == ref)
-                {
-                    n.parent = newCh.adaptee;
-                }
+                ref.parent.last = newCh.adaptee;
             }
         }
+        if (ref.prev != null)
+        {
+            ref.prev.next = newCh.adaptee;
+        }
+        if (ref.next != null)
+        {
+            ref.next.prev = newCh.adaptee;
+        }
+        for (n = ref.content; n != null; n = n.next)
+        {
+            if (n.parent == ref)
+            {
+                n.parent = newCh.adaptee;
+            }
+        }
+
         return oldChild;
     }
 

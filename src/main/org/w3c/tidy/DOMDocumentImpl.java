@@ -115,10 +115,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
         {
             return (org.w3c.dom.DocumentType) node.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     /**
@@ -148,10 +146,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
         {
             return (org.w3c.dom.Element) node.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     /**
@@ -168,10 +164,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
             }
             return (org.w3c.dom.Element) node.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     /**
@@ -194,10 +188,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
         {
             return (org.w3c.dom.Text) node.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     /**
@@ -211,10 +203,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
         {
             return (org.w3c.dom.Comment) node.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     /**
@@ -246,10 +236,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
             av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(av);
             return av.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     /**

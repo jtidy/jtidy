@@ -814,11 +814,9 @@ public final class ParserImpl
                         mode = Lexer.MIXED_CONTENT;
                         continue;
                     }
-                    else
-                    {
-                        //  HTML2 and HTML4 strict doesn't allow text here
-                        lexer.constrainVersion(~(Dict.VERS_HTML40_STRICT | Dict.VERS_HTML20));
-                    }
+
+                    //  HTML2 and HTML4 strict doesn't allow text here
+                    lexer.constrainVersion(~(Dict.VERS_HTML40_STRICT | Dict.VERS_HTML20));
 
                     if (checkstack)
                     {

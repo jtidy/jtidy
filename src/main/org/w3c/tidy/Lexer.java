@@ -1860,18 +1860,16 @@ public class Lexer
                 {
                     continue; // discard whitespace in endtag
                 }
-                else
+
+                c = this.in.readChar();
+
+                if (c != '\n')
                 {
-
-                    c = this.in.readChar();
-
-                    if (c != '\n')
-                    {
-                        this.in.ungetChar(c);
-                    }
-
-                    c = '\n';
+                    this.in.ungetChar(c);
                 }
+
+                c = '\n';
+
             }
             else if ((c == '\n' || c == '\t' || c == ' ') && (begtag || endtag))
             {
@@ -3408,12 +3406,11 @@ public class Lexer
                     report.attrError(this, null, null, Report.ENTITY_IN_ID);
                     continue;
                 }
-                else
-                {
-                    addCharToLexer(c);
-                    parseEntity((short) 0);
-                    continue;
-                }
+
+                addCharToLexer(c);
+                parseEntity((short) 0);
+                continue;
+
             }
 
             // kludge for JavaScript attribute values with line continuations in string literals

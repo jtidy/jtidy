@@ -759,11 +759,10 @@ public final class TagTable
             d.setChkattrs(dict.getChkattrs());
             return d;
         }
-        else
-        {
-            tagHashtable.put(dict.name, dict);
-            return dict;
-        }
+
+        tagHashtable.put(dict.name, dict);
+        return dict;
+
     }
 
     /**
@@ -1051,14 +1050,12 @@ public final class TagTable
             }
         }
 
-        if (found == null)
-        {
-            return null;
-        }
-        else
+        if (found != null)
         {
             return found.node;
         }
+
+        return null;
     }
 
     /**

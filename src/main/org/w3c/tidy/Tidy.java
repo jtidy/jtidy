@@ -589,10 +589,7 @@ public class Tidy implements Serializable
         {
             return (org.w3c.dom.Document) document.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     /**
@@ -608,10 +605,8 @@ public class Tidy implements Serializable
             document.insertNodeAtStart(node);
             return (org.w3c.dom.Document) document.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     /**

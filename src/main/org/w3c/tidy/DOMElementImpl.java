@@ -114,10 +114,8 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
         {
             return att.value;
         }
-        else
-        {
-            return "";
-        }
+
+        return "";
     }
 
     /**
@@ -216,10 +214,8 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
         {
             return att.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     /**

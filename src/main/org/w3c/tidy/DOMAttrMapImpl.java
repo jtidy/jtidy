@@ -98,10 +98,8 @@ public class DOMAttrMapImpl implements org.w3c.dom.NamedNodeMap
         {
             return att.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     /**
@@ -124,10 +122,8 @@ public class DOMAttrMapImpl implements org.w3c.dom.NamedNodeMap
         {
             return att.getAdapter();
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     /**
