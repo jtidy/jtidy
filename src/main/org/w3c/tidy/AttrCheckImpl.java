@@ -744,4 +744,22 @@ public final class AttrCheckImpl
         return checkShape;
     }
 
+    /**
+     * Getter for the CheckNumber instance.
+     * @return checker for numeric attributes
+     */
+    public static AttrCheck getCheckNumber()
+    {
+        return checkNumber;
+    }
+
+    /**
+     * Getter for the CheckScope instance.
+     * @return checker for "scope" attribute
+     */
+    public static AttrCheck getCheckScope()
+    {
+        return checkScope;
+    }
+
 }
