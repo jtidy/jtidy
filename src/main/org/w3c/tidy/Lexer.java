@@ -140,7 +140,8 @@ public class Lexer
         new W3CVersionInfo("HTML 3.2", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML32),
         new W3CVersionInfo("HTML 3.2 Final", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML32),
         new W3CVersionInfo("HTML 3.2 Draft", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML32),
-        new W3CVersionInfo("HTML 2.0", "XHTML 1.0 Strict", VOYAGER_STRICT, Dict.VERS_HTML20)};
+        new W3CVersionInfo("HTML 2.0", "XHTML 1.0 Strict", VOYAGER_STRICT, Dict.VERS_HTML20),
+        new W3CVersionInfo("HTML 4.01", "XHTML 1.1", VOYAGER_STRICT, Dict.VERS_XHTML11)};
 
     /**
      * char type: digit.
@@ -1270,6 +1271,12 @@ public class Lexer
                 fpi = "-//W3C//DTD XHTML 1.0 Frameset//EN";
                 sysid = VOYAGER_FRAMESET;
             }
+            else if (TidyUtils.toBoolean(this.versions & Dict.VERS_XHTML11))
+            {
+                // use XHTML 1.1
+                fpi = "-//W3C//DTD XHTML 1.1//EN";
+                sysid = VOYAGER_11;
+            }
             else
             {
                 // proprietary
@@ -1312,14 +1319,14 @@ public class Lexer
                 int len = doctype.end - doctype.start + 1;
                 String start = getString(this.lexbuf, doctype.start, len);
 
-                int dtdbeg = TidyUtils.wstrnchr(start, len, '[');
+                int dtdbeg = start.indexOf('[');
                 if (dtdbeg >= 0)
                 {
-                    int dtdend = TidyUtils.wstrnchr(start + dtdbeg, len - dtdbeg, ']');
+                    int dtdend = start.substring(dtdbeg).indexOf(']');
                     if (dtdend >= 0)
                     {
                         dtdlen = dtdend + 1;
-                        dtdsub = start + dtdbeg;
+                        dtdsub = start.substring(dtdbeg);
                     }
                 }
             }
@@ -1421,6 +1428,14 @@ public class Lexer
                 if (TidyUtils.toBoolean(this.versions & Dict.VERS_FRAMESET))
                 {
                     return Dict.VERS_FRAMESET;
+                }
+
+                break;
+
+            case Dict.VERS_XHTML11 :
+                if (TidyUtils.toBoolean(this.versions & Dict.VERS_XHTML11))
+                {
+                    return Dict.VERS_XHTML11;
                 }
 
                 break;
@@ -1527,6 +1542,14 @@ public class Lexer
 
                     case Dict.VERS_FRAMESET :
                         if (TidyUtils.toBoolean(this.versions & Dict.VERS_FRAMESET))
+                        {
+                            return true;
+                        }
+
+                        break; // to replace old version by new
+
+                    case Dict.VERS_XHTML11 :
+                        if (TidyUtils.toBoolean(this.versions & Dict.VERS_XHTML11))
                         {
                             return true;
                         }

@@ -1685,6 +1685,10 @@ public class Tidy implements Serializable
                 {
                     configuration.xHTML = true;
                 }
+                else if (arg.equalsIgnoreCase("ashtml"))
+                {
+                    configuration.htmlOut = true;
+                }
                 else if (arg.equalsIgnoreCase("indent"))
                 {
                     configuration.indentContent = true;

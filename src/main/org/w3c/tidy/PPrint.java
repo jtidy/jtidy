@@ -165,7 +165,7 @@ public class PPrint
 
     private boolean inAttVal;
 
-    private boolean InString;
+    private boolean inString;
 
     private int slide;
 
@@ -203,7 +203,9 @@ public class PPrint
      * return one less that the number of bytes used by UTF-8 char.
      * <code>1010 A 1011 B 1100 C 1101 D 1110 E 1111 F</code>
      * @param str points to 1st byte
+     * @param start starting offset in str
      * @param ch initialized to 1st byte, passed as an array to allow modification
+     * @return one less that the number of bytes used by UTF-8 char
      */
     public static int getUTF8(byte[] str, int start, int[] ch)
     {
@@ -320,20 +322,41 @@ public class PPrint
 
     /**
      * Adds an ascii String.
-     * @param s String to be added
-     * @param llen line lenght
+     * @param str String to be added
+     * @param index actual line lenght
      * @return final line length
      */
-    private int addAsciiString(String s, int llen)
+    private int addAsciiString(String str, int index)
     {
-        char[] cp = s.toCharArray();
 
-        for (int j = 0; j < cp.length; j++)
+        int len = str.length();
+        if (index + len >= lbufsize)
         {
-            addC(cp[j], llen++);
+            while (index + len >= lbufsize)
+            {
+                if (lbufsize == 0)
+                {
+                    lbufsize = 256;
+                }
+                else
+                {
+                    lbufsize = lbufsize * 2;
+                }
+            }
+
+            int[] temp = new int[lbufsize];
+            if (linebuf != null)
+            {
+                System.arraycopy(linebuf, 0, temp, 0, index);
+            }
+            linebuf = temp;
         }
 
-        return llen;
+        for (int ix = 0; ix < len; ++ix)
+        {
+            linebuf[index + ix] = str.charAt(ix);
+        }
+        return index + len;
     }
 
     private void wrapLine(Out fout, int indent)
@@ -355,7 +378,7 @@ public class PPrint
             fout.outc(linebuf[i]);
         }
 
-        if (InString)
+        if (inString)
         {
             fout.outc(' ');
             fout.outc('\\');
@@ -1024,7 +1047,7 @@ public class PPrint
 
         if (value != null)
         {
-            InString = false;
+            inString = false;
 
             i = 0;
             while (i < valueChars.length)
@@ -1034,7 +1057,7 @@ public class PPrint
                 if (wrappable && c == ' ' && indent + linelen < this.configuration.wraplen)
                 {
                     wraphere = linelen;
-                    wasinstring = InString;
+                    wasinstring = inString;
                 }
 
                 if (wrappable && wraphere > 0 && indent + linelen >= this.configuration.wraplen)
@@ -1074,7 +1097,7 @@ public class PPrint
 
                     if (delim == '\'')
                     {
-                        InString = !InString;
+                        inString = !inString;
                     }
 
                     ++i;
@@ -1097,7 +1120,7 @@ public class PPrint
 
                     if (delim == '"')
                     {
-                        InString = !InString;
+                        inString = !inString;
                     }
 
                     ++i;
@@ -1123,7 +1146,7 @@ public class PPrint
             }
         }
 
-        InString = false;
+        inString = false;
         addC(delim, linelen++);
     }
 
@@ -1299,11 +1322,11 @@ public class PPrint
 
         printAttrs(fout, indent, node, node.attributes);
 
-        if ((this.configuration.xmlOut || lexer != null && lexer.isvoyager)
-            && ((node.type == Node.START_END_TAG && !configuration.xHTML) || (node.tag.model & Dict.CM_EMPTY) != 0))
+        if ((this.configuration.xmlOut || this.configuration.xHTML)
+            && (node.type == Node.START_END_TAG || TidyUtils.toBoolean(node.tag.model & Dict.CM_EMPTY)))
         {
-            addC(' ', linelen++); // compatibility hack
-            addC('/', linelen++);
+            addC(' ', linelen++); // Space is NS compatibility hack <br />
+            addC('/', linelen++); // Required end tag marker
         }
 
         addC('>', linelen++);
@@ -1342,15 +1365,11 @@ public class PPrint
 
         // Netscape ignores SGML standard by not ignoring a line break before </A> or </U> etc.
         // To avoid rendering this as an underlined space, I disable line wrapping before inline end tags
-        // by the #if 0 ... #endif
 
-        if (false)
-        {
-            if (indent + linelen < this.configuration.wraplen && !((mode & NOWRAP) != 0))
-            {
-                wraphere = linelen;
-            }
-        }
+        // if (indent + linelen < this.configuration.wraplen && !((mode & NOWRAP) != 0))
+        // {
+        //     wraphere = linelen;
+        // }
 
         addC('<', linelen++);
         addC('/', linelen++);
@@ -1447,7 +1466,7 @@ public class PPrint
             c = lexer.lexbuf[i] & 0xFF; // Convert to unsigned.
 
             // inDTDSubset?
-            if ((mode & CDATA) != 0)
+            if (TidyUtils.toBoolean(mode & CDATA))
             {
                 if (c == ']')
                 {
@@ -1698,6 +1717,56 @@ public class PPrint
         this.configuration.wraplen = savewraplen;
     }
 
+    /**
+     * Is the current node inside HEAD?
+     * @param node Node
+     * @return <code>true</code> if node is inside an HEAD tag
+     */
+    private boolean insideHead(Node node)
+    {
+        if (node.tag == this.configuration.tt.tagHead)
+        {
+            return true;
+        }
+
+        if (node.parent != null)
+        {
+            return insideHead(node.parent);
+        }
+        return false;
+    }
+
+    /**
+     * Is text node and already ends w/ a newline? Used to pretty print CDATA/PRE text content. If it already ends on a
+     * newline, it is not necessary to print another before printing end tag.
+     * @param Lexer lexer
+     * @param Node text node
+     * @return <code>true</code> if text node ends with a newline
+     */
+    private boolean textEndsWithNewline(Lexer lexer, Node node)
+    {
+        if (node.type == Node.TEXT_NODE && node.end > node.start)
+        {
+            int ch, ix = node.end - 1;
+            // Skip non-newline whitespace
+            while (ix >= node.start
+                && TidyUtils.toBoolean(ch = (lexer.lexbuf[ix] & 0xff))
+                && (ch == ' ' || ch == '\t' || ch == '\r'))
+            {
+                --ix;
+            }
+
+            return (lexer.lexbuf[ix] == '\n');
+        }
+        return false;
+    }
+
+    /**
+     * Does the current node contain a CDATA section?
+     * @param lexer Lexer
+     * @param node Node
+     * @return <code>true</code> if node contains a CDATA section
+     */
     static boolean hasCDATA(Lexer lexer, Node node)
     {
         // Scan forward through the textarray. Since the characters we're
@@ -1743,8 +1812,12 @@ public class PPrint
         String commentStart = DEFAULT_COMMENT_START;
         String commentEnd = DEFAULT_COMMENT_END;
         boolean hasCData = false;
+        boolean contentEndsOnNewline = false;
 
-        condFlushLine(fout, indent);
+        if (insideHead(node))
+        {
+            flushLine(fout, indent);
+        }
 
         indent = 0;
         printTag(lexer, fout, mode, indent, node);
@@ -1792,9 +1865,18 @@ public class PPrint
         for (content = node.content; content != null; content = content.next)
         {
             printTree(fout, (short) (mode | PREFORMATTED | NOWRAP | CDATA), indent, lexer, content);
+
+            if (content.next == null)
+            {
+                contentEndsOnNewline = textEndsWithNewline(lexer, content);
+            }
+
         }
 
-        condFlushLine(fout, indent);
+        if (!contentEndsOnNewline)
+        {
+            condFlushLine(fout, indent);
+        }
 
         if (lexer.configuration.xHTML && node.content != null)
         {
@@ -1815,12 +1897,19 @@ public class PPrint
         }
 
         printEndTag(mode, indent, node);
-        flushLine(fout, indent);
 
-        if (!lexer.configuration.indentContent && node.next != null)
+        if (!lexer.configuration.indentContent && node.next != null
+
+        && !((node.tag != null && TidyUtils.toBoolean(node.tag.model & Dict.CM_INLINE))
+
+        || node.type != Node.TEXT_NODE
+
+        ))
         {
             flushLine(fout, indent);
         }
+
+        flushLine(fout, indent);
     }
 
     private boolean shouldIndent(Node node)
@@ -2134,7 +2223,7 @@ public class PPrint
                             && !this.configuration.indentContent
                             && last.type == Node.TEXT_NODE
                             && content.tag != null
-                            && (content.tag.model & Dict.CM_BLOCK) != 0)
+                            && !TidyUtils.toBoolean(content.tag.model & Dict.CM_INLINE))
                         {
                             flushLine(fout, indent);
                         }
