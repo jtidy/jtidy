@@ -3483,7 +3483,7 @@ public class Lexer
         return (m & LETTER) != 0;
     }
 
-    private static boolean isNamechar(char c)
+    protected static boolean isNamechar(char c)
     {
         short map = MAP(c);
 
