@@ -1610,6 +1610,7 @@ public class Clean
     {
         int indent;
         String indentBuf;
+        AttVal attval;
 
         while (node != null)
         {
@@ -1632,7 +1633,17 @@ public class Clean
 
                 node.element = this.tt.tagDiv.name;
                 node.tag = this.tt.tagDiv;
-                node.addAttribute("style", indentBuf);
+
+                attval = node.getAttrByName("style");
+
+                if (attval != null && attval.value != null)
+                {
+                    attval.value = indentBuf + "; " + attval.value;
+                }
+                else
+                {
+                    node.addAttribute("style", indentBuf);
+                }
             }
             else if (node.content != null)
             {
@@ -1643,6 +1654,20 @@ public class Clean
         }
     }
 
+    Node findEnclosingCell(Node node)
+    {
+        Node check;
+
+        for (check = node; check != null; check = check.parent)
+        {
+            if (check.tag == tt.tagTd)
+            {
+                return check;
+            }
+        }
+        return null;
+    }
+
     /**
      * node is <code>&lt;![if ...]&gt;</code> prune up to <code>&lt;![endif]&gt;</code>.
      */
@@ -1650,7 +1675,22 @@ public class Clean
     {
         for (;;)
         {
-            /* discard node and returns next */
+
+            // FG: commented out - don't add &nbsp; to empty cells
+
+            // if ((Lexer.getString(node.textarray, node.start, 21)).equals("if !supportEmptyParas"))
+            // {
+            //     Node cell = findEnclosingCell(node);
+            //     if (cell != null)
+            //     {
+            //         // Need to put &nbsp; into cell so it doesn't look weird
+            //         char onesixty[] = {(char) 160, (char) 0};
+            //         Node nbsp = lexer.newLiteralTextNode(lexer, onesixty);
+            //         Node.insertNodeBeforeElement(node, nbsp);
+            //      }
+            //  }
+
+            // discard node and returns next
             node = Node.discardElement(node);
 
             if (node == null)
@@ -1684,7 +1724,8 @@ public class Clean
             if (node.type == Node.SectionTag)
             {
                 // prune up to matching endif
-                if ((Lexer.getString(node.textarray, node.start, 2)).equals("if"))
+                if ((Lexer.getString(node.textarray, node.start, 2)).equals("if")
+                    && (!(Lexer.getString(node.textarray, node.start, 7)).equals("if !vml"))) // #444394 - fix 13 Sep 01
                 {
                     node = pruneSection(lexer, node);
                     continue;
@@ -1704,25 +1745,28 @@ public class Clean
         }
     }
 
-    public void purgeAttributes(Node node)
+    public void purgeWord2000Attributes(Node node)
     {
-        AttVal attr = node.attributes;
+        AttVal attr = null;
         AttVal next = null;
         AttVal prev = null;
 
-        while (attr != null)
+        for (attr = node.attributes; attr != null; attr = next)
         {
             next = attr.next;
 
-            /* special check for class="Code" denoting pre text */
-            if (attr.attribute != null
-                && attr.value != null
-                && attr.attribute.equals("class")
-                && attr.value.equals("Code"))
+            // special check for class="Code" denoting pre text
+            // Pass thru user defined styles as HTML class names
+            if (attr.attribute != null && attr.value != null && attr.attribute.equals("class"))
             {
-                prev = attr;
+                if (attr.value.equals("Code") || !attr.value.startsWith("Mso"))
+                {
+                    prev = attr;
+                    continue;
+                }
             }
-            else if (attr.attribute != null
+
+            if (attr.attribute != null
                 && (attr.attribute.equals("class")
                     || attr.attribute.equals("style")
                     || attr.attribute.equals("lang")
@@ -1743,8 +1787,6 @@ public class Clean
             {
                 prev = attr;
             }
-
-            attr = next;
         }
     }
 
@@ -1838,39 +1880,151 @@ public class Clean
     }
 
     /**
+     * used to hunt for hidden preformatted sections.
+     */
+    boolean noMargins(Node node)
+    {
+        AttVal attval = node.getAttrByName("style");
+
+        if (attval == null || attval.value == null)
+        {
+            return false;
+        }
+
+        // search for substring "margin-top: 0"
+        if (attval.value.indexOf("margin-top: 0") == -1)
+        {
+            return false;
+        }
+
+        // search for substring "margin-top: 0"
+        if (attval.value.indexOf("margin-bottom: 0") == -1)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * does element have a single space as its content?
+     */
+    boolean singleSpace(Lexer lexer, Node node)
+    {
+        if (node.content != null)
+        {
+            node = node.content;
+
+            if (node.next != null)
+            {
+                return false;
+            }
+
+            if (node.type != Node.TextNode)
+            {
+                return false;
+            }
+
+            if (((node.end - node.start) == 1) && lexer.lexbuf[node.start] == ' ')
+            {
+                return true;
+            }
+
+            if ((node.end - node.start) == 2)
+            {
+                MutableInteger c = new MutableInteger();
+
+                PPrint.getUTF8(lexer.lexbuf, node.start, c);
+
+                if (c.getValue() == 160)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * This is a major clean up to strip out all the extra stuff you get when you save as web page from Word 2000. It
      * doesn't yet know what to do with VML tags, but these will appear as errors unless you declare them as new tags,
      * such as o:p which needs to be declared as inline.
      */
     public void cleanWord2000(Lexer lexer, Node node)
     {
-        /* used to a list from a sequence of bulletted p's */
+        // used to a list from a sequence of bulletted p's
         Node list = null;
 
         while (node != null)
         {
-            /* discard Word's style verbiage */
+
+            // get rid of Word's xmlns attributes
+            if (node.tag == tt.tagHtml)
+            {
+                // check that it's a Word 2000 document
+                if ((node.getAttrByName("xmlns:o") == null))
+                {
+                    return;
+                }
+                node.freeAttrs();
+            }
+
+            // fix up preformatted sections by looking for a sequence of paragraphs with zero top/bottom margin
+            if (node.tag == tt.tagP)
+            {
+                if (noMargins(node))
+                {
+                    Node pre;
+                    Node next;
+                    Node.coerceNode(lexer, node, tt.tagPre);
+
+                    purgeWord2000Attributes(node);
+
+                    if (node.content != null)
+                    {
+                        cleanWord2000(lexer, node.content);
+                    }
+
+                    pre = node;
+                    node = node.next;
+
+                    // continue to strip p's
+                    while (node.tag == tt.tagP && noMargins(node))
+                    {
+                        next = node.next;
+                        Node.removeNode(node);
+                        Node.insertNodeAtEnd(pre, lexer.newLineNode());
+                        Node.insertNodeAtEnd(pre, node);
+                        stripSpan(lexer, node);
+                        node = next;
+                    }
+
+                    if (node == null)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (node.tag != null && ((node.tag.model & Dict.CM_BLOCK) == 1) && singleSpace(lexer, node))
+            {
+                node = stripSpan(lexer, node);
+                continue;
+            }
+
+            // discard Word's style verbiage
             if (node.tag == this.tt.tagStyle || node.tag == this.tt.tagMeta || node.type == Node.CommentTag)
             {
                 node = Node.discardElement(node);
                 continue;
             }
 
-            // strip out all span tags Word scatters so liberally!
-            if (node.tag == this.tt.tagSpan)
+            // strip out all span and font tags Word scatters so liberally!
+            if (node.tag == this.tt.tagSpan || node.tag == this.tt.tagFont)
             {
                 node = stripSpan(lexer, node);
                 continue;
-            }
-
-            // get rid of Word's xmlns attributes
-            if (node.tag == this.tt.tagHtml)
-            {
-                // check that it's a Word 2000 document
-                if (node.getAttrByName("xmlns:o") == null)
-                {
-                    return;
-                }
             }
 
             if (node.tag == this.tt.tagLink)
@@ -1894,19 +2048,36 @@ public class Clean
             if (node.tag == this.tt.tagP)
             {
                 AttVal attr = node.getAttrByName("class");
+                AttVal atrStyle = node.getAttrByName("style");
 
-                /* map sequence of <p class="MsoListBullet"> to <ul> ... </ul> */
-                if (attr != null && attr.value != null && attr.value.equals("MsoListBullet"))
+                // (JES) Sometimes Word marks a list item with the following hokie syntax
+                // <p class="MsoNormal" style="...;mso-list:l1 level1 lfo1;
+                // translate these into <li>
+
+                // map sequence of <p class="MsoListBullet"> to <ul> ... </ul>
+                // map <p class="MsoListNumber"> to <ol>...</ol>
+                if (attr != null
+                    && attr.value != null
+                    && ((attr.value.equals("MsoListBullet") || attr.value.equals("MsoListNumber")) //
+                    || (atrStyle != null && (atrStyle.value.indexOf("mso-list:") != -1)))) // 463066 - fix by Joel
+                // Shafer 19 Sep 01
                 {
+                    Dict listType = tt.tagUl;
+
+                    if (attr.value.equals("MsoListNumber"))
+                    {
+                        listType = tt.tagOl;
+                    }
+
                     Node.coerceNode(lexer, node, this.tt.tagLi);
 
-                    if (list == null || list.tag != this.tt.tagUl)
+                    if (list == null || list.tag != listType)
                     {
-                        list = lexer.inferredTag("ul");
+                        list = lexer.inferredTag(listType.name);
                         Node.insertNodeBeforeElement(node, list);
                     }
 
-                    purgeAttributes(node);
+                    purgeWord2000Attributes(node);
 
                     if (node.content != null)
                     {
@@ -1930,7 +2101,7 @@ public class Clean
                         Node.insertNodeBeforeElement(node, list);
                     }
 
-                    /* remove node and append to contents of list */
+                    // remove node and append to contents of list
                     Node.removeNode(node);
                     Node.insertNodeAtEnd(list, node);
                     stripSpan(lexer, node);
@@ -1947,10 +2118,10 @@ public class Clean
                 list = null;
             }
 
-            /* strip out style and class attributes */
+            // strip out style and class attributes
             if (node.type == Node.StartTag || node.type == Node.StartEndTag)
             {
-                purgeAttributes(node);
+                purgeWord2000Attributes(node);
             }
 
             if (node.content != null)
@@ -1964,9 +2135,55 @@ public class Clean
 
     public boolean isWord2000(Node root, TagTable tagTable)
     {
+        AttVal attval;
+        Node node;
+        Node head;
         Node html = root.findHTML(tagTable);
 
-        return (html != null && html.getAttrByName("xmlns:o") != null);
+        if (html != null && html.getAttrByName("xmlns:o") != null)
+        {
+            return true;
+        }
+
+        // search for <meta name="GENERATOR" content="Microsoft ...">
+        head = root.findHEAD(tt);
+
+        if (head != null)
+        {
+            for (node = head.content; node != null; node = node.next)
+            {
+                if (node.tag != tt.tagMeta)
+                {
+                    continue;
+                }
+
+                attval = node.getAttrByName("name");
+
+                if (attval == null || attval.value == null)
+                {
+                    continue;
+                }
+
+                if (!"generator".equals(attval.value))
+                {
+                    continue;
+                }
+
+                attval = node.getAttrByName("content");
+
+                if (attval == null || attval.value == null)
+                {
+                    continue;
+                }
+
+                if (attval.value.indexOf("Microsoft") != -1)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
