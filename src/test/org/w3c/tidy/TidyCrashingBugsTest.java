@@ -418,4 +418,14 @@ public class TidyCrashingBugsTest extends TidyTestCase
         tidy.pprint(doc, System.out);
     }
 
+    /**
+     * test for JTidy [1020806b]: NPE when PPPrint'ing changed DOM tree.
+     * @throws Exception any exception generated during the test
+     */
+    public void test1020806b() throws Exception
+    {
+        org.w3c.dom.Document doc = parseDomTest("1020806b.html");
+        tidy.pprint(doc, System.out);
+    }
+
 }

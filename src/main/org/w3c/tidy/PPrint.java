@@ -1834,13 +1834,13 @@ public class PPrint
             int ch, ix = node.end - 1;
             // Skip non-newline whitespace
             while (ix >= node.start
-                && TidyUtils.toBoolean(ch = (lexer.lexbuf[ix] & 0xff))
+                && TidyUtils.toBoolean(ch = (node.textarray[ix] & 0xff))
                 && (ch == ' ' || ch == '\t' || ch == '\r'))
             {
                 --ix;
             }
 
-            return (lexer.lexbuf[ix] == '\n');
+            return (node.textarray[ix] == '\n');
         }
         return false;
     }
@@ -1862,7 +1862,7 @@ public class PPrint
         }
 
         int len = node.end - node.start + 1;
-        String start = TidyUtils.getString(lexer.lexbuf, node.start, len);
+        String start = TidyUtils.getString(node.textarray, node.start, len);
 
         int indexOfCData = start.indexOf(CDATA_START);
         return indexOfCData > -1 && indexOfCData <= len;
