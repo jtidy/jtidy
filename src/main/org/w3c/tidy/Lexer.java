@@ -77,13 +77,18 @@ public class Lexer
 {
 
     public static final short IGNORE_WHITESPACE = 0;
+
     public static final short MIXED_CONTENT = 1;
+
     public static final short PREFORMATTED = 2;
+
     public static final short IGNORE_MARKUP = 3;
 
     // the 3 URIs for the XHTML 1.0 DTDs
     private static final String VOYAGER_LOOSE = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd";
+
     private static final String VOYAGER_STRICT = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd";
+
     private static final String VOYAGER_FRAMESET = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd";
 
     private static final String XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
@@ -101,26 +106,43 @@ public class Lexer
 
     // lexer char types
     private static final short DIGIT = 1;
+
     private static final short LETTER = 2;
+
     private static final short NAMECHAR = 4;
+
     private static final short WHITE = 8;
+
     private static final short NEWLINE = 16;
+
     private static final short LOWERCASE = 32;
+
     private static final short UPPERCASE = 64;
 
     // lexer GetToken states
 
     private static final short LEX_CONTENT = 0;
+
     private static final short LEX_GT = 1;
+
     private static final short LEX_ENDTAG = 2;
+
     private static final short LEX_STARTTAG = 3;
+
     private static final short LEX_COMMENT = 4;
+
     private static final short LEX_DOCTYPE = 5;
+
     private static final short LEX_PROCINSTR = 6;
+
     private static final short LEX_CDATA = 8;
+
     private static final short LEX_SECTION = 9;
+
     private static final short LEX_ASP = 10;
+
     private static final short LEX_JSTE = 11;
+
     private static final short LEX_PHP = 12;
 
     /**
@@ -279,9 +301,11 @@ public class Lexer
     public Style styles;
 
     public Configuration configuration;
+
     protected int seenEndBody; // used by parser
 
     protected int seenEndHtml;
+
     protected Report report;
 
     private Vector nodeList;
@@ -615,7 +639,7 @@ public class Lexer
             // issue warning if not terminated by ';'
             if (c != ';')
             {
-                // set error position just before offending chararcter
+                // set error position just before offending character
                 this.lines = this.in.curline;
                 this.columns = startcol;
                 report.entityError(this, Report.MISSING_SEMICOLON, str, c);
@@ -771,7 +795,9 @@ public class Lexer
                     {
                         attval = node.getAttrByName("content");
 
-                        if (attval != null && attval.value != null && attval.value.length() >= 9
+                        if (attval != null
+                            && attval.value != null
+                            && attval.value.length() >= 9
                             && Lexer.wstrcasecmp(attval.value.substring(0, 9), "HTML Tidy") == 0)
                         {
                             return false;
@@ -820,9 +846,10 @@ public class Lexer
         int len = doctype.end - doctype.start;
         String s = getString(this.lexbuf, doctype.start, len);
 
-        return !(findBadSubString("SYSTEM", s, len) || findBadSubString("PUBLIC", s, len)
-            || findBadSubString("//DTD", s, len) || findBadSubString("//W3C", s, len) || findBadSubString("//EN", s,
-            len));
+        return !(findBadSubString("SYSTEM", s, len)
+            || findBadSubString("PUBLIC", s, len)
+            || findBadSubString("//DTD", s, len)
+            || findBadSubString("//W3C", s, len) || findBadSubString("//EN", s, len));
     }
 
     /**
@@ -959,7 +986,6 @@ public class Lexer
             }
         }
     }
-
 
     /**
      * Put DOCTYPE declaration between the &lt:?xml version "1.0" ... ?> declaration, if any, and the <code>html</code>
@@ -1516,7 +1542,6 @@ public class Lexer
                 continue; // discard whitespace in endtag
             }
 
-
             addCharToLexer(c);
             this.txtend = this.lexsize;
             lastc = c;
@@ -1971,8 +1996,12 @@ public class Lexer
                     c = parseTagName();
                     isempty.setValue(false);
                     attributes = null;
-                    this.token = newNode((isempty.getValue() ? Node.StartEndTag : Node.StartTag), this.lexbuf,
-                        this.txtstart, this.txtend, getString(this.lexbuf, this.txtstart, this.txtend - this.txtstart));
+                    this.token = newNode(
+                        (isempty.getValue() ? Node.StartEndTag : Node.StartTag),
+                        this.lexbuf,
+                        this.txtstart,
+                        this.txtend,
+                        getString(this.lexbuf, this.txtstart, this.txtend - this.txtstart));
 
                     // parse attributes, consuming closing ">"
                     if (c != '>')
@@ -2773,7 +2802,6 @@ public class Lexer
 
         // c should be '=' if there is a value other legal possibilities are white space, '/' and '>'
 
-
         if (c != '=')
         {
             this.in.ungetChar(c);
@@ -2819,7 +2847,6 @@ public class Lexer
         }
 
         // and read the value string check for quote mark if needed
-
 
         quotewarning = 0;
         start = this.lexsize;
@@ -3581,8 +3608,11 @@ public class Lexer
     {
 
         String name;
+
         String voyagerName;
+
         String profile;
+
         short code;
 
         public W3CVersionInfo(String name, String voyagerName, String profile, short code)
