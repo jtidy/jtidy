@@ -1,4 +1,4 @@
-/**
+/*
  *  Java HTML Tidy - JTidy
  *  HTML parser and pretty printer
  *
@@ -113,6 +113,11 @@ public class TidyTestCase extends TestCase
     private Log log = LogFactory.getLog(TidyTestCase.class);
 
     /**
+     * write directly to out. Useful for debugging (but it will make the test fail!).
+     */
+    private boolean writeToOut;
+
+    /**
      * Instantiate a new Test case.
      * @param name test name
      */
@@ -162,8 +167,16 @@ public class TidyTestCase extends TestCase
         URL inputURL = getClass().getClassLoader().getResource(fileName);
         assertNotNull("Can't find input file [" + fileName + "]", inputURL);
 
+        OutputStream out;
         // out
-        OutputStream out = new ByteArrayOutputStream();
+        if (!writeToOut)
+        {
+            out = new ByteArrayOutputStream();
+        }
+        else
+        {
+            out = System.out;
+        }
 
         // go!
         this.tidy.parse(inputURL.openStream(), out);
