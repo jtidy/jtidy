@@ -138,6 +138,7 @@ public final class AllNotWorkingTests
         // previously working
         suite.addTest(new TidyOutputBugsTest("test431736"));
         suite.addTest(new TidyOutputBugsTest("test531964"));
+        suite.addTest(new TidyOutputBugsTest("test996484"));
 
         return suite;
     }

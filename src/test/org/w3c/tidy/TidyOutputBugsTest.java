@@ -1060,4 +1060,13 @@ public class TidyOutputBugsTest extends TidyTestCase
         executeTidyTest("765852.html");
     }
 
+    /**
+     * test for Tidy [996484] : Tidy add spurious space when indenting long URIs.
+     * @throws Exception any exception generated during the test
+     */
+    public void test996484() throws Exception
+    {
+        executeTidyTest("996484.html");
+    }
+
 }
