@@ -1,3 +1,4 @@
 target
 .checkstyle
 maven.log
+*.log

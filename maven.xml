@@ -2,7 +2,7 @@
 <project default="rebuild-all" xmlns:m="maven" xmlns:j="jelly:core" xmlns:u="jelly:util">
 
 	<goal name="rebuild-all">
-		<j:set var="goals" value="clean,jar:jar,eclipseplugin:zip,site:generate" />
+		<j:set var="goals" value="pom,clean,jar:jar,site:generate" />
 		<mkdir dir="${maven.build.dir}" />
 		<u:tokenize var="goals" delim=",">${goals}</u:tokenize>
 		<j:forEach items="${goals}" var="goal" indexVar="goalNumber">
