@@ -611,7 +611,7 @@ public class PPrint
                 return;
             }
 
-            if (c == 160 && this.configuration.charEncoding != Configuration.RAW)
+            if (c == 160 && this.configuration.outCharEncoding != Configuration.RAW)
             {
                 if (this.configuration.makeBare)
                 {
@@ -648,10 +648,10 @@ public class PPrint
         }
 
         // #431953 - start RJ
-        if (this.configuration.charEncoding == Configuration.ISO2022
-            || this.configuration.charEncoding == Configuration.RAW) // Handle encoding-specific issues
+        if (this.configuration.outCharEncoding == Configuration.ISO2022
+            || this.configuration.outCharEncoding == Configuration.RAW) // Handle encoding-specific issues
         {
-            switch (this.configuration.charEncoding)
+            switch (this.configuration.outCharEncoding)
             {
                 case Configuration.UTF8 :
                     // Chinese doesn't have spaces, so it needs other kinds of breaks
@@ -810,7 +810,7 @@ public class PPrint
         }
 
         /* don't map latin-1 chars to entities */
-        if (this.configuration.charEncoding == Configuration.LATIN1)
+        if (this.configuration.outCharEncoding == Configuration.LATIN1)
         {
             if (c > 255) /* multi byte chars */
             {
@@ -856,7 +856,16 @@ public class PPrint
         }
 
         // don't map utf8 chars to entities
-        if (this.configuration.charEncoding == Configuration.UTF8)
+        if (this.configuration.outCharEncoding == Configuration.UTF8)
+        {
+            addC(c, linelen++);
+            return;
+        }
+
+        // don't map utf16 chars to entities
+        if (this.configuration.outCharEncoding == Configuration.UTF16
+            || this.configuration.outCharEncoding == Configuration.UTF16LE
+            || this.configuration.outCharEncoding == Configuration.UTF16BE)
         {
             addC(c, linelen++);
             return;
@@ -866,7 +875,7 @@ public class PPrint
         if (this.configuration.xmlTags)
         {
             // if ASCII use numeric entities for chars > 127
-            if (c > 127 && this.configuration.charEncoding == Configuration.ASCII)
+            if (c > 127 && this.configuration.outCharEncoding == Configuration.ASCII)
             {
                 entity = "&#" + c + ";";
 
@@ -2563,7 +2572,7 @@ public class PPrint
             buf = "slide" + numberFormat.format(slide) + ".html";
             // #427666 - fix by Eric Rossen 02 Aug 00
             out.state = StreamIn.FSM_ASCII;
-            out.encoding = this.configuration.charEncoding;
+            out.encoding = this.configuration.outCharEncoding;
 
             try
             {
