@@ -1202,12 +1202,7 @@ public final class Report
     {
 
         TagTable tt = lexer.configuration.tt;
-        if ((code == DISCARDING_UNEXPECTED) && lexer.badForm != 0)
-        {
-            /* lexer->errors++; */
-            // already done in BadForm()
-        }
-        else
+        if (!((code == DISCARDING_UNEXPECTED) && lexer.badForm != 0)) // lexer->errors++; already done in BadForm()
         {
             lexer.warnings++;
         }

@@ -437,8 +437,10 @@ public final class AttrCheckImpl
             if (TidyUtils.isInValuesIgnoreCase(VALID_VALUES, value))
             {
                 // all is fine
+                return;
             }
-            else if (TidyUtils.isInValuesIgnoreCase(VALID_VALUES_IMG, value))
+
+            if (TidyUtils.isInValuesIgnoreCase(VALID_VALUES_IMG, value))
             {
                 if (!(node.tag != null && ((node.tag.model & Dict.CM_IMG) != 0)))
                 {

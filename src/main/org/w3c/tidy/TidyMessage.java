@@ -53,8 +53,6 @@
  */
 package org.w3c.tidy;
 
-
-
 /**
  * Message sent to listeners for validation errors/warnings and info.
  * @see Tidy#setMessageListener(TidyMessageListener)
@@ -267,6 +265,15 @@ public final class TidyMessage
                     // should not happen
                     return "?";
             }
+        }
+
+        /**
+         * @see java.lang.Object#hashCode()
+         */
+        public int hashCode()
+        {
+            // new instances should not be created
+            return super.hashCode();
         }
     }
 

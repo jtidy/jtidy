@@ -774,7 +774,7 @@ public class PPrint
                 // Allow linebreak at Chinese punctuation characters
                 // There are not many spaces in Chinese
                 addC(c, linelen++);
-                if (((c & 0xFF00) == 0xA100) & !TidyUtils.toBoolean(mode & PREFORMATTED))
+                if (((c & 0xFF00) == 0xA100) && !TidyUtils.toBoolean(mode & PREFORMATTED))
                 {
                     wraphere = linelen;
                     // opening brackets have odd codes: break before them
@@ -1445,21 +1445,9 @@ public class PPrint
         addC('!', linelen++);
         addC('-', linelen++);
         addC('-', linelen++);
-        if (false)
-        {
-            if (linelen < this.configuration.wraplen)
-            {
-                wraphere = linelen;
-            }
-        }
+
         printText(fout, COMMENT, indent, node.textarray, node.start, node.end);
-        if (false)
-        {
-            if (indent + linelen < this.configuration.wraplen)
-            {
-                wraphere = linelen;
-            }
-        }
+
         // See Lexer.java: AQ 8Jul2000
         addC('-', linelen++);
         addC('-', linelen++);
@@ -1631,13 +1619,6 @@ public class PPrint
         {
             this.configuration.wraplen = 0xFFFFFF; // a very large number
         }
-        if (false)
-        { //#if 0
-            if (indent + linelen < this.configuration.wraplen)
-            {
-                wraphere = linelen;
-            }
-        } //#endif
 
         addC('<', linelen++);
         addC('%', linelen++);
@@ -1695,13 +1676,6 @@ public class PPrint
             this.configuration.wraplen = 0xFFFFFF; // a very large number
         }
 
-        if (false)
-        { //#if 0
-            if (indent + linelen < this.configuration.wraplen)
-            {
-                wraphere = linelen;
-            }
-        } //#endif
         addC('<', linelen++);
         addC('?', linelen++);
 
@@ -1767,13 +1741,6 @@ public class PPrint
             this.configuration.wraplen = 0xFFFFFF; // a very large number
         }
 
-        if (false)
-        { //#if 0
-            if (indent + linelen < this.configuration.wraplen)
-            {
-                wraphere = linelen;
-            }
-        } //#endif
         addC('<', linelen++);
         addC('!', linelen++);
         addC('[', linelen++);

@@ -1861,7 +1861,7 @@ public class Clean
                 // prune up to matching endif
                 if ((TidyUtils.getString(node.textarray, node.start, 2)).equals("if")
                     && (!(TidyUtils.getString(node.textarray, node.start, 7)).equals("if !vml"))) // #444394 - fix 13
-                                                                                                  // Sep 01
+                // Sep 01
                 {
                     node = pruneSection(lexer, node);
                     continue;
@@ -2160,7 +2160,7 @@ public class Clean
                 }
             }
 
-            if (node.tag != null && ((node.tag.model & Dict.CM_BLOCK) == 1) && singleSpace(lexer, node))
+            if (node.tag != null && TidyUtils.toBoolean(node.tag.model & Dict.CM_BLOCK) && singleSpace(lexer, node))
             {
                 node = stripSpan(lexer, node);
                 continue;
