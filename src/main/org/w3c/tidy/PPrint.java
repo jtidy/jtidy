@@ -1809,7 +1809,7 @@ public class PPrint
 
             printTag(lexer, fout, mode, indent, node);
 
-            if (!mixed)
+            if (!mixed && node.content != null)
             {
                 flushLine(fout, indent);
             }
@@ -1819,7 +1819,7 @@ public class PPrint
                 printXMLTree(fout, mode, cindent, lexer, content);
             }
 
-            if (!mixed)
+            if (!mixed && node.content != null)
             {
                 condFlushLine(fout, cindent);
             }
