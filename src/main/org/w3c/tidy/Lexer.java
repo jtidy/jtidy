@@ -102,6 +102,7 @@ public class Lexer
         new W3CVersionInfo("HTML 4.0 Frameset", "XHTML 1.0 Frameset", VOYAGER_FRAMESET, Dict.VERS_FRAMESET),
         new W3CVersionInfo("HTML 3.2", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML32),
         new W3CVersionInfo("HTML 3.2 Final", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML32),
+        new W3CVersionInfo("HTML 3.2 Draft", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML32),
         new W3CVersionInfo("HTML 2.0", "XHTML 1.0 Strict", VOYAGER_STRICT, Dict.VERS_HTML20)};
 
     // lexer char types
@@ -328,7 +329,7 @@ public class Lexer
         this.insertspace = false;
         this.exiled = false;
         this.isvoyager = false;
-        this.versions = Dict.VERS_EVERYTHING;
+        this.versions = (Dict.VERS_ALL | Dict.VERS_PROPRIETARY);
         this.doctype = Dict.VERS_UNKNOWN;
         this.badDoctype = false;
         this.txtstart = 0;
@@ -2061,7 +2062,7 @@ public class Lexer
                     }
                     else if (!this.configuration.xmlTags)
                     {
-                        this.versions &= this.token.tag.versions;
+                        constrainVersion(this.token.tag.versions);
 
                         if ((this.token.tag.versions & Dict.VERS_PROPRIETARY) != 0)
                         {
@@ -3487,6 +3488,14 @@ public class Lexer
     private static short MAP(char c)
     {
         return (c < 128 ? lexmap[c] : 0);
+    }
+
+    /**
+     * Everything is allowed in proprietary version of HTML this is handled here rather than in the tag/attr dicts
+     */
+    void constrainVersion(int vers)
+    {
+        this.versions &= (vers | Dict.VERS_PROPRIETARY);
     }
 
     /**

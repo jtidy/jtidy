@@ -97,6 +97,7 @@ public final class CheckAttribsImpl
      * CheckAnchor instance.
      */
     private static final CheckAttribs CHECK_ANCHOR = new CheckAnchor();
+
     /**
      * CheckMap instance.
      */
@@ -269,11 +270,11 @@ public final class CheckAttribsImpl
             {
                 if (Lexer.wstrcasecmp(value, "left") == 0 || Lexer.wstrcasecmp(value, "right") == 0)
                 {
-                    lexer.versions &= (short) (Dict.VERS_HTML40_LOOSE | Dict.VERS_FRAMESET);
+                    lexer.constrainVersion(Dict.VERS_HTML40_LOOSE);
                 }
                 else if (Lexer.wstrcasecmp(value, "top") == 0 || Lexer.wstrcasecmp(value, "bottom") == 0)
                 {
-                    lexer.versions &= Dict.VERS_FROM32;
+                    lexer.constrainVersion(~(Dict.VERS_HTML20 | Dict.VERS_HTML32));
                 }
                 else
                 {
@@ -338,7 +339,7 @@ public final class CheckAttribsImpl
                 }
                 else if (attribute == AttributeTable.attrWidth || attribute == AttributeTable.attrHeight)
                 {
-                    lexer.versions &= ~Dict.VERS_HTML20;
+                    lexer.constrainVersion(~Dict.VERS_HTML20);
                 }
             }
 
@@ -463,7 +464,7 @@ public final class CheckAttribsImpl
 
             if (node.getAttrByName("width") != null || node.getAttrByName("height") != null)
             {
-                lexer.versions &= ~Dict.VERS_HTML40_STRICT;
+                lexer.constrainVersion(~Dict.VERS_HTML40_STRICT);
             }
         }
     }

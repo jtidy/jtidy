@@ -332,7 +332,7 @@ public final class AttrCheckImpl
                 || Lexer.wstrcasecmp(value, "absbottom") == 0
                 || Lexer.wstrcasecmp(value, "textbottom") == 0)
             {
-                lexer.versions &= Dict.VERS_PROPRIETARY;
+                lexer.constrainVersion(Dict.VERS_PROPRIETARY);
                 lexer.report.attrError(lexer, node, attval, Report.PROPRIETARY_ATTR_VALUE);
             }
             else

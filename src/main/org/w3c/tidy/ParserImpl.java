@@ -732,8 +732,8 @@ public final class ParserImpl
                     }
                     else
                     {
-                        // strict doesn't allow text here
-                        lexer.versions &= ~(Dict.VERS_HTML40_STRICT | Dict.VERS_HTML20);
+                        //  HTML2 and HTML4 strict doesn't allow text here
+                        lexer.constrainVersion(~(Dict.VERS_HTML40_STRICT | Dict.VERS_HTML20));
                     }
 
                     if (checkstack)
@@ -852,11 +852,11 @@ public final class ParserImpl
                         // but HTML2 does allow img elements as children of body
                         if (node.tag == tt.tagImg)
                         {
-                            lexer.versions &= ~Dict.VERS_HTML40_STRICT;
+                            lexer.constrainVersion(~Dict.VERS_HTML40_STRICT);
                         }
                         else
                         {
-                            lexer.versions &= ~(Dict.VERS_HTML40_STRICT | Dict.VERS_HTML20);
+                            lexer.constrainVersion(~(Dict.VERS_HTML40_STRICT | Dict.VERS_HTML20));
                         }
 
                         if (checkstack && !node.implicit)
@@ -2109,7 +2109,7 @@ public final class ParserImpl
 
                     // HTML4 strict doesn't allow mixed content for elements with %block; as their content model
 
-                    lexer.versions &= ~Dict.VERS_HTML40_STRICT;
+                    lexer.constrainVersion(~Dict.VERS_HTML40_STRICT);
                     continue;
                 }
 

@@ -67,11 +67,17 @@ public class AttVal extends Object implements Cloneable
 {
 
     public AttVal next;
+
     public Attribute dict;
+
     public Node asp;
+
     public Node php;
+
     public int delim;
+
     public String attribute;
+
     public String value;
 
     // DOM
@@ -158,29 +164,34 @@ public class AttVal extends Object implements Cloneable
         Attribute attr = this.dict;
         if (attr != null)
         {
-            /* title is vers 2.0 for A and LINK otherwise vers 4.0 */
-            if (attr == AttributeTable.attrTitle && (node.tag == tt.tagA || node.tag == tt.tagLink))
-            {
-                lexer.versions &= Dict.VERS_ALL;
-            }
-            else if ((attr.getVersions() & Dict.VERS_XML) != 0)
+
+            // if attribute looks like <foo/> check XML is ok
+            if ((attr.getVersions() & Dict.VERS_XML) != 0)
             {
                 if (!(lexer.configuration.xmlTags || lexer.configuration.xmlOut))
                 {
                     lexer.report.attrError(lexer, node, this, Report.XML_ATTRIBUTE_VALUE);
                 }
             }
-            else
+            // title first appeared in HTML 4.0 except for a/link
+            else if (attr != AttributeTable.attrTitle || !(node.tag == tt.tagA || node.tag == tt.tagLink))
             {
-                lexer.versions &= attr.getVersions();
+                lexer.constrainVersion(attr.getVersions());
             }
 
             if (attr.getAttrchk() != null)
             {
                 attr.getAttrchk().check(lexer, node, this);
             }
+            else if ((this.dict.getVersions() & Dict.VERS_PROPRIETARY) != 0)
+            {
+                lexer.report.attrError(lexer, node, this, Report.PROPRIETARY_ATTRIBUTE);
+            }
+
         }
-        else if (!lexer.configuration.xmlTags && !(node.tag == null) && this.asp == null
+        else if (!lexer.configuration.xmlTags
+            && !(node.tag == null)
+            && this.asp == null
             && !(node.tag != null && ((node.tag.versions & Dict.VERS_PROPRIETARY) != 0)))
         {
             lexer.report.attrError(lexer, node, this, Report.UNKNOWN_ATTRIBUTE);
@@ -189,7 +200,7 @@ public class AttVal extends Object implements Cloneable
         return attr;
     }
 
-    /*
+    /**
      * the same attribute name can't be used more than once in each element
      */
     public void checkUniqueAttribute(Lexer lexer, Node node)
@@ -199,7 +210,10 @@ public class AttVal extends Object implements Cloneable
 
         for (attr = this.next; attr != null; attr = attr.next)
         {
-            if (this.attribute != null && attr.attribute != null && attr.asp == null && attr.php == null
+            if (this.attribute != null
+                && attr.attribute != null
+                && attr.asp == null
+                && attr.php == null
                 && Lexer.wstrcasecmp(this.attribute, attr.attribute) == 0)
             {
                 ++count;
@@ -211,7 +225,6 @@ public class AttVal extends Object implements Cloneable
             lexer.report.attrError(lexer, node, this, Report.REPEATED_ATTRIBUTE);
         }
     }
-
 
     protected org.w3c.dom.Attr getAdapter()
     {
