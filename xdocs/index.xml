@@ -37,12 +37,12 @@
 		</p>
 		<p>
 			These are the priorities before a release:
+		</p>
 			<ul>
 				<li>Doctype handling (needed for tests)</li>
 				<li>Formatting (needed for tests)</li>
 				<li>Xml output: making Jtidy always produce valid xml (the well known "duplicate attributes" bug)</li>
 			</ul>
-		</p>
 		<p>
 			Mh, formatting in maven-generated <a href="junit-report.html">junit report</a> is really bad, I just submitted a
 			bug report to maven: error messages are escaped two times, newlines are not preserved and random whitespaces are
@@ -79,6 +79,7 @@
         <p>The project is starting again after two years without a release. I (Fabrizio Giustina) just joined the project as new administrator and developer.</p>
         <p>
           Main targets are now:
+        </p>
           <ul>
             <li>migrate to maven as a build system (done)</li>
             <li>
@@ -99,7 +100,6 @@
             </li>
             <li>Finally: integrate all the patches supplied by users in these years and the fixes in the non-Java version</li>
           </ul>
-        </p>
         <p>
           A note about mailing lists: there are two new mailing list, specific to jtidy, see
           <a href="mail-lists.html">project mailing lists</a>
