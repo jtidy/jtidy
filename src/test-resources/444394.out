@@ -1,0 +1,28 @@
+<html>
+<head>
+<link rel="Edit-Time-Data"
+      href="./Hello_files/editdata.mso">
+
+<title>Hello</title>
+</head>
+
+<body>
+<div class="Section1">
+<h1>Hello</h1>
+
+<p><o:p></o:p></p>
+
+<p>This is a nice document</p>
+
+<p><img width="283"
+     height="212"
+     src="./Hello_files/image001.jpg"
+     alt="Test"
+     v:shapes="_x0000_i1025"></p>
+
+<p><em>With a nice picture<o:p></o:p></em></p>
+
+<p><o:p></o:p></p>
+</div>
+</body>
+</html>

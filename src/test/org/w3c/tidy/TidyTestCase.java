@@ -83,6 +83,16 @@ public class TidyTestCase extends TestCase
     private static Log log = LogFactory.getLog(TidyTestCase.class);
 
     /**
+     * Tidy executable name, if you want to produce output files for comparison.
+     */
+    private static final String TIDY_EXECUTABLE = "tidy.exe";
+
+    /**
+     * flag used to enable/disable output file generation using tidy c executable.
+     */
+    private static final boolean RUN_TIDY_EXECUTABLE = true;
+
+    /**
      * Tidy test instance.
      */
     protected Tidy tidy;
@@ -230,7 +240,7 @@ public class TidyTestCase extends TestCase
     }
 
     /**
-     * Utility method: assert a given String cab be found in the error log.
+     * Utility method: asserts a given String can be found in the error log.
      * @param expectedString expected String in error log.
      */
     protected void assertLogContains(String expectedString)
@@ -240,6 +250,20 @@ public class TidyTestCase extends TestCase
         if (logString.indexOf(expectedString) == -1)
         {
             fail("Test failed, expected [" + expectedString + "] couldn't be found in error log.");
+        }
+    }
+
+    /**
+     * Utility method: asserts a given String can't be found in the error log.
+     * @param expectedString expected String in error log.
+     */
+    protected void assertLogDoesntContains(String expectedString)
+    {
+        String logString = this.errorLog.toString();
+
+        if (logString.indexOf(expectedString) != -1)
+        {
+            fail("Test failed, [" + expectedString + "] was found in error log.");
         }
     }
 
@@ -278,6 +302,11 @@ public class TidyTestCase extends TestCase
         if (configurationFile == null)
         {
             configurationFile = getClass().getClassLoader().getResource("default.cfg");
+        }
+
+        if (RUN_TIDY_EXECUTABLE)
+        {
+            generateOutputUsingTidyC(inputURL.getFile(), configurationFile.getFile());
         }
 
         // if configuration file exists load and set it
@@ -325,6 +354,61 @@ public class TidyTestCase extends TestCase
                     + "]");
         }
         return;
+    }
+
+    /**
+     * Run TIDY_EXECUTABLE to produce an output file. Used to generates output files using tidy c for comparison with
+     * jtidy. A file ".out" will be written in the same folder of the input file.
+     * @param inputFileName input file for tidy.
+     * @param configurationFileName configuration file name (default if there is no not test-specific file).
+     */
+    private void generateOutputUsingTidyC(String inputFileName, String configurationFileName)
+    {
+
+        String outputFileName = inputFileName.substring(0, inputFileName.lastIndexOf(".")) + ".out";
+
+        String strCmd =
+            TIDY_EXECUTABLE
+                + " -config \""
+                + cleanUpFilePath(configurationFileName)
+                + "\" -o \""
+                + cleanUpFilePath(outputFileName)
+                + "\" \""
+                + cleanUpFilePath(inputFileName)
+                + "\"";
+
+        log.debug("running [" + strCmd + "]");
+
+        try
+        {
+            Runtime.getRuntime().exec(strCmd);
+        }
+        catch (IOException e)
+        {
+            log.warn("Error running [" + strCmd + "] cmd: " + e.getMessage());
+        }
+
+    }
+
+    /**
+     * Utility method to clean up file path returned by URLs.
+     * @param fileName file name as given by URL.getFile()
+     * @return String fileName
+     */
+    private String cleanUpFilePath(String fileName)
+    {
+        if (fileName.length() > 3 && fileName.charAt(2) == ':')
+        {
+            // assuming something like ""/C:/program files/..."
+            return fileName.substring(1);
+        }
+        else if (fileName.startsWith("file://"))
+        {
+            return fileName.substring(7);
+        }
+
+        return fileName;
+
     }
 
 }

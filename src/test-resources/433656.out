@@ -1,0 +1,9 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>[ #433656 ] Improve support for PHP</title>
+</head>
+<body>
+(some text) <?php mkfooter(); ?>
+</body>
+</html>

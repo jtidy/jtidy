@@ -1,0 +1,24 @@
+<!-- use "-indent" on command line -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>
+[ 578216 ] Incorrect indent of &lt;SPAN&gt; elements
+</title>
+</head>
+<body>
+<div class="indent">
+<span class="jobsectionhead">Benefits:</span> <span class=
+"jobsectiontext">Using a new Project Profile Knowledge
+Base...</span><br>
+<span class="jobsectionhead">Solutions:</span> <span class=
+"jobsectiontext">Comprehensive intranet-based knowledge base
+containing...</span><br>
+<span class="jobsectionhead">Roles:</span> <span class=
+"jobsectiontext">Drove site and content management
+architecture...</span><br>
+<span class="jobsectionhead">Technology:</span> <span class=
+"jobsectiontext">Visual InterDev, IIS, ...</span>
+</div>
+</body>
+</html>

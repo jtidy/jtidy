@@ -1,0 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<title>[ #438954 ] Body tag w/attributes omitted w/hide-end</title>
+<body bgcolor="#000000" text="#FFFFFF">
+Use "--hide-endtags yes" on command line

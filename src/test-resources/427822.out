@@ -1,0 +1,11 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>[ #427822 ] PopInLine() doesn't check stack</title>
+</head>
+<body>
+<dl>
+<dd><i>abc</i></dd>
+</dl>
+</body>
+</html>

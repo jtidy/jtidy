@@ -1,0 +1,9 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>Test input file for iso-8859-1 character entities</title>
+</head>
+<body>
+<p>Phrase with numeric quotes expressly stated: &#8220;D&eacute;j&agrave; con&ccedil;u &agrave; l'&egrave;re de Caf&eacute;&iuml;ne&#8221;</p>
+</body>
+</html>

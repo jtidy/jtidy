@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/REC-html401/loose.dtd">
+<html>
+<head>
+<title>[ #487204 ] Duplicate DIV style attribute generated</title>
+</head>
+<body>
+<div style='margin-left: 2em; margin-top:0in'>
+<ol style='margin-top:0in'>
+<li>One</li>
+<li>Two</li>
+<li>Three</li>
+</ol>
+</div>
+</body>
+</html>

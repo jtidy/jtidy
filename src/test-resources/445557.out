@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<!-- the original document had  - I changed that to &ndash; - then &#150; -->
+<head>
+<title>[ #445557 ] Convert Symbol font chars to Unicode</title>
+</head>
+<body>
+<p>The predicate calculus has a number of theorems and axioms for proving logical statements. Here are the main symbols used in predicate calculus:</p>
+<p>P(x)	&ndash; proposition &ndash; a logical statement in the condition x.</p>
+<p>x	&ndash; any condition <b>in the set of possible conditions</b>.</p>
+<p>c	&ndash; a particular condition <b>in the set of possible conditions</b>.</p>
+<p><font face="Symbol">"</font> 	&ndash; "For every"</p>
+<p><font face="Symbol">$</font> 	&ndash; "Exists"</p>
+<p><font face="Symbol">&reg;</font> 	&ndash; Implication</p>
+<p><font face="Symbol">&Ugrave;</font> 	&ndash; Conjunction (logical and)</p>
+<p><font face="Symbol">&Uacute;</font> 	&ndash; Disjunction (logical or)</p>
+</body>
+</html>

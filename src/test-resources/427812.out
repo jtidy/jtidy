@@ -6,11 +6,8 @@
 <title>[ #427812 ] Reprocessing OBJECT removes PARAM</title>
 </head>
 <body>
-<object type="application/x-spt" width="250" height="250"><param
-name="button" value="push" />
+<object type="application/x-spt" width="250" height="250"><param name="button" value="push" />
 <param name="target" value="chair" />
-<param name="script" value="select *; color cpk; zoom 250" />
-</object>
+<param name="script" value="select *; color cpk; zoom 250" /></object>
 </body>
 </html>
-

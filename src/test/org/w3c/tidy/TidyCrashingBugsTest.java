@@ -86,8 +86,8 @@ public class TidyCrashingBugsTest extends TidyTestCase
      */
     public void test427675() throws Exception
     {
-        fail("test disabled till fixed (infinite loop)");
-        //executeTidyTest("427675.html");
+        // fail("test disabled till fixed (infinite loop)");
+        executeTidyTest("427675.html");
     }
 
     /**
@@ -191,6 +191,15 @@ public class TidyCrashingBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [433856] : Access violation w/Word files w/font tag.
+     * @throws Exception any exception generated during the test
+     */
+    public void test433856() throws Exception
+    {
+        executeTidyTest("433856.html");
+    }
+
+    /**
      * test for Tidy [532535] : Hang when in code &lt;?xml /&gt;.
      * @throws Exception any exception generated during the test
      */
@@ -210,6 +219,15 @@ public class TidyCrashingBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [539369a] : Test &lt;/frameset&gt; inside &lt;noframes&gt; (infinite loop).
+     * @throws Exception any exception generated during the test
+     */
+    public void test539369a() throws Exception
+    {
+        executeTidyTest("539369a.html");
+    }
+
+    /**
      * test for Tidy [540296] : Tidy dumps.
      * @throws Exception any exception generated during the test
      */
@@ -220,7 +238,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [542029] : PPrintXmlDecl reads outside array range.
-     * @throws Exception any exception generated during the test @todo finish test
+     * @throws Exception any exception generated during the test
      */
     public void test542029() throws Exception
     {
@@ -270,6 +288,15 @@ public class TidyCrashingBugsTest extends TidyTestCase
     public void test588061() throws Exception
     {
         executeTidyTest("588061.html");
+    }
+
+    /**
+     * test for Tidy [661606] : Two bytes at the last line, w/ asian options.
+     * @throws Exception any exception generated during the test
+     */
+    public void test661606() throws Exception
+    {
+        executeTidyTest("661606.html");
     }
 
     /**

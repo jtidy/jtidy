@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>[ #463066 ] CleanWord2000 misses mso-list bullets</title>
+</head>
+<body>
+<div class="Section1">
+<p>Test 1</p>
+<ol start="1" type="1">
+<li>Here</li>
+<li>We</li>
+<li>Go</li>
+<li>Again</li>
+</ol>
+&nbsp;
+<ol start="1" type="i">
+<li>Ok</li>
+<li>That</li>
+<li>Worked</li>
+</ol>
+&nbsp;
+<ul>
+<li>But</li>
+<li>It</li>
+<li>Does</li>
+<li>Not</li>
+<li>Work</li>
+<li>With</li>
+<li>Bullet</li>
+<li>Points</li>
+<li>Now</li>
+</ul>
+&nbsp;
+<ul>
+<li>It</li>
+<li>Is</li>
+<li>Working</li>
+</ul>
+&nbsp;
+<ul type="disc">
+<li>Try</li>
+<li>It</li>
+<li>Again</li>
+</ul>
+&nbsp;
+<ul type="disc">
+<li>Do</li>
+<li>It</li>
+<li>Again</li>
+<li>And</li>
+</ul>
+<p><o:p></o:p></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
+<html>
+<head>
+<title>#598860 script parsing fails with quote chars</title>
+
+<script language='javascript' type="text/javascript">
+// The comment's the problem
+</script>
+</head>
+<body>
+</body>
+</html>

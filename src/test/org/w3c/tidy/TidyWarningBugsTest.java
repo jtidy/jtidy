@@ -190,6 +190,16 @@ public class TidyWarningBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [433021] : Identify attribute whose value is bad.
+     * @throws Exception any exception generated during the test
+     */
+    public void test433021() throws Exception
+    {
+        throw new Error("Test not yet implemented");
+        // executeTidyTest("433021.html");
+    }
+
+    /**
      * test for Tidy [433607] : No warning for omitted end tag with -xml.
      * @throws Exception any exception generated during the test
      */
@@ -295,6 +305,7 @@ public class TidyWarningBugsTest extends TidyTestCase
         // jtidy incorrectly reports only 1 (bad) warning: <body> isn't allowed in <body> elements
         assertWarnings(2);
     }
+
     /**
      * test for Tidy [446019] : &lt;img name="foo"&gt; allowed in XTHML-Strict.
      * @throws Exception any exception generated during the test
@@ -325,6 +336,16 @@ public class TidyWarningBugsTest extends TidyTestCase
 
         executeTidyTest("450389.html");
         assertWarnings(6);
+    }
+
+    /**
+     * test for Tidy [501230] : "0" (Zero) has to be lower case.
+     * @throws Exception any exception generated during the test
+     */
+    public void test501230() throws Exception
+    {
+        executeTidyTest("501230.xhtml");
+        assertLogDoesntContains("lower case");
     }
 
     /**

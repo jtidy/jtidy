@@ -1,0 +1,11 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>[ #435923 ] Preserve case of attribute names</title>
+</head>
+<body>
+<textarea>
+Blah Blah Blah
+</textarea>
+</body>
+</html>
