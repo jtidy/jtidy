@@ -86,7 +86,7 @@ public class ConfigurationTest extends TestCase
         String result = writer.toString();
         // just test that no exception occurred and that something was printed
         assertTrue(result.length() > 200);
-        log.info(result);
+        log.debug(result);
     }
 
     /**
@@ -104,7 +104,7 @@ public class ConfigurationTest extends TestCase
         String result = writer.toString();
         // just test that no exception occurred and that something was printed
         assertTrue(result.length() > 200);
-        log.info(result);
+        log.debug(result);
     }
 
 }
