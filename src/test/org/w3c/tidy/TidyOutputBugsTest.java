@@ -97,9 +97,8 @@ public class TidyOutputBugsTest extends TidyTestCase
      */
     public void test427633() throws Exception
     {
-        throw new Error("Test not yet implemented");
         // check line endings
-        //executeTidyTest("427633.html");
+        executeTidyTest("427633.html");
     }
 
     /**
@@ -222,7 +221,7 @@ public class TidyOutputBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [427845] : Doctypes are output on multiple lines.
-     * @throws Exception any exception generated during the test
+     * @throws Exception any exception generated during the test @todo complete test
      */
     public void test427845() throws Exception
     {
@@ -776,7 +775,7 @@ public class TidyOutputBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [533105] : Tidy confused: HTML in VBScript.
-     * @throws Exception any exception generated during the test
+     * @throws Exception any exception generated during the test @todo complete test
      */
     public void test533105() throws Exception
     {
@@ -832,7 +831,7 @@ public class TidyOutputBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [545067] : Implicit closing of head broken.
-     * @throws Exception any exception generated during the test
+     * @throws Exception any exception generated during the test @todo complete test
      */
     public void test545067() throws Exception
     {
@@ -967,7 +966,7 @@ public class TidyOutputBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [649812] : Does TidyLib correctly handle Mac files?.
-     * @throws Exception any exception generated during the test
+     * @throws Exception any exception generated during the test @todo complete test
      */
     public void test649812() throws Exception
     {
