@@ -4,3 +4,5 @@ maven.log
 *.log
 *.html
 log
+.classpath
+.project
