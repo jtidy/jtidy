@@ -54,41 +54,55 @@
 package org.w3c.tidy.ant;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.types.FileSet;
 import org.w3c.tidy.Tidy;
 
 
 /**
  * JTidy ant task, kindly donated to JTidy by Nicola Ken Barozzi from the krysalis project. See
  * http://sourceforge.net/tracker/index.php?func=detail&aid=780131&group_id=13153&atid=363153
+ * 
+ * <pre>
+ * &lt;jtidy destDir="" log="" summary="" warn="">
+ *   &lt;fileset dir="" />
+ * &lt;/jtidy>
+ * </pre>
+ * 
  * @author <a href="mailto:barozzi@nicolaken.com">Nicola Ken Barozzi </a>
+ * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-
 public class JTidyTask extends Task
 {
 
     /**
-     * input file.
+     * Filesets.
      */
-    private String src;
+    private Collection filesets = new ArrayList();
 
     /**
-     * destination file.
+     * destination directory.
      */
     private String dest;
 
     /**
      * log file.
      */
-    private String log;
+    private String log = "JTidy.log";
 
     /**
      * tidy instance.
@@ -106,19 +120,10 @@ public class JTidyTask extends Task
     private boolean summary;
 
     /**
-     * sets the input file.
-     * @param file input file
+     * sets the destination directory.
+     * @param file destination directory
      */
-    public void setSrc(String file)
-    {
-        this.src = file;
-    }
-
-    /**
-     * sets the destination file.
-     * @param file destination file
-     */
-    public void setDest(String file)
+    public void setDestDir(String file)
     {
         this.dest = file;
     }
@@ -164,8 +169,78 @@ public class JTidyTask extends Task
         tidy.setDropFontTags(true);
         tidy.setLiteralAttribs(true);
         tidy.setMakeClean(true);
+        tidy.setDropProprietaryAttributes(true);
+        tidy.setFixBackslash(true);
+        tidy.setForceOutput(true);
+        tidy.setIndentContent(true);
         tidy.setShowWarnings(this.warn);
         tidy.setQuiet(!this.summary);
+    }
+
+    protected void processFile(String src, File taskRootDirectory) throws FileNotFoundException, IOException
+    {
+        // Extract the document using JTidy and stream it.
+        BufferedInputStream in = new BufferedInputStream(new FileInputStream(new File(taskRootDirectory, src)));
+
+        // create directory
+        getSubdirAlways(new File("."), new File(dest, src).getParent());
+        FileOutputStream out = new FileOutputStream(new File(dest, src));
+
+        tidy.parse(in, out);
+
+        out.flush();
+        out.close();
+        in.close();
+    }
+
+    public static File getSubdirAlways(File dir, String path)
+    {
+        if (!dir.exists())
+        {
+            throw new RuntimeException("base directory " + dir + " does not exist");
+        }
+
+        File subdir = dir;
+
+        String[] split = path.split("[\\\\/]");
+        for (int i = 0; i < split.length; i++)
+        {
+            subdir = new File(subdir, split[i]);
+            if (!subdir.exists())
+            {
+                if (!subdir.mkdir())
+                {
+                    throw new RuntimeException("failed to create directory " + subdir);
+                }
+            }
+        }
+
+        return subdir;
+    }
+
+    /**
+     * Generate the static html pages for the task's file sets.
+     */
+    private void processFileSets()
+    {
+        for (Iterator iterator = filesets.iterator(); iterator.hasNext();)
+        {
+            FileSet fileSet = (FileSet) iterator.next();
+            DirectoryScanner directoryScanner = getDirectoryScanner(fileSet);
+            String[] sourceFiles = directoryScanner.getIncludedFiles();
+
+            for (int pageIndex = 0; pageIndex < sourceFiles.length; pageIndex++)
+            {
+                try
+                {
+                    processFile(sourceFiles[pageIndex], fileSet.getDir(project));
+                }
+                catch (Exception e)
+                {
+                    throw new BuildException("Failed to process " + sourceFiles[pageIndex], e);
+                }
+            }
+        }
     }
 
     /**
@@ -185,15 +260,7 @@ public class JTidyTask extends Task
             }
             tidy.setErrout(logWriter);
 
-            // Extract the document using JTidy and stream it.
-            BufferedInputStream in = new BufferedInputStream(new FileInputStream(src));
-            FileOutputStream out = new FileOutputStream(dest);
-
-            tidy.parse(in, out);
-
-            out.flush();
-            out.close();
-            in.close();
+            processFileSets();
             logWriter.flush();
             logWriter.close();
         }
@@ -201,6 +268,21 @@ public class JTidyTask extends Task
         {
             throw new BuildException(ioe);
         }
+    }
+
+    DirectoryScanner getDirectoryScanner(FileSet fileSet) throws BuildException
+    {
+        File dir = fileSet.getDir(project);
+        if (!dir.exists())
+        {
+            throw new BuildException("source directory '" + dir.getPath() + "' not found");
+        }
+        return fileSet.getDirectoryScanner(project);
+    }
+
+    public void addFileset(FileSet fileSet)
+    {
+        filesets.add(fileSet);
     }
 
 }
