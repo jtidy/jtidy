@@ -1,9 +1,9 @@
 #! /bin/sh
 # script for nightly builds.
 # you only need to have this script locally, it will fetch sources from cvs, compile them, generate the website and upload everything.
-# IT WILL DOWNLOAD EVERYTHING TO "jtidy2" AND DELETE SUCH DIRECTORY WHEN FINISHED!
+# IT WILL DOWNLOAD EVERYTHING TO "jtidy" AND DELETE SUCH DIRECTORY WHEN FINISHED!
 
-WORKDIR=jtidy2
+WORKDIR=jtidy
 CVSREPO=:pserver:anonymous:@cvs1.sourceforge.net:/cvsroot/jtidy
 DATE=`date`
 . .shrc
