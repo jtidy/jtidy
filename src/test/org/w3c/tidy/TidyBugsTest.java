@@ -55,11 +55,13 @@ package org.w3c.tidy;
 
 import java.net.URL;
 
+
 /**
  * Testcase for Tidy resolved bugs.
  * <p>
  * see <code>http://sourceforge.net/support/tracker.php?aid=(item number)</code>
  * </p>
+ * 
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
@@ -67,15 +69,26 @@ public class TidyBugsTest extends TidyTestCase
 {
 
     /**
+     * Instantiate a new Test case.
+     * 
+     * @param name test name
+     */
+    public TidyBugsTest(String name)
+    {
+        super(name);
+    }
+
+    /**
      * test for Tidy [431895] : Filename not set when processing XML or if the "-quiet" option is used when processing
      * HTML; "(null)" is reported instead.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test431895() throws Exception
     {
         URL inputURL = getClass().getClassLoader().getResource("431895.html");
 
-        Tidy.mainExec(new String[] { "-q", "-e", cleanUpFilePath(inputURL.getFile())});
+        Tidy.mainExec(new String[]{"-q", "-e", cleanUpFilePath(inputURL.getFile())});
 
         // should check system out...
     }

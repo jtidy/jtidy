@@ -70,12 +70,24 @@ import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+
+
 /**
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
 public class TidyTestCase extends TestCase
 {
+
+    /**
+     * Instantiate a new Test case.
+     * 
+     * @param name test name
+     */
+    public TidyTestCase(String name)
+    {
+        super(name);
+    }
 
     /**
      * logger.
@@ -124,6 +136,7 @@ public class TidyTestCase extends TestCase
      * ".cfg" extension is found is used as configuration file for the test, otherwise the default config will be used.
      * If a file with the same name, but with the ".out" extension is found, tidy will the result with the content of
      * such file.
+     * 
      * @param fileName input file name
      * @throws Exception any exception generated during the test
      */
@@ -165,6 +178,7 @@ public class TidyTestCase extends TestCase
     /**
      * Basic test for DOM parser. Test is set up using [fileName.cfg] configuration if the file exists. Calls
      * tidy.parseDOM and returns the Document to the caller.
+     * 
      * @param fileName input file name
      * @return parsed Document
      * @throws Exception any exception generated during the test
@@ -189,6 +203,7 @@ public class TidyTestCase extends TestCase
 
     /**
      * assert generated output and test file are equals.
+     * 
      * @param tidyOutput tidy output as string
      * @param correctFile URL used to load the file for comparison
      * @throws FileNotFoundException if test file is not found
@@ -196,8 +211,7 @@ public class TidyTestCase extends TestCase
      */
     protected void assertEquals(String tidyOutput, URL correctFile) throws FileNotFoundException, IOException
     {
-        diff(
-            new BufferedReader(new StringReader(tidyOutput)),
+        diff(new BufferedReader(new StringReader(tidyOutput)),
             new BufferedReader(new FileReader(correctFile.getFile())));
 
     }
@@ -228,6 +242,7 @@ public class TidyTestCase extends TestCase
 
     /**
      * Utility method: assert no warnings were reported in the last tidy run.
+     * 
      * @param expectedNumber expected number of warnings.
      */
     protected void assertWarnings(int expectedNumber)
@@ -241,6 +256,7 @@ public class TidyTestCase extends TestCase
 
     /**
      * Utility method: assert no errors were reported in the last tidy run.
+     * 
      * @param expectedNumber expected number of errors.
      */
     protected void assertErrors(int expectedNumber)
@@ -254,6 +270,7 @@ public class TidyTestCase extends TestCase
 
     /**
      * Utility method: asserts a given String can be found in the error log.
+     * 
      * @param expectedString expected String in error log.
      */
     protected void assertLogContains(String expectedString)
@@ -268,6 +285,7 @@ public class TidyTestCase extends TestCase
 
     /**
      * Utility method: asserts a given String can't be found in the error log.
+     * 
      * @param expectedString expected String in error log.
      */
     protected void assertLogDoesntContains(String expectedString)
@@ -282,6 +300,7 @@ public class TidyTestCase extends TestCase
 
     /**
      * set up the tidy instance.
+     * 
      * @param fileName input file name (needed to determine configuration file name)
      * @throws IOException in reading configuration file
      */
@@ -335,6 +354,7 @@ public class TidyTestCase extends TestCase
     /**
      * Diff between two buffered readers. If comparison fails an AssertionFailedException is thrown with the line
      * number, actual and expected output. Content is tested to be identical (same wrapping).
+     * 
      * @param tidyOutput reader for tidy generated output
      * @param correctFile reader for test file
      * @throws IOException in reading from readers
@@ -355,16 +375,8 @@ public class TidyTestCase extends TestCase
 
         if ((tidyLine != null) || (testLine != null))
         {
-            fail(
-                "Wrong output, file comparison failed at line ["
-                    + (i - 1)
-                    + "]:\n"
-                    + "[tidy]["
-                    + tidyLine
-                    + "]\n"
-                    + "[test]["
-                    + testLine
-                    + "]");
+            fail("Wrong output, file comparison failed at line [" + (i - 1) + "]:\n" + "[tidy][" + tidyLine + "]\n"
+                + "[test][" + testLine + "]");
         }
         return;
     }
@@ -372,6 +384,7 @@ public class TidyTestCase extends TestCase
     /**
      * Run TIDY_EXECUTABLE to produce an output file. Used to generates output files using tidy c for comparison with
      * jtidy. A file ".out" will be written in the same folder of the input file.
+     * 
      * @param inputFileName input file for tidy.
      * @param configurationFileName configuration file name (default if there is no not test-specific file).
      */
@@ -380,15 +393,8 @@ public class TidyTestCase extends TestCase
 
         String outputFileName = inputFileName.substring(0, inputFileName.lastIndexOf(".")) + ".out";
 
-        String strCmd =
-            TIDY_EXECUTABLE
-                + " -config \""
-                + cleanUpFilePath(configurationFileName)
-                + "\" -o \""
-                + cleanUpFilePath(outputFileName)
-                + "\" \""
-                + cleanUpFilePath(inputFileName)
-                + "\"";
+        String strCmd = TIDY_EXECUTABLE + " -config \"" + cleanUpFilePath(configurationFileName) + "\" -o \""
+            + cleanUpFilePath(outputFileName) + "\" \"" + cleanUpFilePath(inputFileName) + "\"";
 
         log.debug("running [" + strCmd + "]");
 
@@ -405,6 +411,7 @@ public class TidyTestCase extends TestCase
 
     /**
      * Utility method to clean up file path returned by URLs.
+     * 
      * @param fileName file name as given by URL.getFile()
      * @return String fileName
      */

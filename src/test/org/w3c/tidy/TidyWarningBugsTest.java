@@ -58,6 +58,7 @@ package org.w3c.tidy;
  * <p>
  * see <code>http://sourceforge.net/support/tracker.php?aid=(item number)</code>
  * </p>
+ * 
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
@@ -65,7 +66,18 @@ public class TidyWarningBugsTest extends TidyTestCase
 {
 
     /**
+     * Instantiate a new Test case.
+     * 
+     * @param name test name
+     */
+    public TidyWarningBugsTest(String name)
+    {
+        super(name);
+    }
+
+    /**
      * test for Tidy [427810] : Proprietary elements not reported as err.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test427810() throws Exception
@@ -83,6 +95,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [431874] : Nested anchors not detected.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test431874() throws Exception
@@ -93,6 +106,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [427827] : Nested anchor elements allowed.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test427827() throws Exception
@@ -107,6 +121,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [427834] : Warning given for newline in DOCTYPE.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test427834() throws Exception
@@ -118,6 +133,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [427844] : End tags containing whitespace warning.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test427844() throws Exception
@@ -130,6 +146,7 @@ public class TidyWarningBugsTest extends TidyTestCase
     /**
      * test for Tidy [431719] : Spec want "HTML 3.2 Final", but everyone in the world, including Tidy, uses "HTML 3.2".
      * So the software has to recognize both FPI's as equivalent.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test431719() throws Exception
@@ -147,17 +164,19 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [431883] : Given doctype reported incorrectly.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test431883() throws Exception
     {
         executeTidyTest("431883.html");
-        
+
         assertLogContains("Doctype given is \"-//W3C//DTD HTML 4.0");
     }
 
     /**
      * test for Tidy [431956] : Well formed XSL xsl:text gives error.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test431956() throws Exception
@@ -170,6 +189,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [431964] : table height="" not flagged as error.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test431964() throws Exception
@@ -186,6 +206,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [433021] : Identify attribute whose value is bad.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test433021() throws Exception
@@ -196,6 +217,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [433607] : No warning for omitted end tag with -xml.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test433607() throws Exception
@@ -210,6 +232,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [433670] : &amp;apos not recognized as valid XML entity.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test433670() throws Exception
@@ -221,6 +244,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [434047] : Mixed content in 4.01 Strict not allowed.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test434047() throws Exception
@@ -237,6 +261,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [434100] : Error actually reported as a warning (-xml).
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test434100() throws Exception
@@ -252,6 +277,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [435917] : &lt;input onfocus=""&gt; reported unknown attr.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test435917() throws Exception
@@ -261,9 +287,10 @@ public class TidyWarningBugsTest extends TidyTestCase
         executeTidyTest("435917.html");
         assertWarnings(1);
     }
-    
+
     /**
      * test for Tidy [435917] : missing "=" in attribute confuses tidy.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test435917b() throws Exception
@@ -279,6 +306,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [435922] : Missing &lt;form&gt; around &lt;input&gt; no warning.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test435922() throws Exception
@@ -297,6 +325,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [438956] : Bad head-endtag reported incorrectly.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test438956() throws Exception
@@ -315,6 +344,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [446019] : &lt;img name="foo"&gt; allowed in XTHML-Strict.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test446019() throws Exception
@@ -329,6 +359,7 @@ public class TidyWarningBugsTest extends TidyTestCase
     }
     /**
      * test for Tidy [450389] : Color attval check allows only black/#.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test450389() throws Exception
@@ -347,6 +378,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [501230] : "0" (Zero) has to be lower case.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test501230() throws Exception
@@ -357,6 +389,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [501669] : width="n*" marked invalid on &lt;COL&gt;.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test501669() throws Exception
@@ -372,6 +405,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [516370] : Invalid ID value.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test516370() throws Exception
@@ -390,6 +424,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [525081] : frameset rows attr. not recognized.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test525081() throws Exception
@@ -404,6 +439,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [545067] : Implicit closing of head broken.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test545067() throws Exception
@@ -420,6 +456,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [553468] : Doesn't warn about &lt;u&gt; in XHTML strict.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test553468() throws Exception
@@ -436,6 +473,7 @@ public class TidyWarningBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [706260] : size not accepted for input.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test706260() throws Exception

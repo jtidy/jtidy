@@ -67,6 +67,16 @@ public class TidyCrashingBugsTest extends TidyTestCase
 {
 
     /**
+     * Instantiate a new Test case.
+     * 
+     * @param name test name
+     */
+    public TidyCrashingBugsTest(String name)
+    {
+        super(name);
+    }
+
+    /**
      * test for Tidy [427664] : Missing attr values cause NULL segfault.
      * 
      * @throws Exception any exception generated during the test

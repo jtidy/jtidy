@@ -58,6 +58,7 @@ package org.w3c.tidy;
  * <p>
  * see <code>http://sourceforge.net/support/tracker.php?aid=(item number)</code>
  * </p>
+ * 
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
@@ -65,7 +66,18 @@ public class TidyEncodingBugsTest extends TidyTestCase
 {
 
     /**
+     * Instantiate a new Test case.
+     * 
+     * @param name test name
+     */
+    public TidyEncodingBugsTest(String name)
+    {
+        super(name);
+    }
+
+    /**
      * test for Tidy [647255] : UTF16.
+     * 
      * @throws Exception any exception generated during the tes
      */
     public void test647255() throws Exception
@@ -75,6 +87,7 @@ public class TidyEncodingBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [649812] : Does TidyLib correctly handle Mac files?. (test is UTF16)
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test649812() throws Exception
@@ -85,6 +98,7 @@ public class TidyEncodingBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [658230] : Big5.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test658230() throws Exception
@@ -94,6 +108,7 @@ public class TidyEncodingBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [660397] : Add support for IBM-858 and ISO-8859-15.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test660397() throws Exception
@@ -103,6 +118,7 @@ public class TidyEncodingBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [676156] : tidy --input-encoding is broken.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test676156() throws Exception
@@ -112,6 +128,7 @@ public class TidyEncodingBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [688746] : incorrect charset value for utf-8.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test688746() throws Exception

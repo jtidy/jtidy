@@ -55,6 +55,7 @@ package org.w3c.tidy;
 
 /**
  * testcase for JTidy resolved bugs.
+ * 
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
@@ -62,7 +63,18 @@ public class JTidyBugsTest extends TidyTestCase
 {
 
     /**
+     * Instantiate a new Test case.
+     * 
+     * @param name test name
+     */
+    public JTidyBugsTest(String name)
+    {
+        super(name);
+    }
+
+    /**
      * test for JTidy [475643]: Hex character references not handled.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test475643() throws Exception
@@ -76,6 +88,7 @@ public class JTidyBugsTest extends TidyTestCase
     /**
      * test for JTidy [508245]: Do not convert the & or &lt; to Entity Ref. Actually is "Tidy fails in completing
      * unclosed tags"
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test508245() throws Exception
@@ -86,6 +99,7 @@ public class JTidyBugsTest extends TidyTestCase
 
     /**
      * test for JTidy [610244]: NullPointerException in parsing.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test610244() throws Exception
@@ -95,6 +109,7 @@ public class JTidyBugsTest extends TidyTestCase
 
     /**
      * test for JTidy [791933]: German special character converted to upper case.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test791933() throws Exception
@@ -104,6 +119,7 @@ public class JTidyBugsTest extends TidyTestCase
 
     /**
      * test for JTidy [663197]: nbsp handling is wrong.
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test663197() throws Exception
@@ -113,6 +129,7 @@ public class JTidyBugsTest extends TidyTestCase
 
     /**
      * test for JTidy [763191]: Again DOM Parsing error (tidy removes spaces in attribute values).
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test763191() throws Exception
@@ -122,6 +139,7 @@ public class JTidyBugsTest extends TidyTestCase
 
     /**
      * test for JTidy [763186]: Another DOM Parsing error (tidy inserting whitespaces).
+     * 
      * @throws Exception any exception generated during the test
      */
     public void test763186() throws Exception
