@@ -2556,9 +2556,10 @@ public class Lexer
                         }
                     }
 
-                    if (this.lexsize - this.txtstart == 3)
+                    if (this.lexsize - this.txtstart == 4)
                     {
-                        if ((getString(this.lexbuf, this.txtstart, 3)).equals("xml"))
+                        if ((getString(this.lexbuf, this.txtstart, 3)).equals("xml")
+                            && isWhite((char) this.lexbuf[this.txtstart + 3]))
                         {
                             this.state = LEX_XMLDECL;
                             attributes = null;

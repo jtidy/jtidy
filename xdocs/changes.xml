@@ -197,6 +197,7 @@
             </action>
             <action dev="fgiust" type="fix" issue="547976">Case of attribute values</action>
             <action dev="fgiust" type="fix" issue="500236">Microsoft Access exported HTML files</action>
+            <action dev="fgiust" type="fix" issue="517550">Parser misinterprets ?xml-stylesheet PI</action>
         </release>
         <release version="04aug2000r7" date="August 1, 2001" description="">
             <action dev="" type="fix">
