@@ -27,8 +27,6 @@ public final class AllNotWorkingTests
     {
         TestSuite suite = new TestSuite("All the NOT working test cases for JTidy");
 
-        suite.addTest(new JTidyWarningBugsTest("test828316"));
-
         suite.addTest(new JTidyBugsTest("test475643"));
         suite.addTest(new JTidyBugsTest("test508245"));
         suite.addTest(new JTidyBugsTest("test527118"));

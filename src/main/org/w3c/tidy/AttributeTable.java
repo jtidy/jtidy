@@ -216,7 +216,7 @@ public class AttributeTable
         new Attribute("face", Dict.VERS_LOOSE, null), // BASEFONT, FONT
         new Attribute("for", Dict.VERS_HTML40, null), // LABEL
         new Attribute("frame", Dict.VERS_HTML40, null), // TABLE
-        new Attribute("frameborder", Dict.VERS_FRAMESET, null), // 0 or 1
+        new Attribute("frameborder", (short) (Dict.VERS_FRAMESET | Dict.VERS_IFRAME), null), // 0 or 1
         new Attribute("framespacing", Dict.VERS_PROPRIETARY, AttrCheckImpl.NUMBER), // pixel value
         new Attribute("gridx", Dict.VERS_PROPRIETARY, AttrCheckImpl.NUMBER), // TABLE Adobe golive
         new Attribute("gridy", Dict.VERS_PROPRIETARY, AttrCheckImpl.NUMBER), // TABLE Adobe golive
