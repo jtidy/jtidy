@@ -203,6 +203,7 @@
             <action dev="fgiust" type="fix" issue="517528">Parser complains about xml:lang.</action>
             <action dev="fgiust" type="fix" issue="427823">Multiple &lt;BODY&gt;'s in &lt;NOFRAMES&gt; allowed.</action>
             <action dev="fgiust" type="fix" issue="525081">Frameset rows attr. not recognized.</action>
+            <action dev="fgiust" type="fix" issue="501669">Width="n*" marked invalid on &lt;COL&gt;.</action>
         </release>
         <release version="04aug2000r7" date="August 1, 2001" description="">
             <action dev="" type="fix">
