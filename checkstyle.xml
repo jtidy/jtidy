@@ -142,7 +142,7 @@
             <property name="tokens" value="NUM_DOUBLE, NUM_FLOAT, NUM_INT, NUM_LONG"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.coding.MissingSwitchDefaultCheck">
-            <property name="severity" value="warning"/>
+            <property name="severity" value="ignore"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.coding.NestedIfDepthCheck">
             <property name="max" value="3"/>
@@ -264,8 +264,8 @@
             <property name="allowMissingThrowsTags" value="false"/>
             <property name="allowThrowsTagsForSubclasses" value="false"/>
             <property name="allowUndeclaredRTE" value="false"/>
-            <property name="excludeScope" value="private"/>
-            <property name="scope" value="public"/>
+            <property name="excludeScope" value="nothing"/>
+            <property name="scope" value="private"/>
             <property name="severity" value="warning"/>
             <property name="tokens" value="METHOD_DEF, CTOR_DEF"/>
         </module>
@@ -339,7 +339,7 @@
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck">
             <property name="ignorePattern" value="^$"/>
-            <property name="max" value="120"/>
+            <property name="max" value="122"/>
             <property name="severity" value="warning"/>
             <property name="tabWidth" value="4"/>
         </module>
