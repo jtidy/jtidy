@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <title>JTidy</title>
+    <author email="fgiust AT users.sourceforge.net">Fabrizio Giustina</author>
+  </properties>
+  <body>
+    <section name="Issue Tracking ">
+      <p>
+        Go to 
+        <a href="http://sourceforge.net/tracker/?group_id=13153">JTidy SourceForge bug and feature request tracker</a>
+        to see open bugs or to submit new requests.
+      </p>
+      <p>
+      	Please always attach a valid test case if you find a wrong behaviour in JTidy. If possible try to isolate the problem
+      	and create a small file with only the tags causing the problem.
+      </p>
+      <p>
+      	If you want to help us supplying a path for a known bug attach the patch (cvs diff) to the bug in sourceforge tracker.
+      </p>
+    </section>
+    
+    <section name="Fing a bug">
+    
+    <p>
+    	Use this form if you want to find a bug for tidy/jtidy given the tracker number. The tracker number is also the name of
+    	the method in junit tests, so you can easily find what is working and what is not in jtidy.
+    </p>
+    <form name="sfbug" id="sfbug" method="get" action="http://sourceforge.net/support/tracker.php">
+
+		item number: <input name="aid" id="aid" type="text" value="" />
+
+		<input type="submit" value="go" />
+
+	</form>
+    </section>
+  </body>
+</document>
+
