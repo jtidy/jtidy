@@ -1,6 +1,5 @@
 package org.w3c.tidy;
 
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -28,7 +27,6 @@ public final class AllNotWorkingTests
     {
         TestSuite suite = new TestSuite("All the NOT working test cases for JTidy");
 
-
         suite.addTest(new JTidyWarningBugsTest("test828316"));
 
         suite.addTest(new JTidyBugsTest("test475643"));
@@ -42,7 +40,6 @@ public final class AllNotWorkingTests
         suite.addTest(new JTidyBugsTest("test929936"));
         suite.addTest(new JTidyBugsTest("test943559"));
         suite.addTest(new JTidyBugsTest("test935796"));
-
 
         suite.addTest(new TidyEncodingBugsTest("test647255"));
         suite.addTest(new TidyEncodingBugsTest("test649812"));
@@ -69,7 +66,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyOutputBugsTest("test431739"));
         suite.addTest(new TidyOutputBugsTest("test431898"));
         suite.addTest(new TidyOutputBugsTest("test431965"));
-        suite.addTest(new TidyOutputBugsTest("test432677"));
         suite.addTest(new TidyOutputBugsTest("test433012"));
         suite.addTest(new TidyOutputBugsTest("test433360"));
         suite.addTest(new TidyOutputBugsTest("test433666"));

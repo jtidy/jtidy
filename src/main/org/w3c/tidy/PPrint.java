@@ -994,8 +994,7 @@ public class PPrint
         {
             if (this.configuration.xmlTags || this.configuration.xmlOut)
             {
-                printAttrValue(fout, indent, attr.attribute, attr.delim, true);
-
+                printAttrValue(fout, indent, (attr.isBoolAttribute() ? attr.attribute : ""), attr.delim, true);
             }
             else if (!attr.isBoolAttribute() && !Node.isNewNode(node))
             {
