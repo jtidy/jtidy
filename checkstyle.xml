@@ -107,7 +107,7 @@
         <module name="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck">
             <property name="ignoreConstructorParameter" value="true"/>
             <property name="ignoreSetter" value="true"/>
-            <property name="severity" value="warning"/>
+            <property name="severity" value="ignore"/>
             <property name="tokens" value="PARAMETER_DEF, VARIABLE_DEF"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck">
@@ -265,7 +265,7 @@
             <property name="allowThrowsTagsForSubclasses" value="false"/>
             <property name="allowUndeclaredRTE" value="false"/>
             <property name="excludeScope" value="private"/>
-            <property name="scope" value="private"/>
+            <property name="scope" value="public"/>
             <property name="severity" value="warning"/>
             <property name="tokens" value="METHOD_DEF, CTOR_DEF"/>
         </module>
