@@ -346,7 +346,7 @@ public class TidyOutputBugsTest extends TidyTestCase
         executeTidyTest("433360.html");
     }
     /**
-     * test for Tidy [433604] : Tidy inserts &amp;nbsp; entity in -xml mode.
+     * test for Tidy [433604] : Tidy inserts &amp;nbsp; entity in -xml mode. [fixed]
      * @throws Exception any exception generated during the test
      */
     public void test433604() throws Exception

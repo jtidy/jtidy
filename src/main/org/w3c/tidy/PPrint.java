@@ -523,7 +523,7 @@ public class PPrint
                 {
                     addC('&', linelen++);
 
-                    if (this.configuration.numEntities)
+                    if (this.configuration.numEntities || this.configuration.xmlTags)
                     {
                         addC('#', linelen++);
                         addC('1', linelen++);
