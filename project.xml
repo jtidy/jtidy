@@ -191,7 +191,7 @@ In addition, JTidy provides a DOM interface to the document that is being proces
             <resource>
                 <directory>src/main</directory>
                 <includes>
-                    <include>**/*.properties</include>
+                    <include>**/*Messages.properties</include>
                     <include>**/*.gif</include>
                     <include>**/*.txt</include>
                     <include>**/manifest.mf</include>
