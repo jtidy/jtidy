@@ -1692,7 +1692,7 @@ public final class ParserImpl
         {
             if (lexer.isvoyager)
             {
-                Node node = lexer.getToken(Lexer.MIXED_CONTENT);
+                Node node = lexer.getToken(mode);
                 if (node != null && !(node.type == Node.END_TAG && node.tag == element.tag))
                 {
                     lexer.report.warning(lexer, element, node, Report.ELEMENT_NOT_EMPTY);
@@ -1786,6 +1786,8 @@ public final class ParserImpl
                     {
                         // trim empty dl list
                         Node.insertNodeBeforeElement(list, node);
+
+                        // #540296 tidy dumps with empty definition list
                         Node.discardElement(list);
                     }
 
@@ -3184,7 +3186,9 @@ public final class ParserImpl
 
                 // for textarea should all cases of < and & be escaped?
                 // discard inline tags e.g. font
-                if (node.tag != null && ((node.tag.model & Dict.CM_INLINE) != 0))
+                if (node.tag != null
+                    && ((node.tag.model & Dict.CM_INLINE) != 0)
+                    && (node.tag.model & Dict.CM_FIELD) == 0) // #487283 - fix by Lee Passey 25 Jan 02
                 {
                     lexer.report.warning(lexer, field, node, Report.DISCARDING_UNEXPECTED);
                     continue;
@@ -3352,6 +3356,11 @@ public final class ParserImpl
 
                 return false;
             }
+        }
+
+        if (element.element == null) // Debian Bug #137124. Fix based on suggestion by Cesar Eduardo Barros 06 Mar 02
+        {
+            return false;
         }
 
         // kludge for html docs without explicit xml:space attribute

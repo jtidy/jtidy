@@ -745,7 +745,6 @@ public class Lexer
 
                     // "or" DISCARDED_CHAR with the other errors if discarding char; otherwise default is replacing
 
-
                     int replaceMode = c1 != 0 ? Report.REPLACED_CHAR : Report.DISCARDED_CHAR;
 
                     if (c != ';') /* issue warning if not terminated by ';' */
@@ -1283,10 +1282,10 @@ public class Lexer
                 int len = doctype.end - doctype.start + 1;
                 String start = getString(this.lexbuf, doctype.start, len);
 
-                int dtdbeg = wstrnchr(start, len, '[');
+                int dtdbeg = TidyUtils.wstrnchr(start, len, '[');
                 if (dtdbeg >= 0)
                 {
-                    int dtdend = wstrnchr(start + dtdbeg, len - dtdbeg, ']');
+                    int dtdend = TidyUtils.wstrnchr(start + dtdbeg, len - dtdbeg, ']');
                     if (dtdend >= 0)
                     {
                         dtdlen = dtdend + 1;
@@ -3679,62 +3678,6 @@ public class Lexer
         return node;
     }
 
-    /**
-     * check if the first String contains the second one.
-     * @param s1 full String
-     * @param len1 maximum position in String
-     * @param s2 String to search for
-     * @return true if s1 contains s2 in the range 0-len1
-     */
-    boolean wsubstrn(String s1, int len1, String s2)
-    {
-        int searchIndex = s1.indexOf(s2);
-        return searchIndex > -1 && searchIndex <= len1;
-    }
-
-    /**
-     * check if the first String contains the second one (ignore case).
-     * @param s1 full String
-     * @param len1 maximum position in String
-     * @param s2 String to search for
-     * @return true if s1 contains s2 in the range 0-len1
-     */
-    boolean wsubstrncase(String s1, int len1, String s2)
-    {
-        return wsubstrn(s1.toLowerCase(), len1, s2.toLowerCase());
-    }
-
-    /**
-     * return offset of cc from beginning of s1, -1 if not found.
-     */
-    int wstrnchr(String s1, int len1, char cc)
-    {
-        int indexOf = s1.indexOf(cc);
-        if (indexOf < len1)
-        {
-            return indexOf;
-        }
-
-        return -1;
-    }
-
-    public static boolean wsubstr(String s1, String s2)
-    {
-        int i;
-        int len1 = s1.length();
-        int len2 = s2.length();
-
-        for (i = 0; i <= len1 - len2; ++i)
-        {
-            if (s2.equalsIgnoreCase(s1.substring(i)))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public boolean canPrune(Node element)
     {
         if (element.type == Node.TEXT_NODE)
@@ -3762,7 +3705,12 @@ public class Lexer
             return false;
         }
 
-        if ((element.tag.model & Dict.CM_ROW) != 0)
+        if (TidyUtils.toBoolean(element.tag.model & Dict.CM_ROW))
+        {
+            return false;
+        }
+
+        if (TidyUtils.toBoolean(element.tag.model & Dict.CM_EMPTY))
         {
             return false;
         }
@@ -3811,7 +3759,7 @@ public class Lexer
         {
             if (id != null)
             {
-                if (!id.value.equals(name.value))
+                if (id.value != null && !id.value.equals(name.value))
                 {
                     report.attrError(this, node, name, Report.ID_NAME_MISMATCH);
                 }

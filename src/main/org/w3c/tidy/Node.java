@@ -737,36 +737,39 @@ public class Node
         byte c;
         TagTable tt = lexer.configuration.tt;
 
-        if (last != null && last.type == Node.TEXT_NODE && last.end > last.start)
+        if (last != null && last.type == Node.TEXT_NODE)
         {
-            c = lexer.lexbuf[last.end - 1];
+            if (last.end > last.start)
 
-            if (c == 160 || c == (byte) ' ')
             {
-                /* take care with <td> &nbsp; </td> */
-                // fix for [435920]
-                if (c == 160 && (element.tag == tt.tagTd || element.tag == tt.tagTh))
+                c = lexer.lexbuf[last.end - 1];
+
+                if (c == 160 || c == (byte) ' ')
                 {
-                    if (last.end > last.start + 1)
+                    // take care with <td> &nbsp; </td>
+                    // fix for [435920]
+                    if (c == 160 && (element.tag == tt.tagTd || element.tag == tt.tagTh))
+                    {
+                        if (last.end > last.start + 1)
+                        {
+                            last.end -= 1;
+                        }
+                    }
+                    else
                     {
                         last.end -= 1;
+
+                        if (((element.tag.model & Dict.CM_INLINE) != 0) && !((element.tag.model & Dict.CM_FIELD) != 0))
+                        {
+                            lexer.insertspace = true;
+                        }
                     }
                 }
-                else
-                {
-                    last.end -= 1;
-
-                    if (((element.tag.model & Dict.CM_INLINE) != 0) && !((element.tag.model & Dict.CM_FIELD) != 0))
-                    {
-                        lexer.insertspace = true;
-                    }
-
-                    /* if empty string then delete from parse tree */
-                    if (last.start == last.end)
-                    {
-                        trimEmptyElement(lexer, last);
-                    }
-                }
+            }
+            // if empty string then delete from parse tree
+            if (last.start == last.end) // COMMENT_NBSP_FIX: && tag != tag_td && tag != tag_th
+            {
+                trimEmptyElement(lexer, last);
             }
         }
     }
