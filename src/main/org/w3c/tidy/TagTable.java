@@ -373,6 +373,8 @@ public class TagTable
 
     public Dict tagSpan;
 
+    public Dict tagInput;
+
     private Configuration configuration;
 
     private Hashtable tagHashtable = new Hashtable();
@@ -443,6 +445,7 @@ public class TagTable
         tagObject = lookup("object");
         tagDiv = lookup("div");
         tagSpan = lookup("span");
+        tagInput = lookup("input");
     }
 
     public void setConfiguration(Configuration configuration)

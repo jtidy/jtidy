@@ -780,7 +780,8 @@ public final class ParserImpl
 
                 lexer.excludeBlocks = false;
 
-                if (!((node.tag.model & Dict.CM_BLOCK) != 0) && !((node.tag.model & Dict.CM_INLINE) != 0))
+                if ((!((node.tag.model & Dict.CM_BLOCK) != 0) && !((node.tag.model & Dict.CM_INLINE) != 0))
+                    || node.tag == tt.tagInput)
                 {
                     // avoid this error message being issued twice
                     if (!((node.tag.model & Dict.CM_HEAD) != 0))
@@ -823,6 +824,12 @@ public final class ParserImpl
                     {
                         lexer.ungetToken();
                         node = lexer.inferredTag("table");
+                        lexer.excludeBlocks = true;
+                    }
+                    else if (node.tag == tt.tagInput)
+                    {
+                        lexer.ungetToken();
+                        node = lexer.inferredTag("form");
                         lexer.excludeBlocks = true;
                     }
                     else
