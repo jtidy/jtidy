@@ -65,13 +65,22 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 
 /**
@@ -193,18 +202,6 @@ public class TidyTestCase extends TestCase
             log.debug("log:\n---- log ----\n" + this.errorLog + "\n---- log ----");
         }
 
-        // check messages
-        String messagesFileName = inputURL.getFile().substring(0, inputURL.getFile().lastIndexOf(".")) + ".msg";
-        URL messagesFile = getClass().getClassLoader().getResource(messagesFileName);
-
-        // save messages
-        if (messagesFile == null)
-        {
-            FileWriter fw = new FileWriter(messagesFileName);
-            fw.write(this.messageListener.messagesToXml());
-            fw.close();
-        }
-
         // existing file for comparison
         String outFileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".out";
         URL outFile = getClass().getClassLoader().getResource(outFileName);
@@ -216,6 +213,138 @@ public class TidyTestCase extends TestCase
             log.debug("Comparing file using [" + outFileName + "]");
             assertEquals(this.tidyOut, outFile);
         }
+
+        // check messages
+        String messagesFileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".msg";
+        URL messagesFile = getClass().getClassLoader().getResource(messagesFileName);
+
+        // save messages
+        if (messagesFile == null)
+        {
+            if (log.isDebugEnabled())
+            {
+                log.debug("Messages file doesn't exists, generating [" + messagesFileName + "] for reference");
+            }
+            FileWriter fw = new FileWriter(inputURL.getFile().substring(0, inputURL.getFile().lastIndexOf("."))
+                + ".msg");
+            fw.write(this.messageListener.messagesToXml());
+            fw.close();
+        }
+        else
+        {
+            // compare result to expected messages
+            if (log.isDebugEnabled())
+            {
+                log.debug("Comparing messages using [" + messagesFileName + "]");
+            }
+            compareMsgXml(messagesFile);
+        }
+    }
+
+    /**
+     * Parse an existing msg file and assert that content is identical to current output.
+     * @param messagesFile URL to mesage file
+     * @throws Exception any exception generated during the test
+     */
+    protected void compareMsgXml(URL messagesFile) throws Exception
+    {
+
+        // first parse existing file
+        List expectedMsgs = new ArrayList();
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document msgDoc = builder.parse(new InputSource(messagesFile.openStream()));
+
+        NodeList msgList = msgDoc.getElementsByTagName("message");
+        for (int j = 0; j < msgList.getLength(); j++)
+        {
+            int code = 0;
+            int level = 0;
+            int column = 0;
+            int line = 0;
+            String text = null;
+            NodeList msgDetails = msgList.item(j).getChildNodes();
+
+            for (int u = 0; u < msgDetails.getLength(); u++)
+            {
+                Node param = msgDetails.item(u);
+
+                if (param.getNodeName().equals("code"))
+                {
+                    code = Integer.parseInt(param.getFirstChild().getNodeValue());
+                }
+                if (param.getNodeName().equals("level"))
+                {
+                    level = Integer.parseInt(param.getFirstChild().getNodeValue());
+                }
+                else if (param.getNodeName().equals("column"))
+                {
+                    column = Integer.parseInt(param.getFirstChild().getNodeValue());
+                }
+                else if (param.getNodeName().equals("line"))
+                {
+                    line = Integer.parseInt(param.getFirstChild().getNodeValue());
+                }
+                else if (param.getNodeName().equals("text"))
+                {
+                    text = param.getFirstChild().getNodeValue();
+                }
+            }
+
+            TidyMessage message = new TidyMessage(code, line, column, TidyMessage.Level.fromCode(level), text);
+            expectedMsgs.add(message);
+        }
+
+        List tidyMsgs = this.messageListener.getReceived();
+
+        // assert size
+        assertEquals("Number of messages is different from expected", expectedMsgs.size(), tidyMsgs.size());
+
+        // compare messages
+        Iterator expectedMsgIt = expectedMsgs.iterator();
+        Iterator tidyMsgIt = tidyMsgs.iterator();
+        int count = 0;
+        while (tidyMsgIt.hasNext())
+        {
+            TidyMessage expectedOne = (TidyMessage) expectedMsgIt.next();
+            TidyMessage tidyOne = (TidyMessage) tidyMsgIt.next();
+
+            assertEquals("Error code for message [" + count + "] is different from expected", expectedOne
+                .getErrorCode(), tidyOne.getErrorCode());
+
+            assertEquals(
+                "Level for message [" + count + "] is different from expected",
+                expectedOne.getLevel(),
+                tidyOne.getLevel());
+
+            assertEquals("Line for message ["
+                + count
+                + "] is different from expected. Expected position: ["
+                + expectedOne.getLine()
+                + ":"
+                + expectedOne.getColumn()
+                + "] , current ["
+                + tidyOne.getLine()
+                + ":"
+                + tidyOne.getColumn()
+                + "]", expectedOne.getLine(), tidyOne.getLine());
+
+            assertEquals("Column for message ["
+                + count
+                + "] is different from expected. Expected position: ["
+                + expectedOne.getLine()
+                + ":"
+                + expectedOne.getColumn()
+                + "] , current ["
+                + tidyOne.getLine()
+                + ":"
+                + tidyOne.getColumn()
+                + "]", expectedOne.getColumn(), tidyOne.getColumn());
+
+            // don't assert text in respect for i18n
+
+            count++;
+        }
+
     }
 
     /**

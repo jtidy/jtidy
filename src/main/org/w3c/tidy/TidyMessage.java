@@ -53,6 +53,8 @@
  */
 package org.w3c.tidy;
 
+
+
 /**
  * Message sent to listeners for validation errors/warnings and info.
  * @see Tidy#addMessageListener(TidyMessageListener)
@@ -85,18 +87,34 @@ public final class TidyMessage
     private String message;
 
     /**
+     * Tidy internal error code.
+     */
+    private int errorCode;
+
+    /**
      * Instantiates a new message.
+     * @param errorCode Tidy internal error code.
      * @param line Line number in the source file
      * @param column Column number in the source file
      * @param level severity
      * @param message message text
      */
-    public TidyMessage(int line, int column, Level level, String message)
+    public TidyMessage(int errorCode, int line, int column, Level level, String message)
     {
+        this.errorCode = errorCode;
         this.line = line;
         this.column = column;
         this.level = level;
         this.message = message;
+    }
+
+    /**
+     * Getter for <code>errorCode</code>.
+     * @return Returns the errorCode.
+     */
+    public int getErrorCode()
+    {
+        return this.errorCode;
     }
 
     /**
@@ -187,6 +205,29 @@ public final class TidyMessage
         }
 
         /**
+         * Returns the Level instance corresponding to the given int value.
+         * @param code int value for the level
+         * @return Level instance
+         */
+        public static Level fromCode(int code)
+        {
+            switch (code)
+            {
+                case 0 :
+                    return SUMMARY;
+                case 1 :
+                    return INFO;
+                case 2 :
+                    return WARNING;
+                case 3 :
+                    return ERROR;
+
+                default :
+                    return null;
+            }
+        }
+
+        /**
          * @see java.lang.Comparable#compareTo(Object)
          */
         public int compareTo(Object object)
@@ -194,6 +235,39 @@ public final class TidyMessage
             return this.code - ((Level) object).code;
         }
 
+        /**
+         * @see java.lang.Object#equals(Object)
+         */
+        public boolean equals(Object object)
+        {
+            if (!(object instanceof Level))
+            {
+                return false;
+            }
+            return this.code == ((Level) object).code;
+        }
+
+        /**
+         * @see java.lang.Object#toString()
+         */
+        public String toString()
+        {
+            switch (code)
+            {
+                case 0 :
+                    return "SUMMARY";
+                case 1 :
+                    return "INFO";
+                case 2 :
+                    return "WARNING";
+                case 3 :
+                    return "ERROR";
+
+                default :
+                    // should not happen
+                    return "?";
+            }
+        }
     }
 
 }

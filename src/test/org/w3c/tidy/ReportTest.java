@@ -102,6 +102,7 @@ public class ReportTest extends TestCase
     public void testGetMessageMissingEndtagFor() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "missing_endtag_for",
             new Object[]{"test"},
@@ -116,6 +117,7 @@ public class ReportTest extends TestCase
     public void testGetMessageMissingEndtagBefore() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "missing_endtag_before",
             new Object[]{"test", "bee"},
@@ -130,6 +132,7 @@ public class ReportTest extends TestCase
     public void testGetMessageDiscardingUnexpected() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "discarding_unexpected",
             new Object[]{"test"},
@@ -143,7 +146,12 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageNestedEmphasis() throws Exception
     {
-        String message = this.report.getMessage(lexer, "nested_emphasis", new Object[]{"test"}, TidyMessage.Level.INFO);
+        String message = this.report.getMessage(
+            -1,
+            lexer,
+            "nested_emphasis",
+            new Object[]{"test"},
+            TidyMessage.Level.INFO);
         assertEquals("line 12 column 34 - nested emphasis test", message);
     }
 
@@ -153,8 +161,12 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageCoerceToEndtag() throws Exception
     {
-        String message = this.report
-            .getMessage(lexer, "coerce_to_endtag", new Object[]{"test"}, TidyMessage.Level.INFO);
+        String message = this.report.getMessage(
+            -1,
+            lexer,
+            "coerce_to_endtag",
+            new Object[]{"test"},
+            TidyMessage.Level.INFO);
         assertEquals("line 12 column 34 - <test> is probably intended as </test>", message);
     }
 
@@ -165,6 +177,7 @@ public class ReportTest extends TestCase
     public void testGetMessageNonMatchingEndtag() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "non_matching_endtag",
             new Object[]{"<test>", "bee"},
@@ -179,6 +192,7 @@ public class ReportTest extends TestCase
     public void testGetMessageTagNonAllowedIn() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "tag_not_allowed_in",
             new Object[]{"<test>", "bee"},
@@ -192,7 +206,7 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageDoctypeAfterTags() throws Exception
     {
-        String message = this.report.getMessage(lexer, "doctype_after_tags", null, TidyMessage.Level.WARNING);
+        String message = this.report.getMessage(-1, lexer, "doctype_after_tags", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: <!DOCTYPE> isn't allowed after elements", message);
     }
 
@@ -203,6 +217,7 @@ public class ReportTest extends TestCase
     public void testGetMessageMissingStarttag() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "missing_starttag",
             new Object[]{"test"},
@@ -217,6 +232,7 @@ public class ReportTest extends TestCase
     public void testGetMessageUsingBrInPlaceOf() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "using_br_inplace_of",
             new Object[]{"test"},
@@ -230,8 +246,12 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageInsertingTag() throws Exception
     {
-        String message = this.report
-            .getMessage(lexer, "inserting_tag", new Object[]{"test"}, TidyMessage.Level.WARNING);
+        String message = this.report.getMessage(
+            -1,
+            lexer,
+            "inserting_tag",
+            new Object[]{"test"},
+            TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: inserting implicit <test>", message);
     }
 
@@ -242,6 +262,7 @@ public class ReportTest extends TestCase
     public void testGetMessageCantBeNested() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "cant_be_nested",
             new Object[]{"<test>"},
@@ -256,6 +277,7 @@ public class ReportTest extends TestCase
     public void testGetMessageProprietaryElement() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "proprietary_element",
             new Object[]{"<test>"},
@@ -270,6 +292,7 @@ public class ReportTest extends TestCase
     public void testGetMessageObsoleteElement() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "obsolete_element",
             new Object[]{"<test>", "<bee>"},
@@ -284,6 +307,7 @@ public class ReportTest extends TestCase
     public void testGetMessageReplacingElement() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "replacing_element",
             new Object[]{"<test>", "<bee>"},
@@ -298,6 +322,7 @@ public class ReportTest extends TestCase
     public void testGetMessageTrimEmptyElement() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "trim_empty_element",
             new Object[]{"<test>"},
@@ -311,7 +336,7 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageMissingTitleElement() throws Exception
     {
-        String message = this.report.getMessage(lexer, "missing_title_element", null, TidyMessage.Level.WARNING);
+        String message = this.report.getMessage(-1, lexer, "missing_title_element", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: inserting missing 'title' element", message);
     }
 
@@ -322,6 +347,7 @@ public class ReportTest extends TestCase
     public void testGetMessageIllegalNesting() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "illegal_nesting",
             new Object[]{"<test>"},
@@ -336,6 +362,7 @@ public class ReportTest extends TestCase
     public void testGetMessageNoframesContent() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "noframes_content",
             new Object[]{"<test>"},
@@ -349,7 +376,7 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageInconsistentVersion() throws Exception
     {
-        String message = this.report.getMessage(lexer, "inconsistent_version", null, TidyMessage.Level.WARNING);
+        String message = this.report.getMessage(-1, lexer, "inconsistent_version", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: html doctype doesn't match content", message);
     }
 
@@ -359,7 +386,7 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageMalformedDoctype() throws Exception
     {
-        String message = this.report.getMessage(lexer, "malformed_doctype", null, TidyMessage.Level.WARNING);
+        String message = this.report.getMessage(-1, lexer, "malformed_doctype", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: expected \"html PUBLIC\" or \"html SYSTEM\"", message);
     }
 
@@ -369,7 +396,7 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageContentAfterBody() throws Exception
     {
-        String message = this.report.getMessage(lexer, "content_after_body", null, TidyMessage.Level.WARNING);
+        String message = this.report.getMessage(-1, lexer, "content_after_body", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: content occurs after end of body", message);
     }
 
@@ -379,7 +406,7 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageMalformedComment() throws Exception
     {
-        String message = this.report.getMessage(lexer, "malformed_comment", null, TidyMessage.Level.WARNING);
+        String message = this.report.getMessage(-1, lexer, "malformed_comment", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: adjacent hyphens within comment", message);
     }
 
@@ -389,7 +416,7 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageBadCommentChars() throws Exception
     {
-        String message = this.report.getMessage(lexer, "bad_comment_chars", null, TidyMessage.Level.WARNING);
+        String message = this.report.getMessage(-1, lexer, "bad_comment_chars", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: expecting -- or >", message);
     }
 
@@ -399,7 +426,7 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageBadXmlComment() throws Exception
     {
-        String message = this.report.getMessage(lexer, "bad_xml_comment", null, TidyMessage.Level.WARNING);
+        String message = this.report.getMessage(-1, lexer, "bad_xml_comment", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: XML comments can't contain --", message);
     }
 
@@ -409,7 +436,7 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageBadCdataComment() throws Exception
     {
-        String message = this.report.getMessage(lexer, "bad_cdata_content", null, TidyMessage.Level.WARNING);
+        String message = this.report.getMessage(-1, lexer, "bad_cdata_content", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: '<' + '/' + letter not allowed here", message);
     }
 
@@ -419,7 +446,7 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageInconsistentNamespace() throws Exception
     {
-        String message = this.report.getMessage(lexer, "inconsistent_namespace", null, TidyMessage.Level.WARNING);
+        String message = this.report.getMessage(-1, lexer, "inconsistent_namespace", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: html namespace doesn't match content", message);
     }
 
@@ -429,7 +456,7 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageDtypeNotUpperCase() throws Exception
     {
-        String message = this.report.getMessage(lexer, "dtype_not_upper_case", null, TidyMessage.Level.WARNING);
+        String message = this.report.getMessage(-1, lexer, "dtype_not_upper_case", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: SYSTEM, PUBLIC, W3C, DTD, EN must be upper case", message);
     }
 
@@ -440,6 +467,7 @@ public class ReportTest extends TestCase
     public void testGetMessageUnexpectedEndOfFile() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "unexpected_end_of_file",
             new Object[]{"<test>"},
@@ -453,7 +481,7 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageSuspectedMissingQuote() throws Exception
     {
-        String message = this.report.getMessage(lexer, "suspected_missing_quote", null, TidyMessage.Level.ERROR);
+        String message = this.report.getMessage(-1, lexer, "suspected_missing_quote", null, TidyMessage.Level.ERROR);
         assertEquals("line 12 column 34 - Error: missing quotemark for attribute value", message);
     }
 
@@ -463,7 +491,7 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageDuplicateFrameset() throws Exception
     {
-        String message = this.report.getMessage(lexer, "duplicate_frameset", null, TidyMessage.Level.ERROR);
+        String message = this.report.getMessage(-1, lexer, "duplicate_frameset", null, TidyMessage.Level.ERROR);
         assertEquals("line 12 column 34 - Error: repeated FRAMESET element", message);
     }
 
@@ -474,6 +502,7 @@ public class ReportTest extends TestCase
     public void testGetMessageUnknownElement() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "unknown_element",
             new Object[]{"<test>"},
@@ -488,6 +517,7 @@ public class ReportTest extends TestCase
     public void testGetMessageUnexpectedEndtag() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "unexpected_endtag",
             new Object[]{"test"},
@@ -502,6 +532,7 @@ public class ReportTest extends TestCase
     public void testGetMessageUnexpectedEndtagIn() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "unexpected_endtag_in",
             new Object[]{"test", "bee"},
@@ -516,6 +547,7 @@ public class ReportTest extends TestCase
     public void testGetMessageTooManyElements() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "too_many_elements",
             new Object[]{"<test>"},
@@ -530,6 +562,7 @@ public class ReportTest extends TestCase
     public void testGetMessageTooManyElementsIn() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "too_many_elements_in",
             new Object[]{"<test>", "bee"},
@@ -544,6 +577,7 @@ public class ReportTest extends TestCase
     public void testGetMessageUnknownAttribute() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "unknown_attribute",
             new Object[]{"test"},
@@ -558,6 +592,7 @@ public class ReportTest extends TestCase
     public void testGetMessageMissingAttribute() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "missing_attribute",
             new Object[]{"<test>", "bee"},
@@ -572,6 +607,7 @@ public class ReportTest extends TestCase
     public void testGetMessageMissingAttrValue() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "missing_attr_value",
             new Object[]{"<test>", "bee"},
@@ -586,6 +622,7 @@ public class ReportTest extends TestCase
     public void testGetMessageMissingImagemap() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "missing_imagemap",
             new Object[]{"<test>"},
@@ -600,6 +637,7 @@ public class ReportTest extends TestCase
     public void testGetMessageBadAttributeValue() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "bad_attribute_value",
             new Object[]{"<test>", "bee", "ant"},
@@ -614,6 +652,7 @@ public class ReportTest extends TestCase
     public void testGetMessageXmlAttributeValue() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "xml_attribute_value",
             new Object[]{"<test>", "bee"},
@@ -627,8 +666,12 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageUnexpectedGt() throws Exception
     {
-        String message = this.report
-            .getMessage(lexer, "unexpected_gt", new Object[]{"<test>"}, TidyMessage.Level.ERROR);
+        String message = this.report.getMessage(
+            -1,
+            lexer,
+            "unexpected_gt",
+            new Object[]{"<test>"},
+            TidyMessage.Level.ERROR);
         assertEquals("line 12 column 34 - Error: <test> missing '>' for end of tag", message);
     }
 
@@ -639,6 +682,7 @@ public class ReportTest extends TestCase
     public void testGetMessageUnexpectedQuotemark() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "unexpected_quotemark",
             new Object[]{"<test>"},
@@ -653,6 +697,7 @@ public class ReportTest extends TestCase
     public void testGetMessageRepeatedAttribute() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "repeated_attribute",
             new Object[]{"<test>", "bee", "ant"},
@@ -669,6 +714,7 @@ public class ReportTest extends TestCase
     public void testGetMessageProprietaryAttrValue() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "proprietary_attr_value",
             new Object[]{"<test>", "bee"},
@@ -683,6 +729,7 @@ public class ReportTest extends TestCase
     public void testGetMessageProprietaryAttribute() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "proprietary_attribute",
             new Object[]{"<test>", "bee"},
@@ -697,6 +744,7 @@ public class ReportTest extends TestCase
     public void testGetMessageIdNameMismatch() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "id_name_mismatch",
             new Object[]{"<test>"},
@@ -710,7 +758,7 @@ public class ReportTest extends TestCase
      */
     public void testGetMessageMissingDoctype() throws Exception
     {
-        String message = this.report.getMessage(lexer, "missing_doctype", null, TidyMessage.Level.WARNING);
+        String message = this.report.getMessage(-1, lexer, "missing_doctype", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: missing <!DOCTYPE> declaration", message);
     }
 
@@ -721,6 +769,7 @@ public class ReportTest extends TestCase
     public void testGetMessageDoctypeGiven() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "doctype_given",
             new Object[]{"test", "bee"},
@@ -735,6 +784,7 @@ public class ReportTest extends TestCase
     public void testGetMessageReportVersion() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "report_version",
             new Object[]{"test", "bee"},
@@ -749,6 +799,7 @@ public class ReportTest extends TestCase
     public void testGetMessageNumWarning() throws Exception
     {
         String message = this.report.getMessage(
+            -1,
             lexer,
             "num_warnings",
             new Object[]{new Integer(0), new Integer(33)},

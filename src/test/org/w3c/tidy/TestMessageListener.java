@@ -23,7 +23,8 @@ public class TestMessageListener implements TidyMessageListener
     private List received = new ArrayList();
 
     /**
-     * 
+     * Instantiate a new messag listener for the given test file.
+     * @param filename actual test case name
      */
     public TestMessageListener(String filename)
     {
@@ -38,12 +39,16 @@ public class TestMessageListener implements TidyMessageListener
         received.add(message);
     }
 
+    /**
+     * Write received messages as xml.
+     * @return xml containing message details.
+     */
     public String messagesToXml()
     {
         StringBuffer buffer = new StringBuffer();
 
         buffer.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
-        buffer.append("<-- expected messages for test ");
+        buffer.append("<!-- expected messages for test ");
         buffer.append(this.filename);
         buffer.append("-->\n");
 
@@ -53,6 +58,10 @@ public class TestMessageListener implements TidyMessageListener
         {
             TidyMessage msg = (TidyMessage) iterator.next();
             buffer.append("  <message>\n");
+
+            buffer.append("    <code>");
+            buffer.append(msg.getErrorCode());
+            buffer.append("</code>\n");
 
             buffer.append("    <level>");
             buffer.append(msg.getLevel().getCode());
@@ -85,6 +94,15 @@ public class TestMessageListener implements TidyMessageListener
     protected String getFilename()
     {
         return this.filename;
+    }
+
+    /**
+     * Returns the list of received messages.
+     * @return Returns the received messages.
+     */
+    public List getReceived()
+    {
+        return this.received;
     }
 
 }
