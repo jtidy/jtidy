@@ -61,7 +61,7 @@ package org.w3c.tidy;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public interface CheckAttribs
+public interface TagCheck
 {
 
     /**

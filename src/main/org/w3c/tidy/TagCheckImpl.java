@@ -60,87 +60,87 @@ package org.w3c.tidy;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public final class CheckAttribsImpl
+public final class TagCheckImpl
 {
 
     /**
      * CheckHTML instance.
      */
-    public static final CheckAttribs HTML = new CheckHTML();
+    public static final TagCheck HTML = new CheckHTML();
 
     /**
      * CheckSCRIPT instance.
      */
-    public static final CheckAttribs SCRIPT = new CheckSCRIPT();
+    public static final TagCheck SCRIPT = new CheckSCRIPT();
 
     /**
      * CheckTABLE instance.
      */
-    public static final CheckAttribs TABLE = new CheckTABLE();
+    public static final TagCheck TABLE = new CheckTABLE();
 
     /**
      * CheckCaption instance.
      */
-    public static final CheckAttribs CAPTION = new CheckCaption();
+    public static final TagCheck CAPTION = new CheckCaption();
 
     /**
      * CheckIMG instance.
      */
-    public static final CheckAttribs IMG = new CheckIMG();
+    public static final TagCheck IMG = new CheckIMG();
 
     /**
      * CheckAREA instance.
      */
-    public static final CheckAttribs AREA = new CheckAREA();
+    public static final TagCheck AREA = new CheckAREA();
 
     /**
      * CheckAnchor instance.
      */
-    public static final CheckAttribs ANCHOR = new CheckAnchor();
+    public static final TagCheck ANCHOR = new CheckAnchor();
 
     /**
      * CheckMap instance.
      */
-    public static final CheckAttribs MAP = new CheckMap();
+    public static final TagCheck MAP = new CheckMap();
 
     /**
      * CheckSTYLE instance.
      */
-    public static final CheckAttribs STYLE = new CheckSTYLE();
+    public static final TagCheck STYLE = new CheckSTYLE();
 
     /**
      * CheckTableCell instance.
      */
-    public static final CheckAttribs TABLECELL = new CheckTableCell();
+    public static final TagCheck TABLECELL = new CheckTableCell();
 
     /**
      * CheckLINK instance.
      */
-    public static final CheckAttribs LINK = new CheckLINK();
+    public static final TagCheck LINK = new CheckLINK();
 
     /**
      * CheckHR instance.
      */
-    public static final CheckAttribs HR = new CheckHR();
+    public static final TagCheck HR = new CheckHR();
 
     /**
      * CheckForm instance.
      */
-    public static final CheckAttribs FORM = new CheckForm();
+    public static final TagCheck FORM = new CheckForm();
 
     /**
      * CheckMeta instance.
      */
-    public static final CheckAttribs META = new CheckMeta();
+    public static final TagCheck META = new CheckMeta();
 
     /**
      * don't instantiate.
      */
-    private CheckAttribsImpl()
+    private TagCheckImpl()
     {
     }
 
-    public static class CheckHTML implements CheckAttribs
+    public static class CheckHTML implements TagCheck
     {
 
         public void check(Lexer lexer, Node node)
@@ -161,7 +161,7 @@ public final class CheckAttribsImpl
 
     }
 
-    public static class CheckSCRIPT implements CheckAttribs
+    public static class CheckSCRIPT implements TagCheck
     {
 
         public void check(Lexer lexer, Node node)
@@ -202,7 +202,7 @@ public final class CheckAttribsImpl
 
     }
 
-    public static class CheckTABLE implements CheckAttribs
+    public static class CheckTABLE implements TagCheck
     {
 
         public void check(Lexer lexer, Node node)
@@ -254,7 +254,7 @@ public final class CheckAttribsImpl
 
     }
 
-    public static class CheckCaption implements CheckAttribs
+    public static class CheckCaption implements TagCheck
     {
 
         public void check(Lexer lexer, Node node)
@@ -293,7 +293,7 @@ public final class CheckAttribsImpl
 
     }
 
-    public static class CheckHR implements CheckAttribs
+    public static class CheckHR implements TagCheck
     {
 
         public void check(Lexer lexer, Node node)
@@ -310,7 +310,7 @@ public final class CheckAttribsImpl
         }
     }
 
-    public static class CheckIMG implements CheckAttribs
+    public static class CheckIMG implements TagCheck
     {
 
         public void check(Lexer lexer, Node node)
@@ -379,7 +379,7 @@ public final class CheckAttribsImpl
 
     }
 
-    public static class CheckAREA implements CheckAttribs
+    public static class CheckAREA implements TagCheck
     {
 
         public void check(Lexer lexer, Node node)
@@ -418,7 +418,7 @@ public final class CheckAttribsImpl
 
     }
 
-    public static class CheckAnchor implements CheckAttribs
+    public static class CheckAnchor implements TagCheck
     {
 
         public void check(Lexer lexer, Node node)
@@ -430,7 +430,7 @@ public final class CheckAttribsImpl
         }
     }
 
-    public static class CheckMap implements CheckAttribs
+    public static class CheckMap implements TagCheck
     {
 
         public void check(Lexer lexer, Node node)
@@ -442,7 +442,7 @@ public final class CheckAttribsImpl
         }
     }
 
-    public static class CheckSTYLE implements CheckAttribs
+    public static class CheckSTYLE implements TagCheck
     {
 
         public void check(Lexer lexer, Node node)
@@ -465,11 +465,11 @@ public final class CheckAttribsImpl
     /**
      * reports missing action attribute.
      */
-    public static class CheckForm implements CheckAttribs
+    public static class CheckForm implements TagCheck
     {
 
         /**
-         * @see org.w3c.tidy.CheckAttribs#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
          */
         public void check(Lexer lexer, Node node)
         {
@@ -489,11 +489,11 @@ public final class CheckAttribsImpl
     /**
      * reports missing content attribute.
      */
-    public static class CheckMeta implements CheckAttribs
+    public static class CheckMeta implements TagCheck
     {
 
         /**
-         * @see org.w3c.tidy.CheckAttribs#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
+         * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
          */
         public void check(Lexer lexer, Node node)
         {
@@ -512,7 +512,7 @@ public final class CheckAttribsImpl
         }
     }
 
-    public static class CheckTableCell implements CheckAttribs
+    public static class CheckTableCell implements TagCheck
     {
 
         public void check(Lexer lexer, Node node)
@@ -532,7 +532,7 @@ public final class CheckAttribsImpl
     /**
      * add missing type attribute when appropriate
      */
-    public static class CheckLINK implements CheckAttribs
+    public static class CheckLINK implements TagCheck
     {
 
         public void check(Lexer lexer, Node node)

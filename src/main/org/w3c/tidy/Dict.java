@@ -164,9 +164,9 @@ public class Dict
 
     public Parser parser;
 
-    public CheckAttribs chkattrs;
+    public TagCheck chkattrs;
 
-    public Dict(String name, short versions, int model, Parser parser, CheckAttribs chkattrs)
+    public Dict(String name, short versions, int model, Parser parser, TagCheck chkattrs)
     {
         this.name = name;
         this.versions = versions;
