@@ -380,4 +380,13 @@ public class TidyCrashingBugsTest extends TidyTestCase
         executeTidyTest("837023.html");
     }
 
+    /**
+     * test for Tidy [991471] : NPE on file with CDATA.
+     * @throws Exception any exception generated during the test
+     */
+    public void test991471() throws Exception
+    {
+        executeTidyTest("991471.xml");
+    }
+
 }

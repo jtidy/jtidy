@@ -1,0 +1,12 @@
+<target name="help">
+<echo>
+<![CDATA[
+
+*** Help message *** 
+
+
+*** End of help message ***
+
+]]>
+</echo>
+</target>
