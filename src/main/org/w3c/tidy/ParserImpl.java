@@ -2333,9 +2333,12 @@ public final class ParserImpl
                         {
                             checkstack = false;
 
-                            if (lexer.inlineDup(node) > 0)
+                            if ((element.tag.model & Dict.CM_MIXED) == 0) // #431731 - fix by Randy Waki 25 Dec 00
                             {
-                                continue;
+                                if (lexer.inlineDup(node) > 0)
+                                {
+                                    continue;
+                                }
                             }
                         }
 
