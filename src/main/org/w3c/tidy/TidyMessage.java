@@ -26,19 +26,24 @@ public final class TidyMessage
     {
 
         /**
+         * level = summary.
+         */
+        public static final short SUMMARY = 0;
+
+        /**
          * level = info.
          */
-        public static final short INFO = 0;
+        public static final short INFO = 1;
 
         /**
          * level = warning.
          */
-        public static final short WARNING = 1;
+        public static final short WARNING = 2;
 
         /**
          * level = error.
          */
-        public static final short ERROR = 2;
+        public static final short ERROR = 3;
 
         /**
          * don't instantiate.
