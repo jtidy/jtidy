@@ -25,6 +25,12 @@
         </section>
         <section name="News">
 
+            <p>
+                <em>
+                    Warning: the cvs module for the current development has been renamed to jtidy (was: jtidy2), while
+                    the old module is now named jtidyr7.
+                </em>
+            </p>
             <subsection name="September 13, 2004">
                 <p>Two major new features expected for the next release have been finally committed to cvs!</p>
                 <ul>
