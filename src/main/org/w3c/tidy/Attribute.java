@@ -102,7 +102,7 @@ public class Attribute
     }
 
     /**
-     * Is this a literal (unmodifiable?) attribute?
+     * Is this a literal (unmodifiable) attribute?
      * @param isLiteral boolean <code>true</code> for a literal attribute
      */
     public void setLiteral(boolean isLiteral)
@@ -129,7 +129,7 @@ public class Attribute
     }
 
     /**
-     * Is this a literal (unmodifiable?) attribute?
+     * Is this a literal (unmodifiable) attribute?
      * @return <code>true</code> for a literal attribute
      */
     public boolean isLiteral()

@@ -1626,7 +1626,7 @@ public class Clean
     }
 
     /**
-     * node is <code>&lt;![if ...]></code> prune up to <code>&lt;![endif]></code>.
+     * node is <code>&lt;![if ...]&gt;</code> prune up to <code>&lt;![endif]&gt;</code>.
      */
     public Node pruneSection(Lexer lexer, Node node)
     {
@@ -1952,7 +1952,7 @@ public class Clean
     }
 
     /**
-     * where appropriate move object elements from head to body
+     * where appropriate move object elements from head to body.
      */
     static void bumpObject(Lexer lexer, Node html)
     {
@@ -1961,10 +1961,14 @@ public class Clean
         for (node = html.content; node != null; node = node.next)
         {
             if (node.tag == tt.tagHead)
+            {
                 head = node;
+            }
 
             if (node.tag == tt.tagBody)
+            {
                 body = node;
+            }
         }
 
         if (head != null && body != null)

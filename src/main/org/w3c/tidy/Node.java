@@ -55,7 +55,7 @@ package org.w3c.tidy;
 
 /**
  * Used for elements and text nodes element name is null for text nodes start and end are offsets into lexbuf which
- * contains the textual content of all elements in the parse tree. parent and content allow traversal of the parse tree
+ * contains the textual content of all elements in the parse tree. Parent and content allow traversal of the parse tree
  * in any direction. attributes are represented as a linked list of AttVal nodes which hold the strings for
  * attribute/value pairs.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
@@ -269,7 +269,7 @@ public class Node
     }
 
     /**
-     * used to clone heading nodes when split by an hr
+     * used to clone heading nodes when split by an hr.
      */
     protected Object clone()
     {
@@ -319,7 +319,7 @@ public class Node
     }
 
     /**
-     * default method for checking an element's attributes
+     * default method for checking an element's attributes.
      */
     public void checkAttributes(Lexer lexer)
     {
@@ -368,7 +368,7 @@ public class Node
     }
 
     /**
-     * remove attribute from node then free it
+     * remove attribute from node then free it.
      */
     public void removeAttribute(AttVal attr)
     {
@@ -399,7 +399,7 @@ public class Node
     }
 
     /**
-     * find doctype element
+     * find doctype element.
      */
     public Node findDocType()
     {
@@ -437,7 +437,7 @@ public class Node
     }
 
     /**
-     * remove node from markup tree and discard it
+     * remove node from markup tree and discard it.
      */
     public static Node discardElement(Node element)
     {
@@ -453,7 +453,7 @@ public class Node
     }
 
     /**
-     * insert node into markup tree
+     * insert node into markup tree.
      */
     public static void insertNodeAtStart(Node element, Node node)
     {
@@ -474,7 +474,7 @@ public class Node
     }
 
     /**
-     * insert node into markup tree
+     * insert node into markup tree.
      */
     public static void insertNodeAtEnd(Node element, Node node)
     {
@@ -494,7 +494,7 @@ public class Node
     }
 
     /**
-     * insert node into markup tree in pace of element which is moved to become the child of the node
+     * insert node into markup tree in pace of element which is moved to become the child of the node.
      */
     public static void insertNodeAsParent(Node element, Node node)
     {
@@ -531,7 +531,7 @@ public class Node
     }
 
     /**
-     * insert node into markup tree before element
+     * insert node into markup tree before element.
      */
     public static void insertNodeBeforeElement(Node element, Node node)
     {
@@ -555,7 +555,7 @@ public class Node
     }
 
     /**
-     * insert node into markup tree after element
+     * insert node into markup tree after element.
      */
     public static void insertNodeAfterElement(Node element, Node node)
     {
@@ -696,7 +696,7 @@ public class Node
     }
 
     /**
-     * Assumes node is a text node
+     * Assumes node is a text node.
      */
     public static boolean isBlank(Lexer lexer, Node node)
     {
@@ -715,12 +715,9 @@ public class Node
     }
 
     /**
-     * This maps
-     * <p>
-     * hello <em> world </em> to
-     * <p>
-     * hello <em> world </em> Trims initial space, by moving it before the start tag, or if this element is the first in
-     * parent's content, then by discarding the space
+     * This maps <code>&lt;p> hello &lt;em> world &lt;/em></code> to <code>&lt;p> hello &lt;em> world &lt;/em></code>.
+     * Trims initial space, by moving it before the start tag, or if this element is the first in parent's content, then
+     * by discarding the space
      */
     public static void trimInitialSpace(Lexer lexer, Node element, Node text)
     {
@@ -820,7 +817,7 @@ public class Node
     }
 
     /**
-     * the doctype has been found after other tags, and needs moving to before the html element
+     * the doctype has been found after other tags, and needs moving to before the html element.
      */
     public static void insertDocType(Lexer lexer, Node element, Node doctype)
     {
@@ -901,8 +898,8 @@ public class Node
     }
 
     /**
-     * if a table row is empty then insert an empty cell this practice is consistent with browser behavior and avoids
-     * potential problems with row spanning cells
+     * If a table row is empty then insert an empty cell this practice is consistent with browser behavior and avoids
+     * potential problems with row spanning cells.
      */
     public static void fixEmptyRow(Lexer lexer, Node row)
     {
@@ -928,7 +925,7 @@ public class Node
     }
 
     /**
-     * extract a node and its children from a markup tree
+     * extract a node and its children from a markup tree.
      */
     public static void removeNode(Node node)
     {
@@ -997,7 +994,7 @@ public class Node
     }
 
     /**
-     * find html element
+     * find html element.
      */
     public Node findHTML(TagTable tt)
     {
@@ -1083,7 +1080,7 @@ public class Node
     }
 
     /**
-     * Add class="foo" to node
+     * Add class="foo" to node.
      */
     public static void addClass(Node node, String classname)
     {

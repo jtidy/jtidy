@@ -171,7 +171,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * Spaces - default indentation
+     * Spaces - default indentation.
      * @see Configuration#spaces
      */
     public void setSpaces(int spaces)
@@ -185,7 +185,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * Wraplen - default wrap margin
+     * Wraplen - default wrap margin.
      * @see Configuration#wraplen
      */
     public void setWraplen(int wraplen)
@@ -199,7 +199,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * CharEncoding
+     * CharEncoding.
      * @see Configuration#charEncoding
      */
     public void setCharEncoding(int charencoding)
@@ -213,7 +213,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * Tabsize
+     * Tabsize.
      * @see Configuration#tabsize
      */
     public void setTabsize(int tabsize)
@@ -227,7 +227,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * Errfile - file name to write errors to
+     * Errfile - file name to write errors to.
      * @see Configuration#errfile
      */
     public void setErrfile(String errfile)
@@ -255,7 +255,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * OnlyErrors - if true normal output is suppressed
+     * OnlyErrors - if true normal output is suppressed.
      * @see Configuration#onlyErrors
      */
     public void setOnlyErrors(boolean onlyErrors)
@@ -269,7 +269,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * ShowWarnings - however errors are always shown
+     * ShowWarnings - however errors are always shown.
      * @see Configuration#showWarnings
      */
     public void setShowWarnings(boolean showWarnings)
@@ -283,7 +283,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * Quiet - no 'Parsing X', guessed DTD or summary
+     * Quiet - no 'Parsing X', guessed DTD or summary.
      * @see Configuration#quiet
      */
     public void setQuiet(boolean quiet)
@@ -297,7 +297,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * IndentContent - indent content of appropriate tags
+     * IndentContent - indent content of appropriate tags.
      * @see Configuration#indentContent
      */
     public void setIndentContent(boolean indentContent)
@@ -311,7 +311,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * SmartIndent - does text/block level content effect indentation
+     * SmartIndent - does text/block level content effect indentation.
      * @see Configuration#smartIndent
      */
     public void setSmartIndent(boolean smartIndent)
@@ -325,7 +325,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * HideEndTags - suppress optional end tags
+     * HideEndTags - suppress optional end tags.
      * @see Configuration#hideEndTags
      */
     public void setHideEndTags(boolean hideEndTags)
@@ -339,7 +339,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * XmlTags - treat input as XML
+     * XmlTags - treat input as XML.
      * @see Configuration#xmlTags
      */
     public void setXmlTags(boolean xmlTags)
@@ -353,7 +353,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * XmlOut - create output as XML
+     * XmlOut - create output as XML.
      * @see Configuration#xmlOut
      */
     public void setXmlOut(boolean xmlOut)
@@ -367,7 +367,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * XHTML - output extensible HTML
+     * XHTML - output extensible HTML.
      * @see Configuration#xHTML
      */
     public void setXHTML(boolean xhtml)
@@ -381,7 +381,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * RawOut - avoid mapping values > 127 to entities
+     * RawOut - avoid mapping values > 127 to entities.
      * @see Configuration#rawOut
      */
     public void setRawOut(boolean rawOut)
@@ -395,7 +395,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * UpperCaseTags - output tags in upper not lower case
+     * UpperCaseTags - output tags in upper not lower case.
      * @see Configuration#upperCaseTags
      */
     public void setUpperCaseTags(boolean upperCaseTags)
@@ -409,7 +409,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * UpperCaseAttrs - output attributes in upper not lower case
+     * UpperCaseAttrs - output attributes in upper not lower case.
      * @see Configuration#upperCaseAttrs
      */
     public void setUpperCaseAttrs(boolean upperCaseAttrs)
@@ -423,7 +423,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * MakeClean - remove presentational clutter
+     * MakeClean - remove presentational clutter.
      * @see Configuration#makeClean
      */
     public void setMakeClean(boolean makeClean)
@@ -451,7 +451,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * BurstSlides - create slides on each h2 element
+     * BurstSlides - create slides on each h2 element.
      * @see Configuration#burstSlides
      */
     public void setBurstSlides(boolean burstSlides)
@@ -465,7 +465,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * NumEntities - use numeric entities
+     * NumEntities - use numeric entities.
      * @see Configuration#numEntities
      */
     public void setNumEntities(boolean numEntities)
@@ -479,7 +479,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * QuoteMarks - output " marks as &amp;quot;
+     * QuoteMarks - output " marks as &amp;quot;.
      * @see Configuration#quoteMarks
      */
     public void setQuoteMarks(boolean quoteMarks)
@@ -493,7 +493,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * QuoteNbsp - output non-breaking space as entity
+     * QuoteNbsp - output non-breaking space as entity.
      * @see Configuration#quoteNbsp
      */
     public void setQuoteNbsp(boolean quoteNbsp)
@@ -507,7 +507,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * QuoteAmpersand - output naked ampersand as &amp;
+     * QuoteAmpersand - output naked ampersand as &amp;.
      * @see Configuration#quoteAmpersand
      */
     public void setQuoteAmpersand(boolean quoteAmpersand)
@@ -521,7 +521,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * WrapAttVals - wrap within attribute values
+     * WrapAttVals - wrap within attribute values.
      * @see Configuration#wrapAttVals
      */
     public void setWrapAttVals(boolean wrapAttVals)
@@ -535,7 +535,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * WrapScriptlets - wrap within JavaScript string literals
+     * WrapScriptlets - wrap within JavaScript string literals.
      * @see Configuration#wrapScriptlets
      */
     public void setWrapScriptlets(boolean wrapScriptlets)
@@ -563,7 +563,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * AltText - default text for alt attribute
+     * AltText - default text for alt attribute.
      * @see Configuration#altText
      */
     public void setAltText(String altText)
@@ -577,7 +577,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * Slidestyle - style sheet for slides
+     * Slidestyle - style sheet for slides.
      * @see Configuration#slidestyle
      */
     public void setSlidestyle(String slidestyle)
@@ -591,7 +591,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * XmlPi - add &lt;?xml?&gt; for XML docs
+     * XmlPi - add &lt;?xml?&gt; for XML docs.
      * @see Configuration#xmlPi
      */
     public void setXmlPi(boolean xmlPi)
@@ -605,7 +605,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * DropFontTags - discard presentation tags
+     * DropFontTags - discard presentation tags.
      * @see Configuration#dropFontTags
      */
     public void setDropFontTags(boolean dropFontTags)
@@ -633,7 +633,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * DropEmptyParas - discard empty p elements
+     * DropEmptyParas - discard empty p elements.
      * @see Configuration#dropEmptyParas
      */
     public void setDropEmptyParas(boolean dropEmptyParas)
@@ -647,7 +647,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * FixComments - fix comments with adjacent hyphens
+     * FixComments - fix comments with adjacent hyphens.
      * @see Configuration#fixComments
      */
     public void setFixComments(boolean fixComments)
@@ -661,7 +661,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * WrapAsp - wrap within ASP pseudo elements
+     * WrapAsp - wrap within ASP pseudo elements.
      * @see Configuration#wrapAsp
      */
     public void setWrapAsp(boolean wrapAsp)
@@ -675,7 +675,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * WrapJste - wrap within JSTE pseudo elements
+     * WrapJste - wrap within JSTE pseudo elements.
      * @see Configuration#wrapJste
      */
     public void setWrapJste(boolean wrapJste)
@@ -689,7 +689,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * WrapPhp - wrap within PHP pseudo elements
+     * WrapPhp - wrap within PHP pseudo elements.
      * @see Configuration#wrapPhp
      */
     public void setWrapPhp(boolean wrapPhp)
@@ -703,7 +703,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * FixBackslash - fix URLs by replacing \ with /
+     * FixBackslash - fix URLs by replacing \ with /.
      * @see Configuration#fixBackslash
      */
     public void setFixBackslash(boolean fixBackslash)
@@ -717,7 +717,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * IndentAttributes - newline+indent before each attribute
+     * IndentAttributes - newline+indent before each attribute.
      * @see Configuration#indentAttributes
      */
     public void setIndentAttributes(boolean indentAttributes)
@@ -771,7 +771,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * LogicalEmphasis - replace i by em and b by strong
+     * LogicalEmphasis - replace i by em and b by strong.
      * @see Configuration#logicalEmphasis
      */
     public void setLogicalEmphasis(boolean logicalEmphasis)
@@ -785,10 +785,9 @@ public class Tidy implements Serializable
     }
 
     /**
-     * XmlPIs - if set to true PIs must end with ?>
+     * XmlPIs - if set to true PIs must end with ?&gt;.
      * @see Configuration#xmlPIs
      */
-
     public void setXmlPIs(boolean xmlPIs)
     {
         configuration.xmlPIs = xmlPIs;
@@ -800,7 +799,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * EncloseText - if true text at body is wrapped in &lt;p&gt;'s
+     * EncloseText - if true text at body is wrapped in &lt;p&gt;'s.
      * @see Configuration#encloseBodyText
      */
     public void setEncloseText(boolean encloseText)
@@ -814,7 +813,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * EncloseBlockText - if true text in blocks is wrapped in &lt;p&gt;'s
+     * EncloseBlockText - if true text in blocks is wrapped in &lt;p&gt;'s.
      * @see Configuration#encloseBlockText
      */
     public void setEncloseBlockText(boolean encloseBlockText)
@@ -842,7 +841,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * Word2000 - draconian cleaning for Word2000
+     * Word2000 - draconian cleaning for Word2000.
      * @see Configuration#word2000
      */
     public void setWord2000(boolean word2000)
@@ -856,7 +855,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * TidyMark - add meta element indicating tidied doc
+     * TidyMark - add meta element indicating tidied doc.
      * @see Configuration#tidyMark
      */
     public void setTidyMark(boolean tidyMark)
@@ -870,7 +869,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * XmlSpace - if set to yes adds xml:space attr as needed
+     * XmlSpace - if set to yes adds xml:space attr as needed.
      * @see Configuration#xmlSpace
      */
     public void setXmlSpace(boolean xmlSpace)
@@ -884,7 +883,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * Emacs - if true format error output for GNU Emacs
+     * Emacs - if true format error output for GNU Emacs.
      * @see Configuration#emacs
      */
     public void setEmacs(boolean emacs)
@@ -898,7 +897,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * LiteralAttribs - if true attributes may use newlines
+     * LiteralAttribs - if true attributes may use newlines.
      * @see Configuration#literalAttribs
      */
     public void setLiteralAttribs(boolean literalAttribs)
@@ -1078,7 +1077,7 @@ public class Tidy implements Serializable
                 lexer.warnings = 0;
                 if (!configuration.quiet)
                 {
-                    this.report.helloMessage(errout, Report.RELEASE_DATE);
+                    this.report.helloMessage(errout);
                 }
 
                 document = ParserImpl.parseDocument(lexer);
@@ -1407,7 +1406,6 @@ public class Tidy implements Serializable
         int totalerrors = 0;
         int totalwarnings = 0;
         String file;
-        String prog = "Tidy";
         String s;
         int argc = argv.length + 1;
         int argIndex = 0;
@@ -1507,7 +1505,7 @@ public class Tidy implements Serializable
                 }
                 else if (arg.equals("help") || argv[argIndex].charAt(1) == '?' || argv[argIndex].charAt(1) == 'h')
                 {
-                    this.report.helpText(new PrintWriter(System.out, true), prog);
+                    this.report.helpText(new PrintWriter(System.out, true));
                     return 1;
                 }
                 else if (arg.equals("config"))
@@ -1647,11 +1645,11 @@ public class Tidy implements Serializable
             }
             catch (FileNotFoundException fnfe)
             {
-                this.report.unknownFile(this.errout, prog, file);
+                this.report.unknownFile(this.errout, file);
             }
             catch (IOException ioe)
             {
-                this.report.unknownFile(this.errout, prog, file);
+                this.report.unknownFile(this.errout, file);
             }
 
             --argc;

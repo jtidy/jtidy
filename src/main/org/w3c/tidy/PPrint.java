@@ -160,7 +160,7 @@ public class PPrint
     }
 
     /**
-     * return one less that the number of bytes used by UTF-8 char
+     * return one less that the number of bytes used by UTF-8 char.
      * <code>1010 A 1011 B 1100 C 1101 D 1110 E 1111 F</code>
      * @param str points to 1st byte
      * @param ch initialized to 1st byte
@@ -1371,7 +1371,7 @@ public class PPrint
     }
 
     /**
-     * PHP is based on XML processing instructions
+     * PHP is based on XML processing instructions.
      */
     private void printPhp(Out fout, int indent, Node node)
     {
@@ -1976,7 +1976,7 @@ public class PPrint
     }
 
     /**
-     * Split parse tree by h2 elements and output to separate files. counts number of h2 children (if any) belonging to
+     * Split parse tree by h2 elements and output to separate files. Counts number of h2 children (if any) belonging to
      * node.
      */
     public int countSlides(Node node)

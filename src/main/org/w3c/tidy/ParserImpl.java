@@ -193,7 +193,7 @@ public final class ParserImpl
     }
 
     /**
-     * move node to the head, where element is used as starting point in hunt for head. normally called during parsing
+     * Move node to the head, where element is used as starting point in hunt for head. Normally called during parsing.
      * @param lexer
      * @param element
      * @param node
@@ -3481,7 +3481,7 @@ public final class ParserImpl
     }
 
     /**
-     * errors in positioning of form start or end tags generally require human intervention to fix
+     * errors in positioning of form start or end tags generally require human intervention to fix.
      */
     static void badForm(Lexer lexer)
     {

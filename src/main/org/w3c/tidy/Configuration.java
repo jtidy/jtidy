@@ -221,7 +221,7 @@ public class Configuration implements java.io.Serializable
     protected boolean xHTML;
 
     /**
-     * add <?xml?>for XML docs.
+     * add <code>&lt;?xml?&gt;</code> for XML docs.
      */
     protected boolean xmlPi;
 
@@ -346,7 +346,7 @@ public class Configuration implements java.io.Serializable
     protected boolean indentAttributes;
 
     /**
-     * if set to yes PIs must end with ?>.
+     * if set to yes PIs must end with <code>?&gt;</code>.
      */
     protected boolean xmlPIs;
 

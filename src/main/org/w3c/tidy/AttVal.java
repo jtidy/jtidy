@@ -201,7 +201,7 @@ public class AttVal extends Object implements Cloneable
     }
 
     /**
-     * the same attribute name can't be used more than once in each element
+     * the same attribute name can't be used more than once in each element.
      */
     public void checkUniqueAttribute(Lexer lexer, Node node)
     {

@@ -536,7 +536,9 @@ public final class AttrCheckImpl
 
             if (!("row".equalsIgnoreCase(value) || "rowgroup".equalsIgnoreCase(value) //
                 || "col".equalsIgnoreCase(value) || "colgroup".equalsIgnoreCase(value)))
+            {
                 lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+            }
         }
     }
 

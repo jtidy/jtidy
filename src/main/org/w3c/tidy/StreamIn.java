@@ -93,7 +93,7 @@ public abstract class StreamIn
     public boolean endOfStream;
     
     /**
-     * needed for error reporting
+     * needed for error reporting.
      */
     public Lexer lexer; 
 

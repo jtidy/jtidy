@@ -242,7 +242,7 @@ public class Lexer
     public int doctype;
 
     /**
-     * e.g. if html or PUBLIC is missing.
+     * set if html or PUBLIC is missing.
      */
     public boolean badDoctype;
 
@@ -264,8 +264,8 @@ public class Lexer
     public Node token;
 
     /**
-     * lexer character buffer parse tree nodes span onto this buffer which contains the concatenated text contents of
-     * all of the elements. lexsize must be reset for each file. Byte buffer of UTF-8 chars.
+     * Lexer character buffer parse tree nodes span onto this buffer which contains the concatenated text contents of
+     * all of the elements. Lexsize must be reset for each file. Byte buffer of UTF-8 chars.
      */
     public byte[] lexbuf;
 
@@ -714,8 +714,7 @@ public class Lexer
     }
 
     /**
-     * choose what version to use for new doctype.
-     * @param root
+     * Choose what version to use for new doctype.
      * @return
      */
     public short HTMLVersion()
@@ -989,8 +988,8 @@ public class Lexer
     }
 
     /**
-     * Put DOCTYPE declaration between the &lt:?xml version "1.0" ... ?> declaration, if any, and the <code>html</code>
-     * tag. Should also work for any comments, etc. that may precede the <code>html</code> tag.
+     * Put DOCTYPE declaration between the &lt:?xml version "1.0" ... ?&gt; declaration, if any, and the
+     * <code>html</code> tag. Should also work for any comments, etc. that may precede the <code>html</code> tag.
      */
     Node newXhtmlDocTypeNode(Node root)
     {
@@ -1375,7 +1374,8 @@ public class Lexer
     }
 
     /**
-     * ensure XML document starts with &lt;?XML version="1.0"?>. Add encoding attribute if not using ASCII or UTF-8.
+     * ensure XML document starts with <code>&lt;?XML version="1.0"?&gt;</code>. Add encoding attribute if not using
+     * ASCII or UTF-8.
      */
     public boolean fixXMLPI(Node root)
     {
@@ -2510,7 +2510,7 @@ public class Lexer
     }
 
     /**
-     * PHP is like ASP but is based upon XML processing instructions, e.g. <?php ... ?>
+     * PHP is like ASP but is based upon XML processing instructions, e.g. <code>&lt;?php ... ?&gt;</code>.
      */
     public Node parsePhp()
     {
@@ -3536,7 +3536,7 @@ public class Lexer
     }
 
     /**
-     * Everything is allowed in proprietary version of HTML this is handled here rather than in the tag/attr dicts
+     * Everything is allowed in proprietary version of HTML this is handled here rather than in the tag/attr dicts.
      */
     void constrainVersion(int vers)
     {
@@ -3679,7 +3679,7 @@ public class Lexer
     }
 
     /**
-     * acceptable content for pre elements
+     * acceptable content for pre elements.
      */
     protected boolean preContent(Node node)
     {
