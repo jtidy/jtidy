@@ -18,10 +18,12 @@
         </menu>
 
         <menu name="" type="footer">
-            <item name="Sourceforge" href="http://sourceforge.net/projects/displaytag"
+            <item name="Sourceforge" href="http://sourceforge.net/projects/jtidy"
                 img="http://sourceforge.net/sflogo.php?group_id=13153&amp;type=8" />
             <item name="Code Coverage by Clover" href="http://www.cenqua.com/clover"
                 img="http://www.cenqua.com/clover/images/clovered1.gif" />
+            <item name="Support this project!" href="http://sourceforge.net/donate/index.php?group_id=13153"
+                img="images/project-support.png" />
         </menu>
     </body>
 
