@@ -1477,7 +1477,7 @@ public class PPrint
         {
             return;
         }
-        
+
         // Feature request #434940 - fix by Dave Raggett/Ignacio Vazquez-Abrams 21 Jun 01
         // Sebastiano Vigna <vigna@dsi.unimi.it>
         Node body = root.findBody(lexer.configuration.tt);
@@ -1896,7 +1896,7 @@ public class PPrint
                 condFlushLine(fout, cindent);
             }
             printEndTag(mode, indent, node);
-            condFlushLine(fout, indent);
+            //condFlushLine(fout, indent);
 
             // CPR: folks don't want so much vertical spacing in XML
             // if (node.next != null) { flushLine(fout, indent); }
