@@ -70,4 +70,13 @@ public class JTidyBugsTest extends TidyTestCase
         executeTidyTest("j610244.html");
     }
 
+    /**
+     * test for JTidy [791933]: German special character converted to upper case.
+     * @throws Exception any exception generated during the test
+     */
+    public void test791933() throws Exception
+    {
+        executeTidyTest("j791933.html");
+    }
+
 }
