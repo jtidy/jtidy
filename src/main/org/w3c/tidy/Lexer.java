@@ -116,7 +116,6 @@ public class Lexer
     private static final short LEX_COMMENT = 4;
     private static final short LEX_DOCTYPE = 5;
     private static final short LEX_PROCINSTR = 6;
-    private static final short LEX_ENDCOMMENT = 7;
     private static final short LEX_CDATA = 8;
     private static final short LEX_SECTION = 9;
     private static final short LEX_ASP = 10;
