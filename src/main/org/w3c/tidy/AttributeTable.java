@@ -321,13 +321,26 @@ public class AttributeTable
         new Attribute("rbspan", Dict.VERS_XHTML11, AttrCheckImpl.NUMBER), // ruby markup
     };
 
+    /**
+     * Map containing all the installed attributes.
+     */
     private Map attributeHashtable = new Hashtable();
 
+    /**
+     * lookup an installed Attribute.
+     * @param name attribute name
+     * @return Attribute or null if the attribute is not found
+     */
     public Attribute lookup(String name)
     {
         return (Attribute) this.attributeHashtable.get(name);
     }
 
+    /**
+     * installs a new Attribute.
+     * @param attr Atribute
+     * @return installed Attribute
+     */
     public Attribute install(Attribute attr)
     {
         return (Attribute) this.attributeHashtable.put(attr.getName(), attr);
@@ -335,6 +348,8 @@ public class AttributeTable
 
     /**
      * public method for finding attribute definition by name.
+     * @param attval AttVal instance
+     * @return Attribute with name = attval.name
      */
     public Attribute findAttribute(AttVal attval)
     {
@@ -349,6 +364,11 @@ public class AttributeTable
         return null;
     }
 
+    /**
+     * Does the given attibute contains an url?
+     * @param attrname attribute name
+     * @return <code>true</code> if the given attribute is expected to contain an URL
+     */
     public boolean isUrl(String attrname)
     {
         Attribute np;
@@ -357,6 +377,11 @@ public class AttributeTable
         return (np != null && np.getAttrchk() == AttrCheckImpl.URL);
     }
 
+    /**
+     * Does the given attibute contains a script?
+     * @param attrname attribute name
+     * @return <code>true</code> if the given attribute is expected to contain a script
+     */
     public boolean isScript(String attrname)
     {
         Attribute np;
@@ -365,6 +390,11 @@ public class AttributeTable
         return (np != null && np.getAttrchk() == AttrCheckImpl.SCRIPT);
     }
 
+    /**
+     * Does the given attibute contains a literal attribute?
+     * @param attrname attribute name
+     * @return <code>true</code> if the given attribute is expected to contain a literal attribute
+     */
     public boolean isLiteralAttribute(String attrname)
     {
         Attribute np;
@@ -374,11 +404,14 @@ public class AttributeTable
     }
 
     /**
-     * Henry Zrepa reports that some folk are using embed with script attributes where newlines are signficant. These
-     * need to be declared and handled specially!
+     * Declare a new literal attribute.
+     * @param name atribute name
      */
     public void declareLiteralAttrib(String name)
     {
+        // Henry Zrepa reports that some folk are using embed with script attributes where newlines are signficant.
+        // These
+        // need to be declared and handled specially!
         Attribute attrib = lookup(name);
 
         if (attrib == null)
@@ -389,6 +422,10 @@ public class AttributeTable
         attrib.setLiteral(true);
     }
 
+    /**
+     * Returns the default attribute table instance.
+     * @return AttributeTable instance
+     */
     public static AttributeTable getDefaultAttributeTable()
     {
         if (defaultAttributeTable == null)
