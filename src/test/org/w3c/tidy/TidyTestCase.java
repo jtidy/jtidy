@@ -59,9 +59,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.net.URL;
 import java.util.Properties;
 
@@ -69,6 +67,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.Document;
 /**
  * @author fgiust
  * @version $Revision$ ($Author$)
@@ -88,50 +87,19 @@ public class TidyTestCase extends TestCase
      * such file.
      * @param fileName input file name
      * @throws Exception any exception generated during the test
+     * @return Tidy instance needed if tester wants to check generated error and warnings
      */
-    protected void executeTidyTest(String fileName) throws Exception
+    protected Tidy executeTidyTest(String fileName) throws Exception
     {
 
-        // file name without extension, needed for config and out file names
-        String noExtensionName = fileName.substring(0, fileName.lastIndexOf("."));
-        String configFileName = noExtensionName + ".cfg";
-        String outFileName = noExtensionName + ".out";
-
-        ClassLoader classLoader = getClass().getClassLoader();
+        // set up Tidy using supplied configuration
+        Tidy tidy = setUpTidy(fileName);
 
         // input file
-        URL inputURL = classLoader.getResource(fileName);
+        URL inputURL = getClass().getClassLoader().getResource(fileName);
         assertNotNull("Can't find input file [" + fileName + "]", inputURL);
 
-        // configuration file
-        URL configurationFile = classLoader.getResource(configFileName);
-
-        // debug runing test info
-        if (log.isDebugEnabled())
-        {
-            StringBuffer message = new StringBuffer();
-            message.append("Testing [" + fileName + "]");
-            if (configurationFile != null)
-            {
-                message.append(" using configuration file [" + configFileName + "]");
-            }
-            log.debug(message.toString());
-        }
-        //creates a new Tidy
-        Tidy tidy = new Tidy();
-
-        // set log
-        StringWriter errorWriter = new StringWriter();
-        tidy.setErrout(new PrintWriter(errorWriter));
-
-        // if configuration file exists load and set it
-        if (configurationFile != null)
-        {
-            Properties testProperties = new Properties();
-            testProperties.load(configurationFile.openStream());
-            tidy.setConfigurationFromProps(testProperties);
-        }
-        // set out
+        // out
         OutputStream out = new ByteArrayOutputStream();
 
         // go!
@@ -143,13 +111,35 @@ public class TidyTestCase extends TestCase
         }
 
         // existing file for comparison
-        URL outFile = classLoader.getResource(outFileName);
+        String outFileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".out";
+        URL outFile = getClass().getClassLoader().getResource(outFileName);
 
         if (outFile != null)
         {
             log.debug("Comparing file using [" + outFileName + "]");
             assertEquals(out.toString(), outFile);
         }
+
+        return tidy;
+    }
+
+    /**
+     * Basic test for DOM parser. Test is set up using [fileName.cfg] configuration if the file exists. Calls
+     * tidy.parseDOM and returns the Document to the caller.
+     * @param fileName input file name
+     * @return parsed Document
+     * @throws Exception any exception generated during the test
+     */
+    protected Document parseDomTest(String fileName) throws Exception
+    {
+        //creates a new Tidy
+        Tidy tidy = setUpTidy(fileName);
+
+        // input file
+        URL inputURL = getClass().getClassLoader().getResource(fileName);
+        assertNotNull("Can't find input file [" + fileName + "]", inputURL);
+
+        return tidy.parseDOM(inputURL.openStream(), null);
     }
 
     /**
@@ -168,6 +158,49 @@ public class TidyTestCase extends TestCase
             new BufferedReader(new StringReader(tidyOutput)),
             new BufferedReader(new FileReader(correctFile.getFile())));
 
+    }
+
+    /**
+     * set up the tidy instance.
+     * @param fileName input file name (needed to determine configuration file name)
+     * @return Tidy instance
+     * @throws IOException in reading configuration file
+     */
+    private Tidy setUpTidy(String fileName) throws IOException
+    {
+        // config file names
+        String configFileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".cfg";
+
+        // input file
+        URL inputURL = getClass().getClassLoader().getResource(fileName);
+        assertNotNull("Can't find input file [" + fileName + "]", inputURL);
+
+        // configuration file
+        URL configurationFile = getClass().getClassLoader().getResource(configFileName);
+
+        // debug runing test info
+        if (log.isDebugEnabled())
+        {
+            StringBuffer message = new StringBuffer();
+            message.append("Testing [" + fileName + "]");
+            if (configurationFile != null)
+            {
+                message.append(" using configuration file [" + configFileName + "]");
+            }
+            log.debug(message.toString());
+        }
+        //creates a new Tidy
+        Tidy tidy = new Tidy();
+
+        // if configuration file exists load and set it
+        if (configurationFile != null)
+        {
+            Properties testProperties = new Properties();
+            testProperties.load(configurationFile.openStream());
+            tidy.setConfigurationFromProps(testProperties);
+        }
+
+        return tidy;
     }
 
     /**

@@ -54,20 +54,22 @@
 package org.w3c.tidy;
 
 /**
- * testcase for JTidy resolved bugs.
+ * testcase for JTidy resolved bugs (DOM parser).
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
-public class JTidyBugsTest extends TidyTestCase
+public class JTidyParserBugsTest extends TidyTestCase
 {
 
     /**
-     * test for JTidy [610244]: NullPointerException in parsing.
+     * test for JTidy [788651]: DOM parser hangs (page using shift_jis charset).
      * @throws Exception any exception generated during the test
      */
-    public void test610244() throws Exception
+    public void test788651() throws Exception
     {
-        executeTidyTest("j610244.html");
+        parseDomTest("j788651.html");
     }
+    
+    
 
 }
