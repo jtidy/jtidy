@@ -48,7 +48,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyEncodingBugsTest("test676156"));
         suite.addTest(new TidyEncodingBugsTest("test688746"));
 
-        suite.addTest(new TidyOutputBugsTest("test427812"));
         suite.addTest(new TidyOutputBugsTest("test427633"));
         suite.addTest(new TidyOutputBugsTest("test427819"));
         suite.addTest(new TidyOutputBugsTest("test427820"));
@@ -59,7 +58,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyOutputBugsTest("test427826"));
         suite.addTest(new TidyOutputBugsTest("test427830"));
         suite.addTest(new TidyOutputBugsTest("test427833"));
-        suite.addTest(new TidyOutputBugsTest("test427835"));
         suite.addTest(new TidyOutputBugsTest("test427836"));
         suite.addTest(new TidyOutputBugsTest("test427838"));
         suite.addTest(new TidyOutputBugsTest("test427845"));
