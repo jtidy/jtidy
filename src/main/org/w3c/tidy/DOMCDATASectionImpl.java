@@ -67,8 +67,6 @@ public class DOMCDATASectionImpl extends DOMTextImpl implements org.w3c.dom.CDAT
         super(adaptee);
     }
 
-    /* --------------------- DOM ---------------------------- */
-
     /**
      * @see org.w3c.dom.Node#getNodeName
      */

@@ -54,6 +54,8 @@
 
 package org.w3c.tidy;
 
+import org.w3c.dom.DOMException;
+
 /**
  * DOMDocumentTypeImpl.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
@@ -67,8 +69,6 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
     {
         super(adaptee);
     }
-
-    /* --------------------- DOM ---------------------------- */
 
     /**
      * @see org.w3c.dom.Node#getNodeType
@@ -111,8 +111,8 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
 
     public org.w3c.dom.NamedNodeMap getNotations()
     {
-        // NOT SUPPORTED
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -120,7 +120,8 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
      */
     public String getPublicId()
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -128,7 +129,8 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
      */
     public String getSystemId()
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -136,7 +138,8 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
      */
     public String getInternalSubset()
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
 }

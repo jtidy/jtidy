@@ -69,8 +69,6 @@ public class DOMTextImpl extends DOMCharacterDataImpl implements org.w3c.dom.Tex
         super(adaptee);
     }
 
-    /* --------------------- DOM ---------------------------- */
-
     /**
      * @see org.w3c.dom.Node#getNodeName
      */
@@ -93,7 +91,7 @@ public class DOMTextImpl extends DOMCharacterDataImpl implements org.w3c.dom.Tex
     public org.w3c.dom.Text splitText(int offset) throws DOMException
     {
         // NOT SUPPORTED
-        throw new DOMExceptionImpl(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
     }
 
 }

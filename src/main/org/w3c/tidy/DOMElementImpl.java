@@ -69,8 +69,6 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
         super(adaptee);
     }
 
-    /* --------------------- DOM ---------------------------- */
-
     /**
      * @see org.w3c.dom.Node#getNodeType
      */
@@ -229,7 +227,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
         }
         if (!(newAttr instanceof DOMAttrImpl))
         {
-            throw new DOMExceptionImpl(DOMException.WRONG_DOCUMENT_ERR, "newAttr not instanceof DOMAttrImpl");
+            throw new DOMException(DOMException.WRONG_DOCUMENT_ERR, "newAttr not instanceof DOMAttrImpl");
         }
 
         DOMAttrImpl newatt = (DOMAttrImpl) newAttr;
@@ -301,7 +299,7 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
         }
         else
         {
-            throw new DOMExceptionImpl(DOMException.NOT_FOUND_ERR, "oldAttr not found");
+            throw new DOMException(DOMException.NOT_FOUND_ERR, "oldAttr not found");
         }
         return result;
     }
@@ -319,7 +317,8 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
      */
     public void normalize()
     {
-        // NOT SUPPORTED
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -327,7 +326,8 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
      */
     public String getAttributeNS(String namespaceURI, String localName)
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -336,6 +336,8 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
      */
     public void setAttributeNS(String namespaceURI, String qualifiedName, String value) throws org.w3c.dom.DOMException
     {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -344,6 +346,8 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
      */
     public void removeAttributeNS(String namespaceURI, String localName) throws org.w3c.dom.DOMException
     {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -351,7 +355,8 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
      */
     public org.w3c.dom.Attr getAttributeNodeNS(String namespaceURI, String localName)
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -360,7 +365,8 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
      */
     public org.w3c.dom.Attr setAttributeNodeNS(org.w3c.dom.Attr newAttr) throws org.w3c.dom.DOMException
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -368,7 +374,8 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
      */
     public org.w3c.dom.NodeList getElementsByTagNameNS(String namespaceURI, String localName)
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -376,7 +383,8 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
      */
     public boolean hasAttribute(String name)
     {
-        return false;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -384,7 +392,8 @@ public class DOMElementImpl extends DOMNodeImpl implements org.w3c.dom.Element
      */
     public boolean hasAttributeNS(String namespaceURI, String localName)
     {
-        return false;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
 }

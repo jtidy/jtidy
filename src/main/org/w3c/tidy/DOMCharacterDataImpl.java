@@ -69,8 +69,6 @@ public class DOMCharacterDataImpl extends DOMNodeImpl implements org.w3c.dom.Cha
         super(adaptee);
     }
 
-    /* --------------------- DOM ---------------------------- */
-
     /**
      * @see org.w3c.dom.CharacterData#getData
      */
@@ -85,7 +83,7 @@ public class DOMCharacterDataImpl extends DOMNodeImpl implements org.w3c.dom.Cha
     public void setData(String data) throws DOMException
     {
         // NOT SUPPORTED
-        throw new DOMExceptionImpl(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
     }
 
     /**
@@ -110,13 +108,13 @@ public class DOMCharacterDataImpl extends DOMNodeImpl implements org.w3c.dom.Cha
         String value = null;
         if (count < 0)
         {
-            throw new DOMExceptionImpl(DOMException.INDEX_SIZE_ERR, "Invalid length");
+            throw new DOMException(DOMException.INDEX_SIZE_ERR, "Invalid length");
         }
         if (adaptee.textarray != null && adaptee.start < adaptee.end)
         {
             if (adaptee.start + offset >= adaptee.end)
             {
-                throw new DOMExceptionImpl(DOMException.INDEX_SIZE_ERR, "Invalid offset");
+                throw new DOMException(DOMException.INDEX_SIZE_ERR, "Invalid offset");
             }
             len = count;
             if (adaptee.start + offset + len - 1 >= adaptee.end)
@@ -135,7 +133,7 @@ public class DOMCharacterDataImpl extends DOMNodeImpl implements org.w3c.dom.Cha
     public void appendData(String arg) throws DOMException
     {
         // NOT SUPPORTED
-        throw new DOMExceptionImpl(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
     }
 
     /**
@@ -144,7 +142,7 @@ public class DOMCharacterDataImpl extends DOMNodeImpl implements org.w3c.dom.Cha
     public void insertData(int offset, String arg) throws DOMException
     {
         // NOT SUPPORTED
-        throw new DOMExceptionImpl(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
     }
 
     /**
@@ -153,7 +151,7 @@ public class DOMCharacterDataImpl extends DOMNodeImpl implements org.w3c.dom.Cha
     public void deleteData(int offset, int count) throws DOMException
     {
         // NOT SUPPORTED
-        throw new DOMExceptionImpl(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
     }
 
     /**
@@ -162,7 +160,7 @@ public class DOMCharacterDataImpl extends DOMNodeImpl implements org.w3c.dom.Cha
     public void replaceData(int offset, int count, String arg) throws DOMException
     {
         // NOT SUPPORTED
-        throw new DOMExceptionImpl(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
     }
 
 }

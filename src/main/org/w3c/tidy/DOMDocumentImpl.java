@@ -124,8 +124,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
      */
     public org.w3c.dom.DOMImplementation getImplementation()
     {
-        // NOT SUPPORTED
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -177,8 +177,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
      */
     public org.w3c.dom.DocumentFragment createDocumentFragment()
     {
-        // NOT SUPPORTED
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -220,8 +220,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
      */
     public org.w3c.dom.CDATASection createCDATASection(String data) throws DOMException
     {
-        // NOT SUPPORTED
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -230,7 +230,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     public org.w3c.dom.ProcessingInstruction createProcessingInstruction(String target, String data)
         throws DOMException
     {
-        throw new DOMExceptionImpl(DOMException.NOT_SUPPORTED_ERR, "HTML document");
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "HTML document");
     }
 
     /**
@@ -255,8 +255,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
      */
     public org.w3c.dom.EntityReference createEntityReference(String name) throws DOMException
     {
-        // NOT SUPPORTED
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -273,7 +273,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
      */
     public org.w3c.dom.Node importNode(org.w3c.dom.Node importedNode, boolean deep) throws org.w3c.dom.DOMException
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -283,7 +284,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     public org.w3c.dom.Attr createAttributeNS(String namespaceURI, String qualifiedName)
         throws org.w3c.dom.DOMException
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -293,7 +295,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     public org.w3c.dom.Element createElementNS(String namespaceURI, String qualifiedName)
         throws org.w3c.dom.DOMException
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -301,7 +304,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
      */
     public org.w3c.dom.NodeList getElementsByTagNameNS(String namespaceURI, String localName)
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -309,7 +313,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
      */
     public org.w3c.dom.Element getElementById(String elementId)
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
 }

@@ -83,7 +83,8 @@ public class DOMProcessingInstructionImpl extends DOMNodeImpl implements org.w3c
      */
     public String getTarget()
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -100,7 +101,7 @@ public class DOMProcessingInstructionImpl extends DOMNodeImpl implements org.w3c
     public void setData(String data) throws DOMException
     {
         // NOT SUPPORTED
-        throw new DOMExceptionImpl(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
     }
 
 }

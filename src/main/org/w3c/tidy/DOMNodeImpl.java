@@ -72,8 +72,6 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         this.adaptee = adaptee;
     }
 
-    /* --------------------- DOM ---------------------------- */
-
     /**
      * @see org.w3c.dom.Node#getNodeValue
      */
@@ -282,7 +280,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         }
         if (!(newChild instanceof DOMNodeImpl))
         {
-            throw new DOMExceptionImpl(DOMException.WRONG_DOCUMENT_ERR, "newChild not instanceof DOMNodeImpl");
+            throw new DOMException(DOMException.WRONG_DOCUMENT_ERR, "newChild not instanceof DOMNodeImpl");
         }
         DOMNodeImpl newCh = (DOMNodeImpl) newChild;
 
@@ -290,9 +288,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         {
             if (newCh.adaptee.type != Node.DocTypeTag && newCh.adaptee.type != Node.ProcInsTag)
             {
-                throw new DOMExceptionImpl(
-                    DOMException.HIERARCHY_REQUEST_ERR,
-                    "newChild cannot be a child of this node");
+                throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
             }
         }
         else if (this.adaptee.type == Node.StartTag)
@@ -303,9 +299,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
                 && newCh.adaptee.type != Node.TextNode
                 && newCh.adaptee.type != Node.CDATATag)
             {
-                throw new DOMExceptionImpl(
-                    DOMException.HIERARCHY_REQUEST_ERR,
-                    "newChild cannot be a child of this node");
+                throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
             }
         }
         if (refChild == null)
@@ -329,7 +323,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
             }
             if (ref == null)
             {
-                throw new DOMExceptionImpl(DOMException.NOT_FOUND_ERR, "refChild not found");
+                throw new DOMException(DOMException.NOT_FOUND_ERR, "refChild not found");
             }
             Node.insertNodeBeforeElement(ref, newCh.adaptee);
         }
@@ -349,7 +343,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         }
         if (!(newChild instanceof DOMNodeImpl))
         {
-            throw new DOMExceptionImpl(DOMException.WRONG_DOCUMENT_ERR, "newChild not instanceof DOMNodeImpl");
+            throw new DOMException(DOMException.WRONG_DOCUMENT_ERR, "newChild not instanceof DOMNodeImpl");
         }
         DOMNodeImpl newCh = (DOMNodeImpl) newChild;
 
@@ -357,9 +351,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         {
             if (newCh.adaptee.type != Node.DocTypeTag && newCh.adaptee.type != Node.ProcInsTag)
             {
-                throw new DOMExceptionImpl(
-                    DOMException.HIERARCHY_REQUEST_ERR,
-                    "newChild cannot be a child of this node");
+                throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
             }
         }
         else if (this.adaptee.type == Node.StartTag)
@@ -370,14 +362,12 @@ public class DOMNodeImpl implements org.w3c.dom.Node
                 && newCh.adaptee.type != Node.TextNode
                 && newCh.adaptee.type != Node.CDATATag)
             {
-                throw new DOMExceptionImpl(
-                    DOMException.HIERARCHY_REQUEST_ERR,
-                    "newChild cannot be a child of this node");
+                throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
             }
         }
         if (oldChild == null)
         {
-            throw new DOMExceptionImpl(DOMException.NOT_FOUND_ERR, "oldChild not found");
+            throw new DOMException(DOMException.NOT_FOUND_ERR, "oldChild not found");
         }
         else
         {
@@ -393,7 +383,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
             }
             if (ref == null)
             {
-                throw new DOMExceptionImpl(DOMException.NOT_FOUND_ERR, "oldChild not found");
+                throw new DOMException(DOMException.NOT_FOUND_ERR, "oldChild not found");
             }
             newCh.adaptee.next = ref.next;
             newCh.adaptee.prev = ref.prev;
@@ -451,7 +441,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         }
         if (ref == null)
         {
-            throw new DOMExceptionImpl(DOMException.NOT_FOUND_ERR, "refChild not found");
+            throw new DOMException(DOMException.NOT_FOUND_ERR, "refChild not found");
         }
         Node.discardElement(ref);
 
@@ -476,7 +466,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         }
         if (!(newChild instanceof DOMNodeImpl))
         {
-            throw new DOMExceptionImpl(DOMException.WRONG_DOCUMENT_ERR, "newChild not instanceof DOMNodeImpl");
+            throw new DOMException(DOMException.WRONG_DOCUMENT_ERR, "newChild not instanceof DOMNodeImpl");
         }
         DOMNodeImpl newCh = (DOMNodeImpl) newChild;
 
@@ -484,9 +474,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         {
             if (newCh.adaptee.type != Node.DocTypeTag && newCh.adaptee.type != Node.ProcInsTag)
             {
-                throw new DOMExceptionImpl(
-                    DOMException.HIERARCHY_REQUEST_ERR,
-                    "newChild cannot be a child of this node");
+                throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
             }
         }
         else if (this.adaptee.type == Node.StartTag)
@@ -497,9 +485,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
                 && newCh.adaptee.type != Node.TextNode
                 && newCh.adaptee.type != Node.CDATATag)
             {
-                throw new DOMExceptionImpl(
-                    DOMException.HIERARCHY_REQUEST_ERR,
-                    "newChild cannot be a child of this node");
+                throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
             }
         }
         Node.insertNodeAtEnd(this.adaptee, newCh.adaptee);
@@ -535,6 +521,8 @@ public class DOMNodeImpl implements org.w3c.dom.Node
      */
     public void normalize()
     {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -542,7 +530,9 @@ public class DOMNodeImpl implements org.w3c.dom.Node
      */
     public boolean supports(String feature, String version)
     {
-        return isSupported(feature, version);
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+        // return isSupported(feature, version);
     }
 
     /**
@@ -550,7 +540,8 @@ public class DOMNodeImpl implements org.w3c.dom.Node
      */
     public String getNamespaceURI()
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -558,7 +549,8 @@ public class DOMNodeImpl implements org.w3c.dom.Node
      */
     public String getPrefix()
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -566,6 +558,8 @@ public class DOMNodeImpl implements org.w3c.dom.Node
      */
     public void setPrefix(String prefix) throws DOMException
     {
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -573,7 +567,8 @@ public class DOMNodeImpl implements org.w3c.dom.Node
      */
     public String getLocalName()
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -581,14 +576,16 @@ public class DOMNodeImpl implements org.w3c.dom.Node
      */
     public boolean isSupported(String feature, String version)
     {
-        return false;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
-     * @see org.w3c.dom.Node#hasAttributes contributed by dlp@users.sourceforge.net
+     * @see org.w3c.dom.Node#hasAttributes
      */
     public boolean hasAttributes()
     {
+        // contributed by dlp@users.sourceforge.net
         return this.adaptee.attributes != null;
     }
 }

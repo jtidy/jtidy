@@ -100,8 +100,8 @@ public class DOMAttrMapImpl implements org.w3c.dom.NamedNodeMap
      */
     public org.w3c.dom.Node setNamedItem(org.w3c.dom.Node arg) throws DOMException
     {
-        // NOT SUPPORTED
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -109,8 +109,8 @@ public class DOMAttrMapImpl implements org.w3c.dom.NamedNodeMap
      */
     public org.w3c.dom.Node removeNamedItem(String name) throws DOMException
     {
-        // NOT SUPPORTED
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -159,25 +159,28 @@ public class DOMAttrMapImpl implements org.w3c.dom.NamedNodeMap
      */
     public org.w3c.dom.Node getNamedItemNS(String namespaceURI, String localName)
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
      * DOM2 - not implemented.
-     * @exception org.w3c.dom.DOMException
+     * @throws org.w3c.dom.DOMException
      */
     public org.w3c.dom.Node setNamedItemNS(org.w3c.dom.Node arg) throws org.w3c.dom.DOMException
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
      * DOM2 - not implemented.
-     * @exception org.w3c.dom.DOMException
+     * @throws org.w3c.dom.DOMException
      */
     public org.w3c.dom.Node removeNamedItemNS(String namespaceURI, String localName) throws org.w3c.dom.DOMException
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
 }

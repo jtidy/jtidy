@@ -67,8 +67,6 @@ public class DOMCommentImpl extends DOMCharacterDataImpl implements org.w3c.dom.
         super(adaptee);
     }
 
-    /* --------------------- DOM ---------------------------- */
-
     /**
      * @see org.w3c.dom.Node#getNodeName
      */

@@ -72,8 +72,6 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr
         this.avAdaptee = adaptee;
     }
 
-    /* --------------------- DOM ---------------------------- */
-
     public String getNodeValue() throws DOMException
     {
         return getValue();
@@ -96,75 +94,83 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr
 
     public org.w3c.dom.Node getParentNode()
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     public org.w3c.dom.NodeList getChildNodes()
     {
-        // NOT SUPPORTED
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     public org.w3c.dom.Node getFirstChild()
     {
-        // NOT SUPPORTED
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     public org.w3c.dom.Node getLastChild()
     {
-        // NOT SUPPORTED
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     public org.w3c.dom.Node getPreviousSibling()
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
+
     }
 
     public org.w3c.dom.Node getNextSibling()
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     public org.w3c.dom.NamedNodeMap getAttributes()
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     public org.w3c.dom.Document getOwnerDocument()
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) throws DOMException
     {
-        throw new DOMExceptionImpl(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
     }
 
     public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) throws DOMException
     {
-        throw new DOMExceptionImpl(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
     }
 
     public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild) throws DOMException
     {
-        throw new DOMExceptionImpl(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
     }
 
     public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) throws DOMException
     {
-        throw new DOMExceptionImpl(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
     }
 
     public boolean hasChildNodes()
     {
-        return false;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     public org.w3c.dom.Node cloneNode(boolean deep)
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
     /**
@@ -206,7 +212,8 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr
      */
     public org.w3c.dom.Element getOwnerElement()
     {
-        return null;
+        //@todo DOM2
+        throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DOM method not supported");
     }
 
 }
