@@ -3,6 +3,7 @@
     <artifactId>jtidy</artifactId>
     <name>JTidy</name>
     <groupId>jtidy</groupId>
+    <id>jtidy</id>
     <type>jar</type>
     <version>r8-SNAPSHOT</version>
     <organization>
@@ -175,6 +176,13 @@ In addition, JTidy provides a DOM interface to the document that is being proces
             <type>plugin</type>
             <properties/>
         </dependency>
+        <dependency>
+            <groupId>maven-validator</groupId>
+            <artifactId>maven-xhtml-plugin</artifactId>
+            <version>1.0</version>
+            <type>plugin</type>
+        </dependency>
+
     </dependencies>
     <build>
         <sourceDirectory>src/main</sourceDirectory>
@@ -224,5 +232,6 @@ In addition, JTidy provides a DOM interface to the document that is being proces
         <report>maven-developer-activity-plugin</report>
         <report>maven-statcvs-plugin</report>
         <report>maven-linkcheck-plugin</report>
+        <report>maven-xhtml-plugin</report>
     </reports>
 </project>
