@@ -66,41 +66,41 @@ import java.util.Hashtable;
 public class AttributeTable
 {
 
-    public static Attribute attrHref;
+    protected static Attribute attrHref;
 
-    public static Attribute attrSrc;
+    protected static Attribute attrSrc;
 
-    public static Attribute attrId;
+    protected static Attribute attrId;
 
-    public static Attribute attrName;
+    protected static Attribute attrName;
 
-    public static Attribute attrSummary;
+    protected static Attribute attrSummary;
 
-    public static Attribute attrAlt;
+    protected static Attribute attrAlt;
 
-    public static Attribute attrLongdesc;
+    protected static Attribute attrLongdesc;
 
-    public static Attribute attrUsemap;
+    protected static Attribute attrUsemap;
 
-    public static Attribute attrIsmap;
+    protected static Attribute attrIsmap;
 
-    public static Attribute attrLanguage;
+    protected static Attribute attrLanguage;
 
-    public static Attribute attrType;
+    protected static Attribute attrType;
 
-    public static Attribute attrTitle;
+    protected static Attribute attrTitle;
 
-    public static Attribute attrXmlns;
+    protected static Attribute attrXmlns;
 
-    public static Attribute attrValue;
+    protected static Attribute attrValue;
 
-    public static Attribute attrContent;
+    protected static Attribute attrContent;
 
-    public static Attribute attrDatafld;
+    protected static Attribute attrDatafld;
 
-    public static Attribute attrWidth;
+    protected static Attribute attrWidth;
 
-    public static Attribute attrHeight;
+    protected static Attribute attrHeight;
 
     private static AttributeTable defaultAttributeTable;
 
