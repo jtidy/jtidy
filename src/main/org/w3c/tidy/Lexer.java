@@ -744,10 +744,9 @@ public class Lexer
                     }
 
                     // "or" DISCARDED_CHAR with the other errors if discarding char; otherwise default is replacing
-                    final short REPLACED_CHAR = 0;
-                    final short DISCARDED_CHAR = 1;
 
-                    int replaceMode = c1 != 0 ? REPLACED_CHAR : DISCARDED_CHAR;
+
+                    int replaceMode = c1 != 0 ? Report.REPLACED_CHAR : Report.DISCARDED_CHAR;
 
                     if (c != ';') /* issue warning if not terminated by ';' */
                     {

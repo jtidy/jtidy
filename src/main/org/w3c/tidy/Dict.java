@@ -179,6 +179,26 @@ public class Dict
      */
     public static final short VERS_ALL = (VERS_HTML20 | VERS_HTML32 | VERS_HTML40 | VERS_XHTML11 | VERS_BASIC);
 
+    /**
+     * types of tags that the user can define: empty tag
+     */
+    public static final short TAGTYPE_EMPTY = 1;
+
+    /**
+     * types of tags that the user can define: inline tag
+     */
+    public static final short TAGTYPE_INLINE = 2;
+
+    /**
+     * types of tags that the user can define: block tag
+     */
+    public static final short TAGTYPE_BLOCK = 4;
+
+    /**
+     * types of tags that the user can define: pre tag
+     */
+    public static final short TAGTYPE_PRE = 8;
+
     public String name;
 
     public short versions;

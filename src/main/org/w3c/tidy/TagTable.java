@@ -788,44 +788,58 @@ public class TagTable
             || node.tag == this.tagMap;
     }
 
+    public void defineTag(short tagType, String name)
+    {
+
+        Parser tagParser;
+        short model;
+
+        switch (tagType)
+        {
+            case Dict.TAGTYPE_BLOCK :
+                model = (short) (Dict.CM_BLOCK | Dict.CM_NO_INDENT | Dict.CM_NEW);
+                tagParser = ParserImpl.BLOCK;
+                break;
+
+            case Dict.TAGTYPE_EMPTY :
+                model = (short) (Dict.CM_EMPTY | Dict.CM_NO_INDENT | Dict.CM_NEW);
+                tagParser = ParserImpl.BLOCK;
+                break;
+
+            case Dict.TAGTYPE_PRE :
+                model = (short) (Dict.CM_BLOCK | Dict.CM_NO_INDENT | Dict.CM_NEW);
+                tagParser = ParserImpl.PRE;
+                break;
+
+            case Dict.TAGTYPE_INLINE :
+            default :
+                // default to inline tag
+                model = (short) (Dict.CM_INLINE | Dict.CM_NO_INDENT | Dict.CM_NEW);
+                tagParser = ParserImpl.INLINE;
+                break;
+        }
+
+        install(new Dict(name, Dict.VERS_PROPRIETARY, model, tagParser, null));
+    }
+
     public void defineInlineTag(String name)
     {
-        install(new Dict(
-            name,
-            Dict.VERS_PROPRIETARY,
-            (Dict.CM_INLINE | Dict.CM_NO_INDENT | Dict.CM_NEW),
-            ParserImpl.INLINE,
-            null));
+        defineTag(Dict.TAGTYPE_INLINE, name);
     }
 
     public void defineBlockTag(String name)
     {
-        install(new Dict(
-            name,
-            Dict.VERS_PROPRIETARY,
-            (Dict.CM_BLOCK | Dict.CM_NO_INDENT | Dict.CM_NEW),
-            ParserImpl.BLOCK,
-            null));
+        defineTag(Dict.TAGTYPE_BLOCK, name);
     }
 
     public void defineEmptyTag(String name)
     {
-        install(new Dict(
-            name,
-            Dict.VERS_PROPRIETARY,
-            (Dict.CM_EMPTY | Dict.CM_NO_INDENT | Dict.CM_NEW),
-            ParserImpl.BLOCK,
-            null));
+        defineTag(Dict.TAGTYPE_EMPTY, name);
     }
 
     public void definePreTag(String name)
     {
-        install(new Dict(
-            name,
-            Dict.VERS_PROPRIETARY,
-            (Dict.CM_BLOCK | Dict.CM_NO_INDENT | Dict.CM_NEW),
-            ParserImpl.PRE,
-            null));
+        defineTag(Dict.TAGTYPE_PRE, name);
     }
 
     /**

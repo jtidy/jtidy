@@ -645,4 +645,16 @@ public class ReportTest extends TestCase
         assertEquals("test: Document content looks like bee", message);
     }
 
+    /**
+     * test getMessage with the <code>xml_attribute_value</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageNumWarning() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "num_warnings", new Object[]{new Integer(0), new Integer(33)},
+            TidyMessage.Level.SUMMARY);
+        assertEquals("no warnings, 33 errors were found!\n", message);
+    }
+    
+    
 }

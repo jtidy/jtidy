@@ -424,7 +424,8 @@ public class Tidy implements Serializable
     }
 
     /**
-     * MakeClean - remove presentational clutter.
+     * make-clean - remove presentational clutter.
+     * @param makeClean true to remove presentational clutter
      * @see Configuration#makeClean
      */
     public void setMakeClean(boolean makeClean)
@@ -432,9 +433,32 @@ public class Tidy implements Serializable
         configuration.makeClean = makeClean;
     }
 
+    /**
+     * make-clean - remove presentational clutter.
+     * @return true if tidy will remove presentational clutter
+     */
     public boolean getMakeClean()
     {
         return configuration.makeClean;
+    }
+
+    /**
+     * make-bare - remove Microsoft cruft.
+     * @param makeBare true to remove Microsoft cruft
+     * @see Configuration#makeBare
+     */
+    public void setMakeBare(boolean makeBare)
+    {
+        configuration.makeBare = makeBare;
+    }
+
+    /**
+     * make-clean - remove Microsoft cruft.
+     * @return true if tidy will remove Microsoft cruft
+     */
+    public boolean getMakeBare()
+    {
+        return configuration.makeBare;
     }
 
     /**

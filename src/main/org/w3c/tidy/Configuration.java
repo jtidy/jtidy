@@ -189,6 +189,16 @@ public class Configuration implements java.io.Serializable
     protected int charEncoding = ASCII;
 
     /**
+     * default input character encoding (LATIN1).
+     */
+    protected int inCharEncoding = LATIN1;
+
+    /**
+     * default output character encoding (ASCII).
+     */
+    protected int outCharEncoding = ASCII;
+
+    /**
      * default tab size (4).
      */
     protected int tabsize = 4;
@@ -212,6 +222,11 @@ public class Configuration implements java.io.Serializable
      * style sheet for slides.
      */
     protected String slidestyle;
+
+    /**
+     * RJ language property: not used for anything yet
+     */
+    protected String language; // #431953
 
     /**
      * user specified doctype.
@@ -297,6 +312,11 @@ public class Configuration implements java.io.Serializable
      * remove presentational clutter.
      */
     protected boolean makeClean;
+
+    /**
+     * Make bare HTML: remove Microsoft cruft.
+     */
+    protected boolean makeBare;
 
     /**
      * replace i by em and b by strong.
@@ -499,6 +519,11 @@ public class Configuration implements java.io.Serializable
     protected boolean escapeCdata = true;
 
     /**
+     * allow numeric character references.
+     */
+    protected boolean ncr = true; // #431953
+
+    /**
      * char encoding used when replacing illegal SGML chars, regardless of specified encoding.
      */
     protected int replacementCharEncoding = WIN1252; // by default
@@ -517,6 +542,11 @@ public class Configuration implements java.io.Serializable
      * Report instance. Used for messages.
      */
     private Report report;
+
+    /**
+     * track what types of tags user has defined to eliminate unnecessary searches
+     */
+    private int defined_tags;
 
     /**
      * Instantiates a new Configuration. This method should be called by Tidy only.
@@ -947,6 +977,30 @@ public class Configuration implements java.io.Serializable
             charEncoding = parseCharEncoding(value, "char-encoding");
         }
 
+        value = properties.getProperty("input-encoding");
+        if (value != null)
+        {
+            inCharEncoding = parseCharEncoding(value, "input-encoding");
+        }
+
+        value = properties.getProperty("output-encoding");
+        if (value != null)
+        {
+            outCharEncoding = parseCharEncoding(value, "output-encoding");
+        }
+
+        value = properties.getProperty("language");
+        if (value != null)
+        {
+            language = parseName(value, "language");
+        }
+
+        value = properties.getProperty("ncr");
+        if (value != null)
+        {
+            ncr = parseBool(value, "ncr");
+        }
+
         value = properties.getProperty("doctype");
         if (value != null)
         {
@@ -966,6 +1020,75 @@ public class Configuration implements java.io.Serializable
         }
     }
 
+    /**
+     * ensure that char encodings are self consistent
+     */
+    private void adjustCharEncoding(int encoding)
+    {
+        charEncoding = encoding;
+
+        if (charEncoding == RAW)
+        {
+            inCharEncoding = RAW;
+            outCharEncoding = RAW;
+        }
+        else if (charEncoding == ASCII)
+        {
+            inCharEncoding = LATIN1;
+            outCharEncoding = ASCII;
+        }
+        else if (charEncoding == LATIN1)
+        {
+            inCharEncoding = LATIN1;
+            outCharEncoding = LATIN1;
+        }
+        else if (charEncoding == UTF8)
+        {
+            inCharEncoding = UTF8;
+            outCharEncoding = UTF8;
+        }
+        else if (charEncoding == ISO2022)
+        {
+            inCharEncoding = ISO2022;
+            outCharEncoding = ISO2022;
+        }
+        else if (charEncoding == MACROMAN)
+        {
+            inCharEncoding = MACROMAN;
+            outCharEncoding = ASCII;
+        }
+        else if (charEncoding == UTF16LE)
+        {
+            inCharEncoding = UTF16LE;
+            outCharEncoding = UTF16LE;
+        }
+        else if (charEncoding == UTF16BE)
+        {
+            inCharEncoding = UTF16BE;
+            outCharEncoding = UTF16BE;
+        }
+        else if (charEncoding == UTF16)
+        {
+            inCharEncoding = UTF16;
+            outCharEncoding = UTF16;
+        }
+        else if (charEncoding == WIN1252)
+        {
+            inCharEncoding = WIN1252;
+            outCharEncoding = ASCII;
+        }
+        else if (charEncoding == SHIFTJIS) // #431953
+        {
+            inCharEncoding = SHIFTJIS;
+            outCharEncoding = SHIFTJIS;
+        }
+        else if (charEncoding == BIG5) // #431953
+        {
+            inCharEncoding = BIG5;
+            outCharEncoding = BIG5;
+        }
+    }
+
     /* ensure that config is self consistent */
     public void adjust()
     {
@@ -974,26 +1097,26 @@ public class Configuration implements java.io.Serializable
             encloseBodyText = true;
         }
 
-        /* avoid the need to set IndentContent when SmartIndent is set */
-
+        // avoid the need to set IndentContent when SmartIndent is set
         if (smartIndent)
         {
             indentContent = true;
         }
 
-        /* disable wrapping */
+        // disable wrapping
         if (wraplen == 0)
         {
             wraplen = 0x7FFFFFFF;
         }
 
-        /* Word 2000 needs o:p to be declared as inline */
+        // Word 2000 needs o:p to be declared as inline
         if (word2000)
         {
-            tt.defineInlineTag("o:p");
+            defined_tags |= Dict.TAGTYPE_INLINE;
+            tt.defineTag(Dict.TAGTYPE_INLINE, "o:p");
         }
 
-        /* XHTML is written in lower case */
+        // XHTML is written in lower case
         if (xHTML)
         {
             xmlOut = true;
@@ -1001,7 +1124,7 @@ public class Configuration implements java.io.Serializable
             upperCaseAttrs = false;
         }
 
-        /* if XML in, then XML out */
+        // if XML in, then XML out
         if (xmlTags)
         {
             xmlOut = true;
@@ -1009,13 +1132,13 @@ public class Configuration implements java.io.Serializable
         }
 
         // #427837 - fix by Dave Raggett 02 Jun 01
-        // generate <?xml version="1.0" encoding="iso-8859-1"?> if the character encoding is Latin-1 etc.
-        if (charEncoding != UTF8 && charEncoding != ASCII && xmlOut)
+        // generate <?xml version="1.0" encoding="iso-8859-1"?> if the output character encoding is Latin-1 etc.
+        if (outCharEncoding != UTF8 && outCharEncoding != ASCII && xmlOut)
         {
             xmlPi = true;
         }
 
-        /* XML requires end tags */
+        // XML requires end tags
         if (xmlOut)
         {
             quoteAmpersand = true;
@@ -1105,6 +1228,7 @@ public class Configuration implements java.io.Serializable
     private int parseCharEncoding(String s, String option)
     {
         int result = ASCII;
+        boolean validEncoding = true;
 
         if ("ascii".equalsIgnoreCase(s))
         {
@@ -1130,12 +1254,102 @@ public class Configuration implements java.io.Serializable
         {
             result = MACROMAN;
         }
+        else if ("utf16le".equalsIgnoreCase(s))
+        {
+            result = UTF16LE;
+        }
+        else if ("utf16be".equalsIgnoreCase(s))
+        {
+            result = UTF16BE;
+        }
+        else if ("utf16".equalsIgnoreCase(s))
+        {
+            result = UTF16;
+        }
+        else if ("win1252".equalsIgnoreCase(s))
+        {
+            result = WIN1252;
+        }
+        else if ("big5".equalsIgnoreCase(s))
+        {
+            result = BIG5; // #431953 - RJ
+        }
+        else if ("shiftjis".equalsIgnoreCase(s))
+        {
+            result = SHIFTJIS; // #431953 - RJ
+        }
         else
         {
+            validEncoding = false;
             report.badArgument(option);
         }
 
+        if (validEncoding && "char-encoding".equals(option))
+        {
+            adjustCharEncoding(result);
+        }
+
         return result;
+    }
+
+    /**
+     * Returns the encoding name givn the numeric constant.
+     * @param encoding <code>ASCII | LATIN1 | RAW | UTF8 | ISO2022 | MACROMAN | UTF16LE | UTF16BE | UTF16 | WIN1252 |
+     * BIG5 | SHIFTJIS</code>
+     * @return encoding name
+     */
+    static String charEncodingName(int encoding)
+    {
+        String encodingName;
+
+        switch (encoding)
+        {
+            case ASCII :
+                encodingName = "ascii";
+                break;
+            case LATIN1 :
+                encodingName = "latin1";
+                break;
+            case RAW :
+                encodingName = "raw";
+                break;
+            case UTF8 :
+                encodingName = "utf8";
+                break;
+            case ISO2022 :
+                encodingName = "iso2022";
+                break;
+            case MACROMAN :
+                encodingName = "mac";
+                break;
+
+            case UTF16LE :
+                encodingName = "utf16le";
+                break;
+            case UTF16BE :
+                encodingName = "utf16be";
+                break;
+            case UTF16 :
+                encodingName = "utf16";
+                break;
+
+            case WIN1252 :
+                encodingName = "win1252";
+                break;
+
+            case BIG5 :
+                encodingName = "big5";
+                break;
+            case SHIFTJIS :
+                encodingName = "shiftjis";
+                break;
+
+            default :
+                encodingName = "unknown";
+                break;
+        }
+
+        return encodingName;
     }
 
     /**
@@ -1189,7 +1403,8 @@ public class Configuration implements java.io.Serializable
         StringTokenizer t = new StringTokenizer(s, " \t\n\r,");
         while (t.hasMoreTokens())
         {
-            tt.defineInlineTag(t.nextToken());
+            defined_tags |= Dict.TAGTYPE_INLINE;
+            tt.defineTag(Dict.TAGTYPE_INLINE, t.nextToken());
         }
     }
 
@@ -1203,7 +1418,8 @@ public class Configuration implements java.io.Serializable
         StringTokenizer t = new StringTokenizer(s, " \t\n\r,");
         while (t.hasMoreTokens())
         {
-            tt.defineBlockTag(t.nextToken());
+            defined_tags |= Dict.TAGTYPE_BLOCK;
+            tt.defineTag(Dict.TAGTYPE_BLOCK, t.nextToken());
         }
     }
 
@@ -1217,7 +1433,8 @@ public class Configuration implements java.io.Serializable
         StringTokenizer t = new StringTokenizer(s, " \t\n\r,");
         while (t.hasMoreTokens())
         {
-            tt.defineEmptyTag(t.nextToken());
+            defined_tags |= Dict.TAGTYPE_EMPTY;
+            tt.defineTag(Dict.TAGTYPE_EMPTY, t.nextToken());
         }
     }
 
@@ -1231,7 +1448,8 @@ public class Configuration implements java.io.Serializable
         StringTokenizer t = new StringTokenizer(s, " \t\n\r,");
         while (t.hasMoreTokens())
         {
-            tt.definePreTag(t.nextToken());
+            defined_tags |= Dict.TAGTYPE_PRE;
+            tt.defineTag(Dict.TAGTYPE_PRE, t.nextToken());
         }
     }
 
