@@ -54,40 +54,33 @@
 package org.w3c.tidy;
 
 /**
- * Clean up misuse of presentation markup (c) 1998-2000 (W3C) MIT, INRIA, Keio University See Tidy.java for the
- * copyright notice. Derived from <a href="http://www.w3.org/People/Raggett/tidy">HTML Tidy Release 4 Aug 2000</a>
- * @author Dave Raggett <dsr@w3.org>
- * @author Andy Quick <ac.quick@sympatico.ca>(translation to Java)
- * @version 1.0, 1999/05/22
- * @version 1.0.1, 1999/05/29
- * @version 1.1, 1999/06/18 Java Bean
- * @version 1.2, 1999/07/10 Tidy Release 7 Jul 1999
- * @version 1.3, 1999/07/30 Tidy Release 26 Jul 1999
- * @version 1.4, 1999/09/04 DOM support
- * @version 1.5, 1999/10/23 Tidy Release 27 Sep 1999
- * @version 1.6, 1999/11/01 Tidy Release 22 Oct 1999
- * @version 1.7, 1999/12/06 Tidy Release 30 Nov 1999
- * @version 1.8, 2000/01/22 Tidy Release 13 Jan 2000
- * @version 1.9, 2000/06/03 Tidy Release 30 Apr 2000
- * @version 1.10, 2000/07/22 Tidy Release 8 Jul 2000
- * @version 1.11, 2000/08/16 Tidy Release 4 Aug 2000
+ * Clean up misuse of presentation markup. Filters from other formats such as Microsoft Word often make excessive use
+ * of presentation markup such as font tags, B, I, and the align attribute. By applying a set of production rules, it
+ * is straight forward to transform this to use CSS. Some rules replace some of the children of an element by style
+ * properties on the element, e.g.
+ * <p>
+ * <b>...</b>
+ * </p>->
+ * <p style="font-weight: bold">
+ * ...
+ * </p>
+ * Such rules are applied to the element's content and then to the element itself until none of the rules more apply.
+ * Having applied all the rules to an element, it will have a style attribute with one or more properties. Other rules
+ * strip the element they apply to, replacing it by style properties on the contents, e.g. <dir>
+ * <li>
+ * <p>
+ * ...</li>
+ * </dir>->
+ * <p style="margin-left 1em">
+ * ... These rules are applied to an element before processing its content and replace the current element by the first
+ * element in the exposed content. After applying both sets of rules, you can replace the style attribute by a class
+ * value and style rule in the document head. To support this, an association of styles and class names is built. A
+ * naive approach is to rely on string matching to test when two property lists are the same. A better approach would
+ * be to first sort the properties before matching.
+ * @author Dave Raggett dsr@w3.org
+ * @author Andy Quick ac.quick@sympatico.ca
+ * @version $Revision $ ($Author $)
  */
-
-/*
- * Filters from other formats such as Microsoft Word often make excessive use of presentation markup such as font tags, B, I,
- * and the align attribute. By applying a set of production rules, it is straight forward to transform this to use CSS.
- * Some rules replace some of the children of an element by style properties on the element, e.g. <p><b> ... </b></p> ->
- * <p style="font-weight: bold"> ... </p> Such rules are applied to the element's content and then to the element
- * itself until none of the rules more apply. Having applied all the rules to an element, it will have a style
- * attribute with one or more properties. Other rules strip the element they apply to, replacing it by style properties
- * on the contents, e.g. <dir><li><p> ... </li></dir> -> <p style="margin-left 1em"> ... These rules are applied to
- * an element before processing its content and replace the current element by the first element in the exposed
- * content. After applying both sets of rules, you can replace the style attribute by a class value and style rule in
- * the document head. To support this, an association of styles and class names is built. A naive approach is to rely
- * on string matching to test when two property lists are the same. A better approach would be to first sort the
- * properties before matching.
- */
-
 public class Clean
 {
 
@@ -125,9 +118,13 @@ public class Clean
                 prop = new StyleProp(name, value, props);
 
                 if (prev != null)
+                {
                     prev.next = prop;
+                }
                 else
+                {
                     first = prop;
+                }
 
                 return first;
             }
@@ -139,14 +136,18 @@ public class Clean
         prop = new StyleProp(name, value);
 
         if (prev != null)
+        {
             prev.next = prop;
+        }
         else
+        {
             first = prop;
+        }
 
         return first;
     }
 
-    /*
+    /**
      * Create sorted linked list of properties from style string It temporarily places nulls in place of ':' and ';' to
      * delimit the strings for the property name and value. Some systems don't allow you to null literal strings, so to
      * avoid this, a copy is made first.
@@ -163,7 +164,9 @@ public class Clean
         while (name_start < style.length())
         {
             while (name_start < style.length() && style.charAt(name_start) == ' ')
+            {
                 ++name_start;
+            }
 
             name_end = name_start;
 
@@ -179,10 +182,14 @@ public class Clean
             }
 
             if (name_end >= style.length() || style.charAt(name_end) != ':')
+            {
                 break;
+            }
 
             while (value_start < style.length() && style.charAt(value_start) == ' ')
+            {
                 ++value_start;
+            }
 
             value_end = value_start;
             more = false;
@@ -234,7 +241,9 @@ public class Clean
             style = style.concat(prop.value);
 
             if (prop.next == null)
+            {
                 break;
+            }
 
             style = style.concat("; ");
         }
@@ -259,8 +268,8 @@ public class Clean
     {
         String str;
 
-        str = "c" + classNum;
-        classNum++;
+        str = "c" + this.classNum;
+        this.classNum++;
         return str;
     }
 
@@ -279,7 +288,7 @@ public class Clean
         return style.tagClass;
     }
 
-    /*
+    /**
      * Find style attribute in node, and replace it by corresponding class attribute. Search for class in style
      * dictionary otherwise gensym new class and add to dictionary. Assumes that node doesn't have a class attribute
      */
@@ -321,7 +330,7 @@ public class Clean
         }
     }
 
-    /*
+    /**
      * move presentation attribs from body to style element background="foo" -> body { background-image: url(foo) }
      * bgcolor="foo" -> body { background-color: foo } text="foo" -> body { color: foo } link="foo" -> :link { color:
      * foo } vlink="foo" -> :visited { color: foo } alink="foo" -> :active { color: foo }
@@ -434,7 +443,9 @@ public class Clean
         return true;
     }
 
-    /* create style element using rules from dictionary */
+    /**
+     * create style element using rules from dictionary
+     */
     private void createStyleElement(Lexer lexer, Node doc)
     {
         Node node, head, body;
@@ -442,7 +453,9 @@ public class Clean
         AttVal av;
 
         if (lexer.styles == null && niceBody(lexer, doc))
+        {
             return;
+        }
 
         node = lexer.newNode(Node.StartTag, null, 0, 0, "style");
         node.implicit = true;
@@ -457,7 +470,9 @@ public class Clean
         lexer.txtstart = lexer.lexsize;
 
         if (body != null)
+        {
             cleanBodyAttrs(lexer, body);
+        }
 
         for (style = lexer.styles; style != null; style = style.next)
         {
@@ -487,26 +502,38 @@ public class Clean
             Node.insertNodeAtEnd(head, node);
     }
 
-    /* ensure bidirectional links are consistent */
+    /**
+     * ensure bidirectional links are consistent
+     */
     private void fixNodeLinks(Node node)
     {
         Node child;
 
         if (node.prev != null)
+        {
             node.prev.next = node;
+        }
         else
+        {
             node.parent.content = node;
+        }
 
         if (node.next != null)
+        {
             node.next.prev = node;
+        }
         else
+        {
             node.parent.last = node;
+        }
 
         for (child = node.content; child != null; child = child.next)
+        {
             child.parent = node;
+        }
     }
 
-    /*
+    /**
      * used to strip child of node when the node has one and only one child
      */
     private void stripOnlyChild(Node node)
@@ -519,7 +546,9 @@ public class Clean
         child.content = null;
 
         for (child = node.content; child != null; child = child.next)
+        {
             child.parent = node;
+        }
     }
 
     /* used to strip font start and end tags */
@@ -538,7 +567,9 @@ public class Clean
                 element.last.next = element.next;
             }
             else
+            {
                 parent.last = element.last;
+            }
 
             if (element.prev != null)
             {
@@ -546,24 +577,36 @@ public class Clean
                 element.prev.next = element.content;
             }
             else
+            {
                 parent.content = element.content;
+            }
 
             for (node = element.content; node != null; node = node.next)
+            {
                 node.parent = parent;
+            }
 
             pnode.setObject(element.content);
         }
         else
         {
             if (element.next != null)
+            {
                 element.next.prev = element.prev;
+            }
             else
+            {
                 parent.last = element.prev;
+            }
 
             if (element.prev != null)
+            {
                 element.prev.next = element.next;
+            }
             else
+            {
                 parent.content = element.next;
+            }
 
             pnode.setObject(element.next);
         }
@@ -572,7 +615,7 @@ public class Clean
         element.content = null;
     }
 
-    /*
+    /**
      * Add style property to element, creating style attribute as needed and adding ; delimiter
      */
     private void addStyleProperty(Node node, String property)
@@ -582,7 +625,9 @@ public class Clean
         for (av = node.attributes; av != null; av = av.next)
         {
             if (av.attribute.equals("style"))
+            {
                 break;
+            }
         }
 
         /* if style attribute already exists then insert property */
@@ -601,7 +646,7 @@ public class Clean
         }
     }
 
-    /*
+    /**
      * Create new string that consists of the combined style properties in s1 and s2 To merge property lists, we build
      * a linked list of property/values and insert properties into the list in order, merging values for the same
      * property name.
@@ -679,7 +724,9 @@ public class Clean
                 double x;
 
                 for (x = 1.0; n > 0; --n)
+                {
                     x *= 0.8;
+                }
 
                 x *= 100.0;
                 buf = "" + (int) x + "%";
@@ -696,7 +743,9 @@ public class Clean
             double x;
 
             for (x = 1.0; n > 0; --n)
+            {
                 x *= 1.2;
+            }
 
             x *= 100.0;
             buf = "" + (int) x + "%";
@@ -716,24 +765,24 @@ public class Clean
     {
         String value;
 
-        if (size.equals("6") && node.tag == tt.tagP)
+        if (size.equals("6") && node.tag == this.tt.tagP)
         {
             node.element = "h1";
-            tt.findTag(node);
+            this.tt.findTag(node);
             return;
         }
 
-        if (size.equals("5") && node.tag == tt.tagP)
+        if (size.equals("5") && node.tag == this.tt.tagP)
         {
             node.element = "h2";
-            tt.findTag(node);
+            this.tt.findTag(node);
             return;
         }
 
-        if (size.equals("4") && node.tag == tt.tagP)
+        if (size.equals("4") && node.tag == this.tt.tagP)
         {
             node.element = "h3";
-            tt.findTag(node);
+            this.tt.findTag(node);
             return;
         }
 
@@ -756,7 +805,7 @@ public class Clean
         addStyleProperty(node, "text-align: " + align.toLowerCase());
     }
 
-    /*
+    /**
      * add style properties to node corresponding to the font face, size and color attributes
      */
     private void addFontStyles(Node node, AttVal av)
@@ -764,18 +813,27 @@ public class Clean
         while (av != null)
         {
             if (av.attribute.equals("face"))
+            {
                 addFontFace(node, av.value);
+            }
             else if (av.attribute.equals("size"))
+            {
                 addFontSize(node, av.value);
+            }
             else if (av.attribute.equals("color"))
+            {
                 addFontColor(node, av.value);
+            }
 
             av = av.next;
         }
     }
 
-    /*
-     * Symptom: <p align=center> Action: <p style="text-align: center">
+    /**
+     * Symptom:
+     * <p align=center>
+     * Action:
+     * <p style="text-align: center">
      */
     private void textAlign(Lexer lexer, Node node)
     {
@@ -788,9 +846,13 @@ public class Clean
             if (av.attribute.equals("align"))
             {
                 if (prev != null)
+                {
                     prev.next = av.next;
+                }
                 else
+                {
                     node.attributes = av.next;
+                }
 
                 if (av.value != null)
                 {
@@ -826,17 +888,23 @@ public class Clean
             /* check child has no peers */
 
             if (child.next != null)
+            {
                 return false;
+            }
 
             if (child.tag != tt.tagLi)
+            {
                 return false;
+            }
 
             if (!child.implicit)
+            {
                 return false;
+            }
 
             /* coerce dir to div */
 
-            node.tag = tt.tagDiv;
+            node.tag = this.tt.tagDiv;
             node.element = "div";
             addStyleProperty(node, "margin-left: 2em");
             stripOnlyChild(node);
@@ -878,13 +946,12 @@ public class Clean
         return false;
     }
 
-    /*
-     * Symptom: <center> Action: replace <center> by <div style="text-align: center">
+    /**
+     * Symptom: <center>Action: replace <center>by <div style="text-align: center">
      */
-
     private boolean center2Div(Lexer lexer, Node node, MutableObject pnode)
     {
-        if (node.tag == tt.tagCenter)
+        if (node.tag == this.tt.tagCenter)
         {
             if (lexer.configuration.DropFontTags)
             {
@@ -934,7 +1001,7 @@ public class Clean
 
                 return true;
             }
-            node.tag = tt.tagDiv;
+            node.tag = this.tt.tagDiv;
             node.element = "div";
             addStyleProperty(node, "text-align: center");
             return true;
@@ -943,60 +1010,81 @@ public class Clean
         return false;
     }
 
-    /*
-     * Symptom <div><div> ... </div></div> Action: merge the two divs This is useful after nested <dir> s used by
-     * Word for indenting have been converted to <div> s
+    /**
+     * Symptom <div><div>...</div></div> Action: merge the two divs This is useful after nested <dir>s used by
+     * Word for indenting have been converted to <div>s
      */
     private boolean mergeDivs(Lexer lexer, Node node, MutableObject pnode)
     {
         Node child;
 
-        if (node.tag != tt.tagDiv)
+        if (node.tag != this.tt.tagDiv)
             return false;
 
         child = node.content;
 
         if (child == null)
+        {
             return false;
+        }
 
-        if (child.tag != tt.tagDiv)
+        if (child.tag != this.tt.tagDiv)
+        {
             return false;
+        }
 
         if (child.next != null)
+        {
             return false;
+        }
 
         mergeStyles(node, child);
         stripOnlyChild(node);
         return true;
     }
 
-    /*
-     * Symptom: <ul><li><ul> ... </ul></li></ul> Action: discard outer list
+    /**
+     * Symptom:
+     * <ul>
+     * <li>
+     * <ul>
+     * ...
+     * </ul>
+     * </li>
+     * </ul>
+     * Action: discard outer list
      */
-
     private boolean nestedList(Lexer lexer, Node node, MutableObject pnode)
     {
         Node child, list;
 
-        if (node.tag == tt.tagUl || node.tag == tt.tagOl)
+        if (node.tag == this.tt.tagUl || node.tag == tt.tagOl)
         {
             child = node.content;
 
             if (child == null)
+            {
                 return false;
+            }
 
             /* check child has no peers */
 
             if (child.next != null)
+            {
                 return false;
+            }
 
             list = child.content;
 
             if (list == null)
+            {
                 return false;
+            }
 
             if (list.tag != node.tag)
+            {
                 return false;
+            }
 
             pnode.setObject(node.next);
 
@@ -1021,12 +1109,14 @@ public class Clean
                 node = list;
                 list = node.prev;
 
-                if (list.tag == tt.tagUl || list.tag == tt.tagOl)
+                if (list.tag == tt.tagUl || list.tag == this.tt.tagOl)
                 {
                     list.next = node.next;
 
                     if (list.next != null)
+                    {
                         list.next.prev = list;
+                    }
 
                     child = list.last; /* <li> */
 
@@ -1044,13 +1134,18 @@ public class Clean
         return false;
     }
 
-    /*
+    /**
      * Symptom: the only child of a block-level element is a presentation element such as B, I or FONT Action: add
-     * style "font-weight: bold" to the block and strip the <b> element, leaving its children. example: <p><b>
-     * <font face="Arial" size="6"> Draft Recommended Practice </font></b></p> becomes:
-     * <p style="font-weight: bold; font-family: Arial; font-size: 6"> Draft Recommended Practice </p> This code also
-     * replaces the align attribute by a style attribute. However, to avoid CSS problems with Navigator 4, this isn't
-     * done for the elements: caption, tr and table
+     * style "font-weight: bold" to the block and strip the <b>element, leaving its children. example:
+     * <p>
+     * <b><font face="Arial" size="6">Draft Recommended Practice</font></b>
+     * </p>
+     * becomes:
+     * <p style="font-weight: bold; font-family: Arial; font-size: 6">
+     * Draft Recommended Practice
+     * </p>
+     * This code also replaces the align attribute by a style attribute. However, to avoid CSS problems with Navigator 4,
+     * this isn't done for the elements: caption, tr and table
      */
     private boolean blockStyle(Lexer lexer, Node node, MutableObject pnode)
     {
@@ -1062,17 +1157,23 @@ public class Clean
             {
                 /* check for align attribute */
                 if (node.tag != tt.tagCaption)
+                {
                     textAlign(lexer, node);
+                }
 
                 child = node.content;
 
                 if (child == null)
+                {
                     return false;
+                }
 
                 /* check child has no peers */
 
                 if (child.next != null)
+                {
                     return false;
+                }
 
                 if (child.tag == tt.tagB)
                 {
@@ -1113,12 +1214,16 @@ public class Clean
             child = node.content;
 
             if (child == null)
+            {
                 return false;
+            }
 
             /* check child has no peers */
 
             if (child.next != null)
+            {
                 return false;
+            }
 
             if (child.tag == tt.tagB && lexer.configuration.LogicalEmphasis)
             {
@@ -1156,7 +1261,7 @@ public class Clean
     {
         AttVal av, style, next;
 
-        if (node.tag == tt.tagFont)
+        if (node.tag == this.tt.tagFont)
         {
             if (lexer.configuration.DropFontTags)
             {
@@ -1166,7 +1271,9 @@ public class Clean
 
             /* if FONT is only child of parent element then leave alone */
             if (node.parent.content == node && node.next == null)
+            {
                 return false;
+            }
 
             addFontStyles(node, node.attributes);
 
@@ -1214,37 +1321,51 @@ public class Clean
             b = dir2Div(lexer, node, o);
             next = (Node) o.getObject();
             if (b)
+            {
                 continue;
+            }
 
             b = nestedList(lexer, node, o);
             next = (Node) o.getObject();
             if (b)
+            {
                 continue;
+            }
 
             b = center2Div(lexer, node, o);
             next = (Node) o.getObject();
             if (b)
+            {
                 continue;
+            }
 
             b = mergeDivs(lexer, node, o);
             next = (Node) o.getObject();
             if (b)
+            {
                 continue;
+            }
 
             b = blockStyle(lexer, node, o);
             next = (Node) o.getObject();
             if (b)
+            {
                 continue;
+            }
 
             b = inlineStyle(lexer, node, o);
             next = (Node) o.getObject();
             if (b)
+            {
                 continue;
+            }
 
             b = font2Span(lexer, node, o);
             next = (Node) o.getObject();
             if (b)
+            {
                 continue;
+            }
 
             break;
         }
@@ -1293,7 +1414,9 @@ public class Clean
         }
     }
 
-    /* simplifies <b><b> ... </b> ... </b> etc. */
+    /**
+     * simplifies <b><b>...</b> ...</b> etc.
+     */
     public void nestedEmphasis(Node node)
     {
         MutableObject o = new MutableObject();
@@ -1303,7 +1426,9 @@ public class Clean
         {
             next = node.next;
 
-            if ((node.tag == tt.tagB || node.tag == tt.tagI) && node.parent != null && node.parent.tag == node.tag)
+            if ((node.tag == tt.tagB || node.tag == this.tt.tagI)
+                && node.parent != null
+                && node.parent.tag == node.tag)
             {
                 /* strip redundant inner element */
                 o.setObject(next);
@@ -1320,7 +1445,9 @@ public class Clean
         }
     }
 
-    /* replace i by em and b by strong */
+    /**
+     * replace i by em and b by strong
+     */
     public void emFromI(Node node)
     {
         while (node != null)
@@ -1337,13 +1464,15 @@ public class Clean
             }
 
             if (node.content != null)
+            {
                 emFromI(node.content);
+            }
 
             node = node.next;
         }
     }
 
-    /*
+    /**
      * Some people use dir or ul without an li to indent the content. The pattern to look for is a list with a single
      * implicit li. This is recursively replaced by an implicit blockquote.
      */
@@ -1352,7 +1481,9 @@ public class Clean
         while (node != null)
         {
             if (node.content != null)
+            {
                 list2BQ(node.content);
+            }
 
             if (node.tag != null
                 && node.tag.parser == ParserImpl.getParseList()
@@ -1360,8 +1491,8 @@ public class Clean
                 && node.content.implicit)
             {
                 stripOnlyChild(node);
-                node.element = tt.tagBlockquote.name;
-                node.tag = tt.tagBlockquote;
+                node.element = this.tt.tagBlockquote.name;
+                node.tag = this.tt.tagBlockquote;
                 node.implicit = true;
             }
 
@@ -1369,7 +1500,7 @@ public class Clean
         }
     }
 
-    /*
+    /**
      * Replace implicit blockquote by div with an indent taking care to reduce nested blockquotes to a single div with
      * the indent set to match the nesting depth
      */
@@ -1406,7 +1537,9 @@ public class Clean
         }
     }
 
-    /* node is <![if ...]> prune up to <![endif]> */
+    /**
+     * node is <![if ...]>prune up to <![endif]>
+     */
     public Node pruneSection(Lexer lexer, Node node)
     {
         for (;;)
@@ -1501,7 +1634,9 @@ public class Clean
         }
     }
 
-    /* Word2000 uses span excessively, so we strip span out */
+    /**
+     * Word2000 uses span excessively, so we strip span out
+     */
     public Node stripSpan(Lexer lexer, Node span)
     {
         Node node;
@@ -1545,7 +1680,9 @@ public class Clean
         return node;
     }
 
-    /* map non-breaking spaces to regular spaces */
+    /**
+     * map non-breaking spaces to regular spaces
+     */
     private void normalizeSpaces(Lexer lexer, Node node)
     {
         while (node != null)
@@ -1578,7 +1715,7 @@ public class Clean
         }
     }
 
-    /*
+    /**
      * This is a major clean up to strip out all the extra stuff you get when you save as web page from Word 2000. It
      * doesn't yet know what to do with VML tags, but these will appear as errors unless you declare them as new tags,
      * such as o:p which needs to be declared as inline.
