@@ -598,6 +598,10 @@ public final class Report
             {
                 printMessage(lexer, "unexpected_quotemark", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
             }
+            else if (code == MISSING_QUOTEMARK)
+            {
+                printMessage(lexer, "missing_quotemark", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
+            }
             else if (code == REPEATED_ATTRIBUTE)
             {
                 printMessage(lexer, "repeated_attribute", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
@@ -829,6 +833,11 @@ public final class Report
                     new Object[]{getTagName(element), getTagName(node)},
                     TidyMessage.Level.WARNING);
             }
+        }
+        else if (code == UNESCAPED_ELEMENT)
+        {
+            printMessage(lexer, "unescaped_element", new Object[]{getTagName(element)}, TidyMessage.Level.WARNING);
+
         }
         else if (code == TRIM_EMPTY_ELEMENT)
         {
