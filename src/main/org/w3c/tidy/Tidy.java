@@ -889,6 +889,25 @@ public class Tidy implements Serializable
     }
 
     /**
+     * print-body-only - output BODY content only.
+     * @param bodyOnly true = print only the document body
+     * @see Configuration#bodyOnly
+     */
+    public void setPrintBodyOnly(boolean bodyOnly)
+    {
+        configuration.bodyOnly = bodyOnly;
+    }
+
+    /**
+     * print-body-only - output BODY content only.
+     * @return true if tidy will print only the document body
+     */
+    public boolean getPrintBodyOnly()
+    {
+        return configuration.bodyOnly;
+    }
+
+    /**
      * InputStreamName - the name of the input stream (printed in the header information).
      */
     public void setInputStreamName(String name)
