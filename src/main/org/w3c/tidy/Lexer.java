@@ -3681,16 +3681,17 @@ public class Lexer
     /**
      * acceptable content for pre elements
      */
-    private boolean preContent(Node node)
+    protected boolean preContent(Node node)
     {
         // p is coerced to br's
         if (node.tag == this.configuration.tt.tagP)
         {
             return true;
         }
+
         if (node.tag == null
             || node.tag == this.configuration.tt.tagP
-            || ((node.tag.model & (Dict.CM_INLINE | Dict.CM_NEW)) == 0))
+            || (node.tag.model & (Dict.CM_INLINE | Dict.CM_NEW)) == 0)
         {
             return false;
         }

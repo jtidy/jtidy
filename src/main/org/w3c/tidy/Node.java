@@ -648,6 +648,53 @@ public class Node
         }
     }
 
+    protected static Node escapeTag(Lexer lexer, Node element)
+    {
+        Node node = lexer.newNode();
+        node.start = lexer.lexsize;
+        node.textarray = element.textarray; // @todo check it
+        lexer.addByte('<');
+
+        if (element.type == EndTag)
+        {
+            lexer.addByte('/');
+        }
+
+        if (element.element != null)
+        {
+            lexer.addStringLiteral(element.element);
+        }
+        else if (element.type == DocTypeTag)
+        {
+            int i;
+
+            lexer.addByte('!');
+            lexer.addByte('D');
+            lexer.addByte('O');
+            lexer.addByte('C');
+            lexer.addByte('T');
+            lexer.addByte('Y');
+            lexer.addByte('P');
+            lexer.addByte('E');
+            lexer.addByte(' ');
+
+            for (i = element.start; i < element.end; ++i)
+            {
+                lexer.addByte(lexer.lexbuf[i]);
+            }
+        }
+
+        if (element.type == StartEndTag)
+        {
+            lexer.addByte('/');
+        }
+
+        lexer.addByte('>');
+        node.end = lexer.lexsize;
+
+        return node;
+    }
+
     /**
      * Assumes node is a text node
      */

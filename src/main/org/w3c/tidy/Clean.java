@@ -60,7 +60,7 @@ package org.w3c.tidy;
  * properties on the element, e.g.
  * <p>
  * <b>... </b>
- * </p>->
+ * </p>.
  * <p style="font-weight: bold">
  * ...
  * </p>
@@ -70,7 +70,7 @@ package org.w3c.tidy;
  * <li>
  * <p>
  * ...</li>
- * </dir>->
+ * </dir>.
  * <p style="margin-left 1em">
  * ... These rules are applied to an element before processing its content and replace the current element by the first
  * element in the exposed content. After applying both sets of rules, you can replace the style attribute by a class
@@ -339,12 +339,12 @@ public class Clean
      * move presentation attribs from body to style element.
      * 
      * <pre>
-     * background="foo" -> body { background-image: url(foo) }
-     * bgcolor="foo" -> body { background-color: foo }
-     * text="foo" -> body { color: foo }
-     * link="foo" -> :link { color: foo }
-     * vlink="foo" -> :visited { color: foo }
-     * alink="foo" -> :active { color: foo }
+     * background="foo" . body { background-image: url(foo) }
+     * bgcolor="foo" . body { background-color: foo }
+     * text="foo" . body { color: foo }
+     * link="foo" . :link { color: foo }
+     * vlink="foo" . :visited { color: foo }
+     * alink="foo" . :active { color: foo }
      * </pre>
      */
     private void cleanBodyAttrs(Lexer lexer, Node body)
@@ -440,9 +440,12 @@ public class Clean
 
         if (body != null)
         {
-            if (body.getAttrByName("background") != null || body.getAttrByName("bgcolor") != null
-                || body.getAttrByName("text") != null || body.getAttrByName("link") != null
-                || body.getAttrByName("vlink") != null || body.getAttrByName("alink") != null)
+            if (body.getAttrByName("background") != null
+                || body.getAttrByName("bgcolor") != null
+                || body.getAttrByName("text") != null
+                || body.getAttrByName("link") != null
+                || body.getAttrByName("vlink") != null
+                || body.getAttrByName("alink") != null)
             {
                 lexer.badLayout |= Report.USING_BODY;
                 return false;
@@ -673,10 +676,59 @@ public class Clean
         return s;
     }
 
+    private void mergeClasses(Node node, Node child)
+    {
+        AttVal av;
+        String s1, s2, names;
+
+        for (s2 = null, av = child.attributes; av != null; av = av.next)
+        {
+            if ("class".equals(av.attribute))
+            {
+                s2 = av.value;
+                break;
+            }
+        }
+
+        for (s1 = null, av = node.attributes; av != null; av = av.next)
+        {
+            if ("class".equals(av.attribute))
+            {
+                s1 = av.value;
+                break;
+            }
+        }
+
+        if (s1 != null)
+        {
+            if (s2 != null) // merge class names from both
+            {
+                names = s1 + ' ' + s2;
+                av.value = names;
+            }
+        }
+        else if (s2 != null) // copy class names from child
+        {
+            av = new AttVal();
+            av.attribute = "class";
+            av.value = s2;
+            av.delim = '"';
+            av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(av);
+            av.next = node.attributes;
+            node.attributes = av;
+        }
+    }
+
     private void mergeStyles(Node node, Node child)
     {
         AttVal av;
         String s1, s2, style;
+
+        /*
+         * the child may have a class attribute used for attaching styles, if so the class name needs to be copied to
+         * node's class
+         */
+        mergeClasses(node, child);
 
         for (s2 = null, av = child.attributes; av != null; av = av.next)
         {
@@ -1456,7 +1508,8 @@ public class Clean
         {
             next = node.next;
 
-            if ((node.tag == this.tt.tagB || node.tag == this.tt.tagI) && node.parent != null
+            if ((node.tag == this.tt.tagB || node.tag == this.tt.tagI)
+                && node.parent != null
                 && node.parent.tag == node.tag)
             {
                 /* strip redundant inner element */
@@ -1516,7 +1569,9 @@ public class Clean
                 list2BQ(node.content);
             }
 
-            if (node.tag != null && node.tag.parser == ParserImpl.getParseList() && node.hasOneChild()
+            if (node.tag != null
+                && node.tag.parser == ParserImpl.getParseList()
+                && node.hasOneChild()
                 && node.content.implicit)
             {
                 stripOnlyChild(node);
@@ -1642,13 +1697,17 @@ public class Clean
             next = attr.next;
 
             /* special check for class="Code" denoting pre text */
-            if (attr.attribute != null && attr.value != null && attr.attribute.equals("class")
+            if (attr.attribute != null
+                && attr.value != null
+                && attr.attribute.equals("class")
                 && attr.value.equals("Code"))
             {
                 prev = attr;
             }
             else if (attr.attribute != null
-                && (attr.attribute.equals("class") || attr.attribute.equals("style") || attr.attribute.equals("lang")
+                && (attr.attribute.equals("class")
+                    || attr.attribute.equals("style")
+                    || attr.attribute.equals("lang")
                     || attr.attribute.startsWith("x:") || ((attr.attribute.equals("height") || attr.attribute
                     .equals("width")) && (node.tag == this.tt.tagTd || node.tag == this.tt.tagTr || node.tag == this.tt.tagTh))))
             {
@@ -1890,5 +1949,52 @@ public class Clean
         Node html = root.findHTML(tagTable);
 
         return (html != null && html.getAttrByName("xmlns:o") != null);
+    }
+
+    /**
+     * where appropriate move object elements from head to body
+     */
+    static void bumpObject(Lexer lexer, Node html)
+    {
+        Node node, next, head = null, body = null;
+        TagTable tt = lexer.configuration.tt;
+        for (node = html.content; node != null; node = node.next)
+        {
+            if (node.tag == tt.tagHead)
+                head = node;
+
+            if (node.tag == tt.tagBody)
+                body = node;
+        }
+
+        if (head != null && body != null)
+        {
+            for (node = head.content; node != null; node = next)
+            {
+                next = node.next;
+
+                if (node.tag == tt.tagObject)
+                {
+                    Node child;
+                    boolean bump = false;
+
+                    for (child = node.content; child != null; child = child.next)
+                    {
+                        // bump to body unless content is param
+                        if ((child.type == Node.TextNode && !Node.isBlank(lexer, node)) || child.tag != tt.tagParam)
+                        {
+                            bump = true;
+                            break;
+                        }
+                    }
+
+                    if (bump)
+                    {
+                        Node.removeNode(node);
+                        Node.insertNodeAtStart(body, node);
+                    }
+                }
+            }
+        }
     }
 }
