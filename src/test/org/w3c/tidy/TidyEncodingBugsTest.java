@@ -53,6 +53,17 @@
  */
 package org.w3c.tidy;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+
 /**
  * Testcase for Tidy resolved bugs (encodings).
  * <p>
@@ -65,12 +76,77 @@ public class TidyEncodingBugsTest extends TidyTestCase
 {
 
     /**
+     * logger.
+     */
+    private static Log log = LogFactory.getLog(TidyEncodingBugsTest.class);
+
+    /**
      * Instantiate a new Test case.
      * @param name test name
      */
     public TidyEncodingBugsTest(String name)
     {
         super(name);
+    }
+
+    /**
+     * assert generated output and test file are equals.
+     * @param tidyOutput tidy output as string
+     * @param correctFile URL used to load the file for comparison
+     * @throws FileNotFoundException if test file is not found
+     * @throws IOException in reading file
+     */
+    protected void assertEquals(String tidyOutput, URL correctFile) throws FileNotFoundException, IOException
+    {
+        // assume the expected output has the same encoding tidy has in its configuration
+        String encodingName = ParsePropertyImpl.CHAR_ENCODING.getFriendlyName("out-encoding", new Integer(tidy
+            .getConfiguration().outCharEncoding), tidy.getConfiguration());
+
+        // BOM fix - if le or be is specified java will output the BOM at the beginning of the stream
+        if (encodingName.equals("utf-16be") || encodingName.equals("utf-16le"))
+        {
+            encodingName = "utf-16";
+        }
+
+        InputStream tidyStream = new ByteArrayInputStream(tidyOutput.getBytes());
+        InputStream expectedStream = new FileInputStream(correctFile.getPath());
+
+        byte[] tidyBytes = new byte[tidyStream.available()];
+        byte[] expectedBytes = new byte[expectedStream.available()];
+
+        int tidyLength = tidyStream.read(tidyBytes);
+        int expectedLength = expectedStream.read(expectedBytes);
+
+        if (tidyLength != expectedLength)
+        {
+            log.info("Number of bytes is different from expected result: "
+                + tidyLength
+                + "(expected "
+                + expectedLength
+                + ")");
+        }
+
+        for (int j = 0; j < expectedBytes.length; j++)
+        {
+            if (j > tidyLength)
+            {
+                fail("Result truncated at byte " + j);
+            }
+            if (expectedBytes[j] != tidyBytes[j])
+            {
+                int start = j > 30 ? j - 30 : 0;
+                StringBuffer tidyBuf = new StringBuffer();
+                StringBuffer expectedBuf = new StringBuffer();
+                for (; start <= j; start++)
+                {
+                    tidyBuf.append((char) tidyBytes[start]);
+                    expectedBuf.append((char) expectedBytes[start]);
+                }
+                assertEquals("Result differs at byte " + j + ".", expectedBuf.toString(), tidyBuf.toString());
+
+                fail("Result differs at byte " + j + ".");
+            }
+        }
     }
 
     /**
@@ -117,6 +193,7 @@ public class TidyEncodingBugsTest extends TidyTestCase
     public void test676156() throws Exception
     {
         executeTidyTest("676156.html");
+        assertNoWarnings();
     }
 
     /**

@@ -238,12 +238,6 @@ public class TidyTestCase extends TestCase
         String encodingName = ParsePropertyImpl.CHAR_ENCODING.getFriendlyName("out-encoding", new Integer(tidy
             .getConfiguration().outCharEncoding), tidy.getConfiguration());
 
-        // BOM fix - if le or be is specified java will output the BOM at the beginning of the stream
-        if (encodingName.equals("utf-16be") || encodingName.equals("utf-16le"))
-        {
-            encodingName = "utf-16";
-        }
-
         diff(
             new BufferedReader((new InputStreamReader(new ByteArrayInputStream(tidyOutput.getBytes()), encodingName))),
             new BufferedReader(new InputStreamReader(new FileInputStream(correctFile.getPath()), encodingName)));
