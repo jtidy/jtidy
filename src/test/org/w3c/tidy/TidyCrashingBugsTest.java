@@ -428,4 +428,13 @@ public class TidyCrashingBugsTest extends TidyTestCase
         tidy.pprint(doc, System.out);
     }
 
+    /**
+     * test for JTidy [1033035]: EOF bug in parseAsp and parsePhp.
+     * @throws Exception any exception generated during the test
+     */
+    public void test1033035() throws Exception
+    {
+        executeTidyTest("1033035.html");
+    }
+
 }
