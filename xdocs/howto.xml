@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+    <properties>
+        <title>JTidy how to</title>
+        <author email="fgiust(at)users.sourceforge.net">Fabrizio Giustina</author>
+    </properties>
+    <body>
+        <section name="How to">
+            <p>You can use JTidy as an html checker/prettyprinter or as a DOM parser.</p>
+            <p>
+                First of all, you will need to
+                <a href="download.html">download</a>
+                a JTidy distribution. Inside it you will find a
+                <code>jtidy-<em>{version}</em>.jar</code>, where
+                <code>{version}</code>
+                is the JTidy release number: this is the jar containing all the JTidy classes you need, and we will name
+                it this simply <code>jtidy.jar</code>
+                in the following how to. No other libraries are needed.
+            </p>
+            <p>Now that you have JTidy you can use it in different ways.</p>
+
+            <subsection name="JTidy executable">
+                <p>
+                    Run
+                    <code>java -jar jtidy.jar {options}</code>
+                    to access JTidy command line interface.
+                </p>
+                <p>
+                    <code>java -jar jtidy.jar -h</code>
+                    will output a short help on jtidy command line with a few examples.
+                </p>
+                <p>
+                    <code>java -jar jtidy.jar -help-config</code>
+                    will output all the available configuration options and
+                    <code>java -jar jtidy.jar -show-config</code>
+                    the current (default) values. .
+                </p>
+            </subsection>
+
+            <subsection name="Ant task">
+                <p>
+                    Detailed instructions on how to use the JTidy ant task can be found in
+                    <a href="apidocs/org/w3c/tidy/ant/JTidyTask.html">JTidyTask javadocs</a>.
+                </p>
+            </subsection>
+
+            <subsection name="JTidy API">
+                <p>
+                    The entry point for accessing JTidy functionalities is the
+                    <code>org.w3c.tidy.Tidy</code>
+                    class. This is a simple example of use:
+                </p>
+                <pre>
+                    <![CDATA[
+Tidy tidy = new Tidy(); // obtain a new Tidy instance
+tidy.setXHTML(boolean xhtml); // set desired config options using tidy setters 
+...                           // (equivalent to command line options)
+
+tidy.parse(inputStream, System.out); // run tidy, providing an input and output stream
+]]>
+                </pre>
+                <p>
+                    Using
+                    <code>parseDOM(java.io.InputStream in, java.io.OutputStream out)</code>
+                    instead of
+                    <code>parse()</code>
+                    you will also obtain a DOM document you can parse and print out later using
+                    <code>pprint(org.w3c.dom.Document doc, java.io.OutputStream out)</code>
+                    (note that the JTidy DOM implementation is not fully-featured, and many DOM methods are not
+                    supported).
+                </p>
+                <p>
+                    Starting from release r8, JTidy also provide a MessageListener interface you can implement to be
+                    notified for warning and errors in your html code. For details on advanced uses refer to jtidy
+                    javadocs.
+                </p>
+
+            </subsection>
+
+        </section>
+    </body>
+</document>
+
