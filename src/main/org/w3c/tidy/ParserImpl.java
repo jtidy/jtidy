@@ -247,7 +247,7 @@ public final class ParserImpl
             Node noframes = null;
 
             lexer.configuration.xmlTags = false;
-            lexer.seenEndBody = 0;
+            lexer.seenEndBody = false;
             TagTable tt = lexer.configuration.tt;
 
             while (true)
@@ -670,7 +670,7 @@ public final class ParserImpl
                 {
                     body.closed = true;
                     Node.trimSpaces(lexer, body);
-                    lexer.seenEndBody = 1;
+                    lexer.seenEndBody = true;
                     mode = Lexer.IGNORE_WHITESPACE;
 
                     if (body.parent.tag == tt.tagNoframes)
@@ -708,13 +708,13 @@ public final class ParserImpl
                 // #538536 Extra endtags not detected
                 if (node.tag == tt.tagHtml)
                 {
-                    if (node.type == Node.START_TAG || node.type == Node.START_END_TAG || lexer.seenEndHtml == 1)
+                    if (node.type == Node.START_TAG || node.type == Node.START_END_TAG || lexer.seenEndHtml)
                     {
                         lexer.report.warning(lexer, body, node, Report.DISCARDING_UNEXPECTED);
                     }
                     else
                     {
-                        lexer.seenEndHtml = 1;
+                        lexer.seenEndHtml = true;
                     }
 
                     continue;
@@ -735,9 +735,9 @@ public final class ParserImpl
                     continue;
                 }
 
-                if (lexer.seenEndBody == 1 && !iswhitenode)
+                if (lexer.seenEndBody && !iswhitenode)
                 {
-                    ++lexer.seenEndBody;
+                    lexer.seenEndBody = true;
                     lexer.report.warning(lexer, body, node, Report.CONTENT_AFTER_BODY);
                 }
 

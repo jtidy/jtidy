@@ -1843,7 +1843,6 @@ public class PPrint
                             && (content.tag.model & Dict.CM_BLOCK) != 0)
                         {
                             flushLine(fout, indent);
-                            flushLine(fout, indent);
                         }
 
                         printTree(
@@ -1872,7 +1871,7 @@ public class PPrint
                         // #603128 tidy adds newslines after </html> tag
                         // Fix by Fabrizio Giustina 12-02-2004
                         // fix is different from the one in original tidy
-                        if (lexer.seenEndHtml == 0)
+                        if (!lexer.seenEndHtml)
                         {
                             flushLine(fout, indent);
                         }
@@ -1888,14 +1887,14 @@ public class PPrint
                     flushLine(fout, indent);
                 }
 
-                if (!this.configuration.indentContent
-                    && node.next != null
-                    && !this.configuration.hideEndTags
-                    && (node.tag.model & (Dict.CM_BLOCK | Dict.CM_TABLE)) != 0)
-                // removed CM_LIST|CM_DEFLIST (double newline bug)
-                {
-                    flushLine(fout, indent);
-                }
+                // FG commented out: double newlines
+                // if (!this.configuration.indentContent
+                //     && node.next != null
+                //     && !this.configuration.hideEndTags
+                //     && (node.tag.model & (Dict.CM_BLOCK | Dict.CM_TABLE | Dict.CM_LIST | Dict.CM_DEFLIST)) != 0)
+                //     {
+                //         flushLine(fout, indent);
+                //     }
             }
         }
     }

@@ -315,9 +315,9 @@ public class Lexer
 
     public Configuration configuration;
 
-    protected int seenEndBody; // used by parser
+    protected boolean seenEndBody; // used by parser
 
-    protected int seenEndHtml;
+    protected boolean seenEndHtml;
 
     protected Report report;
 
@@ -330,37 +330,12 @@ public class Lexer
         this.lines = 1;
         this.columns = 1;
         this.state = LEX_CONTENT;
-        this.badAccess = 0;
-        this.badLayout = 0;
-        this.badChars = 0;
-        this.badForm = 0;
-        this.warnings = 0;
-        this.errors = 0;
-        this.waswhite = false;
-        this.pushed = false;
-        this.insertspace = false;
-        this.exiled = false;
-        this.isvoyager = false;
         this.versions = (Dict.VERS_ALL | Dict.VERS_PROPRIETARY);
         this.doctype = Dict.VERS_UNKNOWN;
-        this.badDoctype = false;
-        this.txtstart = 0;
-        this.txtend = 0;
-        this.token = null;
-        this.lexbuf = null;
-        this.lexlength = 0;
-        this.lexsize = 0;
-        this.inode = null;
         this.insert = -1;
         this.istack = new Stack();
-        this.istackbase = 0;
-        this.styles = null;
         this.configuration = configuration;
         this.nodeList = new Vector();
-        /* #538536 Extra endtags not detected */
-        this.seenEndBody = 0;
-        this.seenEndHtml = 0;
-
     }
 
     public Node newNode()
