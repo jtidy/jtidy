@@ -57,6 +57,7 @@ package org.w3c.tidy;
  * HTML Parser implementation.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
+ * @author Fabrizio Giustina
  * @version $Revision $ ($Author $)
  */
 public final class ParserImpl
@@ -3264,6 +3265,11 @@ public final class ParserImpl
             else
             {
                 html = node;
+            }
+
+            if (document.findDocType() == null)
+            {
+                lexer.report.warning(lexer, null, null, Report.MISSING_DOCTYPE);
             }
 
             Node.insertNodeAtEnd(document, html);
