@@ -345,6 +345,7 @@ public class TagTable
     public Dict tagBody;
     public Dict tagFrameset;
     public Dict tagFrame;
+    public Dict tagIframe;
     public Dict tagNoframes;
     public Dict tagMeta;
     public Dict tagTitle;
@@ -415,6 +416,7 @@ public class TagTable
         tagBody = lookup("body");
         tagFrameset = lookup("frameset");
         tagFrame = lookup("frame");
+        tagIframe = lookup("iframe");
         tagNoframes = lookup("noframes");
         tagMeta = lookup("meta");
         tagTitle = lookup("title");

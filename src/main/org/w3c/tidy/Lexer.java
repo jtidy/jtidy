@@ -3363,9 +3363,15 @@ public class Lexer
         {
             return false;
         }
-        
+
         // #540555 Empty title tag is trimmed
         if (element.tag == this.configuration.tt.tagTitle)
+        {
+            return false;
+        }
+
+        // #433359 - fix by Randy Waki 12 Mar 01 - Empty iframe is trimmed
+        if (element.tag == this.configuration.tt.tagIframe)
         {
             return false;
         }
