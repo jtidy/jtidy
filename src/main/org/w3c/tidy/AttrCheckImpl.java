@@ -252,23 +252,19 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            /*
-             * if (attval.value == null) { lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE); }
-             * else if (lexer.configuration.fixBackslash) { attval.value = attval.value.replace('\\', '/'); }
-             */
-
             char c;
             StringBuffer dest;
-            String p = attval.value;
             boolean escapeFound = false;
             boolean backslashFound = false;
             int i = 0;
 
-            if (p == null)
+            if (attval == null || attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
             }
+
+            String p = attval.value;
 
             for (i = 0; i < p.length(); ++i)
             {
@@ -376,20 +372,21 @@ public final class AttrCheckImpl
                 return;
             }
 
-            if (attval.value != null && lexer.configuration.lowerLiterals)
+            if (attval == null || attval.value == null)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
+            }
+
+            if (lexer.configuration.lowerLiterals)
             {
                 attval.value = attval.value.toLowerCase();
             }
 
             value = attval.value;
 
-            if (value == null)
-            {
-                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
-            }
-            else if (!("left".equalsIgnoreCase(value)
-                || "center".equalsIgnoreCase(value)
-                || "right".equalsIgnoreCase(value) || "justify".equalsIgnoreCase(value)))
+            if (!("left".equalsIgnoreCase(value) || "center".equalsIgnoreCase(value) || "right".equalsIgnoreCase(value) || "justify"
+                .equalsIgnoreCase(value)))
             {
                 lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
             }
@@ -410,18 +407,20 @@ public final class AttrCheckImpl
         {
             String value;
 
-            if (attval.value != null && lexer.configuration.lowerLiterals)
+            if (attval == null || attval.value == null)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
+            }
+
+            if (lexer.configuration.lowerLiterals)
             {
                 attval.value = attval.value.toLowerCase();
             }
 
             value = attval.value;
 
-            if (value == null)
-            {
-                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
-            }
-            else if ("top".equalsIgnoreCase(value)
+            if ("top".equalsIgnoreCase(value)
                 || "middle".equalsIgnoreCase(value)
                 || "bottom".equalsIgnoreCase(value)
                 || "baseline".equalsIgnoreCase(value))
@@ -462,7 +461,7 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            if (attval.value == null)
+            if (attval == null || attval.value == null)
             {
                 return;
             }
@@ -486,12 +485,15 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            String p = attval.value;
 
-            if (p == null)
+            if (attval == null || attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
             }
+
+            String p = attval.value;
+
             if (p.length() == 0 || (!Character.isDigit(p.charAt(0)) && !('%' == p.charAt(0))))
             {
                 lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
@@ -526,7 +528,7 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            if (attval == null || attval.value == null || attval.value.length() == 0)
+            if (attval == null || attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -562,7 +564,7 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            if (attval == null || attval.value == null || attval.value.length() == 0)
+            if (attval == null || attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -593,7 +595,7 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            if (attval == null || attval.value == null || attval.value.length() == 0)
+            if (attval == null || attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -626,7 +628,7 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            if (attval == null || attval.value == null || attval.value.length() == 0)
+            if (attval == null || attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
@@ -661,17 +663,18 @@ public final class AttrCheckImpl
         public void check(Lexer lexer, Node node, AttVal attval)
         {
 
+            if (attval == null || attval.value == null)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
+            }
+
             if (attval.value != null && lexer.configuration.lowerLiterals)
             {
                 attval.value = attval.value.toLowerCase();
             }
 
             String value = attval.value;
-
-            if (value == null)
-            {
-                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
-            }
 
             if (!("row".equalsIgnoreCase(value) || "rowgroup".equalsIgnoreCase(value) //
                 || "col".equalsIgnoreCase(value) || "colgroup".equalsIgnoreCase(value)))
@@ -693,12 +696,13 @@ public final class AttrCheckImpl
         public void check(Lexer lexer, Node node, AttVal attval)
         {
 
-            String value = attval.value;
-
-            if (value == null)
+            if (attval == null || attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
             }
+
+            String value = attval.value;
 
             int j = 0;
 
@@ -731,14 +735,15 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-
-            String p = attval.value;
             Node old;
-            if (p == null)
+
+            if (attval == null || attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
             }
+
+            String p = attval.value;
 
             if (p.length() == 0 || !Character.isLetter(p.charAt(0)))
             {
@@ -945,17 +950,18 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            if (attval.value != null && lexer.configuration.lowerLiterals)
+            if (attval == null || attval.value == null)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
+            }
+
+            if (lexer.configuration.lowerLiterals)
             {
                 attval.value = attval.value.toLowerCase();
             }
 
             String value = attval.value;
-
-            if (value == null)
-            {
-                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
-            }
 
             if (!"data".equalsIgnoreCase(value) && !"object".equalsIgnoreCase(value) && !"ref".equalsIgnoreCase(value))
             {
@@ -976,17 +982,18 @@ public final class AttrCheckImpl
         public void check(Lexer lexer, Node node, AttVal attval)
         {
 
-            if (attval.value != null && lexer.configuration.lowerLiterals)
+            if (attval == null || attval.value == null)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
+            }
+
+            if (lexer.configuration.lowerLiterals)
             {
                 attval.value = attval.value.toLowerCase();
             }
 
             String value = attval.value;
-
-            if (value == null)
-            {
-                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
-            }
 
             if (!"no".equalsIgnoreCase(value) && !"auto".equalsIgnoreCase(value) && !"yes".equalsIgnoreCase(value))
             {
@@ -1007,17 +1014,18 @@ public final class AttrCheckImpl
         public void check(Lexer lexer, Node node, AttVal attval)
         {
 
-            if (attval.value != null && lexer.configuration.lowerLiterals)
+            if (attval == null || attval.value == null)
+            {
+                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
+            }
+
+            if (lexer.configuration.lowerLiterals)
             {
                 attval.value = attval.value.toLowerCase();
             }
 
             String value = attval.value;
-
-            if (value == null)
-            {
-                lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
-            }
 
             if (!"rtl".equalsIgnoreCase(value) && !"ltr".equalsIgnoreCase(value))
             {
@@ -1037,14 +1045,16 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
+
             if ("lang".equals(attval.attribute))
             {
                 lexer.constrainVersion(~Dict.VERS_XHTML11);
             }
 
-            if (attval.value == null)
+            if (attval == null || attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
+                return;
             }
         }
     }
