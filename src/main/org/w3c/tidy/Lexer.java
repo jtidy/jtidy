@@ -3363,6 +3363,12 @@ public class Lexer
         {
             return false;
         }
+        
+        // #540555 Empty title tag is trimmed
+        if (element.tag == this.configuration.tt.tagTitle)
+        {
+            return false;
+        }
 
         if (element.attributes != null
             && (element.getAttrByName("id") != null || element.getAttrByName("name") != null))
