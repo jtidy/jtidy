@@ -70,17 +70,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 
 /**
@@ -125,7 +126,7 @@ public class TidyTestCase extends TestCase
     /**
      * logger.
      */
-    private Log log = LogFactory.getLog(TidyTestCase.class);
+    protected Log log = LogFactory.getLog(TidyTestCase.class);
 
     /**
      * write directly to out. Useful for debugging (but it will make the test fail!).
@@ -250,49 +251,13 @@ public class TidyTestCase extends TestCase
     {
 
         // first parse existing file
-        List expectedMsgs = new ArrayList();
-        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document msgDoc = builder.parse(new InputSource(messagesFile.openStream()));
+        // avoid using DOM since if will need forking junit execution in maven (too slow)
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        SAXParser saxParser = factory.newSAXParser();
 
-        NodeList msgList = msgDoc.getElementsByTagName("message");
-        for (int j = 0; j < msgList.getLength(); j++)
-        {
-            int code = 0;
-            int level = 0;
-            int column = 0;
-            int line = 0;
-            String text = null;
-            NodeList msgDetails = msgList.item(j).getChildNodes();
-
-            for (int u = 0; u < msgDetails.getLength(); u++)
-            {
-                Node param = msgDetails.item(u);
-
-                if (param.getNodeName().equals("code"))
-                {
-                    code = Integer.parseInt(param.getFirstChild().getNodeValue());
-                }
-                if (param.getNodeName().equals("level"))
-                {
-                    level = Integer.parseInt(param.getFirstChild().getNodeValue());
-                }
-                else if (param.getNodeName().equals("column"))
-                {
-                    column = Integer.parseInt(param.getFirstChild().getNodeValue());
-                }
-                else if (param.getNodeName().equals("line"))
-                {
-                    line = Integer.parseInt(param.getFirstChild().getNodeValue());
-                }
-                else if (param.getNodeName().equals("text"))
-                {
-                    text = param.getFirstChild().getNodeValue();
-                }
-            }
-
-            TidyMessage message = new TidyMessage(code, line, column, TidyMessage.Level.fromCode(level), text);
-            expectedMsgs.add(message);
-        }
+        MsgXmlHandler handler = new MsgXmlHandler();
+        saxParser.parse(new InputSource(messagesFile.openStream()), handler);
+        List expectedMsgs = handler.getMessages();
 
         List tidyMsgs = this.messageListener.getReceived();
 
@@ -382,9 +347,8 @@ public class TidyTestCase extends TestCase
     protected void assertEquals(String tidyOutput, URL correctFile) throws FileNotFoundException, IOException
     {
         // assume the expected output has the same encoding tidy has in its configuration
-        String encodingName = ParsePropertyImpl.CHAR_ENCODING.getFriendlyName("out-encoding", new Integer(tidy
-            .getConfiguration()
-            .getOutCharEncoding()), tidy.getConfiguration());
+        String encodingName = ParsePropertyImpl.CHAR_ENCODING.getFriendlyName("out-encoding", null, tidy
+            .getConfiguration());
 
         diff(
             new BufferedReader((new InputStreamReader(new ByteArrayInputStream(tidyOutput.getBytes()), encodingName))),
@@ -623,4 +587,123 @@ public class TidyTestCase extends TestCase
 
     }
 
+    /**
+     * A simple SAX Content Handler used to parse .msg files.
+     */
+    static class MsgXmlHandler extends DefaultHandler
+    {
+
+        /**
+         * Parsed messages.
+         */
+        private List messages = new ArrayList();
+
+        /**
+         * Error code for the current message.
+         */
+        private int code;
+
+        /**
+         * Level for the current message.
+         */
+        private int level;
+
+        /**
+         * Column for the current message.
+         */
+        private int column;
+
+        /**
+         * Line for the current message.
+         */
+        private int line;
+
+        /**
+         * Message the current message.
+         */
+        private StringBuffer textbuffer;
+
+        /**
+         * Actual parsing position.
+         */
+        private int parsePosition = -100;
+
+        /**
+         * actually parsing a detail tag.
+         */
+        private boolean intag;
+
+        /**
+         * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
+         */
+        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
+        {
+            if ("message".equals(qName))
+            {
+                parsePosition = 0;
+                textbuffer = new StringBuffer();
+            }
+            else
+            {
+                parsePosition++;
+                intag = true;
+            }
+        }
+
+        /**
+         * @see org.xml.sax.ContentHandler#endElement(String, String, String)
+         */
+        public void endElement(String uri, String localName, String qName) throws SAXException
+        {
+            if ("message".equals(qName))
+            {
+                TidyMessage message = new TidyMessage(code, line, column, TidyMessage.Level.fromCode(level), textbuffer
+                    .toString());
+                messages.add(message);
+            }
+            intag = false;
+        }
+
+        /**
+         * @see org.xml.sax.ContentHandler#characters(char[], int, int)
+         */
+        public void characters(char[] ch, int start, int length) throws SAXException
+        {
+            if (!intag)
+            {
+                return;
+            }
+
+            switch (parsePosition)
+            {
+                case 1 :
+                    this.code = Integer.parseInt(new String(ch, start, length));
+                    break;
+                case 2 :
+                    this.level = Integer.parseInt(new String(ch, start, length));
+                    break;
+                case 3 :
+                    this.line = Integer.parseInt(new String(ch, start, length));
+                    break;
+                case 4 :
+                    this.column = Integer.parseInt(new String(ch, start, length));
+                    break;
+                case 5 :
+                    textbuffer.append(new String(ch, start, length));
+                    break;
+                default :
+                    break;
+            }
+        }
+
+        /**
+         * Returns the list of parsed messages.
+         * @return List containing TidyMessage elements
+         */
+        public List getMessages()
+        {
+            return messages;
+        }
+    }
 }
+
