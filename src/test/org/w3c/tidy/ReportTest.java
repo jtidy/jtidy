@@ -614,6 +614,16 @@ public class ReportTest extends TestCase
     }
 
     /**
+     * test getMessage with the <code>missing_doctype</code> key.
+     * @throws Exception any Exception generated during test
+     */
+    public void testGetMessageMissingDoctype() throws Exception
+    {
+        String message = this.report.getMessage(lexer, "missing_doctype", null, TidyMessage.Level.WARNING);
+        assertEquals("line 12 column 34 - Warning: missing <!DOCTYPE> declaration", message);
+    }
+
+    /**
      * test getMessage with the <code>doctype_given</code> key.
      * @throws Exception any Exception generated during test
      */
