@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <title>Download</title>
+    <author email="fgiust AT users.sourceforge.net">Fabrizio Giustina</author>
+  </properties>
+  <body>
+    <section name="Download">
+      <subsection name="releases">
+        <p>
+          You can obtain JTidy from the
+          <a href="http://sourceforge.net/project/showfiles.php?group_id=13153">SourceForge download area</a>
+          .
+        </p>
+      </subsection>
+      <subsection name="source code from CVS">
+        <p>
+          You can also obtain the source from the SourceForge CVS Server, see
+          <a href="cvs-usage.html">Source Repository</a>
+          .
+        </p>
+      </subsection>
+    </section>
+  </body>
+</document>
+

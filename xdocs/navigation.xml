@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="JTidy">
+  <title>JTidy</title>
+  <body>
+    <links>
+      <item name="JTidy on Sourceforge" href="http://sourceforge.net/projects/jtidy" />
+    </links>
+    <menu name="JTidy">
+      <item name="Overview" href="/index.html" />
+      <item name="Download" href="/download.html" />
+    </menu>
+    <menu name="Developers">
+      <item name="Coding Conventions" href="/coding_conventions.html" />
+    </menu>
+  </body>
+</project>
+
