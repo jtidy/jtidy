@@ -389,14 +389,12 @@ public class TidyWarningBugsTest extends TidyTestCase
     {
         // line 10 column 1 - Warning: <h2> ID "_ValidID2" uses XML ID syntax
         // line 11 column 1 - Warning: <h2> ID ":ValidID3" uses XML ID syntax
-        // line 12 column 1 - Warning: <h2> attribute "id" has invalid value ".InvalidID1"
-        // line 13 column 1 - Warning: <h2> attribute "id" has invalid value "2InvalidID2"
-        // Info: Doctype given is "-//W3C//DTD XHTML 1.1//EN"
-        // Info: Document content looks like XHTML 1.1
-        // 4 warnings, 0 errors were found!
+        // line 13 column 1 - Warning: <h2> attribute "id" has invalid value ".InvalidID1"
+        // line 14 column 1 - Warning: <h2> attribute "id" has invalid value "2InvalidID2"
+        // line 15 column 1 - Warning: <h2> attribute "id" lacks value
 
         executeTidyTest("516370.xhtml");
-        assertWarnings(4);
+        assertWarnings(5);
         assertLogContains("XML ID syntax");
     }
 

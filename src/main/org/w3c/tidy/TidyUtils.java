@@ -534,4 +534,14 @@ public final class TidyUtils
             || (c >= 0x309d && c <= 0x309e) || (c >= 0x30fc && c <= 0x30fe));
     }
 
+    /**
+     * Is the given character a single or doubble quote?
+     * @param c char
+     * @return <code>true</code> if c is " or '
+     */
+    static boolean isQuote(int c)
+    {
+        return (c == '\'' || c == '\"');
+    }
+
 }

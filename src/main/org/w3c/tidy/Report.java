@@ -1029,6 +1029,10 @@ public final class Report
                     attribute.value}, Level.WARNING);
                 break;
 
+            case XML_ID_SYNTAX :
+                printMessage(lexer, "xml_id_sintax", new Object[]{getTagName(node), attribute.attribute}, Level.WARNING);
+                break;
+
             case XML_ATTRIBUTE_VALUE :
                 printMessage(
                     lexer,
@@ -1653,12 +1657,14 @@ public final class Report
             StringBuffer doctypeBuffer = new StringBuffer();
             for (i = doctype.start; i < doctype.end; ++i)
             {
-                c = doctype.textarray[i];
+                //c = doctype.textarray[i];
+                c = (char) lexer.lexbuf[i];
 
                 // look for UTF-8 multibyte character
                 if (c < 0)
                 {
-                    i += PPrint.getUTF8(doctype.textarray, i, cc);
+                    //i += PPrint.getUTF8(doctype.textarray, i, cc);
+                    i += PPrint.getUTF8(lexer.lexbuf, i, cc);
                     c = cc[0];
                 }
 

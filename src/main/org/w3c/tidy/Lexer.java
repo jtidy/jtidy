@@ -1766,8 +1766,16 @@ public class Lexer
     public Node getCDATA(Node container)
     {
         int c, lastc, start, len, i;
+        int qt = 0;
+        int esc = 0;
         String str;
         boolean endtag = false;
+        boolean begtag = false;
+
+        if (container.isJavaScript())
+        {
+            esc = '\\';
+        }
 
         this.lines = this.in.getCurline();
         this.columns = this.in.getCurcol();
@@ -1778,66 +1786,102 @@ public class Lexer
         lastc = '\0';
         start = -1;
 
-        while (true)
+        while ((c = this.in.readChar()) != StreamIn.END_OF_STREAM)
         {
-            c = this.in.readChar();
-            if (c == StreamIn.END_OF_STREAM)
-            {
-                break;
-            }
             // treat \r\n as \n and \r as \n
-
-            if (c == '/' && lastc == '<')
+            if (qt > 0)
             {
-                if (endtag)
+                // #598860 script parsing fails with quote chars
+                // A quoted string is ended by the quotation character, or end of line
+                if ((c == '\r' || c == '\n' || c == qt) && (!TidyUtils.toBoolean(esc) || lastc != esc))
                 {
+                    qt = 0;
+                }
+                else if (c == '/' && lastc == '<')
+                {
+                    start = this.lexsize + 1; // to first letter
+                }
+
+                else if (c == '>' && start >= 0)
+                {
+                    len = this.lexsize - start;
+
                     this.lines = this.in.getCurline();
                     this.columns = this.in.getCurcol() - 3;
 
                     report.warning(this, null, null, Report.BAD_CDATA_CONTENT);
-                }
 
+                    // if javascript insert backslash before /
+                    if (TidyUtils.toBoolean(esc))
+                    {
+                        for (i = this.lexsize; i > start - 1; --i)
+                        {
+                            this.lexbuf[i] = this.lexbuf[i - 1];
+                        }
+
+                        this.lexbuf[start - 1] = (byte) esc;
+                        this.lexsize++;
+                    }
+
+                    start = -1;
+                }
+            }
+            else if (TidyUtils.isQuote(c) && (!TidyUtils.toBoolean(esc) || lastc != esc))
+            {
+                qt = c;
+            }
+            else if (c == '<')
+            {
+                start = this.lexsize + 1; // to first letter
+                endtag = false;
+                begtag = true;
+            }
+            else if (c == '!' && lastc == '<') // Cancel start tag
+            {
+                start = -1;
+                endtag = false;
+                begtag = false;
+            }
+            else if (c == '/' && lastc == '<')
+            {
                 start = this.lexsize + 1; // to first letter
                 endtag = true;
+                begtag = false;
             }
-            else if (c == '>' && start >= 0)
+            else if (c == '>' && start >= 0) // End of begin or end tag
             {
-                len = this.lexsize - start;
-                if (len == container.element.length())
+                int decr = 2;
+
+                if (endtag && ((len = this.lexsize - start) == container.element.length()))
                 {
+
                     str = getString(this.lexbuf, start, len);
                     if (container.element.equalsIgnoreCase(str))
                     {
-                        this.txtend = start - 2; // #433857 - fix by Huajun Zeng
+                        this.txtend = start - decr;
+                        this.lexsize = start - decr; // #433857 - fix by Huajun Zeng 26 Apr 01
                         break;
                     }
                 }
+
+                // Unquoted markup will end SCRIPT or STYLE elements
 
                 this.lines = this.in.getCurline();
                 this.columns = this.in.getCurcol() - 3;
 
                 report.warning(this, null, null, Report.BAD_CDATA_CONTENT);
-
-                // if javascript insert backslash before /
-
-                if (ParserImpl.isJavaScript(container))
+                if (begtag)
                 {
-                    for (i = this.lexsize; i > start - 1; --i)
-                    {
-                        this.lexbuf[i] = this.lexbuf[i - 1];
-                    }
-
-                    this.lexbuf[start - 1] = (byte) '\\';
-                    this.lexsize++;
+                    decr = 1;
                 }
-
-                start = -1;
-                endtag = false;
+                this.txtend = start - decr;
+                this.lexsize = start - decr;
+                break;
             }
             // #427844 - fix by Markus Hoenicka 21 Oct 00
             else if (c == '\r')
             {
-                if (endtag)
+                if (begtag || endtag)
                 {
                     continue; // discard whitespace in endtag
                 }
@@ -1854,7 +1898,7 @@ public class Lexer
                     c = '\n';
                 }
             }
-            else if ((c == '\n' || c == '\t' || c == ' ') && endtag)
+            else if ((c == '\n' || c == '\t' || c == ' ') && (begtag || endtag))
             {
                 continue; // discard whitespace in endtag
             }
@@ -3454,6 +3498,24 @@ public class Lexer
 
         if (len > 0 || delim != 0)
         {
+            // ignore leading and trailing white space for all but title, alt, value and prompts attributes unless
+            // --literal-attributes is set to yes
+            // #994841 - Whitespace is removed from value attributes
+
+            if (munge && !TidyUtils.isInValuesIgnoreCase(new String[]{"alt", "title", "value", "prompt"}, name))
+            {
+                while (isWhite((char) this.lexbuf[start + len - 1]))
+                {
+                    --len;
+                }
+
+                while (isWhite((char) this.lexbuf[start]) && start < len)
+                {
+                    ++start;
+                    --len;
+                }
+            }
+
             value = getString(this.lexbuf, start, len);
         }
         else

@@ -3591,28 +3591,6 @@ public final class ParserImpl
         return document;
     }
 
-    public static boolean isJavaScript(Node node)
-    {
-        boolean result = false;
-        AttVal attr;
-
-        if (node.attributes == null)
-        {
-            return true;
-        }
-
-        for (attr = node.attributes; attr != null; attr = attr.next)
-        {
-            if (("language".equalsIgnoreCase(attr.attribute) || "type".equalsIgnoreCase(attr.attribute))
-                && "javascript".equalsIgnoreCase(attr.value))
-            {
-                result = true;
-            }
-        }
-
-        return result;
-    }
-
     /**
      * errors in positioning of form start or end tags generally require human intervention to fix.
      */

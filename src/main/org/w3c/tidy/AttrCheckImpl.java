@@ -544,6 +544,10 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
+
+            // No target attribute in strict HTML versions
+            lexer.constrainVersion(~Dict.VERS_HTML40_STRICT);
+
             if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
@@ -755,26 +759,43 @@ public final class AttrCheckImpl
         {
             Node old;
 
-            if (attval.value == null)
+            if (attval.value == null || attval.value.length() == 0)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
                 return;
             }
 
             String p = attval.value;
+            char s = p.charAt(0);
 
             if (p.length() == 0 || !Character.isLetter(p.charAt(0)))
             {
-                lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+                if (lexer.isvoyager && (TidyUtils.isXMLLetter(s) || s == '_' || s == ':'))
+                {
+                    lexer.report.attrError(lexer, node, attval, Report.XML_ID_SYNTAX);
+                }
+                else
+                {
+                    lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+                }
             }
             else
             {
 
                 for (int j = 1; j < p.length(); j++)
                 {
-                    if (!Lexer.isNamechar(p.charAt(j)))
+                    s = p.charAt(j);
+
+                    if (!Lexer.isNamechar(s))
                     {
-                        lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+                        if (lexer.isvoyager && TidyUtils.isXMLNamechar(s))
+                        {
+                            lexer.report.attrError(lexer, node, attval, Report.XML_ID_SYNTAX);
+                        }
+                        else
+                        {
+                            lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+                        }
                         break;
                     }
                 }

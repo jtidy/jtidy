@@ -558,11 +558,11 @@ public class Node implements Cloneable
      */
     public Node findDocType()
     {
-        Node node;
+        Node node = this.content;
 
-        for (node = this.content; node != null && node.type != DOCTYPE_TAG; node = node.next)
+        while (node != null && node.type != DOCTYPE_TAG)
         {
-            //
+            node = node.next;
         }
 
         return node;
@@ -1455,4 +1455,25 @@ public class Node implements Cloneable
         this.type = newType;
     }
 
+    public boolean isJavaScript()
+    {
+        boolean result = false;
+        AttVal attr;
+
+        if (this.attributes == null)
+        {
+            return true;
+        }
+
+        for (attr = this.attributes; attr != null; attr = attr.next)
+        {
+            if (("language".equalsIgnoreCase(attr.attribute) || "type".equalsIgnoreCase(attr.attribute))
+                && "javascript".equalsIgnoreCase(attr.value))
+            {
+                result = true;
+            }
+        }
+
+        return result;
+    }
 }

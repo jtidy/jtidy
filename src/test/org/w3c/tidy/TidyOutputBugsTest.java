@@ -717,6 +717,17 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [502346] : Leading and trailing space in attval .
+     * @throws Exception any exception generated during the test
+     */
+    public void test502346() throws Exception
+    {
+        executeTidyTest("502346.html");
+        // this is actually another bug, but reported doctype is wrong for this test
+        assertLogContains("Doctype given is \"-//W3C//DTD XHTML 1.0 Strict//EN\"");
+    }
+
+    /**
      * test for Tidy [502348] : &lt;br clear="none"&gt; should be output.
      * @throws Exception any exception generated during the test
      */

@@ -1394,7 +1394,15 @@ public class Tidy implements Serializable
                     this.report.badTree(errout);
                     return null;
                 }
+
                 doctype = document.findDocType();
+                // remember given doctype
+                if (doctype != null)
+                {
+                    doctype = (Node) doctype.clone();
+                    //doctype = doctype.cloneNode(true);
+                }
+
                 if (document.content != null)
                 {
                     if (configuration.xHTML)
@@ -1420,6 +1428,7 @@ public class Tidy implements Serializable
 
                 if (!configuration.quiet && document.content != null)
                 {
+                    doctype = document.findDocType();
                     this.report.reportVersion(errout, lexer, inputStreamName, doctype);
                 }
             }

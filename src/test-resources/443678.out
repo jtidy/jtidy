@@ -3,7 +3,7 @@
 <head>
 <title>[ #443678 ] Unclosed &lt;script&gt; in &lt;head&gt; messes Tidy</title>
 
-<script src="bar.js" type="text/javascript">
+<script type="text/javascript" src="bar.js">
 function baz()
 {
   document.write( '<foo></foo>' );
