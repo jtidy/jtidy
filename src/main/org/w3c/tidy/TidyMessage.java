@@ -156,7 +156,7 @@ public final class TidyMessage
      * @author fgiust
      * @version $Revision$ ($Author$)
      */
-    static final class Level implements Comparable
+    public static final class Level implements Comparable
     {
 
         /**
