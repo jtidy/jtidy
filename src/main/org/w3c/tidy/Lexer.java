@@ -1168,6 +1168,10 @@ public class Lexer
                 // proprietary
                 fpi = null;
                 sysid = "";
+                if (doctype != null)// #473490 - fix by Bjšrn Hšhrmann 10 Oct 01
+                {
+                    Node.discardElement(doctype);
+                }
             }
         }
         else if (this.configuration.docTypeMode == Configuration.DOCTYPE_STRICT)
@@ -1224,7 +1228,8 @@ public class Lexer
         }
         else
         {
-            addStringLiteral("\n    \"");
+            // FG: don't wrap
+            addStringLiteral(" \"");
         }
 
         // add system identifier
@@ -1442,9 +1447,21 @@ public class Lexer
         // use the appropriate public identifier
         addStringLiteral("html PUBLIC ");
 
-        if (this.configuration.docTypeMode == Configuration.DOCTYPE_USER && this.configuration.docTypeStr != null)
+        if (this.configuration.docTypeMode == Configuration.DOCTYPE_USER
+            && this.configuration.docTypeStr != null
+            && this.configuration.docTypeStr.length() > 0)
         {
-            addStringLiteral(this.configuration.docTypeStr);
+            // check if the fpi is quoted or not
+            if (this.configuration.docTypeStr.charAt(0) == '"')
+            {
+                addStringLiteral(this.configuration.docTypeStr);
+            }
+            else
+            {
+                addStringLiteral("\""); // #431889 - fix by Dave Bryan 04 Jan 2001
+                addStringLiteral(this.configuration.docTypeStr);
+                addStringLiteral("\""); // #431889 - fix by Dave Bryan 04 Jan 2001
+            }
         }
         else if (guessed == Dict.VERS_HTML20)
         {
