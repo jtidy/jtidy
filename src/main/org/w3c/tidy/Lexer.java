@@ -280,7 +280,7 @@ public class Lexer
 
     public Configuration configuration;
     protected int seenEndBody; // used by parser
-    
+
     protected int seenEndHtml;
 
     private Vector nodeList;
@@ -1447,17 +1447,31 @@ public class Lexer
 
                 start = -1;
             }
+            // #427844 - fix by Markus Hoenicka 21 Oct 00
             else if (c == '\r')
             {
-                c = this.in.readChar();
-
-                if (c != '\n')
+                if (endtag)
                 {
-                    this.in.ungetChar(c);
+                    continue; // discard whitespace in endtag
                 }
+                else
+                {
 
-                c = '\n';
+                    c = this.in.readChar();
+
+                    if (c != '\n')
+                    {
+                        this.in.ungetChar(c);
+                    }
+
+                    c = '\n';
+                }
             }
+            else if ((c == '\n' || c == '\t' || c == ' ') && endtag)
+            {
+                continue; // discard whitespace in endtag
+            }
+
 
             addCharToLexer(c);
             this.txtend = this.lexsize;
