@@ -1673,7 +1673,7 @@ public final class Report
         int i, c;
         int state = 0;
         String vers = lexer.htmlVersionName();
-        MutableInteger cc = new MutableInteger();
+        int[] cc = new int[1];
 
         if (doctype != null)
         {
@@ -1687,7 +1687,7 @@ public final class Report
                 if (c < 0)
                 {
                     i += PPrint.getUTF8(doctype.textarray, i, cc);
-                    c = cc.getValue();
+                    c = cc[0];
                 }
 
                 if (c == '"')

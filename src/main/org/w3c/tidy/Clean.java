@@ -1587,10 +1587,7 @@ public class Clean
                 list2BQ(node.content);
             }
 
-            if (node.tag != null
-                && node.tag.parser == ParserImpl.LIST
-                && node.hasOneChild()
-                && node.content.implicit)
+            if (node.tag != null && node.tag.parser == ParserImpl.LIST && node.hasOneChild() && node.content.implicit)
             {
                 stripOnlyChild(node);
                 node.element = this.tt.tagBlockquote.name;
@@ -1853,25 +1850,25 @@ public class Clean
             if (node.type == Node.TEXT_NODE)
             {
                 int i;
-                MutableInteger c = new MutableInteger();
+                int[] c = new int[1];
                 int p = node.start;
 
                 for (i = node.start; i < node.end; ++i)
                 {
-                    c.setValue(node.textarray[i]);
+                    c[0] = node.textarray[i];
 
                     // look for UTF-8 multibyte character
-                    if (c.getValue() > 0x7F)
+                    if (c[0] > 0x7F)
                     {
                         i += PPrint.getUTF8(node.textarray, i, c);
                     }
 
-                    if (c.getValue() == 160)
+                    if (c[0] == 160)
                     {
-                        c.setValue(' ');
+                        c[0] = ' ';
                     }
 
-                    p = PPrint.putUTF8(node.textarray, p, c.getValue());
+                    p = PPrint.putUTF8(node.textarray, p, c[0]);
                 }
             }
 
@@ -1932,11 +1929,11 @@ public class Clean
 
             if ((node.end - node.start) == 2)
             {
-                MutableInteger c = new MutableInteger();
+                int[] c = new int[1];
 
                 PPrint.getUTF8(lexer.lexbuf, node.start, c);
 
-                if (c.getValue() == 160)
+                if (c[0] == 160)
                 {
                     return true;
                 }

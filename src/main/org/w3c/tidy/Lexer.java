@@ -2629,7 +2629,7 @@ public class Lexer
                         MutableObject asp = new MutableObject();
                         MutableObject php = new MutableObject();
                         AttVal av = new AttVal();
-                        MutableInteger pdelim = new MutableInteger();
+                        int[] pdelim = new int[1];
                         isempty[0] = false;
 
                         this.in.ungetChar(c);
@@ -2638,7 +2638,7 @@ public class Lexer
                         av.attribute = name;
 
                         av.value = this.parseValue(name, true, isempty, pdelim);
-                        av.delim = pdelim.getValue();
+                        av.delim = pdelim[0];
                         av.next = attributes;
 
                         attributes = av;
@@ -3120,7 +3120,10 @@ public class Lexer
     // values start with "=" or " = " etc.
     // doesn't consume the ">" at end of start tag
 
-    public String parseValue(String name, boolean foldCase, boolean[] isempty, MutableInteger pdelim)
+    /**
+     * @param pdelim passed as an array reference to allow modification
+     */
+    public String parseValue(String name, boolean foldCase, boolean[] isempty, int[] pdelim)
     {
         int len = 0;
         int start;
@@ -3131,7 +3134,7 @@ public class Lexer
         String value;
 
         delim = 0;
-        pdelim.setValue('"');
+        pdelim[0] = '"';
 
         // Henry Zrepa reports that some folk are using the embed element with script attributes where newlines are
         // significant and must be preserved
@@ -3195,7 +3198,7 @@ public class Lexer
         {
             start = this.lexsize;
             addCharToLexer(c);
-            pdelim.setValue(parseServerInstruction());
+            pdelim[0] = parseServerInstruction();
             len = this.lexsize - start;
             this.lexsize = start;
             return (len > 0 ? getString(this.lexbuf, start, len) : null);
@@ -3391,11 +3394,11 @@ public class Lexer
         // note delimiter if given
         if (delim != 0)
         {
-            pdelim.setValue(delim);
+            pdelim[0] = delim;
         }
         else
         {
-            pdelim.setValue('"');
+            pdelim[0] = '"';
         }
 
         return value;
@@ -3436,7 +3439,7 @@ public class Lexer
     {
         AttVal av, list;
         String attribute, value;
-        MutableInteger delim = new MutableInteger();
+        int[] delim = new int[1];
         MutableObject asp = new MutableObject();
         MutableObject php = new MutableObject();
 
@@ -3471,7 +3474,7 @@ public class Lexer
 
             if (attribute != null && isValidAttrName(attribute))
             {
-                av = new AttVal(list, null, null, null, delim.getValue(), attribute, value);
+                av = new AttVal(list, null, null, null, delim[0], attribute, value);
                 av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(av);
                 list = av;
             }

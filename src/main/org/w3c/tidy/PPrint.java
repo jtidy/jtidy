@@ -184,9 +184,9 @@ public class PPrint
      * return one less that the number of bytes used by UTF-8 char.
      * <code>1010 A 1011 B 1100 C 1101 D 1110 E 1111 F</code>
      * @param str points to 1st byte
-     * @param ch initialized to 1st byte
+     * @param ch initialized to 1st byte, passed as an array to allow modification
      */
-    public static int getUTF8(byte[] str, int start, MutableInteger ch)
+    public static int getUTF8(byte[] str, int start, int[] ch)
     {
         int c, n, i, bytes;
 
@@ -220,7 +220,7 @@ public class PPrint
         else
         {
             /* 0XXX XXXX one byte */
-            ch.setValue(c);
+            ch[0] = c;
             return 0;
         }
 
@@ -231,7 +231,7 @@ public class PPrint
             n = (n << 6) | (c & 0x3F);
         }
 
-        ch.setValue(n);
+        ch[0] = n;
         return bytes - 1;
     }
 
@@ -779,7 +779,7 @@ public class PPrint
     private void printText(Out fout, short mode, int indent, byte[] textarray, int start, int end)
     {
         int i, c;
-        MutableInteger ci = new MutableInteger();
+        int[] ci = new int[1];
 
         for (i = start; i < end; ++i)
         {
@@ -794,7 +794,7 @@ public class PPrint
             if (c > 0x7F)
             {
                 i += getUTF8(textarray, i, ci);
-                c = ci.getValue();
+                c = ci[0];
             }
 
             if (c == '\n')
@@ -818,7 +818,7 @@ public class PPrint
     private void printAttrValue(Out fout, int indent, String value, int delim, boolean wrappable)
     {
         int c;
-        MutableInteger ci = new MutableInteger();
+        int[] ci = new int[1];
         boolean wasinstring = false;
         byte[] valueChars = null;
         int i;
@@ -957,7 +957,7 @@ public class PPrint
                 if (c > 0x7F)
                 {
                     i += getUTF8(valueChars, i, ci);
-                    c = ci.getValue();
+                    c = ci[0];
                 }
 
                 ++i;
@@ -1307,13 +1307,13 @@ public class PPrint
             {
                 mode |= CDATA;
             }
-            MutableInteger ci = new MutableInteger();
+            int[] ci = new int[1];
 
             // look for UTF-8 multibyte character
             if (c > 0x7F)
             {
                 i += getUTF8(lexer.lexbuf, i, ci);
-                c = ci.getValue();
+                c = ci[0];
             }
 
             if (c == '\n')
