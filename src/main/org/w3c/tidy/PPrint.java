@@ -977,6 +977,8 @@ public class PPrint
 
     private void printAttrs(Out fout, int indent, Node node, AttVal attr)
     {
+        Attribute attribute;
+
         if (attr != null)
         {
             if (attr.next != null)
@@ -986,7 +988,13 @@ public class PPrint
 
             if (attr.attribute != null)
             {
-                printAttribute(fout, indent, node, attr);
+                attribute = attr.dict;
+
+                if (!this.configuration.dropProprietaryAttributes
+                    || !(attribute == null || ((attribute.getVersions() & Dict.VERS_PROPRIETARY) != 0)))
+                {
+                    printAttribute(fout, indent, node, attr);
+                }
             }
             else if (attr.asp != null)
             {

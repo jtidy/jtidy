@@ -256,6 +256,11 @@ public class Configuration implements java.io.Serializable
     protected boolean dropFontTags;
 
     /**
+     * discard proprietary attributes.
+     */
+    protected boolean dropProprietaryAttributes;
+
+    /**
      * discard empty p elements.
      */
     protected boolean dropEmptyParas = true;
@@ -623,6 +628,12 @@ public class Configuration implements java.io.Serializable
         if (value != null)
         {
             dropFontTags = parseBool(value, "drop-font-tags");
+        }
+
+        value = properties.getProperty("drop-proprietary-attributes");
+        if (value != null)
+        {
+            dropProprietaryAttributes = parseBool(value, "drop-proprietary-attributes");
         }
 
         value = properties.getProperty("enclose-text");

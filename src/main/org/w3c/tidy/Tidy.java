@@ -611,6 +611,20 @@ public class Tidy implements Serializable
     }
 
     /**
+     * drop-proprietary-attributes - discard proprietary attributes.
+     * @see Configuration#dropProprietaryAttributes
+     */
+    public void setDropProprietaryAttributes(boolean dropProprietaryAttributes)
+    {
+        configuration.dropProprietaryAttributes = dropProprietaryAttributes;
+    }
+
+    public boolean getDropProprietaryAttributes()
+    {
+        return configuration.dropProprietaryAttributes;
+    }
+
+    /**
      * DropEmptyParas - discard empty p elements
      * @see Configuration#dropEmptyParas
      */
