@@ -1042,6 +1042,15 @@ public final class Report
         }
     }
 
+    /**
+     * Sets the current file name.
+     * @param filename current file.
+     */
+    public void setFilename(String filename)
+    {
+        currentFile = filename; // for use with Gnu Emacs
+    }
+
     public void reportVersion(PrintWriter errout, Lexer lexer, String filename, Node doctype)
     {
         int i, c;
