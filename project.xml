@@ -1,5 +1,6 @@
 <project>
     <pomVersion>3</pomVersion>
+    <id>jtidy</id>
     <name>JTidy</name>
     <groupId>jtidy</groupId>
     <currentVersion>r8-SNAPSHOT</currentVersion>
