@@ -1,125 +1,168 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
-  <properties>
-    <title>JTidy</title>
-    <author email="fgiust AT users.sourceforge.net">Fabrizio Giustina</author>
-  </properties>
-  <body>
-    <section name="About JTidy">
-      <p>
-        JTidy is a Java port of
-        <a href="http://www.w3.org/People/Raggett/tidy/">HTML Tidy</a>
-        , a HTML syntax checker and pretty printer. Like its non-Java cousin, JTidy can be used as a tool for cleaning up malformed and faulty HTML. In addition, JTidy provides a DOM interface to the document that is being processed, which effectively makes you able to use JTidy as a DOM parser for real-world HTML.
-      </p>
-      <p>JTidy was written by Andy Quick, who later stepped down from the maintainer position. Now JTidy is maintained by a group of volunteers.</p>
-      <p>
-        More information on JTidy can be found on the
-        <a href="http://sourceforge.net/projects/jtidy/">JTidy SourceForge project page</a>
-        .
-      </p>
-    </section>
-    <section name="News">
-      <subsection name="March 12, 2004">
-		    <p>
-          Nightly builds are now automatically generated daily and the whole website is refresh at the same time.
-          1/3 of the implemented tests is working now. Two years of reported bugs are difficult to catch up, but the
-          <a href="changes-report.html">change log</a> starts becoming "important"...
-        </p>
-        <p>
-          Do you wanna play with a recent build? Get the source or binary distribution from the 
-          <a href="nightly/">nightly builds page</a>.
-        </p>
-      </subsection>
-      <subsection name="January 21, 2004">
-		    <p>
-          Site updated using the latest maven version: test report is a lot more readable now (formatting has been fixed in the
-          latest junit-report plugin)... new site layout (using a tweaked version of the maven xdoc plugin: xhtml + tableless CSS)			
-        </p>
-      </subsection>
-		<subsection name="January 16, 2004">
-		<p>
-			<strong>183</strong> test cases fully implemented now. All the test cases from Tidy and some new tests for JTidy
-			have been added.			
-		</p>
-		<p>
-			All the test cases which caused JTidy to crash or loop have been fixed! Priority (1) is done, now there are other
-			139 tests failing. Note most of the test are failing at the firsts lines for differences in doctype handling
-			and formatting in Tidy (the latest Tidy release has been used to produce output files for comparison).
-		</p>
-		<p>
-			These are the priorities before a release:
-		</p>
-			<ul>
-				<li>Doctype handling (needed for tests)</li>
-				<li>Formatting (needed for tests)</li>
-				<li>Xml output: making Jtidy always produce valid xml (the well known "duplicate attributes" bug)</li>
-			</ul>
-		<p>
-			Mh, formatting in maven-generated <a href="junit-report.html">junit report</a> is really bad, I just submitted a
-			bug report to maven: error messages are escaped two times, newlines are not preserved and random whitespaces are
-			added. I think I should spend some time in fixing junit report plugin bugs if I want to be able to fix JTidy bugs...
-		</p>
-		</subsection>
-      <subsection name="January 8, 2004">
-        <p><strong>179</strong> test cases for JTidy have been <em>partially</em> implemented and added!</p>
-        <p>
-        	All the test cases for the non java version of Tidy have been integrated. <em>Partially</em> because most of them
-        	don't check yet output or warnings produced by Tidy, but simply test that JTidy doesn't crash or loop.
-        </p>
-        <p>
-        	Well, actually as you can see in the <a href="junit-report.html">junit report</a> we have 1 test causing a NPE and 4 causing infinite loops!
-        	These bugs will have the precedence over any incorrect output bug (fixing these will probably worth a new release, you don't
-        	want your software to hang using JTidy, right?).
-        </p>
-        <p>
-        	Anyway, in the TidyCrashingBugsTest (test that crashed the c version of Tidy) 21 of the 24 tests works without problems... not so bad as expected.
-        </p>
-        <p>
-        	See <a href="testcases.html">testcases</a>, if you wanna help JTidy supplying tests or fixes.
-        </p>
-        
-        <p>
-			Thanks to the Clover team for the free license for the JTidy project!
-			<a href="http://www.thecortex.net/clover"><img src="http://www.thecortex.net/clover/images/clovered1.gif" width="89" height="33" alt="Code Coverage by Clover"/></a>
-		</p>
-      </subsection>
-        
-        
-      <subsection name="January 6, 2004">
-        <p>JTidy new website is online!</p>
-        <p>The project is starting again after two years without a release. I (Fabrizio Giustina) just joined the project as new administrator and developer.</p>
-        <p>
-          Main targets are now:
-        </p>
-          <ul>
-            <li>migrate to maven as a build system (done)</li>
-            <li>
-              old code cleanup: remove unused code, clean up everything with the help of
-              <a href="checkstyle-report.html">checkstyle</a>
-              and
-              <a href="pmd-report.html">pmd</a>
-              , and update code to use new
-              <a href="coding_conventions.html">coding conventions</a>
-              .
-            </li>
-            <li>
-              add junit test coverage (started, see
-              <a href="junit-report.html">junit report</a>
-              and
-              <a href="clover/index.html">clover report</a>
-              ). I'm trying to integrate all the standard tidy testcases to check that jtidy will behave like its non-Java cousin
-            </li>
-            <li>Finally: integrate all the patches supplied by users in these years and the fixes in the non-Java version</li>
-          </ul>
-        <p>
-          A note about mailing lists: there are two new mailing list, specific to jtidy, see
-          <a href="mail-lists.html">project mailing lists</a>
-          . You can find previous discussions in
-          <a href="http://lists.w3.org/Archives/Public/html-tidy">html-tidy@w3.org</a>
-          archives (common to tidy and jtidy).
-        </p>
-      </subsection>
-    </section>
-  </body>
+    <properties>
+        <title>JTidy</title>
+        <author email="fgiust AT users.sourceforge.net">Fabrizio Giustina</author>
+    </properties>
+    <body>
+        <section name="About JTidy">
+            <p>
+                JTidy is a Java port of
+                <a href="http://www.w3.org/People/Raggett/tidy/">HTML Tidy</a>
+                , a HTML syntax checker and pretty printer. Like its non-Java cousin, JTidy can be used as a tool for
+                cleaning up malformed and faulty HTML. In addition, JTidy provides a DOM interface to the document that
+                is being processed, which effectively makes you able to use JTidy as a DOM parser for real-world HTML.
+            </p>
+            <p>
+                JTidy was written by Andy Quick, who later stepped down from the maintainer position. Now JTidy is
+                maintained by a group of volunteers.
+            </p>
+            <p>
+                More information on JTidy can be found on the
+                <a href="http://sourceforge.net/projects/jtidy/">JTidy SourceForge project page</a>
+                .
+            </p>
+        </section>
+        <section name="News">
+
+
+            <subsection name="August 20, 2004">
+                <p>
+                    More than 50% of the tests are now working, and hundreds of fixes and new features have been ported
+                    from the c version. Xml/xhtml output is now fairly more robust. Check out a
+                    <a href="nightly/">nightly build</a>
+                    and reports any bug found!
+                </p>
+            </subsection>
+            <subsection name="March 12, 2004">
+                <p>
+                    Nightly builds are now automatically generated daily and the whole website is refresh at the same
+                    time. 1/3 of the implemented tests is working now. Two years of reported bugs are difficult to catch
+                    up, but the
+                    <a href="changes-report.html">change log</a>
+                    starts becoming "important"...
+                </p>
+                <p>
+                    Do you wanna play with a recent build? Get the source or binary distribution from the
+                    <a href="nightly/">nightly builds page</a>
+                    .
+                </p>
+            </subsection>
+            <subsection name="January 21, 2004">
+                <p>
+                    Site updated using the latest maven version: test report is a lot more readable now (formatting has
+                    been fixed in the latest junit-report plugin)... new site layout (using a tweaked version of the
+                    maven xdoc plugin: xhtml + tableless CSS)
+                </p>
+            </subsection>
+            <subsection name="January 16, 2004">
+                <p>
+                    <strong>183</strong>
+                    test cases fully implemented now. All the test cases from Tidy and some new tests for JTidy have
+                    been added.
+                </p>
+                <p>
+                    All the test cases which caused JTidy to crash or loop have been fixed! Priority (1) is done, now
+                    there are other 139 tests failing. Note most of the test are failing at the firsts lines for
+                    differences in doctype handling and formatting in Tidy (the latest Tidy release has been used to
+                    produce output files for comparison).
+                </p>
+                <p>These are the priorities before a release:</p>
+                <ul>
+                    <li>Doctype handling (needed for tests)</li>
+                    <li>Formatting (needed for tests)</li>
+                    <li>
+                        Xml output: making Jtidy always produce valid xml (the well known "duplicate attributes" bug)
+                    </li>
+                </ul>
+                <p>
+                    Mh, formatting in maven-generated
+                    <a href="junit-report.html">junit report</a>
+                    is really bad, I just submitted a bug report to maven: error messages are escaped two times,
+                    newlines are not preserved and random whitespaces are added. I think I should spend some time in
+                    fixing junit report plugin bugs if I want to be able to fix JTidy bugs...
+                </p>
+            </subsection>
+            <subsection name="January 8, 2004">
+                <p>
+                    <strong>179</strong>
+                    test cases for JTidy have been
+                    <em>partially</em>
+                    implemented and added!
+                </p>
+                <p>
+                    All the test cases for the non java version of Tidy have been integrated.
+                    <em>Partially</em>
+                    because most of them don't check yet output or warnings produced by Tidy, but simply test that JTidy
+                    doesn't crash or loop.
+                </p>
+                <p>
+                    Well, actually as you can see in the
+                    <a href="junit-report.html">junit report</a>
+                    we have 1 test causing a NPE and 4 causing infinite loops! These bugs will have the precedence over
+                    any incorrect output bug (fixing these will probably worth a new release, you don't want your
+                    software to hang using JTidy, right?).
+                </p>
+                <p>
+                    Anyway, in the TidyCrashingBugsTest (test that crashed the c version of Tidy) 21 of the 24 tests
+                    works without problems... not so bad as expected.
+                </p>
+                <p>
+                    See
+                    <a href="testcases.html">testcases</a>
+                    , if you wanna help JTidy supplying tests or fixes.
+                </p>
+
+                <p>
+                    Thanks to the Clover team for the free license for the JTidy project!
+                    <a href="http://www.thecortex.net/clover">
+                        <img src="http://www.thecortex.net/clover/images/clovered1.gif" width="89" height="33"
+                            alt="Code Coverage by Clover" />
+                    </a>
+                </p>
+            </subsection>
+
+
+            <subsection name="January 6, 2004">
+                <p>JTidy new website is online!</p>
+                <p>
+                    The project is starting again after two years without a release. I (Fabrizio Giustina) just joined
+                    the project as new administrator and developer.
+                </p>
+                <p>Main targets are now:</p>
+                <ul>
+                    <li>migrate to maven as a build system (done)</li>
+                    <li>
+                        old code cleanup: remove unused code, clean up everything with the help of
+                        <a href="checkstyle-report.html">checkstyle</a>
+                        and
+                        <a href="pmd-report.html">pmd</a>
+                        , and update code to use new
+                        <a href="coding_conventions.html">coding conventions</a>
+                        .
+                    </li>
+                    <li>
+                        add junit test coverage (started, see
+                        <a href="junit-report.html">junit report</a>
+                        and
+                        <a href="clover/index.html">clover report</a>
+                        ). I'm trying to integrate all the standard tidy testcases to check that jtidy will behave like
+                        its non-Java cousin
+                    </li>
+                    <li>
+                        Finally: integrate all the patches supplied by users in these years and the fixes in the
+                        non-Java version
+                    </li>
+                </ul>
+                <p>
+                    A note about mailing lists: there are two new mailing list, specific to jtidy, see
+                    <a href="mail-lists.html">project mailing lists</a>
+                    . You can find previous discussions in
+                    <a href="http://lists.w3.org/Archives/Public/html-tidy">html-tidy@w3.org</a>
+                    archives (common to tidy and jtidy).
+                </p>
+            </subsection>
+        </section>
+    </body>
 </document>
 
