@@ -176,13 +176,6 @@ In addition, JTidy provides a DOM interface to the document that is being proces
             <type>plugin</type>
             <url>http://maven-plugins.sourceforge.net</url>
         </dependency>
-        <dependency>
-            <groupId>maven-validator</groupId>
-            <artifactId>maven-xhtml-plugin</artifactId>
-            <version>1.2-SNAPSHOT</version>
-            <type>plugin</type>
-            <url>http://maven-validator.sourceforge.net</url>
-        </dependency>
 
     </dependencies>
     <build>
