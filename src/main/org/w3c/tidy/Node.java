@@ -542,7 +542,8 @@ public class Node
             if (c == 160 || c == (byte) ' ')
             {
                 /* take care with <td> &nbsp; </td> */
-                if (element.tag == tt.tagTd || element.tag == tt.tagTh)
+                // fix for [435920]
+                if (c == 160 && (element.tag == tt.tagTd || element.tag == tt.tagTh))
                 {
                     if (last.end > last.start + 1)
                     {
