@@ -318,6 +318,10 @@ public final class ParserImpl
                     {
                         lexer.report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
                     }
+                    else if (node.type == Node.END_TAG)
+                    {
+                        lexer.seenEndHtml = true;
+                    }
 
                     continue;
                 }
