@@ -1102,4 +1102,14 @@ public class TidyOutputBugsTest extends TidyTestCase
         executeTidyTest("996484.html");
     }
 
+    /**
+     * test for Tidy [1031865] : Script parsing warning.
+     * @throws Exception any exception generated during the test
+     */
+    public void test1031865() throws Exception
+    {
+        executeTidyTest("1031865.html");
+        assertNoWarnings();
+    }
+
 }
