@@ -58,6 +58,7 @@ package org.w3c.tidy;
  * tidy.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
+ * @author Fabrizio Giustina
  * @version $Revision $ ($Author $)
  */
 import java.io.PrintWriter;
@@ -414,7 +415,7 @@ public final class Report
         }
     }
 
-    public void attrError(Lexer lexer, Node node, String attr, short code)
+    public void attrError(Lexer lexer, Node node, AttVal attribute, short code)
     {
         lexer.warnings++;
 
@@ -438,7 +439,7 @@ public final class Report
                 try
                 {
                     tidyPrintln(lexer.errout, getPosition(lexer)
-                        + MessageFormat.format(res.getString("unknown_attribute"), new Object[]{attr}));
+                        + MessageFormat.format(res.getString("unknown_attribute"), new Object[]{attribute.attribute}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -450,7 +451,7 @@ public final class Report
                 try
                 {
                     tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + MessageFormat.format(res.getString("missing_attribute"), new Object[]{attr}));
+                        + MessageFormat.format(res.getString("missing_attribute"), new Object[]{attribute.attribute}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -462,7 +463,7 @@ public final class Report
                 try
                 {
                     tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + MessageFormat.format(res.getString("missing_attr_value"), new Object[]{attr}));
+                        + MessageFormat.format(res.getString("missing_attr_value"), new Object[]{attribute.attribute}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -487,7 +488,7 @@ public final class Report
                 try
                 {
                     tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + MessageFormat.format(res.getString("bad_attribute_value"), new Object[]{attr}));
+                        + MessageFormat.format(res.getString("bad_attribute_value"), new Object[]{attribute.value}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -499,7 +500,7 @@ public final class Report
                 try
                 {
                     tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + MessageFormat.format(res.getString("xml_attribute_value"), new Object[]{attr}));
+                        + MessageFormat.format(res.getString("xml_attribute_value"), new Object[]{attribute.attribute}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -549,7 +550,7 @@ public final class Report
                 try
                 {
                     tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + MessageFormat.format(res.getString("proprietary_attr_value"), new Object[]{attr}));
+                        + MessageFormat.format(res.getString("proprietary_attr_value"), new Object[]{attribute.value}));
                 }
                 catch (MissingResourceException e)
                 {
@@ -560,8 +561,11 @@ public final class Report
             {
                 try
                 {
-                    tidyPrintln(lexer.errout, getPosition(lexer) + res.getString("warning") + getTagName(node)
-                        + MessageFormat.format(res.getString("proprietary_attribute"), new Object[]{attr}));
+                    tidyPrintln(lexer.errout, getPosition(lexer)
+                        + res.getString("warning")
+                        + getTagName(node)
+                        + MessageFormat.format(res.getString("proprietary_attribute"),
+                            new Object[]{attribute.attribute}));
                 }
                 catch (MissingResourceException e)
                 {

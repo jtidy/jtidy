@@ -70,6 +70,7 @@ import java.util.Vector;
  * </p>
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
+ * @author Fabrizio Giustina
  * @version $Revision $ ($Author $)
  */
 public class Lexer
@@ -3032,7 +3033,6 @@ public class Lexer
     }
 
     // swallows closing '>'
-
     public AttVal parseAttrs(MutableBoolean isempty)
     {
         AttVal av, list;
@@ -3079,7 +3079,7 @@ public class Lexer
             else
             {
                 av = new AttVal(null, null, null, null, 0, attribute, value);
-                report.attrError(this, this.token, value, Report.BAD_ATTRIBUTE_VALUE);
+                report.attrError(this, this.token, av, Report.BAD_ATTRIBUTE_VALUE);
             }
         }
 
@@ -3408,7 +3408,7 @@ public class Lexer
             {
                 if (!id.value.equals(name.value))
                 {
-                    report.attrError(this, node, "name", Report.ID_NAME_MISMATCH);
+                    report.attrError(this, node, name, Report.ID_NAME_MISMATCH);
                 }
             }
             else if (this.configuration.xmlOut)

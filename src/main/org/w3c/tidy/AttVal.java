@@ -60,6 +60,7 @@ import org.w3c.dom.Attr;
  * Attribute/Value linked list node.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
+ * @author Fabrizio Giustina
  * @version $Revision $ ($Author $)
  */
 public class AttVal extends Object implements Cloneable
@@ -166,7 +167,7 @@ public class AttVal extends Object implements Cloneable
             {
                 if (!(lexer.configuration.xmlTags || lexer.configuration.xmlOut))
                 {
-                    lexer.report.attrError(lexer, node, this.attribute, Report.XML_ATTRIBUTE_VALUE);
+                    lexer.report.attrError(lexer, node, this, Report.XML_ATTRIBUTE_VALUE);
                 }
             }
             else
@@ -182,7 +183,7 @@ public class AttVal extends Object implements Cloneable
         else if (!lexer.configuration.xmlTags && !(node.tag == null) && this.asp == null
             && !(node.tag != null && ((node.tag.versions & Dict.VERS_PROPRIETARY) != 0)))
         {
-            lexer.report.attrError(lexer, node, this.attribute, Report.UNKNOWN_ATTRIBUTE);
+            lexer.report.attrError(lexer, node, this, Report.UNKNOWN_ATTRIBUTE);
         }
 
         return attribute;
@@ -207,11 +208,10 @@ public class AttVal extends Object implements Cloneable
 
         if (count > 0)
         {
-            lexer.report.attrError(lexer, node, this.attribute, Report.REPEATED_ATTRIBUTE);
+            lexer.report.attrError(lexer, node, this, Report.REPEATED_ATTRIBUTE);
         }
     }
 
-    /* --------------------- DOM ---------------------------- */
 
     protected org.w3c.dom.Attr getAdapter()
     {
@@ -221,6 +221,5 @@ public class AttVal extends Object implements Cloneable
         }
         return this.adapter;
     }
-    /* --------------------- END DOM ------------------------ */
 
 }
