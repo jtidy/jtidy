@@ -549,7 +549,7 @@ public class TagTable
                 name,
                 Dict.VERS_PROPRIETARY,
                 (Dict.CM_INLINE | Dict.CM_NO_INDENT | Dict.CM_NEW),
-                ParserImpl.getParseBlock(),
+                ParserImpl.getParseInline(),
                 null));
     }
 

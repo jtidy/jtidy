@@ -4,260 +4,122 @@
     <title>Changes</title>
     <author email="fgiust AT sourceforge.net">Fabrizio Giustina</author>
   </properties>
-
   <body>
-
-	<release version="r8" date="in CVS" description="">
-      <action dev="fgiust" type="update">
-          Development is starting againg, with a new project admin and developer. The build system and documentation has been migrated to maven.
-          Due to changes in directory structure, a new module in CVS has been created (tidy2): old files will left untouched and development will continue on this new module.
-      </action>   
-      <action dev="fgiust" type="remove">
-          Packages org.w3c.dom and org.xml.sax have been removed from the distribution.
-      </action>    
-      <action dev="fgiust" type="add">
-          Junit tests added to build process.
-      </action>     
-      <action dev="fgiust" type="fix" issue="610244" due-to="Liam Quinn" due-to-email="">
-          NullPointerException in parsing: Tidy crashes while trying to insert a node 
-          into markup tree before element when parent is null.
-      </action>         
-      <action dev="fgiust" type="add" due-to="Paul Ebermann" issue="591668">
-          Added german translation.
-      </action>            
-      <action dev="fgiust" type="add" due-to="Senén de Diego" issue="840688">
-          Added spanish translation.
-      </action>              
-      <action dev="fgiust" type="add" due-to="Nikola Ken Barozzi" issue="780131">
-          A JTidy ant task has been added: <code>org.w3c.tidy.ant.JTidyTask</code>.
-      </action>      
-      <action dev="fgiust" type="fix" issue="431716">
-          NullPointerException in generating slides.
-      </action>         
-      <action dev="fgiust" type="fix" issue="427675">
-          Frameset followed by frame infinite loop.
-      </action>          
-      <action dev="fgiust" type="fix" issue="522003">
-          Typo in Configuration.parseProps(): indent-attributes parameter ignored.
-      </action>             
-      <action dev="fgiust" type="fix" issue="427671">
-          LI w/FRAME/FRAMESET/OPTGROUP/OPTION loop.
-      </action>           
-      <action dev="fgiust" type="fix" issue="427840">
-          Span causes infinite loop.
-      </action>           
-      <action dev="fgiust" type="fix" issue="539369">
-          Infinite loop <![CDATA[ </frame> after </frameset> ]]>
-      </action>
-      <action dev="fgiust" type="fix" issue="880523">
-          DOM2 methods should throw DOMException if unsupported: now unimplemented DOM methods properly return DOMException.NOT_SUPPORTED_ERR.
-      </action>        
-      <action dev="fgiust" type="fix" issue="427846">
-          Blank char inserted after first char.
-      </action>        
-      <action dev="fgiust" type="fix" issue="435920">
-          Space inserted before <![CDATA[</td>]]>.
-      </action>        
-      <action dev="fgiust" type="fix" issue="514348">
-          Incorrect wrap behaviour.
-      </action>        
-      <action dev="fgiust" type="fix" issue="">
-          Remove empty lines between tags in XML.
-      </action>        
-      <action dev="fgiust" type="fix" issue="427666">
-          Slides not numbered in zero-padded fmt.
-      </action>        
-      <action dev="fgiust" type="fix" issue="431898">
-         Tidy messes up X(HT)ML documents.
-      </action>        
-      <action dev="fgiust" type="fix" issue="433604">
-         Tidy inserts <![CDATA[&nbsp;]]> entity in -xml mode.
-      </action>        
-      <action dev="fgiust" type="fix" issue="433040">
-         Anchor tag without attributes deleted.
-      </action>        
-      <action dev="fgiust" type="fix" issue="427827">
-         Nested anchor elements allowed.
-      </action>        
-      <action dev="fgiust" type="fix" issue="427844">
-         End tags containing whitespace warning.
-      </action>        
-      <action dev="fgiust" type="fix" issue="427810">
-         Proprietary elements not reported as err.
-      </action>        
-      <action dev="fgiust" type="fix" issue="438650">
-         Newline in URL attr value becomes space.
-      </action>        
-      <action dev="fgiust" type="fix" issue="603128">
-         Tidy adds newlines after <![CDATA[</html>]]>.
-      </action>        
-      <action dev="fgiust" type="fix" issue="427839">
-         Output DOCTYPE/Namespace decl separately.
-      </action>        
-      <action dev="fgiust" type="fix" issue="431719">
-         Added "-//W3C//DTD HTML 3.2 Final//EN" to W3C_Version[] so FPI in a DOCTYPE will let document be recognized as HTML 3.2.
-      </action>        
-      <action dev="fgiust" type="fix" issue="431883">
-         Given doctype reported incorrectly.
-      </action>        
-      <action dev="fgiust" type="fix" issue="431956">
-         Well formed XSL xsl:text gives error.
-      </action>        
-      <action dev="fgiust" type="fix" issue="431964">
-         Table height="" not flagged as error.
-      </action>
-      <action dev="fgiust" type="fix" issue="435917">
-         <![CDATA[<input onfocus="">]]> reported unknown attr.
-      </action>
-      <action dev="fgiust" type="fix" issue="438658">
-         Missing / in title endtag makes 2 titles.
-      </action>
-      <action dev="fgiust" type="fix" issue="433359">
-         Empty iframe elements trimmed.
-      </action>
-      <action dev="fgiust" type="fix" issue="427662">
-         BLOCK/INLINE before TABLE parsed wrong.
-      </action>
-      <action dev="fgiust" type="fix" issue="427835">
-         DTD not inserted, but DTD URI Namespace.
-      </action>
-      <action dev="fgiust" type="update">
-        Report methods are no more static. This will allow in future to add error
-        listeners to a single tidy instance for better multithreading and IDE/tools integration.
-      </action>
-      <action dev="fgiust" type="add" issue="434940">
-         --body-only: print only body contents.
-      </action>
-      <action dev="fgiust" type="update">
-         Messages are now generated totally from message resources and no more partially composed in code.
-         This will allow for better message localization.
-      </action>
-      <action dev="fgiust" type="add">
-         Missing doctype is now reported.
-      </action>
-      <action dev="fgiust" type="fix">
-         Invalid values for table cell attributes are now reported.
-      </action>
-      <action dev="fgiust" type="add" issue="433021">
-        Identify attribute whose value is bad.
-      </action>
+    <release version="r8" date="in CVS" description="">
+      <action dev="fgiust" type="update"> Development is starting againg, with a new project admin and developer. The 
+        build system and documentation has been migrated to maven. Due to changes in directory structure, a new module 
+        in CVS has been created (tidy2): old files will left untouched and development will continue on this new 
+        module. </action>
+      <action dev="fgiust" type="remove"> Packages org.w3c.dom and org.xml.sax have been removed from the distribution. 
+        </action>
+      <action dev="fgiust" type="add"> Junit tests added to build process. </action>
+      <action dev="fgiust" type="fix" issue="610244" due-to="Liam Quinn" due-to-email=""> NullPointerException in 
+        parsing: Tidy crashes while trying to insert a node into markup tree before element when parent is null. 
+        </action>
+      <action dev="fgiust" type="add" due-to="Paul Ebermann" issue="591668"> Added german translation. </action>
+      <action dev="fgiust" type="add" due-to="Senén de Diego" issue="840688"> Added spanish translation. </action>
+      <action dev="fgiust" type="add" due-to="Nikola Ken Barozzi" issue="780131"> A JTidy ant task has been added: 
+        <code>org.w3c.tidy.ant.JTidyTask</code>. </action>
+      <action dev="fgiust" type="fix" issue="431716"> NullPointerException in generating slides. </action>
+      <action dev="fgiust" type="fix" issue="427675"> Frameset followed by frame infinite loop. </action>
+      <action dev="fgiust" type="fix" issue="522003"> Typo in Configuration.parseProps(): indent-attributes parameter 
+        ignored. </action>
+      <action dev="fgiust" type="fix" issue="427671"> LI w/FRAME/FRAMESET/OPTGROUP/OPTION loop. </action>
+      <action dev="fgiust" type="fix" issue="427840"> Span causes infinite loop. </action>
+      <action dev="fgiust" type="fix" issue="539369"> Infinite loop <![CDATA[ </frame> after </frameset> ]]> </action>
+      <action dev="fgiust" type="fix" issue="880523"> DOM2 methods should throw DOMException if unsupported: now 
+        unimplemented DOM methods properly return DOMException.NOT_SUPPORTED_ERR. </action>
+      <action dev="fgiust" type="fix" issue="427846"> Blank char inserted after first char. </action>
+      <action dev="fgiust" type="fix" issue="435920"> Space inserted before <![CDATA[</td>]]>. </action>
+      <action dev="fgiust" type="fix" issue="514348"> Incorrect wrap behaviour. </action>
+      <action dev="fgiust" type="fix" issue=""> Remove empty lines between tags in XML. </action>
+      <action dev="fgiust" type="fix" issue="427666"> Slides not numbered in zero-padded fmt. </action>
+      <action dev="fgiust" type="fix" issue="431898"> Tidy messes up X(HT)ML documents. </action>
+      <action dev="fgiust" type="fix" issue="433604"> Tidy inserts <![CDATA[&nbsp;]]> entity in -xml mode. </action>
+      <action dev="fgiust" type="fix" issue="433040"> Anchor tag without attributes deleted. </action>
+      <action dev="fgiust" type="fix" issue="427827"> Nested anchor elements allowed. </action>
+      <action dev="fgiust" type="fix" issue="427844"> End tags containing whitespace warning. </action>
+      <action dev="fgiust" type="fix" issue="427810"> Proprietary elements not reported as err. </action>
+      <action dev="fgiust" type="fix" issue="438650"> Newline in URL attr value becomes space. </action>
+      <action dev="fgiust" type="fix" issue="603128"> Tidy adds newlines after <![CDATA[</html>]]>. </action>
+      <action dev="fgiust" type="fix" issue="427839"> Output DOCTYPE/Namespace decl separately. </action>
+      <action dev="fgiust" type="fix" issue="431719"> Added "-//W3C//DTD HTML 3.2 Final//EN" to W3C_Version[] so FPI in 
+        a DOCTYPE will let document be recognized as HTML 3.2. </action>
+      <action dev="fgiust" type="fix" issue="431883"> Given doctype reported incorrectly. </action>
+      <action dev="fgiust" type="fix" issue="431956"> Well formed XSL xsl:text gives error. </action>
+      <action dev="fgiust" type="fix" issue="431964"> Table height="" not flagged as error. </action>
+      <action dev="fgiust" type="fix" issue="435917"> <![CDATA[<input onfocus="">]]> reported unknown attr. </action>
+      <action dev="fgiust" type="fix" issue="438658"> Missing / in title endtag makes 2 titles. </action>
+      <action dev="fgiust" type="fix" issue="433359"> Empty iframe elements trimmed. </action>
+      <action dev="fgiust" type="fix" issue="427662"> BLOCK/INLINE before TABLE parsed wrong. </action>
+      <action dev="fgiust" type="fix" issue="427835"> DTD not inserted, but DTD URI Namespace. </action>
+      <action dev="fgiust" type="update"> Report methods are no more static. This will allow in future to add error 
+        listeners to a single tidy instance for better multithreading and IDE/tools integration. </action>
+      <action dev="fgiust" type="add" issue="434940"> --body-only: print only body contents. </action>
+      <action dev="fgiust" type="update"> Messages are now generated totally from message resources and no more 
+        partially composed in code. This will allow for better message localization. </action>
+      <action dev="fgiust" type="add"> Missing doctype is now reported. </action>
+      <action dev="fgiust" type="fix"> Invalid values for table cell attributes are now reported. </action>
+      <action dev="fgiust" type="add" issue="433021"> Identify attribute whose value is bad. </action>
+      <action dev="fgiust" type="add" issue="432677">Null value changed to "value" for -asxml.</action>
+      <action dev="fgiust" type="fix" issue="427825">Problems nesting user defined inline tags.</action>
     </release>
-    
-	<release version="04aug2000r7" date="August 1, 2001" description="">
-      <action dev="" type="fix">
-          TagTable is no longer a Singleton, which brings us one step closer
-          to having the ability to run multiple JTidy's in a single JVM.
-      </action> 
-      <action dev="" type="fix">
-          Tidy.java has been refactored and duplicate code has been removed.
-      </action> 
-      <action dev="" type="fix">
-          The license is stated explicitly in the file LICENSE.
-      </action>          
+    <release version="04aug2000r7" date="August 1, 2001" description="">
+      <action dev="" type="fix"> TagTable is no longer a Singleton, which brings us one step closer to having the 
+        ability to run multiple JTidy's in a single JVM. </action>
+      <action dev="" type="fix"> Tidy.java has been refactored and duplicate code has been removed. </action>
+      <action dev="" type="fix"> The license is stated explicitly in the file LICENSE. </action>
     </release>
-
-
-
-	<release version="04aug2000r6" date="December 20, 2000" description="">
-      <action dev="" type="fix">
-      Fixed a bug in the parseAttribute() method of Lexer.java which generated an incorrect
-  length for the UTF8 representation of characters above \u007f.  This was causing
-  a StringIndexOutOfBoundsException in method isValidAttributeName() of Lexer.java at
-  line 2577.  Thanks to dlgo@users.sourceforge.net for reporting this problem.
-      </action>
-      <action dev="" type="fix">
-      Fixed a bug in the insertedToken() method of Lexer.java which generated a Negative
-  ArraySizeException in the clone() method of Node.java.  An ending value for a range in
-  a character array was not being set correctly.  Thanks again to
-  dlgo@users.sourceforge.net for reporting this problem.
-      </action>
-      <action dev="" type="fix">
-      Fixed a bug in Lexer.java where a "!" was omitted from an if condition, causing 
-  the reverse of expected behavior with namespaces.  Fix is attributed to Randi Waki
-      </action>
-      <action dev="" type="fix">
-      dlp@users.sourceforge.net contributed a fix so that hasAttributes() in DOMNodeImpl.java
-  would return the correct boolean value instead of throwing a not implemented exception.
-      </action>
-      <action dev="" type="fix">
-      Added support for CDATASections in the DOM model.
-      </action>
-      <action dev="" type="fix">
-      Fixed a bug in the createProps() method of Clean.java which caused a
-  StringOutOfBoundsException in line 156 due to trailing spaces in a CSS property name.
-      </action>
-      <action dev="" type="fix">
-      Changed the behavior of DOMNodeImpl so that nodes added via the DOM interface have
-  the correct node type.  Previously, such nodes could not contain any content because
-  they were added with a type of StartEndTag.
-      </action>
-      <action dev="" type="fix">
-      Added methods to support DOM Level 2.
-      </action>
-      <action dev="" type="fix">
-      Fixed a bug where createElement() was not properly setting Node.tag if the tag to be added
-  could not be found in the the TagTable.  A generic entry is now used instead of leaving the
-  entry set to null.
-      </action>
+    <release version="04aug2000r6" date="December 20, 2000" description="">
+      <action dev="" type="fix"> Fixed a bug in the parseAttribute() method of Lexer.java which generated an incorrect 
+        length for the UTF8 representation of characters above \u007f. This was causing a 
+        StringIndexOutOfBoundsException in method isValidAttributeName() of Lexer.java at line 2577. Thanks to 
+        dlgo@users.sourceforge.net for reporting this problem. </action>
+      <action dev="" type="fix"> Fixed a bug in the insertedToken() method of Lexer.java which generated a Negative 
+        ArraySizeException in the clone() method of Node.java. An ending value for a range in a character array was not 
+        being set correctly. Thanks again to dlgo@users.sourceforge.net for reporting this problem. </action>
+      <action dev="" type="fix"> Fixed a bug in Lexer.java where a "!" was omitted from an if condition, causing the 
+        reverse of expected behavior with namespaces. Fix is attributed to Randi Waki </action>
+      <action dev="" type="fix"> dlp@users.sourceforge.net contributed a fix so that hasAttributes() in 
+        DOMNodeImpl.java would return the correct boolean value instead of throwing a not implemented exception. 
+        </action>
+      <action dev="" type="fix"> Added support for CDATASections in the DOM model. </action>
+      <action dev="" type="fix"> Fixed a bug in the createProps() method of Clean.java which caused a 
+        StringOutOfBoundsException in line 156 due to trailing spaces in a CSS property name. </action>
+      <action dev="" type="fix"> Changed the behavior of DOMNodeImpl so that nodes added via the DOM interface have the 
+        correct node type. Previously, such nodes could not contain any content because they were added with a type of 
+        StartEndTag. </action>
+      <action dev="" type="fix"> Added methods to support DOM Level 2. </action>
+      <action dev="" type="fix"> Fixed a bug where createElement() was not properly setting Node.tag if the tag to be 
+        added could not be found in the the TagTable. A generic entry is now used instead of leaving the entry set to 
+        null. </action>
     </release>
-
-
-
-	<release version="04aug2000r5" date="November 3, 2000" description="">
-      <action dev="" type="fix">
-      The getValue() method in DOMAttrImpl.java returns the attribute name 
-  if the attribute value is null (thanks to Brett Knights for
-  reporting this)
-      </action>      
-      <action dev="" type="fix">
-      Initial implementation of a Windows .bat file to drive the build process has 
-  been added (thanks, Gary).
-      </action>      
-      <action dev="" type="fix">
-      Compiled .class files are not included in the distribution as they
-are already contained in the jar file.
-      </action>         
+    <release version="04aug2000r5" date="November 3, 2000" description="">
+      <action dev="" type="fix"> The getValue() method in DOMAttrImpl.java returns the attribute name if the attribute 
+        value is null (thanks to Brett Knights for reporting this) </action>
+      <action dev="" type="fix"> Initial implementation of a Windows .bat file to drive the build process has been 
+        added (thanks, Gary). </action>
+      <action dev="" type="fix"> Compiled .class files are not included in the distribution as they are already 
+        contained in the jar file. </action>
     </release>
-
-	<release version="04aug2000r4" date="November 1, 2000" description="">
-      <action dev="" type="fix">
-      The 04aug2000r4 release fixes the bugs reported since r3. Thanks
-to Gary for implementing these changes.
-      </action>
+    <release version="04aug2000r4" date="November 1, 2000" description="">
+      <action dev="" type="fix"> The 04aug2000r4 release fixes the bugs reported since r3. Thanks to Gary for 
+        implementing these changes. </action>
     </release>
-
-	<release version="04aug2000r3" date="October 22, 2000" description="">
-      <action dev="" type="fix">
-      This release fixes a bug in the pre-compiled Tidy JAR. The messages property file is now included. No code changes. 
-      </action>         
+    <release version="04aug2000r3" date="October 22, 2000" description="">
+      <action dev="" type="fix"> This release fixes a bug in the pre-compiled Tidy JAR. The messages property file is 
+        now included. No code changes. </action>
     </release>
-
-	<release version="04aug2000r2" date="October 20, 2000" description="First SourceForge release of JTidy, packaged by 
-Sami Lempinen.">      
-      <action dev="" type="fix">
-      The package structure has been reorganised a little. In the binary 
-  release, the Java bytecode classes and the Tidy JAR can be found under
-  the build/ subdirectory.
-
-      </action>         
-      <action dev="" type="fix">
-      The Ant build system is now the authoritative one. The old Makefiles
-  (untouched) can be found under contrib/ should someone want to start
-  maintaining them.
-
-      </action>         
-      <action dev="" type="fix">
-      A patch by Brett Knights has been incorporated. The patch affects
-  the DOMNodeImpl class and ensures that CharacterData always returns
-  at least an empty string (compared to null) as the value. This patch
-  has not been verified with a DOM guru, so comments are welcome.
-
-      </action>       
+    <release version="04aug2000r2" date="October 20, 2000" 
+      description="First SourceForge release of JTidy, packaged by 
+Sami Lempinen.">
+      <action dev="" type="fix"> The package structure has been reorganised a little. In the binary release, the Java 
+        bytecode classes and the Tidy JAR can be found under the build/ subdirectory. </action>
+      <action dev="" type="fix"> The Ant build system is now the authoritative one. The old Makefiles (untouched) can 
+        be found under contrib/ should someone want to start maintaining them. </action>
+      <action dev="" type="fix"> A patch by Brett Knights has been incorporated. The patch affects the DOMNodeImpl 
+        class and ensures that CharacterData always returns at least an empty string (compared to null) as the value. 
+        This patch has not been verified with a DOM guru, so comments are welcome. </action>
     </release>
-
-
-
-
-
   </body>
 </document>
