@@ -69,24 +69,6 @@ public interface StreamIn
      */
     int END_OF_STREAM = -1;
 
-    /*
-     * states for ISO 2022 A document in ISO-2022 based encoding uses some ESC sequences called "designator" to switch
-     * character sets. The designators defined and used in ISO-2022-JP are: "ESC" + "(" + ? for ISO646 variants "ESC" +
-     * "$" + ? and "ESC" + "$" + "(" + ? for multibyte character sets
-     */
-
-    int FSM_ASCII = 0;
-
-    int FSM_ESC = 1;
-
-    int FSM_ESCD = 2;
-
-    int FSM_ESCDP = 3;
-
-    int FSM_ESCP = 4;
-
-    int FSM_NONASCII = 5;
-
     /**
      * Getter for <code>curcol</code>.
      * @return Returns the curcol.
@@ -109,11 +91,5 @@ public interface StreamIn
     void ungetChar(int c);
 
     boolean isEndOfStream();
-
-    /**
-     * Getter for <code>encoding</code>.
-     * @return Returns the encoding.
-     */
-    int getEncoding();
 
 }

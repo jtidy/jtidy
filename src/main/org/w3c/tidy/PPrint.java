@@ -2646,7 +2646,6 @@ public class PPrint
     {
         Node body;
         String buf;
-        Out out = new OutImpl(this.configuration);
 
         NumberFormat numberFormat = NumberFormat.getInstance();
         numberFormat.setMinimumIntegerDigits(3);
@@ -2659,17 +2658,15 @@ public class PPrint
         for (slide = 1; slide <= count; ++slide)
         {
             buf = "slide" + numberFormat.format(slide) + ".html";
-            // #427666 - fix by Eric Rossen 02 Aug 00
-            out.setState(StreamIn.FSM_ASCII);
-            out.setEncoding(this.configuration.outCharEncoding);
 
             try
             {
                 FileOutputStream fis = new FileOutputStream(buf);
+                Out out = new OutImpl(this.configuration, this.configuration.outCharEncoding);
                 out.setOut(fis);
                 printTree(out, (short) 0, 0, lexer, root);
                 flushLine(out, 0);
-                fis.close();
+                out.close();
             }
             catch (IOException e)
             {

@@ -96,11 +96,14 @@ public class OutImpl implements Out
 
     /**
      * Constructor.
-     * @param configuration actual configuration instance (needed for newline configuration).
+     * @param configuration actual configuration instance (needed for newline configuration)
+     * @param encoding encoding
      */
-    public OutImpl(Configuration configuration)
+    public OutImpl(Configuration configuration, int encoding)
     {
         this.configuration = configuration;
+        this.encoding = encoding;
+        this.state = EncodingUtils.FSM_ASCII;
 
         this.putBytes = new PutBytes()
         {
@@ -119,33 +122,6 @@ public class OutImpl implements Out
             };
         } // set the out instance direclty
             .setOut(this);
-    }
-
-    /**
-     * Getter for <code>encoding</code>.
-     * @return Returns the encoding.
-     */
-    public int getEncoding()
-    {
-        return this.encoding;
-    }
-
-    /**
-     * Getter for <code>out</code>.
-     * @return Returns the out.
-     */
-    public OutputStream getOut()
-    {
-        return this.out;
-    }
-
-    /**
-     * Getter for <code>state</code>.
-     * @return Returns the state.
-     */
-    public int getState()
-    {
-        return this.state;
     }
 
     /**
@@ -247,47 +223,47 @@ public class OutImpl implements Out
             {
                 if (c == 0x1b) /* ESC */
                 {
-                    this.state = StreamIn.FSM_ESC;
+                    this.state = EncodingUtils.FSM_ESC;
                 }
                 else
                 {
                     switch (this.state)
                     {
-                        case StreamIn.FSM_ESC :
+                        case EncodingUtils.FSM_ESC :
                             if (c == '$')
                             {
-                                this.state = StreamIn.FSM_ESCD;
+                                this.state = EncodingUtils.FSM_ESCD;
                             }
                             else if (c == '(')
                             {
-                                this.state = StreamIn.FSM_ESCP;
+                                this.state = EncodingUtils.FSM_ESCP;
                             }
                             else
                             {
-                                this.state = StreamIn.FSM_ASCII;
+                                this.state = EncodingUtils.FSM_ASCII;
                             }
                             break;
 
-                        case StreamIn.FSM_ESCD :
+                        case EncodingUtils.FSM_ESCD :
                             if (c == '(')
                             {
-                                this.state = StreamIn.FSM_ESCDP;
+                                this.state = EncodingUtils.FSM_ESCDP;
                             }
                             else
                             {
-                                this.state = StreamIn.FSM_NONASCII;
+                                this.state = EncodingUtils.FSM_NONASCII;
                             }
                             break;
 
-                        case StreamIn.FSM_ESCDP :
-                            this.state = StreamIn.FSM_NONASCII;
+                        case EncodingUtils.FSM_ESCDP :
+                            this.state = EncodingUtils.FSM_NONASCII;
                             break;
 
-                        case StreamIn.FSM_ESCP :
-                            this.state = StreamIn.FSM_ASCII;
+                        case EncodingUtils.FSM_ESCP :
+                            this.state = EncodingUtils.FSM_ASCII;
                             break;
 
-                        case StreamIn.FSM_NONASCII :
+                        case EncodingUtils.FSM_NONASCII :
                             c &= 0x7F;
                             break;
 
@@ -409,30 +385,12 @@ public class OutImpl implements Out
     }
 
     /**
-     * Setter for <code>encoding</code>.
-     * @param encoding The encoding to set.
-     */
-    public void setEncoding(int encoding)
-    {
-        this.encoding = encoding;
-    }
-
-    /**
      * Setter for <code>out</code>.
      * @param out The out to set.
      */
     public void setOut(OutputStream out)
     {
         this.out = out;
-    }
-
-    /**
-     * Setter for <code>state</code>.
-     * @param state The state to set.
-     */
-    public void setState(int state)
-    {
-        this.state = state;
     }
 
     /**
@@ -449,4 +407,19 @@ public class OutImpl implements Out
         }
     }
 
+    /**
+     * @see org.w3c.tidy.Out#close()
+     */
+    public void close()
+    {
+        try
+        {
+            this.out.flush();
+            this.out.close();
+        }
+        catch (IOException e)
+        {
+            System.err.println("OutImpl.close: " + e.toString());
+        }
+    }
 }

@@ -53,50 +53,119 @@
  */
 package org.w3c.tidy;
 
+import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 
 
 /**
- * Output Stream.
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public interface Out
+public class OutJavaImpl implements Out
 {
 
     /**
-     * writes an char.
-     * @param c char to write
+     * Java input stream writer.
      */
-    void outc(int c);
+    private Writer writer;
 
     /**
-     * writes a byte.
-     * @param c byte to write
+     * configuration.
      */
-    void outc(byte c);
+    private Configuration configuration;
 
     /**
-     * writes a newline.
+     * 
      */
-    void newline();
+    public OutJavaImpl(OutputStream stream, String encoding, Configuration configuration)
+        throws UnsupportedEncodingException
+    {
+        this.writer = new OutputStreamWriter(stream, encoding);
+        this.configuration = configuration;
+    }
 
     /**
-     * Setter for <code>out</code>.
-     * @param out The out to set.
+     * @see org.w3c.tidy.Out#outc(int)
      */
-    void setOut(OutputStream out);
+    public void outc(int c)
+    {
+        try
+        {
+            writer.write(c);
+        }
+        catch (IOException e)
+        {
+            // @todo throws exception
+            System.err.println("WriterOutImpl.outc: " + e.toString());
+        }
+    }
 
     /**
-     * Output a Byte Order Mark if required.
+     * @see org.w3c.tidy.Out#outc(byte)
      */
-    void outBOM();
+    public void outc(byte c)
+    {
+        try
+        {
+            writer.write(c);
+        }
+        catch (IOException e)
+        {
+            // @todo throws exception
+            System.err.println("WriterOutImpl.outc: " + e.toString());
+        }
+    }
 
     /**
-     * Flush and close the stream.
+     * @see org.w3c.tidy.Out#newline()
      */
-    void close();
+    public void newline()
+    {
+        try
+        {
+            writer.write("\n");
+            // @todo use configured newline
+        }
+        catch (IOException e)
+        {
+            // @todo throws exception
+            System.err.println("WriterOutImpl.newline: " + e.toString());
+        }
+    }
+
+    /**
+     * @see org.w3c.tidy.Out#setOut(java.io.OutputStream)
+     */
+    public void setOut(OutputStream out)
+    {
+        // @todo Auto-generated method stub
+
+    }
+
+    /**
+     * @see org.w3c.tidy.Out#outBOM()
+     */
+    public void outBOM()
+    {
+        // not supported in the pure java implementation
+    }
+
+    /**
+     * @see org.w3c.tidy.Out#close()
+     */
+    public void close()
+    {
+        try
+        {
+            writer.close();
+        }
+        catch (IOException e)
+        {
+            System.err.println("OutJavaImpl.close: " + e.toString());
+        }
+    }
 
 }

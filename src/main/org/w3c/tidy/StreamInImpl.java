@@ -130,8 +130,6 @@ public class StreamInImpl implements StreamIn
      */
     private int state;
 
-    private int c;
-
     /**
      * Encoding.
      */
@@ -142,6 +140,9 @@ public class StreamInImpl implements StreamIn
      */
     private int curcol;
 
+    /**
+     * last column.
+     */
     private int lastcol;
 
     /**
@@ -173,7 +174,7 @@ public class StreamInImpl implements StreamIn
         this.curline = 1;
         this.curcol = 1;
         this.encoding = encoding;
-        this.state = FSM_ASCII;
+        this.state = EncodingUtils.FSM_ASCII;
         this.getBytes = new GetBytes()
         {
 
@@ -216,14 +217,6 @@ public class StreamInImpl implements StreamIn
     public void setLexer(Lexer lexer)
     {
         this.lexer = lexer;
-    }
-
-    /**
-     * @see org.w3c.tidy.StreamIn#getEncoding()
-     */
-    public int getEncoding()
-    {
-        return this.encoding;
     }
 
     /**
@@ -581,47 +574,47 @@ public class StreamInImpl implements StreamIn
         {
             if (c == 0x1b) // ESC
             {
-                this.state = FSM_ESC;
+                this.state = EncodingUtils.FSM_ESC;
                 return c;
             }
 
             switch (this.state)
             {
-                case FSM_ESC :
+                case EncodingUtils.FSM_ESC :
                     if (c == '$')
                     {
-                        this.state = FSM_ESCD;
+                        this.state = EncodingUtils.FSM_ESCD;
                     }
                     else if (c == '(')
                     {
-                        this.state = FSM_ESCP;
+                        this.state = EncodingUtils.FSM_ESCP;
                     }
                     else
                     {
-                        this.state = FSM_ASCII;
+                        this.state = EncodingUtils.FSM_ASCII;
                     }
                     break;
 
-                case FSM_ESCD :
+                case EncodingUtils.FSM_ESCD :
                     if (c == '(')
                     {
-                        this.state = FSM_ESCDP;
+                        this.state = EncodingUtils.FSM_ESCDP;
                     }
                     else
                     {
-                        this.state = FSM_NONASCII;
+                        this.state = EncodingUtils.FSM_NONASCII;
                     }
                     break;
 
-                case FSM_ESCDP :
-                    this.state = FSM_NONASCII;
+                case EncodingUtils.FSM_ESCDP :
+                    this.state = EncodingUtils.FSM_NONASCII;
                     break;
 
-                case FSM_ESCP :
-                    this.state = FSM_ASCII;
+                case EncodingUtils.FSM_ESCP :
+                    this.state = EncodingUtils.FSM_ASCII;
                     break;
 
-                case FSM_NONASCII :
+                case EncodingUtils.FSM_NONASCII :
                     c |= 0x80;
                     break;
 
@@ -753,7 +746,7 @@ public class StreamInImpl implements StreamIn
                 if (unget)
                 {
 
-                    c = this.stream.read();
+                    int c = this.stream.read();
 
                     // should never get here; testing for 0xFF, a valid char, is not a good idea
                     if (c == END_OF_STREAM) // || buf[i] == (unsigned char)EndOfStream

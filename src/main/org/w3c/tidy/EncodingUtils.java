@@ -81,35 +81,89 @@ public final class EncodingUtils
     public static final int UNICODE_BOM_UTF8 = 0xEFBBBF;
 
     /**
+     * states for ISO 2022 A document in ISO-2022 based encoding uses some ESC sequences called "designator" to switch
+     * character sets. The designators defined and used in ISO-2022-JP are: "ESC" + "(" + ? for ISO646 variants "ESC" +
+     * "$" + ? and "ESC" + "$" + "(" + ? for multibyte character sets. State ASCII.
+     */
+    public static final int FSM_ASCII = 0;
+
+    /**
+     * state ESC.
+     */
+    public static final int FSM_ESC = 1;
+
+    /**
+     * state ESCD.
+     */
+    public static final int FSM_ESCD = 2;
+
+    /**
+     * state ESCDP.
+     */
+    public static final int FSM_ESCDP = 3;
+
+    /**
+     * state ESCP.
+     */
+    public static final int FSM_ESCP = 4;
+
+    /**
+     * state NONASCII.
+     */
+    public static final int FSM_NONASCII = 5;
+
+    /**
+     * Max UTF-88 valid char value.
+     */
+    public static final int MAX_UTF8_FROM_UCS4 = 0x10FFFF;
+
+    /**
+     * Max UTF-16 value.
+     */
+    public static final int MAX_UTF16_FROM_UCS4 = 0x10FFFF;
+
+    /**
      * utf16 low surrogate.
      */
     public static final int LOW_UTF16_SURROGATE = 0xD800;
 
+    /**
+     * UTF-16 surrogates begin.
+     */
     public static final int UTF16_SURROGATES_BEGIN = 0x10000;
 
-    public static final int MAX_UTF16_FROM_UCS4 = 0x10FFFF;
-
-    /* UTF-16 surrogate pair areas */
+    /**
+     * UTF-16 surrogate pair areas: low surrogates begin.
+     */
     public static final int UTF16_LOW_SURROGATE_BEGIN = 0xD800;
 
+    /**
+     * UTF-16 surrogate pair areas: low surrogates end.
+     */
     public static final int UTF16_LOW_SURROGATE_END = 0xDBFF;
 
+    /**
+     * UTF-16 surrogate pair areas: high surrogates begin.
+     */
     public static final int UTF16_HIGH_SURROGATE_BEGIN = 0xDC00;
 
+    /**
+     * UTF-16 surrogate pair areas: high surrogates end.
+     */
     public static final int UTF16_HIGH_SURROGATE_END = 0xDFFF;
 
     /**
-     * utf16 high surrogate.
+     * UTF-16 high surrogate.
      */
     public static final int HIGH_UTF16_SURROGATE = 0xDFFF;
 
     /**
-     * Utf 8 bye swap: invalid char.
+     * UTF-8 bye swap: invalid char.
      */
     private static final int UTF8_BYTE_SWAP_NOT_A_CHAR = 0xFFFE;
 
     /**
-     * Utf 8 invalid char.
+     * UTF-8 invalid char.
      */
     private static final int UTF8_NOT_A_CHAR = 0xFFFF;
 
@@ -583,11 +637,6 @@ public final class EncodingUtils
     private static final int NUM_UTF8_SEQUENCES = VALID_UTF8.length;
 
     /**
-     * max utf8 valid char value.
-     */
-    public static final int MAX_UTF8_FROM_UCS4 = 0x10FFFF;
-
-    /**
      * Offset for utf8 sequences.
      */
     private static final int[] OFFSET_UTF8_SEQUENCES = {0, // 1 byte
@@ -955,4 +1004,3 @@ public final class EncodingUtils
         void doPut(byte[] buf, int[] count);
     }
 }
-

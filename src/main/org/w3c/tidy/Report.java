@@ -865,10 +865,8 @@ public final class Report
                     lexer,
                     "encoding_mismatch",
                     new Object[]{
-                        ParsePropertyImpl.CHAR_ENCODING.getFriendlyName(
-                            null,
-                            new Integer(lexer.in.getEncoding()),
-                            lexer.configuration),
+                        ParsePropertyImpl.CHAR_ENCODING.getFriendlyName(null, new Integer(
+                            lexer.configuration.inCharEncoding), lexer.configuration),
                         ParsePropertyImpl.CHAR_ENCODING.getFriendlyName(null, new Integer(c), lexer.configuration)},
                     Level.WARNING);
             }
@@ -1027,10 +1025,6 @@ public final class Report
                     getTagName(node),
                     attribute.attribute,
                     attribute.value}, Level.WARNING);
-                break;
-
-            case XML_ID_SYNTAX :
-                printMessage(lexer, "xml_id_sintax", new Object[]{getTagName(node), attribute.attribute}, Level.WARNING);
                 break;
 
             case XML_ATTRIBUTE_VALUE :
@@ -1446,11 +1440,11 @@ public final class Report
             {
                 int encodingChoiche = 0;
 
-                if (lexer.in.getEncoding() == Configuration.WIN1252)
+                if (lexer.configuration.inCharEncoding == Configuration.WIN1252)
                 {
                     encodingChoiche = 1;
                 }
-                else if (lexer.in.getEncoding() == Configuration.MACROMAN)
+                else if (lexer.configuration.inCharEncoding == Configuration.MACROMAN)
                 {
                     encodingChoiche = 2;
                 }
@@ -1466,11 +1460,11 @@ public final class Report
             {
                 int encodingChoiche = 0;
 
-                if (lexer.in.getEncoding() == Configuration.WIN1252)
+                if (lexer.configuration.inCharEncoding == Configuration.WIN1252)
                 {
                     encodingChoiche = 1;
                 }
-                else if (lexer.in.getEncoding() == Configuration.MACROMAN)
+                else if (lexer.configuration.inCharEncoding == Configuration.MACROMAN)
                 {
                     encodingChoiche = 2;
                 }
@@ -1657,14 +1651,12 @@ public final class Report
             StringBuffer doctypeBuffer = new StringBuffer();
             for (i = doctype.start; i < doctype.end; ++i)
             {
-                //c = doctype.textarray[i];
-                c = (char) lexer.lexbuf[i];
+                c = doctype.textarray[i];
 
                 // look for UTF-8 multibyte character
                 if (c < 0)
                 {
-                    //i += PPrint.getUTF8(doctype.textarray, i, cc);
-                    i += PPrint.getUTF8(lexer.lexbuf, i, cc);
+                    i += PPrint.getUTF8(doctype.textarray, i, cc);
                     c = cc[0];
                 }
 

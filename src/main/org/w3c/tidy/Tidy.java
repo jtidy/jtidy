@@ -1266,7 +1266,6 @@ public class Tidy implements Serializable
         Lexer lexer;
         Node document = null;
         Node doctype;
-        Out o = new OutImpl(this.configuration); // normal output stream
         PPrint pprint;
         boolean inputHadBOM = false;
 
@@ -1315,10 +1314,10 @@ public class Tidy implements Serializable
             }
 
             // skip byte order mark
-            if (lexer.in.getEncoding() == Configuration.UTF8
-                || lexer.in.getEncoding() == Configuration.UTF16LE
-                || lexer.in.getEncoding() == Configuration.UTF16BE
-                || lexer.in.getEncoding() == Configuration.UTF16)
+            if (lexer.configuration.inCharEncoding == Configuration.UTF8
+                || lexer.configuration.inCharEncoding == Configuration.UTF16LE
+                || lexer.configuration.inCharEncoding == Configuration.UTF16BE
+                || lexer.configuration.inCharEncoding == Configuration.UTF16)
             {
                 int c = lexer.in.readChar();
                 if (c == EncodingUtils.UNICODE_BOM)
@@ -1396,7 +1395,7 @@ public class Tidy implements Serializable
                 }
 
                 doctype = document.findDocType();
-                
+
                 // remember given doctype
                 if (doctype != null)
                 {
@@ -1457,9 +1456,6 @@ public class Tidy implements Serializable
                 this.report.needsAuthorIntervention(errout);
             }
 
-            o.setState(StreamIn.FSM_ASCII);
-            o.setEncoding(configuration.outCharEncoding);
-
             if (!configuration.onlyErrors && (lexer.errors == 0 || configuration.forceOutput))
             {
                 if (configuration.burstSlides)
@@ -1513,6 +1509,7 @@ public class Tidy implements Serializable
                     {
                         pprint = new PPrint(configuration);
                         FileOutputStream fis = new FileOutputStream(file);
+                        Out o = new OutImpl(this.configuration, configuration.outCharEncoding); // normal output stream
                         o.setOut(fis);
 
                         // Output a Byte Order Mark if required
@@ -1536,7 +1533,7 @@ public class Tidy implements Serializable
                         }
 
                         pprint.flushLine(o, 0);
-                        fis.close();
+                        o.close();
                     }
                     catch (IOException e)
                     {
@@ -1546,6 +1543,8 @@ public class Tidy implements Serializable
                 else if (out != null)
                 {
                     pprint = new PPrint(configuration);
+
+                    Out o = new OutImpl(this.configuration, configuration.outCharEncoding); // normal output stream
                     o.setOut(out);
 
                     if (configuration.outputBOM || (inputHadBOM && configuration.smartBOM))
@@ -1568,6 +1567,7 @@ public class Tidy implements Serializable
                     }
 
                     pprint.flushLine(o, 0);
+                    o.close();
                 }
 
             }
@@ -1657,14 +1657,12 @@ public class Tidy implements Serializable
      */
     private void pprint(Node node, OutputStream out)
     {
-        Out o = new OutImpl(this.configuration);
         PPrint pprint;
-
-        o.setState(StreamIn.FSM_ASCII);
-        o.setEncoding(configuration.outCharEncoding);
 
         if (out != null)
         {
+            Out o = new OutImpl(this.configuration, configuration.outCharEncoding);
+
             pprint = new PPrint(configuration);
             o.setOut(out);
 

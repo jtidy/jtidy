@@ -56,6 +56,7 @@ package org.w3c.tidy;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 
 
@@ -67,22 +68,65 @@ public class StreamInJavaImpl implements StreamIn
 {
 
     /**
+     * number of characters kept in buffer.
+     */
+    private static final int CHARBUF_SIZE = 5;
+
+    /**
+     * character buffer.
+     */
+    private int[] charbuf = new int[CHARBUF_SIZE];
+
+    /**
+     * actual position in buffer.
+     */
+    private int bufpos;
+
+    /**
      * Java input stream reader.
      */
-    private InputStreamReader isr;
+    private Reader reader;
 
     /**
      * has end of stream been reached?
      */
     private boolean endOfStream;
 
+    /**
+     * Is char pushed?
+     */
     private boolean pushed;
 
-    private int c;
+    /**
+     * current column number.
+     */
+    private int curcol;
 
-    public StreamInJavaImpl(InputStream stream, String encoding) throws UnsupportedEncodingException
+    /**
+     * last column.
+     */
+    private int lastcol;
+
+    /**
+     * current line number.
+     */
+    private int curline;
+
+    /**
+     * tab size in chars.
+     */
+    private int tabsize;
+
+    private int tabs;
+
+    public StreamInJavaImpl(InputStream stream, String encoding, int tabsize) throws UnsupportedEncodingException
     {
-        isr = new InputStreamReader(stream, encoding);
+        reader = new InputStreamReader(stream, encoding);
+        this.pushed = false;
+        this.tabsize = tabsize;
+        this.curline = 1;
+        this.curcol = 1;
+        this.endOfStream = false;
     }
 
     /**
@@ -90,14 +134,15 @@ public class StreamInJavaImpl implements StreamIn
      */
     public int readCharFromStream()
     {
+        int c;
         try
         {
-            int rtn = isr.read();
-            if (rtn < 0)
+            c = reader.read();
+            if (c < 0)
             {
                 endOfStream = true;
             }
-            return rtn;
+
         }
         catch (IOException e)
         {
@@ -105,6 +150,17 @@ public class StreamInJavaImpl implements StreamIn
             endOfStream = true;
             return -1;
         }
+
+        if (c == '\n')
+        {
+            curcol = 1;
+            curline++;
+        }
+        else if (c == '\t')
+        {
+            curcol += tabsize - (curcol % tabsize);
+        }
+        return c;
     }
 
     /**
@@ -112,15 +168,76 @@ public class StreamInJavaImpl implements StreamIn
      */
     public int readChar()
     {
-        if (pushed)
+        int c;
+
+        if (this.pushed)
         {
-            pushed = false;
+            c = this.charbuf[--(this.bufpos)];
+            if ((this.bufpos) == 0)
+            {
+                this.pushed = false;
+            }
+
+            if (c == '\n')
+            {
+                this.curcol = 1;
+                this.curline++;
+                return c;
+            }
+
+            this.curcol++;
             return c;
         }
-        else
+
+        this.lastcol = this.curcol;
+
+        if (this.tabs > 0)
         {
-            return readCharFromStream();
+            this.curcol++;
+            this.tabs--;
+            return ' ';
         }
+
+        c = readCharFromStream();
+
+        if (c < 0)
+        {
+            return END_OF_STREAM;
+        }
+
+        if (c == '\n')
+        {
+            this.curcol = 1;
+            this.curline++;
+            return c;
+        }
+        else if (c == '\r')
+        {
+            c = readCharFromStream();
+            if (c != '\n')
+            {
+                if (c != END_OF_STREAM)
+                {
+                    ungetChar(c);
+                }
+                c = '\n';
+            }
+            this.curcol = 1;
+            this.curline++;
+            return c;
+        }
+
+        if (c == '\t')
+        {
+            this.tabs = this.tabsize - ((this.curcol - 1) % this.tabsize) - 1;
+            this.curcol++;
+            c = ' ';
+            return c;
+        }
+
+        this.curcol++;
+
+        return c;
     }
 
     /**
@@ -128,8 +245,21 @@ public class StreamInJavaImpl implements StreamIn
      */
     public void ungetChar(int c)
     {
-        pushed = true;
-        this.c = c;
+        this.pushed = true;
+        if (this.bufpos >= CHARBUF_SIZE)
+        {
+            // pop last element
+            System.arraycopy(this.charbuf, 0, this.charbuf, 1, CHARBUF_SIZE - 1);
+            this.bufpos--;
+        }
+        this.charbuf[(this.bufpos)++] = c;
+
+        if (c == '\n')
+        {
+            --this.curline;
+        }
+
+        this.curcol = this.lastcol;
     }
 
     /**
@@ -146,8 +276,7 @@ public class StreamInJavaImpl implements StreamIn
      */
     public int getCurcol()
     {
-        // @todo
-        return 0;
+        return this.curcol;
     }
 
     /**
@@ -156,18 +285,7 @@ public class StreamInJavaImpl implements StreamIn
      */
     public int getCurline()
     {
-        // @todo
-        return 0;
-    }
-
-    /**
-     * Getter for <code>encoding</code>.
-     * @return Returns the encoding.
-     */
-    public int getEncoding()
-    {
-        // @todo
-        return 0;
+        return this.curline;
     }
 
 }
