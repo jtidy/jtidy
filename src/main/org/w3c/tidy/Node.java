@@ -1,110 +1,171 @@
 /**
-*  Java HTML Tidy - JTidy
-*  HTML parser and pretty printer
-*
-*  Copyright (c) 1998-2000 World Wide Web Consortium (Massachusetts
-*  Institute of Technology, Institut National de Recherche en
-*  Informatique et en Automatique, Keio University). All Rights
-*  Reserved.
-*
-*  Contributing Author(s):
-*
-*     Dave Raggett <dsr@w3.org>
-*     Andy Quick <ac.quick@sympatico.ca> (translation to Java)
-*     Gary L Peskin <garyp@firstech.com> (Java development)
-*     Sami Lempinen <sami@lempinen.net> (release management)
-*     Fabrizio Giustina <fgiust at users.sourceforge.net>
-*
-*  The contributing author(s) would like to thank all those who
-*  helped with testing, bug fixes, and patience.  This wouldn't
-*  have been possible without all of you.
-*
-*  COPYRIGHT NOTICE:
-* 
-*  This software and documentation is provided "as is," and
-*  the copyright holders and contributing author(s) make no
-*  representations or warranties, express or implied, including
-*  but not limited to, warranties of merchantability or fitness
-*  for any particular purpose or that the use of the software or
-*  documentation will not infringe any third party patents,
-*  copyrights, trademarks or other rights. 
-*
-*  The copyright holders and contributing author(s) will not be
-*  liable for any direct, indirect, special or consequential damages
-*  arising out of any use of the software or documentation, even if
-*  advised of the possibility of such damage.
-*
-*  Permission is hereby granted to use, copy, modify, and distribute
-*  this source code, or portions hereof, documentation and executables,
-*  for any purpose, without fee, subject to the following restrictions:
-*
-*  1. The origin of this source code must not be misrepresented.
-*  2. Altered versions must be plainly marked as such and must
-*     not be misrepresented as being the original source.
-*  3. This Copyright notice may not be removed or altered from any
-*     source or altered source distribution.
-* 
-*  The copyright holders and contributing author(s) specifically
-*  permit, without fee, and encourage the use of this source code
-*  as a component for supporting the Hypertext Markup Language in
-*  commercial products. If you use this source code in a product,
-*  acknowledgment is not required but would be appreciated.
-*
-*/
+ *  Java HTML Tidy - JTidy
+ *  HTML parser and pretty printer
+ *
+ *  Copyright (c) 1998-2000 World Wide Web Consortium (Massachusetts
+ *  Institute of Technology, Institut National de Recherche en
+ *  Informatique et en Automatique, Keio University). All Rights
+ *  Reserved.
+ *
+ *  Contributing Author(s):
+ *
+ *     Dave Raggett <dsr@w3.org>
+ *     Andy Quick <ac.quick@sympatico.ca> (translation to Java)
+ *     Gary L Peskin <garyp@firstech.com> (Java development)
+ *     Sami Lempinen <sami@lempinen.net> (release management)
+ *     Fabrizio Giustina <fgiust at users.sourceforge.net>
+ *
+ *  The contributing author(s) would like to thank all those who
+ *  helped with testing, bug fixes, and patience.  This wouldn't
+ *  have been possible without all of you.
+ *
+ *  COPYRIGHT NOTICE:
+ * 
+ *  This software and documentation is provided "as is," and
+ *  the copyright holders and contributing author(s) make no
+ *  representations or warranties, express or implied, including
+ *  but not limited to, warranties of merchantability or fitness
+ *  for any particular purpose or that the use of the software or
+ *  documentation will not infringe any third party patents,
+ *  copyrights, trademarks or other rights. 
+ *
+ *  The copyright holders and contributing author(s) will not be
+ *  liable for any direct, indirect, special or consequential damages
+ *  arising out of any use of the software or documentation, even if
+ *  advised of the possibility of such damage.
+ *
+ *  Permission is hereby granted to use, copy, modify, and distribute
+ *  this source code, or portions hereof, documentation and executables,
+ *  for any purpose, without fee, subject to the following restrictions:
+ *
+ *  1. The origin of this source code must not be misrepresented.
+ *  2. Altered versions must be plainly marked as such and must
+ *     not be misrepresented as being the original source.
+ *  3. This Copyright notice may not be removed or altered from any
+ *     source or altered source distribution.
+ * 
+ *  The copyright holders and contributing author(s) specifically
+ *  permit, without fee, and encourage the use of this source code
+ *  as a component for supporting the Hypertext Markup Language in
+ *  commercial products. If you use this source code in a product,
+ *  acknowledgment is not required but would be appreciated.
+ *
+ */
 package org.w3c.tidy;
 
 /**
- * Node.
- * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org</a>
- * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca</a> (translation to Java)
+ * Used for elements and text nodes element name is null for text nodes start and end are offsets into lexbuf which
+ * contains the textual content of all elements in the parse tree. parent and content allow traversal of the parse
+ * tree in any direction. attributes are represented as a linked list of AttVal nodes which hold the strings for
+ * attribute/value pairs.
+ * 
+ * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
+ * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @version $Revision $ ($Author $)
  */
-
-/*
- * Used for elements and text nodes element name is null for text nodes start and end are offsets into lexbuf which
- * contains the textual content of all elements in the parse tree. parent and content allow traversal of the parse tree
- * in any direction. attributes are represented as a linked list of AttVal nodes which hold the strings for
- * attribute/value pairs.
- */
-
 public class Node
 {
 
+    /**
+     * node type: root.
+     */
     public static final short RootNode = 0;
+
+    /**
+     * node type: doctype.
+     */
     public static final short DocTypeTag = 1;
+
+    /**
+     * node type: comment.
+     */
     public static final short CommentTag = 2;
+
+    /**
+     * node type: .
+     */
     public static final short ProcInsTag = 3;
+
+    /**
+     * node type: text.
+     */
     public static final short TextNode = 4;
+
+    /**
+     * Start tag.
+     */
     public static final short StartTag = 5;
+
+    /**
+     * End tag.
+     */
     public static final short EndTag = 6;
+
+    /**
+     * Start of an end tag.
+     */
     public static final short StartEndTag = 7;
+
+    /**
+     * node type: CDATA.
+     */
     public static final short CDATATag = 8;
+
+    /**
+     * node type: .
+     */
     public static final short SectionTag = 9;
+
+    /**
+     * node type: .
+     */
     public static final short AspTag = 10;
+
+    /**
+     * node type: .
+     */
     public static final short JsteTag = 11;
+
+    /**
+     * node type: .
+     */
     public static final short PhpTag = 12;
 
-    private static final String[] nodeTypeString =
-        {
-            "RootNode",
-            "DocTypeTag",
-            "CommentTag",
-            "ProcInsTag",
-            "TextNode",
-            "StartTag",
-            "EndTag",
-            "StartEndTag",
-            "SectionTag",
-            "AspTag",
-            "PhpTag" };
+    private static final String[] nodeTypeString = {
+        "RootNode",
+        "DocTypeTag",
+        "CommentTag",
+        "ProcInsTag",
+        "TextNode",
+        "StartTag",
+        "EndTag",
+        "StartEndTag",
+        "SectionTag",
+        "AspTag",
+        "PhpTag"};
 
+    /**
+     * parent node.
+     */
     protected Node parent;
+
+    /**
+     * pevious node.
+     */
     protected Node prev;
+
+    /**
+     * next node.
+     */
     protected Node next;
+
+    /**
+     * last node.
+     */
     protected Node last;
 
     /**
-     * start of span onto text array
+     * start of span onto text array.
      */
     protected int start;
 
@@ -156,16 +217,13 @@ public class Node
     protected AttVal attributes;
     protected Node content;
 
-    // DOM
     protected org.w3c.dom.Node adapter;
 
-    public Node()
-    {
+    public Node() {
         this(TextNode, null, 0, 0);
     }
 
-    public Node(short type, byte[] textarray, int start, int end)
-    {
+    public Node(short type, byte[] textarray, int start, int end) {
         this.parent = null;
         this.prev = null;
         this.next = null;
@@ -184,8 +242,7 @@ public class Node
         this.content = null;
     }
 
-    public Node(short type, byte[] textarray, int start, int end, String element, TagTable tt)
-    {
+    public Node(short type, byte[] textarray, int start, int end, String element, TagTable tt) {
         this.parent = null;
         this.prev = null;
         this.next = null;
@@ -208,7 +265,9 @@ public class Node
         }
     }
 
-    /* used to clone heading nodes when split by an <HR> */
+    /**
+     * used to clone heading nodes when split by an hr
+     */
     protected Object clone()
     {
         Node node = new Node();
@@ -256,7 +315,9 @@ public class Node
         return attr;
     }
 
-    /* default method for checking an element's attributes */
+    /**
+     * default method for checking an element's attributes
+     */
     public void checkAttributes(Lexer lexer)
     {
         AttVal attval;
@@ -303,7 +364,9 @@ public class Node
         }
     }
 
-    /* remove attribute from node then free it */
+    /**
+     * remove attribute from node then free it
+     */
     public void removeAttribute(AttVal attr)
     {
         AttVal av;
@@ -332,12 +395,15 @@ public class Node
         }
     }
 
-    /* find doctype element */
+    /**
+     * find doctype element
+     */
     public Node findDocType()
     {
         Node node;
 
-        for (node = this.content; node != null && node.type != DocTypeTag; node = node.next);
+        for (node = this.content; node != null && node.type != DocTypeTag; node = node.next)
+            ;
 
         return node;
     }
@@ -367,7 +433,9 @@ public class Node
         }
     }
 
-    /* remove node from markup tree and discard it */
+    /**
+     * remove node from markup tree and discard it
+     */
     public static Node discardElement(Node element)
     {
         Node next = null;
@@ -381,7 +449,9 @@ public class Node
         return next;
     }
 
-    /* insert node into markup tree */
+    /**
+     * insert node into markup tree
+     */
     public static void insertNodeAtStart(Node element, Node node)
     {
         node.parent = element;
@@ -400,7 +470,9 @@ public class Node
         element.content = node;
     }
 
-    /* insert node into markup tree */
+    /**
+     * insert node into markup tree
+     */
     public static void insertNodeAtEnd(Node element, Node node)
     {
         node.parent = element;
@@ -418,7 +490,7 @@ public class Node
         element.last = node;
     }
 
-    /*
+    /**
      * insert node into markup tree in pace of element which is moved to become the child of the node
      */
     public static void insertNodeAsParent(Node element, Node node)
@@ -455,7 +527,9 @@ public class Node
         }
     }
 
-    /* insert node into markup tree before element */
+    /**
+     * insert node into markup tree before element
+     */
     public static void insertNodeBeforeElement(Node element, Node node)
     {
         Node parent;
@@ -477,7 +551,9 @@ public class Node
         }
     }
 
-    /* insert node into markup tree after element */
+    /**
+     * insert node into markup tree after element
+     */
     public static void insertNodeAfterElement(Node element, Node node)
     {
         Node parent;
@@ -526,8 +602,8 @@ public class Node
         }
     }
 
-    /*
-     * This maps <em> hello </em><strong> world </strong> to <em> hello </em><strong> world </strong> If last child
+    /**
+     * This maps <em> hello </em> <strong>world </strong> to <em> hello </em> <strong>world </strong> If last child
      * of element is a text node then trim trailing white space character moving it to after element's end tag.
      */
     public static void trimTrailingSpace(Lexer lexer, Node element, Node last)
@@ -569,9 +645,13 @@ public class Node
         }
     }
 
-    /*
-     * This maps <p> hello <em> world </em> to <p> hello <em> world </em> Trims initial space, by moving it before the
-     * start tag, or if this element is the first in parent's content, then by discarding the space
+    /**
+     * This maps
+     * <p>
+     * hello <em> world </em> to
+     * <p>
+     * hello <em> world </em> Trims initial space, by moving it before the start tag, or if this element is the first
+     * in parent's content, then by discarding the space
      */
     public static void trimInitialSpace(Lexer lexer, Node element, Node text)
     {
@@ -581,8 +661,7 @@ public class Node
         //      31-Oct-00.
         if (text.type == TextNode && text.textarray[text.start] == (byte) ' ' && (text.start < text.end))
         {
-            if (((element.tag.model & Dict.CM_INLINE) != 0)
-                && !((element.tag.model & Dict.CM_FIELD) != 0)
+            if (((element.tag.model & Dict.CM_INLINE) != 0) && !((element.tag.model & Dict.CM_FIELD) != 0)
                 && element.parent.content != element)
             {
                 prev = element.prev;
@@ -634,9 +713,9 @@ public class Node
         }
     }
 
-    /*
+    /**
      * Move initial and trailing space out. This routine maps: hello <em> world </em> to hello <em> world </em> and
-     * <em> hello </em><strong> world </strong> to <em> hello </em><strong> world </strong>
+     * <em> hello </em> <strong>world </strong> to <em> hello </em> <strong>world </strong>
      */
     public static void trimSpaces(Lexer lexer, Node element)
     {
@@ -671,7 +750,7 @@ public class Node
         return false;
     }
 
-    /*
+    /**
      * the doctype has been found after other tags, and needs moving to before the html element
      */
     public static void insertDocType(Lexer lexer, Node element, Node doctype)
@@ -719,9 +798,9 @@ public class Node
         return (this.type == StartTag || this.type == StartEndTag ? true : false);
     }
 
-    /*
-     * unexpected content in table row is moved to just before the table in accordance with Netscape and IE. This code
-     * assumes that node hasn't been inserted into the row.
+    /**
+     * unexpected content in table row is moved to just before the table in accordance with Netscape and IE. This
+     * code assumes that node hasn't been inserted into the row.
      */
     public static void moveBeforeTable(Node row, Node node, TagTable tt)
     {
@@ -752,7 +831,7 @@ public class Node
         }
     }
 
-    /*
+    /**
      * if a table row is empty then insert an empty cell this practice is consistent with browser behavior and avoids
      * potential problems with row spanning cells
      */
@@ -779,7 +858,9 @@ public class Node
         node.element = tag.name;
     }
 
-    /* extract a node and its children from a markup tree */
+    /**
+     * extract a node and its children from a markup tree
+     */
     public static void removeNode(Node node)
     {
         if (node.prev != null)
@@ -805,18 +886,15 @@ public class Node
             }
         }
 
-        node.parent = node.prev = node.next = null;
+        node.parent = null;
+        node.prev = null;
+        node.next = null;
     }
 
     public static boolean insertMisc(Node element, Node node)
     {
-        if (node.type == CommentTag
-            || node.type == ProcInsTag
-            || node.type == CDATATag
-            || node.type == SectionTag
-            || node.type == AspTag
-            || node.type == JsteTag
-            || node.type == PhpTag)
+        if (node.type == CommentTag || node.type == ProcInsTag || node.type == CDATATag || node.type == SectionTag
+            || node.type == AspTag || node.type == JsteTag || node.type == PhpTag)
         {
             insertNodeAtEnd(element, node);
             return true;
@@ -825,9 +903,9 @@ public class Node
         return false;
     }
 
-    /*
-     * used to determine how attributes without values should be printed this was introduced to deal with user defined
-     * tags e.g. Cold Fusion
+    /**
+     * used to determine how attributes without values should be printed this was introduced to deal with user
+     * defined tags e.g. Cold Fusion
      */
     public static boolean isNewNode(Node node)
     {
@@ -844,12 +922,15 @@ public class Node
         return (this.content != null && this.content.next == null);
     }
 
-    /* find html element */
+    /**
+     * find html element
+     */
     public Node findHTML(TagTable tt)
     {
         Node node;
 
-        for (node = this.content; node != null && node.tag != tt.tagHtml; node = node.next);
+        for (node = this.content; node != null && node.tag != tt.tagHtml; node = node.next)
+            ;
 
         return node;
     }
@@ -862,7 +943,8 @@ public class Node
 
         if (node != null)
         {
-            for (node = node.content; node != null && node.tag != tt.tagHead; node = node.next);
+            for (node = node.content; node != null && node.tag != tt.tagHead; node = node.next)
+                ;
         }
 
         return node;
@@ -926,16 +1008,14 @@ public class Node
         return true;
     }
 
-    /*
+    /**
      * Add class="foo" to node
      */
     public static void addClass(Node node, String classname)
     {
         AttVal classattr = node.getAttrByName("class");
 
-        /*
-         * if there already is a class attribute then append class name after a space
-         */
+        // if there already is a class attribute then append class name after a space
         if (classattr != null)
         {
             classattr.value = classattr.value + " " + classname;
@@ -946,8 +1026,6 @@ public class Node
             node.addAttribute("class", classname);
         }
     }
-
-    /* --------------------- DEBUG -------------------------- */
 
     public String toString()
     {
@@ -999,9 +1077,6 @@ public class Node
         }
         return s;
     }
-    /* --------------------- END DEBUG ---------------------- */
-
-    /* --------------------- DOM ---------------------------- */
 
     protected org.w3c.dom.Node getAdapter()
     {
@@ -1058,7 +1133,5 @@ public class Node
     {
         this.type = newType;
     }
-
-    /* --------------------- END DOM ------------------------ */
 
 }
