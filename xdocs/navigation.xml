@@ -15,7 +15,7 @@
       <item name="Test cases" href="/testcases.html" />
     </menu>
     
-    <menu name="" type="left-footer">
+    <menu name="" type="footer">
       <item name="Code Coverage by Clover" href="http://www.thecortex.net/clover" img="http://www.thecortex.net/clover/images/clovered1.gif"/>
     </menu>
   </body>
