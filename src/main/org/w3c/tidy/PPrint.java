@@ -1243,8 +1243,8 @@ public class PPrint
         this.configuration.quoteMarks = q;
         condFlushLine(fout, indent);
     }
-    
-    
+
+
     private void printPI(Out fout, int indent, Node node)
     {
         if (indent + linelen < this.configuration.wraplen)
@@ -1721,7 +1721,14 @@ public class PPrint
                     if (!this.configuration.hideEndTags || !((node.tag.model & Dict.CM_OPT) != 0))
                     {
                         printEndTag(fout, mode, indent, node);
-                        flushLine(fout, indent);
+
+                        // #603128 tidy adds newslines after </html> tag
+                        // Fix by Fabrizio Giustina 12-02-2004
+                        // fix is different from the one in original tidy
+                        if (lexer.seenEndHtml == 0)
+                        {
+                            flushLine(fout, indent);
+                        }
                     }
                 }
                 else

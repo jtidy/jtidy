@@ -879,7 +879,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [603128] : tidy adds newlines after &lt;/html&gt;. @todo High priority
+     * test for Tidy [603128] : tidy adds newlines after &lt;/html&gt;. [fixed]
      * @throws Exception any exception generated during the test
      */
     public void test603128() throws Exception

@@ -561,13 +561,9 @@ public class ParserImpl
             checkstack = true;
             TagTable tt = lexer.configuration.tt;
 
-            while (true)
+            while ((node = lexer.getToken(mode)) != null)
             {
-                node = lexer.getToken(mode);
-                if (node == null)
-                {
-                    break;
-                }
+
                 if (node.tag == body.tag && node.type == Node.EndTag)
                 {
                     body.closed = true;
@@ -607,11 +603,16 @@ public class ParserImpl
                     break;
                 }
 
+                // #538536 Extra endtags not detected
                 if (node.tag == tt.tagHtml)
                 {
-                    if (node.type == Node.StartTag || node.type == Node.StartEndTag)
+                    if (node.type == Node.StartTag || node.type == Node.StartEndTag || lexer.seenEndHtml == 1)
                     {
                         Report.warning(lexer, body, node, Report.DISCARDING_UNEXPECTED);
+                    }
+                    else
+                    {
+                        lexer.seenEndHtml = 1;
                     }
 
                     continue;
