@@ -1337,7 +1337,10 @@ public class Tidy implements Serializable
                 document = ParserImpl.parseXMLDocument(lexer);
                 if (!document.checkNodeIntegrity())
                 {
-                    // "Panic - tree has lost its integrity"
+                    if (!configuration.quiet)
+                    {
+                        report.badTree(errout);
+                    }
                     return null;
                 }
             }
@@ -1349,7 +1352,10 @@ public class Tidy implements Serializable
 
                 if (!document.checkNodeIntegrity())
                 {
-                    this.report.badTree(errout);
+                    if (!configuration.quiet)
+                    {
+                        this.report.badTree(errout);
+                    }
                     return null;
                 }
 
@@ -1438,7 +1444,7 @@ public class Tidy implements Serializable
                 this.report.reportNumWarnings(errout, lexer);
             }
 
-            if (lexer.errors > 0 && !configuration.forceOutput)
+            if (!configuration.quiet && lexer.errors > 0 && !configuration.forceOutput)
             {
                 this.report.needsAuthorIntervention(errout);
             }
@@ -1482,10 +1488,13 @@ public class Tidy implements Serializable
                     if (body != null)
                     {
                         pprint = new PPrint(configuration);
-                        this.report.reportNumberOfSlides(errout, pprint.countSlides(body));
+                        if (!configuration.quiet)
+                        {
+                            this.report.reportNumberOfSlides(errout, pprint.countSlides(body));
+                        }
                         pprint.createSlides(lexer, document);
                     }
-                    else
+                    else if (!configuration.quiet)
                     {
                         this.report.missingBody(errout);
                     }
