@@ -83,6 +83,15 @@ public class JTidyBugsTest extends TidyTestCase
     }
 
     /**
+     * test for JTidy [547976]: Case of attribute values.
+     * @throws Exception any exception generated during the test
+     */
+    public void test547976() throws Exception
+    {
+        executeTidyTest("547976.html");
+    }
+
+    /**
      * test for JTidy [508245]: Do not convert the & or &lt; to Entity Ref. Actually is "Tidy fails in completing
      * unclosed tags"
      * @throws Exception any exception generated during the test

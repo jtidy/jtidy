@@ -35,6 +35,7 @@ public final class AllWorkingTests
         suite.addTest(new JTidyBugsTest("test475643"));
         suite.addTest(new JTidyBugsTest("test527118"));
         suite.addTest(new JTidyBugsTest("test538727"));
+        suite.addTest(new JTidyBugsTest("test547976"));
         suite.addTest(new JTidyBugsTest("test610244"));
         suite.addTest(new JTidyBugsTest("test648768"));
         suite.addTest(new JTidyBugsTest("test663197"));
