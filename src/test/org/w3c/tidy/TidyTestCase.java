@@ -54,6 +54,7 @@
 package org.w3c.tidy;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -70,6 +71,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tools.ant.filters.StringInputStream;
 import org.w3c.dom.Document;
 
 
@@ -250,7 +252,8 @@ public class TidyTestCase extends TestCase
             encodingName = "utf-16";
         }
 
-        diff(new BufferedReader(new StringReader(tidyOutput)), // test output
+        diff(
+            new BufferedReader((new InputStreamReader(new ByteArrayInputStream(tidyOutput.getBytes()), encodingName))),
             new BufferedReader(new InputStreamReader(new FileInputStream(correctFile.getPath()), encodingName)));
     }
 
