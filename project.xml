@@ -190,6 +190,16 @@ In addition, JTidy provides a DOM interface to the document that is being proces
         <comment>Required to generate test coverage reports. Not needed at runtime.</comment>
       </properties>
     </dependency>
+    
+    <dependency>
+        <groupId>statcvs</groupId>
+        <artifactId>maven-statcvs-plugin</artifactId>
+        <version>2.4</version>
+        <type>plugin</type>
+        <properties>
+            <comment>maven plugin for the cvs report</comment>
+        </properties>
+    </dependency>
 
     </dependencies>
     <build>
