@@ -53,6 +53,10 @@
  */
 package org.w3c.tidy;
 
+import java.util.Hashtable;
+import java.util.Map;
+
+
 /**
  * Tag dictionary node hash table.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
@@ -60,12 +64,17 @@ package org.w3c.tidy;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-import java.util.Hashtable;
-
-
 public class TagTable
 {
 
+    /**
+     * dummy entry for all xml tags.
+     */
+    public static final Dict XML_TAGS = new Dict(null, Dict.VERS_ALL, Dict.CM_BLOCK, null, null);
+
+    /**
+     * all the known tags.
+     */
     private static final Dict[] TAGS = {
         new Dict(
             "html",
@@ -293,143 +302,334 @@ public class TagTable
         new Dict("rb", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
         new Dict("rt", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
         new Dict("", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
-        new Dict("rp", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),};
-
-    /* create dummy entry for all xml tags */
-    public Dict xmlTags = new Dict(null, Dict.VERS_ALL, Dict.CM_BLOCK, null, null);
-
-    public Dict tagHtml;
-
-    public Dict tagHead;
-
-    public Dict tagBody;
-
-    public Dict tagFrameset;
-
-    public Dict tagFrame;
-
-    public Dict tagIframe;
-
-    public Dict tagNoframes;
-
-    public Dict tagMeta;
-
-    public Dict tagTitle;
-
-    public Dict tagBase;
-
-    public Dict tagHr;
-
-    public Dict tagPre;
-
-    public Dict tagListing;
-
-    public Dict tagH1;
-
-    public Dict tagH2;
-
-    public Dict tagP;
-
-    public Dict tagUl;
-
-    public Dict tagOl;
-
-    public Dict tagDir;
-
-    public Dict tagLi;
-
-    public Dict tagDt;
-
-    public Dict tagDd;
-
-    public Dict tagDl;
-
-    public Dict tagTd;
-
-    public Dict tagTh;
-
-    public Dict tagTr;
-
-    public Dict tagCol;
-
-    public Dict tagBr;
-
-    public Dict tagA;
-
-    public Dict tagLink;
-
-    public Dict tagB;
-
-    public Dict tagI;
-
-    public Dict tagStrong;
-
-    public Dict tagEm;
-
-    public Dict tagBig;
-
-    public Dict tagSmall;
-
-    public Dict tagParam;
-
-    public Dict tagOption;
-
-    public Dict tagOptgroup;
-
-    public Dict tagImg;
-
-    public Dict tagMap;
-
-    public Dict tagArea;
-
-    public Dict tagNobr;
-
-    public Dict tagWbr;
-
-    public Dict tagFont;
-
-    public Dict tagSpacer;
-
-    public Dict tagLayer;
-
-    public Dict tagCenter;
-
-    public Dict tagStyle;
-
-    public Dict tagScript;
-
-    public Dict tagNoscript;
-
-    public Dict tagTable;
-
-    public Dict tagCaption;
-
-    public Dict tagForm;
-
-    public Dict tagTextarea;
-
-    public Dict tagBlockquote;
-
-    public Dict tagApplet;
-
-    public Dict tagObject;
-
-    public Dict tagDiv;
-
-    public Dict tagSpan;
-
-    public Dict tagInput;
-
-    public Dict tagQ;
-
-    private Configuration configuration;
-
-    private Hashtable tagHashtable = new Hashtable();
+        new Dict("rp", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
+    //
+    };
+
+    /**
+     * html tag.
+     */
+    protected Dict tagHtml;
+
+    /**
+     * head tag.
+     */
+    protected Dict tagHead;
+
+    /**
+     * body tag.
+     */
+    protected Dict tagBody;
+
+    /**
+     * frameset tag.
+     */
+    protected Dict tagFrameset;
+
+    /**
+     * frame tag.
+     */
+    protected Dict tagFrame;
+
+    /**
+     * iframe tag.
+     */
+    protected Dict tagIframe;
+
+    /**
+     * noframes tag.
+     */
+    protected Dict tagNoframes;
+
+    /**
+     * meta tag.
+     */
+    protected Dict tagMeta;
+
+    /**
+     * title tag.
+     */
+    protected Dict tagTitle;
+
+    /**
+     * base tag.
+     */
+    protected Dict tagBase;
+
+    /**
+     * hr tag.
+     */
+    protected Dict tagHr;
+
+    /**
+     * pre tag.
+     */
+    protected Dict tagPre;
+
+    /**
+     * listing tag.
+     */
+    protected Dict tagListing;
+
+    /**
+     * h1 tag.
+     */
+    protected Dict tagH1;
+
+    /**
+     * h2 tag.
+     */
+    protected Dict tagH2;
+
+    /**
+     * p tag.
+     */
+    protected Dict tagP;
+
+    /**
+     * ul tag.
+     */
+    protected Dict tagUl;
+
+    /**
+     * ol tag.
+     */
+    protected Dict tagOl;
+
+    /**
+     * dir tag.
+     */
+    protected Dict tagDir;
+
+    /**
+     * li tag.
+     */
+    protected Dict tagLi;
+
+    /**
+     * dt tag.
+     */
+    protected Dict tagDt;
+
+    /**
+     * dd tag.
+     */
+    protected Dict tagDd;
+
+    /**
+     * dl tag.
+     */
+    protected Dict tagDl;
+
+    /**
+     * td tag.
+     */
+    protected Dict tagTd;
+
+    /**
+     * th tag.
+     */
+    protected Dict tagTh;
+
+    /**
+     * tr tag.
+     */
+    protected Dict tagTr;
+
+    /**
+     * col tag.
+     */
+    protected Dict tagCol;
+
+    /**
+     * br tag.
+     */
+    protected Dict tagBr;
+
+    /**
+     * a tag.
+     */
+    protected Dict tagA;
+
+    /**
+     * link tag.
+     */
+    protected Dict tagLink;
+
+    /**
+     * b tag.
+     */
+    protected Dict tagB;
+
+    /**
+     * i tag.
+     */
+    protected Dict tagI;
+
+    /**
+     * strong tag.
+     */
+    protected Dict tagStrong;
+
+    /**
+     * em tag.
+     */
+    protected Dict tagEm;
+
+    /**
+     * big tag.
+     */
+    protected Dict tagBig;
+
+    /**
+     * small tag.
+     */
+    protected Dict tagSmall;
+
+    /**
+     * param tag.
+     */
+    protected Dict tagParam;
+
+    /**
+     * option tag.
+     */
+    protected Dict tagOption;
+
+    /**
+     * optgroup tag.
+     */
+    protected Dict tagOptgroup;
+
+    /**
+     * img tag.
+     */
+    protected Dict tagImg;
+
+    /**
+     * map tag.
+     */
+    protected Dict tagMap;
+
+    /**
+     * area tag.
+     */
+    protected Dict tagArea;
+
+    /**
+     * nobr tag.
+     */
+    protected Dict tagNobr;
+
+    /**
+     * wbr tag.
+     */
+    protected Dict tagWbr;
+
+    /**
+     * font tag.
+     */
+    protected Dict tagFont;
+
+    /**
+     * spacer tag.
+     */
+    protected Dict tagSpacer;
+
+    /**
+     * layer tag.
+     */
+    protected Dict tagLayer;
+
+    /**
+     * center tag.
+     */
+    protected Dict tagCenter;
+
+    /**
+     * style tag.
+     */
+    protected Dict tagStyle;
+
+    /**
+     * script tag.
+     */
+    protected Dict tagScript;
+
+    /**
+     * noscript tag.
+     */
+    protected Dict tagNoscript;
+
+    /**
+     * table tag.
+     */
+    protected Dict tagTable;
+
+    /**
+     * caption tag.
+     */
+    protected Dict tagCaption;
+
+    /**
+     * form tag.
+     */
+    protected Dict tagForm;
+
+    /**
+     * textarea tag.
+     */
+    protected Dict tagTextarea;
+
+    /**
+     * blockquote tag.
+     */
+    protected Dict tagBlockquote;
+
+    /**
+     * applet tag.
+     */
+    protected Dict tagApplet;
+
+    /**
+     * object tag.
+     */
+    protected Dict tagObject;
+
+    /**
+     * div tag.
+     */
+    protected Dict tagDiv;
+
+    /**
+     * span tag.
+     */
+    protected Dict tagSpan;
+
+    /**
+     * input tag.
+     */
+    protected Dict tagInput;
+
+    /**
+     * tag.
+     */
+    protected Dict tagQ;
 
     /**
      * anchor/node hash.
      */
     protected Anchor anchorList;
+
+    /**
+     * configuration.
+     */
+    private Configuration configuration;
+
+    /**
+     * hashTable containing tags.
+     */
+    private Map tagHashtable = new Hashtable();
 
     public TagTable()
     {
@@ -536,7 +736,7 @@ public class TagTable
 
         if (configuration != null && configuration.xmlTags)
         {
-            node.tag = xmlTags;
+            node.tag = XML_TAGS;
             return true;
         }
 
@@ -700,7 +900,9 @@ public class TagTable
         a.node = node;
 
         if (anchorList == null)
+        {
             anchorList = a;
+        }
         else
         {
             Anchor here = anchorList;
@@ -716,7 +918,7 @@ public class TagTable
     }
 
     /**
-     * return node associated with anchor
+     * return node associated with anchor.
      */
     Node getNodeByAnchor(String name)
     {

@@ -72,7 +72,7 @@ public final class TidyMessage
      * @author fgiust
      * @version $Revision$ ($Author$)
      */
-    final static class Level
+    static final class Level
     {
 
         /**
