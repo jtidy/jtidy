@@ -200,17 +200,24 @@ public class Tidy implements Serializable
     }
 
     /**
-     * CharEncoding.
-     * @see Configuration#charEncoding
+     * Sets the character encoding used both for input and for output.
+     * @see Configuration#inCharEncoding
+     * @see Configuration#outCharEncoding
      */
     public void setCharEncoding(int charencoding)
     {
-        configuration.charEncoding = charencoding;
+        configuration.adjustCharEncoding(charencoding);
     }
 
+    /**
+     * Returns the configured character encoding.
+     * @return character encoding constant
+     * @deprecated from r8 tidy can use different encoding for input and output. This method will only return the
+     * <strong>input </strong> character encoding.
+     */
     public int getCharEncoding()
     {
-        return configuration.charEncoding;
+        return configuration.inCharEncoding;
     }
 
     /**
@@ -1728,51 +1735,51 @@ public class Tidy implements Serializable
                 }
                 else if (arg.equalsIgnoreCase("raw"))
                 {
-                    configuration.charEncoding = Configuration.RAW;
+                    configuration.adjustCharEncoding(Configuration.RAW);
                 }
                 else if (arg.equalsIgnoreCase("ascii"))
                 {
-                    configuration.charEncoding = Configuration.ASCII;
+                    configuration.adjustCharEncoding(Configuration.ASCII);
                 }
                 else if (arg.equalsIgnoreCase("latin1"))
                 {
-                    configuration.charEncoding = Configuration.LATIN1;
+                    configuration.adjustCharEncoding(Configuration.LATIN1);
                 }
                 else if (arg.equalsIgnoreCase("utf8") || arg.equalsIgnoreCase("utf-8"))
                 {
-                    configuration.charEncoding = Configuration.UTF8;
+                    configuration.adjustCharEncoding(Configuration.UTF8);
                 }
                 else if (arg.equalsIgnoreCase("iso2022"))
                 {
-                    configuration.charEncoding = Configuration.ISO2022;
+                    configuration.adjustCharEncoding(Configuration.ISO2022);
                 }
                 else if (arg.equalsIgnoreCase("mac"))
                 {
-                    configuration.charEncoding = Configuration.MACROMAN;
+                    configuration.adjustCharEncoding(Configuration.MACROMAN);
                 }
                 else if (arg.equalsIgnoreCase("utf16le") || arg.equalsIgnoreCase("utf-16le"))
                 {
-                    configuration.charEncoding = Configuration.UTF16LE;
+                    configuration.adjustCharEncoding(Configuration.UTF16LE);
                 }
                 else if (arg.equalsIgnoreCase("utf16be") || arg.equalsIgnoreCase("utf-16be"))
                 {
-                    configuration.charEncoding = Configuration.UTF16BE;
+                    configuration.adjustCharEncoding(Configuration.UTF16BE);
                 }
                 else if (arg.equalsIgnoreCase("utf16") || arg.equalsIgnoreCase("utf-16"))
                 {
-                    configuration.charEncoding = Configuration.UTF16;
+                    configuration.adjustCharEncoding(Configuration.UTF16);
                 }
                 else if (arg.equalsIgnoreCase("win1252"))
                 {
-                    configuration.charEncoding = Configuration.WIN1252;
+                    configuration.adjustCharEncoding(Configuration.WIN1252);
                 }
                 else if (arg.equalsIgnoreCase("shiftjis")) // #431953 - RJ
                 {
-                    configuration.charEncoding = Configuration.SHIFTJIS;
+                    configuration.adjustCharEncoding(Configuration.SHIFTJIS);
                 }
                 else if (arg.equalsIgnoreCase("big5")) // #431953 - RJ
                 {
-                    configuration.charEncoding = Configuration.BIG5;
+                    configuration.adjustCharEncoding(Configuration.BIG5);
                 }
                 else if (arg.equalsIgnoreCase("numeric"))
                 {

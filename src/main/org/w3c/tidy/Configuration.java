@@ -258,7 +258,7 @@ public class Configuration implements Serializable
 
         addConfigOption(new Flag("markup", "onlyErrors", ParsePropertyImpl.INVBOOL));
 
-        addConfigOption(new Flag("char-encoding", "charEncoding", ParsePropertyImpl.CHAR_ENCODING));
+        addConfigOption(new Flag("char-encoding", null, ParsePropertyImpl.CHAR_ENCODING));
         addConfigOption(new Flag("input-encoding", "inCharEncoding", ParsePropertyImpl.CHAR_ENCODING));
         addConfigOption(new Flag("output-encoding", "outCharEncoding", ParsePropertyImpl.CHAR_ENCODING));
 
@@ -293,11 +293,6 @@ public class Configuration implements Serializable
      * default wrap margin (68).
      */
     protected int wraplen = 68;
-
-    /**
-     * default character encoding (ASCII).
-     */
-    protected int charEncoding = ASCII;
 
     /**
      * default input character encoding (LATIN1).
@@ -789,67 +784,26 @@ public class Configuration implements Serializable
      */
     protected void adjustCharEncoding(int encoding)
     {
-        charEncoding = encoding;
 
-        if (charEncoding == RAW)
-        {
-            inCharEncoding = RAW;
-            outCharEncoding = RAW;
-        }
-        else if (charEncoding == ASCII)
+        if (encoding == ASCII)
         {
             inCharEncoding = LATIN1;
             outCharEncoding = ASCII;
         }
-        else if (charEncoding == LATIN1)
-        {
-            inCharEncoding = LATIN1;
-            outCharEncoding = LATIN1;
-        }
-        else if (charEncoding == UTF8)
-        {
-            inCharEncoding = UTF8;
-            outCharEncoding = UTF8;
-        }
-        else if (charEncoding == ISO2022)
-        {
-            inCharEncoding = ISO2022;
-            outCharEncoding = ISO2022;
-        }
-        else if (charEncoding == MACROMAN)
+        else if (encoding == MACROMAN)
         {
             inCharEncoding = MACROMAN;
             outCharEncoding = ASCII;
         }
-        else if (charEncoding == UTF16LE)
-        {
-            inCharEncoding = UTF16LE;
-            outCharEncoding = UTF16LE;
-        }
-        else if (charEncoding == UTF16BE)
-        {
-            inCharEncoding = UTF16BE;
-            outCharEncoding = UTF16BE;
-        }
-        else if (charEncoding == UTF16)
-        {
-            inCharEncoding = UTF16;
-            outCharEncoding = UTF16;
-        }
-        else if (charEncoding == WIN1252)
+        else if (encoding == WIN1252)
         {
             inCharEncoding = WIN1252;
             outCharEncoding = ASCII;
         }
-        else if (charEncoding == SHIFTJIS) // #431953
+        else
         {
-            inCharEncoding = SHIFTJIS;
-            outCharEncoding = SHIFTJIS;
-        }
-        else if (charEncoding == BIG5) // #431953
-        {
-            inCharEncoding = BIG5;
-            outCharEncoding = BIG5;
+            inCharEncoding = encoding;
+            outCharEncoding = encoding;
         }
     }
 

@@ -364,6 +364,7 @@ public final class ParsePropertyImpl
             if (validEncoding && "char-encoding".equals(option))
             {
                 configuration.adjustCharEncoding(result);
+                return null;
             }
 
             return new Integer(result);
