@@ -914,15 +914,17 @@ public class ParserImpl
                 return;
             }
 
-            if (element.tag == tt.tagA)
-            {
-                if (element.attributes == null)
-                {
-                    Report.warning(lexer, element.parent, element, Report.DISCARDING_UNEXPECTED);
-                    Node.discardElement(element);
-                    return;
-                }
-            }
+            // #433040 - fix by Richard O'Keefe 5 Mar 01 
+            // if (element.tag == tt.tagA)
+            // {
+            //     if (element.attributes == null)
+            //         {
+            //             Report.warning(lexer, element.parent, element, Report.DISCARDING_UNEXPECTED);
+            //             Node.discardElement(element);
+            //             return;
+            //         }
+            //     }
+            // }
 
             /*
              * ParseInline is used for some block level elements like H1 to H6 For such elements we need to insert

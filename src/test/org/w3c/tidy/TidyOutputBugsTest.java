@@ -321,7 +321,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [433040] : Anchor tag without attributes deleted.
+     * test for Tidy [433040] : Anchor tag without attributes deleted. [fixed]
      * @throws Exception any exception generated during the test
      */
     public void test433040() throws Exception
