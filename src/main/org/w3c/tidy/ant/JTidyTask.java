@@ -54,34 +54,79 @@
 package org.w3c.tidy.ant;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.Parameter;
+import org.apache.tools.ant.util.FileNameMapper;
+import org.apache.tools.ant.util.FileUtils;
+import org.apache.tools.ant.util.FlatFileNameMapper;
+import org.apache.tools.ant.util.IdentityMapper;
 import org.w3c.tidy.Tidy;
 
 
 /**
- * JTidy ant task, kindly donated to JTidy by Nicola Ken Barozzi from the krysalis project. See
+ * JTidy ant task, initially donated to JTidy by Nicola Ken Barozzi from the krysalis project. See
  * http://sourceforge.net/tracker/index.php?func=detail&aid=780131&group_id=13153&atid=363153
  * 
  * <pre>
- * &lt;jtidy destDir="" log="" summary="" warn="">
+ * &lt;tidy destdir="" >
  *   &lt;fileset dir="" />
- * &lt;/jtidy>
+ * &lt;/tidy>
  * </pre>
  * 
+ * <table><thead>
+ * <tr>
+ * <td>Attribute</td>
+ * <td>Description</td>
+ * <td>Required</td>
+ * </tr>
+ * </thead> <tbody>
+ * <tr>
+ * <td>srcfile</td>
+ * <td>source file</td>
+ * <td></td>
+ * </tr>
+ * <tr>
+ * <td>destfile</td>
+ * <td>destination file for output</td>
+ * <td></td>
+ * </tr>
+ * <tr>
+ * <td>destdir</td>
+ * <td>destination directory for output</td>
+ * <td></td>
+ * </tr>
+ * <tr>
+ * <td>properties</td>
+ * <td>properties file</td>
+ * <td></td>
+ * </tr>
+ * <tr>
+ * <td>flatten</td>
+ * <td></td>
+ * <td></td>
+ * </tr>
+ * <tr>
+ * <td>failonerror</td>
+ * <td>boolean to control whether failure to execute should throw a BuildException or just print an error</td>
+ * <td></td>
+ * </tr>
+ * </tbody> </table>
  * @author <a href="mailto:barozzi@nicolaken.com">Nicola Ken Barozzi </a>
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
@@ -90,19 +135,39 @@ public class JTidyTask extends Task
 {
 
     /**
+     * Ant utility class for file operations.
+     */
+    private FileUtils fileUtils = FileUtils.newFileUtils();
+
+    /**
      * Filesets.
      */
-    private Collection filesets = new ArrayList();
+    private List filesets = new ArrayList();
 
     /**
-     * destination directory.
+     * Destination directory for output.
      */
-    private String dest;
+    private File destdir;
 
     /**
-     * log file.
+     * Destination file for output.
      */
-    private String log = "JTidy.log";
+    private File destfile;
+
+    /**
+     * Source file.
+     */
+    private File srcfile;
+
+    /**
+     * Control whether failure to execute should throw a BuildException.
+     */
+    private boolean failonerror;
+
+    /**
+     * Don't output directories.
+     */
+    private boolean flatten;
 
     /**
      * tidy instance.
@@ -110,49 +175,79 @@ public class JTidyTask extends Task
     private Tidy tidy;
 
     /**
-     * show warnings.
+     * Configured properties.
      */
-    private boolean warn;
+    private Properties props;
 
     /**
-     * show summary.
+     * Properties file.
      */
-    private boolean summary;
+    private File properties;
 
     /**
-     * sets the destination directory.
-     * @param file destination directory
+     * @param destdir The destdir to set.
      */
-    public void setDestDir(String file)
+    public void setDestdir(File destdir)
     {
-        this.dest = file;
+        this.destdir = destdir;
     }
 
     /**
-     * sets the tidy log file.
-     * @param file file name
+     * @param destfile The destfile to set.
      */
-    public void setLog(String file)
+    public void setDestfile(File destfile)
     {
-        this.log = file;
+        this.destfile = destfile;
     }
 
     /**
-     * show warnings?
-     * @param showWarnings boolean
+     * @param srcfile The srcfile to set.
      */
-    public void setWarn(String showWarnings)
+    public void setSrcfile(File srcfile)
     {
-        this.warn = Boolean.getBoolean(showWarnings);
+        this.srcfile = srcfile;
     }
 
     /**
-     * show tidy summary?
-     * @param showSummary boolean
+     * @param failonerror The failonerror to set.
      */
-    public void setSummary(String showSummary)
+    public void setFailonerror(boolean failonerror)
     {
-        this.summary = Boolean.getBoolean(showSummary);
+        this.failonerror = failonerror;
+    }
+
+    /**
+     * @param flatten The flatten to set.
+     */
+    public void setFlatten(boolean flatten)
+    {
+        this.flatten = flatten;
+    }
+
+    /**
+     * @param properties The properties to set.
+     */
+    public void setProperties(File properties)
+    {
+        this.properties = properties;
+    }
+
+    /**
+     * Adds a fileset to be processed Fileset
+     * @param fileSet
+     */
+    public void addFileset(FileSet fileSet)
+    {
+        filesets.add(fileSet);
+    }
+
+    /**
+     * Setter method for any property using the ant type Parameter.
+     * @param prop Ant type Parameter
+     */
+    public void addConfiguredParameter(Parameter prop)
+    {
+        props.setProperty(prop.getName(), prop.getValue());
     }
 
     /**
@@ -162,86 +257,46 @@ public class JTidyTask extends Task
     {
         super.init();
 
-        // Setup an instance of Tidy.
+        // Setup a Tidy instance
         tidy = new Tidy();
-        tidy.setXmlOut(true);
-        tidy.setXHTML(true);
-        tidy.setDropFontTags(true);
-        tidy.setLiteralAttribs(true);
-        tidy.setMakeClean(true);
-        tidy.setDropProprietaryAttributes(true);
-        tidy.setFixBackslash(true);
-        tidy.setForceOutput(true);
-        tidy.setIndentContent(true);
-        tidy.setShowWarnings(this.warn);
-        tidy.setQuiet(!this.summary);
-    }
-
-    protected void processFile(String src, File taskRootDirectory) throws FileNotFoundException, IOException
-    {
-        // Extract the document using JTidy and stream it.
-        BufferedInputStream in = new BufferedInputStream(new FileInputStream(new File(taskRootDirectory, src)));
-
-        // create directory
-        getSubdirAlways(new File("."), new File(dest, src).getParent());
-        FileOutputStream out = new FileOutputStream(new File(dest, src));
-
-        tidy.parse(in, out);
-
-        out.flush();
-        out.close();
-        in.close();
-    }
-
-    public static File getSubdirAlways(File dir, String path)
-    {
-        if (!dir.exists())
-        {
-            throw new RuntimeException("base directory " + dir + " does not exist");
-        }
-
-        File subdir = dir;
-
-        // @todo remove jse 1.4 code!
-        String[] split = path.split("[\\\\/]");
-        for (int i = 0; i < split.length; i++)
-        {
-            subdir = new File(subdir, split[i]);
-            if (!subdir.exists())
-            {
-                if (!subdir.mkdir())
-                {
-                    throw new RuntimeException("failed to create directory " + subdir);
-                }
-            }
-        }
-
-        return subdir;
+        props = new Properties();
     }
 
     /**
-     * Generate the static html pages for the task's file sets.
+     * Validates task parameters.
+     * @throws BuildException if any invalid parameter is found
      */
-    private void processFileSets()
+    protected void validateParameters() throws BuildException
     {
-        for (Iterator iterator = filesets.iterator(); iterator.hasNext();)
+        if (srcfile == null && filesets.size() == 0)
         {
-            FileSet fileSet = (FileSet) iterator.next();
-            DirectoryScanner directoryScanner = getDirectoryScanner(fileSet);
-            String[] sourceFiles = directoryScanner.getIncludedFiles();
-
-            for (int pageIndex = 0; pageIndex < sourceFiles.length; pageIndex++)
-            {
-                try
-                {
-                    processFile(sourceFiles[pageIndex], fileSet.getDir(project));
-                }
-                catch (Exception e)
-                {
-                    throw new BuildException("Failed to process " + sourceFiles[pageIndex], e);
-                }
-            }
+            throw new BuildException("Specify at least srcfile or a fileset.");
         }
+        if (srcfile != null && filesets.size() > 0)
+        {
+            throw new BuildException("You can't specify both srcfile and nested filesets.");
+        }
+
+        if (destfile == null && destdir == null)
+        {
+            throw new BuildException("One of destfile or destdir must be set.");
+        }
+
+        if (srcfile == null && destfile != null)
+        {
+            throw new BuildException("You only can use destfile with srcfile.");
+        }
+
+        if (srcfile != null && srcfile.exists() && srcfile.isDirectory())
+        {
+            throw new BuildException("srcfile can't be a directory.");
+        }
+
+        if (properties != null && (!properties.exists() || properties.isDirectory()))
+        {
+            throw new BuildException("Invalid properties file specified: " + properties.getPath());
+        }
+
     }
 
     /**
@@ -250,40 +305,168 @@ public class JTidyTask extends Task
      */
     public void execute() throws BuildException
     {
+        // validate
+        validateParameters();
+
+        // load configuration
+        if (this.properties != null)
+        {
+            try
+            {
+                this.props.load(new FileInputStream(this.properties));
+            }
+            catch (FileNotFoundException e)
+            {
+                // should not happen
+                throw new BuildException("Unable to find properties file " + properties, e);
+            }
+            catch (IOException e)
+            {
+                throw new BuildException("Unable to load properties file " + properties, e);
+            }
+        }
+
+        tidy.setConfigurationFromProps(props);
+
+        if (this.srcfile != null)
+        {
+            // process a single file
+            executeSingle();
+        }
+        else if (this.filesets.size() > 0)
+        {
+            // process filesets
+            executeSet();
+        }
+        else
+        {
+            // should not happen, condition is already validated in validateAttributes()
+            throw new BuildException("No srcfile or nested filesets configured.");
+        }
+
+    }
+
+    protected void executeSingle()
+    {
+        if (srcfile.exists())
+        {
+            if (destfile == null)
+            {
+                if (destdir == null)
+                {
+                    throw new BuildException("No destfile or destdir configured.");
+                }
+                destfile = new File(destdir, srcfile.getName());
+            }
+            processFile(srcfile, destfile);
+
+        }
+        else
+        {
+            String message = "Could not find source file " + srcfile.getAbsolutePath() + ".";
+            if (!failonerror)
+            {
+                log(message);
+            }
+            else
+            {
+                throw new BuildException(message);
+            }
+        }
+    }
+
+    protected void executeSet()
+    {
+
+        FileNameMapper mapper = null;
+        if (flatten)
+        {
+            mapper = new FlatFileNameMapper();
+        }
+        else
+        {
+            mapper = new IdentityMapper();
+        }
+
+        mapper.setTo(this.destdir.getAbsolutePath());
+
+        Iterator iterator = filesets.iterator();
+        while (iterator.hasNext())
+        {
+            FileSet fileSet = (FileSet) iterator.next();
+            DirectoryScanner directoryScanner = fileSet.getDirectoryScanner(getProject());
+            String[] sourceFiles = directoryScanner.getIncludedFiles();
+
+            mapper.setFrom(fileSet.getDir(getProject()).getAbsolutePath());
+
+            for (int j = 0; j < sourceFiles.length; j++)
+            {
+                String[] mapped = mapper.mapFileName(sourceFiles[j]);
+                if (mapped == null || mapped.length == 0)
+                {
+                    throw new BuildException("Uh oh, unable to map "
+                        + sourceFiles[j]
+                        + "using from "
+                        + fileSet.getDir(getProject()).getAbsolutePath()
+                        + "and to "
+                        + this.destdir.getAbsolutePath());
+                }
+                processFile(new File(sourceFiles[j]), new File(mapped[0]));
+            }
+        }
+    }
+
+    protected void processFile(File inputFile, File outputFile)
+    {
+
+        InputStream is;
+        OutputStream os;
         try
         {
-
-            PrintWriter logWriter = null;
-
-            if (log != null)
-            {
-                logWriter = new PrintWriter(new FileWriter(log));
-            }
-            tidy.setErrout(logWriter);
-
-            processFileSets();
-            logWriter.flush();
-            logWriter.close();
+            is = new BufferedInputStream(new FileInputStream(srcfile));
         }
-        catch (IOException ioe)
+        catch (FileNotFoundException e)
         {
-            throw new BuildException(ioe);
+            throw new BuildException("Unable to open file " + srcfile);
         }
-    }
-
-    DirectoryScanner getDirectoryScanner(FileSet fileSet) throws BuildException
-    {
-        File dir = fileSet.getDir(project);
-        if (!dir.exists())
+        try
         {
-            throw new BuildException("source directory '" + dir.getPath() + "' not found");
+            os = new BufferedOutputStream(new FileOutputStream(destfile));
         }
-        return fileSet.getDirectoryScanner(project);
-    }
+        catch (FileNotFoundException e)
+        {
+            throw new BuildException("Unable to open file " + destfile);
+        }
 
-    public void addFileset(FileSet fileSet)
-    {
-        filesets.add(fileSet);
+        tidy.parse(is, os);
+
+        try
+        {
+            is.close();
+        }
+        catch (IOException e1)
+        {
+            // ignore
+        }
+        try
+        {
+            os.flush();
+            os.close();
+        }
+        catch (IOException e1)
+        {
+            // ignore
+        }
+
+        if (failonerror && tidy.getParseErrors() > 0)
+        {
+            throw new BuildException("Tidy was unable to process file "
+                + srcfile
+                + ", "
+                + tidy.getParseErrors()
+                + " returned.");
+        }
+
     }
 
 }
