@@ -57,9 +57,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -896,7 +899,12 @@ public class Configuration implements java.io.Serializable
             errout.write("=========================== =========  ========================================\n");
 
             Flag configItem;
-            Iterator iterator = OPTIONS.values().iterator();
+
+            // sort configuration options
+            List values = new ArrayList(OPTIONS.values());
+            Collections.sort(values);
+
+            Iterator iterator = values.iterator();
 
             while (iterator.hasNext())
             {
@@ -922,12 +930,12 @@ public class Configuration implements java.io.Serializable
                         catch (IllegalArgumentException e1)
                         {
                             // should never happen
-                            throw new RuntimeException("IllegalArgumentException when reading field " + field.getName());
+                            throw new RuntimeException("IllegalArgument when reading field " + field.getName());
                         }
                         catch (IllegalAccessException e1)
                         {
                             // should never happen
-                            throw new RuntimeException("IllegalAccessException when reading field " + field.getName());
+                            throw new RuntimeException("IllegalAccess when reading field " + field.getName());
                         }
                     }
 
@@ -953,7 +961,7 @@ public class Configuration implements java.io.Serializable
     /**
      * A configuration option.
      */
-    static class Flag
+    static class Flag implements Comparable
     {
 
         /**
@@ -1037,5 +1045,31 @@ public class Configuration implements java.io.Serializable
         {
             return this.parser;
         }
+
+        /**
+         * @see java.lang.Object#equals(java.lang.Object)
+         */
+        public boolean equals(Object obj)
+        {
+            return this.name.equals(((Flag) obj).name);
+        }
+
+        /**
+         * @see java.lang.Object#hashCode()
+         */
+        public int hashCode()
+        {
+            // returning the hashCode of String, to be consistent with equals and compareTo
+            return this.name.hashCode();
+        }
+
+        /**
+         * @see java.lang.Comparable#compareTo(java.lang.Object)
+         */
+        public int compareTo(Object o)
+        {
+            return this.name.compareTo(((Flag) o).name);
+        }
+
     }
 }
