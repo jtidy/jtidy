@@ -36,6 +36,12 @@
       </action>         
       <action dev="fgiust" type="fix">
           Applied fix for Tidy test case [427675] Frameset followed by frame infinite loop.
+      </action>          
+      <action dev="fgiust" type="fix">
+          Fixed jtidy [522003] Typo in Configuration.parseProps(): indent-attributes parameter ignored.
+      </action>             
+      <action dev="fgiust" type="fix">
+          Fixed [427671] : &lt;LI&gt; w/FRAME/FRAMESET/OPTGROUP/OPTION loop.
       </action>         
       
     </release>
