@@ -1850,7 +1850,7 @@ public class Tidy implements Serializable
                     }
                 }
                 // #431953 - start RJ
-                else if (argv[argIndex].equalsIgnoreCase("-language") || argv[argIndex].equalsIgnoreCase("-lang"))
+                else if (arg.equalsIgnoreCase("language") || arg.equalsIgnoreCase("lang"))
                 {
                     if (argc >= 3)
                     {
@@ -1860,9 +1860,7 @@ public class Tidy implements Serializable
                     }
                 }
                 // #431953 - end RJ
-                else if (argv[argIndex].equalsIgnoreCase("-file")
-                    || argv[argIndex].equalsIgnoreCase("--file")
-                    || argv[argIndex].equalsIgnoreCase("-f"))
+                else if (arg.equalsIgnoreCase("file") || arg.equalsIgnoreCase("-file") || arg.equalsIgnoreCase("f"))
                 {
                     if (argc >= 3)
                     {
@@ -1871,9 +1869,7 @@ public class Tidy implements Serializable
                         ++argIndex;
                     }
                 }
-                else if (argv[argIndex].equalsIgnoreCase("-wrap")
-                    || argv[argIndex].equalsIgnoreCase("--wrap")
-                    || argv[argIndex].equalsIgnoreCase("-w"))
+                else if (arg.equalsIgnoreCase("wrap") || arg.equalsIgnoreCase("-wrap") || arg.equalsIgnoreCase("w"))
                 {
                     if (argc >= 3)
                     {
@@ -1882,9 +1878,9 @@ public class Tidy implements Serializable
                         ++argIndex;
                     }
                 }
-                else if (argv[argIndex].equalsIgnoreCase("-version")
-                    || argv[argIndex].equalsIgnoreCase("--version")
-                    || argv[argIndex].equalsIgnoreCase("-v"))
+                else if (arg.equalsIgnoreCase("version")
+                    || arg.equalsIgnoreCase("-version")
+                    || arg.equalsIgnoreCase("v"))
                 {
                     this.report.showVersion(errout);
                     return 0;
