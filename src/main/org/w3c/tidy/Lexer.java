@@ -3479,7 +3479,7 @@ public class Lexer
             {
                 esclen = 1; // ab\555\444 is 4 chars {'a', 'b', \555, \444}
             }
-            else if (TidyUtils.isxdigit(c))
+            else if (Character.isDigit(c))
             {
                 // Digit not 1st, unless escaped (Max length "\112F")
                 if (esclen > 0)
