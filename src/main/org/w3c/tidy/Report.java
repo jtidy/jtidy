@@ -779,11 +779,11 @@ public final class Report
      * Prints a "bad argument" error message. Lexer is not defined when this is called.
      * @param option bad argument value
      */
-    public void badArgument(String option)
+    public void badArgument(String key, String value)
     {
         try
         {
-            System.err.println(MessageFormat.format(res.getString("bad_argument"), new Object[]{option}));
+            System.err.println(MessageFormat.format(res.getString("bad_argument"), new Object[]{key, value}));
         }
         catch (MissingResourceException e)
         {
@@ -852,9 +852,16 @@ public final class Report
             {
                 // actual encoding passed in "c"
                 lexer.badChars |= ENCODING_MISMATCH;
-                printMessage(lexer, "encoding_mismatch", new Object[]{
-                    Configuration.charEncodingName(lexer.in.encoding),
-                    Configuration.charEncodingName(c)}, TidyMessage.Level.WARNING);
+                printMessage(
+                    lexer,
+                    "encoding_mismatch",
+                    new Object[]{
+                        ParsePropertyImpl.CHAR_ENCODING.getFriendlyName(
+                            null,
+                            new Integer(lexer.in.encoding),
+                            lexer.configuration),
+                        ParsePropertyImpl.CHAR_ENCODING.getFriendlyName(null, new Integer(c), lexer.configuration)},
+                    TidyMessage.Level.WARNING);
             }
             else if ((code & ~DISCARDED_CHAR) == VENDOR_SPECIFIC_CHARS)
             {

@@ -767,7 +767,7 @@ public class Tidy implements Serializable
     {
         if (doctype != null)
         {
-            configuration.docTypeStr = configuration.parseDocType(doctype, "doctype");
+            configuration.docTypeStr = (String) ParsePropertyImpl.DOCTYPE.parse(doctype, "doctype", configuration);
         }
     }
 
@@ -1702,6 +1702,10 @@ public class Tidy implements Serializable
                 {
                     configuration.makeClean = true;
                 }
+                else if (arg.equalsIgnoreCase("bare"))
+                {
+                    configuration.makeBare = true;
+                }
                 else if (arg.equalsIgnoreCase("raw"))
                 {
                     configuration.charEncoding = Configuration.RAW;
@@ -1778,12 +1782,26 @@ public class Tidy implements Serializable
                 {
                     configuration.burstSlides = true;
                 }
-                else if (arg.equalsIgnoreCase("help")
-                    || argv[argIndex].charAt(1) == '?'
-                    || argv[argIndex].charAt(1) == 'h')
+                else if (arg.equalsIgnoreCase("help") || arg.equalsIgnoreCase("h") || argv[argIndex].charAt(1) == '?')
                 {
                     this.report.helpText(new PrintWriter(System.out, true));
                     return 1;
+                }
+                else if (arg.equalsIgnoreCase("help-config"))
+                {
+                    // @todo configuration.printConfigOptions(new PrintWriter(System.out, true), false);
+
+                    --argc;
+                    ++argIndex;
+                    continue;
+                }
+                else if (arg.equalsIgnoreCase("show-config"))
+                {
+                    configuration.adjust(); // ensure config is self-consistent
+                    //@todo configuration.printConfigOptions(errout, true);
+                    --argc;
+                    ++argIndex;
+                    continue;
                 }
                 else if (arg.equalsIgnoreCase("config"))
                 {
@@ -1856,6 +1874,10 @@ public class Tidy implements Serializable
                         else if (s.charAt(i) == 'c')
                         {
                             configuration.makeClean = true;
+                        }
+                        else if (s.charAt(i) == 'b')
+                        {
+                            configuration.makeBare = true;
                         }
                         else if (s.charAt(i) == 'n')
                         {

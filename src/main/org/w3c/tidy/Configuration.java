@@ -55,9 +55,13 @@ package org.w3c.tidy;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Writer;
+import java.lang.reflect.Field;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 
 /**
@@ -174,6 +178,98 @@ public class Configuration implements java.io.Serializable
     public static final int KEEP_FIRST = 1;
 
     /**
+     * Map containg all the valid configuration options and the related parser. Tag entry contains String(option
+     * name)-Flag instance.
+     */
+    private static final Map OPTIONS = new HashMap();
+
+    static
+    {
+        addConfigOption(new Flag("indent-spaces", "spaces", ParsePropertyImpl.INT));
+        addConfigOption(new Flag("wrap", "wraplen", ParsePropertyImpl.INT));
+        addConfigOption(new Flag("show-errors", "showErrors", ParsePropertyImpl.INT));
+        addConfigOption(new Flag("tab-size", "tabsize", ParsePropertyImpl.INT));
+
+        addConfigOption(new Flag("wrap-attributes", "wrapAttVals", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("wrap-script-literals", "wrapScriptlets", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("wrap-sections", "wrapSection", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("wrap-asp", "wrapAsp", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("wrap-jste", "wrapJste", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("wrap-php", "wrapPhp", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("literal-attributes", "literalAttribs", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("show-body-only", "bodyOnly", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("fix-uri", "fixUri", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("lower-literals", "lowerLiterals", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("hide-comments", "hideComments", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("indent-cdata", "indentCdata", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("force-output", "forceOutput", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("ascii-chars", "asciiChars", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("join-classes", "joinClasses", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("join-styles", "joinStyles", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("escape-cdata", "escapeCdata", ParsePropertyImpl.BOOL));
+
+        addConfigOption(new Flag("replace-color", "replaceColor", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("quiet", "quiet", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("tidy-mark", "tidyMark", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("indent-attributes", "indentAttributes", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("hide-endtags", "hideEndTags", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("input-xml", "xmlTags", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("output-xml", "xmlOut", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("output-xhtml", "xHTML", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("add-xml-pi", "xmlPi", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("add-xml-decl", "xmlPi", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("assume-xml-procins", "xmlPIs", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("raw", "rawOut", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("uppercase-tags", "upperCaseTags", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("uppercase-attributes", "upperCaseAttrs", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("clean", "makeClean", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("logical-emphasis", "logicalEmphasis", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("word-2000", "word2000", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("drop-empty-paras", "dropEmptyParas", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("drop-font-tags", "dropFontTags", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("drop-proprietary-attributes", "dropProprietaryAttributes", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("enclose-text", "encloseBodyText", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("enclose-block-text", "encloseBlockText", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("add-xml-space", "xmlSpace", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("fix-bad-comments", "fixComments", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("split", "burstSlides", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("break-before-br", "breakBeforeBR", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("numeric-entities", "numEntities", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("quote-marks", "quoteMarks", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("quote-nbsp", "quoteNbsp", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("quote-ampersand", "quoteAmpersand", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("write-back", "writeback", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("keep-time", "keepFileTimes", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("show-warnings", "showWarnings", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("ncr", "ncr", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("fix-backslash", "fixBackslash", ParsePropertyImpl.BOOL));
+        addConfigOption(new Flag("gnu-emacs", "emacs", ParsePropertyImpl.BOOL));
+
+        addConfigOption(new Flag("markup", "onlyErrors", ParsePropertyImpl.INVBOOL));
+
+        addConfigOption(new Flag("char-encoding", "charEncoding", ParsePropertyImpl.CHAR_ENCODING));
+        addConfigOption(new Flag("input-encoding", "inCharEncoding", ParsePropertyImpl.CHAR_ENCODING));
+        addConfigOption(new Flag("output-encoding", "outCharEncoding", ParsePropertyImpl.CHAR_ENCODING));
+
+        addConfigOption(new Flag("error-file", "errfile", ParsePropertyImpl.NAME));
+        addConfigOption(new Flag("slide-style", "slidestyle", ParsePropertyImpl.NAME));
+        addConfigOption(new Flag("language", "language", ParsePropertyImpl.NAME));
+
+        addConfigOption(new Flag("new-inline-tags", null, ParsePropertyImpl.TAGNAMES));
+        addConfigOption(new Flag("new-blocklevel-tags", null, ParsePropertyImpl.TAGNAMES));
+        addConfigOption(new Flag("new-empty-tags", null, ParsePropertyImpl.TAGNAMES));
+        addConfigOption(new Flag("new-pre-tags", null, ParsePropertyImpl.TAGNAMES));
+
+        addConfigOption(new Flag("doctype", "docTypeStr", ParsePropertyImpl.DOCTYPE));
+
+        addConfigOption(new Flag("repeated-attributes", "duplicateAttrs", ParsePropertyImpl.REPEATED_ATTRIBUTES));
+
+        addConfigOption(new Flag("alt-text", "altText", ParsePropertyImpl.STRING));
+
+        addConfigOption(new Flag("indent", "indentContent", ParsePropertyImpl.INDENT));
+    }
+
+    /**
      * default indentation.
      */
     protected int spaces = 2;
@@ -224,7 +320,7 @@ public class Configuration implements java.io.Serializable
     protected String slidestyle;
 
     /**
-     * RJ language property: not used for anything yet
+     * RJ language property.
      */
     protected String language; // #431953
 
@@ -534,19 +630,19 @@ public class Configuration implements java.io.Serializable
     protected TagTable tt;
 
     /**
+     * Report instance. Used for messages.
+     */
+    protected Report report;
+
+    /**
+     * track what types of tags user has defined to eliminate unnecessary searches.
+     */
+    protected int definedTags;
+
+    /**
      * configuration properties.
      */
     private transient Properties properties = new Properties();
-
-    /**
-     * Report instance. Used for messages.
-     */
-    private Report report;
-
-    /**
-     * track what types of tags user has defined to eliminate unnecessary searches
-     */
-    private int defined_tags;
 
     /**
      * Instantiates a new Configuration. This method should be called by Tidy only.
@@ -557,6 +653,19 @@ public class Configuration implements java.io.Serializable
         this.report = report;
     }
 
+    /**
+     * adds a config option to the map.
+     * @param flag configuration options added
+     */
+    private static void addConfigOption(Flag flag)
+    {
+        OPTIONS.put(flag.getName(), flag);
+    }
+
+    /**
+     * adds configuration Properties.
+     * @param p Properties
+     */
     public void addProps(Properties p)
     {
         Enumeration enum = p.propertyNames();
@@ -569,6 +678,10 @@ public class Configuration implements java.io.Serializable
         parseProps();
     }
 
+    /**
+     * Parses a property file.
+     * @param filename file name
+     */
     public void parseFile(String filename)
     {
         try
@@ -577,453 +690,64 @@ public class Configuration implements java.io.Serializable
         }
         catch (IOException e)
         {
-            System.err.println(filename + e.toString());
+            System.err.println(filename + " " + e.toString());
             return;
         }
         parseProps();
     }
 
+    /**
+     * Parses the configuration properties file.
+     */
     private void parseProps()
     {
-        String value;
-
-        value = properties.getProperty("indent-spaces");
-        if (value != null)
-        {
-            spaces = parseInt(value, "indent-spaces");
-        }
-
-        value = properties.getProperty("wrap");
-        if (value != null)
-        {
-            wraplen = parseInt(value, "wrap");
-        }
-
-        value = properties.getProperty("wrap-attributes");
-        if (value != null)
-        {
-            wrapAttVals = parseBool(value, "wrap-attributes");
-        }
-
-        value = properties.getProperty("wrap-script-literals");
-        if (value != null)
-        {
-            wrapScriptlets = parseBool(value, "wrap-script-literals");
-        }
-
-        value = properties.getProperty("wrap-sections");
-        if (value != null)
-        {
-            wrapSection = parseBool(value, "wrap-sections");
-        }
-
-        value = properties.getProperty("wrap-asp");
-        if (value != null)
-        {
-            wrapAsp = parseBool(value, "wrap-asp");
-        }
-
-        value = properties.getProperty("wrap-jste");
-        if (value != null)
-        {
-            wrapJste = parseBool(value, "wrap-jste");
-        }
-
-        value = properties.getProperty("wrap-php");
-        if (value != null)
-        {
-            wrapPhp = parseBool(value, "wrap-php");
-        }
-
-        value = properties.getProperty("literal-attributes");
-        if (value != null)
-        {
-            literalAttribs = parseBool(value, "literal-attributes");
-        }
-
-        value = properties.getProperty("show-body-only");
-        if (value != null)
-        {
-            this.bodyOnly = parseBool(value, "show-body-only");
-        }
-
-        value = properties.getProperty("fix-uri");
-        if (value != null)
-        {
-            this.fixUri = parseBool(value, "fix-uri");
-        }
-
-        value = properties.getProperty("lower-literals");
-        if (value != null)
-        {
-            this.lowerLiterals = parseBool(value, "lower-literals");
-        }
-
-        value = properties.getProperty("hide-comments");
-        if (value != null)
-        {
-            this.hideComments = parseBool(value, "hide-comments");
-        }
-
-        value = properties.getProperty("indent-cdata");
-        if (value != null)
-        {
-            this.indentCdata = parseBool(value, "indent-cdata");
-        }
-
-        value = properties.getProperty("force-output");
-        if (value != null)
-        {
-            this.forceOutput = parseBool(value, "force-output");
-        }
-
-        value = properties.getProperty("show-errors");
-        if (value != null)
-        {
-            this.showErrors = parseInt(value, "show-errors");
-        }
-
-        value = properties.getProperty("ascii-chars");
-        if (value != null)
-        {
-            this.asciiChars = parseBool(value, "ascii-chars");
-        }
-
-        value = properties.getProperty("join-classes");
-        if (value != null)
-        {
-            this.joinClasses = parseBool(value, "join-classes");
-        }
-
-        value = properties.getProperty("join-styles");
-        if (value != null)
-        {
-            this.joinStyles = parseBool(value, "join-styles");
-        }
-
-        value = properties.getProperty("escape-cdata");
-        if (value != null)
-        {
-            this.escapeCdata = parseBool(value, "escape-cdata");
-        }
-
-        value = properties.getProperty("repeated-attributes");
-        if (value != null)
-        {
-            parseRepeatedAttribute(value, "repeated-attributes");
-        }
-
-        value = properties.getProperty("replace-color");
-        if (value != null)
-        {
-            this.replaceColor = parseBool(value, "replace-color");
-        }
-
-        value = properties.getProperty("tab-size");
-        if (value != null)
-        {
-            tabsize = parseInt(value, "tab-size");
-        }
-
-        value = properties.getProperty("markup");
-        if (value != null)
-        {
-            onlyErrors = parseInvBool(value, "markup");
-        }
-
-        value = properties.getProperty("quiet");
-        if (value != null)
-        {
-            quiet = parseBool(value, "quiet");
-        }
-
-        value = properties.getProperty("tidy-mark");
-        if (value != null)
-        {
-            tidyMark = parseBool(value, "tidy-mark");
-        }
-
-        value = properties.getProperty("indent");
-        if (value != null)
-        {
-            indentContent = parseIndent(value, "indent");
-        }
-
-        value = properties.getProperty("indent-attributes");
-        if (value != null)
-        {
-            indentAttributes = parseBool(value, "indent-attributes");
-        }
-
-        value = properties.getProperty("hide-endtags");
-        if (value != null)
-        {
-            hideEndTags = parseBool(value, "hide-endtags");
-        }
-
-        value = properties.getProperty("input-xml");
-        if (value != null)
-        {
-            xmlTags = parseBool(value, "input-xml");
-        }
-
-        value = properties.getProperty("output-xml");
-        if (value != null)
-        {
-            xmlOut = parseBool(value, "output-xml");
-        }
-
-        value = properties.getProperty("output-xhtml");
-        if (value != null)
-        {
-            xHTML = parseBool(value, "output-xhtml");
-        }
-
-        value = properties.getProperty("add-xml-pi");
-        if (value != null)
-        {
-            xmlPi = parseBool(value, "add-xml-pi");
-        }
-
-        value = properties.getProperty("add-xml-decl");
-        if (value != null)
-        {
-            xmlPi = parseBool(value, "add-xml-decl");
-        }
-
-        value = properties.getProperty("assume-xml-procins");
-        if (value != null)
-        {
-            xmlPIs = parseBool(value, "assume-xml-procins");
-        }
-
-        value = properties.getProperty("raw");
-        if (value != null)
-        {
-            rawOut = parseBool(value, "raw");
-        }
-
-        value = properties.getProperty("uppercase-tags");
-        if (value != null)
-        {
-            upperCaseTags = parseBool(value, "uppercase-tags");
-        }
-
-        value = properties.getProperty("uppercase-attributes");
-        if (value != null)
-        {
-            upperCaseAttrs = parseBool(value, "uppercase-attributes");
-        }
-
-        value = properties.getProperty("clean");
-        if (value != null)
-        {
-            makeClean = parseBool(value, "clean");
-        }
-
-        value = properties.getProperty("logical-emphasis");
-        if (value != null)
-        {
-            logicalEmphasis = parseBool(value, "logical-emphasis");
-        }
-
-        value = properties.getProperty("word-2000");
-        if (value != null)
-        {
-            word2000 = parseBool(value, "word-2000");
-        }
-
-        value = properties.getProperty("drop-empty-paras");
-        if (value != null)
-        {
-            dropEmptyParas = parseBool(value, "drop-empty-paras");
-        }
-
-        value = properties.getProperty("drop-font-tags");
-        if (value != null)
-        {
-            dropFontTags = parseBool(value, "drop-font-tags");
-        }
-
-        value = properties.getProperty("drop-proprietary-attributes");
-        if (value != null)
-        {
-            dropProprietaryAttributes = parseBool(value, "drop-proprietary-attributes");
-        }
-
-        value = properties.getProperty("enclose-text");
-        if (value != null)
-        {
-            encloseBodyText = parseBool(value, "enclose-text");
-        }
-
-        value = properties.getProperty("enclose-block-text");
-        if (value != null)
-        {
-            encloseBlockText = parseBool(value, "enclose-block-text");
-        }
-
-        value = properties.getProperty("alt-text");
-        if (value != null)
-        {
-            altText = value;
-        }
-
-        value = properties.getProperty("add-xml-space");
-        if (value != null)
-        {
-            xmlSpace = parseBool(value, "add-xml-space");
-        }
-
-        value = properties.getProperty("fix-bad-comments");
-        if (value != null)
-        {
-            fixComments = parseBool(value, "fix-bad-comments");
-        }
-
-        value = properties.getProperty("split");
-        if (value != null)
-        {
-            burstSlides = parseBool(value, "split");
-        }
-
-        value = properties.getProperty("break-before-br");
-        if (value != null)
-        {
-            breakBeforeBR = parseBool(value, "break-before-br");
-        }
-
-        value = properties.getProperty("numeric-entities");
-        if (value != null)
-        {
-            numEntities = parseBool(value, "numeric-entities");
-        }
-
-        value = properties.getProperty("quote-marks");
-        if (value != null)
-        {
-            quoteMarks = parseBool(value, "quote-marks");
-        }
-
-        value = properties.getProperty("quote-nbsp");
-        if (value != null)
-        {
-            quoteNbsp = parseBool(value, "quote-nbsp");
-        }
-
-        value = properties.getProperty("quote-ampersand");
-        if (value != null)
-        {
-            quoteAmpersand = parseBool(value, "quote-ampersand");
-        }
-
-        value = properties.getProperty("write-back");
-        if (value != null)
-        {
-            writeback = parseBool(value, "write-back");
-        }
-
-        value = properties.getProperty("keep-time");
-        if (value != null)
-        {
-            keepFileTimes = parseBool(value, "keep-time");
-        }
-
-        value = properties.getProperty("show-warnings");
-        if (value != null)
-        {
-            showWarnings = parseBool(value, "show-warnings");
-        }
-
-        value = properties.getProperty("error-file");
-        if (value != null)
-        {
-            errfile = parseName(value, "error-file");
-        }
-
-        value = properties.getProperty("slide-style");
-        if (value != null)
-        {
-            slidestyle = parseName(value, "slide-style");
-        }
-
-        value = properties.getProperty("new-inline-tags");
-        if (value != null)
-        {
-            parseInlineTagNames(value, "new-inline-tags");
-        }
-
-        value = properties.getProperty("new-blocklevel-tags");
-        if (value != null)
-        {
-            parseBlockTagNames(value, "new-blocklevel-tags");
-        }
-
-        value = properties.getProperty("new-empty-tags");
-        if (value != null)
-        {
-            parseEmptyTagNames(value, "new-empty-tags");
-        }
-
-        value = properties.getProperty("new-pre-tags");
-        if (value != null)
-        {
-            parsePreTagNames(value, "new-pre-tags");
-        }
-
-        value = properties.getProperty("char-encoding");
-        if (value != null)
-        {
-            charEncoding = parseCharEncoding(value, "char-encoding");
-        }
-
-        value = properties.getProperty("input-encoding");
-        if (value != null)
-        {
-            inCharEncoding = parseCharEncoding(value, "input-encoding");
-        }
-
-        value = properties.getProperty("output-encoding");
-        if (value != null)
-        {
-            outCharEncoding = parseCharEncoding(value, "output-encoding");
-        }
-
-        value = properties.getProperty("language");
-        if (value != null)
-        {
-            language = parseName(value, "language");
-        }
-
-        value = properties.getProperty("ncr");
-        if (value != null)
-        {
-            ncr = parseBool(value, "ncr");
-        }
-
-        value = properties.getProperty("doctype");
-        if (value != null)
-        {
-            docTypeStr = parseDocType(value, "doctype");
-        }
-
-        value = properties.getProperty("fix-backslash");
-        if (value != null)
-        {
-            fixBackslash = parseBool(value, "fix-backslash");
-        }
-
-        value = properties.getProperty("gnu-emacs");
-        if (value != null)
-        {
-            emacs = parseBool(value, "gnu-emacs");
+        Iterator iterator = properties.keySet().iterator();
+
+        while (iterator.hasNext())
+        {
+            String key = (String) iterator.next();
+            Flag flag = (Flag) OPTIONS.get(key);
+            if (flag == null)
+            {
+                report.unknownOption(key);
+                continue;
+            }
+
+            String stringValue = properties.getProperty(key);
+            Object value = flag.getParser().parse(stringValue, key, this);
+            if (flag.getLocation() != null)
+            {
+                try
+                {
+                    flag.getLocation().set(this, value);
+                }
+                catch (IllegalArgumentException e)
+                {
+                    throw new RuntimeException("IllegalArgumentException during config initialization for field "
+                        + key
+                        + "with value ["
+                        + value
+                        + "]: "
+                        + e.getMessage());
+                }
+                catch (IllegalAccessException e)
+                {
+                    throw new RuntimeException("IllegalArgumentException during config initialization for field "
+                        + key
+                        + "with value ["
+                        + value
+                        + "]: "
+                        + e.getMessage());
+                }
+            }
         }
     }
 
     /**
-     * ensure that char encodings are self consistent
+     * Ensure that char encodings are self consistent.
+     * @param encoding encoding constant
      */
-    private void adjustCharEncoding(int encoding)
+    protected void adjustCharEncoding(int encoding)
     {
         charEncoding = encoding;
 
@@ -1089,7 +813,9 @@ public class Configuration implements java.io.Serializable
         }
     }
 
-    /* ensure that config is self consistent */
+    /**
+     * Ensure that config is self consistent.
+     */
     public void adjust()
     {
         if (encloseBlockText)
@@ -1112,7 +838,7 @@ public class Configuration implements java.io.Serializable
         // Word 2000 needs o:p to be declared as inline
         if (word2000)
         {
-            defined_tags |= Dict.TAGTYPE_INLINE;
+            definedTags |= Dict.TAGTYPE_INLINE;
             tt.defineTag(Dict.TAGTYPE_INLINE, "o:p");
         }
 
@@ -1146,383 +872,170 @@ public class Configuration implements java.io.Serializable
         }
     }
 
-    private int parseInt(String s, String option)
+    /**
+     * prints available configuration options.
+     * @param errout where to write
+     * @param showActualConfiguration print actual configuration values
+     */
+    void printConfigOptions(Writer errout, boolean showActualConfiguration)
     {
-        int i = 0;
+        String pad = "                                                                               ";
         try
         {
-            i = Integer.parseInt(s);
-        }
-        catch (NumberFormatException e)
-        {
-            report.badArgument(option);
-            i = -1;
-        }
-        return i;
-    }
+            errout.write("\nConfiguration File Settings:\n\n");
 
-    private boolean parseBool(String s, String option)
-    {
-        boolean b = false;
-        if (s != null && s.length() > 0)
-        {
-            char c = s.charAt(0);
-            if ((c == 't') || (c == 'T') || (c == 'Y') || (c == 'y') || (c == '1'))
+            if (showActualConfiguration)
             {
-                b = true;
-            }
-            else if ((c == 'f') || (c == 'F') || (c == 'N') || (c == 'n') || (c == '0'))
-            {
-                b = false;
+                errout.write("Name                        Type       Current Value\n");
             }
             else
             {
-                report.badArgument(option);
+                errout.write("Name                        Type       Allowable values\n");
             }
-        }
-        return b;
-    }
 
-    private boolean parseInvBool(String s, String option)
-    {
-        boolean b = false;
-        if (s != null && s.length() > 0)
-        {
-            char c = s.charAt(0);
-            if ((c == 't') || (c == 'T') || (c == 'Y') || (c == 'y'))
+            errout.write("=========================== =========  ========================================\n");
+
+            Flag configItem;
+            Iterator iterator = OPTIONS.values().iterator();
+
+            while (iterator.hasNext())
             {
-                b = true;
+                configItem = (Flag) iterator.next();
+
+                errout.write(configItem.getName());
+                errout.write(pad, 0, 28 - configItem.getName().length());
+
+                errout.write(configItem.getParser().getType());
+                errout.write(pad, 0, 11 - configItem.getParser().getType().length());
+
+                if (showActualConfiguration)
+                {
+                    Field field = configItem.getLocation();
+                    Object actualValue = null;
+
+                    if (field != null)
+                    {
+                        try
+                        {
+                            actualValue = field.get(this);
+                        }
+                        catch (IllegalArgumentException e1)
+                        {
+                            // should never happen
+                            throw new RuntimeException("IllegalArgumentException when reading field " + field.getName());
+                        }
+                        catch (IllegalAccessException e1)
+                        {
+                            // should never happen
+                            throw new RuntimeException("IllegalAccessException when reading field " + field.getName());
+                        }
+                    }
+
+                    errout.write(configItem.getParser().getFriendlyName(configItem.getName(), actualValue, this));
+                }
+                else
+                {
+                    errout.write(configItem.getParser().getOptionValues());
+                }
+
+                errout.write("\n");
+
             }
-            else if ((c == 'f') || (c == 'F') || (c == 'N') || (c == 'n'))
+            errout.flush();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
+
+    }
+
+    /**
+     * A configuration option.
+     */
+    static class Flag
+    {
+
+        /**
+         * option name.
+         */
+        private String name;
+
+        /**
+         * field name.
+         */
+        private String fieldName;
+
+        /**
+         * Field where the evaluated value is saved.
+         */
+        private Field location;
+
+        /**
+         * Parser for the configuration property.
+         */
+        private ParseProperty parser;
+
+        /**
+         * Instantiates a new Flag.
+         * @param name option name
+         * @param fieldName field name (can be null)
+         * @param parser parser for property
+         */
+        Flag(String name, String fieldName, ParseProperty parser)
+        {
+
+            this.fieldName = fieldName;
+            this.name = name;
+            this.parser = parser;
+        }
+
+        /**
+         * Getter for <code>location</code>.
+         * @return Returns the location.
+         */
+        public Field getLocation()
+        {
+            // lazy initialization to speed up loading
+            if (fieldName != null && this.location == null)
             {
-                b = false;
+                try
+                {
+                    this.location = Configuration.class.getDeclaredField(fieldName);
+                }
+                catch (NoSuchFieldException e)
+                {
+                    throw new RuntimeException("NoSuchField exception during config initialization for field "
+                        + fieldName);
+                }
+                catch (SecurityException e)
+                {
+                    throw new RuntimeException("Security exception during config initialization for field "
+                        + fieldName
+                        + ": "
+                        + e.getMessage());
+                }
             }
-            else
-            {
-                report.badArgument(option);
-            }
-        }
-        return !b;
-    }
 
-    private String parseName(String s, String option)
-    {
-        StringTokenizer t = new StringTokenizer(s);
-        String rs = null;
-        if (t.countTokens() >= 1)
-        {
-            rs = t.nextToken();
-        }
-        else
-        {
-            report.badArgument(option);
-        }
-        return rs;
-    }
-
-    /**
-     * parse character encoding option.
-     * @param s option value. Can be RAW, ASCII, LATIN1, UTF8, ISO2022, MACROMAN, UTF16LE, UTF16BE, UTF16, WIN1252,
-     * BIG5, SHIFTJIS
-     * @param option option name
-     * @return character encoding code
-     */
-    private int parseCharEncoding(String s, String option)
-    {
-        int result = ASCII;
-        boolean validEncoding = true;
-
-        if ("ascii".equalsIgnoreCase(s))
-        {
-            result = ASCII;
-        }
-        else if ("latin1".equalsIgnoreCase(s))
-        {
-            result = LATIN1;
-        }
-        else if ("raw".equalsIgnoreCase(s))
-        {
-            result = RAW;
-        }
-        else if ("utf8".equalsIgnoreCase(s))
-        {
-            result = UTF8;
-        }
-        else if ("iso2022".equalsIgnoreCase(s))
-        {
-            result = ISO2022;
-        }
-        else if ("mac".equalsIgnoreCase(s))
-        {
-            result = MACROMAN;
-        }
-        else if ("utf16le".equalsIgnoreCase(s))
-        {
-            result = UTF16LE;
-        }
-        else if ("utf16be".equalsIgnoreCase(s))
-        {
-            result = UTF16BE;
-        }
-        else if ("utf16".equalsIgnoreCase(s))
-        {
-            result = UTF16;
-        }
-        else if ("win1252".equalsIgnoreCase(s))
-        {
-            result = WIN1252;
-        }
-        else if ("big5".equalsIgnoreCase(s))
-        {
-            result = BIG5; // #431953 - RJ
-        }
-        else if ("shiftjis".equalsIgnoreCase(s))
-        {
-            result = SHIFTJIS; // #431953 - RJ
-        }
-        else
-        {
-            validEncoding = false;
-            report.badArgument(option);
+            return this.location;
         }
 
-        if (validEncoding && "char-encoding".equals(option))
+        /**
+         * Getter for <code>name</code>.
+         * @return Returns the name.
+         */
+        public String getName()
         {
-            adjustCharEncoding(result);
+            return this.name;
         }
 
-        return result;
-    }
-
-    /**
-     * Returns the encoding name givn the numeric constant.
-     * @param encoding <code>ASCII | LATIN1 | RAW | UTF8 | ISO2022 | MACROMAN | UTF16LE | UTF16BE | UTF16 | WIN1252 |
-     * BIG5 | SHIFTJIS</code>
-     * @return encoding name
-     */
-    static String charEncodingName(int encoding)
-    {
-        String encodingName;
-
-        switch (encoding)
+        /**
+         * Getter for <code>parser</code>.
+         * @return Returns the parser.
+         */
+        public ParseProperty getParser()
         {
-            case ASCII :
-                encodingName = "ascii";
-                break;
-            case LATIN1 :
-                encodingName = "latin1";
-                break;
-            case RAW :
-                encodingName = "raw";
-                break;
-            case UTF8 :
-                encodingName = "utf8";
-                break;
-            case ISO2022 :
-                encodingName = "iso2022";
-                break;
-            case MACROMAN :
-                encodingName = "mac";
-                break;
-
-            case UTF16LE :
-                encodingName = "utf16le";
-                break;
-            case UTF16BE :
-                encodingName = "utf16be";
-                break;
-            case UTF16 :
-                encodingName = "utf16";
-                break;
-
-            case WIN1252 :
-                encodingName = "win1252";
-                break;
-
-            case BIG5 :
-                encodingName = "big5";
-                break;
-            case SHIFTJIS :
-                encodingName = "shiftjis";
-                break;
-
-            default :
-                encodingName = "unknown";
-                break;
-        }
-
-        return encodingName;
-    }
-
-    /**
-     * parse indent mode.
-     * @param s option value
-     * @param option option name
-     */
-    private boolean parseIndent(String s, String option)
-    {
-        boolean b = indentContent;
-
-        if ("yes".equalsIgnoreCase(s))
-        {
-            b = true;
-            smartIndent = false;
-        }
-        else if ("true".equalsIgnoreCase(s))
-        {
-            b = true;
-            smartIndent = false;
-        }
-        else if ("no".equalsIgnoreCase(s))
-        {
-            b = false;
-            smartIndent = false;
-        }
-        else if ("false".equalsIgnoreCase(s))
-        {
-            b = false;
-            smartIndent = false;
-        }
-        else if ("auto".equalsIgnoreCase(s))
-        {
-            b = true;
-            smartIndent = true;
-        }
-        else
-        {
-            report.badArgument(option);
-        }
-        return b;
-    }
-
-    /**
-     * parse new inline tags.
-     * @param s option value
-     * @param option option name
-     */
-    private void parseInlineTagNames(String s, String option)
-    {
-        StringTokenizer t = new StringTokenizer(s, " \t\n\r,");
-        while (t.hasMoreTokens())
-        {
-            defined_tags |= Dict.TAGTYPE_INLINE;
-            tt.defineTag(Dict.TAGTYPE_INLINE, t.nextToken());
+            return this.parser;
         }
     }
-
-    /**
-     * parse new block tags.
-     * @param s option value
-     * @param option option name
-     */
-    private void parseBlockTagNames(String s, String option)
-    {
-        StringTokenizer t = new StringTokenizer(s, " \t\n\r,");
-        while (t.hasMoreTokens())
-        {
-            defined_tags |= Dict.TAGTYPE_BLOCK;
-            tt.defineTag(Dict.TAGTYPE_BLOCK, t.nextToken());
-        }
-    }
-
-    /**
-     * parse new empty tags.
-     * @param s option value
-     * @param option option name
-     */
-    private void parseEmptyTagNames(String s, String option)
-    {
-        StringTokenizer t = new StringTokenizer(s, " \t\n\r,");
-        while (t.hasMoreTokens())
-        {
-            defined_tags |= Dict.TAGTYPE_EMPTY;
-            tt.defineTag(Dict.TAGTYPE_EMPTY, t.nextToken());
-        }
-    }
-
-    /**
-     * parse new pre tags.
-     * @param s option value
-     * @param option option name
-     */
-    private void parsePreTagNames(String s, String option)
-    {
-        StringTokenizer t = new StringTokenizer(s, " \t\n\r,");
-        while (t.hasMoreTokens())
-        {
-            defined_tags |= Dict.TAGTYPE_PRE;
-            tt.defineTag(Dict.TAGTYPE_PRE, t.nextToken());
-        }
-    }
-
-    /**
-     * Parse doctype preference. doctype: <code>omit | auto | strict | loose | [fpi]</code> where the fpi is a string
-     * similar to <code>"-//ACME//DTD HTML 3.14159//EN"</code>.
-     * @param s option value
-     * @param option option name
-     */
-    protected String parseDocType(String s, String option)
-    {
-        s = s.trim();
-
-        /* "-//ACME//DTD HTML 3.14159//EN" or similar */
-
-        if (s.startsWith("\""))
-        {
-            docTypeMode = DOCTYPE_USER;
-            return s;
-        }
-
-        /* read first word */
-        String word = "";
-        StringTokenizer t = new StringTokenizer(s, " \t\n\r,");
-        if (t.hasMoreTokens())
-        {
-            word = t.nextToken();
-        }
-        // #443663 - fix by Terry Teague 23 Jul 01
-        if ("auto".equalsIgnoreCase(word))
-        {
-            docTypeMode = DOCTYPE_AUTO;
-        }
-        else if ("omit".equalsIgnoreCase(word))
-        {
-            docTypeMode = DOCTYPE_OMIT;
-        }
-        else if ("strict".equalsIgnoreCase(word))
-        {
-            docTypeMode = DOCTYPE_STRICT;
-        }
-        else if ("loose".equalsIgnoreCase(word) || "transitional".equalsIgnoreCase(word))
-        {
-            docTypeMode = DOCTYPE_LOOSE;
-        }
-        else
-        {
-            report.badArgument(option);
-        }
-        return null;
-    }
-
-    /**
-     * keep-first or keep-last?
-     * @param s option value
-     * @param option option name
-     */
-    private void parseRepeatedAttribute(String s, String option)
-    {
-        if ("keep-first".equalsIgnoreCase(s))
-        {
-            duplicateAttrs = KEEP_FIRST;
-        }
-        else if ("keep-last".equalsIgnoreCase(s))
-        {
-            duplicateAttrs = KEEP_LAST;
-        }
-        else
-        {
-            report.badArgument(option);
-        }
-    }
-
 }

@@ -53,7 +53,10 @@
  */
 package org.w3c.tidy;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 
@@ -622,6 +625,11 @@ public class TagTable
     protected Dict tagQ;
 
     /**
+     * a proprietary tag added by Tidy, along with tag_nobr, tag_wbr
+     */
+    protected Dict tagBlink;
+
+    /**
      * anchor/node hash.
      */
     protected Anchor anchorList;
@@ -704,6 +712,7 @@ public class TagTable
         tagSpan = lookup("span");
         tagInput = lookup("input");
         tagQ = lookup("q");
+        tagBlink = lookup("blink");
     }
 
     public void setConfiguration(Configuration configuration)
@@ -790,7 +799,6 @@ public class TagTable
 
     public void defineTag(short tagType, String name)
     {
-
         Parser tagParser;
         short model;
 
@@ -822,24 +830,71 @@ public class TagTable
         install(new Dict(name, Dict.VERS_PROPRIETARY, model, tagParser, null));
     }
 
-    public void defineInlineTag(String name)
+    /**
+     * return a List containing all the user-defined tag names.
+     * @param tagType one of Dict.TAGTYPE_EMPTY | Dict.TAGTYPE_INLINE | Dict.TAGTYPE_BLOCK | Dict.TAGTYPE_PRE
+     * @return List containing all the user-defined tag names
+     */
+    List findAllDefinedTag(short tagType)
     {
-        defineTag(Dict.TAGTYPE_INLINE, name);
-    }
+        List tagNames = new ArrayList();
 
-    public void defineBlockTag(String name)
-    {
-        defineTag(Dict.TAGTYPE_BLOCK, name);
-    }
+        Iterator iterator = tagHashtable.values().iterator();
+        while (iterator.hasNext())
+        {
+            Dict curDictEntry = (Dict) iterator.next();
 
-    public void defineEmptyTag(String name)
-    {
-        defineTag(Dict.TAGTYPE_EMPTY, name);
-    }
+            if (curDictEntry != null)
+            {
+                switch (tagType)
+                {
+                    // defined tags can be empty + inline
+                    case Dict.TAGTYPE_EMPTY :
+                        if ((curDictEntry.versions == Dict.VERS_PROPRIETARY)
+                            && ((curDictEntry.model & Dict.CM_EMPTY) == Dict.CM_EMPTY)
+                            && // (curDictEntry.parser == ParseBlock) &&
+                            (curDictEntry != tagWbr))
+                        {
+                            tagNames.add(curDictEntry.name);
+                        }
+                        break;
 
-    public void definePreTag(String name)
-    {
-        defineTag(Dict.TAGTYPE_PRE, name);
+                    // defined tags can be empty + inline
+                    case Dict.TAGTYPE_INLINE :
+                        if ((curDictEntry.versions == Dict.VERS_PROPRIETARY)
+                            && ((curDictEntry.model & Dict.CM_INLINE) == Dict.CM_INLINE)
+                            && // (curDictEntry.parser == ParseInline) &&
+                            (curDictEntry != tagBlink)
+                            && (curDictEntry != tagNobr)
+                            && (curDictEntry != tagWbr))
+                        {
+                            tagNames.add(curDictEntry.name);
+                        }
+                        break;
+
+                    // defined tags can be empty + block
+                    case Dict.TAGTYPE_BLOCK :
+                        if ((curDictEntry.versions == Dict.VERS_PROPRIETARY)
+                            && ((curDictEntry.model & Dict.CM_BLOCK) == Dict.CM_BLOCK)
+                            && (curDictEntry.parser == ParserImpl.BLOCK))
+                        {
+                            tagNames.add(curDictEntry.name);
+                        }
+                        break;
+
+                    case Dict.TAGTYPE_PRE :
+                        if ((curDictEntry.versions == Dict.VERS_PROPRIETARY)
+                            && ((curDictEntry.model & Dict.CM_BLOCK) == Dict.CM_BLOCK)
+                            && (curDictEntry.parser == ParserImpl.PRE))
+                        {
+                            tagNames.add(curDictEntry.name);
+                        }
+                        break;
+                }
+            }
+        }
+
+        return tagNames;
     }
 
     /**
