@@ -46,24 +46,17 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <text><![CDATA[end of file while parsing attributes <img>]]></text>
   </message>
   <message>
-    <code>36</code>
-    <level>2</level>
-    <line>11</line>
-    <column>2</column>
-    <text><![CDATA[end of file while parsing attributes <img>]]></text>
-  </message>
-  <message>
     <code>64</code>
     <level>2</level>
     <line>11</line>
-    <column>2</column>
+    <column>1</column>
     <text><![CDATA[<img> escaping malformed URI reference]]></text>
   </message>
   <message>
     <code>49</code>
     <level>2</level>
     <line>11</line>
-    <column>2</column>
+    <column>1</column>
     <text><![CDATA[<img> lacks "alt" attribute]]></text>
   </message>
   <message>
