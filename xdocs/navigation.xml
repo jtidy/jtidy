@@ -5,13 +5,21 @@
     <links>
       <item name="JTidy on Sourceforge" href="http://sourceforge.net/projects/jtidy" />
     </links>
+
     <menu name="JTidy">
       <item name="Overview" href="/index.html" />
       <item name="Download" href="/download.html" />
     </menu>
     <menu name="Developers">
       <item name="Coding Conventions" href="/coding_conventions.html" />
+      <item name="Test cases" href="/testcases.html" />
+    </menu>
+    
+    <menu name="" type="left-footer">
+      <item name="Code Coverage by Clover" href="http://www.thecortex.net/clover" img="http://www.thecortex.net/clover/images/clovered1.gif"/>
     </menu>
   </body>
+  
+  
 </project>
 

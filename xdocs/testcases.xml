@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <properties>
+    <title>Test cases</title>
+    <author email="fgiust AT users.sourceforge.net">Fabrizio Giustina</author>
+  </properties>
+  <body>
+    <section name="Testing JTidy">
+      <p>JTidy provides some helper classes to test its functionalities. Having a wide test coverage will help JTidy developers to assure code quality along releases. If you want to write a test case for JTidy (please do that if you are a developer and you find a JTidy bug) you can follow few simple guidelines.</p>
+      <p>
+        See the
+        <a href="xref-test/index.html">test xref report</a>
+        for test examples.
+      </p>
+    </section>
+    <section name="Writing test cases">
+      <subsection name="Basics">
+        <p>
+          To write a JTidy test case your test class must extends
+          <code>org.w3c.tidy.TidyTestCase</code>
+          (you can find in the
+          <code>src/test</code>
+          ) directory. This class offers different utility methods to load files and evaluate results.
+        </p>
+        <p>
+          Input file for testing should be placed in the
+          <code>src/test-resources</code>
+          directory. An optional configuration file can also be supplied: the file name must be the same name of the input file with the ".cfg" extension.
+        </p>
+      </subsection>
+      <subsection name="Test for crash or loops">
+        <p>
+          For testing an input file which causes a NPE or an infinite loop, simply calls
+          <code>executeTidyTest(String fileName)</code>
+          where filename is the simple (without path) file name for your input file. This method will take care of loading the configuration (if a .cfg file with the same name of the input file exists) and call
+          <code>tidy.parse()</code>
+          .
+        </p>
+      </subsection>
+      <subsection name="Testing output">
+        <p>
+          Place a file with the same name of your input file but with the ".out" extension containing the expected result. Call
+          <code>executeTidyTest(String fileName)</code>
+          and the result will be automatically compared with the supplied file. An AssertionException will be thrown if files are different (the exception will include the different lines from both files).
+        </p>
+      </subsection>
+      <subsection name="Testing parser">
+        <p>
+          Call
+          <code>parseDomTest(String fileName)</code>
+          : this will return a
+          <code>Document</code>
+          object so you can make assertions on its content.
+        </p>
+      </subsection>
+      <subsection name="Testing errors/warning">
+        <p>
+          Actually you can use the
+          <code>executeTidyTest(String fileName)</code>
+          method and check the number of warning/errors on the returned Tidy instance. This is enough to test simple documents (documents you know must throw 1 or none errors).
+        </p>
+      </subsection>
+    </section>
+    <section name="Non-J Tidy tests">
+      <p>
+        A big effort is being put in making JTidy working with the test cases supplied for the non java version of Tidy. All the tests from the tidy code base have been integrated in JTidy tests. Most of them
+        <strong>can't</strong>
+        work now, since newest features from Tidy have not been implemented yet in JTidy. Many other
+        <strong>don't</strong>
+        work also if they should: many bugs have been fixed in the original Tidy but not yet in JTidy, since the Tidy project was a lot more active than JTidy in the latest years.
+      </p>
+      <p>If you can supply a patch to make a test case work as expected (as it work for Tidy) please do that! Patch should be submitted by non-developers attaching them to items in the sourceforge bug tracker. If your patch works and does not cause problems to other test cases you can be sure it will be applied in a short time.</p>
+    </section>
+  </body>
+</document>
+

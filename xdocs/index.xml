@@ -19,6 +19,31 @@
       </p>
     </section>
     <section name="News">
+      <subsection name="January 8, 2004">
+        <p><strong>179</strong> test cases for JTidy have been <em>partially</em> implemented and added!</p>
+        <p>
+        	All the test cases for the non java version of Tidy have been integrated. <em>Partially</em> because most of them
+        	don't check yet output or warnings produced by Tidy, but simply test that JTidy doesn't crash or loop.
+        </p>
+        <p>
+        	Well, actually as you can see in the <a href="junit-report.html">junit report</a> we have 1 test causing a NPE and 4 causing infinite loops!
+        	These bugs will have the precedence over any incorrect output bug (fixing these will probably worth a new release, you don't
+        	want your software to hang using JTidy, right?).
+        </p>
+        <p>
+        	Anyway, in the TidyCrashingBugsTest (test that crashed the c version of Tidy) 21 of the 24 tests works without problems... not so bad as expected.
+        </p>
+        <p>
+        	See <a href="testcases.html">testcases</a>, if you wanna help JTidy supplying tests or fixes.
+        </p>
+        
+        <p>
+			Thanks to the Clover team for the free license for the JTidy project!
+			<a href="http://www.thecortex.net/clover"><img src="http://www.thecortex.net/clover/images/clovered1.gif" width="89" height="33" alt="Code Coverage by Clover"/></a>
+		</p>
+      </subsection>
+        
+        
       <subsection name="January 6, 2004">
         <p>JTidy new website is online!</p>
         <p>The project is starting again after two years without a release. I (Fabrizio Giustina) just joined the project as new administrator and developer.</p>
