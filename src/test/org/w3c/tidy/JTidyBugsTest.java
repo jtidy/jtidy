@@ -88,4 +88,13 @@ public class JTidyBugsTest extends TidyTestCase
         executeTidyTest("j663197.html");
     }
 
+    /**
+     * test for JTidy [763191]: Again DOM Parsing error (tidy removes spaces in attribute values).
+     * @throws Exception any exception generated during the test
+     */
+    public void test763191() throws Exception
+    {
+        executeTidyTest("j763191.html");
+    }
+
 }
