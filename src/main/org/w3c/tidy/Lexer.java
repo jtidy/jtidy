@@ -1602,7 +1602,7 @@ public class Lexer
                     this.waswhite = false;
                     continue;
 
-                case LEX_GT : /* <        */
+                case LEX_GT : /* <         */
 
                     /* check for endtag */
                     if (c == '/')
@@ -1626,7 +1626,7 @@ public class Lexer
                             this.lexbuf[this.lexsize] = (byte) '\0'; /* debug */
                             this.in.curcol -= 2;
 
-                            /* if some text before the </ return it now        */
+                            /* if some text before the </ return it now         */
                             if (this.txtend > this.txtstart)
                             {
                                 /* trim space char before end tag */
@@ -1675,7 +1675,7 @@ public class Lexer
                                 this.lexsize -= 2;
                                 this.txtend = this.lexsize;
 
-                                /* if some text before < return it now        */
+                                /* if some text before < return it now         */
                                 if (this.txtend > this.txtstart)
                                 {
                                     this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1740,7 +1740,7 @@ public class Lexer
                                 break;
                             }
 
-                            /* if some text before < return it now        */
+                            /* if some text before < return it now         */
                             if (this.txtend > this.txtstart)
                             {
                                 this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1757,7 +1757,7 @@ public class Lexer
                             this.state = LEX_SECTION;
                             this.txtend = this.lexsize;
 
-                            /* if some text before < return it now        */
+                            /* if some text before < return it now         */
                             if (this.txtend > this.txtstart)
                             {
                                 this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1799,7 +1799,7 @@ public class Lexer
                         this.state = LEX_PROCINSTR;
                         this.txtend = this.lexsize;
 
-                        /* if some text before < return it now        */
+                        /* if some text before < return it now         */
                         if (this.txtend > this.txtstart)
                         {
                             this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1817,7 +1817,7 @@ public class Lexer
                         this.state = LEX_ASP;
                         this.txtend = this.lexsize;
 
-                        /* if some text before < return it now        */
+                        /* if some text before < return it now         */
                         if (this.txtend > this.txtstart)
                         {
                             this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1835,7 +1835,7 @@ public class Lexer
                         this.state = LEX_JSTE;
                         this.txtend = this.lexsize;
 
-                        /* if some text before < return it now        */
+                        /* if some text before < return it now         */
                         if (this.txtend > this.txtstart)
                         {
                             this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1852,11 +1852,11 @@ public class Lexer
                     if ((map & LETTER) != 0)
                     {
                         this.in.ungetChar(c); /* push back letter */
-                        this.lexsize -= 2; /* discard " <" + letter        */
+                        this.lexsize -= 2; /* discard " <" + letter         */
                         this.txtend = this.lexsize;
                         this.state = LEX_STARTTAG; /* ready to read tag name */
 
-                        /* if some text before < return it now        */
+                        /* if some text before < return it now         */
                         if (this.txtend > this.txtstart)
                         {
                             this.token = newNode(Node.TextNode, this.lexbuf, this.txtstart, this.txtend);
@@ -1871,7 +1871,7 @@ public class Lexer
                     this.waswhite = false;
                     continue;
 
-                case LEX_ENDTAG : /* </letter        */
+                case LEX_ENDTAG : /* </letter         */
                     this.txtstart = this.lexsize - 1;
                     this.in.curcol += 2;
                     c = parseTagName();
@@ -2546,9 +2546,9 @@ public class Lexer
         return attr;
     }
 
-    /*
-     * invoked when < is seen in place of attribute value but terminates on whitespace if not ASP, PHP or Tango this
-     * routine recognizes ' and " quoted strings
+    /**
+     * invoked when &lt; is seen in place of attribute value but terminates on whitespace if not ASP, PHP or Tango this
+     * routine recognizes ' and " quoted strings.
      */
     public int parseServerInstruction()
     {
@@ -2606,6 +2606,20 @@ public class Lexer
                 do
                 {
                     c = this.in.readChar();
+
+                    if (endOfInput()) /* #427840 - fix by Terry Teague 30 Jun 01 */
+                    {
+                        Report.attrError(this, this.token, null, Report.UNEXPECTED_END_OF_FILE);
+                        this.in.ungetChar(c);
+                        return 0;
+                    }
+                    if (c == '>') /* #427840 - fix by Terry Teague 30 Jun 01 */
+                    {
+                        this.in.ungetChar(c);
+                        Report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
+                        return 0;
+                    }
+
                     addCharToLexer(c);
                 }
                 while (c != '"');
@@ -2618,6 +2632,20 @@ public class Lexer
                 do
                 {
                     c = this.in.readChar();
+
+                    if (endOfInput()) /* #427840 - fix by Terry Teague 30 Jun 01 */
+                    {
+                        Report.attrError(this, this.token, null, Report.UNEXPECTED_END_OF_FILE);
+                        this.in.ungetChar(c);
+                        return 0;
+                    }
+                    if (c == '>') /* #427840 - fix by Terry Teague 30 Jun 01 */
+                    {
+                        this.in.ungetChar(c);
+                        Report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
+                        return 0;
+                    }
+
                     addCharToLexer(c);
                 }
                 while (c != '\'');
