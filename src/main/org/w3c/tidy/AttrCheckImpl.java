@@ -377,7 +377,7 @@ public final class AttrCheckImpl
             }
             if ("".equals(p) || !Character.isDigit(p.charAt(0)))
             {
-                // shout: bad length
+                lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
             }
             else
             {
@@ -390,7 +390,7 @@ public final class AttrCheckImpl
                     if ((!Character.isDigit(p.charAt(j)) && (node.tag == tt.tagTd || node.tag == tt.tagTh))
                         || (!Character.isDigit(p.charAt(j)) && p.charAt(j) != '%'))
                     {
-                        // shout: bad length
+                        lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
                         break;
                     }
                 }
@@ -572,7 +572,8 @@ public final class AttrCheckImpl
                 char p = value.charAt(j);
                 if (!Character.isDigit(p))
                 {
-                    break; // and shout: illegal number
+                    lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
+                    break;
                 }
             }
         }
@@ -599,7 +600,7 @@ public final class AttrCheckImpl
 
             if (p.length() == 0 || !Character.isLetter(p.charAt(0)))
             {
-                // shout: illegal ID value in HTML
+                lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
             }
             else
             {
@@ -608,7 +609,7 @@ public final class AttrCheckImpl
                 {
                     if (!Lexer.isNamechar(p.charAt(j)))
                     {
-                        // shout: illegal ID value in HTML
+                        lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
                         break;
                     }
                 }
