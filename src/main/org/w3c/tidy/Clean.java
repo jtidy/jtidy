@@ -1159,7 +1159,7 @@ public class Clean
                 return false;
             }
 
-            pnode.setObject(node.next);
+            pnode.setObject(list); // Set node to resume iteration
 
             // move inner list node into position of outer node
             list.prev = node.prev;
@@ -1168,19 +1168,22 @@ public class Clean
             fixNodeLinks(list);
 
             // get rid of outer ul and its li
+            // XXX: Are we leaking the child node? -creitzel 7 Jun, 01
             child.content = null;
             node.content = null;
             node.next = null;
+            node = null;
 
             // If prev node was a list the chances are this node should be appended to that list. Word has no way of
             // recognizing nested lists and just uses indents
             if (list.prev != null)
             {
-                node = list;
-                list = node.prev;
-
-                if (list.tag == this.tt.tagUl || list.tag == this.tt.tagOl)
+                if (list.prev.tag == this.tt.tagUl || list.prev.tag == this.tt.tagOl)
                 {
+
+                    node = list;
+                    list = node.prev;
+
                     list.next = node.next;
 
                     if (list.next != null)
@@ -1194,10 +1197,10 @@ public class Clean
                     node.next = null;
                     node.prev = child.last;
                     fixNodeLinks(node);
+                    cleanNode(lexer, node);
                 }
             }
 
-            cleanNode(lexer, node);
             return true;
         }
 
@@ -1396,7 +1399,7 @@ public class Clean
         MutableObject o = new MutableObject();
         boolean b = false;
 
-        for (next = node; node.isElement(); node = next)
+        for (next = node; node != null && node.isElement(); node = next)
         {
             o.setObject(next);
 
@@ -1407,11 +1410,13 @@ public class Clean
                 continue;
             }
 
+            // Special case: true result means that arg node and its parent no longer exist.
+            // So we must jump back up the CreateStyleProperties() call stack until we have a valid node reference.
             b = nestedList(lexer, node, o);
             next = (Node) o.getObject();
             if (b)
             {
-                continue;
+                return next;
             }
 
             b = center2Div(lexer, node, o);
@@ -1455,15 +1460,26 @@ public class Clean
         return next;
     }
 
-    private Node createStyleProperties(Lexer lexer, Node node)
+    /*
+     * Special case: if the current node is destroyed by CleanNode() lower in the tree, this node and its parent no
+     * longer exist. So we must jump back up the CreateStyleProperties() call stack until we have a valid node
+     * reference.
+     */
+    private Node createStyleProperties(Lexer lexer, Node node, MutableObject prepl)
     {
         Node child;
 
         if (node.content != null)
         {
+            MutableObject repl = new MutableObject();
+            repl.setObject(node);
             for (child = node.content; child != null; child = child.next)
             {
-                child = createStyleProperties(lexer, child);
+                child = createStyleProperties(lexer, child, repl);
+                if (repl.getObject() != node)
+                {
+                    return (Node) repl.getObject();
+                }
             }
         }
 
@@ -1487,7 +1503,9 @@ public class Clean
 
     public void cleanTree(Lexer lexer, Node doc)
     {
-        doc = createStyleProperties(lexer, doc);
+        MutableObject repl = new MutableObject();
+        repl.setObject(doc);
+        doc = createStyleProperties(lexer, doc, repl);
 
         if (!lexer.configuration.makeClean)
         {
@@ -1895,12 +1913,12 @@ public class Clean
                         cleanWord2000(lexer, node.content);
                     }
 
-                    /* remove node and append to contents of list */
+                    // remove node and append to contents of list
                     Node.removeNode(node);
                     Node.insertNodeAtEnd(list, node);
-                    node = list.next;
+                    node = list;
                 }
-                /* map sequence of <p class="Code"> to <pre> ... </pre> */
+                // map sequence of <p class="Code"> to <pre> ... </pre>
                 else if (attr != null && attr.value != null && attr.value.equals("Code"))
                 {
                     Node br = lexer.newLineNode();
