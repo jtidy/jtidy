@@ -582,7 +582,7 @@ public class PPrint
         }
 
         // except in CDATA map < to &lt; etc.
-        if (TidyUtils.toBoolean(mode & CDATA))
+        if (!TidyUtils.toBoolean(mode & CDATA))
         {
             if (c == '<')
             {
