@@ -109,21 +109,21 @@ public class AttributeTable
         new Attribute("accept-charset", Dict.VERS_HTML40, null),
         new Attribute("accept", Dict.VERS_ALL, null),
         new Attribute("accesskey", Dict.VERS_HTML40, null),
-        new Attribute("action", Dict.VERS_ALL, AttrCheckImpl.getCheckUrl()),
+        new Attribute("action", Dict.VERS_ALL, AttrCheckImpl.CHECK_URL),
         new Attribute("add_date", Dict.VERS_NETSCAPE, null),
         // A
-        new Attribute("align", Dict.VERS_ALL, AttrCheckImpl.getCheckAlign()),
+        new Attribute("align", Dict.VERS_ALL, AttrCheckImpl.CHECK_ALIGN),
         // set varies with element
         new Attribute("alink", Dict.VERS_LOOSE, null),
         new Attribute("alt", Dict.VERS_ALL, null),
         new Attribute("archive", Dict.VERS_HTML40, null),
         // space or comma separated list
         new Attribute("axis", Dict.VERS_HTML40, null),
-        new Attribute("background", Dict.VERS_LOOSE, AttrCheckImpl.getCheckUrl()),
+        new Attribute("background", Dict.VERS_LOOSE, AttrCheckImpl.CHECK_URL),
         new Attribute("bgcolor", Dict.VERS_LOOSE, null),
         new Attribute("bgproperties", Dict.VERS_PROPRIETARY, null),
         // BODY "fixed" fixes background
-        new Attribute("border", Dict.VERS_ALL, AttrCheckImpl.getCheckBool()),
+        new Attribute("border", Dict.VERS_ALL, AttrCheckImpl.CHECK_BOOL),
         // like LENGTH + "border"
         new Attribute("bordercolor", Dict.VERS_MICROSOFT, null),
         // used on TABLE
@@ -135,16 +135,16 @@ public class AttributeTable
         new Attribute("char", Dict.VERS_HTML40, null),
         new Attribute("charoff", Dict.VERS_HTML40, null),
         new Attribute("charset", Dict.VERS_HTML40, null),
-        new Attribute("checked", Dict.VERS_ALL, AttrCheckImpl.getCheckBool()),
+        new Attribute("checked", Dict.VERS_ALL, AttrCheckImpl.CHECK_BOOL),
         // i.e. "checked" or absent
-        new Attribute("cite", Dict.VERS_HTML40, AttrCheckImpl.getCheckUrl()),
+        new Attribute("cite", Dict.VERS_HTML40, AttrCheckImpl.CHECK_URL),
         new Attribute("class", Dict.VERS_HTML40, null),
-        new Attribute("classid", Dict.VERS_HTML40, AttrCheckImpl.getCheckUrl()),
+        new Attribute("classid", Dict.VERS_HTML40, AttrCheckImpl.CHECK_URL),
         new Attribute("clear", Dict.VERS_LOOSE, null),
         // BR: left, right, all
         new Attribute("code", Dict.VERS_LOOSE, null),
         // APPLET
-        new Attribute("codebase", Dict.VERS_HTML40, AttrCheckImpl.getCheckUrl()),
+        new Attribute("codebase", Dict.VERS_HTML40, AttrCheckImpl.CHECK_URL),
         // OBJECT
         new Attribute("codetype", Dict.VERS_HTML40, null),
         // OBJECT
@@ -153,13 +153,13 @@ public class AttributeTable
         new Attribute("cols", Dict.VERS_IFRAME, null),
         // TABLE & FRAMESET
         new Attribute("colspan", Dict.VERS_FROM32, null),
-        new Attribute("compact", Dict.VERS_ALL, AttrCheckImpl.getCheckBool()),
+        new Attribute("compact", Dict.VERS_ALL, AttrCheckImpl.CHECK_BOOL),
         // lists
         new Attribute("content", Dict.VERS_ALL, null),
         // META
         new Attribute("coords", Dict.VERS_FROM32, null),
         // AREA, A
-        new Attribute("data", Dict.VERS_HTML40, AttrCheckImpl.getCheckUrl()),
+        new Attribute("data", Dict.VERS_HTML40, AttrCheckImpl.CHECK_URL),
         // OBJECT
         new Attribute("datafld", Dict.VERS_MICROSOFT, null),
         // used on DIV, IMG
@@ -167,17 +167,17 @@ public class AttributeTable
         // used on DIV, IMG
         new Attribute("datapagesize", Dict.VERS_MICROSOFT, null),
         // used on DIV, IMG
-        new Attribute("datasrc", Dict.VERS_MICROSOFT, AttrCheckImpl.getCheckUrl()),
+        new Attribute("datasrc", Dict.VERS_MICROSOFT, AttrCheckImpl.CHECK_URL),
         // used on TABLE
         new Attribute("datetime", Dict.VERS_HTML40, null),
         // INS, DEL
-        new Attribute("declare", Dict.VERS_HTML40, AttrCheckImpl.getCheckBool()),
+        new Attribute("declare", Dict.VERS_HTML40, AttrCheckImpl.CHECK_BOOL),
         // OBJECT
-        new Attribute("defer", Dict.VERS_HTML40, AttrCheckImpl.getCheckBool()),
+        new Attribute("defer", Dict.VERS_HTML40, AttrCheckImpl.CHECK_BOOL),
         // SCRIPT
         new Attribute("dir", Dict.VERS_HTML40, null),
         // ltr or rtl
-        new Attribute("disabled", Dict.VERS_HTML40, AttrCheckImpl.getCheckBool()),
+        new Attribute("disabled", Dict.VERS_HTML40, AttrCheckImpl.CHECK_BOOL),
         // form fields
         new Attribute("enctype", Dict.VERS_ALL, null),
         // FORM
@@ -199,7 +199,7 @@ public class AttributeTable
         // table cells
         new Attribute("height", Dict.VERS_ALL, null),
         // pixels only for TH/TD
-        new Attribute("href", Dict.VERS_ALL, AttrCheckImpl.getCheckUrl()),
+        new Attribute("href", Dict.VERS_ALL, AttrCheckImpl.CHECK_URL),
         // A, AREA, LINK and BASE
         new Attribute("hreflang", Dict.VERS_HTML40, null),
         // A, LINK
@@ -207,8 +207,8 @@ public class AttributeTable
         // APPLET, IMG, OBJECT
         new Attribute("http-equiv", Dict.VERS_ALL, null),
         // META
-        new Attribute("id", Dict.VERS_HTML40, AttrCheckImpl.getCheckId()),
-        new Attribute("ismap", Dict.VERS_ALL, AttrCheckImpl.getCheckBool()),
+        new Attribute("id", Dict.VERS_HTML40, AttrCheckImpl.CHECK_ID),
+        new Attribute("ismap", Dict.VERS_ALL, AttrCheckImpl.CHECK_BOOL),
         // IMG
         new Attribute("label", Dict.VERS_HTML40, null),
         // OPT, OPTGROUP
@@ -223,9 +223,9 @@ public class AttributeTable
         // used on BODY
         new Attribute("link", Dict.VERS_LOOSE, null),
         // BODY
-        new Attribute("longdesc", Dict.VERS_HTML40, AttrCheckImpl.getCheckUrl()),
+        new Attribute("longdesc", Dict.VERS_HTML40, AttrCheckImpl.CHECK_URL),
         // IMG
-        new Attribute("lowsrc", Dict.VERS_PROPRIETARY, AttrCheckImpl.getCheckUrl()),
+        new Attribute("lowsrc", Dict.VERS_PROPRIETARY, AttrCheckImpl.CHECK_URL),
         // IMG
         new Attribute("marginheight", Dict.VERS_IFRAME, null),
         // FRAME, IFRAME, BODY
@@ -237,78 +237,78 @@ public class AttributeTable
         // STYLE, LINK
         new Attribute("method", Dict.VERS_ALL, null),
         // FORM: get or post
-        new Attribute("multiple", Dict.VERS_ALL, AttrCheckImpl.getCheckBool()),
+        new Attribute("multiple", Dict.VERS_ALL, AttrCheckImpl.CHECK_BOOL),
         // SELECT
-        new Attribute("name", Dict.VERS_ALL, AttrCheckImpl.getCheckName()),
-        new Attribute("nohref", Dict.VERS_FROM32, AttrCheckImpl.getCheckBool()),
+        new Attribute("name", Dict.VERS_ALL, AttrCheckImpl.CHECK_NAME),
+        new Attribute("nohref", Dict.VERS_FROM32, AttrCheckImpl.CHECK_BOOL),
         // AREA
-        new Attribute("noresize", Dict.VERS_FRAMESET, AttrCheckImpl.getCheckBool()),
+        new Attribute("noresize", Dict.VERS_FRAMESET, AttrCheckImpl.CHECK_BOOL),
         // FRAME
-        new Attribute("noshade", Dict.VERS_LOOSE, AttrCheckImpl.getCheckBool()),
+        new Attribute("noshade", Dict.VERS_LOOSE, AttrCheckImpl.CHECK_BOOL),
         // HR
-        new Attribute("nowrap", Dict.VERS_LOOSE, AttrCheckImpl.getCheckBool()),
+        new Attribute("nowrap", Dict.VERS_LOOSE, AttrCheckImpl.CHECK_BOOL),
         // table cells
         new Attribute("object", Dict.VERS_HTML40_LOOSE, null),
         // APPLET
-        new Attribute("onblur", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onblur", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onchange", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onchange", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onclick", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onclick", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("ondblclick", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("ondblclick", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onkeydown", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onkeydown", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onkeypress", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onkeypress", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onkeyup", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onkeyup", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onload", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onload", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onmousedown", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onmousedown", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onmousemove", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onmousemove", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onmouseout", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onmouseout", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onmouseover", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onmouseover", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onmouseup", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onmouseup", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onsubmit", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onsubmit", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onreset", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onreset", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onselect", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onselect", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onunload", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onunload", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onfocus", Dict.VERS_HTML40, AttrCheckImpl.getCheckScript()),
+        new Attribute("onfocus", Dict.VERS_HTML40, AttrCheckImpl.CHECK_SCRIPT),
         // event
-        new Attribute("onafterupdate", Dict.VERS_MICROSOFT, AttrCheckImpl.getCheckScript()),
+        new Attribute("onafterupdate", Dict.VERS_MICROSOFT, AttrCheckImpl.CHECK_SCRIPT),
         // form fields
-        new Attribute("onbeforeupdate", Dict.VERS_MICROSOFT, AttrCheckImpl.getCheckScript()),
+        new Attribute("onbeforeupdate", Dict.VERS_MICROSOFT, AttrCheckImpl.CHECK_SCRIPT),
         // form fields
-        new Attribute("onerrorupdate", Dict.VERS_MICROSOFT, AttrCheckImpl.getCheckScript()),
+        new Attribute("onerrorupdate", Dict.VERS_MICROSOFT, AttrCheckImpl.CHECK_SCRIPT),
         // form fields
-        new Attribute("onrowenter", Dict.VERS_MICROSOFT, AttrCheckImpl.getCheckScript()),
+        new Attribute("onrowenter", Dict.VERS_MICROSOFT, AttrCheckImpl.CHECK_SCRIPT),
         // form fields
-        new Attribute("onrowexit", Dict.VERS_MICROSOFT, AttrCheckImpl.getCheckScript()),
+        new Attribute("onrowexit", Dict.VERS_MICROSOFT, AttrCheckImpl.CHECK_SCRIPT),
         // form fields
-        new Attribute("onbeforeunload", Dict.VERS_MICROSOFT, AttrCheckImpl.getCheckScript()),
+        new Attribute("onbeforeunload", Dict.VERS_MICROSOFT, AttrCheckImpl.CHECK_SCRIPT),
         // form fields
-        new Attribute("ondatasetchanged", Dict.VERS_MICROSOFT, AttrCheckImpl.getCheckScript()),
+        new Attribute("ondatasetchanged", Dict.VERS_MICROSOFT, AttrCheckImpl.CHECK_SCRIPT),
         // object, applet
-        new Attribute("ondataavailable", Dict.VERS_MICROSOFT, AttrCheckImpl.getCheckScript()),
+        new Attribute("ondataavailable", Dict.VERS_MICROSOFT, AttrCheckImpl.CHECK_SCRIPT),
         // object, applet
-        new Attribute("ondatasetcomplete", Dict.VERS_MICROSOFT, AttrCheckImpl.getCheckScript()),
+        new Attribute("ondatasetcomplete", Dict.VERS_MICROSOFT, AttrCheckImpl.CHECK_SCRIPT),
         // object, applet
-        new Attribute("profile", Dict.VERS_HTML40, AttrCheckImpl.getCheckUrl()),
+        new Attribute("profile", Dict.VERS_HTML40, AttrCheckImpl.CHECK_URL),
         // HEAD
         new Attribute("prompt", Dict.VERS_LOOSE, null),
         // ISINDEX
-        new Attribute("readonly", Dict.VERS_HTML40, AttrCheckImpl.getCheckBool()),
+        new Attribute("readonly", Dict.VERS_HTML40, AttrCheckImpl.CHECK_BOOL),
         // form fields
         new Attribute("rel", Dict.VERS_ALL, null),
         // A, LINK
@@ -328,21 +328,21 @@ public class AttributeTable
         // table cells
         new Attribute("scrolling", Dict.VERS_IFRAME, null),
         // yes, no or auto
-        new Attribute("selected", Dict.VERS_ALL, AttrCheckImpl.getCheckBool()),
+        new Attribute("selected", Dict.VERS_ALL, AttrCheckImpl.CHECK_BOOL),
         // OPTION
         new Attribute("shape", Dict.VERS_FROM32, null),
         // AREA, A
-        new Attribute("showgrid", Dict.VERS_PROPRIETARY, AttrCheckImpl.getCheckBool()),
+        new Attribute("showgrid", Dict.VERS_PROPRIETARY, AttrCheckImpl.CHECK_BOOL),
         // TABLE Adobe golive
-        new Attribute("showgridx", Dict.VERS_PROPRIETARY, AttrCheckImpl.getCheckBool()),
+        new Attribute("showgridx", Dict.VERS_PROPRIETARY, AttrCheckImpl.CHECK_BOOL),
         // TABLE Adobe golive
-        new Attribute("showgridy", Dict.VERS_PROPRIETARY, AttrCheckImpl.getCheckBool()),
+        new Attribute("showgridy", Dict.VERS_PROPRIETARY, AttrCheckImpl.CHECK_BOOL),
         // TABLE Adobe golive
         new Attribute("size", Dict.VERS_LOOSE, null),
         // HR, FONT, BASEFONT, SELECT
         new Attribute("span", Dict.VERS_HTML40, null),
         // COL, COLGROUP
-        new Attribute("src", Dict.VERS_ALL, AttrCheckImpl.getCheckUrl()),
+        new Attribute("src", Dict.VERS_ALL, AttrCheckImpl.CHECK_URL),
         // IMG, FRAME, IFRAME
         new Attribute("standby", Dict.VERS_HTML40, null),
         // OBJECT
@@ -357,8 +357,8 @@ public class AttributeTable
         new Attribute("title", Dict.VERS_HTML40, null), // text tool tip
         new Attribute("topmargin", Dict.VERS_MICROSOFT, null), // used on BODY
         new Attribute("type", Dict.VERS_FROM32, null), // also used by SPACER
-        new Attribute("usemap", Dict.VERS_ALL, AttrCheckImpl.getCheckBool()), // things with images
-        new Attribute("valign", Dict.VERS_FROM32, AttrCheckImpl.getCheckValign()),
+        new Attribute("usemap", Dict.VERS_ALL, AttrCheckImpl.CHECK_BOOL), // things with images
+        new Attribute("valign", Dict.VERS_FROM32, AttrCheckImpl.CHECK_VALIGN),
         new Attribute("value", Dict.VERS_ALL, null), // OPTION, PARAM
         new Attribute("valuetype", Dict.VERS_HTML40, null), // PARAM: data, ref, object
         new Attribute("version", Dict.VERS_ALL, null), // HTML
@@ -368,7 +368,7 @@ public class AttributeTable
         new Attribute("wrap", Dict.VERS_NETSCAPE, null), // textarea
         new Attribute("xml:lang", Dict.VERS_XML, null), // XML language
         new Attribute("xmlns", Dict.VERS_ALL, null), // name space
-        new Attribute("rbspan", Dict.VERS_XHTML11, AttrCheckImpl.getCheckNumber()), // ruby markup
+        new Attribute("rbspan", Dict.VERS_XHTML11, AttrCheckImpl.CHECK_NUMBER), // ruby markup
 
     };
 
@@ -405,7 +405,7 @@ public class AttributeTable
         Attribute np;
 
         np = lookup(attrname);
-        return (np != null && np.getAttrchk() == AttrCheckImpl.getCheckUrl());
+        return (np != null && np.getAttrchk() == AttrCheckImpl.CHECK_URL);
     }
 
     public boolean isScript(String attrname)
@@ -413,7 +413,7 @@ public class AttributeTable
         Attribute np;
 
         np = lookup(attrname);
-        return (np != null && np.getAttrchk() == AttrCheckImpl.getCheckScript());
+        return (np != null && np.getAttrchk() == AttrCheckImpl.CHECK_SCRIPT);
     }
 
     public boolean isLiteralAttribute(String attrname)

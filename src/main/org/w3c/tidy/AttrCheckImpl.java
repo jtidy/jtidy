@@ -66,72 +66,72 @@ public final class AttrCheckImpl
     /**
      * checker for URLs.
      */
-    private static AttrCheck checkUrl = new CheckUrl();
+    public static final AttrCheck CHECK_URL = new CheckUrl();
 
     /**
      * checker for scripts.
      */
-    private static AttrCheck checkScript = new CheckScript();
+    public static final AttrCheck CHECK_SCRIPT = new CheckScript();
 
     /**
      * checker for "name" attribute.
      */
-    private static AttrCheck checkName = new CheckName();
+    public static final AttrCheck CHECK_NAME = new CheckName();
 
     /**
      * checker for ids.
      */
-    private static AttrCheck checkId = new CheckId();
+    public static final AttrCheck CHECK_ID = new CheckId();
 
     /**
      * checker for "align" attribute.
      */
-    private static AttrCheck checkAlign = new CheckAlign();
+    public static final AttrCheck CHECK_ALIGN = new CheckAlign();
 
     /**
      * checker for "valign" attribute.
      */
-    private static AttrCheck checkValign = new CheckValign();
+    public static final AttrCheck CHECK_VALIGN = new CheckValign();
 
     /**
      * checker for boolean attributes.
      */
-    private static AttrCheck checkBool = new CheckBool();
+    public static final AttrCheck CHECK_BOOL = new CheckBool();
 
     /**
      * checker for "lenght" attribute.
      */
-    private static AttrCheck checkLength = new CheckLength();
+    public static final AttrCheck CHECK_LENGTH = new CheckLength();
 
     /**
      * checker for "target" attribute.
      */
-    private static AttrCheck checkTarget = new CheckTarget();
+    public static final AttrCheck CHECK_TARGET = new CheckTarget();
 
     /**
      * checker for "submit" attribute.
      */
-    private static AttrCheck checkFsubmit = new CheckFsubmit();
+    public static final AttrCheck CHECK_FSUBMIT = new CheckFsubmit();
 
     /**
      * checker for "clear" attribute.
      */
-    private static AttrCheck checkClear = new CheckClear();
+    public static final AttrCheck CHECK_CLEAR = new CheckClear();
 
     /**
      * checker for "shape" attribute.
      */
-    private static AttrCheck checkShape = new CheckShape();
+    public static final AttrCheck CHECK_SHAPE = new CheckShape();
 
     /**
      * checker for "number" attribute.
      */
-    private static AttrCheck checkNumber = new CheckNumber();
+    public static final AttrCheck CHECK_NUMBER = new CheckNumber();
 
     /**
      * checker for "scope" attribute.
      */
-    private static AttrCheck checkScope = new CheckScope();
+    public static final AttrCheck CHECK_SCOPE = new CheckScope();
 
     /**
      * utility class, don't instantiate.
@@ -274,7 +274,7 @@ public final class AttrCheckImpl
             /* IMG, OBJECT, APPLET and EMBED use align for vertical position */
             if (node.tag != null && ((node.tag.model & Dict.CM_IMG) != 0))
             {
-                getCheckValign().check(lexer, node, attval);
+                CHECK_VALIGN.check(lexer, node, attval);
                 return;
             }
 
@@ -634,132 +634,6 @@ public final class AttrCheckImpl
         {
         }
 
-    }
-
-    /**
-     * Getter for the CheckUrl instance.
-     * @return checker for URLs
-     */
-    public static AttrCheck getCheckUrl()
-    {
-        return checkUrl;
-    }
-
-    /**
-     * Getter for the CheckScript instance.
-     * @return checker for scripts
-     */
-    public static AttrCheck getCheckScript()
-    {
-        return checkScript;
-    }
-
-    /**
-     * Getter for the CheckAlign instance.
-     * @return checker for "align" attribute
-     */
-    public static AttrCheck getCheckAlign()
-    {
-        return checkAlign;
-    }
-
-    /**
-     * Getter for the CheckValign instance.
-     * @return checker for "valign" attribute
-     */
-    public static AttrCheck getCheckValign()
-    {
-        return checkValign;
-    }
-
-    /**
-     * Getter for the CheckBoolean instance.
-     * @return checker for boolean attributes
-     */
-    public static AttrCheck getCheckBool()
-    {
-        return checkBool;
-    }
-
-    /**
-     * Getter for the CheckId instance.
-     * @return checker for ids
-     */
-    public static AttrCheck getCheckId()
-    {
-        return checkId;
-    }
-
-    /**
-     * Getter for the CheckName instance.
-     * @return checker for "name" attribute
-     */
-    public static AttrCheck getCheckName()
-    {
-        return checkName;
-    }
-
-    /**
-     * Getter for the CheckLength instance.
-     * @return checker for "length" attribute
-     */
-    public static AttrCheck getCheckLength()
-    {
-        return checkLength;
-    }
-
-    /**
-     * Getter for the CheckTarget instance.
-     * @return checker for "target" attribute
-     */
-    public static AttrCheck getCheckTarget()
-    {
-        return checkTarget;
-    }
-
-    /**
-     * Getter for the CheckFsubmit instance.
-     * @return checker for "submit" attribute
-     */
-    public static AttrCheck getCheckFsubmit()
-    {
-        return checkFsubmit;
-    }
-
-    /**
-     * Getter for the CheckClear instance.
-     * @return checker for "clear" attribute
-     */
-    public static AttrCheck getCheckClear()
-    {
-        return checkClear;
-    }
-
-    /**
-     * Getter for the CheckShape instance.
-     * @return checker for "shape" attribute
-     */
-    public static AttrCheck getCheckShape()
-    {
-        return checkShape;
-    }
-
-    /**
-     * Getter for the CheckNumber instance.
-     * @return checker for numeric attributes
-     */
-    public static AttrCheck getCheckNumber()
-    {
-        return checkNumber;
-    }
-
-    /**
-     * Getter for the CheckScope instance.
-     * @return checker for "scope" attribute
-     */
-    public static AttrCheck getCheckScope()
-    {
-        return checkScope;
     }
 
 }

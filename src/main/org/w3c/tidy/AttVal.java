@@ -142,7 +142,7 @@ public class AttVal extends Object implements Cloneable
         Attribute attr = this.dict;
         if (attr != null)
         {
-            if (attr.getAttrchk() == AttrCheckImpl.getCheckBool())
+            if (attr.getAttrchk() == AttrCheckImpl.CHECK_BOOL)
             {
                 return true;
             }
