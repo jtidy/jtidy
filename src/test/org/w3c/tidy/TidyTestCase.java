@@ -126,7 +126,7 @@ public class TidyTestCase extends TestCase
     /**
      * logger.
      */
-    protected Log log = LogFactory.getLog(TidyTestCase.class);
+    protected Log log = LogFactory.getLog(getClass());
 
     /**
      * write directly to out. Useful for debugging (but it will make the test fail!).
@@ -347,8 +347,7 @@ public class TidyTestCase extends TestCase
     protected void assertEquals(String tidyOutput, URL correctFile) throws FileNotFoundException, IOException
     {
         // assume the expected output has the same encoding tidy has in its configuration
-        String encodingName = ParsePropertyImpl.CHAR_ENCODING.getFriendlyName("out-encoding", null, tidy
-            .getConfiguration());
+        String encodingName = tidy.getConfiguration().getOutCharEncodingName();
 
         diff(
             new BufferedReader((new InputStreamReader(new ByteArrayInputStream(tidyOutput.getBytes()), encodingName))),
@@ -706,4 +705,3 @@ public class TidyTestCase extends TestCase
         }
     }
 }
-

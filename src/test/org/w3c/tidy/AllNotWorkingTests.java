@@ -70,6 +70,7 @@ public final class AllNotWorkingTests
      */
     private AllNotWorkingTests()
     {
+        // unused
     }
 
     /**
@@ -93,7 +94,6 @@ public final class AllNotWorkingTests
         suite.addTest(new TidyEncodingBugsTest("test649812"));
         suite.addTest(new TidyEncodingBugsTest("test658230"));
         suite.addTest(new TidyEncodingBugsTest("test660397"));
-        suite.addTest(new TidyEncodingBugsTest("test676156"));
         suite.addTest(new TidyEncodingBugsTest("test688746"));
 
         suite.addTest(new TidyOutputBugsTest("test427633"));

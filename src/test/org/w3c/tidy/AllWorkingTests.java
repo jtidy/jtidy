@@ -71,6 +71,7 @@ public final class AllWorkingTests
      */
     private AllWorkingTests()
     {
+        // unused
     }
 
     /**
@@ -165,6 +166,9 @@ public final class AllWorkingTests
         suite.addTest(new TidyWarningBugsTest("test545067"));
         suite.addTest(new TidyWarningBugsTest("test553468"));
         suite.addTest(new TidyWarningBugsTest("test706260"));
+
+        suite.addTest(new TidyEncodingBugsTest("test676156"));
+
         return suite;
     }
 
