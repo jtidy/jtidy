@@ -1601,7 +1601,7 @@ public class Tidy implements Serializable
         Node node = new Node(Node.START_TAG, new byte[0], 0, 0, "html", new TagTable());
         if (document != null && node != null)
         {
-            Node.insertNodeAtStart(document, node);
+            document.insertNodeAtStart(node);
             return (org.w3c.dom.Document) document.getAdapter();
         }
         else

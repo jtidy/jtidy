@@ -514,7 +514,7 @@ public class Clean
 
         lexer.txtend = lexer.lexsize;
 
-        Node.insertNodeAtEnd(node, lexer.newNode(Node.TEXT_NODE, lexer.lexbuf, lexer.txtstart, lexer.txtend));
+        node.insertNodeAtEnd(lexer.newNode(Node.TEXT_NODE, lexer.lexbuf, lexer.txtstart, lexer.txtend));
 
         // now insert style element into document head doc is root node. search its children for html node the head
         // node should be first child of html node
@@ -523,7 +523,7 @@ public class Clean
 
         if (head != null)
         {
-            Node.insertNodeAtEnd(head, node);
+            head.insertNodeAtEnd(node);
         }
     }
 
@@ -1829,7 +1829,7 @@ public class Clean
         {
             node = content;
             content = content.next;
-            Node.removeNode(node);
+            node.removeNode();
             Node.insertNodeBeforeElement(span, node);
             prev = node;
         }
@@ -1838,8 +1838,8 @@ public class Clean
         {
             node = content;
             content = content.next;
-            Node.removeNode(node);
-            Node.insertNodeAfterElement(prev, node);
+            node.removeNode();
+            prev.insertNodeAfterElement(node);
             prev = node;
         }
 
@@ -2009,9 +2009,9 @@ public class Clean
                     while (node.tag == tt.tagP && noMargins(node))
                     {
                         next = node.next;
-                        Node.removeNode(node);
-                        Node.insertNodeAtEnd(pre, lexer.newLineNode());
-                        Node.insertNodeAtEnd(pre, node);
+                        node.removeNode();
+                        pre.insertNodeAtEnd(lexer.newLineNode());
+                        pre.insertNodeAtEnd(node);
                         stripSpan(lexer, node);
                         node = next;
                     }
@@ -2101,8 +2101,8 @@ public class Clean
                     }
 
                     // remove node and append to contents of list
-                    Node.removeNode(node);
-                    Node.insertNodeAtEnd(list, node);
+                    node.removeNode();
+                    list.insertNodeAtEnd(node);
                     node = list;
                 }
                 // map sequence of <p class="Code"> to <pre> ... </pre>
@@ -2118,10 +2118,10 @@ public class Clean
                     }
 
                     // remove node and append to contents of list
-                    Node.removeNode(node);
-                    Node.insertNodeAtEnd(list, node);
+                    node.removeNode();
+                    list.insertNodeAtEnd(node);
                     stripSpan(lexer, node);
-                    Node.insertNodeAtEnd(list, br);
+                    list.insertNodeAtEnd(br);
                     node = list.next;
                 }
                 else
@@ -2241,7 +2241,7 @@ public class Clean
                     for (child = node.content; child != null; child = child.next)
                     {
                         // bump to body unless content is param
-                        if ((child.type == Node.TEXT_NODE && !Node.isBlank(lexer, node)) || child.tag != tt.tagParam)
+                        if ((child.type == Node.TEXT_NODE && !node.isBlank(lexer)) || child.tag != tt.tagParam)
                         {
                             bump = true;
                             break;
@@ -2250,8 +2250,8 @@ public class Clean
 
                     if (bump)
                     {
-                        Node.removeNode(node);
-                        Node.insertNodeAtStart(body, node);
+                        node.removeNode();
+                        body.insertNodeAtStart(node);
                     }
                 }
             }

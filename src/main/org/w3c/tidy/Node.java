@@ -63,7 +63,7 @@ package org.w3c.tidy;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public class Node
+public class Node implements Cloneable
 {
 
     /**
@@ -136,6 +136,9 @@ public class Node
      */
     public static final short XML_DECL = 13;
 
+    /**
+     * Description for all the node types. Used in toString.
+     */
     private static final String[] NODETYPE_STRING = {
         "RootNode",
         "DocTypeTag",
@@ -222,10 +225,19 @@ public class Node
      */
     protected AttVal attributes;
 
+    /**
+     * Contained node.
+     */
     protected Node content;
 
+    /**
+     * DOM adapter.
+     */
     protected org.w3c.dom.Node adapter;
 
+    /**
+     * instantiates a new text node.
+     */
     public Node()
     {
         this(TEXT_NODE, null, 0, 0);
@@ -338,7 +350,8 @@ public class Node
     }
 
     /**
-     * default method for checking an element's attributes.
+     * Default method for checking an element's attributes.
+     * @param lexer Lexer
      */
     public void checkAttributes(Lexer lexer)
     {
@@ -351,7 +364,9 @@ public class Node
     }
 
     /**
-     * the same attribute name can't be used more than once in each element.
+     * The same attribute name can't be used more than once in each element. Discard or join attributes according to
+     * configuration.
+     * @param lexer Lexer
      */
     public void repairDuplicateAttributes(Lexer lexer)
     {
@@ -477,6 +492,11 @@ public class Node
         }
     }
 
+    /**
+     * Adds an attribute to the node.
+     * @param name attribute name
+     * @param value attribute value
+     */
     public void addAttribute(String name, String value)
     {
         AttVal av = new AttVal(null, null, null, null, '"', name, value);
@@ -501,7 +521,8 @@ public class Node
     }
 
     /**
-     * remove attribute from node then free it.
+     * Remove an attribute from node and then free it.
+     * @param attr attribute to remove
      */
     public void removeAttribute(AttVal attr)
     {
@@ -532,7 +553,8 @@ public class Node
     }
 
     /**
-     * find doctype element.
+     * Find the doctype element.
+     * @return doctype node or null if not found
      */
     public Node findDocType()
     {
@@ -546,6 +568,9 @@ public class Node
         return node;
     }
 
+    /**
+     * Discard the doctype node.
+     */
     public void discardDocType()
     {
         Node node;
@@ -581,51 +606,53 @@ public class Node
         if (element != null)
         {
             next = element.next;
-            removeNode(element);
+            element.removeNode();
         }
 
         return next;
     }
 
     /**
-     * insert node into markup tree.
+     * Insert a node into markup tree.
+     * @param node to insert
      */
-    public static void insertNodeAtStart(Node element, Node node)
+    public void insertNodeAtStart(Node node)
     {
-        node.parent = element;
+        node.parent = this;
 
-        if (element.content == null)
+        if (this.content == null)
         {
-            element.last = node;
+            this.last = node;
         }
         else
         {
-            element.content.prev = node; // AQ added 13 Apr 2000
+            this.content.prev = node; // AQ added 13 Apr 2000
         }
 
-        node.next = element.content;
+        node.next = this.content;
         node.prev = null;
-        element.content = node;
+        this.content = node;
     }
 
     /**
-     * insert node into markup tree.
+     * Insert node into markup tree.
+     * @param node Node to insert
      */
-    public static void insertNodeAtEnd(Node element, Node node)
+    public void insertNodeAtEnd(Node node)
     {
-        node.parent = element;
-        node.prev = element.last;
+        node.parent = this;
+        node.prev = this.last;
 
-        if (element.last != null)
+        if (this.last != null)
         {
-            element.last.next = node;
+            this.last.next = node;
         }
         else
         {
-            element.content = node;
+            this.content = node;
         }
 
-        element.last = node;
+        this.last = node;
     }
 
     /**
@@ -691,22 +718,23 @@ public class Node
 
     /**
      * insert node into markup tree after element.
+     * @param node new node to insert
      */
-    public static void insertNodeAfterElement(Node element, Node node)
+    public void insertNodeAfterElement(Node node)
     {
         Node parent;
 
-        parent = element.parent;
+        parent = this.parent;
         node.parent = parent;
 
         // AQ - 13Jan2000 fix for parent == null
-        if (parent != null && parent.last == element)
+        if (parent != null && parent.last == this)
         {
             parent.last = node;
         }
         else
         {
-            node.next = element.next;
+            node.next = this.next;
             // AQ - 13Jan2000 fix for node.next == null
             if (node.next != null)
             {
@@ -714,8 +742,8 @@ public class Node
             }
         }
 
-        element.next = node;
-        node.prev = element;
+        this.next = node;
+        node.prev = this;
     }
 
     public static void trimEmptyElement(Lexer lexer, Node element)
@@ -733,10 +761,10 @@ public class Node
         }
         else if (element.tag == tt.tagP && element.content == null)
         {
-            /* replace <p></p> by <br><br> to preserve formatting */
+            // replace <p></p> by <br><br> to preserve formatting
             Node node = lexer.inferredTag("br");
             Node.coerceNode(lexer, element, tt.tagBr);
-            Node.insertNodeAfterElement(element, node);
+            element.insertNodeAfterElement(node);
         }
     }
 
@@ -835,17 +863,19 @@ public class Node
     }
 
     /**
-     * Assumes node is a text node.
+     * Is the node content empty or blank? Assumes node is a text node.
+     * @param lexer Lexer
+     * @return <code>true</code> if the node content empty or blank
      */
-    public static boolean isBlank(Lexer lexer, Node node)
+    public boolean isBlank(Lexer lexer)
     {
-        if (node.type == TEXT_NODE)
+        if (this.type == TEXT_NODE)
         {
-            if (node.end == node.start)
+            if (this.end == this.start)
             {
                 return true;
             }
-            if (node.end == node.start + 1 && lexer.lexbuf[node.end - 1] == ' ')
+            if (this.end == this.start + 1 && lexer.lexbuf[this.end - 1] == ' ')
             {
                 return true;
             }
@@ -856,7 +886,7 @@ public class Node
     /**
      * This maps <code>&lt;p> hello &lt;em> world &lt;/em></code> to <code>&lt;p> hello &lt;em> world &lt;/em></code>.
      * Trims initial space, by moving it before the start tag, or if this element is the first in parent's content, then
-     * by discarding the space
+     * by discarding the space.
      */
     public static void trimInitialSpace(Lexer lexer, Node element, Node text)
     {
@@ -913,14 +943,16 @@ public class Node
                 }
             }
 
-            /* discard the space in current node */
+            // discard the space in current node
             ++text.start;
         }
     }
 
     /**
      * Move initial and trailing space out. This routine maps: hello <em> world </em> to hello <em> world </em> and
-     * <em> hello </em> <strong>world </strong> to <em> hello </em> <strong>world </strong>
+     * <em> hello </em> <strong>world </strong> to <em> hello </em> <strong>world </strong>.
+     * @param lexer Lexer
+     * @param element Node
      */
     public static void trimSpaces(Lexer lexer, Node element)
     {
@@ -940,6 +972,11 @@ public class Node
         }
     }
 
+    /**
+     * Is this node contained in a given tag?
+     * @param tag descendant tag
+     * @return <code>true</code> if node is contained in tag
+     */
     public boolean isDescendantOf(Dict tag)
     {
         Node parent;
@@ -956,7 +993,10 @@ public class Node
     }
 
     /**
-     * the doctype has been found after other tags, and needs moving to before the html element.
+     * The doctype has been found after other tags, and needs moving to before the html element.
+     * @param lexer Lexer
+     * @param element document
+     * @param doctype doctype node to insert at the beginning of element
      */
     public static void insertDocType(Lexer lexer, Node element, Node doctype)
     {
@@ -972,6 +1012,11 @@ public class Node
         insertNodeBeforeElement(element, doctype);
     }
 
+    /**
+     * Find the body node.
+     * @param tt tag table
+     * @return body node
+     */
     public Node findBody(TagTable tt)
     {
         Node node;
@@ -1017,14 +1062,21 @@ public class Node
         return node;
     }
 
+    /**
+     * Is the node an element?
+     * @return <code>true</code> if type is START_TAG | START_END_TAG
+     */
     public boolean isElement()
     {
         return (this.type == START_TAG || this.type == START_END_TAG ? true : false);
     }
 
     /**
-     * unexpected content in table row is moved to just before the table in accordance with Netscape and IE. This code
+     * Unexpected content in table row is moved to just before the table in accordance with Netscape and IE. This code
      * assumes that node hasn't been inserted into the row.
+     * @param row Row node
+     * @param node Node which should be moved before the table
+     * @param tt tag table
      */
     public static void moveBeforeTable(Node row, Node node, TagTable tt)
     {
@@ -1056,8 +1108,10 @@ public class Node
     }
 
     /**
-     * If a table row is empty then insert an empty cell this practice is consistent with browser behavior and avoids
+     * If a table row is empty then insert an empty cell.This practice is consistent with browser behavior and avoids
      * potential problems with row spanning cells.
+     * @param lexer Lexer
+     * @param row row node
      */
     public static void fixEmptyRow(Lexer lexer, Node row)
     {
@@ -1066,7 +1120,7 @@ public class Node
         if (row.content == null)
         {
             cell = lexer.inferredTag("td");
-            insertNodeAtEnd(row, cell);
+            row.insertNodeAtEnd(cell);
             lexer.report.warning(lexer, row, cell, Report.MISSING_STARTTAG);
         }
     }
@@ -1083,36 +1137,36 @@ public class Node
     }
 
     /**
-     * extract a node and its children from a markup tree.
+     * Extract this node and its children from a markup tree.
      */
-    public static void removeNode(Node node)
+    public void removeNode()
     {
-        if (node.prev != null)
+        if (this.prev != null)
         {
-            node.prev.next = node.next;
+            this.prev.next = this.next;
         }
 
-        if (node.next != null)
+        if (this.next != null)
         {
-            node.next.prev = node.prev;
+            this.next.prev = this.prev;
         }
 
-        if (node.parent != null)
+        if (this.parent != null)
         {
-            if (node.parent.content == node)
+            if (this.parent.content == this)
             {
-                node.parent.content = node.next;
+                this.parent.content = this.next;
             }
 
-            if (node.parent.last == node)
+            if (this.parent.last == this)
             {
-                node.parent.last = node.prev;
+                this.parent.last = this.prev;
             }
         }
 
-        node.parent = null;
-        node.prev = null;
-        node.next = null;
+        this.parent = null;
+        this.prev = null;
+        this.next = null;
     }
 
     public static boolean insertMisc(Node element, Node node)
@@ -1126,7 +1180,7 @@ public class Node
             || node.type == PHP_TAG
             || node.type == XML_DECL)
         {
-            insertNodeAtEnd(element, node);
+            element.insertNodeAtEnd(node);
             return true;
         }
 
@@ -1134,26 +1188,33 @@ public class Node
     }
 
     /**
-     * used to determine how attributes without values should be printed this was introduced to deal with user defined
-     * tags e.g. Cold Fusion
+     * Is this a new (user defined) node? Used to determine how attributes without values should be printed. This was
+     * introduced to deal with user defined tags e.g. Cold Fusion.
+     * @return <code>true</code> if this node represents a user-defined tag.
      */
-    public static boolean isNewNode(Node node)
+    public boolean isNewNode()
     {
-        if (node != null && node.tag != null)
+        if (this.tag != null)
         {
-            return TidyUtils.toBoolean(node.tag.model & Dict.CM_NEW);
+            return TidyUtils.toBoolean(this.tag.model & Dict.CM_NEW);
         }
 
         return true;
     }
 
+    /**
+     * Does the node have one (and only one) child?
+     * @return <code>true</code> if the node has one child
+     */
     public boolean hasOneChild()
     {
         return (this.content != null && this.content.next == null);
     }
 
     /**
-     * find html element.
+     * Find the "html" element.
+     * @param tt tag table
+     * @return html node
      */
     public Node findHTML(TagTable tt)
     {
@@ -1167,6 +1228,11 @@ public class Node
         return node;
     }
 
+    /**
+     * Find the head tag.
+     * @param tt tag table
+     * @return head node
+     */
     public Node findHEAD(TagTable tt)
     {
         Node node;
@@ -1184,6 +1250,10 @@ public class Node
         return node;
     }
 
+    /**
+     * Checks for node integrity.
+     * @return false if node is not consistent
+     */
     public boolean checkNodeIntegrity()
     {
         Node child;
@@ -1243,11 +1313,12 @@ public class Node
     }
 
     /**
-     * Add class="foo" to node.
+     * Add a css class to the node. If a class attribute already exists adds the value to the existing attribute.
+     * @param classname css class name
      */
-    public static void addClass(Node node, String classname)
+    public void addClass(String classname)
     {
-        AttVal classattr = node.getAttrByName("class");
+        AttVal classattr = this.getAttrByName("class");
 
         // if there already is a class attribute then append class name after a space
         if (classattr != null)
@@ -1257,10 +1328,13 @@ public class Node
         else
         {
             // create new class attribute
-            node.addAttribute("class", classname);
+            this.addAttribute("class", classname);
         }
     }
 
+    /**
+     * @see java.lang.Object#toString()
+     */
     public String toString()
     {
         String s = "";
@@ -1312,6 +1386,10 @@ public class Node
         return s;
     }
 
+    /**
+     * Returns a DOM Node which wrap the current tidy Node.
+     * @return org.w3c.dom.Node instance
+     */
     protected org.w3c.dom.Node getAdapter()
     {
         if (adapter == null)
@@ -1347,6 +1425,11 @@ public class Node
         return adapter;
     }
 
+    /**
+     * Clone this node.
+     * @param deep if true deep clone the node (also clones all the contained nodes)
+     * @return cloned node
+     */
     protected Node cloneNode(boolean deep)
     {
         Node node = (Node) this.clone();
@@ -1357,12 +1440,16 @@ public class Node
             for (child = this.content; child != null; child = child.next)
             {
                 newChild = child.cloneNode(deep);
-                insertNodeAtEnd(node, newChild);
+                node.insertNodeAtEnd(newChild);
             }
         }
         return node;
     }
 
+    /**
+     * Setter for node type.
+     * @param newType a valid node type constant
+     */
     protected void setType(short newType)
     {
         this.type = newType;

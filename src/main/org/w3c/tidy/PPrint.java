@@ -1209,7 +1209,7 @@ public class PPrint
             {
                 printAttrValue(fout, indent, (attr.isBoolAttribute() ? attr.attribute : ""), attr.delim, true);
             }
-            else if (!attr.isBoolAttribute() && !Node.isNewNode(node))
+            else if (!attr.isBoolAttribute() && node != null && !node.isNewNode())
             {
                 printAttrValue(fout, indent, "", attr.delim, true);
             }
@@ -2638,7 +2638,7 @@ public class PPrint
             Node meta = lexer.inferredTag("meta");
             meta.addAttribute("http-equiv", "Page-Enter");
             meta.addAttribute("content", transition);
-            Node.insertNodeAtStart(head, meta);
+            head.insertNodeAtStart(meta);
         }
     }
 

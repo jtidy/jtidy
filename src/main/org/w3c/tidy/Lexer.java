@@ -1035,7 +1035,7 @@ public class Lexer
             node = this.inferredTag("meta");
             node.addAttribute("content", meta);
             node.addAttribute("name", "generator");
-            Node.insertNodeAtStart(head, node);
+            head.insertNodeAtStart(node);
             return true;
         }
 

@@ -307,7 +307,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         }
         if (refChild == null)
         {
-            Node.insertNodeAtEnd(this.adaptee, newCh.adaptee);
+            this.adaptee.insertNodeAtEnd(newCh.adaptee);
             if (this.adaptee.type == Node.START_END_TAG)
             {
                 this.adaptee.setType(Node.START_TAG);
@@ -491,7 +491,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
                 throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
             }
         }
-        Node.insertNodeAtEnd(this.adaptee, newCh.adaptee);
+        this.adaptee.insertNodeAtEnd(newCh.adaptee);
 
         if (this.adaptee.type == Node.START_END_TAG)
         {
