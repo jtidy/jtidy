@@ -121,12 +121,25 @@
       <action dev="fgiust" type="fix" issue="427835">
          DTD not inserted, but DTD URI Namespace.
       </action>
-      <action dev="fgiust" type="change">
+      <action dev="fgiust" type="update">
         Report methods are no more static. This will allow in future to add error
         listeners to a single tidy instance for better multithreading and IDE/tools integration.
       </action>
       <action dev="fgiust" type="add" issue="434940">
          --body-only: print only body contents.
+      </action>
+      <action dev="fgiust" type="update">
+         Messages are now generated totally from message resources and no more partially composed in code.
+         This will allow for better message localization.
+      </action>
+      <action dev="fgiust" type="add">
+         Missing doctype is now reported.
+      </action>
+      <action dev="fgiust" type="fix">
+         Invalid values for table cell attributes are now reported.
+      </action>
+      <action dev="fgiust" type="add" issue="433021">
+        Identify attribute whose value is bad.
       </action>
     </release>
     
