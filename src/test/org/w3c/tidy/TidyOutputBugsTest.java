@@ -225,11 +225,8 @@ public class TidyOutputBugsTest extends TidyTestCase
      */
     public void test427845() throws Exception
     {
-        // doctype should be one line
-        // still 2 lines for tidy?
-
-        throw new Error("Test not yet implemented");
-        //executeTidyTest("427845.html");
+        // still 2 lines on tidy?
+        executeTidyTest("427845.html");
     }
 
     /**
