@@ -1123,7 +1123,7 @@ public class Configuration implements Serializable
         if (javaEncoding != null)
         {
             this.inCharEncodingName = javaEncoding;
-            this.inCharEncoding = convertCharEncoding(encoding);
+            this.inCharEncoding = convertCharEncoding(javaEncoding);
         }
     }
 
@@ -1181,8 +1181,8 @@ public class Configuration implements Serializable
         String javaEncoding = TidyUtils.toJavaEncodingName(encoding);
         if (javaEncoding != null)
         {
-            this.outCharEncodingName = encoding;
-            this.outCharEncoding = convertCharEncoding(encoding);
+            this.outCharEncodingName = javaEncoding;
+            this.outCharEncoding = convertCharEncoding(javaEncoding);
         }
     }
 
