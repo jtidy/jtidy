@@ -188,7 +188,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
      */
     public org.w3c.dom.Text createTextNode(String data)
     {
-        byte[] textarray = Lexer.getBytes(data);
+        byte[] textarray = TidyUtils.getBytes(data);
         Node node = new Node(Node.TEXT_NODE, textarray, 0, textarray.length);
         if (node != null)
         {
@@ -205,7 +205,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
      */
     public org.w3c.dom.Comment createComment(String data)
     {
-        byte[] textarray = Lexer.getBytes(data);
+        byte[] textarray = TidyUtils.getBytes(data);
         Node node = new Node(Node.COMMENT_TAG, textarray, 0, textarray.length);
         if (node != null)
         {

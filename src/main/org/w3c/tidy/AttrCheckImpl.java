@@ -786,7 +786,7 @@ public final class AttrCheckImpl
                 {
                     s = p.charAt(j);
 
-                    if (!Lexer.isNamechar(s))
+                    if (!TidyUtils.isNamechar(s))
                     {
                         if (lexer.isvoyager && TidyUtils.isXMLNamechar(s))
                         {
@@ -920,7 +920,7 @@ public final class AttrCheckImpl
                         break;
                     }
                 }
-                else if (Lexer.isLetter(given.charAt(0)))
+                else if (TidyUtils.isLetter(given.charAt(0)))
                 {
                     if (given.equalsIgnoreCase((String) color.getKey()))
                     {
@@ -949,7 +949,7 @@ public final class AttrCheckImpl
 
                     for (int i = 1; i < 7; ++i)
                     {
-                        if (!Lexer.isDigit(given.charAt(i))
+                        if (!TidyUtils.isDigit(given.charAt(i))
                             && ("abcdef".indexOf(Character.toLowerCase(given.charAt(i))) == -1))
                         {
                             lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);

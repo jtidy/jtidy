@@ -662,7 +662,7 @@ public class Configuration implements Serializable
     /**
      * bytes for the newline marker.
      */
-    protected byte[] newline = (System.getProperty("line.separator")).getBytes();
+    protected char[] newline = (System.getProperty("line.separator")).toCharArray();
 
     /**
      * default input character encoding (LATIN1).

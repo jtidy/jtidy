@@ -119,7 +119,7 @@ public class DOMCharacterDataImpl extends DOMNodeImpl implements org.w3c.dom.Cha
                 len = adaptee.end - adaptee.start - offset;
             }
 
-            value = Lexer.getString(adaptee.textarray, adaptee.start + offset, len);
+            value = TidyUtils.getString(adaptee.textarray, adaptee.start + offset, len);
         }
         return value;
     }

@@ -76,7 +76,7 @@ public class OutJavaImpl implements Out
     /**
      * Newline string.
      */
-    private String newline;
+    private char[] newline;
 
     /**
      * Constructor.
@@ -89,7 +89,7 @@ public class OutJavaImpl implements Out
         throws UnsupportedEncodingException
     {
         this.writer = new OutputStreamWriter(out, encoding);
-        this.newline = new String(configuration.newline);
+        this.newline = configuration.newline;
     }
 
     /**

@@ -1408,7 +1408,7 @@ public class Node implements Cloneable
                 if (n.textarray != null && n.start <= n.end)
                 {
                     s += "\"";
-                    s += Lexer.getString(n.textarray, n.start, n.end - n.start);
+                    s += TidyUtils.getString(n.textarray, n.start, n.end - n.start);
                     s += "\"";
                 }
                 else
@@ -1528,5 +1528,30 @@ public class Node implements Cloneable
         }
 
         return result;
+    }
+
+    /**
+     * Does the node expect contents?
+     * @return <code>false</code> if this node should be empty
+     */
+    public boolean expectsContent()
+    {
+        if (this.type != Node.START_TAG)
+        {
+            return false;
+        }
+
+        // unknown element?
+        if (this.tag == null)
+        {
+            return true;
+        }
+
+        if (TidyUtils.toBoolean(this.tag.model & Dict.CM_EMPTY))
+        {
+            return false;
+        }
+
+        return true;
     }
 }

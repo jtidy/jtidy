@@ -988,7 +988,7 @@ public class PPrint
 
         if (value != null)
         {
-            valueChars = Lexer.getBytes(value);
+            valueChars = TidyUtils.getBytes(value);
         }
 
         // look for ASP, Tango or PHP instructions for computed attribute value
@@ -1182,7 +1182,7 @@ public class PPrint
         for (int i = 0; i < name.length(); i++)
         {
             addC(
-                Lexer.foldCase(name.charAt(i), this.configuration.upperCaseAttrs, this.configuration.xmlTags),
+                TidyUtils.foldCase(name.charAt(i), this.configuration.upperCaseAttrs, this.configuration.xmlTags),
                 linelen++);
         }
 
@@ -1307,7 +1307,9 @@ public class PPrint
         p = node.element;
         for (int i = 0; i < p.length(); i++)
         {
-            addC(Lexer.foldCase(p.charAt(i), this.configuration.upperCaseTags, this.configuration.xmlTags), linelen++);
+            addC(
+                TidyUtils.foldCase(p.charAt(i), this.configuration.upperCaseTags, this.configuration.xmlTags),
+                linelen++);
         }
 
         printAttrs(fout, indent, node, node.attributes);
@@ -1367,7 +1369,9 @@ public class PPrint
         p = node.element;
         for (int i = 0; i < p.length(); i++)
         {
-            addC(Lexer.foldCase(p.charAt(i), this.configuration.upperCaseTags, this.configuration.xmlTags), linelen++);
+            addC(
+                TidyUtils.foldCase(p.charAt(i), this.configuration.upperCaseTags, this.configuration.xmlTags),
+                linelen++);
         }
 
         addC('>', linelen++);
@@ -1789,7 +1793,7 @@ public class PPrint
         }
 
         int len = node.end - node.start + 1;
-        String start = Lexer.getString(lexer.lexbuf, node.start, len);
+        String start = TidyUtils.getString(lexer.lexbuf, node.start, len);
 
         int indexOfCData = start.indexOf(CDATA_START);
         return indexOfCData > -1 && indexOfCData <= len;
@@ -2537,8 +2541,8 @@ public class PPrint
 
             addC('<', linelen++);
 
-            addC(Lexer.foldCase('h', this.configuration.upperCaseTags, this.configuration.xmlTags), linelen++);
-            addC(Lexer.foldCase('r', this.configuration.upperCaseTags, this.configuration.xmlTags), linelen++);
+            addC(TidyUtils.foldCase('h', this.configuration.upperCaseTags, this.configuration.xmlTags), linelen++);
+            addC(TidyUtils.foldCase('r', this.configuration.upperCaseTags, this.configuration.xmlTags), linelen++);
 
             if (this.configuration.xmlOut)
             {
@@ -2613,8 +2617,8 @@ public class PPrint
 
         addC('<', linelen++);
 
-        addC(Lexer.foldCase('h', this.configuration.upperCaseTags, this.configuration.xmlTags), linelen++);
-        addC(Lexer.foldCase('r', this.configuration.upperCaseTags, this.configuration.xmlTags), linelen++);
+        addC(TidyUtils.foldCase('h', this.configuration.upperCaseTags, this.configuration.xmlTags), linelen++);
+        addC(TidyUtils.foldCase('r', this.configuration.upperCaseTags, this.configuration.xmlTags), linelen++);
 
         if (this.configuration.xmlOut)
         {

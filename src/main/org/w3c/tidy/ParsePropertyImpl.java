@@ -1039,15 +1039,15 @@ public final class ParsePropertyImpl
             // lf|crlf|cr
             if ("lf".equalsIgnoreCase(value))
             {
-                configuration.newline = new byte[]{'\n'};
+                configuration.newline = new char[]{'\n'};
             }
             else if ("cr".equalsIgnoreCase(value))
             {
-                configuration.newline = new byte[]{'\r'};
+                configuration.newline = new char[]{'\r'};
             }
             else if ("crlf".equalsIgnoreCase(value))
             {
-                configuration.newline = new byte[]{'\r', '\n'};
+                configuration.newline = new char[]{'\r', '\n'};
             }
             else
             {

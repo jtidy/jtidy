@@ -103,7 +103,7 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
 
             if (adaptee.textarray != null && adaptee.start < adaptee.end)
             {
-                value = Lexer.getString(adaptee.textarray, adaptee.start, adaptee.end - adaptee.start);
+                value = TidyUtils.getString(adaptee.textarray, adaptee.start, adaptee.end - adaptee.start);
             }
         }
         return value;

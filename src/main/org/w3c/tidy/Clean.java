@@ -624,8 +624,9 @@ public class Clean
 
     /**
      * Used to strip font start and end tags.
-     * @param element
-     * @param pnode
+     * @param element original node
+     * @param pnode passed in as array to allow modification. pnode[0] will contain the final node
+     * @todo remove the pnode parameter and make it a return value
      */
     private void discardContainer(Node element, Node[] pnode)
     {
@@ -1086,7 +1087,7 @@ public class Clean
      * </p>
      * @param lexer Lexer
      * @param node center tag
-     * @param pnode
+     * @param pnode pnode[0] is the same as node, passed in as an array to allow modification
      * @return <code>true</code> if a center tag has been replaced by a div
      */
     private boolean center2Div(Lexer lexer, Node node, Node[] pnode)
@@ -1296,8 +1297,8 @@ public class Clean
     }
 
     /**
-     * Symptom: the only child of a block-level element is a presentation element such as B, I or FONT Action: add style
-     * "font-weight: bold" to the block and strip the &lt;b>element, leaving its children. example:
+     * Symptom: the only child of a block-level element is a presentation element such as B, I or FONT. Action: add
+     * style "font-weight: bold" to the block and strip the &lt;b>element, leaving its children. example:
      * 
      * <pre>
      * &lt;p>
@@ -1318,11 +1319,10 @@ public class Clean
      * 4, this isn't done for the elements: caption, tr and table
      * </p>
      * @param lexer Lexer
-     * @param node
-     * @param pnode passed as an array to allow modifications
-     * @return
+     * @param node parent node
+     * @return <code>true</code> if the child node has been removed
      */
-    private boolean blockStyle(Lexer lexer, Node node, Node[] pnode)
+    private boolean blockStyle(Lexer lexer, Node node)
     {
         Node child;
 
@@ -1379,11 +1379,12 @@ public class Clean
     }
 
     /**
-     * the only child of table cell or an inline element such as em.
-     * @param lexer
-     * @param node
+     * If the node has only one b, i, or font child remove the child node and add the appropriate style attributes to
+     * parent.
+     * @param lexer Lexer
+     * @param node parent node
      * @param pnode passed as an array to allow modifications
-     * @return
+     * @return <code>true</code> if child node has been stripped, replaced by style attributes.
      */
     private boolean inlineStyle(Lexer lexer, Node node, Node[] pnode)
     {
@@ -1435,10 +1436,10 @@ public class Clean
     /**
      * Replace font elements by span elements, deleting the font element's attributes and replacing them by a single
      * style attribute.
-     * @param lexer
-     * @param node
+     * @param lexer Lexer
+     * @param node font tag
      * @param pnode passed as an array to allow modifications
-     * @return
+     * @return <code>true</code> if a font tag has been dropped and replaced by style attributes
      */
     private boolean font2Span(Lexer lexer, Node node, Node[] pnode)
     {
@@ -1490,9 +1491,9 @@ public class Clean
 
     /**
      * Applies all matching rules to a node.
-     * @param lexer
-     * @param node
-     * @return
+     * @param lexer Lexer
+     * @param node original node
+     * @return cleaned up node
      */
     private Node cleanNode(Lexer lexer, Node node)
     {
@@ -1534,7 +1535,7 @@ public class Clean
                 continue;
             }
 
-            b = blockStyle(lexer, node, o);
+            b = blockStyle(lexer, node);
             next = o[0];
             if (b)
             {
@@ -1567,8 +1568,8 @@ public class Clean
      * reference.
      * @param lexer Lexer
      * @param node Node
-     * @param prepl
-     * @return
+     * @param prepl passed in as array to allow modifications
+     * @return cleaned Node
      */
     private Node createStyleProperties(Lexer lexer, Node node, Node[] prepl)
     {
@@ -1592,8 +1593,9 @@ public class Clean
     }
 
     /**
+     * Find style attribute in node content, and replace it by corresponding class attribute.
      * @param lexer Lexer
-     * @param node
+     * @param node parent node
      */
     private void defineStyleRules(Lexer lexer, Node node)
     {
@@ -1601,9 +1603,11 @@ public class Clean
 
         if (node.content != null)
         {
-            for (child = node.content; child != null; child = child.next)
+            child = node.content;
+            while (child != null)
             {
                 defineStyleRules(lexer, child);
+                child = child.next;
             }
         }
 
@@ -1826,13 +1830,13 @@ public class Clean
 
             if (node.type == Node.SECTION_TAG)
             {
-                if ((Lexer.getString(node.textarray, node.start, 2)).equals("if"))
+                if ((TidyUtils.getString(node.textarray, node.start, 2)).equals("if"))
                 {
                     node = pruneSection(lexer, node);
                     continue;
                 }
 
-                if ((Lexer.getString(node.textarray, node.start, 5)).equals("endif"))
+                if ((TidyUtils.getString(node.textarray, node.start, 5)).equals("endif"))
                 {
                     node = Node.discardElement(node);
                     break;
@@ -1855,8 +1859,9 @@ public class Clean
             if (node.type == Node.SECTION_TAG)
             {
                 // prune up to matching endif
-                if ((Lexer.getString(node.textarray, node.start, 2)).equals("if")
-                    && (!(Lexer.getString(node.textarray, node.start, 7)).equals("if !vml"))) // #444394 - fix 13 Sep 01
+                if ((TidyUtils.getString(node.textarray, node.start, 2)).equals("if")
+                    && (!(TidyUtils.getString(node.textarray, node.start, 7)).equals("if !vml"))) // #444394 - fix 13
+                                                                                                  // Sep 01
                 {
                     node = pruneSection(lexer, node);
                     continue;
@@ -1906,7 +1911,8 @@ public class Clean
                     || attr.attribute.equals("style")
                     || attr.attribute.equals("lang")
                     || attr.attribute.startsWith("x:") || ((attr.attribute.equals("height") || attr.attribute
-                    .equals("width")) && (node.tag == this.tt.tagTd || node.tag == this.tt.tagTr || node.tag == this.tt.tagTh))))
+                    .equals("width")) && //
+                (node.tag == this.tt.tagTd || node.tag == this.tt.tagTr || node.tag == this.tt.tagTh))))
             {
                 if (prev != null)
                 {

@@ -91,9 +91,9 @@ public class OutImpl implements Out
     private PutBytes putBytes;
 
     /**
-     * Reference to configuration.
+     * newline bytes.
      */
-    private Configuration configuration;
+    private byte[] newline;
 
     /**
      * Constructor.
@@ -103,25 +103,31 @@ public class OutImpl implements Out
      */
     public OutImpl(Configuration configuration, int encoding, OutputStream out)
     {
-        this.configuration = configuration;
         this.encoding = encoding;
         this.state = EncodingUtils.FSM_ASCII;
         this.out = out;
 
+        // copy configured newline in bytes
+        this.newline = new byte[configuration.newline.length];
+        for (int j = 0; j < configuration.newline.length; j++)
+        {
+            this.newline[j] = (byte) configuration.newline[j];
+        }
+
         this.putBytes = new PutBytes()
         {
 
-            OutImpl out;
+            private OutImpl impl;
 
             PutBytes setOut(OutImpl out)
             {
-                this.out = out;
+                this.impl = out;
                 return this;
             }
 
             public void doPut(byte[] buf, int[] count)
             {
-                out.outcUTF8Bytes(buf, count);
+                impl.outcUTF8Bytes(buf, count);
             };
         } // set the out instance direclty
             .setOut(this);
@@ -378,7 +384,7 @@ public class OutImpl implements Out
     {
         try
         {
-            this.out.write(configuration.newline);
+            this.out.write(this.newline);
             this.out.flush();
         }
         catch (IOException e)

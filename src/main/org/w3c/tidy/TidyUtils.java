@@ -63,6 +63,56 @@ public final class TidyUtils
 {
 
     /**
+     * char type: digit.
+     */
+    private static final short DIGIT = 1;
+
+    /**
+     * char type: letter.
+     */
+    private static final short LETTER = 2;
+
+    /**
+     * char type: namechar.
+     */
+    private static final short NAMECHAR = 4;
+
+    /**
+     * char type: whitespace.
+     */
+    private static final short WHITE = 8;
+
+    /**
+     * char type: newline.
+     */
+    private static final short NEWLINE = 16;
+
+    /**
+     * char type: lowercase.
+     */
+    private static final short LOWERCASE = 32;
+
+    /**
+     * char type: uppercase.
+     */
+    private static final short UPPERCASE = 64;
+
+    /**
+     * used to classify chars for lexical purposes.
+     */
+    private static short[] lexmap = new short[128];
+
+    static
+    {
+        mapStr("\r\n\f", (short) (NEWLINE | WHITE));
+        mapStr(" \t", WHITE);
+        mapStr("-.:_", NAMECHAR);
+        mapStr("0123456789", (short) (DIGIT | NAMECHAR));
+        mapStr("abcdefghijklmnopqrstuvwxyz", (short) (LOWERCASE | LETTER | NAMECHAR));
+        mapStr("ABCDEFGHIJKLMNOPQRSTUVWXYZ", (short) (UPPERCASE | LETTER | NAMECHAR));
+    }
+
+    /**
      * utility class, don't instantiate.
      */
     private TidyUtils()
@@ -571,6 +621,224 @@ public final class TidyUtils
     static boolean isQuote(int c)
     {
         return (c == '\'' || c == '\"');
+    }
+
+    /**
+     * Should always be able convert to/from UTF-8, so encoding exceptions are converted to an Error to avoid adding
+     * throws declarations in lots of methods.
+     * @param str String
+     * @return utf8 bytes
+     * @see String#getBytes()
+     */
+    public static byte[] getBytes(String str)
+    {
+        try
+        {
+            return str.getBytes("UTF8");
+        }
+        catch (java.io.UnsupportedEncodingException e)
+        {
+            throw new Error("String to UTF-8 conversion failed: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Should always be able convert to/from UTF-8, so encoding exceptions are converted to an Error to avoid adding
+     * throws declarations in lots of methods.
+     * @param bytes byte array
+     * @param offset starting offset in byte array
+     * @param length length in byte array starting from offset
+     * @return same as <code>new String(bytes, offset, length, "UTF8")</code>
+     */
+    public static String getString(byte[] bytes, int offset, int length)
+    {
+        try
+        {
+            return new String(bytes, offset, length, "UTF8");
+        }
+        catch (java.io.UnsupportedEncodingException e)
+        {
+            throw new Error("UTF-8 to string conversion failed: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Return the last char in string. This is useful when trailing quotemark is missing on an attribute
+     * @param str String
+     * @return last char in String
+     */
+    public static int lastChar(String str)
+    {
+        if (str != null && str.length() > 0)
+        {
+            return str.charAt(str.length() - 1);
+        }
+
+        return 0;
+    }
+
+    /**
+     * Determines if the specified character is whitespace.
+     * @param c char
+     * @return <code>true</code> if char is whitespace.
+     */
+    public static boolean isWhite(char c)
+    {
+        short m = map(c);
+        return TidyUtils.toBoolean(m & WHITE);
+    }
+
+    /**
+     * Is the given char a digit?
+     * @param c char
+     * @return <code>true</code> if the given char is a digit
+     */
+    public static boolean isDigit(char c)
+    {
+        short m;
+        m = map(c);
+        return TidyUtils.toBoolean(m & DIGIT);
+    }
+
+    /**
+     * Is the given char a letter?
+     * @param c char
+     * @return <code>true</code> if the given char is a letter
+     */
+    public static boolean isLetter(char c)
+    {
+        short m;
+        m = map(c);
+        return TidyUtils.toBoolean(m & LETTER);
+    }
+
+    /**
+     * Is the given char valid in name? (letter, digit or "-", ".", ":", "_")
+     * @param c char
+     * @return <code>true</code> if char is a name char.
+     */
+    public static boolean isNamechar(char c)
+    {
+        short map = map(c);
+
+        return TidyUtils.toBoolean(map & NAMECHAR);
+    }
+
+    /**
+     * Determines if the specified character is a lowercase character.
+     * @param c char
+     * @return <code>true</code> if char is lower case.
+     */
+    public static boolean isLower(char c)
+    {
+        short map = map(c);
+
+        return TidyUtils.toBoolean(map & LOWERCASE);
+    }
+
+    /**
+     * Determines if the specified character is a uppercase character.
+     * @param c char
+     * @return <code>true</code> if char is upper case.
+     */
+    public static boolean isUpper(char c)
+    {
+        short map = map(c);
+
+        return TidyUtils.toBoolean(map & UPPERCASE);
+    }
+
+    /**
+     * Maps the given character to its lowercase equivalent.
+     * @param c char
+     * @return lowercase char.
+     */
+    public static char toLower(char c)
+    {
+        short m = map(c);
+
+        if (TidyUtils.toBoolean(m & UPPERCASE))
+        {
+            c = (char) (c + 'a' - 'A');
+        }
+
+        return c;
+    }
+
+    /**
+     * Maps the given character to its uppercase equivalent.
+     * @param c char
+     * @return uppercase char.
+     */
+    public static char toUpper(char c)
+    {
+        short m = map(c);
+
+        if (TidyUtils.toBoolean(m & LOWERCASE))
+        {
+            c = (char) (c + 'A' - 'a');
+        }
+
+        return c;
+    }
+
+    /**
+     * Fold case of a char.
+     * @param c char
+     * @param tocaps convert to caps
+     * @param xmlTags use xml tags? If true no change will be performed
+     * @return folded char
+     * @todo check the use of xmlTags parameter
+     */
+    public static char foldCase(char c, boolean tocaps, boolean xmlTags)
+    {
+
+        if (!xmlTags)
+        {
+
+            if (tocaps)
+            {
+                if (isLower(c))
+                {
+                    c = toUpper(c);
+                }
+            }
+            else
+            {
+                // force to lower case
+                if (isUpper(c))
+                {
+                    c = toLower(c);
+                }
+            }
+        }
+
+        return c;
+    }
+
+    /**
+     * Classify chars in String and put them in lexmap.
+     * @param str String
+     * @param code code associated to chars in the String
+     */
+    private static void mapStr(String str, short code)
+    {
+        int c;
+        for (int i = 0; i < str.length(); i++)
+        {
+            c = str.charAt(i);
+            lexmap[c] |= code;
+        }
+    }
+
+    /**
+     * Returns the constant which defines the classification of char in lexmap.
+     * @param c char
+     * @return char type
+     */
+    private static short map(char c)
+    {
+        return (c < 128 ? lexmap[c] : 0);
     }
 
 }
