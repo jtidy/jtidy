@@ -693,15 +693,21 @@ public class StreamInImpl implements StreamIn
         }
 
         // #431953 - start RJ
-        /*
-         * This section is suitable for any "multibyte" variable-width character encoding in which a one-byte code is
-         * less than 128, and the first byte of a two-byte code is greater or equal to 128. Note that Big5 and ShiftJIS
-         * fit into this kind, even though their second byte may be less than 128
-         */
+        // This section is suitable for any "multibyte" variable-width character encoding in which a one-byte code is
+        // less than 128, and the first byte of a two-byte code is greater or equal to 128. Note that Big5 and ShiftJIS
+        // fit into this kind, even though their second byte may be less than 128
+
         if ((this.encoding == Configuration.BIG5) || (this.encoding == Configuration.SHIFTJIS))
         {
             if (c < 128)
             {
+                return c;
+            }
+            else if ((this.encoding == Configuration.SHIFTJIS) && (c >= 0xa1 && c <= 0xdf))
+            {
+                // 461643 - fix suggested by Rick Cameron 14 Sep 01
+                // for Shift_JIS, the values from 0xa1 through 0xdf represent singe-byte characters (U+FF61 to U+FF9F -
+                // half-shift Katakana)
                 return c;
             }
             else
