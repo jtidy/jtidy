@@ -1176,6 +1176,11 @@ public class PPrint
 
     private void printComment(Out fout, int indent, Node node)
     {
+        if (this.configuration.hideComments)
+        {
+            return;
+        }
+
         if (indent + linelen < this.configuration.wraplen)
         {
             wraphere = linelen;
