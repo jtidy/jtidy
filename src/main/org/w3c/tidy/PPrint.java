@@ -1842,7 +1842,8 @@ public class PPrint
                 if (!this.configuration.indentContent
                     && node.next != null
                     && !this.configuration.hideEndTags
-                    && (node.tag.model & (Dict.CM_BLOCK | Dict.CM_LIST | Dict.CM_DEFLIST | Dict.CM_TABLE)) != 0)
+                    && (node.tag.model & (Dict.CM_BLOCK | Dict.CM_TABLE)) != 0)
+                // removed CM_LIST|CM_DEFLIST (double newline bug)
                 {
                     flushLine(fout, indent);
                 }
