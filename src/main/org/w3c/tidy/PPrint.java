@@ -1767,10 +1767,12 @@ public class PPrint
             printTag(lexer, fout, mode, indent, node);
             flushLine(fout, indent);
 
+            /* CPR: folks don't want so much vertical spacing in XML
             if (node.next != null)
             {
                 flushLine(fout, indent);
             }
+            */
         }
         else
         {
@@ -1824,10 +1826,12 @@ public class PPrint
             printEndTag(fout, mode, indent, node);
             condFlushLine(fout, indent);
 
+            /* CPR: folks don't want so much vertical spacing in XML
             if (node.next != null)
             {
                 flushLine(fout, indent);
             }
+            */
         }
     }
 
