@@ -260,8 +260,9 @@ public final class TagCheckImpl
             {
                 lexer.badAccess |= Report.MISSING_SUMMARY;
 
-                AttVal missingSummary = new AttVal(null, null, '"', "summary", "");
-                lexer.report.attrError(lexer, node, missingSummary, Report.MISSING_ATTRIBUTE);
+                // summary is not required, should be only an accessibility warning
+                // AttVal missingSummary = new AttVal(null, null, '"', "summary", "");
+                // lexer.report.attrError(lexer, node, missingSummary, Report.MISSING_ATTRIBUTE);
             }
 
             /* convert <table border> to <table border="1"> */
