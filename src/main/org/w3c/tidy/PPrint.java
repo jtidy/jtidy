@@ -1639,6 +1639,11 @@ public class PPrint
         }
         else
         {
+            if (node.type == Node.StartEndTag)
+            {
+                node.type = Node.StartTag;
+            }
+
             // some kind of container element
             if (node.tag != null && node.tag.parser == ParserImpl.getParsePre())
             {

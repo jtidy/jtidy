@@ -178,8 +178,14 @@ public final class ParserImpl
             lexer.insertspace = false;
         }
 
-        if (node.tag.parser == null || node.type == Node.StartEndTag)
+        if (node.tag.parser == null)
         {
+            return;
+        }
+
+        if (node.type == Node.StartEndTag)
+        {
+            Node.trimEmptyElement(lexer, node);
             return;
         }
 
