@@ -1488,6 +1488,7 @@ public class Lexer
                 }
 
                 start = -1;
+                endtag = false;
             }
             // #427844 - fix by Markus Hoenicka 21 Oct 00
             else if (c == '\r')
