@@ -339,7 +339,7 @@ public class Node
     }
 
     /**
-     * the same attribute name can't be usedmore than once in each element
+     * the same attribute name can't be used more than once in each element
      */
     public void repairDuplicateAttributes(Lexer lexer)
     {
