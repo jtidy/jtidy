@@ -94,6 +94,7 @@ public final class AllFailingDoctypeTests
         suite.addTest(new TidyOutputBugsTest("test441508"));
         suite.addTest(new TidyOutputBugsTest("test445557"));
         suite.addTest(new TidyOutputBugsTest("test470663"));
+        suite.addTest(new TidyOutputBugsTest("test502346"));
         suite.addTest(new TidyOutputBugsTest("test504206"));
         suite.addTest(new TidyOutputBugsTest("test508936"));
         suite.addTest(new TidyOutputBugsTest("test514893"));
@@ -107,6 +108,7 @@ public final class AllFailingDoctypeTests
         suite.addTest(new TidyOutputBugsTest("test656889"));
         suite.addTest(new TidyOutputBugsTest("test765852"));
         suite.addTest(new TidyOutputBugsTest("test994841"));
+        suite.addTest(new TidyWarningBugsTest("test516370"));
         suite.addTest(new TidyWarningBugsTest("test552861"));
 
         return suite;
