@@ -62,6 +62,18 @@ public class JTidyBugsTest extends TidyTestCase
 {
 
     /**
+     * test for JTidy [475643]: Hex character references not handled.
+     * @throws Exception any exception generated during the test
+     */
+    public void test475643() throws Exception
+    {
+        executeTidyTest("j475643.html");
+
+        // no warnings for unknown entities
+        assertNoWarnings();
+    }
+
+    /**
      * test for JTidy [610244]: NullPointerException in parsing.
      * @throws Exception any exception generated during the test
      */
