@@ -1065,9 +1065,9 @@ public class Lexer
             }
             else
             {
-                // lets assume XHTML transitional
-                fpi = "-//W3C//DTD XHTML 1.0 Transitional//EN";
-                sysid = VOYAGER_LOOSE;
+                // proprietary
+                fpi = null;
+                sysid = "";
             }
         }
         else if (this.configuration.docTypeMode == Configuration.DOCTYPE_STRICT)
@@ -1081,8 +1081,16 @@ public class Lexer
             sysid = VOYAGER_LOOSE;
         }
 
-        // #427839 - fix by Evan Lenz 05 Sep 00
-        // fixHTMLNameSpace(root, namespace);
+        if (this.configuration.docTypeMode == Configuration.DOCTYPE_USER && this.configuration.docTypeStr != null)
+        {
+            fpi = this.configuration.docTypeStr;
+            sysid = "";
+        }
+
+        if (fpi == null)
+        {
+            return false;
+        }
 
         if (doctype == null)
         {
@@ -1090,12 +1098,6 @@ public class Lexer
             {
                 return false;
             }
-        }
-
-        if (this.configuration.docTypeMode == Configuration.DOCTYPE_USER && this.configuration.docTypeStr != null)
-        {
-            fpi = this.configuration.docTypeStr;
-            sysid = "";
         }
 
         this.txtstart = this.lexsize;
@@ -1184,6 +1186,13 @@ public class Lexer
 
                 break;
         }
+
+        // kludge to avoid error appearing at end of file
+        // it would be better to note the actual position
+        // when first encountering the doctype declaration
+
+        this.lines = 1;
+        this.columns = 1;
 
         report.warning(this, null, null, Report.INCONSISTENT_VERSION);
         return this.HTMLVersion();
@@ -2027,8 +2036,12 @@ public class Lexer
                     // swallow newline following start tag
                     // special check needed for CRLF sequence
                     // this doesn't apply to empty elements
+                    // nor to preformatted content that needs escaping
 
-                    if (expectsContent(this.token) || this.token.tag == this.configuration.tt.tagBr)
+                    if (
+
+                    (mode != PREFORMATTED || preContent(this.token))
+                        && (expectsContent(this.token) || this.token.tag == this.configuration.tt.tagBr))
                     {
 
                         c = this.in.readChar();
@@ -2447,9 +2460,9 @@ public class Lexer
     /**
      * parser for ASP within start tags Some people use ASP for to customize attributes Tidy isn't really well suited to
      * dealing with ASP This is a workaround for attributes, but won't deal with the case where the ASP is used to
-     * tailor the attribute value. Here is an example of a work around for using ASP in attribute values: href="
-     * <%=rsSchool.Fields("ID").Value%>" where the ASP that generates the attribute value is masked from Tidy by the
-     * quotemarks.
+     * tailor the attribute value. Here is an example of a work around for using ASP in attribute values:
+     * <code>href='<%=rsSchool.Fields("ID").Value%>'</code> where the ASP that generates the attribute value is
+     * masked from Tidy by the quotemarks.
      */
     public Node parseAsp()
     {
@@ -2460,7 +2473,11 @@ public class Lexer
 
         for (;;)
         {
-            c = this.in.readChar();
+            if ((c = this.in.readChar()) == StreamIn.EndOfStream)
+            {
+                break;
+            }
+
             addCharToLexer(c);
 
             if (c != '%')
@@ -2468,7 +2485,10 @@ public class Lexer
                 continue;
             }
 
-            c = this.in.readChar();
+            if ((c = this.in.readChar()) == StreamIn.EndOfStream)
+            {
+                break;
+            }
             addCharToLexer(c);
 
             if (c == '>')
@@ -2501,7 +2521,10 @@ public class Lexer
 
         for (;;)
         {
-            c = this.in.readChar();
+            if ((c = this.in.readChar()) == StreamIn.EndOfStream)
+            {
+                break;
+            }
             addCharToLexer(c);
 
             if (c != '?')
@@ -2509,7 +2532,10 @@ public class Lexer
                 continue;
             }
 
-            c = this.in.readChar();
+            if ((c = this.in.readChar()) == StreamIn.EndOfStream)
+            {
+                break;
+            }
             addCharToLexer(c);
 
             if (c == '>')
@@ -2536,9 +2562,9 @@ public class Lexer
     public String parseAttribute(MutableBoolean isempty, MutableObject asp, MutableObject php)
     {
         int start = 0;
-        // int len = 0; Removed by BUGFIX for 126265
         String attr;
         int c = 0;
+        int lastc = 0;
 
         asp.setObject(null); // clear asp pointer
         php.setObject(null); // clear php pointer
@@ -2614,6 +2640,7 @@ public class Lexer
         }
 
         start = this.lexsize;
+        lastc = c;
 
         for (;;)
         {
@@ -2629,7 +2656,12 @@ public class Lexer
                 this.in.ungetChar(c);
                 break;
             }
-
+            if (lastc == '-' && (c == '"' || c == '\''))
+            {
+                this.lexsize--;
+                this.in.ungetChar(c);
+                break;
+            }
             if (isWhite((char) c))
             {
                 break;
@@ -2643,14 +2675,14 @@ public class Lexer
                 c = toLower((char) c);
             }
 
-            //  ++len; Removed by BUGFIX for 126265
+            //  ++len; #427672 - handle attribute names with multibyte chars - fix by Randy Waki - 10 Aug 00
             addCharToLexer(c);
 
+            lastc = c;
             c = this.in.readChar();
         }
 
-        // Following line added by GLP to fix BUG 126265. This is a temporary comment
-        // and should be removed when Tidy is fixed.
+        // #427672 - handle attribute names with multibyte chars - fix by Randy Waki - 10 Aug 00
         int len = this.lexsize - start;
         attr = (len > 0 ? getString(this.lexbuf, start, len) : null);
         this.lexsize = start;
@@ -2809,7 +2841,7 @@ public class Lexer
 
         // c should be '=' if there is a value other legal possibilities are white space, '/' and '>'
 
-        if (c != '=')
+        if (c != '=' && c != '"' && c != '\'')
         {
             this.in.ungetChar(c);
             return null;
@@ -3113,7 +3145,20 @@ public class Lexer
             else
             {
                 av = new AttVal(null, null, null, null, 0, attribute, value);
-                report.attrError(this, this.token, av, Report.BAD_ATTRIBUTE_VALUE);
+
+                // #427664 - fix by Gary Peskin 04 Aug 00; other fixes by Dave Raggett
+                if (value != null)
+                {
+                    report.attrError(this, this.token, av, Report.BAD_ATTRIBUTE_VALUE);
+                }
+                else if (lastChar(attribute) == '"')
+                {
+                    report.attrError(this, this.token, av, Report.MISSING_QUOTEMARK);
+                }
+                else
+                {
+                    report.attrError(this, this.token, av, Report.UNKNOWN_ATTRIBUTE);
+                }
             }
         }
 
@@ -3617,6 +3662,39 @@ public class Lexer
         }
 
         return c;
+    }
+
+    /**
+     * Return last char in string. This is useful when trailing quotemark is missing on an attribute
+     */
+    static int lastChar(String str)
+    {
+        int n;
+
+        if (str != null && str.length() > 0)
+        {
+            return str.charAt(str.length() - 1);
+        }
+        return 0;
+    }
+
+    /**
+     * acceptable content for pre elements
+     */
+    private boolean preContent(Node node)
+    {
+        // p is coerced to br's
+        if (node.tag == this.configuration.tt.tagP)
+        {
+            return true;
+        }
+        if (node.tag == null
+            || node.tag == this.configuration.tt.tagP
+            || ((node.tag.model & (Dict.CM_INLINE | Dict.CM_NEW)) == 0))
+        {
+            return false;
+        }
+        return true;
     }
 
     private static class W3CVersionInfo

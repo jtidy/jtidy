@@ -214,6 +214,7 @@ public class Node
      * name (null for text nodes).
      */
     protected AttVal attributes;
+
     protected Node content;
 
     protected org.w3c.dom.Node adapter;
@@ -648,12 +649,31 @@ public class Node
     }
 
     /**
+     * Assumes node is a text node
+     */
+    public static boolean isBlank(Lexer lexer, Node node)
+    {
+        if (node.type == TextNode)
+        {
+            if (node.end == node.start)
+            {
+                return true;
+            }
+            if (node.end == node.start + 1 && lexer.lexbuf[node.end - 1] == ' ')
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * This maps
      * <p>
      * hello <em> world </em> to
      * <p>
-     * hello <em> world </em> Trims initial space, by moving it before the start tag, or if this element is the first
-     * in parent's content, then by discarding the space
+     * hello <em> world </em> Trims initial space, by moving it before the start tag, or if this element is the first in
+     * parent's content, then by discarding the space
      */
     public static void trimInitialSpace(Lexer lexer, Node element, Node text)
     {
@@ -662,7 +682,8 @@ public class Node
         // #427677 - fix by Gary Peskin 31 Oct 00
         if (text.type == TextNode && text.textarray[text.start] == (byte) ' ' && (text.start < text.end))
         {
-            if (((element.tag.model & Dict.CM_INLINE) != 0) && !((element.tag.model & Dict.CM_FIELD) != 0)
+            if (((element.tag.model & Dict.CM_INLINE) != 0)
+                && !((element.tag.model & Dict.CM_FIELD) != 0)
                 && element.parent.content != element)
             {
                 prev = element.prev;
@@ -894,8 +915,13 @@ public class Node
 
     public static boolean insertMisc(Node element, Node node)
     {
-        if (node.type == CommentTag || node.type == ProcInsTag || node.type == CDATATag || node.type == SectionTag
-            || node.type == AspTag || node.type == JsteTag || node.type == PhpTag)
+        if (node.type == CommentTag
+            || node.type == ProcInsTag
+            || node.type == CDATATag
+            || node.type == SectionTag
+            || node.type == AspTag
+            || node.type == JsteTag
+            || node.type == PhpTag)
         {
             insertNodeAtEnd(element, node);
             return true;
