@@ -62,25 +62,63 @@ package org.w3c.tidy;
 public final class AttrCheckImpl
 {
 
+    /**
+     * checker for URLs.
+     */
     private static AttrCheck checkUrl = new CheckUrl();
+
+    /**
+     * checker for scripts.
+     */
     private static AttrCheck checkScript = new CheckScript();
-    private static AttrCheck checkAlign = new CheckAlign();
-    private static AttrCheck checkValign = new CheckValign();
-    private static AttrCheck checkBool = new CheckBool();
-    private static AttrCheck checkId = new CheckId();
+
+    /**
+     * checker for "name" attribute.
+     */
     private static AttrCheck checkName = new CheckName();
+
+    /**
+     * checker for ids.
+     */
+    private static AttrCheck checkId = new CheckId();
+
+    /**
+     * checker for "align" attribute.
+     */
+    private static AttrCheck checkAlign = new CheckAlign();
+
+    /**
+     * checker for "valign" attribute.
+     */
+    private static AttrCheck checkValign = new CheckValign();
+
+    /**
+     * checker for boolean attributes.
+     */
+    private static AttrCheck checkBool = new CheckBool();
+
+    /**
+     * checker for "lenght" attribute.
+     */
+    private static AttrCheck checkLength = new CheckLength();
 
     /**
      * utility class, don't instantiate.
      */
     private AttrCheckImpl()
     {
-        // emty private constructor
+        // empty private constructor
     }
 
+    /**
+     * AttrCheck implementation for checking URLs.
+     */
     public static class CheckUrl implements AttrCheck
     {
 
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
             if (attval.value == null)
@@ -95,18 +133,30 @@ public final class AttrCheckImpl
 
     }
 
+    /**
+     * AttrCheck implementation for checking scripts.
+     */
     public static class CheckScript implements AttrCheck
     {
 
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
         }
 
     }
 
+    /**
+     * AttrCheck implementation for checking the "align" attribute.
+     */
     public static class CheckAlign implements AttrCheck
     {
 
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
             String value;
@@ -133,9 +183,15 @@ public final class AttrCheckImpl
 
     }
 
+    /**
+     * AttrCheck implementation for checking the "valign" attribute.
+     */
     public static class CheckValign implements AttrCheck
     {
 
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
             String value;
@@ -172,18 +228,71 @@ public final class AttrCheckImpl
 
     }
 
+    /**
+     * AttrCheck implementation for checking boolean attributes.
+     */
     public static class CheckBool implements AttrCheck
     {
 
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
         }
 
     }
 
+
+    /**
+     * AttrCheck implementation for checking the "length" attribute.
+     */
+    public static class CheckLength implements AttrCheck
+    {
+
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
+        public void check(Lexer lexer, Node node, AttVal attval)
+        {
+            String p = attval.value;
+
+            if (p == null)
+            {
+                Report.attrError(lexer, node, attval.attribute, Report.MISSING_ATTR_VALUE);
+            }
+            if ("".equals(p) || !Character.isDigit(p.charAt(0)))
+            {
+                // shout: bad length
+            }
+            else
+            {
+
+                TagTable tt = lexer.configuration.tt;
+
+                for (int j = 1; j < p.length(); j++)
+                {
+                    // elements th and td must not use percentages
+                    if ((!Character.isDigit(p.charAt(j)) && (node.tag == tt.tagTd || node.tag == tt.tagTh))
+                        || (!Character.isDigit(p.charAt(j)) && p.charAt(j) != '%'))
+                    {
+                        // shout: bad length
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * AttrCheck implementation for checking ids.
+     */
     public static class CheckId implements AttrCheck
     {
 
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
 
@@ -216,48 +325,91 @@ public final class AttrCheckImpl
 
     }
 
+    /**
+     * AttrCheck implementation for checking the "name" attribute.
+     */
     public static class CheckName implements AttrCheck
     {
 
+        /**
+         * @see AttrCheck#check(Lexer, Node, AttVal)
+         */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
         }
 
     }
 
+    /**
+     * Getter for the CheckUrl instance.
+     * @return checker for URLs
+     */
     public static AttrCheck getCheckUrl()
     {
         return checkUrl;
     }
 
+    /**
+     * Getter for the CheckScript instance.
+     * @return checker for scripts
+     */
     public static AttrCheck getCheckScript()
     {
         return checkScript;
     }
 
+    /**
+     * Getter for the CheckAlign instance.
+     * @return checker for "align" attribute
+     */
     public static AttrCheck getCheckAlign()
     {
         return checkAlign;
     }
 
+    /**
+     * Getter for the CheckValign instance.
+     * @return checker for "valign" attribute
+     */
     public static AttrCheck getCheckValign()
     {
         return checkValign;
     }
 
+    /**
+     * Getter for the CheckBoolean instance.
+     * @return checker for boolean attributes
+     */
     public static AttrCheck getCheckBool()
     {
         return checkBool;
     }
 
+    /**
+     * Getter for the CheckId instance.
+     * @return checker for ids
+     */
     public static AttrCheck getCheckId()
     {
         return checkId;
     }
 
+    /**
+     * Getter for the CheckName instance.
+     * @return checker for "name" attribute
+     */
     public static AttrCheck getCheckName()
     {
         return checkName;
+    }
+
+    /**
+     * Getter for the CheckLength instance.
+     * @return checker for "length" attribute
+     */
+    public static AttrCheck getCheckLength()
+    {
+        return checkLength;
     }
 
 }
