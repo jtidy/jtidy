@@ -57,68 +57,49 @@ import junit.framework.TestCase;
 
 
 /**
- * Test cases for TidyUtils.
+ * Test cases for EncodingNameMapper.
  * @author Fabrizio Giustina
  * @version $Revision $ ($Author $)
  */
-public class TidyUtilsTest extends TestCase
+public class EncodingNameMapperTest extends TestCase
 {
 
     /**
      * instantiates a new test.
      * @param name test name
      */
-    public TidyUtilsTest(String name)
+    public EncodingNameMapperTest(String name)
     {
         super(name);
     }
 
     /**
-     * Tests isInValuesIgnoreCase with a valid string.
+     * Test for toJava().
      */
-    public void testIsInValuesIgnoreCaseSuccessfull()
+    public void testToJava()
     {
-        String[] validValues = new String[]{"first", "Second", "THIRD"};
-        String stringToCheck = "second";
-        assertTrue(TidyUtils.isInValuesIgnoreCase(validValues, stringToCheck));
-    }
-
-    /**
-     * Tests isInValuesIgnoreCase with an invalid string.
-     */
-    public void testIsInValuesIgnoreCaseFail()
-    {
-        String[] validValues = new String[]{"first", "Second", "THIRD"};
-        String stringToCheck = "secon";
-        assertFalse(TidyUtils.isInValuesIgnoreCase(validValues, stringToCheck));
-    }
-
-    /**
-     * Test for isCharEncodingSupported().
-     */
-    public void testIsCharEncodingSupported()
-    {
-        assertTrue(TidyUtils.isCharEncodingSupported("utf8"));
-        assertTrue(TidyUtils.isCharEncodingSupported("UTF-8"));
-        assertTrue(TidyUtils.isCharEncodingSupported("US-ASCII"));
-        assertTrue(TidyUtils.isCharEncodingSupported("ASCII"));
-        assertTrue(TidyUtils.isCharEncodingSupported("LATIN1"));
-        assertTrue(TidyUtils.isCharEncodingSupported("ISO-8859-1"));
-        assertTrue(TidyUtils.isCharEncodingSupported("WINDOWS-1252"));
-        assertTrue(TidyUtils.isCharEncodingSupported("ISO2022"));
-        assertTrue(TidyUtils.isCharEncodingSupported("ISO-2022-JP"));
-        assertTrue(TidyUtils.isCharEncodingSupported("BIG5"));
-        assertTrue(TidyUtils.isCharEncodingSupported("UTF16"));
-        assertTrue(TidyUtils.isCharEncodingSupported("UTF16BE"));
-        assertTrue(TidyUtils.isCharEncodingSupported("UTF16LE"));
-        assertTrue(TidyUtils.isCharEncodingSupported("UTF-16"));
-        assertTrue(TidyUtils.isCharEncodingSupported("UTF-16BE"));
-        assertTrue(TidyUtils.isCharEncodingSupported("UTF-16LE"));
-        assertTrue(TidyUtils.isCharEncodingSupported("CP858"));
-        assertTrue(TidyUtils.isCharEncodingSupported("ibm858"));
-        assertTrue(TidyUtils.isCharEncodingSupported("Macintosh Roman"));
-        assertTrue(TidyUtils.isCharEncodingSupported("WiN1252"));
-        assertTrue(TidyUtils.isCharEncodingSupported("SHIFTJIS"));
+        assertEquals("UTF8", EncodingNameMapper.toJava("utf8"));
+        assertEquals("UTF8", EncodingNameMapper.toJava("UTF-8"));
+        assertEquals("ASCII", EncodingNameMapper.toJava("US-ASCII"));
+        assertEquals("ASCII", EncodingNameMapper.toJava("ASCII"));
+        assertEquals("ISO8859_1", EncodingNameMapper.toJava("LATIN1"));
+        assertEquals("ISO8859_1", EncodingNameMapper.toJava("ISO-8859-1"));
+        assertEquals("Cp1252", EncodingNameMapper.toJava("WINDOWS-1252"));
+        assertEquals("JIS", EncodingNameMapper.toJava("ISO2022"));
+        assertEquals("JIS", EncodingNameMapper.toJava("ISO-2022-JP"));
+        assertEquals("Big5", EncodingNameMapper.toJava("BIG5"));
+        assertEquals("Unicode", EncodingNameMapper.toJava("UTF16"));
+        assertEquals("UnicodeBig", EncodingNameMapper.toJava("UTF16BE"));
+        assertEquals("UnicodeLittle", EncodingNameMapper.toJava("UTF16LE"));
+        assertEquals("Unicode", EncodingNameMapper.toJava("UTF-16"));
+        assertEquals("UnicodeBig", EncodingNameMapper.toJava("UTF-16BE"));
+        assertEquals("UnicodeLittle", EncodingNameMapper.toJava("UTF-16LE"));
+        assertEquals("Cp858", EncodingNameMapper.toJava("CP858"));
+        assertEquals("Cp858", EncodingNameMapper.toJava("ibm858"));
+        assertEquals("MacRoman", EncodingNameMapper.toJava("Macintosh Roman"));
+        assertEquals("Cp1252", EncodingNameMapper.toJava("WiN1252"));
+        assertEquals("SJIS", EncodingNameMapper.toJava("SHIFTJIS"));
+        assertEquals(null, EncodingNameMapper.toJava("IBM-"));
     }
 
 }

@@ -159,13 +159,13 @@ public class Configuration implements Serializable
         "ASCII",
         "ISO8859_1",
         "UTF8",
-        "ISO2022JP",
-        "MACROMAN",
-        "UNICODELITTLEUNMARKED",
-        "UNICODEBIGUNMARKED",
-        "UTF-16",
-        "CP1252",
-        "BIG5",
+        "JIS",
+        "MacRoman",
+        "UnicodeLittle",
+        "UnicodeBig",
+        "Unicode",
+        "Cp1252",
+        "Big5",
         "SJIS"};
 
     /**
@@ -1119,7 +1119,7 @@ public class Configuration implements Serializable
      */
     protected void setInCharEncodingName(String encoding)
     {
-        String javaEncoding = TidyUtils.toJavaEncodingName(encoding);
+        String javaEncoding = EncodingNameMapper.toJava(encoding);
         if (javaEncoding != null)
         {
             this.inCharEncodingName = javaEncoding;
@@ -1178,7 +1178,7 @@ public class Configuration implements Serializable
      */
     protected void setOutCharEncodingName(String encoding)
     {
-        String javaEncoding = TidyUtils.toJavaEncodingName(encoding);
+        String javaEncoding = EncodingNameMapper.toJava(encoding);
         if (javaEncoding != null)
         {
             this.outCharEncodingName = javaEncoding;

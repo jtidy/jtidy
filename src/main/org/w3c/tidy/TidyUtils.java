@@ -54,12 +54,6 @@
 
 package org.w3c.tidy;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-
-
 /**
  * Utility class with handy methods, mainly for String handling or for reproducing c behaviours.
  * @author Fabrizio Giustina
@@ -107,11 +101,6 @@ public final class TidyUtils
      * used to classify chars for lexical purposes.
      */
     private static short[] lexmap = new short[128];
-
-    /**
-     * InputStream instance reused for supported encodings check.
-     */
-    private static final InputStream TEST_INPUTSTREAM = new ByteArrayInputStream(new byte[0]);
 
     static
     {
@@ -860,86 +849,20 @@ public final class TidyUtils
      */
     public static boolean isCharEncodingSupported(String name)
     {
+        name = EncodingNameMapper.toJava(name);
         if (name == null)
         {
             return false;
         }
 
-        return toJavaEncodingName(name) != null;
-    }
-
-    /**
-     * Converts an encoding name to the standard java name. Handles legacy names used in tidy and different java
-     * encoding alias. See http://www.iana.org/assignments/character-sets. Value returned is uppercase.
-     * @param name encoding name
-     * @return standard java encoding name or <code>null</code> if the encoding is not supported
-     */
-    public static String toJavaEncodingName(String name)
-    {
-        // conversion supported by java
-        // US-ASCII to ASCII
-        // ISO-8859-1 to ISO8859_1
-        // UTF-8 to UTF8
-        // UTF-16BE to UnicodeBigUnmarked
-        // UTF-16LE to UnicodeLittleUnmarked.
-
-        if (name == null)
-        {
-            return null;
-        }
-
-        name = name.toUpperCase();
-
-        // remap tidy deprecated names, not recognized as valid java encoding names
-        if (name.equals("UTF16BE"))
-        {
-            name = "UTF-16BE";
-        }
-        else if (name.equals("UTF16LE"))
-        {
-            name = "UTF-16LE";
-        }
-        else if (name.equals("UTF16"))
-        {
-            name = "UTF-16";
-        }
-        else if (name.equals("WIN1252"))
-        {
-            name = "CP1252";
-        }
-        else if (name.equals("SHIFTJIS"))
-        {
-            name = "SJIS";
-        }
-        else if (name.equals("ISO2022"))
-        {
-            name = "ISO2022JP";
-        }
-        else if (name.equals("MAC"))
-        {
-            name = "MACROMAN";
-        }
-        else if (name.startsWith("IBM-"))
-        {
-            name = "CP" + name.substring(4, name.length());
-        }
-        else if (name.startsWith("IBM"))
-        {
-            name = "CP" + name.substring(3, name.length());
-        }
-
-        // check org.apache.xerces.util.EncodingMap
-
         try
         {
-            // test it, it's the only way to know if the character encoding is supported
-            InputStreamReader reader = new InputStreamReader(TEST_INPUTSTREAM, name);
-            return reader.getEncoding().toUpperCase();
-
+            "".getBytes(name);
         }
-        catch (UnsupportedEncodingException e)
+        catch (java.io.UnsupportedEncodingException e)
         {
-            return null;
+            return false;
         }
+        return true;
     }
 }
