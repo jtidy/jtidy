@@ -336,11 +336,6 @@ public class Configuration implements java.io.Serializable
     protected boolean fixBackslash = true;
 
     /**
-     * properly escape URLs.
-     */
-    protected boolean fixUri = true;
-
-    /**
      * newline+indent before each attribute.
      */
     protected boolean indentAttributes;
@@ -394,6 +389,16 @@ public class Configuration implements java.io.Serializable
      * output BODY content only.
      */
     protected boolean bodyOnly;
+
+    /**
+     * properly escape URLs.
+     */
+    protected boolean fixUri = true;
+
+    /**
+     * folds known attribute values to lower case.
+     */
+    protected boolean lowerLiterals = true;
 
     /**
      * TagTable associated with this Configuration.
@@ -513,6 +518,12 @@ public class Configuration implements java.io.Serializable
         if (value != null)
         {
             this.fixUri = parseBool(value, "fix-uri");
+        }
+
+        value = properties.getProperty("lower-literals");
+        if (value != null)
+        {
+            this.lowerLiterals = parseBool(value, "lower-literals");
         }
 
         value = properties.getProperty("tab-size");

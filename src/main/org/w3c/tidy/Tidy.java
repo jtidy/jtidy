@@ -949,6 +949,25 @@ public class Tidy implements Serializable
     }
 
     /**
+     * lower-literals - folds known attribute values to lower case.
+     * @param lower-literals true = folds known attribute values to lower case
+     * @see Configuration#lowerLiterals
+     */
+    public void setLowerLiterals(boolean lowerLiterals)
+    {
+        configuration.lowerLiterals = lowerLiterals;
+    }
+
+    /**
+     * lower-literals - folds known attribute values to lower case.
+     * @return true if tidy will folds known attribute values to lower case
+     */
+    public boolean getLowerLiterals()
+    {
+        return configuration.lowerLiterals;
+    }
+
+    /**
      * InputStreamName - the name of the input stream (printed in the header information).
      * @param name input stream name
      */
