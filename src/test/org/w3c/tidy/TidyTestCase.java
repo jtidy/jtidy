@@ -62,7 +62,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.Properties;
@@ -71,7 +70,6 @@ import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tools.ant.filters.StringInputStream;
 import org.w3c.dom.Document;
 
 
@@ -240,13 +238,7 @@ public class TidyTestCase extends TestCase
         String encodingName = ParsePropertyImpl.CHAR_ENCODING.getFriendlyName("out-encoding", new Integer(tidy
             .getConfiguration().outCharEncoding), tidy.getConfiguration());
 
-        // fix some encoding name for java
-        if (encodingName.startsWith("utf"))
-        {
-            encodingName = "utf-" + encodingName.substring(3);
-        }
-
-        // BON fix - if le or be is specified java will output the BOM at the beginning of the stream
+        // BOM fix - if le or be is specified java will output the BOM at the beginning of the stream
         if (encodingName.equals("utf-16be") || encodingName.equals("utf-16le"))
         {
             encodingName = "utf-16";
