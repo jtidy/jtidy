@@ -1243,6 +1243,7 @@ public class Tidy implements Serializable
 
     /**
      * Creates an empty DOM Document.
+     * @return a new org.w3c.dom.Document
      */
     public static org.w3c.dom.Document createEmptyDocument()
     {
@@ -1260,19 +1261,44 @@ public class Tidy implements Serializable
     }
 
     /**
-     * Pretty-prints a DOM Document.
+     * Pretty-prints a DOM Document. Must be an instance of org.w3c.tidy.DOMDocumentImpl.
+     * @param doc org.w3c.dom.Document
+     * @param out output stream
      */
     public void pprint(org.w3c.dom.Document doc, OutputStream out)
     {
-        Out o = new OutImpl();
-        PPrint pprint;
-        Node document;
-
         if (!(doc instanceof DOMDocumentImpl))
         {
             return;
         }
-        document = ((DOMDocumentImpl) doc).adaptee;
+
+        pprint(((DOMDocumentImpl) doc).adaptee, out);
+    }
+
+    /**
+     * Pretty-prints a DOM Node.
+     * @param node org.w3c.dom.Node. Must be an instance of org.w3c.tidy.DOMNodeImpl.
+     * @param out output stream
+     */
+    public void pprint(org.w3c.dom.Node node, OutputStream out)
+    {
+        if (!(node instanceof DOMNodeImpl))
+        {
+            return;
+        }
+
+        pprint(((DOMNodeImpl) node).adaptee, out);
+    }
+
+    /**
+     * Pretty-prints a tidy Node.
+     * @param node org.w3c.tidy.Node
+     * @param out output stream
+     */
+    private void pprint(Node node, OutputStream out)
+    {
+        Out o = new OutImpl();
+        PPrint pprint;
 
         o.state = StreamIn.FSM_ASCII;
         o.encoding = configuration.charEncoding;
@@ -1284,11 +1310,11 @@ public class Tidy implements Serializable
 
             if (configuration.xmlTags)
             {
-                pprint.printXMLTree(o, (short) 0, 0, null, document);
+                pprint.printXMLTree(o, (short) 0, 0, null, node);
             }
             else
             {
-                pprint.printTree(o, (short) 0, 0, null, document);
+                pprint.printTree(o, (short) 0, 0, null, node);
             }
 
             pprint.flushLine(o, 0);
