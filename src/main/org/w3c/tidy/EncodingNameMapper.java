@@ -61,7 +61,7 @@ import java.util.Map;
  * Maps between Java and IANA character encoding names. Also handles encoding alias used in tidy c.
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
- * @ee http://www.iana.org/assignments/character-sets
+ * @see http://www.iana.org/assignments/character-sets
  */
 public abstract class EncodingNameMapper
 {
@@ -274,6 +274,7 @@ public abstract class EncodingNameMapper
 
     /**
      * Convert a Java character encoding name to its IANA equivalent.
+     * @param encoding java encoding name or alias
      * @return iana equivalent or null if no match is found.
      */
     public static String toIana(String encoding)
@@ -334,6 +335,7 @@ public abstract class EncodingNameMapper
     /**
      * Converts an encoding name to the standard java name. Handles IANA names, legacy names used in tidy and different
      * java encoding alias. See http://www.iana.org/assignments/character-sets.
+     * @param encoding IANA encoding name or alias
      * @return java equivalent or null if no match is found.
      */
     public static String toJava(String encoding)

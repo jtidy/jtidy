@@ -1204,7 +1204,7 @@ public class Tidy implements Serializable
 
     /**
      * output-xhtml - output extensible HTML.
-     * @retur <code>true</code> if tidy will output XHTML
+     * @return <code>true</code> if tidy will output XHTML
      * @see Configuration#xHTML
      */
     public boolean getXHTML()
