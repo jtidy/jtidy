@@ -325,7 +325,7 @@ public class ParserImpl
                         continue;
                     }
 
-                    // discard illegal frame element following a frameset
+                    // #427675 - discard illegal frame element following a frameset - fix by Randy Waki 11 Oct 00
                     if (frameset != null && node.tag == tt.tagFrame)
                     {
                         Report.warning(lexer, html, node, Report.DISCARDING_UNEXPECTED);
