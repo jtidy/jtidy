@@ -70,13 +70,14 @@ public final class Report
 {
 
     /**
-     * used to point to Web Accessibility Guidelines
+     * used to point to Web Accessibility Guidelines.
      */
     public static final String ACCESS_URL = "http://www.w3.org/WAI/GL";
 
+    /**
+     * Release date String.
+     */
     public static final String RELEASE_DATE = "4th August 2000";
-
-    public static String currentFile; /* sasdjb 01May00 for GNU Emacs error parsing */
 
     /* error codes for entities */
 
@@ -158,9 +159,9 @@ public final class Report
     public static final short NON_ASCII = 2;
     public static final short FOUND_UTF16 = 4;
 
-    private static short optionerrors;
-
     private static ResourceBundle res;
+
+    private String currentFile; /* sasdjb 01May00 for GNU Emacs error parsing */
 
     static
     {
@@ -223,7 +224,6 @@ public final class Report
     /* lexer is not defined when this is called */
     public void unknownOption(String option)
     {
-        optionerrors++;
         try
         {
             System.err.println(MessageFormat.format(res.getString("unknown_option"), new Object[]{option}));
@@ -237,7 +237,6 @@ public final class Report
     /* lexer is not defined when this is called */
     public void badArgument(String option)
     {
-        optionerrors++;
         try
         {
             System.err.println(MessageFormat.format(res.getString("bad_argument"), new Object[]{option}));
