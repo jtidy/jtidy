@@ -195,8 +195,8 @@ public class TidyWarningBugsTest extends TidyTestCase
      */
     public void test433021() throws Exception
     {
-        throw new Error("Test not yet implemented");
-        // executeTidyTest("433021.html");
+        executeTidyTest("433021.html");
+        assertLogContains("valign");
     }
 
     /**
