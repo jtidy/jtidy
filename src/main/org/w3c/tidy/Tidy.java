@@ -1269,7 +1269,7 @@ public class Tidy implements Serializable
                 }
             }
 
-            if (lexer.errors > 0)
+            if (lexer.errors > 0 && !configuration.forceOutput)
             {
                 this.report.needsAuthorIntervention(errout);
             }
@@ -1277,7 +1277,7 @@ public class Tidy implements Serializable
             o.state = StreamIn.FSM_ASCII;
             o.encoding = configuration.charEncoding;
 
-            if (!configuration.onlyErrors && lexer.errors == 0)
+            if (!configuration.onlyErrors && (lexer.errors == 0 || configuration.forceOutput))
             {
                 if (configuration.burstSlides)
                 {
@@ -1757,7 +1757,7 @@ public class Tidy implements Serializable
             }
         }
 
-        if (totalerrors + totalwarnings > 0)
+        if (totalerrors + totalwarnings > 0 && !configuration.quiet)
         {
             this.report.generalInfo(this.errout);
         }
