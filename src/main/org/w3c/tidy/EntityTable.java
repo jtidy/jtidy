@@ -53,8 +53,9 @@
  */
 package org.w3c.tidy;
 
-import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
 
 
 /**
@@ -64,11 +65,17 @@ import java.util.Hashtable;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public class EntityTable
+public final class EntityTable
 {
 
+    /**
+     * the default entity table.
+     */
     private static EntityTable defaultEntityTable;
 
+    /**
+     * Known entities.
+     */
     private static Entity[] entities = {
         new Entity("nbsp", 160),
         new Entity("iexcl", 161),
@@ -323,37 +330,43 @@ public class EntityTable
         new Entity("rsaquo", 8250),
         new Entity("euro", 8364)};
 
-    private Hashtable entityHashtable = new Hashtable();
+    /**
+     * Entity map.
+     */
+    private Map entityHashtable = new Hashtable();
 
-    public EntityTable()
+    /**
+     * use getDefaultEntityTable to get an entity table instance.
+     */
+    private EntityTable()
     {
     }
 
+    /**
+     * installs an entity.
+     * @param ent entity
+     * @return installed Entity
+     */
+    private Entity install(Entity ent)
+    {
+        return (Entity) this.entityHashtable.put(ent.name, ent);
+    }
+
+    /**
+     * Lookup an entity by its name.
+     * @param name entity name
+     * @return entity
+     */
     public Entity lookup(String name)
     {
         return (Entity) this.entityHashtable.get(name);
     }
 
-    public Entity install(String name, short code)
-    {
-        Entity ent = lookup(name);
-        if (ent == null)
-        {
-            ent = new Entity(name, code);
-            entityHashtable.put(name, ent);
-        }
-        else
-        {
-            ent.code = code;
-        }
-        return ent;
-    }
-
-    public Entity install(Entity ent)
-    {
-        return (Entity) this.entityHashtable.put(ent.name, ent);
-    }
-
+    /**
+     * Returns the entity code for the given entity name.
+     * @param name entity name
+     * @return entity code or 0 for unknown entity names
+     */
     public short entityCode(String name)
     {
         // entity starting with "&" returns zero on error.
@@ -364,12 +377,12 @@ public class EntityTable
             return 0;
         }
 
-        /* numeric entitity: name = "&#" followed by number */
+        // numeric entitity: name = "&#" followed by number
         if (name.charAt(1) == '#')
         {
-            c = 0; /* zero on missing/bad number */
+            c = 0; // zero on missing/bad number
 
-            /* 'x' prefix denotes hexadecimal number format */
+            // 'x' prefix denotes hexadecimal number format
             try
             {
                 if (name.length() >= 4 && name.charAt(2) == 'x')
@@ -389,24 +402,29 @@ public class EntityTable
             return (short) c;
         }
 
-        /* Named entity: name ="&" followed by a name */
+        // Named entity: name ="&" followed by a name
         Entity ent = lookup(name.substring(1));
         if (ent != null)
         {
             return ent.code;
         }
 
-        return 0; /* zero signifies unknown entity name */
+        return 0; // zero signifies unknown entity name
     }
 
+    /**
+     * Returns the entity name for the given entity code.
+     * @param code entity code
+     * @return entity name or null for unknown entity codes
+     */
     public String entityName(short code)
     {
         String name = null;
         Entity ent;
-        Enumeration en = this.entityHashtable.elements();
-        while (en.hasMoreElements())
+        Iterator en = this.entityHashtable.values().iterator();
+        while (en.hasNext())
         {
-            ent = (Entity) en.nextElement();
+            ent = (Entity) en.next();
             if (ent.code == code)
             {
                 name = ent.name;
@@ -416,6 +434,10 @@ public class EntityTable
         return name;
     }
 
+    /**
+     * Returns the default entity table instance.
+     * @return entity table instance
+     */
     public static EntityTable getDefaultEntityTable()
     {
         if (defaultEntityTable == null)
