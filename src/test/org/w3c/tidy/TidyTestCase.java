@@ -128,8 +128,8 @@ public class TidyTestCase extends TestCase
 
         if (log.isDebugEnabled())
         {
-            log.debug("\n---- out ----\n" + out + "\n---- out ----");
-            log.debug("\n---- log ----\n" + this.errorLog + "\n---- log ----");
+            log.debug("out:\n---- out ----\n" + out + "\n---- out ----");
+            log.debug("log:\n---- log ----\n" + this.errorLog + "\n---- log ----");
         }
 
         // existing file for comparison
