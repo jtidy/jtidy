@@ -138,8 +138,6 @@ public final class CheckAttribsImpl
             AttVal attval;
             Attribute attribute;
 
-            node.checkUniqueAttributes(lexer);
-
             for (attval = node.attributes; attval != null; attval = attval.next)
             {
                 attribute = attval.checkAttribute(lexer, node);
@@ -161,6 +159,7 @@ public final class CheckAttribsImpl
             AttVal lang, type;
 
             node.checkUniqueAttributes(lexer);
+            node.checkAttributes(lexer);
 
             lang = node.getAttrByName("language");
             type = node.getAttrByName("type");
@@ -201,8 +200,6 @@ public final class CheckAttribsImpl
             AttVal attval;
             Attribute attribute;
             boolean hasSummary = false;
-
-            node.checkUniqueAttributes(lexer);
 
             for (attval = node.attributes; attval != null; attval = attval.next)
             {
@@ -256,6 +253,7 @@ public final class CheckAttribsImpl
             String value = null;
 
             node.checkUniqueAttributes(lexer);
+            node.checkAttributes(lexer);
 
             for (attval = node.attributes; attval != null; attval = attval.next)
             {
@@ -291,6 +289,10 @@ public final class CheckAttribsImpl
         public void check(Lexer lexer, Node node)
         {
             AttVal av = node.getAttrByName("src");
+
+            node.checkUniqueAttributes(lexer);
+            node.checkAttributes(lexer);
+
             if (av != null)
             {
                 lexer.report.attrError(lexer, node, av, Report.PROPRIETARY_ATTR_VALUE);
@@ -310,8 +312,6 @@ public final class CheckAttribsImpl
             boolean hasUseMap = false;
             boolean hasIsMap = false;
             boolean hasDataFld = false;
-
-            node.checkUniqueAttributes(lexer);
 
             for (attval = node.attributes; attval != null; attval = attval.next)
             {
@@ -379,8 +379,6 @@ public final class CheckAttribsImpl
             boolean hasAlt = false;
             boolean hasHref = false;
 
-            node.checkUniqueAttributes(lexer);
-
             for (attval = node.attributes; attval != null; attval = attval.next)
             {
                 attribute = attval.checkAttribute(lexer, node);
@@ -428,6 +426,7 @@ public final class CheckAttribsImpl
         public void check(Lexer lexer, Node node)
         {
             node.checkUniqueAttributes(lexer);
+            node.checkAttributes(lexer);
 
             lexer.fixId(node);
         }
@@ -441,6 +440,7 @@ public final class CheckAttribsImpl
             AttVal type = node.getAttrByName("type");
 
             node.checkUniqueAttributes(lexer);
+            node.checkAttributes(lexer);
 
             if (type == null)
             {
@@ -478,6 +478,7 @@ public final class CheckAttribsImpl
             AttVal rel = node.getAttrByName("rel");
 
             node.checkUniqueAttributes(lexer);
+            node.checkAttributes(lexer);
 
             if (rel != null && rel.value != null && rel.value.equals("stylesheet"))
             {
