@@ -164,6 +164,76 @@ public final class AttrCheckImpl
     public static final AttrCheck LANG = new CheckLang();
 
     /**
+     * checker for text attributes. Actually null (no validation).
+     */
+    public static final AttrCheck TEXT = null;
+
+    /**
+     * checker for "charset" attribute. Actually null (no validation).
+     */
+    public static final AttrCheck CHARSET = null;
+
+    /**
+     * checker for "type" attribute. Actually null (no validation).
+     */
+    public static final AttrCheck TYPE = null;
+
+    /**
+     * checker for attributes that can contain a single character. Actually null (no validation).
+     */
+    public static final AttrCheck CHARACTER = null;
+
+    /**
+     * checker for attributes which contain a list of urls. Actually null (no validation).
+     */
+    public static final AttrCheck URLS = null;
+
+    /**
+     * checker for "cols" attribute. Actually null (no validation).
+     */
+    public static final AttrCheck COLS = null;
+
+    /**
+     * checker for "coords" attribute. Actually null (no validation).
+     */
+    public static final AttrCheck COORDS = null;
+
+    /**
+     * checker for attributes containing dates. Actually null (no validation).
+     */
+    public static final AttrCheck DATE = null;
+
+    /**
+     * checker for attributes referencng an id. Actually null (no validation).
+     */
+    public static final AttrCheck IDREF = null;
+
+    /**
+     * checker for table "frame" attribute. Actually null (no validation).
+     */
+    public static final AttrCheck TFRAME = null;
+
+    /**
+     * checker for "frameborder" attribute. Actually null (no validation).
+     */
+    public static final AttrCheck FBORDER = null;
+
+    /**
+     * checker for "media" attribute. Actually null (no validation).
+     */
+    public static final AttrCheck MEDIA = null;
+
+    /**
+     * checker for "rel" and "rev" attributes. Actually null (no validation).
+     */
+    public static final AttrCheck LINKTYPES = null;
+
+    /**
+     * checker for table "rules" attribute. Actually null (no validation).
+     */
+    public static final AttrCheck TRULES = null;
+
+    /**
      * utility class, don't instantiate.
      */
     private AttrCheckImpl()
