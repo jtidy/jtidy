@@ -51,7 +51,6 @@
 *  acknowledgment is not required but would be appreciated.
 *
 */
-
 package org.w3c.tidy;
 
 /**

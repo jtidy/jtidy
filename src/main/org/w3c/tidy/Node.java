@@ -376,7 +376,7 @@ public class Node
         if (node.prev != null)
             node.prev.next = node;
 
-        if (parent.content == element)
+        if (parent != null && parent.content == element)
             parent.content = node;
     }
 
