@@ -1,6 +1,5 @@
 <project>
     <pomVersion>3</pomVersion>
-    <id>jtidy</id>
     <name>JTidy</name>
     <groupId>jtidy</groupId>
     <currentVersion>r8-SNAPSHOT</currentVersion>
@@ -25,44 +24,6 @@ In addition, JTidy provides a DOM interface to the document that is being proces
         <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/${pom.groupId}:${pom.groupId}2</connection>
         <url>http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/${pom.groupId}/${pom.groupId}2/</url>
     </repository>
-    
-    <!--
-    <versions>
-        <version>
-            <id>04aug2000r7</id>
-            <name>04aug2000r7</name>
-            <tag>04aug2000r7</tag>
-        </version>
-        <version>
-            <id>04aug2000r6</id>
-            <name>04aug2000r6</name>
-            <tag>04aug2000r6</tag>
-        </version>
-        <version>
-            <id>04aug2000r5</id>
-            <name>04aug2000r5</name>
-            <tag>04aug2000r5</tag>
-        </version>
-        <version>
-            <id>04aug2000r4</id>
-            <name>04aug2000r4</name>
-            <tag>04aug2000r4</tag>
-        </version>
-        <version>
-            <id>04aug2000r3</id>
-            <name>04aug2000r3</name>
-            <tag>04aug2000r3</tag>
-        </version>
-        <version>
-            <id>04aug2000r2</id>
-            <name>04aug2000r2</name>
-            <tag>04aug2000r2</tag>
-        </version>
-    </versions>
-    <branches/>
-    
-    -->
-    
     <mailingLists>
         <mailingList>
             <name>${pom.name} User Mailing list</name>
@@ -144,24 +105,23 @@ In addition, JTidy provides a DOM interface to the document that is being proces
             <artifactId>xml-apis</artifactId>
             <version>1.0.b2</version>
             <type>jar</type>
-            <url></url>
+            <properties/>
         </dependency>
         <dependency>
             <groupId>xerces</groupId>
             <artifactId>xerces</artifactId>
             <version>2.4.0</version>
             <type>jar</type>
-            <url></url>
+            <properties/>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.0.3</version>
             <type>jar</type>
-            <url></url>
-	        <properties>
-	          <comment>Only used in junit tests. Not needed at runtime.</comment>
-	        </properties>
+            <properties>
+                <comment>Only used in junit tests. Not needed at runtime.</comment>
+            </properties>
         </dependency>
         <dependency>
             <groupId>ant</groupId>
@@ -169,9 +129,9 @@ In addition, JTidy provides a DOM interface to the document that is being proces
             <version>1.6</version>
             <type>jar</type>
             <url>http://ant.apache.org</url>
-	        <properties>
-	          <comment>Required to build and use the jtidy ant task.</comment>
-	        </properties>
+            <properties>
+                <comment>Required to build and use the jtidy ant task.</comment>
+            </properties>
         </dependency>
         <dependency>
             <groupId>maven-plugins</groupId>
@@ -179,48 +139,43 @@ In addition, JTidy provides a DOM interface to the document that is being proces
             <version>1.0</version>
             <type>plugin</type>
             <url>http://maven-plugins.sourceforge.net</url>
+            <properties/>
         </dependency>
-
-	<dependency>
-      <groupId>clover</groupId>
-      <artifactId>clover</artifactId>
-      <version>1.2.3</version>
-      <url>http://www.thecortex.net/clover</url>
-      <properties>
-        <comment>Required to generate test coverage reports. Not needed at runtime.</comment>
-      </properties>
-    </dependency>
-    
-    <dependency>
-        <groupId>statcvs</groupId>
-        <artifactId>maven-statcvs-plugin</artifactId>
-        <version>2.4</version>
-        <type>plugin</type>
-        <properties>
-            <comment>maven plugin for the cvs report</comment>
-        </properties>
-    </dependency>
-    
-    <dependency>
-        <groupId>maven-plugins</groupId>
-        <artifactId>maven-findbugs-plugin</artifactId>
-        <version>0.8.2</version>
-        <type>plugin</type>
-        <properties>
-            <comment>maven plugin for the findbug report</comment>
-        </properties>
-    </dependency>
-    
-    
-
+        <dependency>
+            <groupId>clover</groupId>
+            <artifactId>clover</artifactId>
+            <version>1.2.3</version>
+            <jar>lib/clover.jar</jar>
+            <url>http://www.thecortex.net/clover</url>
+            <properties>
+                <comment>Required to generate test coverage reports. Not needed at runtime.</comment>
+            </properties>
+        </dependency>
+        <dependency>
+            <groupId>statcvs</groupId>
+            <artifactId>maven-statcvs-plugin</artifactId>
+            <version>2.4</version>
+            <type>plugin</type>
+            <properties>
+                <comment>maven plugin for the cvs report</comment>
+            </properties>
+        </dependency>
+        <dependency>
+            <groupId>maven-plugins</groupId>
+            <artifactId>maven-findbugs-plugin</artifactId>
+            <version>0.8.2</version>
+            <type>plugin</type>
+            <properties>
+                <comment>maven plugin for the findbug report</comment>
+            </properties>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>src/main</sourceDirectory>
         <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
-        
         <unitTest>
             <includes>
-                <include>**/*Test.java</include>
+                <include>**/*Test.*</include>
             </includes>
             <resources>
                 <resource>
@@ -261,4 +216,5 @@ In addition, JTidy provides a DOM interface to the document that is being proces
         <report>maven-statcvs-plugin</report>
         <report>maven-xhtml-plugin</report>
     </reports>
+    <properties/>
 </project>
