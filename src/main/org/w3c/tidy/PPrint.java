@@ -56,6 +56,7 @@ package org.w3c.tidy;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.NumberFormat;
 
 
 /**
@@ -1881,20 +1882,26 @@ public class PPrint
 
         condFlushLine(fout, indent);
         printString(fout, indent, "<center><small>");
+        
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        numberFormat.setMinimumIntegerDigits(3);
 
         if (slide > 1)
         {
-            buf = "<a href=\"slide" + (new Integer(slide - 1)).toString() + ".html\">previous</a> | ";
+            buf = "<a href=\"slide" + numberFormat.format(slide - 1) + ".html\">previous</a> | ";
+            // #427666 - fix by Eric Rossen 02 Aug 00
             printString(fout, indent, buf);
             condFlushLine(fout, indent);
 
             if (slide < count)
             {
-                printString(fout, indent, "<a href=\"slide1.html\">start</a> | ");
+                printString(fout, indent, "<a href=\"slide001.html\">start</a> | ");
+                // #427666 - fix by Eric Rossen 02 Aug 00
             }
             else
             {
-                printString(fout, indent, "<a href=\"slide1.html\">start</a>");
+                printString(fout, indent, "<a href=\"slide001.html\">start</a>");
+                // #427666 - fix by Eric Rossen 02 Aug 00
             }
 
             condFlushLine(fout, indent);
@@ -1902,7 +1909,8 @@ public class PPrint
 
         if (slide < count)
         {
-            buf = "<a href=\"slide" + (new Integer(slide + 1)).toString() + ".html\">next</a>";
+            buf = "<a href=\"slide" + numberFormat.format(slide + 1) + ".html\">next</a>";
+            // #427666 - fix by Eric Rossen 02 Aug 00
             printString(fout, indent, buf);
         }
 
@@ -1920,10 +1928,14 @@ public class PPrint
         Node content, last;
         TagTable tt = this.configuration.tt;
 
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        numberFormat.setMinimumIntegerDigits(3);
+
         /* insert div for onclick handler */
         String s;
-        s = "<div onclick=\"document.location='slide" + (new Integer(slide < count ? slide + 1 : 1)).toString()
+        s = "<div onclick=\"document.location='slide" + numberFormat.format(slide < count ? slide + 1 : 1)
             + ".html'\">";
+        // #427666 - fix by Eric Rossen 02 Aug 00
         printString(fout, indent, s);
         condFlushLine(fout, indent);
 
@@ -2057,6 +2069,9 @@ public class PPrint
         String buf;
         Out out = new OutImpl();
 
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        numberFormat.setMinimumIntegerDigits(3);
+
         body = root.findBody(lexer.configuration.tt);
         count = countSlides(body);
         slidecontent = body.content;
@@ -2064,7 +2079,8 @@ public class PPrint
 
         for (slide = 1; slide <= count; ++slide)
         {
-            buf = "slide" + slide + ".html";
+            buf = "slide" + numberFormat.format(slide) + ".html";
+            // #427666 - fix by Eric Rossen 02 Aug 00
             out.state = StreamIn.FSM_ASCII;
             out.encoding = this.configuration.charEncoding;
 
@@ -2088,8 +2104,8 @@ public class PPrint
 
         for (;;)
         {
-            buf = "slide" + slide + "html";
-
+            buf = "slide" + numberFormat.format(slide) + ".html";
+            // #427666 - fix by Eric Rossen 02 Aug 00
             if (!(new File(buf)).delete())
             {
                 break;
