@@ -1,0 +1,12 @@
+<html>
+<head>
+<title>[ #708322] : drop-proprietary-attributes leaves table height.</title>
+</head>
+<body>
+<table>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>

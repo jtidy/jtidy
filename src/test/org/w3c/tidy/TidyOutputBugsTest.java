@@ -1030,6 +1030,16 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
+     * test for Tidy [708322] : drop-proprietary-attributes leaves table height.
+     * @throws Exception any exception generated during the test
+     */
+    public void test708322() throws Exception
+    {
+        executeTidyTest("708322.html");
+    }
+
+
+    /**
      * test for Tidy [765852] : Empty tag striping.
      * @throws Exception any exception generated during the test
      */
