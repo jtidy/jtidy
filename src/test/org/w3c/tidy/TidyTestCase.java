@@ -576,7 +576,16 @@ public class TidyTestCase extends TestCase
             + cleanUpFilePath(inputFileName)
             + "\"";
 
-        log.debug("cmd line:\n***\n" + strCmd + "\n***");
+        log.debug("cmd line:\n***\n"
+            + strCmd
+            + "\nw/o output:\n"
+            + TIDY_EXECUTABLE
+            + " -config \""
+            + cleanUpFilePath(configurationFileName)
+            + "\" \""
+            + cleanUpFilePath(inputFileName)
+            + "\""
+            + "\n***");
 
         if (runIt)
         {
