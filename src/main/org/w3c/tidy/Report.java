@@ -881,7 +881,7 @@ public final class Report
     public void attrError(Lexer lexer, Node node, AttVal attribute, short code)
     {
         lexer.warnings++;
-        if (lexer.errors > 6) // keep quiet after 6 errors
+        if (lexer.errors > lexer.configuration.showErrors) // keep quiet after <showErrors> errors
         {
             return;
         }
@@ -948,7 +948,10 @@ public final class Report
                 break;
 
             case REPEATED_ATTRIBUTE :
-                printMessage(lexer, "repeated_attribute", new Object[]{getTagName(node)}, TidyMessage.Level.WARNING);
+                printMessage(lexer, "repeated_attribute", new Object[]{
+                    getTagName(node),
+                    attribute.value,
+                    attribute.attribute}, TidyMessage.Level.WARNING);
                 break;
 
             case PROPRIETARY_ATTR_VALUE :
@@ -1048,8 +1051,8 @@ public final class Report
 
         lexer.warnings++;
 
-        // keep quiet after 6 errors
-        if (lexer.errors > 6 || !lexer.configuration.showWarnings)
+        // keep quiet after <showErrors> errors
+        if (lexer.errors > lexer.configuration.showErrors || !lexer.configuration.showWarnings)
         {
             return;
         }
@@ -1069,11 +1072,9 @@ public final class Report
                 break;
 
             case DISCARDING_UNEXPECTED :
-                printMessage(
-                    lexer,
-                    "discarding_unexpected",
-                    new Object[]{getTagName(node)},
-                    (node.tag == lexer.configuration.tt.tagForm ? TidyMessage.Level.ERROR : TidyMessage.Level.WARNING));
+                printMessage(lexer, "discarding_unexpected", new Object[]{getTagName(node)}, (lexer.errors != 0
+                    ? TidyMessage.Level.ERROR
+                    : TidyMessage.Level.WARNING));
                 break;
 
             case NESTED_EMPHASIS :
@@ -1277,8 +1278,8 @@ public final class Report
     {
         lexer.warnings++;
 
-        // keep quiet after 6 errors
-        if (lexer.errors > 6)
+        // keep quiet after <showErrors> errors
+        if (lexer.errors > lexer.configuration.showErrors)
         {
             return;
         }
