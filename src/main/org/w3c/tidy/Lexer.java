@@ -1492,6 +1492,7 @@ public class Lexer
         int c = 0;
         int badcomment = 0;
         MutableBoolean isempty = new MutableBoolean();
+        boolean inDTDSubset = false;
         AttVal attributes;
 
         if (this.pushed)
@@ -2104,7 +2105,18 @@ public class Lexer
                         this.waswhite = false;
                     }
 
-                    if (c != '>')
+                    if (inDTDSubset)
+                    {
+                        if (c == ']')
+                        {
+                            inDTDSubset = false;
+                        }
+                    }
+                    else if (c == '[')
+                    {
+                        inDTDSubset = true;
+                    }
+                    if (inDTDSubset || c != '>')
                     {
                         continue;
                     }

@@ -276,7 +276,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [431898] : Tidy messes up X(HT)ML documents.
+     * test for Tidy [431898] : Tidy messes up X(HT)ML documents. [fixed]
      * @throws Exception any exception generated during the test
      */
     public void test431898() throws Exception

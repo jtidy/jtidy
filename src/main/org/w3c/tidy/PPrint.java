@@ -1164,8 +1164,10 @@ public class PPrint
         }
     }
 
-    private void printDocType(Out fout, int indent, Node node)
+    private void printDocType(Out fout, int indent, Lexer lexer, Node node)
     {
+        int i, c = 0;
+        short mode = 0;
         boolean q = this.configuration.quoteMarks;
 
         this.configuration.quoteMarks = false;
@@ -1193,7 +1195,44 @@ public class PPrint
             wraphere = linelen;
         }
 
-        printText(fout, (short) 0, indent, node.textarray, node.start, node.end);
+        for (i = node.start; i < node.end; ++i)
+        {
+            if (indent + linelen >= this.configuration.wraplen)
+            {
+                wrapLine(fout, indent);
+            }
+
+            c = lexer.lexbuf[i] & 0xFF; // Convert to unsigned.
+
+            // inDTDSubset?
+            if ((mode & CDATA) != 0)
+            {
+                if (c == ']')
+                {
+                    mode &= ~CDATA;
+                }
+            }
+            else if (c == '[')
+            {
+                mode |= CDATA;
+            }
+            MutableInteger ci = new MutableInteger();
+
+            // look for UTF-8 multibyte character
+            if (c > 0x7F)
+            {
+                i += getUTF8(lexer.lexbuf, i, ci);
+                c = ci.value;
+            }
+
+            if (c == '\n')
+            {
+                flushLine(fout, indent);
+                continue;
+            }
+
+            printChar(c, mode);
+        }
 
         if (linelen < this.configuration.wraplen)
         {
@@ -1204,6 +1243,8 @@ public class PPrint
         this.configuration.quoteMarks = q;
         condFlushLine(fout, indent);
     }
+    
+    
     private void printPI(Out fout, int indent, Node node)
     {
         if (indent + linelen < this.configuration.wraplen)
@@ -1455,7 +1496,7 @@ public class PPrint
         }
         else if (node.type == Node.DocTypeTag)
         {
-            printDocType(fout, indent, node);
+            printDocType(fout, indent, lexer, node);
         }
         else if (node.type == Node.ProcInsTag)
         {
@@ -1732,7 +1773,7 @@ public class PPrint
         }
         else if (node.type == Node.DocTypeTag)
         {
-            printDocType(fout, indent, node);
+            printDocType(fout, indent, lexer, node);
         }
         else if (node.type == Node.ProcInsTag)
         {
