@@ -170,6 +170,16 @@ In addition, JTidy provides a DOM interface to the document that is being proces
                 <comment>maven plugin for the xthml validation report</comment>
             </properties>
         </dependency>
+        <dependency>
+            <groupId>maven</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>2.4.1</version>
+            <type>plugin</type>
+            <url>http://maven.apache.org/reference/plugins/checkstyle</url>
+            <properties>
+                <comment>maven plugin for the checkstyle report</comment>
+            </properties>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>src/main</sourceDirectory>
