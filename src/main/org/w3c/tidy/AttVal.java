@@ -156,11 +156,6 @@ public class AttVal extends Object implements Cloneable
     {
         TagTable tt = lexer.configuration.tt;
 
-        if (this.asp == null && this.php == null)
-        {
-            this.checkUniqueAttribute(lexer, node);
-        }
-
         Attribute attr = this.dict;
         if (attr != null)
         {
@@ -198,32 +193,6 @@ public class AttVal extends Object implements Cloneable
         }
 
         return attr;
-    }
-
-    /**
-     * the same attribute name can't be used more than once in each element.
-     */
-    public void checkUniqueAttribute(Lexer lexer, Node node)
-    {
-        AttVal attr;
-        int count = 0;
-
-        for (attr = this.next; attr != null; attr = attr.next)
-        {
-            if (this.attribute != null
-                && attr.attribute != null
-                && attr.asp == null
-                && attr.php == null
-                && Lexer.wstrcasecmp(this.attribute, attr.attribute) == 0)
-            {
-                ++count;
-            }
-        }
-
-        if (count > 0)
-        {
-            lexer.report.attrError(lexer, node, this, Report.REPEATED_ATTRIBUTE);
-        }
     }
 
     protected org.w3c.dom.Attr getAdapter()

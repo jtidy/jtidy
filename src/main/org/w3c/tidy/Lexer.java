@@ -2094,7 +2094,6 @@ public class Lexer
 
                         if (this.token.tag.chkattrs != null)
                         {
-                            this.token.checkUniqueAttributes(this);
                             this.token.tag.chkattrs.check(this, this.token);
                         }
                         else
@@ -2103,7 +2102,7 @@ public class Lexer
                         }
 
                         // should this be called before attribute checks?
-                        this.token.checkUniqueAttributes(this);
+                        this.token.repairDuplicateAttributes(this);
                     }
 
                     return this.token; // return start tag

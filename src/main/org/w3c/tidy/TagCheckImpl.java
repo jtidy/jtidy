@@ -168,7 +168,6 @@ public final class TagCheckImpl
         {
             AttVal lang, type;
 
-            node.checkUniqueAttributes(lexer);
             node.checkAttributes(lexer);
 
             lang = node.getAttrByName("language");
@@ -262,7 +261,6 @@ public final class TagCheckImpl
             AttVal attval;
             String value = null;
 
-            node.checkUniqueAttributes(lexer);
             node.checkAttributes(lexer);
 
             for (attval = node.attributes; attval != null; attval = attval.next)
@@ -300,7 +298,6 @@ public final class TagCheckImpl
         {
             AttVal av = node.getAttrByName("src");
 
-            node.checkUniqueAttributes(lexer);
             node.checkAttributes(lexer);
 
             if (av != null)
@@ -423,7 +420,6 @@ public final class TagCheckImpl
 
         public void check(Lexer lexer, Node node)
         {
-            node.checkUniqueAttributes(lexer);
             node.checkAttributes(lexer);
 
             lexer.fixId(node);
@@ -435,7 +431,6 @@ public final class TagCheckImpl
 
         public void check(Lexer lexer, Node node)
         {
-            node.checkUniqueAttributes(lexer);
             node.checkAttributes(lexer);
 
             lexer.fixId(node);
@@ -449,7 +444,6 @@ public final class TagCheckImpl
         {
             AttVal type = node.getAttrByName("type");
 
-            node.checkUniqueAttributes(lexer);
             node.checkAttributes(lexer);
 
             if (type == null)
@@ -475,7 +469,6 @@ public final class TagCheckImpl
         {
             AttVal action = node.getAttrByName("action");
 
-            node.checkUniqueAttributes(lexer);
             node.checkAttributes(lexer);
 
             if (action == null)
@@ -499,7 +492,6 @@ public final class TagCheckImpl
         {
             AttVal content = node.getAttrByName("content");
 
-            node.checkUniqueAttributes(lexer);
             node.checkAttributes(lexer);
 
             if (content == null)
@@ -517,7 +509,6 @@ public final class TagCheckImpl
 
         public void check(Lexer lexer, Node node)
         {
-            node.checkUniqueAttributes(lexer);
             node.checkAttributes(lexer);
 
             // HTML4 strict doesn't allow mixed content for elements with %block; as their content model
@@ -539,7 +530,6 @@ public final class TagCheckImpl
         {
             AttVal rel = node.getAttrByName("rel");
 
-            node.checkUniqueAttributes(lexer);
             node.checkAttributes(lexer);
 
             if (rel != null && rel.value != null && rel.value.equals("stylesheet"))

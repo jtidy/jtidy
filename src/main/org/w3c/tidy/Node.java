@@ -338,16 +338,114 @@ public class Node
         }
     }
 
-    public void checkUniqueAttributes(Lexer lexer)
+    /**
+     * the same attribute name can't be usedmore than once in each element
+     */
+    public void repairDuplicateAttributes(Lexer lexer)
     {
         AttVal attval;
 
-        for (attval = this.attributes; attval != null; attval = attval.next)
+        for (attval = this.attributes; attval != null;)
         {
             if (attval.asp == null && attval.php == null)
             {
-                attval.checkUniqueAttribute(lexer, this);
+                AttVal current;
+
+                for (current = attval.next; current != null;)
+                {
+                    if (current.asp == null
+                        && current.php == null
+                        && attval.attribute != null
+                        && attval.attribute.equalsIgnoreCase(current.attribute))
+                    {
+                        AttVal temp;
+
+                        if ("class".equalsIgnoreCase(current.attribute) && lexer.configuration.joinClasses)
+                        {
+                            // concatenate classes
+                            current.value = current.value + " " + attval.value;
+
+                            temp = attval.next;
+
+                            if (temp.next == null)
+                                current = null;
+                            else
+                                current = current.next;
+
+                            lexer.report.attrError(lexer, this, attval, Report.JOINING_ATTRIBUTE);
+
+                            removeAttribute(attval);
+                            attval = temp;
+                        }
+                        else if ("style".equalsIgnoreCase(current.attribute) && lexer.configuration.joinStyles)
+                        {
+                            // concatenate styles
+
+                            // this doesn't handle CSS comments and leading/trailing white-space very well see
+                            // http://www.w3.org/TR/css-style-attr
+
+                            int end = current.value.length();
+
+                            if (current.value.charAt(end) == ';')
+                            {
+                                // attribute ends with declaration seperator
+                                current.value = current.value + " " + attval.value;
+                            }
+                            else if (current.value.charAt(end) == '}')
+                            {
+                                // attribute ends with rule set
+                                current.value = current.value + " { " + attval.value + " }";
+                            }
+                            else
+                            {
+                                // attribute ends with property value
+                                current.value = current.value + "; " + attval.value;
+                            }
+
+                            temp = attval.next;
+
+                            if (temp.next == null)
+                                current = null;
+                            else
+                                current = current.next;
+
+                            lexer.report.attrError(lexer, this, attval, Report.JOINING_ATTRIBUTE);
+
+                            removeAttribute(attval);
+                            attval = temp;
+
+                        }
+                        else if (lexer.configuration.dupAttrMode == Configuration.KEEP_LAST)
+                        {
+                            temp = current.next;
+
+                            lexer.report.attrError(lexer, this, current, Report.REPEATED_ATTRIBUTE);
+
+                            removeAttribute(current);
+                            current = temp;
+                        }
+                        else
+                        {
+                            temp = attval.next;
+
+                            if (attval.next == null)
+                                current = null;
+                            else
+                                current = current.next;
+
+                            lexer.report.attrError(lexer, this, attval, Report.REPEATED_ATTRIBUTE);
+
+                            removeAttribute(attval);
+                            attval = temp;
+                        }
+                    }
+                    else
+                        current = current.next;
+                }
+                attval = attval.next;
             }
+            else
+                attval = attval.next;
         }
     }
 

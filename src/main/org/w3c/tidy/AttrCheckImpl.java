@@ -496,6 +496,11 @@ public final class AttrCheckImpl
                 return;
             }
 
+            if (lexer.configuration.lowerLiterals)
+            {
+                attval.value = attval.value.toLowerCase();
+            }
+
             String value = attval.value;
 
             if (!("get".equalsIgnoreCase(value) || "post".equalsIgnoreCase(value)))
