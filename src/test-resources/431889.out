@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!DOCTYPE html PUBLIC "-//ACME//DTD HTML 3.14159//EN">
 <!--
                           bug-2000-12-27-b.html
 
@@ -28,7 +28,7 @@ Correction:
 don't work</title>
 </head>
 <body>
-<p><img src="a" alt="Alternate">This image has no ALT
+<p><img alt="&quot;Alternate&quot;" src="a">This image has no ALT
 attribute.</p>
 </body>
 </html>
