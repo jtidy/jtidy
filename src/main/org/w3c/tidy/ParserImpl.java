@@ -815,11 +815,6 @@ public final class ParserImpl
                     }
                     else
                     {
-                        // AQ: The following line is from the official C version of tidy. It doesn't make sense to me
-                        // because the '!' operator has higher precedence than the '&' operator. It seems to me that
-                        // the expression always evaluates to 0. if (!node->tag->model & (CM_ROW | CM_FIELD)) AQ:
-                        // 13Jan2000 fixed in C tidy
-
                         if (!((node.tag.model & (Dict.CM_ROW | Dict.CM_FIELD)) != 0))
                         {
                             lexer.ungetToken();
@@ -3463,17 +3458,6 @@ public final class ParserImpl
             }
 
         }
-
-        if (false)
-        { //#if 0
-            // discard the document type
-            node = document.findDocType();
-
-            if (node != null)
-            {
-                Node.discardElement(node);
-            }
-        } // #endif
 
         if (doctype != null && !lexer.checkDocTypeKeyWords(doctype))
         {
