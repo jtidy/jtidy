@@ -5,7 +5,7 @@
   <groupId>jtidy</groupId>
   <artifactId>jtidy</artifactId>
   <name>JTidy</name>
-  <version>r8-SNAPSHOT</version>
+  <version>8.0-SNAPSHOT</version>
   <description>
     JTidy is a Java port of HTML Tidy, a HTML syntax checker and pretty printer. Like its non-Java cousin, JTidy can be
     used as a tool for cleaning up malformed and faulty HTML. In addition, JTidy provides a DOM interface to the
@@ -101,9 +101,9 @@
     <license />
   </licenses>
   <scm>
-    <connection>scm:cvs:pserver:anonymous:@cvs.sourceforge.net:/cvsroot/jtidy:jtidy</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@cvs.sourceforge.net:/cvsroot/jtidy:jtidy</developerConnection>
-    <url>http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/jtidy/jtidy/</url>
+    <connection>scm:svn:https://svn.sourceforge.net/svnroot/jtidy/trunk/jtidy/</connection>
+    <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/jtidy/trunk/jtidy/</developerConnection>
+    <url>http://svn.sourceforge.net/viewcvs.cgi/jtidy/trunk/jtidy/</url>
   </scm>
   <organization>
     <name>sourceforge</name>
@@ -192,21 +192,21 @@
       <plugin>
         <artifactId>maven-jxr-plugin</artifactId>
       </plugin>
-      <plugin>
+      <!--
+        <plugin>
         <artifactId>maven-surefire-report-plugin</artifactId>
-      </plugin>
+        </plugin>
+      -->
     </plugins>
   </reporting>
   <distributionManagement>
     <repository>
-      <id>default</id>
-      <name>Default Repository</name>
-      <url>file://http://sourceforge.net/project/showfiles.php?group_id=13153</url>
+      <id>jtidy</id>
+      <url>scp://shell.sourceforge.net/home/groups/j/jt/jtidy/htdocs/m2repo/</url>
     </repository>
     <site>
-      <id>default</id>
-      <name>Default Site</name>
-      <url>scp://shell.sourceforge.net//home/groups/j/jt/jtidy/htdocs</url>
+      <id>jtidy</id>
+      <url>scp://shell.sourceforge.net/home/groups/j/jt/jtidy/htdocs/</url>
     </site>
   </distributionManagement>
 </project>

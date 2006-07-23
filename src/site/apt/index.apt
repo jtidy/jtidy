@@ -1,0 +1,22 @@
+                             --------------------
+                                    JTidy
+                             --------------------
+                               Fabrizio Giustina
+                             --------------------
+                                  07/07/2006
+
+
+About JTidy
+~~~~~~~~~~~~
+
+ JTidy is a Java port of {{{http://www.w3.org/People/Raggett/tidy/}HTML Tidy}}, a HTML syntax checker and pretty printer.
+ Like its non-Java cousin, JTidy can be used as a tool for cleaning up malformed and faulty HTML.
+ In addition, JTidy provides a DOM interface to the document that is being processed, which effectively makes you able
+ to use JTidy as a DOM parser for real-world HTML.
+
+ JTidy was written by Andy Quick, who later stepped down from the maintainer position.
+ Now JTidy is maintained by a group of volunteers.
+
+ More information on JTidy can be found on the  {{{http://sourceforge.net/projects/jtidy/}JTidy SourceForge project page}}
+                .
+

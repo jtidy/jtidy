@@ -17,7 +17,6 @@
     <menu name="JTidy">
       <item name="Overview" href="/index.html" />
       <item name="Download" href="/download.html" />
-      <item name="Nightly builds" href="/nightly" />
       <item name="Getting started" href="/howto.html" />
     </menu>
     <menu name="Subprojects">
@@ -30,6 +29,7 @@
 
     ${reports}
 
+    <!--
     <menu name="" type="footer">
       <item name="Sourceforge" href="http://sourceforge.net/projects/jtidy"
         img="http://sourceforge.net/sflogo.php?group_id=13153&amp;type=8" />
@@ -38,5 +38,6 @@
       <item name="Support this project!" href="http://sourceforge.net/donate/index.php?group_id=13153"
         img="images/project-support.png" />
     </menu>
+    -->
   </body>
 </project>
