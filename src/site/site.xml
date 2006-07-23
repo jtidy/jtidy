@@ -27,6 +27,9 @@
       <item name="Coding Conventions" href="/coding_conventions.html" />
       <item name="Test cases" href="/testcases.html" />
     </menu>
+
+    ${reports}
+
     <menu name="" type="footer">
       <item name="Sourceforge" href="http://sourceforge.net/projects/jtidy"
         img="http://sourceforge.net/sflogo.php?group_id=13153&amp;type=8" />
