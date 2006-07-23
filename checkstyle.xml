@@ -28,12 +28,6 @@
             <property name="message" value="Avoid exception.printStackTrace()"/>
             <property name="severity" value="error"/>
         </module>
-        <module name="com.puppycrawl.tools.checkstyle.checks.ModifierOrderCheck">
-            <property name="severity" value="warning"/>
-        </module>
-        <module name="com.puppycrawl.tools.checkstyle.checks.RedundantModifierCheck">
-            <property name="severity" value="warning"/>
-        </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.TodoCommentCheck">
             <property name="format" value="@todo"/>
             <property name="severity" value="ignore"/>
@@ -338,27 +332,6 @@
             <property name="tokens" value="METHOD_DEF, CTOR_DEF"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck">
-            <property name="severity" value="warning"/>
-        </module>
-        <module name="com.puppycrawl.tools.checkstyle.checks.usage.OneMethodPrivateFieldCheck">
-            <property name="ignoreFormat" value="^log$"/>
-            <property name="severity" value="ignore"/>
-        </module>
-        <module name="com.puppycrawl.tools.checkstyle.checks.usage.UnusedLocalVariableCheck">
-            <property name="ignoreFormat" value="^$"/>
-            <property name="severity" value="warning"/>
-        </module>
-        <module name="com.puppycrawl.tools.checkstyle.checks.usage.UnusedParameterCheck">
-            <property name="ignoreCatch" value="true"/>
-            <property name="ignoreFormat" value="^$"/>
-            <property name="severity" value="ignore"/>
-        </module>
-        <module name="com.puppycrawl.tools.checkstyle.checks.usage.UnusedPrivateFieldCheck">
-            <property name="ignoreFormat" value="serialVersionUID"/>
-            <property name="severity" value="warning"/>
-        </module>
-        <module name="com.puppycrawl.tools.checkstyle.checks.usage.UnusedPrivateMethodCheck">
-            <property name="ignoreFormat" value="^$"/>
             <property name="severity" value="warning"/>
         </module>
         <module name="com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyForIteratorPadCheck">
