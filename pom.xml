@@ -192,17 +192,21 @@
       <plugin>
         <artifactId>maven-jxr-plugin</artifactId>
       </plugin>
-      <!--
-        <plugin>
+      <plugin>
         <artifactId>maven-surefire-report-plugin</artifactId>
-        </plugin>
-      -->
+      </plugin>
     </plugins>
   </reporting>
+  <repositories>
+    <repository>
+      <id>jtidy</id>
+      <url>http://jtidy.sourceforge.net/maven2/</url>
+    </repository>
+  </repositories>
   <distributionManagement>
     <repository>
       <id>jtidy</id>
-      <url>scp://shell.sourceforge.net/home/groups/j/jt/jtidy/htdocs/m2repo/</url>
+      <url>scp://shell.sourceforge.net/home/groups/j/jt/jtidy/htdocs/maven2/</url>
     </repository>
     <site>
       <id>jtidy</id>
