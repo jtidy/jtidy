@@ -652,16 +652,16 @@ public class Lexer
         // No longer attempts to insert missing ';' for unknown
         // entities unless one was present already, since this
         // gives unexpected results.
-        // 
+        //
         // For example: <a href="something.htm?foo&bar&fred">
         // was tidied to: <a href="something.htm?foo&amp;bar;&amp;fred;">
         // rather than: <a href="something.htm?foo&amp;bar&amp;fred">
-        // 
+        //
         // My thanks for Maurice Buxton for spotting this.
-        // 
+        //
         // Also Randy Waki pointed out the following case for the
         // 04 Aug 00 version (bug #433012):
-        // 
+        //
         // For example: <a href="something.htm?id=1&lang=en">
         // was tidied to: <a href="something.htm?id=1&lang;=en">
         // rather than: <a href="something.htm?id=1&amp;lang=en">
@@ -1275,7 +1275,7 @@ public class Lexer
                 // proprietary
                 fpi = null;
                 sysid = "";
-                if (doctype != null)// #473490 - fix by Björn Höhrmann 10 Oct 01
+                if (doctype != null)// #473490 - fix by Bj≈°rn H≈°hrmann 10 Oct 01
                 {
                     Node.discardElement(doctype);
                 }
@@ -1896,7 +1896,7 @@ public class Lexer
     }
 
     /**
-     * 
+     *
      *
      */
     public void ungetToken()

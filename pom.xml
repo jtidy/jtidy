@@ -126,6 +126,7 @@
           <showDeprecation>true</showDeprecation>
           <source>1.3</source>
           <target>1.3</target>
+          <encoding>UTF8</encoding>
         </configuration>
       </plugin>
       <plugin>
