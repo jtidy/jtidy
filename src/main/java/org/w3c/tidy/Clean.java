@@ -20,14 +20,14 @@
  *  have been possible without all of you.
  *
  *  COPYRIGHT NOTICE:
- * 
+ *
  *  This software and documentation is provided "as is," and
  *  the copyright holders and contributing author(s) make no
  *  representations or warranties, express or implied, including
  *  but not limited to, warranties of merchantability or fitness
  *  for any particular purpose or that the use of the software or
  *  documentation will not infringe any third party patents,
- *  copyrights, trademarks or other rights. 
+ *  copyrights, trademarks or other rights.
  *
  *  The copyright holders and contributing author(s) will not be
  *  liable for any direct, indirect, special or consequential damages
@@ -43,7 +43,7 @@
  *     not be misrepresented as being the original source.
  *  3. This Copyright notice may not be removed or altered from any
  *     source or altered source distribution.
- * 
+ *
  *  The copyright holders and contributing author(s) specifically
  *  permit, without fee, and encourage the use of this source code
  *  as a component for supporting the Hypertext Markup Language in
@@ -1569,18 +1569,22 @@ public class Clean
      */
     private Node createStyleProperties(Lexer lexer, Node node, Node[] prepl)
     {
-        Node child;
+        Node child = node.content;
 
-        if (node.content != null)
+        if (child != null)
         {
             Node[] repl = new Node[1];
             repl[0] = node;
-            for (child = node.content; child != null; child = child.next)
+            while (child != null)
             {
                 child = createStyleProperties(lexer, child, repl);
                 if (repl[0] != node)
                 {
                     return repl[0];
+                }
+                if (child != null)
+                {
+                    child = child.next;
                 }
             }
         }
@@ -1806,15 +1810,15 @@ public class Clean
 
             // if ((Lexer.getString(node.textarray, node.start, 21)).equals("if !supportEmptyParas"))
             // {
-            //     Node cell = findEnclosingCell(node);
-            //     if (cell != null)
-            //     {
-            //         // Need to put &nbsp; into cell so it doesn't look weird
-            //         char onesixty[] = {(char) 160, (char) 0};
-            //         Node nbsp = lexer.newLiteralTextNode(lexer, onesixty);
-            //         Node.insertNodeBeforeElement(node, nbsp);
-            //      }
-            //  }
+            // Node cell = findEnclosingCell(node);
+            // if (cell != null)
+            // {
+            // // Need to put &nbsp; into cell so it doesn't look weird
+            // char onesixty[] = {(char) 160, (char) 0};
+            // Node nbsp = lexer.newLiteralTextNode(lexer, onesixty);
+            // Node.insertNodeBeforeElement(node, nbsp);
+            // }
+            // }
 
             // discard node and returns next
             node = Node.discardElement(node);
