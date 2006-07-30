@@ -437,4 +437,13 @@ public class TidyCrashingBugsTest extends TidyTestCase
         executeTidyTest("1033035.html");
     }
 
+    /**
+     * test for JTidy [1416185]: infinite loop.
+     * @throws Exception any exception generated during the test
+     */
+    public void test1416185() throws Exception
+    {
+        executeTidyTest("1416185.html");
+    }
+
 }
