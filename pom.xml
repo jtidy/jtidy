@@ -208,6 +208,10 @@
       <id>jtidy</id>
       <url>scp://shell.sourceforge.net/home/groups/j/jt/jtidy/htdocs/maven2/</url>
     </repository>
+    <snapshotRepository>
+      <id>jtidy</id>
+      <url>scp://shell.sourceforge.net/home/groups/j/jt/jtidy/htdocs/snapshots/</url>
+    </snapshotRepository>
     <site>
       <id>jtidy</id>
       <url>scp://shell.sourceforge.net/home/groups/j/jt/jtidy/htdocs/</url>
