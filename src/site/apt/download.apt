@@ -1,0 +1,22 @@
+                             --------------------
+                                    JTidy
+                             --------------------
+                               Fabrizio Giustina
+                             --------------------
+                                  07/07/2006
+
+
+Download
+
+* Releases
+
+ You can obtain JTidy from the {{{http://sourceforge.net/project/showfiles.php?group_id=13153}SourceForge download area}}.
+
+* Source code from SVN
+
+ You can also obtain the source from the SourceForge SVN Server, see {{{source-repository.html}Source Repository}}.
+
+* Snapshots using Maven
+
+ Snapshots are published to a repository at {{{http://jtidy.sourceforge.net/snapshots/}http://jtidy.sourceforge.net/snapshots/}}. You can link such snapshot
+ repo in your maven 2 pom in order to use recent builds.
