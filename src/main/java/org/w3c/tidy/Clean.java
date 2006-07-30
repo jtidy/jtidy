@@ -912,21 +912,21 @@ public class Clean
     {
         String value;
 
-        if (size.equals("6") && node.tag == this.tt.tagP)
+        if ("6".equals(size) && node.tag == this.tt.tagP)
         {
             node.element = "h1";
             this.tt.findTag(node);
             return;
         }
 
-        if (size.equals("5") && node.tag == this.tt.tagP)
+        if ("5".equals(size) && node.tag == this.tt.tagP)
         {
             node.element = "h2";
             this.tt.findTag(node);
             return;
         }
 
-        if (size.equals("4") && node.tag == this.tt.tagP)
+        if ("4".equals(size) && node.tag == this.tt.tagP)
         {
             node.element = "h3";
             this.tt.findTag(node);

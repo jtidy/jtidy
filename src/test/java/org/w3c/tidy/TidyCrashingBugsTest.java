@@ -438,6 +438,15 @@ public class TidyCrashingBugsTest extends TidyTestCase
     }
 
     /**
+     * test for JTidy [1392829]: Some cases for null pointer Exception.
+     * @throws Exception any exception generated during the test
+     */
+    public void test1392829() throws Exception
+    {
+        executeTidyTest("1392829.html");
+    }
+
+    /**
      * test for JTidy [1416185]: infinite loop.
      * @throws Exception any exception generated during the test
      */
