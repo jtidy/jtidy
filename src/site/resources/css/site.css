@@ -12,6 +12,7 @@ body {
   margin: 0 0 0 0;
   border-bottom: 2px solid #D2B48C;
   background-color: #fff;
+  padding: 10px 20px 10px 20px;
 }
 
 #leftColumn {
@@ -23,7 +24,7 @@ body {
   margin: 0px;
   padding: 0px;
   border: none;
-  overflow: show;
+  overflow: hidden;
 }
 
 #bodyColumn {
@@ -130,7 +131,7 @@ h3 {
   list-style-position: outside;
   font-size: 7.5pt !important;
   padding-left: 16px !important;
-  padding-left /**/: 2px !important;
+  padding-left/**/: 2px !important;
 }
 
 #navcolumn a,#navcolumn strong {
@@ -144,10 +145,10 @@ h3 {
 }
 
 #navcolumn a#poweredBy img {
-  margin: -11px 0 0 20px;
+  margin: 0 0 0 20px;
   width: 88px;
   height: 31px;
-  border: none;
+  border: 1px solid #000;
 }
 
 #navcolumn a:hover {
@@ -158,7 +159,7 @@ h3 {
 }
 
 #breadcrumbs .xright,#breadcrumbs .xleft {
-  background-color: #fff;
+  color: #fff;
   padding: 4px;
   margin-right: 10px;
   display: inline;

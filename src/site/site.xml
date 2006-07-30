@@ -12,7 +12,7 @@
   </bannerRight>
   <body>
     <links>
-      <item name="JTidy on Sourceforge" href="http://sourceforge.net/projects/jtidy" />
+      <item name="JTidy home" href="http://sourceforge.net/projects/jtidy" />
     </links>
     <menu name="JTidy">
       <item name="Overview" href="/index.html" />
