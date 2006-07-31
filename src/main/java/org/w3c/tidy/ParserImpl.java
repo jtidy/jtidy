@@ -20,14 +20,14 @@
  *  have been possible without all of you.
  *
  *  COPYRIGHT NOTICE:
- * 
+ *
  *  This software and documentation is provided "as is," and
  *  the copyright holders and contributing author(s) make no
  *  representations or warranties, express or implied, including
  *  but not limited to, warranties of merchantability or fitness
  *  for any particular purpose or that the use of the software or
  *  documentation will not infringe any third party patents,
- *  copyrights, trademarks or other rights. 
+ *  copyrights, trademarks or other rights.
  *
  *  The copyright holders and contributing author(s) will not be
  *  liable for any direct, indirect, special or consequential damages
@@ -43,7 +43,7 @@
  *     not be misrepresented as being the original source.
  *  3. This Copyright notice may not be removed or altered from any
  *     source or altered source distribution.
- * 
+ *
  *  The copyright holders and contributing author(s) specifically
  *  permit, without fee, and encourage the use of this source code
  *  as a component for supporting the Hypertext Markup Language in
@@ -790,8 +790,8 @@ public final class ParserImpl
                 // #538536 Extra endtags not detected
                 // if (lexer.seenEndBody && !iswhitenode)
                 // {
-                //     lexer.seenEndBody = true;
-                //     lexer.report.warning(lexer, body, node, Report.CONTENT_AFTER_BODY);
+                // lexer.seenEndBody = true;
+                // lexer.report.warning(lexer, body, node, Report.CONTENT_AFTER_BODY);
                 // }
 
                 // mixed content model permits text
@@ -814,7 +814,7 @@ public final class ParserImpl
                         continue;
                     }
 
-                    //  HTML2 and HTML4 strict doesn't allow text here
+                    // HTML2 and HTML4 strict doesn't allow text here
                     lexer.constrainVersion(~(Dict.VERS_HTML40_STRICT | Dict.VERS_HTML20));
 
                     if (checkstack)
@@ -2416,14 +2416,15 @@ public final class ParserImpl
                     if (TidyUtils.toBoolean(node.tag.model & Dict.CM_INLINE))
                     {
                         // DSR - 27Apr02 ensure we wrap anchors and other inline content
-                        if (lexer.configuration.encloseBlockText)
-                        {
-                            lexer.ungetToken();
-                            node = lexer.inferredTag("p");
-                            element.insertNodeAtEnd(node);
-                            parseTag(lexer, node, Lexer.MIXED_CONTENT);
-                            continue;
-                        }
+                        // fgiust: commented out due to [1403105]: java.lang.StackOverflowError in Tidy.parseDOM()
+                        // if (lexer.configuration.encloseBlockText)
+                        // {
+                        // lexer.ungetToken();
+                        // node = lexer.inferredTag("p");
+                        // element.insertNodeAtEnd(node);
+                        // parseTag(lexer, node, Lexer.MIXED_CONTENT);
+                        // continue;
+                        // }
 
                         if (checkstack && !node.implicit)
                         {
@@ -3370,7 +3371,7 @@ public final class ParserImpl
 
             if (node.type == Node.END_TAG)
             {
-                lexer.report.warning(lexer, document, node, Report.DISCARDING_UNEXPECTED); //TODO?
+                lexer.report.warning(lexer, document, node, Report.DISCARDING_UNEXPECTED); // TODO?
                 continue;
             }
 
