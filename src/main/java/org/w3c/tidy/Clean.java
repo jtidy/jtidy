@@ -910,7 +910,10 @@ public class Clean
      */
     private void addFontSize(Node node, String size)
     {
-        String value;
+        if (size == null)
+        {
+            return;
+        }
 
         if ("6".equals(size) && node.tag == this.tt.tagP)
         {
@@ -933,7 +936,7 @@ public class Clean
             return;
         }
 
-        value = fontSize2Name(size);
+        String value = fontSize2Name(size);
 
         if (value != null)
         {
