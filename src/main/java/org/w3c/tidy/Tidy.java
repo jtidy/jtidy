@@ -681,6 +681,8 @@ public class Tidy implements Serializable
             }
 
             pprint.flushLine(o, 0);
+            
+            o.close();
         }
     }
 
