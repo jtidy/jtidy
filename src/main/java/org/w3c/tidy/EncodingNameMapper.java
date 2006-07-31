@@ -20,14 +20,14 @@
  *  have been possible without all of you.
  *
  *  COPYRIGHT NOTICE:
- * 
+ *
  *  This software and documentation is provided "as is," and
  *  the copyright holders and contributing author(s) make no
  *  representations or warranties, express or implied, including
  *  but not limited to, warranties of merchantability or fitness
  *  for any particular purpose or that the use of the software or
  *  documentation will not infringe any third party patents,
- *  copyrights, trademarks or other rights. 
+ *  copyrights, trademarks or other rights.
  *
  *  The copyright holders and contributing author(s) will not be
  *  liable for any direct, indirect, special or consequential damages
@@ -43,7 +43,7 @@
  *     not be misrepresented as being the original source.
  *  3. This Copyright notice may not be removed or altered from any
  *     source or altered source distribution.
- * 
+ *
  *  The copyright holders and contributing author(s) specifically
  *  permit, without fee, and encourage the use of this source code
  *  as a component for supporting the Hypertext Markup Language in
@@ -212,7 +212,7 @@ public abstract class EncodingNameMapper
         encodingNameMap.put("MS936", new String[]{"GBK", "GBK"});
 
         encodingNameMap.put("MS932", new String[]{"WINDOWS-31J", "MS932"});
-        encodingNameMap.put("WINDOWS-31J", new String[]{"WINDOWS-31J", "MS932"});
+        encodingNameMap.put("31J", new String[]{"WINDOWS-31J", "MS932"});
         encodingNameMap.put("CSWINDOWS31J", new String[]{"WINDOWS-31J", "MS932"});
         encodingNameMap.put("TIS-620", new String[]{"TIS-620", "TIS620"});
         encodingNameMap.put("TIS620", new String[]{"TIS-620", "TIS620"});
