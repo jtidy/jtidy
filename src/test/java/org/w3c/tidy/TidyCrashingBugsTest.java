@@ -53,8 +53,11 @@
  */
 package org.w3c.tidy;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.text.NumberFormat;
+
+import org.w3c.dom.Document;
 
 
 /**
@@ -453,6 +456,17 @@ public class TidyCrashingBugsTest extends TidyTestCase
     public void test1416185() throws Exception
     {
         executeTidyTest("1416185.html");
+    }
+
+    /**
+     * test for JTidy [1403105]: java.lang.StackOverflowError in Tidy.parseDOM().
+     * @throws Exception any exception generated during the test
+     */
+    public void test1403105() throws Exception
+    {
+        tidy.setEncloseBlockText(true);
+        Document doc = tidy.parseDOM(new ByteArrayInputStream("<FONT><DIV>".getBytes("US-ASCII")), null);
+        assertNotNull(doc);
     }
 
 }
