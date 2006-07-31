@@ -26,7 +26,7 @@
         <section name="Eclipse settings">
             <p>
                 If you use Eclipse 3 you can download and import this
-                <a href="eclipse_formatter.epf">code formatter preference file</a>.
+                <a href="eclipse_formatter.xml">code formatter preference file</a>.
                 Import it from Window-> Preferences -> Java -> Code Style -> Code Formatter -> import.
             </p>
         </section>
