@@ -53,6 +53,8 @@
  */
 package org.w3c.tidy;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 
 
@@ -84,8 +86,10 @@ public class TidyBugsTest extends TidyTestCase
     public void test431895() throws Exception
     {
         URL inputURL = getClass().getClassLoader().getResource("431895.html");
-        Tidy tidyInstance = new Tidy();
-        tidyInstance.mainExec(new String[]{"-qe", cleanUpFilePath(inputURL.getFile())});
+        // set up error log
+        this.errorLog = new StringWriter();
+        this.tidy.setErrout(new PrintWriter(this.errorLog));
+        tidy.mainExec(new String[]{"-qe", cleanUpFilePath(inputURL.getFile())});
 
         // should check system out...
     }
