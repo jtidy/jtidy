@@ -262,7 +262,24 @@ public class TidyTestCase extends TestCase
         List tidyMsgs = this.messageListener.getReceived();
 
         // assert size
-        assertEquals("Number of messages is different from expected", expectedMsgs.size(), tidyMsgs.size());
+        if (expectedMsgs.size() != tidyMsgs.size())
+        {
+            StringBuffer messagesAsString = new StringBuffer();
+
+            for (Iterator iter = tidyMsgs.iterator(); iter.hasNext();)
+            {
+                TidyMessage message = (TidyMessage) iter.next();
+                messagesAsString.append("\n");
+                messagesAsString.append(message.getMessage());
+            }
+
+            fail("Expected "
+                + expectedMsgs.size()
+                + " messages but got "
+                + tidyMsgs.size()
+                + ". Messages:"
+                + messagesAsString.toString());
+        }
 
         // compare messages
         Iterator expectedMsgIt = expectedMsgs.iterator();
