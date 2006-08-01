@@ -53,11 +53,8 @@
  */
 package org.w3c.tidy;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.text.NumberFormat;
-
-import org.w3c.dom.Document;
 
 
 /**
@@ -465,8 +462,7 @@ public class TidyCrashingBugsTest extends TidyTestCase
     public void test1403105() throws Exception
     {
         tidy.setEncloseBlockText(true);
-        Document doc = tidy.parseDOM(new ByteArrayInputStream("<FONT><DIV>".getBytes("US-ASCII")), null);
-        assertNotNull(doc);
+        executeTidyTest("1403105.html");
     }
 
 }
