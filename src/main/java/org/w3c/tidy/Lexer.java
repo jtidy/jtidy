@@ -603,7 +603,9 @@ public class Lexer
 
         if ((this.configuration.xmlOut || this.configuration.xHTML) // only for xml output
             && !((c >= 0x20 && c <= 0xD7FF) // Check the common-case first.
-                || c == 0x9 || c == 0xA || c == 0xD // Then white-space.
+                || c == 0x9
+                || c == 0xA
+                || c == 0xD // Then white-space.
                 || (c >= 0xE000 && c <= 0xFFFD) // Then high-range unicode.
             || (c >= 0x10000 && c <= 0x10FFFF)))
         {
@@ -696,8 +698,8 @@ public class Lexer
             {
                 // #431953 - start RJ
                 if (!this.configuration.ncr
-                    || this.configuration.getInCharEncoding() == Configuration.BIG5
-                    || this.configuration.getInCharEncoding() == Configuration.SHIFTJIS)
+                    || "BIG5".equals(this.configuration.getInCharEncodingName())
+                    || "SHIFTJIS".equals(this.configuration.getInCharEncodingName()))
                 {
                     this.in.ungetChar(c);
                     return;
@@ -757,11 +759,11 @@ public class Lexer
                     // invalid numeric character reference
                     int c1 = 0;
 
-                    if (configuration.replacementCharEncoding == Configuration.WIN1252)
+                    if ("WIN1252".equals(configuration.replacementCharEncoding))
                     {
                         c1 = EncodingUtils.decodeWin1252(ch);
                     }
-                    else if (configuration.replacementCharEncoding == Configuration.MACROMAN)
+                    else if ("MACROMAN".equals(configuration.replacementCharEncoding))
                     {
                         c1 = EncodingUtils.decodeMacRoman(ch);
                     }
@@ -1698,13 +1700,13 @@ public class Lexer
 
         // We need to insert a check if declared encoding and output encoding mismatch
         // and fix the Xml declaration accordingly!!!
-        if (encoding == null && this.configuration.getOutCharEncoding() != Configuration.UTF8)
+        if (encoding == null && !"UTF8".equals(this.configuration.getOutCharEncodingName()))
         {
-            if (this.configuration.getOutCharEncoding() == Configuration.LATIN1)
+            if ("ISO8859_1".equals(this.configuration.getOutCharEncodingName()))
             {
                 xml.addAttribute("encoding", "iso-8859-1");
             }
-            if (this.configuration.getOutCharEncoding() == Configuration.ISO2022)
+            if ("ISO2022".equals(this.configuration.getOutCharEncodingName()))
             {
                 xml.addAttribute("encoding", "iso-2022");
             }
@@ -2308,10 +2310,10 @@ public class Lexer
 
                     c = parseTagName();
                     this.token = newNode(Node.END_TAG, // create endtag token
-                        this.lexbuf, this.txtstart, this.txtend, TidyUtils.getString(
-                            this.lexbuf,
-                            this.txtstart,
-                            this.txtend - this.txtstart));
+                        this.lexbuf,
+                        this.txtstart,
+                        this.txtend,
+                        TidyUtils.getString(this.lexbuf, this.txtstart, this.txtend - this.txtstart));
                     this.lexsize = this.txtstart;
                     this.txtend = this.txtstart;
 

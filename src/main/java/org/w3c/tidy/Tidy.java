@@ -20,14 +20,14 @@
  *  have been possible without all of you.
  *
  *  COPYRIGHT NOTICE:
- * 
+ *
  *  This software and documentation is provided "as is," and
  *  the copyright holders and contributing author(s) make no
  *  representations or warranties, express or implied, including
  *  but not limited to, warranties of merchantability or fitness
  *  for any particular purpose or that the use of the software or
  *  documentation will not infringe any third party patents,
- *  copyrights, trademarks or other rights. 
+ *  copyrights, trademarks or other rights.
  *
  *  The copyright holders and contributing author(s) will not be
  *  liable for any direct, indirect, special or consequential damages
@@ -43,7 +43,7 @@
  *     not be misrepresented as being the original source.
  *  3. This Copyright notice may not be removed or altered from any
  *     source or altered source distribution.
- * 
+ *
  *  The copyright holders and contributing author(s) specifically
  *  permit, without fee, and encourage the use of this source code
  *  as a component for supporting the Hypertext Markup Language in
@@ -61,7 +61,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.io.Serializable;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -132,28 +134,10 @@ public class Tidy implements Serializable
     {
         this.report = new Report();
         configuration = new Configuration(this.report);
-        if (configuration == null)
-        {
-            return;
-        }
 
-        AttributeTable at = AttributeTable.getDefaultAttributeTable();
-        if (at == null)
-        {
-            return;
-        }
         TagTable tt = new TagTable();
-        if (tt == null)
-        {
-            return;
-        }
         tt.setConfiguration(configuration);
         configuration.tt = tt;
-        EntityTable et = EntityTable.getDefaultEntityTable();
-        if (et == null)
-        {
-            return;
-        }
 
         configuration.errfile = null;
         stderr = new PrintWriter(System.err, true);
@@ -242,350 +226,102 @@ public class Tidy implements Serializable
     }
 
     /**
-     * Parses InputStream in and returns the root Node. If out is non-null, pretty prints to OutputStream out.
-     * @param in input stream
-     * @param out optional output stream
+     * Creates an empty DOM Document.
+     * @return a new org.w3c.dom.Document
+     */
+    public static org.w3c.dom.Document createEmptyDocument()
+    {
+        Node document = new Node(Node.ROOT_NODE, new byte[0], 0, 0);
+        Node node = new Node(Node.START_TAG, new byte[0], 0, 0, "html", new TagTable());
+        if (document != null && node != null)
+        {
+            document.insertNodeAtStart(node);
+            return (org.w3c.dom.Document) document.getAdapter();
+        }
+
+        return null;
+    }
+
+    /**
+     * Reads from the given input and returns the root Node. If out is non-null, pretty prints to out. Warning: caller
+     * is responsible for calling close() on input and output after calling this method.
+     * @param in input
+     * @param out optional destination for pretty-printed document
      * @return parsed org.w3c.tidy.Node
      */
     public Node parse(InputStream in, OutputStream out)
     {
-        Node document = null;
 
-        try
+        StreamIn streamIn = StreamInFactory.getStreamIn(configuration, in);
+
+        Out o = null;
+        if (out != null)
         {
-            document = parse(in, null, out);
-        }
-        catch (FileNotFoundException fnfe)
-        {
-            // ignore
-        }
-        catch (IOException e)
-        {
-            // ignore
+            o = OutFactory.getOut(this.configuration, out); // normal output stream
         }
 
-        return document;
+        return parse(streamIn, o);
     }
 
     /**
-     * Internal routine that actually does the parsing. The caller can pass either an InputStream or file name. If both
-     * are passed, the file name is preferred.
-     * @param in input stream (used only if <code>file</code> is null)
-     * @param file file name
-     * @param out output stream
+     * Reads from the given input and returns the root Node. If out is non-null, pretty prints to out. Warning: caller
+     * is responsible for calling close() on input and output after calling this method.
+     * @param in input
+     * @param out optional destination for pretty-printed document
      * @return parsed org.w3c.tidy.Node
-     * @throws FileNotFoundException if <code>file</code> is not null but it can't be found
-     * @throws IOException for errors in reading input stream or file
      */
-    private Node parse(InputStream in, String file, OutputStream out) throws FileNotFoundException, IOException
+    public Node parse(Reader in, OutputStream out)
     {
-        Lexer lexer;
-        Node document = null;
-        Node doctype;
-        PPrint pprint;
 
-        if (errout == null)
+        StreamIn streamIn = StreamInFactory.getStreamIn(configuration, in);
+
+        Out o = null;
+        if (out != null)
         {
-            return null;
+            o = OutFactory.getOut(this.configuration, out); // normal output stream
         }
 
-        parseErrors = 0;
-        parseWarnings = 0;
+        return parse(streamIn, o);
+    }
 
-        // ensure config is self-consistent
-        configuration.adjust();
+    /**
+     * Reads from the given input and returns the root Node. If out is non-null, pretty prints to out. Warning: caller
+     * is responsible for calling close() on input and output after calling this method.
+     * @param in input
+     * @param out optional destination for pretty-printed document
+     * @return parsed org.w3c.tidy.Node
+     */
+    public Node parse(Reader in, Writer out)
+    {
+        StreamIn streamIn = StreamInFactory.getStreamIn(configuration, in);
 
-        if (file != null)
+        Out o = null;
+        if (out != null)
         {
-            in = new FileInputStream(file);
-            inputStreamName = file;
+            o = OutFactory.getOut(this.configuration, out); // normal output stream
         }
-        else if (in == null)
+
+        return parse(streamIn, o);
+    }
+
+    /**
+     * Reads from the given input and returns the root Node. If out is non-null, pretty prints to out. Warning: caller
+     * is responsible for calling close() on input and output after calling this method.
+     * @param in input
+     * @param out optional destination for pretty-printed document
+     * @return parsed org.w3c.tidy.Node
+     */
+    public Node parse(InputStream in, Writer out)
+    {
+        StreamIn streamIn = StreamInFactory.getStreamIn(configuration, in);
+
+        Out o = null;
+        if (out != null)
         {
-            in = System.in;
-            inputStreamName = "stdin";
+            o = OutFactory.getOut(this.configuration, out); // normal output stream
         }
 
-        if (in != null)
-        {
-
-            StreamIn streamIn = StreamInFactory.getStreamIn(configuration, in);
-
-            lexer = new Lexer(streamIn, configuration, this.report);
-            lexer.errout = errout;
-
-            // store pointer to lexer in input stream to allow character encoding errors to be reported
-            streamIn.setLexer(lexer);
-
-            this.report.setFilename(inputStreamName); // #431895 - fix by Dave Bryan 04 Jan 01
-
-            if (!configuration.quiet)
-            {
-                this.report.helloMessage(errout);
-            }
-
-            // skip byte order mark
-
-            //            if (lexer.configuration.getInCharEncoding() == Configuration.UTF8
-            //                || lexer.configuration.getInCharEncoding() == Configuration.UTF16LE
-            //                || lexer.configuration.getInCharEncoding() == Configuration.UTF16BE
-            //                || lexer.configuration.getInCharEncoding() == Configuration.UTF16)
-            //            {
-            //                int c = lexer.in.readChar();
-            //                if (c != EncodingUtils.UNICODE_BOM)
-            //                {
-            //                    lexer.in.ungetChar(c);
-            //                }
-            //            }
-
-            // Tidy doesn't alter the doctype for generic XML docs
-            if (configuration.xmlTags)
-            {
-                document = ParserImpl.parseXMLDocument(lexer);
-                if (!document.checkNodeIntegrity())
-                {
-                    if (!configuration.quiet)
-                    {
-                        report.badTree(errout);
-                    }
-                    return null;
-                }
-            }
-            else
-            {
-                lexer.warnings = 0;
-
-                document = ParserImpl.parseDocument(lexer);
-
-                if (!document.checkNodeIntegrity())
-                {
-                    if (!configuration.quiet)
-                    {
-                        this.report.badTree(errout);
-                    }
-                    return null;
-                }
-
-                Clean cleaner = new Clean(configuration.tt);
-
-                // simplifies <b><b> ... </b> ... </b> etc.
-                cleaner.nestedEmphasis(document);
-
-                // cleans up <dir> indented text </dir> etc.
-                cleaner.list2BQ(document);
-                cleaner.bQ2Div(document);
-
-                // replaces i by em and b by strong
-                if (configuration.logicalEmphasis)
-                {
-                    cleaner.emFromI(document);
-                }
-
-                if (configuration.word2000 && cleaner.isWord2000(document))
-                {
-                    // prune Word2000's <![if ...]> ... <![endif]>
-                    cleaner.dropSections(lexer, document);
-
-                    // drop style & class attributes and empty p, span elements
-                    cleaner.cleanWord2000(lexer, document);
-                }
-
-                // replaces presentational markup by style rules
-                if (configuration.makeClean || configuration.dropFontTags)
-                {
-                    cleaner.cleanTree(lexer, document);
-                }
-
-                if (!document.checkNodeIntegrity())
-                {
-                    this.report.badTree(errout);
-                    return null;
-                }
-
-                doctype = document.findDocType();
-
-                // remember given doctype
-                if (doctype != null)
-                {
-                    doctype = (Node) doctype.clone();
-                }
-
-                if (document.content != null)
-                {
-                    if (configuration.xHTML)
-                    {
-                        lexer.setXHTMLDocType(document);
-                    }
-                    else
-                    {
-                        lexer.fixDocType(document);
-                    }
-
-                    if (configuration.tidyMark)
-                    {
-                        lexer.addGenerator(document);
-                    }
-                }
-
-                // ensure presence of initial <?XML version="1.0"?>
-                if (configuration.xmlOut && configuration.xmlPi)
-                {
-                    lexer.fixXmlDecl(document);
-                }
-
-                if (!configuration.quiet && document.content != null)
-                {
-                    this.report.reportVersion(errout, lexer, inputStreamName, doctype);
-                }
-            }
-
-            // Try to close the InputStream but only if if we created it.
-            if ((file != null) && (in != System.in))
-            {
-                try
-                {
-                    in.close();
-                }
-                catch (IOException e)
-                {
-                    // ignore
-                }
-            }
-
-            if (!configuration.quiet)
-            {
-                parseWarnings = lexer.warnings;
-                parseErrors = lexer.errors;
-                this.report.reportNumWarnings(errout, lexer);
-            }
-
-            if (!configuration.quiet && lexer.errors > 0 && !configuration.forceOutput)
-            {
-                this.report.needsAuthorIntervention(errout);
-            }
-
-            if (!configuration.onlyErrors && (lexer.errors == 0 || configuration.forceOutput))
-            {
-                if (configuration.burstSlides)
-                {
-                    Node body;
-
-                    body = null;
-                    // remove doctype to avoid potential clash with markup introduced when bursting into slides
-
-                    // discard the document type
-                    doctype = document.findDocType();
-
-                    if (doctype != null)
-                    {
-                        Node.discardElement(doctype);
-                    }
-
-                    /* slides use transitional features */
-                    lexer.versions |= Dict.VERS_HTML40_LOOSE;
-
-                    // and patch up doctype to match
-                    if (configuration.xHTML)
-                    {
-                        lexer.setXHTMLDocType(document);
-                    }
-                    else
-                    {
-                        lexer.fixDocType(document);
-                    }
-
-                    // find the body element which may be implicit
-                    body = document.findBody(configuration.tt);
-
-                    if (body != null)
-                    {
-                        pprint = new PPrint(configuration);
-                        if (!configuration.quiet)
-                        {
-                            this.report.reportNumberOfSlides(errout, pprint.countSlides(body));
-                        }
-                        pprint.createSlides(lexer, document);
-                    }
-                    else if (!configuration.quiet)
-                    {
-                        this.report.missingBody(errout);
-                    }
-                }
-                else if (configuration.writeback && (file != null))
-                {
-                    try
-                    {
-                        pprint = new PPrint(configuration);
-                        FileOutputStream fis = new FileOutputStream(file);
-
-                        Out o = OutFactory.getOut(this.configuration, fis);
-
-                        if (document.findDocType() == null)
-                        {
-                            // only use numeric character references if no doctype could be determined (e.g., because
-                            // the document contains proprietary features) to ensure well-formedness.
-                            configuration.numEntities = true;
-                        }
-                        if (configuration.bodyOnly)
-                        {
-                            // Feature request #434940 - fix by Dave Raggett/Ignacio Vazquez-Abrams 21 Jun 01
-                            pprint.printBody(o, lexer, document, configuration.xmlOut);
-                        }
-                        else if (configuration.xmlOut && !configuration.xHTML)
-                        {
-                            pprint.printXMLTree(o, (short) 0, 0, lexer, document);
-                        }
-                        else
-                        {
-                            pprint.printTree(o, (short) 0, 0, lexer, document);
-                        }
-
-                        pprint.flushLine(o, 0);
-                        o.close();
-                    }
-                    catch (IOException e)
-                    {
-                        errout.println(file + e.toString());
-                    }
-                }
-                else if (out != null)
-                {
-                    pprint = new PPrint(configuration);
-
-                    Out o = OutFactory.getOut(this.configuration, out); // normal output stream
-
-                    if (document.findDocType() == null)
-                    {
-                        // only use numeric character references if no doctype could be determined (e.g., because
-                        // the document contains proprietary features) to ensure well-formedness.
-                        configuration.numEntities = true;
-                    }
-                    if (configuration.bodyOnly)
-                    {
-                        // Feature request #434940 - fix by Dave Raggett/Ignacio Vazquez-Abrams 21 Jun 01
-                        pprint.printBody(o, lexer, document, configuration.xmlOut);
-                    }
-                    else if (configuration.xmlOut && !configuration.xHTML)
-                    {
-                        pprint.printXMLTree(o, (short) 0, 0, lexer, document);
-                    }
-                    else
-                    {
-                        pprint.printTree(o, (short) 0, 0, lexer, document);
-                    }
-
-                    pprint.flushLine(o, 0);
-                    o.close();
-                }
-
-            }
-
-            if (!configuration.quiet)
-            {
-                this.report.errorSummary(lexer);
-            }
-        }
-        return document;
+        return parse(streamIn, o);
     }
 
     /**
@@ -605,24 +341,8 @@ public class Tidy implements Serializable
     }
 
     /**
-     * Creates an empty DOM Document.
-     * @return a new org.w3c.dom.Document
-     */
-    public static org.w3c.dom.Document createEmptyDocument()
-    {
-        Node document = new Node(Node.ROOT_NODE, new byte[0], 0, 0);
-        Node node = new Node(Node.START_TAG, new byte[0], 0, 0, "html", new TagTable());
-        if (document != null && node != null)
-        {
-            document.insertNodeAtStart(node);
-            return (org.w3c.dom.Document) document.getAdapter();
-        }
-
-        return null;
-    }
-
-    /**
-     * Pretty-prints a DOM Document. Must be an instance of org.w3c.tidy.DOMDocumentImpl.
+     * Pretty-prints a DOM Document. Must be an instance of org.w3c.tidy.DOMDocumentImpl. Caller is responsible for
+     * closing the outputStream after calling this method.
      * @param doc org.w3c.dom.Document
      * @param out output stream
      */
@@ -638,7 +358,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * Pretty-prints a DOM Node.
+     * Pretty-prints a DOM Node. Caller is responsible for closing the outputStream after calling this method.
      * @param node org.w3c.dom.Node. Must be an instance of org.w3c.tidy.DOMNodeImpl.
      * @param out output stream
      */
@@ -651,6 +371,316 @@ public class Tidy implements Serializable
         }
 
         pprint(((DOMNodeImpl) node).adaptee, out);
+    }
+
+    /**
+     * Internal routine that actually does the parsing.
+     * @param streamIn tidy StreamIn
+     * @param o tidy Out
+     * @return parsed org.w3c.tidy.Node
+     */
+    private Node parse(StreamIn streamIn, Out o)
+    {
+        Lexer lexer;
+        Node document = null;
+        Node doctype;
+        PPrint pprint;
+
+        if (errout == null)
+        {
+            return null;
+        }
+
+        // ensure config is self-consistent
+        configuration.adjust();
+
+        parseErrors = 0;
+        parseWarnings = 0;
+
+        lexer = new Lexer(streamIn, configuration, this.report);
+        lexer.errout = errout;
+
+        // store pointer to lexer in input stream to allow character encoding errors to be reported
+        streamIn.setLexer(lexer);
+
+        this.report.setFilename(inputStreamName); // #431895 - fix by Dave Bryan 04 Jan 01
+
+        if (!configuration.quiet)
+        {
+            this.report.helloMessage(errout);
+        }
+
+        // Tidy doesn't alter the doctype for generic XML docs
+        if (configuration.xmlTags)
+        {
+            document = ParserImpl.parseXMLDocument(lexer);
+            if (!document.checkNodeIntegrity())
+            {
+                if (!configuration.quiet)
+                {
+                    report.badTree(errout);
+                }
+                return null;
+            }
+        }
+        else
+        {
+            lexer.warnings = 0;
+
+            document = ParserImpl.parseDocument(lexer);
+
+            if (!document.checkNodeIntegrity())
+            {
+                if (!configuration.quiet)
+                {
+                    this.report.badTree(errout);
+                }
+                return null;
+            }
+
+            Clean cleaner = new Clean(configuration.tt);
+
+            // simplifies <b><b> ... </b> ... </b> etc.
+            cleaner.nestedEmphasis(document);
+
+            // cleans up <dir> indented text </dir> etc.
+            cleaner.list2BQ(document);
+            cleaner.bQ2Div(document);
+
+            // replaces i by em and b by strong
+            if (configuration.logicalEmphasis)
+            {
+                cleaner.emFromI(document);
+            }
+
+            if (configuration.word2000 && cleaner.isWord2000(document))
+            {
+                // prune Word2000's <![if ...]> ... <![endif]>
+                cleaner.dropSections(lexer, document);
+
+                // drop style & class attributes and empty p, span elements
+                cleaner.cleanWord2000(lexer, document);
+            }
+
+            // replaces presentational markup by style rules
+            if (configuration.makeClean || configuration.dropFontTags)
+            {
+                cleaner.cleanTree(lexer, document);
+            }
+
+            if (!document.checkNodeIntegrity())
+            {
+                this.report.badTree(errout);
+                return null;
+            }
+
+            doctype = document.findDocType();
+
+            // remember given doctype
+            if (doctype != null)
+            {
+                doctype = (Node) doctype.clone();
+            }
+
+            if (document.content != null)
+            {
+                if (configuration.xHTML)
+                {
+                    lexer.setXHTMLDocType(document);
+                }
+                else
+                {
+                    lexer.fixDocType(document);
+                }
+
+                if (configuration.tidyMark)
+                {
+                    lexer.addGenerator(document);
+                }
+            }
+
+            // ensure presence of initial <?XML version="1.0"?>
+            if (configuration.xmlOut && configuration.xmlPi)
+            {
+                lexer.fixXmlDecl(document);
+            }
+
+            if (!configuration.quiet && document.content != null)
+            {
+                this.report.reportVersion(errout, lexer, inputStreamName, doctype);
+            }
+        }
+
+        if (!configuration.quiet)
+        {
+            parseWarnings = lexer.warnings;
+            parseErrors = lexer.errors;
+            this.report.reportNumWarnings(errout, lexer);
+        }
+
+        if (!configuration.quiet && lexer.errors > 0 && !configuration.forceOutput)
+        {
+            this.report.needsAuthorIntervention(errout);
+        }
+
+        if (!configuration.onlyErrors && (lexer.errors == 0 || configuration.forceOutput))
+        {
+            if (configuration.burstSlides)
+            {
+                Node body;
+
+                body = null;
+                // remove doctype to avoid potential clash with markup introduced when bursting into slides
+
+                // discard the document type
+                doctype = document.findDocType();
+
+                if (doctype != null)
+                {
+                    Node.discardElement(doctype);
+                }
+
+                /* slides use transitional features */
+                lexer.versions |= Dict.VERS_HTML40_LOOSE;
+
+                // and patch up doctype to match
+                if (configuration.xHTML)
+                {
+                    lexer.setXHTMLDocType(document);
+                }
+                else
+                {
+                    lexer.fixDocType(document);
+                }
+
+                // find the body element which may be implicit
+                body = document.findBody(configuration.tt);
+
+                if (body != null)
+                {
+                    pprint = new PPrint(configuration);
+                    if (!configuration.quiet)
+                    {
+                        this.report.reportNumberOfSlides(errout, pprint.countSlides(body));
+                    }
+                    pprint.createSlides(lexer, document);
+                }
+                else if (!configuration.quiet)
+                {
+                    this.report.missingBody(errout);
+                }
+            }
+            else if (o != null)
+            {
+                pprint = new PPrint(configuration);
+
+                if (document.findDocType() == null)
+                {
+                    // only use numeric character references if no doctype could be determined (e.g., because
+                    // the document contains proprietary features) to ensure well-formedness.
+                    configuration.numEntities = true;
+                }
+                if (configuration.bodyOnly)
+                {
+                    // Feature request #434940 - fix by Dave Raggett/Ignacio Vazquez-Abrams 21 Jun 01
+                    pprint.printBody(o, lexer, document, configuration.xmlOut);
+                }
+                else if (configuration.xmlOut && !configuration.xHTML)
+                {
+                    pprint.printXMLTree(o, (short) 0, 0, lexer, document);
+                }
+                else
+                {
+                    pprint.printTree(o, (short) 0, 0, lexer, document);
+                }
+
+                pprint.flushLine(o, 0);
+                o.flush();
+            }
+
+        }
+
+        if (!configuration.quiet)
+        {
+            this.report.errorSummary(lexer);
+        }
+
+        return document;
+    }
+
+    /**
+     * Internal routine that actually does the parsing. The caller can pass either an InputStream or file name. If both
+     * are passed, the file name is preferred.
+     * @param in input stream (used only if <code>file</code> is null)
+     * @param file file name
+     * @param out output stream
+     * @return parsed org.w3c.tidy.Node
+     * @throws FileNotFoundException if <code>file</code> is not null but it can't be found
+     * @throws IOException for errors in reading input stream or file
+     */
+    private Node parse(InputStream in, String file, OutputStream out) throws FileNotFoundException, IOException
+    {
+
+        StreamIn streamIn;
+        Out o = null;
+        boolean inputStreamOpen = false;
+        boolean outputStreamOpen = false;
+
+        if (file != null)
+        {
+            in = new FileInputStream(file);
+            inputStreamOpen = true;
+            inputStreamName = file;
+        }
+        else if (in == null)
+        {
+            in = System.in;
+            inputStreamName = "stdin";
+        }
+
+        streamIn = StreamInFactory.getStreamIn(configuration, in);
+
+        if (configuration.writeback && (file != null))
+        {
+            out = new FileOutputStream(file);
+            outputStreamOpen = true;
+        }
+
+        if (out != null)
+        {
+            o = OutFactory.getOut(this.configuration, out); // normal output stream
+        }
+
+        Node node = parse(streamIn, o);
+
+        // Try to close the InputStream but only if if we created it.
+        if (inputStreamOpen)
+        {
+            try
+            {
+                in.close();
+            }
+            catch (IOException e)
+            {
+                // ignore
+            }
+        }
+
+        // Try to close the OutputStream but only if if we created it.
+        if (outputStreamOpen)
+        {
+            try
+            {
+                out.close();
+            }
+            catch (IOException e)
+            {
+                // ignore
+            }
+        }
+
+        return node;
+
     }
 
     /**
@@ -681,8 +711,15 @@ public class Tidy implements Serializable
             }
 
             pprint.flushLine(o, 0);
-            
-            o.close();
+
+            try
+            {
+                out.flush();
+            }
+            catch (IOException e)
+            {
+                // ignore exception on flush?
+            }
         }
     }
 
@@ -2213,50 +2250,6 @@ public class Tidy implements Serializable
     public boolean getKeepFileTimes()
     {
         return configuration.keepFileTimes;
-    }
-
-    /**
-     * Sets the character encoding used both for input and for output.
-     * @param charencoding encoding constant
-     * @deprecated set input/output encoding using java encoding names
-     */
-    public void setCharEncoding(int charencoding)
-    {
-        String ceName = configuration.convertCharEncoding(charencoding);
-        if (ceName != null)
-        {
-            configuration.setInCharEncodingName(ceName);
-            configuration.setOutCharEncodingName(ceName);
-        }
-    }
-
-    /**
-     * Returns the configured character encoding.
-     * @return character encoding constant
-     * @deprecated from r8 tidy can use different encoding for input and output. This method will only return the
-     * <strong>input </strong> character encoding.
-     */
-    public int getCharEncoding()
-    {
-        return configuration.getInCharEncoding();
-    }
-
-    /**
-     * @param slidestyle N/A
-     * @deprecated does nothing
-     */
-    public void setSlidestyle(String slidestyle)
-    {
-        configuration.slidestyle = slidestyle;
-    }
-
-    /**
-     * @deprecated does nothing
-     * @return <code>null</code>
-     */
-    public String getSlidestyle()
-    {
-        return null;
     }
 
     /**

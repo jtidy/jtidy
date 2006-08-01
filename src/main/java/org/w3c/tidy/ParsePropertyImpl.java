@@ -289,8 +289,7 @@ public final class ParsePropertyImpl
     }
 
     /**
-     * parse character encoding option. Can be RAW, ASCII, LATIN1, UTF8, ISO2022, MACROMAN, UTF16LE, UTF16BE, UTF16,
-     * WIN1252, BIG5, SHIFTJIS
+     * parse character encoding option. Can be any java encoding name supported by the runtime platform.
      */
     static class ParseCharEncoding implements ParseProperty
     {

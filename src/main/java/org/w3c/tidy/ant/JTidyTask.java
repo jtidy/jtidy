@@ -58,7 +58,6 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -315,12 +314,12 @@ public class JTidyTask extends Task
             throw new BuildException("You only can use destfile with srcfile.");
         }
 
-        if (srcfile != null && srcfile.exists() && srcfile.isDirectory())
+        if (srcfile != null && srcfile.isDirectory())
         {
             throw new BuildException("srcfile can't be a directory.");
         }
 
-        if (properties != null && (!properties.exists() || properties.isDirectory()))
+        if (properties != null && properties.isDirectory())
         {
             throw new BuildException("Invalid properties file specified: " + properties.getPath());
         }

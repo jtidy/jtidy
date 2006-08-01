@@ -81,8 +81,8 @@ public interface Out
     void newline();
 
     /**
-     * Flush and close the stream.
+     * Flush the stream.
      */
-    void close();
+    void flush();
 
 }

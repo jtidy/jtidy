@@ -85,10 +85,21 @@ public class OutJavaImpl implements Out
      * @param out output stream
      * @throws UnsupportedEncodingException if the undelining OutputStreamWriter doesn't support the rquested encoding.
      */
-    public OutJavaImpl(Configuration configuration, String encoding, OutputStream out)
+    protected OutJavaImpl(Configuration configuration, String encoding, OutputStream out)
         throws UnsupportedEncodingException
     {
         this.writer = new OutputStreamWriter(out, encoding);
+        this.newline = configuration.newline;
+    }
+
+    /**
+     * Constructor.
+     * @param configuration actual configuration instance (needed for newline configuration)
+     * @param out Writer
+     */
+    protected OutJavaImpl(Configuration configuration, Writer out)
+    {
+        this.writer = out;
         this.newline = configuration.newline;
     }
 
@@ -141,17 +152,17 @@ public class OutJavaImpl implements Out
     }
 
     /**
-     * @see org.w3c.tidy.Out#close()
+     * @see org.w3c.tidy.Out#flush()
      */
-    public void close()
+    public void flush()
     {
         try
         {
-            writer.close();
+            writer.flush();
         }
         catch (IOException e)
         {
-            System.err.println("OutJavaImpl.close: " + e.getMessage());
+            System.err.println("OutJavaImpl.flush: " + e.getMessage());
         }
     }
 

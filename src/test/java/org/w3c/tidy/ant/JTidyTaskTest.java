@@ -20,14 +20,14 @@
  *  have been possible without all of you.
  *
  *  COPYRIGHT NOTICE:
- * 
+ *
  *  This software and documentation is provided "as is," and
  *  the copyright holders and contributing author(s) make no
  *  representations or warranties, express or implied, including
  *  but not limited to, warranties of merchantability or fitness
  *  for any particular purpose or that the use of the software or
  *  documentation will not infringe any third party patents,
- *  copyrights, trademarks or other rights. 
+ *  copyrights, trademarks or other rights.
  *
  *  The copyright holders and contributing author(s) will not be
  *  liable for any direct, indirect, special or consequential damages
@@ -43,7 +43,7 @@
  *     not be misrepresented as being the original source.
  *  3. This Copyright notice may not be removed or altered from any
  *     source or altered source distribution.
- * 
+ *
  *  The copyright holders and contributing author(s) specifically
  *  permit, without fee, and encourage the use of this source code
  *  as a component for supporting the Hypertext Markup Language in
@@ -432,4 +432,76 @@ public class JTidyTaskTest extends TestCase
         new File(tempDir, "newfile.html").delete();
     }
 
+    /**
+     * Test with srcfile/destfile.
+     */
+    public void testMissingSrcFile()
+    {
+        try
+        {
+            task
+                .processFile(new File(testDir, "non/existing/file.html"), new File(tempDir, "non/existing/output.html"));
+            fail("Expected BuildException not thrown");
+        }
+        catch (BuildException e)
+        {
+            // ok, this is expected
+        }
+    }
+
+    /**
+     * Test with srcfile/destfile.
+     */
+    public void testMissingOutputFile()
+    {
+        try
+        {
+            task.processFile(new File(testDir, "ant/file1.html"), new File(tempDir, "///::non/existing/output.html"));
+            fail("Expected BuildException not thrown");
+        }
+        catch (BuildException e)
+        {
+            // ok, this is expected
+        }
+    }
+
+    /**
+     * Test with invalid properties file.
+     */
+    public void testMissingProperties()
+    {
+        task.setProperties(new File(testDir, "non/existing/propertyfile.properties"));
+        task.setSrcfile(new File(testDir, "ant/file1.html"));
+        task.setDestfile(new File(tempDir, "newfile.html"));
+
+        try
+        {
+            task.execute();
+            fail("Expected BuildException not thrown");
+        }
+        catch (BuildException e)
+        {
+            // ok, this is expected
+        }
+    }
+
+    /**
+     * Test with srcfile/destfile.
+     */
+    public void testPropertiesIsADir()
+    {
+        task.setProperties(new File(testDir));
+        task.setSrcfile(new File(testDir, "ant/file1.html"));
+        task.setDestfile(new File(tempDir, "newfile.html"));
+
+        try
+        {
+            task.execute();
+            fail("Expected BuildException not thrown");
+        }
+        catch (BuildException e)
+        {
+            // ok, this is expected
+        }
+    }
 }

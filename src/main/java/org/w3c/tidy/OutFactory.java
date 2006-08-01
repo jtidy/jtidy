@@ -55,6 +55,7 @@ package org.w3c.tidy;
 
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 
 
 /**
@@ -89,5 +90,16 @@ public final class OutFactory
         {
             throw new RuntimeException("Unsupported encoding: " + e.getMessage());
         }
+    }
+
+    /**
+     * Returns the appropriate Out implementation.
+     * @param config configuration instance
+     * @param writer Writer
+     * @return out instance
+     */
+    public static Out getOut(Configuration config, Writer writer)
+    {
+        return new OutJavaImpl(config, writer);
     }
 }

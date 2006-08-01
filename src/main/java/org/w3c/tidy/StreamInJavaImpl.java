@@ -127,9 +127,25 @@ public class StreamInJavaImpl implements StreamIn
      * @param tabsize
      * @throws UnsupportedEncodingException
      */
-    public StreamInJavaImpl(InputStream stream, String encoding, int tabsize) throws UnsupportedEncodingException
+    protected StreamInJavaImpl(InputStream stream, String encoding, int tabsize) throws UnsupportedEncodingException
     {
         reader = new InputStreamReader(stream, encoding);
+        this.pushed = false;
+        this.tabsize = tabsize;
+        this.curline = 1;
+        this.curcol = 1;
+        this.endOfStream = false;
+    }
+
+    /**
+     * Instantiates a new StreamInJavaImpl.
+     * @param stream
+     * @param encoding
+     * @param tabsize
+     */
+    protected StreamInJavaImpl(Reader reader, int tabsize)
+    {
+        this.reader = reader;
         this.pushed = false;
         this.tabsize = tabsize;
         this.curline = 1;

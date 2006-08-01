@@ -54,6 +54,7 @@
 package org.w3c.tidy;
 
 import java.io.InputStream;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 
 
@@ -89,5 +90,16 @@ public final class StreamInFactory
         {
             throw new RuntimeException("Unsupported encoding: " + e.getMessage());
         }
+    }
+
+    /**
+     * Returns the appropriate StreamIn implementation.
+     * @param config configuration instance
+     * @param stream input stream
+     * @return StreamIn instance
+     */
+    public static StreamIn getStreamIn(Configuration config, Reader reader)
+    {
+        return new StreamInJavaImpl(reader, config.tabsize);
     }
 }

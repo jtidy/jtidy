@@ -154,8 +154,7 @@ public class Configuration implements Serializable
     /**
      * Convert from deprecated tidy encoding constant to standard java encoding name.
      */
-    private final String[] ENCODING_NAMES = new String[]{
-        "raw", // rawOut, it will not be mapped to a java encoding
+    private final String[] ENCODING_NAMES = new String[]{"raw", // rawOut, it will not be mapped to a java encoding
         "ASCII",
         "ISO8859_1",
         "UTF8",
@@ -658,7 +657,7 @@ public class Configuration implements Serializable
     /**
      * char encoding used when replacing illegal SGML chars, regardless of specified encoding.
      */
-    protected int replacementCharEncoding = WIN1252; // by default
+    protected String replacementCharEncoding = "WIN1252"; // by default
 
     /**
      * TagTable associated with this Configuration.
@@ -681,24 +680,14 @@ public class Configuration implements Serializable
     protected char[] newline = (System.getProperty("line.separator")).toCharArray();
 
     /**
-     * Input character encoding (defaults to LATIN1).
-     */
-    private int inCharEncoding = LATIN1;
-
-    /**
      * Input character encoding (defaults to "ISO8859_1").
      */
-    private String inCharEncodingName = "ISO8859_1";
-
-    /**
-     * Output character encoding (defaults to ASCII).
-     */
-    private int outCharEncoding = ASCII;
+    private String inCharEncoding = "ISO8859_1";
 
     /**
      * Output character encoding (defaults to "ASCII").
      */
-    private String outCharEncodingName = "ASCII";
+    private String outCharEncoding = "ASCII";
 
     /**
      * Avoid mapping values > 127 to entities.
@@ -871,7 +860,7 @@ public class Configuration implements Serializable
 
         // #427837 - fix by Dave Raggett 02 Jun 01
         // generate <?xml version="1.0" encoding="iso-8859-1"?> if the output character encoding is Latin-1 etc.
-        if (getOutCharEncoding() != UTF8 && getOutCharEncoding() != ASCII && xmlOut)
+        if (!"UTF8".equals(getOutCharEncodingName()) && !"ASCII".equals(getOutCharEncodingName()) && xmlOut)
         {
             xmlPi = true;
         }
@@ -1083,40 +1072,12 @@ public class Configuration implements Serializable
     }
 
     /**
-     * Getter for <code>inCharEncoding</code>.
-     * @return Returns the inCharEncoding.
-     * @deprecated use getInCharEncodingName()
-     */
-    protected int getInCharEncoding()
-    {
-        return this.inCharEncoding;
-    }
-
-    /**
-     * Setter for <code>inCharEncoding</code>.
-     * @param encoding The inCharEncoding to set.
-     * @deprecated use setInCharEncodingName(String)
-     */
-    protected void setInCharEncoding(int encoding)
-    {
-        if (encoding == RAW)
-        {
-            rawOut = true;
-        }
-        else
-        {
-            rawOut = false;
-            this.inCharEncoding = encoding;
-        }
-    }
-
-    /**
      * Getter for <code>inCharEncodingName</code>.
      * @return Returns the inCharEncodingName.
      */
     protected String getInCharEncodingName()
     {
-        return this.inCharEncodingName;
+        return this.inCharEncoding;
     }
 
     /**
@@ -1128,44 +1089,7 @@ public class Configuration implements Serializable
         String javaEncoding = EncodingNameMapper.toJava(encoding);
         if (javaEncoding != null)
         {
-            this.inCharEncodingName = javaEncoding;
-            this.inCharEncoding = convertCharEncoding(javaEncoding);
-        }
-    }
-
-    /**
-     * Getter for <code>outCharEncoding</code>.
-     * @return Returns the outCharEncoding.
-     * @deprecated use getOutCharEncodingName()
-     */
-    protected int getOutCharEncoding()
-    {
-        return this.outCharEncoding;
-    }
-
-    /**
-     * Setter for <code>outCharEncoding</code>.
-     * @param encoding The outCharEncoding to set.
-     * @deprecated use setOutCharEncodingName(String)
-     */
-    protected void setOutCharEncoding(int encoding)
-    {
-        switch (encoding)
-        {
-            case RAW :
-                this.rawOut = true;
-                break;
-
-            case MACROMAN :
-            case WIN1252 :
-                this.rawOut = false;
-                this.outCharEncoding = ASCII;
-                break;
-
-            default :
-                this.rawOut = false;
-                this.outCharEncoding = encoding;
-                break;
+            this.inCharEncoding = javaEncoding;
         }
     }
 
@@ -1175,7 +1099,7 @@ public class Configuration implements Serializable
      */
     protected String getOutCharEncodingName()
     {
-        return this.outCharEncodingName;
+        return this.outCharEncoding;
     }
 
     /**
@@ -1187,8 +1111,7 @@ public class Configuration implements Serializable
         String javaEncoding = EncodingNameMapper.toJava(encoding);
         if (javaEncoding != null)
         {
-            this.outCharEncodingName = javaEncoding;
-            this.outCharEncoding = convertCharEncoding(javaEncoding);
+            this.outCharEncoding = javaEncoding;
         }
     }
 
@@ -1203,6 +1126,26 @@ public class Configuration implements Serializable
     }
 
     /**
+     * Setter for <code>outCharEncoding</code>.
+     * @param encoding The outCharEncoding to set.
+     * @deprecated use setOutCharEncodingName(String)
+     */
+    protected void setOutCharEncoding(int encoding)
+    {
+        setOutCharEncodingName(convertCharEncoding(encoding));
+    }
+
+    /**
+     * Setter for <code>inCharEncoding</code>.
+     * @param encoding The inCharEncoding to set.
+     * @deprecated use setInCharEncodingName(String)
+     */
+    protected void setInCharEncoding(int encoding)
+    {
+        setInCharEncodingName(convertCharEncoding(encoding));
+    }
+
+    /**
      * Convert a char encoding from the deprecated tidy constant to a standard java encoding name.
      * @param code encoding code
      * @return encoding name
@@ -1214,29 +1157,6 @@ public class Configuration implements Serializable
             return ENCODING_NAMES[code];
         }
         return null;
-    }
-
-    /**
-     * Convert a char encoding from a standard java encoding name to the deprecated tidy constant.
-     * @param name encoding name
-     * @return encoding code
-     */
-    protected int convertCharEncoding(String name)
-    {
-        if (name == null)
-        {
-            return -1;
-        }
-
-        for (int j = 1; j < ENCODING_NAMES.length; j++)
-        {
-            if (name.equals(ENCODING_NAMES[j]))
-            {
-                return j;
-            }
-        }
-
-        return -1;
     }
 
 }
