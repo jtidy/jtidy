@@ -90,8 +90,7 @@ public class TidyBugsTest extends TidyTestCase
         this.errorLog = new StringWriter();
         this.tidy.setErrout(new PrintWriter(this.errorLog));
         tidy.mainExec(new String[]{"-qe", cleanUpFilePath(inputURL.getFile())});
-
-        // should check system out...
+        assertLogDoesntContains("null");
     }
 
 }
