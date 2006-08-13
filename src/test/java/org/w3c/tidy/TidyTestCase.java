@@ -75,8 +75,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -101,7 +101,7 @@ public class TidyTestCase extends TestCase
      * <code>debug</code> in your log4j configuration file will cause the TIDY_EXECUTABLE to be run against the actual
      * test file. If set to false the command line used to manually run tidy will appear in the log.
      */
-    private static final Log RUN_TIDY_EXECUTABLE = LogFactory.getLog("runtidy");
+    private static final Logger RUN_TIDY_EXECUTABLE = LoggerFactory.getLogger("runtidy");
 
     /**
      * Tidy test instance.
@@ -126,7 +126,7 @@ public class TidyTestCase extends TestCase
     /**
      * logger.
      */
-    protected Log log = LogFactory.getLog(getClass());
+    protected Logger log = LoggerFactory.getLogger(getClass());
 
     /**
      * write directly to out. Useful for debugging (but it will make the test fail!).

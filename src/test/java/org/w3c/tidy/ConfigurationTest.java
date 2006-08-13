@@ -57,8 +57,8 @@ import java.io.StringWriter;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -71,7 +71,7 @@ public class ConfigurationTest extends TestCase
     /**
      * logger.
      */
-    private static Log log = LogFactory.getLog(ConfigurationTest.class);
+    private static Logger log = LoggerFactory.getLogger(ConfigurationTest.class);
 
     /**
      * Test for -help-config.
