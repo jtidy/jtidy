@@ -1085,7 +1085,10 @@ public final class ParserImpl
             {
                 lexer.inlineDup(null);
             }
-            else if (TidyUtils.toBoolean(element.tag.model & Dict.CM_INLINE))
+            else if (TidyUtils.toBoolean(element.tag.model & Dict.CM_INLINE)
+                    // EUNYEE: Add back this condition 
+                    // because this causes the infinite loop problem when the span does not have the ending tag.
+                    && element.tag != tt.tagA && element.tag != tt.tagSpan)
             {
                 // && element.tag != tt.tagSpan #540571 Inconsistent behaviour with span inline element
                 lexer.pushInline(element);
