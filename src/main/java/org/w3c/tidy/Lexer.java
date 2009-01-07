@@ -1030,10 +1030,11 @@ public class Lexer
         int len = doctype.end - doctype.start;
         String s = TidyUtils.getString(this.lexbuf, doctype.start, len);
 
-        return !(TidyUtils.findBadSubString("SYSTEM", s, len)
-            || TidyUtils.findBadSubString("PUBLIC", s, len)
-            || TidyUtils.findBadSubString("//DTD", s, len)
-            || TidyUtils.findBadSubString("//W3C", s, len) || TidyUtils.findBadSubString("//EN", s, len));
+        return !(TidyUtils.findBadSubString("SYSTEM", s, s.length())
+            || TidyUtils.findBadSubString("PUBLIC", s, s.length())
+            || TidyUtils.findBadSubString("//DTD", s, s.length())
+            || TidyUtils.findBadSubString("//W3C", s, s.length()) 
+            || TidyUtils.findBadSubString("//EN", s, s.length()));
     }
 
     /**
@@ -4060,3 +4061,4 @@ public class Lexer
     }
 
 }
+
