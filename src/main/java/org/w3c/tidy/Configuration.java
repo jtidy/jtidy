@@ -878,7 +878,7 @@ public class Configuration implements Serializable
      * @param errout where to write
      * @param showActualConfiguration print actual configuration values
      */
-    void printConfigOptions(Writer errout, boolean showActualConfiguration)
+    public void printConfigOptions(Writer errout, boolean showActualConfiguration)
     {
         String pad = "                                                                               ";
         try
