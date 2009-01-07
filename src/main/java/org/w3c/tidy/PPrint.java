@@ -1803,7 +1803,7 @@ public class PPrint
                 --ix;
             }
 
-            if (node.textarray[ix] == '\n')
+            if (ix >= 0 && node.textarray[ix] == '\n')
             {
                 return node.end - ix - 1; // #543262 tidy eats all memory
             }
