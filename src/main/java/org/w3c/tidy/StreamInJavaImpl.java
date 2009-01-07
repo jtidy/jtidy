@@ -71,7 +71,7 @@ public class StreamInJavaImpl implements StreamIn
     /**
      * number of characters kept in buffer.
      */
-    private static final int CHARBUF_SIZE = 5;
+    private static final int CHARBUF_SIZE = 16;
 
     /**
      * character buffer.
