@@ -2319,20 +2319,23 @@ public class Lexer
                     this.txtend = this.txtstart;
 
                     // skip to '>'
-                    while (c != '>')
+                    while (TidyUtils.isWhite((char) c))
                     {
                         c = this.in.readChar();
-
-                        if (c == StreamIn.END_OF_STREAM)
-                        {
-                            break;
-                        }
                     }
 
                     if (c == StreamIn.END_OF_STREAM)
                     {
                         this.in.ungetChar(c);
+                        report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
                         continue;
+                    }
+
+                    // should be at the '>' if we're not, assume one
+                    if (c != '>') {
+                        this.in.ungetChar(c);
+                        c = '>';
+                        report.attrError(this, this.token, null, Report.UNEXPECTED_GT);
                     }
 
                     this.state = LEX_CONTENT;
