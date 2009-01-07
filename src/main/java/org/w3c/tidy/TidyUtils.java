@@ -254,7 +254,7 @@ public final class TidyUtils
             ps = p.substring(i, i + n);
             if (s.equalsIgnoreCase(ps))
             {
-                return (!ps.equals(s.substring(0, n)));
+                return (!s.equals(ps));
             }
 
             ++i;
