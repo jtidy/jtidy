@@ -340,6 +340,14 @@ public class Tidy implements Serializable
         return null;
     }
 
+    public org.w3c.dom.Document parseDOM(Reader in, Writer out) {
+        Node document = parse(in, out);
+        if (document != null) {
+            return (org.w3c.dom.Document) document.getAdapter();
+        }
+        return null;
+    }
+
     /**
      * Pretty-prints a DOM Document. Must be an instance of org.w3c.tidy.DOMDocumentImpl. Caller is responsible for
      * closing the outputStream after calling this method.
