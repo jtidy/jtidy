@@ -720,14 +720,7 @@ public class Tidy implements Serializable
 
             pprint.flushLine(o, 0);
 
-            try
-            {
-                out.flush();
-            }
-            catch (IOException e)
-            {
-                // ignore exception on flush?
-            }
+            o.flush();
         }
     }
 
