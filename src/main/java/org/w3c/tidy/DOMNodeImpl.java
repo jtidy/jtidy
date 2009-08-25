@@ -506,6 +506,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     {
         Node node = adaptee.cloneNode(deep);
         node.parent = null;
+        node.adapter = null;
         return node.getAdapter();
     }
 
