@@ -467,7 +467,7 @@ public class Lexer
      */
     public Node cloneNode(Node node)
     {
-        Node cnode = (Node) node.clone();
+        Node cnode = node.cloneNode(false);
         this.nodeList.add(cnode);
         for (AttVal att = cnode.attributes; att != null; att = att.next)
         {

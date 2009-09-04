@@ -173,11 +173,11 @@ public class AttVal extends Object implements Cloneable
         }
         if (this.asp != null)
         {
-            av.asp = (Node) this.asp.clone();
+            av.asp = this.asp.cloneNode(false);
         }
         if (this.php != null)
         {
-            av.php = (Node) this.php.clone();
+            av.php = this.php.cloneNode(false);
         }
 
         return av;

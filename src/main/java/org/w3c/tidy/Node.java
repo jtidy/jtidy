@@ -63,7 +63,7 @@ package org.w3c.tidy;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public class Node implements Cloneable
+public class Node
 {
 
     /**
@@ -308,39 +308,6 @@ public class Node implements Cloneable
         {
             tt.findTag(this);
         }
-    }
-
-    /**
-     * Used to clone heading nodes when split by an hr.
-     * @see java.lang.Object#clone()
-     */
-    protected Object clone()
-    {
-        Node node;
-        try
-        {
-            node = (Node) super.clone();
-        }
-        catch (CloneNotSupportedException e)
-        {
-            // should never happen
-            throw new RuntimeException("CloneNotSupportedException " + e.getMessage());
-        }
-        if (this.textarray != null)
-        {
-            node.textarray = new byte[this.end - this.start];
-            node.start = 0;
-            node.end = this.end - this.start;
-            if (node.end > 0)
-            {
-                System.arraycopy(this.textarray, this.start, node.textarray, node.start, node.end);
-            }
-        }
-        if (this.attributes != null)
-        {
-            node.attributes = (AttVal) this.attributes.clone();
-        }
-        return node;
     }
 
     /**
@@ -1486,9 +1453,15 @@ public class Node implements Cloneable
      */
     protected Node cloneNode(boolean deep)
     {
-        Node node = (Node) this.clone();
-        node.content = null;
-        node.last = null;
+    	Node node = new Node(type, textarray, start, end);
+        node.parent = parent;
+        node.closed = closed;
+        node.implicit = implicit;
+        node.tag = tag;
+        node.element = element;
+        if (attributes != null) {
+        	node.attributes = (AttVal) attributes.clone();
+        }
         if (deep)
         {
             Node child;

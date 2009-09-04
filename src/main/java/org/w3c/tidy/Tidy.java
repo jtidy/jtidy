@@ -487,7 +487,7 @@ public class Tidy implements Serializable
             // remember given doctype
             if (doctype != null)
             {
-                doctype = (Node) doctype.clone();
+                doctype = doctype.cloneNode(false);
             }
 
             if (document.content != null)
