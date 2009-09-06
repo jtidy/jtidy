@@ -53,11 +53,11 @@
  */
 package org.w3c.tidy;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.MissingResourceException;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import org.w3c.tidy.TidyMessage.Level;
@@ -80,14 +80,19 @@ public final class Report
     public static final String ACCESS_URL = "http://www.w3.org/WAI/GL";
 
     /**
-     * Release date.
-     */
-    public static final Date RELEASE_DATE = new Date(1096227718000L);
-
-    /**
      * Release date String.
      */
-    public static final String RELEASE_DATE_STRING = new SimpleDateFormat("dd MMM yyyy").format(RELEASE_DATE);
+    public static final String RELEASE_DATE_STRING = readReleaseDate();
+    
+    private static String readReleaseDate() {
+    	final Properties p = new Properties();
+    	try {
+			p.load(Report.class.getResourceAsStream("/jtidy.properties"));
+		} catch (IOException e) {
+			throw new ExceptionInInitializerError(e);
+		}
+		return p.getProperty("date");
+    }
 
     /**
      * invalid entity: missing semicolon.
@@ -777,7 +782,7 @@ public final class Report
      */
     public void showVersion(PrintWriter p)
     {
-        printMessage(p, "version_summary", new Object[]{RELEASE_DATE}, Level.SUMMARY);
+        printMessage(p, "version_summary", new Object[]{RELEASE_DATE_STRING}, Level.SUMMARY);
     }
 
     /**
@@ -1688,15 +1693,6 @@ public final class Report
     }
 
     /**
-     * Prints tidy hello message.
-     * @param errout PrintWriter
-     */
-    public void helloMessage(PrintWriter errout)
-    {
-        printMessage(errout, "hello_message", new Object[]{Report.RELEASE_DATE, this.currentFile}, Level.SUMMARY);
-    }
-
-    /**
      * Sets the current file name.
      * @param filename current file.
      */
@@ -1788,7 +1784,7 @@ public final class Report
      */
     public void helpText(PrintWriter out)
     {
-        printMessage(out, "help_text", new Object[]{"Tidy", RELEASE_DATE}, Level.SUMMARY);
+        printMessage(out, "help_text", new Object[]{"Tidy", RELEASE_DATE_STRING}, Level.SUMMARY);
     }
 
     /**

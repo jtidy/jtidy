@@ -1,0 +1,25 @@
+<project name="jtidy" default="jar">
+	<property file="src/main/resources/jtidy.properties"/>
+	<property name="target" value="target"/>
+	<property name="bin" value="${target}/bin"/>
+	<property name="jar" value="${target}/jtidy-${version}.jar"/>
+	
+	<target name="jar">
+		<delete dir="${target}"/>
+		<delete dir="${bin}"/>
+		<mkdir dir="${target}"/>
+		<mkdir dir="${bin}"/>
+		<javac srcdir="src/main/java" destdir="${bin}" source="1.4" target="1.4"/>
+		<jar destfile="${jar}">
+			<manifest>
+				<attribute name="Main-Class" value="org.w3c.tidy.Tidy"/>
+				<attribute name="Project-Name" value="JTidy"/>
+				<attribute name="Build-Version" value="${version}"/>
+				<attribute name="Build-Date" value="${date}"/>
+				<attribute name="Built-By" value="${user.name}"/>
+			</manifest>
+			<fileset dir="${bin}"/>
+			<fileset dir="src/main/resources"/>
+		</jar>
+	</target>
+</project>
