@@ -2917,6 +2917,13 @@ public final class ParserImpl
                 // if this is the end tag for an ancestor element then infer end tag for this element
                 if (node.type == Node.END_TAG)
                 {
+                	if (((node.tag != null && (node.tag.model & (Dict.CM_HTML | Dict.CM_TABLE)) != 0)
+                			|| node.tag == tt.tagTable)
+                            && row.isDescendantOf(node.tag)) {
+                		lexer.ungetToken();
+                		return;
+                	}
+                	
                     if (node.tag == tt.tagForm
                         || (node.tag != null && (node.tag.model & (Dict.CM_BLOCK | Dict.CM_INLINE)) != 0))
                     {
