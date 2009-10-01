@@ -986,7 +986,7 @@ public class Lexer
 
         if (head != null)
         {
-            String meta = "HTML Tidy for Java (vers. " + Report.RELEASE_DATE_STRING + "), see www.w3.org";
+            String meta = "HTML Tidy for Java (vers. " + Report.RELEASE_DATE_STRING + "), see jtidy.sourceforge.net";
 
             for (node = head.content; node != null; node = node.next)
             {
