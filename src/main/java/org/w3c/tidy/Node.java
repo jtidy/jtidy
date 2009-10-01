@@ -1270,6 +1270,16 @@ public class Node
 
         return node;
     }
+    
+    public Node findTITLE(TagTable tt) {
+        Node node = findHEAD(tt);
+        if (node != null) {
+            for (node = node.content; node != null && node.tag != tt.tagTitle; node = node.next) {
+            	// do nothing
+            }
+        }
+        return node;
+    }
 
     /**
      * Checks for node integrity.
