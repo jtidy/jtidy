@@ -580,17 +580,7 @@ public final class ParserImpl
                 // discard unexpected text nodes and end tags
                 lexer.report.warning(lexer, head, node, Report.DISCARDING_UNEXPECTED);
             }
-
-            if (hasTitle == 0)
-            {
-                if (!lexer.configuration.bodyOnly)
-                {
-                    lexer.report.warning(lexer, head, null, Report.MISSING_TITLE_ELEMENT);
-                }
-                head.insertNodeAtEnd(lexer.inferredTag("title"));
-            }
         }
-
     }
 
     /**
@@ -3403,6 +3393,12 @@ public final class ParserImpl
             document.insertNodeAtEnd(html);
             HTML.parse(lexer, html, (short) 0); // TODO?
             break;
+        }
+        
+        if (lexer.root.findTITLE(lexer.configuration.tt) == null) {
+            Node head = lexer.root.findHEAD(lexer.configuration.tt);
+            lexer.report.warning(lexer, head, null, Report.MISSING_TITLE_ELEMENT);
+            head.insertNodeAtEnd(lexer.inferredTag("title"));
         }
 
         return document;
