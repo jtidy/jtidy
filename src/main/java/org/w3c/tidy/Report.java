@@ -53,7 +53,7 @@
  */
 package org.w3c.tidy;
 
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
@@ -87,9 +87,11 @@ public final class Report
     private static String readReleaseDate() {
     	final Properties p = new Properties();
     	try {
-			p.load(Report.class.getResourceAsStream("/jtidy.properties"));
-		} catch (IOException e) {
-			throw new ExceptionInInitializerError(e);
+			final InputStream s = Report.class.getResourceAsStream("/jtidy.properties");
+			p.load(s);
+			s.close();
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to load jtidy.properties", e);
 		}
 		return p.getProperty("date");
     }
