@@ -881,8 +881,11 @@ public final class ParserImpl
                     }
                     else if ((node.tag.model & (Dict.CM_TABLE | Dict.CM_ROWGRP | Dict.CM_ROW)) != 0)
                     {
-                        lexer.ungetToken();
-                        node = lexer.inferredTag("table");
+                        // Issue 2855511
+                        if (node.type != Node.END_TAG) {
+                        	lexer.ungetToken();
+                        	node = lexer.inferredTag("table");
+                        }
                         lexer.excludeBlocks = true;
                     }
                     else if (node.tag == tt.tagInput)
