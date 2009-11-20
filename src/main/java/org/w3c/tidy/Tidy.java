@@ -797,7 +797,7 @@ public class Tidy implements Serializable
 
                 if (Configuration.isKnownOption(argName)) // handle any standard config option
                 {
-                    properties.setProperty(argName, (argValue == null ? "" : argName));
+                    properties.setProperty(argName, (argValue == null ? "" : argValue));
                 }
                 else if (argName.equals("config")) // parse a property file
                 {
