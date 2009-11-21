@@ -3330,8 +3330,22 @@ public class Lexer
 
                 if (c == '"' || c == '\'')
                 {
+                	int q = c;
                     report.attrError(this, this.token, null, Report.UNEXPECTED_QUOTEMARK);
-                    break;
+                    
+                    /* handle <input onclick=s("btn1")> and <a title=foo""">...</a> */
+                    /* this doesn't handle <a title=foo"/> which browsers treat as  */
+                    /* 'foo"/' nor  <a title=foo" /> which browser treat as 'foo"'  */
+                    
+                    c = in.readChar();
+                    if (c == '>') {
+                    	addCharToLexer(q);
+                    	in.ungetChar(c);
+                        break;
+                    } else {
+                    	in.ungetChar(c);
+                        c = q;
+                    }
                 }
 
                 if (c == '<')
