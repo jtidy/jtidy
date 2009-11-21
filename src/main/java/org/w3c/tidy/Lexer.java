@@ -1735,6 +1735,10 @@ public class Lexer
         return node;
     }
 
+    private static final int CDATA_INTERMEDIATE = 0;
+    private static final int CDATA_STARTTAG = 1;
+    private static final int CDATA_ENDTAG = 2;
+
     /**
      * Create a text node for the contents of a CDATA element like style or script which ends with &lt;/foo> for some
      * foo.
@@ -1743,17 +1747,13 @@ public class Lexer
      */
     public Node getCDATA(Node container)
     {
-        int c, lastc, start, len, i;
-        int qt = 0;
-        int esc = 0;
-        String str;
-        boolean endtag = false;
-        boolean begtag = false;
-
-        if (container.isJavaScript())
-        {
-            esc = '\\';
-        }
+        int start = 0;
+        int nested = 0;
+        int state = CDATA_INTERMEDIATE;
+        int c;
+        boolean isEmpty = true;
+        boolean matches = false;
+        boolean hasSrc = container.getAttrByName("src") != null;
 
         this.lines = this.in.getCurline();
         this.columns = this.in.getCurcol();
@@ -1761,141 +1761,133 @@ public class Lexer
         this.txtstart = this.lexsize;
         this.txtend = this.lexsize;
 
-        lastc = '\0';
-        start = -1;
-
-        while ((c = this.in.readChar()) != StreamIn.END_OF_STREAM)
-        {
-            // treat \r\n as \n and \r as \n
-            if (qt > 0)
-            {
-                // #598860 script parsing fails with quote chars
-                // A quoted string is ended by the quotation character, or end of line
-                if ((c == '\r' || c == '\n' || c == qt) && (!TidyUtils.toBoolean(esc) || lastc != esc))
-                {
-                    qt = 0;
+        /* seen start tag, look for matching end tag */
+        while ((c = this.in.readChar()) != StreamIn.END_OF_STREAM) {
+        	addCharToLexer(c);
+        	txtend = lexsize;
+        	
+            if (state == CDATA_INTERMEDIATE) {
+            	if (c != '<') {
+                    if (isEmpty && !TidyUtils.isWhite((char) c)) {
+                        isEmpty = false;
+                    }
+                    continue;
                 }
-                else if (c == '/' && lastc == '<')
-                {
-                    start = this.lexsize + 1; // to first letter
+            	c = in.readChar();
+            	if (TidyUtils.isLetter((char) c)) {
+            		/* <head><script src=foo><meta name=foo content=bar>*/
+                    if (hasSrc && isEmpty && container.tag == configuration.tt.tagScript) {
+                        /* ReportError(doc, container, NULL, MISSING_ENDTAG_FOR); */
+                        lexsize = txtstart;
+                        in.ungetChar(c);
+                        in.ungetChar('<');
+                        return null;
+                    }
+                    addCharToLexer(c);
+                    start = lexsize - 1;
+                    state = CDATA_STARTTAG;
+            	} else if (c == '/') {
+                    addCharToLexer(c);
+                    c = in.readChar();
+                    if (!TidyUtils.isLetter((char) c)) {
+                        in.ungetChar(c);
+                        continue;
+                    }
+                    in.ungetChar(c);
+                    start = lexsize;
+                    state = CDATA_ENDTAG;
+                } else if (c == '\\') {
+                    /* recognize document.write("<script><\/script>") */
+                	addCharToLexer(c);
+                	c = in.readChar();
+                    if (c != '/') {
+                    	in.ungetChar(c);
+                        continue;
+                    }
+                    addCharToLexer(c);
+                	c = in.readChar();
+                	if (!TidyUtils.isLetter((char) c)) {
+                		in.ungetChar(c);
+                        continue;
+                    }
+                	in.ungetChar(c);
+                    start = lexsize;
+                    state = CDATA_ENDTAG;
+                } else {
+                	in.ungetChar(c);
                 }
+            } else if (state == CDATA_STARTTAG) {
+            	/* '<' + Letter found */
+            	if (TidyUtils.isLetter((char) c)) {
+                     continue;
+            	}
+            	matches = container.element.equalsIgnoreCase(TidyUtils.getString(lexbuf, start,
+            			container.element.length()));
+            	if (matches) {
+            		nested++;
+            	}
+            	state = CDATA_INTERMEDIATE;
+            } else if (state == CDATA_ENDTAG) {
+            	/* '<' + '/' + Letter found */
+            	if (TidyUtils.isLetter((char) c)) {
+                    continue;
+            	}
+            	matches = container.element.equalsIgnoreCase(TidyUtils.getString(lexbuf, start,
+            			container.element.length()));
+                if (isEmpty && !matches) {
+                    /* ReportError(doc, container, NULL, MISSING_ENDTAG_FOR); */
 
-                else if (c == '>' && start >= 0)
-                {
-                    len = this.lexsize - start;
+                    for (int i = lexsize - 1; i >= start; --i) {
+                        in.ungetChar(lexbuf[i]);
+                    }
+                    in.ungetChar('/');
+                    in.ungetChar('<');
+                    break;
+                }
+                if (matches && nested-- <= 0) {
+                    for (int i = lexsize - 1; i >= start; --i) {
+                    	in.ungetChar(lexbuf[i]);
+                    }
+                    in.ungetChar('/');
+                    in.ungetChar('<');
+                    lexsize -= (lexsize - start) + 2;
+                    break;
+                } else if (lexbuf[start - 2] != '\\') {
+                    /* if the end tag is not already escaped using backslash */
+                	lines = in.getCurline();
+                    columns = in.getCurcol();
+                    columns -= 3;
+                    report.error(this, null, null, Report.BAD_CDATA_CONTENT);
 
-                    this.lines = this.in.getCurline();
-                    this.columns = this.in.getCurcol() - 3;
-
-                    report.warning(this, null, null, Report.BAD_CDATA_CONTENT);
-
-                    // if javascript insert backslash before /
-                    if (TidyUtils.toBoolean(esc))
-                    {
-                        for (i = this.lexsize; i > start - 1; --i)
-                        {
-                            this.lexbuf[i] = this.lexbuf[i - 1];
+                    /* if javascript insert backslash before / */
+                    if (container.isJavaScript()) {
+                        for (int i = lexsize; i > start-1; --i) {
+                            lexbuf[i] = lexbuf[i-1];
                         }
-
-                        this.lexbuf[start - 1] = (byte) esc;
-                        this.lexsize++;
-                    }
-
-                    start = -1;
-                }
-            }
-            else if (TidyUtils.isQuote(c) && (!TidyUtils.toBoolean(esc) || lastc != esc))
-            {
-                qt = c;
-            }
-            else if (c == '<')
-            {
-                start = this.lexsize + 1; // to first letter
-                endtag = false;
-                begtag = true;
-            }
-            else if (c == '!' && lastc == '<') // Cancel start tag
-            {
-                start = -1;
-                endtag = false;
-                begtag = false;
-            }
-            else if (c == '/' && lastc == '<')
-            {
-                start = this.lexsize + 1; // to first letter
-                endtag = true;
-                begtag = false;
-            }
-            else if (c == '>' && start >= 0) // End of begin or end tag
-            {
-                int decr = 2;
-
-                if (endtag && ((len = this.lexsize - start) == container.element.length()))
-                {
-
-                    str = TidyUtils.getString(this.lexbuf, start, len);
-                    if (container.element.equalsIgnoreCase(str))
-                    {
-                        this.txtend = start - decr;
-                        this.lexsize = start - decr; // #433857 - fix by Huajun Zeng 26 Apr 01
-                        break;
+                        lexbuf[start-1] = '\\';
+                        lexsize++;
                     }
                 }
-
-                // Unquoted markup will end SCRIPT or STYLE elements
-
-                this.lines = this.in.getCurline();
-                this.columns = this.in.getCurcol() - 3;
-
-                report.warning(this, null, null, Report.BAD_CDATA_CONTENT);
-                if (begtag)
-                {
-                    decr = 1;
-                }
-                this.txtend = start - decr;
-                this.lexsize = start - decr;
-                break;
+                state = CDATA_INTERMEDIATE;
             }
-            // #427844 - fix by Markus Hoenicka 21 Oct 00
-            else if (c == '\r')
-            {
-                if (begtag || endtag)
-                {
-                    continue; // discard whitespace in endtag
-                }
-
-                c = this.in.readChar();
-
-                if (c != '\n')
-                {
-                    this.in.ungetChar(c);
-                }
-
-                c = '\n';
-
-            }
-            else if ((c == '\n' || c == '\t' || c == ' ') && (begtag || endtag))
-            {
-                continue; // discard whitespace in endtag
-            }
-
-            addCharToLexer(c);
-            this.txtend = this.lexsize;
-            lastc = c;
         }
-
-        if (c == StreamIn.END_OF_STREAM)
-        {
-            report.warning(this, container, null, Report.MISSING_ENDTAG_FOR);
+        if (isEmpty) {
+            lexsize = txtstart = txtend;
+        } else {
+            txtend = lexsize;
         }
-
-        if (this.txtend > this.txtstart)
-        {
-            this.token = newNode(Node.TEXT_NODE, this.lexbuf, this.txtstart, this.txtend);
-            return this.token;
+        if (c == StreamIn.END_OF_STREAM) {
+            report.error(this, container, null, Report.MISSING_ENDTAG_FOR);
         }
-
-        return null;
+	    /* this was disabled for some reason... */
+//	    #if 0
+//	        if (lexer->txtend > lexer->txtstart)
+//	            return TextToken(lexer);
+//	        else
+//	            return NULL;
+//	    #else
+	        return newNode(Node.TEXT_NODE, lexbuf, txtstart, txtend);
+//	    #endif
     }
 
     /**

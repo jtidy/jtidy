@@ -663,20 +663,24 @@ public final class ParserImpl
         /**
          * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
          */
-        public void parse(Lexer lexer, Node script, short mode)
-        {
-            // This isn't quite right for CDATA content as it recognises tags within the content and parses them
-            // accordingly. This will unfortunately screw up scripts which include < + letter, < + !, < + ? or < + / +
-            // letter
-
+        public void parse(Lexer lexer, Node script, short mode) {
             Node node = lexer.getCDATA(script);
-
-            if (node != null)
-            {
+            if (node != null) {
                 script.insertNodeAtEnd(node);
+            } else {
+                /* handle e.g. a document like "<script>" */
+                lexer.report.error(lexer, script, null, Report.MISSING_ENDTAG_FOR);
+                return;
+            }
+            node = lexer.getToken(Lexer.IGNORE_WHITESPACE);
+            if (!(node != null && node.type == Node.END_TAG && node.tag != null &&
+            		node.tag.name.equalsIgnoreCase(script.tag.name))) {
+                lexer.report.error(lexer, script, node, Report.MISSING_ENDTAG_FOR);
+                if (node != null) {
+                	lexer.ungetToken();
+                }
             }
         }
-
     }
 
     /**
