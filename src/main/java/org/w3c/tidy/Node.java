@@ -1288,7 +1288,6 @@ public class Node
     public boolean checkNodeIntegrity()
     {
         Node child;
-        boolean found = false;
 
         if (this.prev != null)
         {
@@ -1300,7 +1299,7 @@ public class Node
 
         if (this.next != null)
         {
-            if (this.next.prev != this)
+            if (next == this || this.next.prev != this)
             {
                 return false;
             }
@@ -1317,25 +1316,11 @@ public class Node
             {
                 return false;
             }
-
-            for (child = this.parent.content; child != null; child = child.next)
-            {
-                if (child == this)
-                {
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found)
-            {
-                return false;
-            }
         }
 
         for (child = this.content; child != null; child = child.next)
         {
-            if (!child.checkNodeIntegrity())
+            if (child.parent != this || !child.checkNodeIntegrity())
             {
                 return false;
             }
