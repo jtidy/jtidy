@@ -94,6 +94,7 @@ public class Tidy implements Serializable
         CMDLINE_ALIAS.put("xml", "input-xml");
         CMDLINE_ALIAS.put("xml", "output-xhtml");
         CMDLINE_ALIAS.put("asxml", "output-xhtml");
+        CMDLINE_ALIAS.put("asxhtml", "output-xhtml");
         CMDLINE_ALIAS.put("ashtml", "output-html");
         CMDLINE_ALIAS.put("omit", "hide-endtags");
         CMDLINE_ALIAS.put("upper", "uppercase-tags");
