@@ -54,6 +54,8 @@
 
 package org.w3c.tidy;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * Utility class with handy methods, mainly for String handling or for reproducing c behaviours.
  * @author Fabrizio Giustina
@@ -637,7 +639,7 @@ public final class TidyUtils
         {
             return str.getBytes("UTF8");
         }
-        catch (java.io.UnsupportedEncodingException e)
+        catch (UnsupportedEncodingException e)
         {
             throw new Error("String to UTF-8 conversion failed: " + e.getMessage());
         }
@@ -651,14 +653,10 @@ public final class TidyUtils
      * @param length length in byte array starting from offset
      * @return same as <code>new String(bytes, offset, length, "UTF8")</code>
      */
-    public static String getString(byte[] bytes, int offset, int length)
-    {
-        try
-        {
-            return new String(bytes, offset, length, "UTF8");
-        }
-        catch (java.io.UnsupportedEncodingException e)
-        {
+    public static String getString(final byte[] bytes, final int offset, final int length) {
+        try {
+            return length == 0 ? null : new String(bytes, offset, Math.min(length, bytes.length - offset), "UTF8");
+        } catch (UnsupportedEncodingException e) {
             throw new Error("UTF-8 to string conversion failed: " + e.getMessage());
         }
     }
@@ -859,7 +857,7 @@ public final class TidyUtils
         {
             "".getBytes(name);
         }
-        catch (java.io.UnsupportedEncodingException e)
+        catch (UnsupportedEncodingException e)
         {
             return false;
         }
