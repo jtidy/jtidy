@@ -88,7 +88,7 @@ public class Clean
     /**
      * sequential number for generated css classes.
      */
-    private int classNum = 1;
+    private int classNum;
 
     /**
      * Tag table.
@@ -293,17 +293,14 @@ public class Clean
     /**
      * Generates a new css class name.
      * @param lexer Lexer
-     * @param tag Tag
      * @return generated css class
      */
-    private String gensymClass(Lexer lexer, String tag)
-    {
-        String str;
-
-        str = lexer.configuration.cssPrefix == null ? lexer.configuration.cssPrefix + this.classNum : "c"
-            + this.classNum;
-        this.classNum++;
-        return str;
+    private String gensymClass(final Lexer lexer) {
+    	String pfx = lexer.configuration.cssPrefix;
+        if (pfx == null) {
+        	pfx = "c";
+        }
+        return pfx + ++classNum;
     }
 
     /**
@@ -325,7 +322,7 @@ public class Clean
             }
         }
 
-        style = new Style(tag, gensymClass(lexer, tag), properties, lexer.styles);
+        style = new Style(tag, gensymClass(lexer), properties, lexer.styles);
         lexer.styles = style;
         return style.tagClass;
     }
@@ -1026,6 +1023,18 @@ public class Clean
             prev = av;
         }
     }
+    
+    /*
+	    Symptom: <table bgcolor="red">
+	    Action: <table style="background-color: red">
+	*/
+	private void tableBgColor(final Node node) {
+	    final AttVal attr = node.getAttrByName("bgcolor");
+	    if (null != attr) {
+	        node.removeAttribute(attr);
+	        addStyleProperty(node, "background-color: " + attr.value);
+	    }
+	}
 
     /**
      * Symptom: <code>&lt;dir>&lt;li></code> where <code>&lt;li></code> is only child. Action: coerce
@@ -1323,6 +1332,10 @@ public class Clean
      */
     private boolean blockStyle(Lexer lexer, Node node)
     {
+    	/* check for bgcolor */
+        if (node.tag == tt.tagTable || node.tag == tt.tagTd || node.tag == tt.tagTh || node.tag == tt.tagTr) {
+            tableBgColor(node);
+        }
         Node child;
 
         if ((node.tag.model & (Dict.CM_BLOCK | Dict.CM_LIST | Dict.CM_DEFLIST | Dict.CM_TABLE)) != 0)
@@ -1628,7 +1641,7 @@ public class Clean
         repl[0] = doc;
         doc = createStyleProperties(lexer, doc, repl);
 
-        if (!lexer.configuration.makeClean)
+        if (lexer.configuration.makeClean)
         {
             defineStyleRules(lexer, doc);
             createStyleElement(lexer, doc);
