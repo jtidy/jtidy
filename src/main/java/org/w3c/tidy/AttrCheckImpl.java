@@ -265,6 +265,7 @@ public final class AttrCheckImpl
             }
 
             String p = attval.value;
+            boolean isJavascript = attval.value.startsWith("javascript:");
 
             for (i = 0; i < p.length(); ++i)
             {
@@ -282,7 +283,7 @@ public final class AttrCheckImpl
             }
 
             // backslashes found, fix them
-            if (lexer.configuration.fixBackslash && backslashFound)
+            if (lexer.configuration.fixBackslash && backslashFound && !isJavascript)
             {
                 attval.value = attval.value.replace('\\', '/');
                 p = attval.value;
