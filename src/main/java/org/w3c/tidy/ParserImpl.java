@@ -669,13 +669,13 @@ public final class ParserImpl
                 script.insertNodeAtEnd(node);
             } else {
                 /* handle e.g. a document like "<script>" */
-                lexer.report.error(lexer, script, null, Report.MISSING_ENDTAG_FOR);
+                lexer.report.warning(lexer, script, null, Report.MISSING_ENDTAG_FOR);
                 return;
             }
             node = lexer.getToken(Lexer.IGNORE_WHITESPACE);
             if (!(node != null && node.type == Node.END_TAG && node.tag != null &&
             		node.tag.name.equalsIgnoreCase(script.tag.name))) {
-                lexer.report.error(lexer, script, node, Report.MISSING_ENDTAG_FOR);
+                lexer.report.warning(lexer, script, node, Report.MISSING_ENDTAG_FOR);
                 if (node != null) {
                 	lexer.ungetToken();
                 }
