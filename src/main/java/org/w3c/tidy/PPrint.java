@@ -2062,14 +2062,7 @@ public class PPrint
             Node content;
             for (content = body.content; content != null; content = content.next)
             {
-                if (xml)
-                {
-                    printXMLTree(fout, (short) 0, 0, lexer, content);
-                }
-                else
-                {
-                    printTree(fout, (short) 0, 0, lexer, content);
-                }
+                printTree(fout, (short) 0, 0, lexer, content);
             }
         }
     }
