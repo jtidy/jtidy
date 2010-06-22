@@ -958,7 +958,7 @@ public class PPrint
         int i, c;
         int[] ci = new int[1];
 
-        for (i = start; i < end; ++i)
+        for (i = start; textarray != null && i < end; ++i)
         {
             if (indent + linelen >= this.configuration.wraplen)
             {
