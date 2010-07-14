@@ -636,6 +636,10 @@ public class Node
         }
 
         this.last = node;
+
+        if (node.next == this) {
+            node.next = null;
+        }
     }
 
     /**

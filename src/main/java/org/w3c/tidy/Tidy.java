@@ -457,13 +457,15 @@ public class Tidy implements Serializable
                 cleaner.emFromI(document);
             }
 
-            if (configuration.word2000 && cleaner.isWord2000(document))
+            if (configuration.word2000)
             {
                 // prune Word2000's <![if ...]> ... <![endif]>
                 cleaner.dropSections(lexer, document);
 
                 // drop style & class attributes and empty p, span elements
-                cleaner.cleanWord2000(lexer, document);
+                if (cleaner.isWord2000(document)) {
+                    cleaner.cleanWord2000(lexer, document);
+                }
             }
 
             // replaces presentational markup by style rules
