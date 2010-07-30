@@ -655,7 +655,7 @@ public final class TidyUtils
      */
     public static String getString(final byte[] bytes, final int offset, final int length) {
         try {
-            return length == 0 ? null : new String(bytes, offset, Math.min(length, bytes.length - offset), "UTF8");
+            return new String(bytes, offset, Math.min(length, bytes.length - offset), "UTF8");
         } catch (UnsupportedEncodingException e) {
             throw new Error("UTF-8 to string conversion failed: " + e.getMessage());
         }
