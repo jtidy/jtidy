@@ -99,7 +99,7 @@ public class EncodingNameMapperTest extends TestCase
         assertEquals("MacRoman", EncodingNameMapper.toJava("Macintosh Roman"));
         assertEquals("Cp1252", EncodingNameMapper.toJava("WiN1252"));
         assertEquals("SJIS", EncodingNameMapper.toJava("SHIFTJIS"));
-        assertEquals("31J", EncodingNameMapper.toJava("WINDOWS-31J"));
+        assertEquals("MS932", EncodingNameMapper.toJava("WINDOWS-31J"));
         assertEquals(null, EncodingNameMapper.toJava("IBM-"));
     }
 
