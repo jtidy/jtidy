@@ -84,6 +84,10 @@
                     </includes>
                     <systemProperties>
                         <property>
+                            <name>user.language</name>
+                            <value>en</value>
+                        </property>
+                        <property>
                             <name>org.jtidy.logs.dir</name>
                             <value>${project.build.directory}/logs</value>
                         </property>
