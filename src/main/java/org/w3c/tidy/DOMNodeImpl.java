@@ -296,30 +296,19 @@ public class DOMNodeImpl implements org.w3c.dom.Node
                 throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
             }
         }
-        if (refChild == null)
-        {
+        newCh.adaptee.removeNode();
+        if (refChild == null) {
             this.adaptee.insertNodeAtEnd(newCh.adaptee);
-            if (this.adaptee.type == Node.START_END_TAG)
-            {
+            if (this.adaptee.type == Node.START_END_TAG) {
                 this.adaptee.setType(Node.START_TAG);
             }
         }
-        else
-        {
-            Node ref = this.adaptee.content;
-            while (ref != null)
-            {
-                if (ref.getAdapter() == refChild)
-                {
-                    break;
-                }
-                ref = ref.next;
-            }
-            if (ref == null)
-            {
+        else {
+        	final DOMNodeImpl refCh = (DOMNodeImpl) refChild;
+        	if (refCh.adaptee.parent != adaptee) {
                 throw new DOMException(DOMException.NOT_FOUND_ERR, "refChild not found");
             }
-            Node.insertNodeBeforeElement(ref, newCh.adaptee);
+            Node.insertNodeBeforeElement(refCh.adaptee, newCh.adaptee);
         }
         return newChild;
     }
@@ -327,90 +316,12 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     /**
      * @see org.w3c.dom.Node#replaceChild
      */
-    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild)
-    {
-        // TODO - handle newChild already in tree
-
-        if (newChild == null)
-        {
-            return null;
-        }
-        if (!(newChild instanceof DOMNodeImpl))
-        {
-            throw new DOMException(DOMException.WRONG_DOCUMENT_ERR, "newChild not instanceof DOMNodeImpl");
-        }
-        DOMNodeImpl newCh = (DOMNodeImpl) newChild;
-
-        if (this.adaptee.type == Node.ROOT_NODE)
-        {
-            if (newCh.adaptee.type != Node.DOCTYPE_TAG && newCh.adaptee.type != Node.PROC_INS_TAG)
-            {
-                throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
-            }
-        }
-        else if (this.adaptee.type == Node.START_TAG)
-        {
-            if (newCh.adaptee.type != Node.START_TAG
-                && newCh.adaptee.type != Node.START_END_TAG
-                && newCh.adaptee.type != Node.COMMENT_TAG
-                && newCh.adaptee.type != Node.TEXT_NODE
-                && newCh.adaptee.type != Node.CDATA_TAG)
-            {
-                throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
-            }
-        }
-        if (oldChild == null)
-        {
-            throw new DOMException(DOMException.NOT_FOUND_ERR, "oldChild not found");
-        }
-
-        Node n;
-        Node ref = this.adaptee.content;
-        while (ref != null)
-        {
-            if (ref.getAdapter() == oldChild)
-            {
-                break;
-            }
-            ref = ref.next;
-        }
-        if (ref == null)
-        {
-            throw new DOMException(DOMException.NOT_FOUND_ERR, "oldChild not found");
-        }
-        newCh.adaptee.next = ref.next;
-        newCh.adaptee.prev = ref.prev;
-        newCh.adaptee.last = ref.last;
-        newCh.adaptee.parent = ref.parent;
-        newCh.adaptee.content = ref.content;
-        if (ref.parent != null)
-        {
-            if (ref.parent.content == ref)
-            {
-                ref.parent.content = newCh.adaptee;
-            }
-            if (ref.parent.last == ref)
-            {
-                ref.parent.last = newCh.adaptee;
-            }
-        }
-        if (ref.prev != null)
-        {
-            ref.prev.next = newCh.adaptee;
-        }
-        if (ref.next != null)
-        {
-            ref.next.prev = newCh.adaptee;
-        }
-        for (n = ref.content; n != null; n = n.next)
-        {
-            if (n.parent == ref)
-            {
-                n.parent = newCh.adaptee;
-            }
-        }
-
-        return oldChild;
+    public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) {
+    	insertBefore(newChild, oldChild);
+    	if (newChild != oldChild) {
+    		removeChild(oldChild);
+    	}
+    	return oldChild;
     }
 
     /**
