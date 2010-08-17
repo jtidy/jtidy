@@ -20,14 +20,14 @@
  *  have been possible without all of you.
  *
  *  COPYRIGHT NOTICE:
- * 
+ *
  *  This software and documentation is provided "as is," and
  *  the copyright holders and contributing author(s) make no
  *  representations or warranties, express or implied, including
  *  but not limited to, warranties of merchantability or fitness
  *  for any particular purpose or that the use of the software or
  *  documentation will not infringe any third party patents,
- *  copyrights, trademarks or other rights. 
+ *  copyrights, trademarks or other rights.
  *
  *  The copyright holders and contributing author(s) will not be
  *  liable for any direct, indirect, special or consequential damages
@@ -43,7 +43,7 @@
  *     not be misrepresented as being the original source.
  *  3. This Copyright notice may not be removed or altered from any
  *     source or altered source distribution.
- * 
+ *
  *  The copyright holders and contributing author(s) specifically
  *  permit, without fee, and encourage the use of this source code
  *  as a component for supporting the Hypertext Markup Language in
@@ -133,16 +133,16 @@ import org.w3c.tidy.Tidy;
  * <p>
  * Adds the following <code>typedef</code> to setup the JTidy task in your build.xml:
  * </p>
- * 
+ *
  * <pre>
  * &lt;taskdef name="tidy" classname="org.w3c.tidy.ant.JTidyTask"/>
  * </pre>
- * 
+ *
  * <p>
  * This will work if JTidy jar is copied to ant lib directory. If you need to reference the jar elsewhere on the
  * filesystem you can add a nested classpath element:
  * </p>
- * 
+ *
  * <pre>
  * &lt;taskdef name="tidy" classname="org.w3c.tidy.ant.JTidyTask">
  *   &lt;classpath>
@@ -150,16 +150,16 @@ import org.w3c.tidy.Tidy;
  *   &lt;/classpath>
  * &lt;/taskdef>
  * </pre>
- * 
+ *
  * <h3>Examples</h3>
- * 
+ *
  * <pre>
  * &lt;tidy destdir="out" properties="/path/to/tidy.properties">
  *   &lt;fileset dir="inputdir" />
  *   &lt;parameter name="drop-font-tags" value="true" />
  * &lt/tidy>
  * </pre>
- * 
+ *
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
@@ -319,7 +319,7 @@ public class JTidyTask extends Task
             throw new BuildException("srcfile can't be a directory.");
         }
 
-        if (properties != null && properties.isDirectory())
+        if (properties != null && ( !properties.exists() || properties.isDirectory()))
         {
             throw new BuildException("Invalid properties file specified: " + properties.getPath());
         }
