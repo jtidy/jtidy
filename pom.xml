@@ -112,7 +112,9 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
+      	<groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-surefire-plugin</artifactId>
+        <version>2.5</version>
         <configuration>
           <testFailureIgnore>true</testFailureIgnore>
           <includes>
@@ -122,16 +124,20 @@
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
+      	<groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.1</version>
         <configuration>
           <showDeprecation>true</showDeprecation>
-          <source>1.3</source>
-          <target>1.3</target>
+          <source>1.4</source>
+          <target>1.4</target>
           <encoding>UTF8</encoding>
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
+      	<groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.7</version>
         <configuration>
           <additionalparam>-breakiterator</additionalparam>
           <tags>
@@ -149,6 +155,7 @@
         <configuration>
           <licenseLocation>src/config/clover.license</licenseLocation>
         </configuration>
+        <version>2.4</version>
         <executions>
           <execution>
             <phase>pre-site</phase>
@@ -161,6 +168,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3.1</version>
         <configuration>
           <archive>
             <manifest>
@@ -205,35 +213,51 @@
   <reporting>
     <plugins>
       <plugin>
-        <artifactId>maven-checkstyle-plugin</artifactId>
+      	<groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.5</version>
         <configuration>
           <configLocation>src/config/checkstyle.xml</configLocation>
           <enableRulesSummary>false</enableRulesSummary>
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
+      	<groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-javadoc-plugin</artifactId>
+      	<version>2.7</version>
+      	<configuration>
           <quiet>true</quiet>
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-pmd-plugin</artifactId>
+      	<groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-pmd-plugin</artifactId>
+      	<version>2.5</version>
       </plugin>
       <plugin>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
+      	<groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-project-info-reports-plugin</artifactId>
+      	<version>2.2</version>
       </plugin>
       <plugin>
-        <artifactId>maven-jxr-plugin</artifactId>
+      	<groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-jxr-plugin</artifactId>
+      	<version>2.2</version>
       </plugin>
       <plugin>
-        <artifactId>maven-surefire-report-plugin</artifactId>
+      	<groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-surefire-report-plugin</artifactId>
+      	<version>2.5</version>
       </plugin>
       <plugin>
-        <artifactId>maven-changelog-plugin</artifactId>
+      	<groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-changelog-plugin</artifactId>
+      	<version>2.2</version>
       </plugin>
       <plugin>
-        <artifactId>maven-clover-plugin</artifactId>
+      	<groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-clover-plugin</artifactId>
+        <version>2.4</version>
         <configuration>
           <licenseLocation>src/config/clover.license</licenseLocation>
         </configuration>
@@ -241,6 +265,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jdepend-maven-plugin</artifactId>
+        <version>2.0-beta-1</version>
       </plugin>
     </plugins>
   </reporting>
