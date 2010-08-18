@@ -702,7 +702,7 @@ public class PPrint
                     || ((c >= 0xFF3B) && (c <= 0xFF3D))
                     || ((c >= 0xFF61) && (c <= 0xFF65)))
                 {
-                    wraphere = linelen + 2; // 2, because AddChar is not till later
+                    wraphere = linelen + 1;
                     breakable = true;
                 }
                 else
@@ -716,7 +716,7 @@ public class PPrint
                         case 0xFF3F :
                         case 0xFF5B :
                         case 0xFF5D :
-                            wraphere = linelen + 2;
+                            wraphere = linelen + 1;
                             breakable = true;
                     }
                 }
