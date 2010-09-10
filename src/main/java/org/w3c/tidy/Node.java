@@ -912,7 +912,7 @@ public class Node
             {
                 prev = element.prev;
 
-                if (prev != null && prev.type == TEXT_NODE)
+                if (prev != null && prev.textarray != null && prev.type == TEXT_NODE)
                 {
                     if (prev.textarray[prev.end - 1] != (byte) ' ')
                     {
