@@ -2,15 +2,6 @@
 <!-- expected messages for test 553468-->
 <messages>
   <message>
-    <code>-1</code>
-    <level>0</level>
-    <line>0</line>
-    <column>0</column>
-    <text><![CDATA[
-Tidy (vers 4th August 2004) Parsing "InputStream"
-]]></text>
-  </message>
-  <message>
     <code>110</code>
     <level>0</level>
     <line>1</line>
@@ -29,7 +20,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[no warnings or errors were found
-]]></text>
+    <text><![CDATA[no warnings or errors were found]]></text>
   </message>
 </messages>
