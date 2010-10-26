@@ -36,7 +36,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[2 warnings, no errors were found!
-]]></text>
+    <text><![CDATA[2 warnings, no errors were found!]]></text>
   </message>
 </messages>

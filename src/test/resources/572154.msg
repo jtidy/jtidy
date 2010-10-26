@@ -36,8 +36,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[2 warnings, no errors were found!
-]]></text>
+    <text><![CDATA[2 warnings, no errors were found!]]></text>
   </message>
   <message>
     <code>16</code>
@@ -47,8 +46,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <text><![CDATA[Pages designed using frames presents problems for
 people who are either blind or using a browser that
 doesn't support frames. A frames-based page should always
-include an alternative layout inside a NOFRAMES element.
-]]></text>
+include an alternative layout inside a NOFRAMES element.]]></text>
   </message>
   <message>
     <code>112</code>
@@ -58,7 +56,6 @@ include an alternative layout inside a NOFRAMES element.
     <text><![CDATA[For further advice on how to make your pages accessible
 see "http://www.w3.org/WAI/GL". You may also want to try
 "http://www.cast.org/bobby/" which is a free Web-based
-service for checking URLs for accessibility.
-]]></text>
+service for checking URLs for accessibility.]]></text>
   </message>
 </messages>

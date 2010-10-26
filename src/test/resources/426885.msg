@@ -127,8 +127,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <level>3</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[
-Panic - tree has lost its integrity
-]]></text>
+    <text><![CDATA[Panic - tree has lost its integrity]]></text>
   </message>
 </messages>

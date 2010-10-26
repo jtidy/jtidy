@@ -2,13 +2,6 @@
 <!-- expected messages for test 1058909-->
 <messages>
   <message>
-    <code>-1</code>
-    <level>0</level>
-    <line>0</line>
-    <column>0</column>
-    <text><![CDATA[Tidy (vers Sep 26, 2004) Parsing "InputStream"]]></text>
-  </message>
-  <message>
     <code>23</code>
     <level>2</level>
     <line>11</line>

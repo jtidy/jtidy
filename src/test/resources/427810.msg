@@ -50,8 +50,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[4 warnings, no errors were found!
-]]></text>
+    <text><![CDATA[4 warnings, no errors were found!]]></text>
   </message>
   <message>
     <code>4</code>
@@ -60,7 +59,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <column>1</column>
     <text><![CDATA[You are recommended to use CSS to control line wrapping.
 Use "white-space: nowrap" to inhibit wrapping in place
-of inserting <NOBR>...</NOBR> into the markup.
-]]></text>
+of inserting <NOBR>...</NOBR> into the markup.]]></text>
   </message>
 </messages>

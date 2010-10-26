@@ -22,7 +22,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <level>2</level>
     <line>5</line>
     <column>1</column>
-    <text><![CDATA[<body> attribute "Ã1/2" has invalid value "xx"]]></text>
+    <text><![CDATA[<body> attribute "Ãƒ1/2" has invalid value "xx"]]></text>
   </message>
   <message>
     <code>111</code>
@@ -36,7 +36,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[2 warnings, no errors were found!
-]]></text>
+    <text><![CDATA[2 warnings, no errors were found!]]></text>
   </message>
 </messages>

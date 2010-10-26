@@ -50,8 +50,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[4 warnings, no errors were found!
-]]></text>
+    <text><![CDATA[4 warnings, no errors were found!]]></text>
   </message>
   <message>
     <code>8</code>
@@ -61,7 +60,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <text><![CDATA[You are recommended to use CSS to specify the font and
 properties such as its size and color. This will reduce
 the size of HTML files and make them easier to maintain
-compared with using <FONT> elements.
-]]></text>
+compared with using <FONT> elements.]]></text>
   </message>
 </messages>
