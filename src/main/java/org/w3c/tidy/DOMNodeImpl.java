@@ -374,6 +374,10 @@ public class DOMNodeImpl implements org.w3c.dom.Node
         }
         DOMNodeImpl newCh = (DOMNodeImpl) newChild;
 
+        if (newCh.adaptee == null) {
+        	throw new DOMException(DOMException.HIERARCHY_REQUEST_ERR, "newChild cannot be a child of this node");
+        }
+
         if (this.adaptee.type == Node.ROOT_NODE)
         {
             if (newCh.adaptee.type != Node.DOCTYPE_TAG && newCh.adaptee.type != Node.PROC_INS_TAG)
