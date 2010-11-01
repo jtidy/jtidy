@@ -5,7 +5,7 @@
 <script type="text/javascript" src="bar.js">
 function baz()
 {
-  document.write( '<foo></foo>' );
+  document.write( '<foo><\/foo>' );
   document.write( "<bar>\"Some Text\"<\/bar>" );
 }
 </script>
