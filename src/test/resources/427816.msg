@@ -25,11 +25,11 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <text><![CDATA[<a> unexpected or duplicate quote mark]]></text>
   </message>
   <message>
-    <code>58</code>
+    <code>59</code>
     <level>2</level>
     <line>6</line>
     <column>1</column>
-    <text><![CDATA[<a> attribute with missing trailing quote mark]]></text>
+    <text><![CDATA[<a> unexpected or duplicate quote mark]]></text>
   </message>
   <message>
     <code>111</code>
