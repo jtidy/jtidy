@@ -25,20 +25,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <text><![CDATA[<form> lacks "action" attribute]]></text>
   </message>
   <message>
-    <code>8</code>
-    <level>2</level>
-    <line>20</line>
-    <column>1</column>
-    <text><![CDATA[discarding unexpected </table>]]></text>
-  </message>
-  <message>
-    <code>7</code>
-    <level>2</level>
-    <line>21</line>
-    <column>-3</column>
-    <text><![CDATA[missing </table> before </body>]]></text>
-  </message>
-  <message>
     <code>111</code>
     <level>0</level>
     <line>1</line>
@@ -50,7 +36,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[4 warnings, no errors were found!]]></text>
+    <text><![CDATA[2 warnings, no errors were found!]]></text>
   </message>
   <message>
     <code>4</code>
