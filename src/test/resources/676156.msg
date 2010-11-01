@@ -16,18 +16,18 @@
     <text><![CDATA[plain text isn't allowed in <head> elements]]></text>
   </message>
   <message>
-    <code>17</code>
-    <level>2</level>
-    <line>1</line>
-    <column>1</column>
-    <text><![CDATA[inserting missing 'title' element]]></text>
-  </message>
-  <message>
     <code>29</code>
     <level>2</level>
     <line>3</line>
     <column>22</column>
     <text><![CDATA[adjacent hyphens within comment]]></text>
+  </message>
+  <message>
+    <code>17</code>
+    <level>2</level>
+    <line>6</line>
+    <column>1</column>
+    <text><![CDATA[inserting missing 'title' element]]></text>
   </message>
   <message>
     <code>111</code>

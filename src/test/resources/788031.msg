@@ -16,18 +16,18 @@
     <text><![CDATA[<body> isn't allowed in <head> elements]]></text>
   </message>
   <message>
-    <code>17</code>
-    <level>2</level>
-    <line>2</line>
-    <column>1</column>
-    <text><![CDATA[inserting missing 'title' element]]></text>
-  </message>
-  <message>
     <code>52</code>
     <level>3</level>
     <line>3</line>
     <column>1</column>
     <text><![CDATA[<body> missing '>' for end of tag]]></text>
+  </message>
+  <message>
+    <code>17</code>
+    <level>2</level>
+    <line>7</line>
+    <column>1</column>
+    <text><![CDATA[inserting missing 'title' element]]></text>
   </message>
   <message>
     <code>111</code>
