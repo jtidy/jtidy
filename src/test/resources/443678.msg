@@ -30,11 +30,11 @@
     <text><![CDATA[<script> lacks "type" attribute]]></text>
   </message>
   <message>
-    <code>32</code>
+    <code>6</code>
     <level>2</level>
     <line>12</line>
-    <column>5</column>
-    <text><![CDATA['<' + '/' + letter not allowed here]]></text>
+    <column>3</column>
+    <text><![CDATA[missing </script>]]></text>
   </message>
   <message>
     <code>49</code>
