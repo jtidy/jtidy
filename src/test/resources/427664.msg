@@ -43,7 +43,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <level>2</level>
     <line>5</line>
     <column>1</column>
-    <text><![CDATA[<body> attribute "width" has invalid value "align="]]></text>
+    <text><![CDATA[<body> attribute "width" has invalid value "align="""]]></text>
   </message>
   <message>
     <code>111</code>
