@@ -9,13 +9,6 @@
     <text><![CDATA[missing <!DOCTYPE> declaration]]></text>
   </message>
   <message>
-    <code>17</code>
-    <level>2</level>
-    <line>1</line>
-    <column>1</column>
-    <text><![CDATA[inserting missing 'title' element]]></text>
-  </message>
-  <message>
     <code>7</code>
     <level>2</level>
     <line>1</line>
@@ -63,6 +56,13 @@
     <line>1</line>
     <column>13</column>
     <text><![CDATA[trimming empty <div>]]></text>
+  </message>
+  <message>
+    <code>17</code>
+    <level>2</level>
+    <line>1</line>
+    <column>13</column>
+    <text><![CDATA[inserting missing 'title' element]]></text>
   </message>
   <message>
     <code>111</code>
