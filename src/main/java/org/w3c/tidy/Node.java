@@ -921,9 +921,24 @@ public class Node
                 {
                     // create new node
                     node = lexer.newNode();
-                    node.start = element.start++;
-                    node.end = element.start;
-                    lexer.lexbuf[node.start] = (byte) ' ';
+                    // Local fix for bug 228486 (GLP). This handles the case
+                    // where we need to create a preceeding text node but there are
+                    // no "slots" in textarray that we can steal from the current
+                    // element. Therefore, we create a new textarray containing
+                    // just the blank. When Tidy is fixed, this should be removed.
+                    if (element.start >= element.end)
+                    {
+                        node.start = 0;
+                        node.end = 1;
+                        node.textarray = new byte[1];
+                    }
+                    else
+                    {
+                        node.start = element.start++;
+                        node.end = element.start;
+                        node.textarray = element.textarray;
+                    }
+                    node.textarray[node.start] = (byte) ' ';
                     Node.insertNodeBeforeElement(element, node);
                 }
             }
