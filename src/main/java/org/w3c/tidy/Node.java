@@ -1474,6 +1474,7 @@ public class Node
         for (attr = this.attributes; attr != null; attr = attr.next)
         {
             if (("language".equalsIgnoreCase(attr.attribute) || "type".equalsIgnoreCase(attr.attribute))
+                && attr.value != null
                 && attr.value.toLowerCase().contains("javascript"))
             {
                 result = true;
