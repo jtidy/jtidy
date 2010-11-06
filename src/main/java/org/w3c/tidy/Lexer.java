@@ -1678,22 +1678,11 @@ public class Lexer
         AttVal version;
         AttVal encoding;
 
-        if (root.content != null && root.content.type == Node.XML_DECL)
-        {
+        if (root.content != null && root.content.type == Node.XML_DECL) {
             xml = root.content;
-        }
-        else
-        {
+        } else {
             xml = newNode(Node.XML_DECL, this.lexbuf, 0, 0);
-            xml.next = root.content;
-
-            if (root.content != null)
-            {
-                root.content.prev = xml;
-                xml.next = root.content;
-            }
-
-            root.content = xml;
+            root.insertNodeAtStart(xml);
         }
 
         version = xml.getAttrByName("version");
