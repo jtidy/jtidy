@@ -92,7 +92,6 @@ public class Tidy implements Serializable
     static
     {
         CMDLINE_ALIAS.put("xml", "input-xml");
-        CMDLINE_ALIAS.put("xml", "output-xhtml");
         CMDLINE_ALIAS.put("asxml", "output-xhtml");
         CMDLINE_ALIAS.put("asxhtml", "output-xhtml");
         CMDLINE_ALIAS.put("ashtml", "output-html");
