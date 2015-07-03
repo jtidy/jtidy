@@ -453,6 +453,12 @@ public class Configuration implements Serializable
      * discard proprietary attributes.
      */
     protected boolean dropProprietaryAttributes;
+    
+    /**
+     * discard proprietary tags.
+     */
+    protected boolean dropProprietaryTags = true;
+    
 
     /**
      * discard empty p elements.

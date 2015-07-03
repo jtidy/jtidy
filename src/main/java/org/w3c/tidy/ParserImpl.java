@@ -1259,8 +1259,13 @@ public final class ParserImpl
                 // ignore unknown and PARAM tags
                 if (node.tag == null || node.tag == tt.tagParam)
                 {
-                    lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
-                    continue;
+                	// Unknown self enclosing tags
+                	if(!lexer.configuration.dropProprietaryTags) {
+                		node.tag = new Dict(node.element, Dict.VERS_ALL, Dict.CM_INLINE, ParserImpl.INLINE, null);
+                	} else {
+                		lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                        continue;
+                	}
                 }
 
                 if (node.tag == tt.tagBr && node.type == Node.END_TAG)
@@ -2228,8 +2233,12 @@ public final class ParserImpl
                 // ignore unknown start/end tags
                 if (node.tag == null)
                 {
-                    lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
-                    continue;
+                	if(!lexer.configuration.dropProprietaryTags) {
+                		node.tag = new Dict(node.element, Dict.VERS_ALL, Dict.CM_BLOCK, ParserImpl.BLOCK, null);
+                	} else {
+                		lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
+                        continue;
+                	}
                 }
 
                 // Allow Dict.CM_INLINE elements here. Allow Dict.CM_BLOCK elements here unless lexer.excludeBlocks is

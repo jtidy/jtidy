@@ -1581,6 +1581,16 @@ public class Tidy implements Serializable
     {
         configuration.dropProprietaryAttributes = dropProprietaryAttributes;
     }
+    
+    /**
+     * <code>drop-proprietary-tags</code>- discard proprietary tags.
+     * @param dropProprietaryTags <code>true</code> if tidy should discard proprietary tags
+     * @see Configuration#dropProprietaryTags
+     */
+    public void setDropProprietaryTags(boolean dropProprietaryTags)
+    {
+        configuration.dropProprietaryTags = dropProprietaryTags;
+    }
 
     /**
      * <code>drop-proprietary-attributes</code>- discard proprietary attributes.
@@ -1590,6 +1600,16 @@ public class Tidy implements Serializable
     public boolean getDropProprietaryAttributes()
     {
         return configuration.dropProprietaryAttributes;
+    }
+    
+    /**
+     * <code>drop-proprietary-tags</code>- discard proprietary tags.
+     * @return <code>true</code> if tidy will discard proprietary tags
+     * @see Configuration#dropProprietaryTags
+     */
+    public boolean getDropProprietaryTags()
+    {
+        return configuration.dropProprietaryTags;
     }
 
     /**
