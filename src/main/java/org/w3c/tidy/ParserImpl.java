@@ -2055,6 +2055,13 @@ public final class ParserImpl
 
             while ((node = lexer.getToken(mode)) != null)
             {
+            	// Closing unrecognized tags
+            	if(node.tag == null 
+            			&& node.type == Node.END_TAG 
+            			&& element.element.equals(node.element)
+            			&& !lexer.configuration.dropProprietaryTags) {
+            		node.tag = element.tag;
+            	}
                 // end tag for this element
                 if (node.type == Node.END_TAG
                     && node.tag != null
