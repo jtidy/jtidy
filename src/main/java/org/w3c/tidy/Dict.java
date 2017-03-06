@@ -245,6 +245,10 @@ public class Dict
      * Version: xhtml basic.
      */
     public static final short VERS_BASIC = 2048;
+    /**
+     * Version: HTML 5.
+     */
+    public static final short VERS_HTML5 = 4096;
 
     /**
      * all tags and attributes are ok in proprietary version of HTML.

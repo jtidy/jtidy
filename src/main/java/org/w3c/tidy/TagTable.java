@@ -305,13 +305,31 @@ public final class TagTable {
             new Dict("font", Dict.VERS_LOOSE, Dict.CM_INLINE, ParserImpl.INLINE, null),
             new Dict("bdo", (short) (Dict.VERS_HTML40 & ~Dict.VERS_BASIC), Dict.CM_INLINE, ParserImpl.INLINE, null),
             // elements for XHTML 1.1
-            new Dict("ruby", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
+            new Dict("ruby", Dict.VERS_HTML5, Dict.CM_INLINE, ParserImpl.INLINE, null),
             new Dict("rbc", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
             new Dict("rtc", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
-            new Dict("rb", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
-            new Dict("rt", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
+            new Dict("rb", Dict.VERS_HTML5, Dict.CM_INLINE, ParserImpl.INLINE, null),
+            new Dict("rt", Dict.VERS_HTML5, Dict.CM_INLINE, ParserImpl.INLINE, null),
             new Dict("", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
-            new Dict("rp", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
+            new Dict("rp", Dict.VERS_HTML5, Dict.CM_INLINE, ParserImpl.INLINE, null),
+            new Dict("article", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("aside", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("bdi", Dict.VERS_HTML5, Dict.CM_INLINE, ParserImpl.INLINE, null),
+            new Dict("details", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("dialog", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("figcaption", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("figure", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("footer", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("header", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("main", Dict.VERS_HTML5, Dict.CM_INLINE, ParserImpl.INLINE, null),
+            new Dict("menuitem", Dict.VERS_HTML5, Dict.CM_INLINE, ParserImpl.INLINE, null),
+            new Dict("meter", Dict.VERS_HTML5, Dict.CM_INLINE, ParserImpl.INLINE, null),
+            new Dict("nav", Dict.VERS_HTML5, Dict.CM_INLINE, ParserImpl.INLINE, null),
+            new Dict("progress", Dict.VERS_HTML5, Dict.CM_INLINE, ParserImpl.INLINE, null),
+            new Dict("section", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("summary", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("time", Dict.VERS_HTML5, Dict.CM_INLINE, ParserImpl.INLINE, null),
+            new Dict("wbr", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
             //
     };
 
@@ -541,11 +559,6 @@ public final class TagTable {
     protected Dict tagNobr;
 
     /**
-     * wbr tag.
-     */
-    protected Dict tagWbr;
-
-    /**
      * font tag.
      */
     protected Dict tagFont;
@@ -635,6 +648,130 @@ public final class TagTable {
      */
     protected Dict tagQ;
 
+
+    /**
+     * article tag.
+     */
+    protected Dict tagArticle;
+
+    /**
+     * aside tag.
+     */
+    protected Dict tagAside;
+
+    /**
+     * bdi tag.
+     */
+    protected Dict tagBdi;
+
+    /**
+     * details tag.
+     */
+    protected Dict tagDetails;
+
+    /**
+     * dialog tag.
+     */
+    protected Dict tagDialog;
+
+    /**
+     * figcaption tag.
+     */
+    protected Dict tagFigcaption;
+
+    /**
+     * figure tag.
+     */
+    protected Dict tagFigure;
+
+
+    /**
+     * footer tag.
+     */
+    protected Dict tagFooter;
+
+    /**
+     * header tag.
+     */
+    protected Dict tagHeader;
+
+    /**
+     * main tag.
+     */
+    protected Dict tagMain;
+
+    /**
+     * menuitem tag.
+     */
+    protected Dict tagMenuitem;
+
+    /**
+     * meter tag.
+     */
+    protected Dict tagMeter;
+
+    /**
+     * nav tag.
+     */
+    protected Dict tagNav;
+
+    /**
+     * progress tag.
+     */
+    protected Dict tagProgress;
+
+    /**
+     * rp tag. Defines what to show in browsers that do not support ruby annotations
+     */
+    protected Dict tagRp;
+
+    /**
+     * rt tag. Defines an explanation/pronunciation of characters (for East Asian typography)
+     */
+    protected Dict tagRt;
+
+    /**
+     * ruby tag. Defines a ruby annotation (for East Asian typography)
+     */
+    protected Dict tagRuby;
+
+
+    /**
+     * section tag. Defines a section in the document
+     */
+    protected Dict tagSection;
+
+    /**
+     * summary tag. Defines a visible heading for a <details> element
+     */
+    protected Dict tagSummary;
+
+    /**
+     * time tag. Defines a date/time
+     */
+    protected Dict tagTime;
+
+
+    /**
+     * wbr tag. Defines a possible line-break
+     */
+    protected Dict tagWbr;
+
+    /**
+     * datalist tag. Defines pre-defined options for input controls
+     */
+    protected Dict tagDatalist;
+
+    /**
+     * keygen tag. Defines a key-pair generator field (for forms)
+     */
+    protected Dict tagKeygen;
+
+    /**
+     * output tag. Defines a key-pair generator field (for forms)
+     */
+    protected Dict tagOutput;
+
     /**
      * a proprietary tag added by Tidy, along with tag_nobr, tag_wbr.
      */
@@ -696,7 +833,6 @@ public final class TagTable {
         tagB = lookup("b");
         tagI = lookup("i");
         tagStrong = lookup("strong");
-        tagMark = lookup("mark");
         tagEm = lookup("em");
         tagBig = lookup("big");
         tagSmall = lookup("small");
@@ -727,6 +863,27 @@ public final class TagTable {
         tagInput = lookup("input");
         tagQ = lookup("q");
         tagBlink = lookup("blink");
+        tagArticle = lookup("article");
+        tagAside = lookup("aside");
+        tagBdi = lookup("bdi");
+        tagDetails = lookup("details");
+        tagDialog = lookup("dialog");
+        tagFigcaption = lookup("figcaption");
+        tagFigure = lookup("figure");
+        tagFooter = lookup("footer");
+        tagHeader = lookup("header");
+        tagMain = lookup("main");
+        tagMark = lookup("mark");
+        tagMenuitem = lookup("menuitem");
+        tagMeter = lookup("meter");
+        tagNav = lookup("nav");
+        tagProgress = lookup("progress");
+        tagRp = lookup("rp");
+        tagRt = lookup("rt");
+        tagRuby = lookup("ruby");
+        tagSection = lookup("section");
+        tagSummary = lookup("summary");
+        tagTime = lookup("time");
     }
 
     /**
