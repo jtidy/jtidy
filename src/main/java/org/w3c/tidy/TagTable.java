@@ -330,7 +330,14 @@ public final class TagTable {
             new Dict("summary", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
             new Dict("time", Dict.VERS_HTML5, Dict.CM_INLINE, ParserImpl.INLINE, null),
             new Dict("wbr", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
-            //
+            new Dict("datalist", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
+            new Dict("output", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
+            new Dict("audio", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("video", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("source", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("track", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("embed", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+            new Dict("picture", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
     };
 
     /**
@@ -660,7 +667,7 @@ public final class TagTable {
     protected Dict tagAside;
 
     /**
-     * bdi tag.
+     * bdi tag.  Inline Right-to-Left text
      */
     protected Dict tagBdi;
 
@@ -763,14 +770,49 @@ public final class TagTable {
     protected Dict tagDatalist;
 
     /**
-     * keygen tag. Defines a key-pair generator field (for forms)
-     */
-    protected Dict tagKeygen;
-
-    /**
-     * output tag. Defines a key-pair generator field (for forms)
+     * output tag.
      */
     protected Dict tagOutput;
+
+    /**
+     * svg tag. Draw scalable vector graphics
+     */
+    protected Dict tagSvg;
+
+    /**
+     * canvas tag. Draw graphics, on the fly, via scripting (usually JavaScript)
+     */
+    protected Dict tagCanvas;
+
+    /**
+     * audio tag. Defines sound content
+     */
+    protected Dict tagAudio;
+
+    /**
+     * embed tag. Defines containers for external applications (like plug-ins)
+     */
+    protected Dict tagEmbed;
+
+    /**
+     * audio tag. Defines sources for <video> and <audio>
+     */
+    protected Dict tagSource;
+
+    /**
+     * audio tag. Defines tracks for <video> and <audio>
+     */
+    protected Dict tagTrack;
+
+    /**
+     * audio tag. Defines video or movie content
+     */
+    protected Dict tagVideo;
+
+    /**
+     * audio tag. Defines video or movie content
+     */
+    protected Dict tagPicture;
 
     /**
      * a proprietary tag added by Tidy, along with tag_nobr, tag_wbr.
@@ -884,6 +926,14 @@ public final class TagTable {
         tagSection = lookup("section");
         tagSummary = lookup("summary");
         tagTime = lookup("time");
+        tagDatalist = lookup("datalist");
+        tagOutput = lookup("output");
+        tagAudio = lookup("audio");
+        tagEmbed = lookup("embed");
+        tagSource = lookup("source");
+        tagTrack = lookup("track");
+        tagVideo = lookup("video");
+        tagPicture = lookup("picture");
     }
 
     /**
