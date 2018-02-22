@@ -232,12 +232,6 @@
             </plugin>
         </plugins>
     </reporting>
-    <repositories>
-        <repository>
-            <id>jtidy</id>
-            <url>http://jtidy.sourceforge.net/maven2/</url>
-        </repository>
-    </repositories>
     <distributionManagement>
         <repository>
             <id>jtidy</id>
