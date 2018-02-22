@@ -92,9 +92,9 @@
         <license/>
     </licenses>
     <scm>
-        <connection>scm:svn:https://svn.sourceforge.net/svnroot/jtidy/trunk/jtidy/</connection>
-        <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/jtidy/trunk/jtidy/</developerConnection>
-        <url>http://svn.sourceforge.net/viewcvs.cgi/jtidy/trunk/jtidy/</url>
+        <connection>scm:git@github.com:Obsidian-StudiosInc/jtidy.git</connection>
+        <developerConnection>scm:git@github.com:Obsidian-StudiosInc/jtidy.git</developerConnection>
+        <url>https://github.com/Obsidian-StudiosInc/jtidy</url>
     </scm>
     <organization>
         <name>sourceforge</name>
