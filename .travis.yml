@@ -1,12 +1,12 @@
 language: java
 sudo: true
+jdk:
+  - oraclejdk8
+  - oraclejdk9
 
 jobs:
   include:
     - stage: Test Builds
-      jdk:
-        - oraclejdk8
-        - oraclejdk9
     - stage: SonarQube Scan
       jdk:
         - oraclejdk9
