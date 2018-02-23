@@ -6,7 +6,6 @@ jdk:
 
 jobs:
   include:
-    - stage: Test Builds
     - stage: SonarQube Scan
       jdk:
         - oraclejdk9
