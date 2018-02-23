@@ -12,8 +12,15 @@ Tidy tidy = new Tidy();
 tidy.setDropProprietaryTags(false);
 ```
 
+JTidy is a Java port of HTML Tidy, a HTML syntax checker and pretty 
+printer. Like its non-Java cousin, JTidy can be used as a tool for 
+cleaning up malformed and faulty HTML. In addition, JTidy provides a DOM 
+interface to the document that is being processed, which effectively 
+makes you able to use JTidy as a DOM parser for real-world HTML.
+
 # History
-JTidy seemed to fall into disrepair years ago and had not been updated. 
+[JTidy project on SourceForge.net](https://sourceforge.net/projects/jtidy/)
+seemed to fall into disrepair years ago and had not been updated for years. 
 A few had forked it on Github.
 [William L. Thomson Jr.](https://github.com/wltjr) came along and 
 created a fork of others forks with a tag for his packaging needs as a 
