@@ -7,7 +7,5 @@ jdk:
 jobs:
   include:
     - stage: SonarQube Scan
-      jdk:
-        - oraclejdk9
       script:
         - mvn sonar:sonar -Dsonar.organization=jtidy-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=59a59dff448ccd64b31432a1dcad6d1f81b4fb40
