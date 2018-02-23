@@ -1,7 +1,7 @@
 # JTidy
 [![Build Status](https://img.shields.io/travis/jtidy/jtidy/master.svg?colorA=9977bb&style=plastic)](https://travis-ci.org/jtidy/jtidy)
 [![Build Status](https://img.shields.io/shippable/5a39c2859b0aca0700da9a9c/master.svg?colorA=9977bb&style=plastic)](https://app.shippable.com/projects/5a39c2859b0aca0700da9a9c/)
-[![Code Quality](https://sonarcloud.io/api/project_badges/measure?project=jtidy&metric=alert_status)](https://sonarcloud.io/dashboard?id=jtidy)
+[![Code Quality](https://sonarcloud.io/api/project_badges/measure?project=jtidy%3Ajtidy&metric=alert_status)](https://sonarcloud.io/dashboard?id=jtidy)
 
 # About
 Revival of the JTidy Project updated to work with HTML5 new tags. Along 
