@@ -36,58 +36,6 @@
             <archive>http://sourceforge.net/mailarchive/forum.php?forum=jtidy-cvs</archive>
         </mailingList>
     </mailingLists>
-    <developers>
-        <developer>
-            <id>fgiust</id>
-            <name>Fabrizio Giustina</name>
-            <email>fgiust AT users.sourceforge.net</email>
-            <organization>Sourceforge</organization>
-            <roles>
-                <role>Current project admin and developer</role>
-            </roles>
-            <timezone>+1</timezone>
-        </developer>
-        <developer>
-            <id>atripp</id>
-            <name>Andy Tripp</name>
-            <email>atripp AT users.sourceforge.net</email>
-            <organization>Sourceforge</organization>
-            <roles>
-                <role>Project admin</role>
-            </roles>
-            <timezone>0</timezone>
-        </developer>
-        <developer>
-            <id>russgold</id>
-            <name>Russell Gold</name>
-            <email>russgold AT users.sourceforge.net</email>
-            <organization>Sourceforge</organization>
-            <roles>
-                <role>Project admin</role>
-            </roles>
-            <timezone>0</timezone>
-        </developer>
-        <developer>
-            <id>garypeskin</id>
-            <name>Gary L Peskin</name>
-            <email>garypeskin AT users.sourceforge.net</email>
-            <organization>Sourceforge</organization>
-            <roles>
-                <role>developer</role>
-            </roles>
-            <timezone>0</timezone>
-        </developer>
-        <developer>
-            <id>lempinen</id>
-            <name>Sami Lempinen</name>
-            <email>lempinen AT users.sourceforge.net</email>
-            <organization>Sourceforge</organization>
-            <roles>
-                <role>release manager</role>
-            </roles>
-            <timezone>0</timezone>
-        </developer>
-    </developers>
     <licenses>
         <license/>
     </licenses>
