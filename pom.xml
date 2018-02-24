@@ -97,8 +97,8 @@
         <url>https://github.com/jtidy/jtidy</url>
     </scm>
     <organization>
-        <name>sourceforge</name>
-        <url>http://sourceforge.net</url>
+        <name>jtidy</name>
+        <url>https://github.com/jtidy</url>
     </organization>
     <build>
         <plugins>
