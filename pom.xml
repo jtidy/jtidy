@@ -111,7 +111,7 @@
                     </includes>
                     <systemProperties>
                         <property>
-                            <name>mvn.project.build.logs.dir</name>
+                            <name>org.jtidy.logs.dir</name>
                             <value>${project.build.directory}/logs</value>
                         </property>
                         <property>

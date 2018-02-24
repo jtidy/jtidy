@@ -8,7 +8,7 @@
     </layout>
   </appender>
   <appender name="file" class="org.apache.log4j.RollingFileAppender">
-    <param name="File" value="${mvn.project.build.logs.dir}/tests.log" />
+    <param name="File" value="${org.jtidy.logs.dir}/test/tests.log" />
     <param name="MaxFileSize" value="2MB" />
     <param name="Threshold" value="DEBUG" />
     <param name="MaxBackupIndex" value="5" />
