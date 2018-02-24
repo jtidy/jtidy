@@ -2738,6 +2738,10 @@ public class PPrint
             head.insertNodeAtStart(meta);
         }
     }
+    
+    
+   
+    
 
     /**
      * Creates slides from h2.
@@ -2746,8 +2750,9 @@ public class PPrint
      */
     public void createSlides(Lexer lexer, Node root)
     {
+        final File slidesDir = createSlidesDir();
         Node body;
-        String buf;
+        File slideFile;
 
         NumberFormat numberFormat = NumberFormat.getInstance();
         numberFormat.setMinimumIntegerDigits(3);
@@ -2760,11 +2765,11 @@ public class PPrint
 
         for (slide = 1; slide <= count; ++slide)
         {
-            buf = "slide" + numberFormat.format(slide) + ".html";
+            slideFile = createSlideFile(slidesDir, numberFormat);
 
             try
             {
-                FileOutputStream fis = new FileOutputStream(buf);
+                FileOutputStream fis = new FileOutputStream(slideFile);
                 Out out = OutFactory.getOut(configuration, fis);
 
                 printTree(out, (short) 0, 0, lexer, root);
@@ -2774,7 +2779,7 @@ public class PPrint
             }
             catch (IOException e)
             {
-                System.err.println(buf + e.toString());
+                System.err.println(slideFile + e.toString());
             }
         }
 
@@ -2782,10 +2787,40 @@ public class PPrint
         // until no such file is found.
 
         // #427666 - fix by Eric Rossen 02 Aug 00
-        while ((new File("slide" + numberFormat.format(slide) + ".html")).delete())
+        while (createSlideFile(slidesDir, numberFormat).delete())
         {
             ++slide;
         }
     }
+    
+    
+     /**
+     * Create the slides output directory if necessary.
+     * @return the path to the directory created or null if not set
+     */
+    private File createSlidesDir() {
+        final String path = System.getProperty("org.jtidy.slides.dir");
+        if (path == null || path.isEmpty()) return null;
+        final File d = new File(path);
+        d.mkdirs();
+        return d; 
+    }
+    
+    
+    /**
+     * Create slide file name with optional parent directory.
+     * @param parent the parent directory to use or null for working directory
+     * @param frm the number format to use for file name
+     * @return file instance
+     */
+    private File createSlideFile(final File parent, final NumberFormat frm) {
+        final String fname = "slide" + frm.format(slide) + ".html";
+        if (parent == null) {
+            return new File(fname);
+        } else {
+            return new File(parent, fname);
+        }
+    }
+    
 
 }

@@ -114,6 +114,10 @@
                             <name>mvn.project.build.logs.dir</name>
                             <value>${project.build.directory}/logs</value>
                         </property>
+                        <property>
+                            <name>org.jtidy.slides.dir</name>
+                            <value>${project.build.directory}/slides</value>
+                        </property>
                     </systemProperties>
                 </configuration>
             </plugin>
