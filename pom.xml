@@ -48,10 +48,14 @@
         <name>jtidy</name>
         <url>https://github.com/jtidy</url>
     </organization>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <build>
         <plugins>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.10</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                     <includes>
@@ -71,6 +75,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
                 <configuration>
                     <showDeprecation>true</showDeprecation>
                     <source>1.8</source>
@@ -80,6 +85,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
                 <configuration>
                     <additionalparam>-breakiterator</additionalparam>
                     <tags>
@@ -94,6 +100,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clover-plugin</artifactId>
+                <version>2.4</version>
                 <configuration>
                     <licenseLocation>src/config/clover.license</licenseLocation>
                 </configuration>
@@ -109,6 +116,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.2</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -154,6 +162,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.0</version>
                 <configuration>
                     <configLocation>src/config/checkstyle.xml</configLocation>
                     <enableRulesSummary>false</enableRulesSummary>
@@ -161,27 +170,34 @@
             </plugin>
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
                 <configuration>
                     <quiet>true</quiet>
                 </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.9.0</version>
             </plugin>
             <plugin>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.9</version>
             </plugin>
             <plugin>
                 <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.5</version>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.20.1</version>
             </plugin>
             <plugin>
                 <artifactId>maven-changelog-plugin</artifactId>
+                <version>2.3</version>
             </plugin>
             <plugin>
                 <artifactId>maven-clover-plugin</artifactId>
+                <version>2.4</version>
                 <configuration>
                     <licenseLocation>src/config/clover.license</licenseLocation>
                 </configuration>
@@ -189,6 +205,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jdepend-maven-plugin</artifactId>
+                <version>2.0</version>
             </plugin>
         </plugins>
     </reporting>
