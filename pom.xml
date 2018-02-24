@@ -109,6 +109,12 @@
                     <includes>
                         <include>**/*Test.*</include>
                     </includes>
+                    <systemProperties>
+                        <property>
+                            <name>mvn.project.build.logs.dir</name>
+                            <value>${project.build.directory}/logs</value>
+                        </property>
+                    </systemProperties>
                 </configuration>
             </plugin>
             <plugin>
