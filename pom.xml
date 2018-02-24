@@ -11,9 +11,9 @@
         used as a tool for cleaning up malformed and faulty HTML. In addition, JTidy provides a DOM interface to the
         document that is being processed, which effectively makes you able to use JTidy as a DOM parser for real-world HTML.
     </description>
-    <url>https://github.com/Obsidian-StudiosInc/jtidy</url>
+    <url>https://github.com/jtidy/jtidy</url>
     <issueManagement>
-        <url>https://github.com/Obsidian-StudiosInc/jtidy/issues</url>
+        <url>https://github.com/jtidy/jtidy/issues</url>
     </issueManagement>
     <inceptionYear>2000</inceptionYear>
     <mailingLists>
@@ -92,9 +92,9 @@
         <license/>
     </licenses>
     <scm>
-        <connection>scm:git@github.com:Obsidian-StudiosInc/jtidy.git</connection>
-        <developerConnection>scm:git@github.com:Obsidian-StudiosInc/jtidy.git</developerConnection>
-        <url>https://github.com/Obsidian-StudiosInc/jtidy</url>
+        <connection>scm:git@github.com:jtidy/jtidy.git</connection>
+        <developerConnection>scm:git@github.com:jtidy/jtidy.git</developerConnection>
+        <url>https://github.com/jtidy/jtidy</url>
     </scm>
     <organization>
         <name>sourceforge</name>
