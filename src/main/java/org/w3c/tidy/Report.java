@@ -747,7 +747,10 @@ public final class Report
         }
         catch (MissingResourceException e)
         {
-            lexer.errout.println(e.toString());
+            if(lexer != null)
+            {
+                lexer.errout.println(e.toString());
+            }
             return;
         }
 
@@ -1338,17 +1341,20 @@ public final class Report
                 case PROPRIETARY_ELEMENT :
                     printMessage(code, lexer, "proprietary_element", new Object[]{getTagName(node)}, Level.WARNING);
 
-                    if (node.tag == tt.tagLayer)
+                    if (node != null)
                     {
-                        lexer.badLayout |= USING_LAYER;
-                    }
-                    else if (node.tag == tt.tagSpacer)
-                    {
-                        lexer.badLayout |= USING_SPACER;
-                    }
-                    else if (node.tag == tt.tagNobr)
-                    {
-                        lexer.badLayout |= USING_NOBR;
+                        if (node.tag == tt.tagLayer)
+                        {
+                            lexer.badLayout |= USING_LAYER;
+                        }
+                        else if (node.tag == tt.tagSpacer)
+                        {
+                            lexer.badLayout |= USING_SPACER;
+                        }
+                        else if (node.tag == tt.tagNobr)
+                        {
+                            lexer.badLayout |= USING_NOBR;
+                        }
                     }
                     break;
 
