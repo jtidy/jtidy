@@ -1029,7 +1029,7 @@ public class Node
             node = node.next;
         }
 
-        if (node.tag == tt.tagFrameset)
+        if (node!=null && node.tag == tt.tagFrameset)
         {
             node = node.content;
 
