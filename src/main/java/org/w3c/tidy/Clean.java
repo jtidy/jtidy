@@ -1641,7 +1641,7 @@ public class Clean
         repl[0] = doc;
         doc = createStyleProperties(lexer, doc, repl);
 
-        if (lexer.configuration.makeClean)
+        if (doc!= null && lexer.configuration.makeClean)
         {
             defineStyleRules(lexer, doc);
             createStyleElement(lexer, doc);
