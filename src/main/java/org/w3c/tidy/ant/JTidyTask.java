@@ -83,7 +83,7 @@ import org.w3c.tidy.Tidy;
 /**
  * JTidy ant task.
  * <h3>Parameters</h3>
- * <table cellspacing="0" border="1"> <thead>
+ * <table cellspacing="0" border="1" summary="JTidy Ant Task"> <thead>
  * <tr>
  * <th>Attribute</th>
  * <th>Description</th>
@@ -93,13 +93,13 @@ import org.w3c.tidy.Tidy;
  * <tr>
  * <td>srcfile</td>
  * <td>source file</td>
- * <td>Yes, unless a nested <code>&lt;fileset></code> element is used.</td>
+ * <td>Yes, unless a nested <code>&lt;fileset&gt;</code> element is used.</td>
  * </tr>
  * <tr>
  * <td>destfile</td>
  * <td>destination file for output</td>
  * <td rowspan="2">With the <code>srcfile</code> attribute, either <code>destfile</code> or <code>destdir</code>
- * can be used. With nested <code>&lt;fileset></code> elements only <code>destdir</code> is allowed.</td>
+ * can be used. With nested <code>&lt;fileset&gt;</code> elements only <code>destdir</code> is allowed.</td>
  * </tr>
  * <tr>
  * <td>destdir</td>
@@ -122,7 +122,7 @@ import org.w3c.tidy.Tidy;
  * <code>true</code> errors in input files which tidy is enable to fix will cause a failure.</td>
  * <td>No; defaults to false.</td>
  * </tr>
- * </tbody> </table>
+ * </tbody></table>
  * <h3>Nested elements</h3>
  * <ul>
  * <li><strong>Fileset </strong>: if you need to run tidy on more than one file, you can specify nested filesets.</li>
@@ -135,7 +135,7 @@ import org.w3c.tidy.Tidy;
  * </p>
  * 
  * <pre>
- * &lt;taskdef name="tidy" classname="org.w3c.tidy.ant.JTidyTask"/>
+ * &lt;taskdef name="tidy" classname="org.w3c.tidy.ant.JTidyTask"/&gt;
  * </pre>
  * 
  * <p>
@@ -144,20 +144,20 @@ import org.w3c.tidy.Tidy;
  * </p>
  * 
  * <pre>
- * &lt;taskdef name="tidy" classname="org.w3c.tidy.ant.JTidyTask">
- *   &lt;classpath>
- *     &lt;pathelement location="${lib.dir}/jtidy.jar"/>
- *   &lt;/classpath>
- * &lt;/taskdef>
+ * &lt;taskdef name="tidy" classname="org.w3c.tidy.ant.JTidyTask"&gt;
+ *   &lt;classpath&gt;
+ *     &lt;pathelement location="${lib.dir}/jtidy.jar"/&gt;
+ *   &lt;/classpath&gt;
+ * &lt;/taskdef&gt;
  * </pre>
  * 
  * <h3>Examples</h3>
  * 
  * <pre>
- * &lt;tidy destdir="out" properties="/path/to/tidy.properties">
- *   &lt;fileset dir="inputdir" />
- *   &lt;parameter name="drop-font-tags" value="true" />
- * &lt/tidy>
+ * &lt;tidy destdir="out" properties="/path/to/tidy.properties"&gt;
+ *   &lt;fileset dir="inputdir" /&gt;
+ *   &lt;parameter name="drop-font-tags" value="true" /&gt;
+ * &lt;/tidy&gt;
  * </pre>
  * 
  * @author Fabrizio Giustina
@@ -261,7 +261,7 @@ public class JTidyTask extends Task
 
     /**
      * Adds a fileset to be processed Fileset
-     * @param fileSet
+     * @param fileSet file-set to add
      */
     public void addFileset(FileSet fileSet)
     {

@@ -58,21 +58,31 @@ package org.w3c.tidy;
  * presentation markup such as font tags, B, I, and the align attribute. By applying a set of production rules, it is
  * straight forward to transform this to use CSS. Some rules replace some of the children of an element by style
  * properties on the element, e.g.
+ * <pre>
+ * {@code 
  * <p>
  * <b>... </b>
  * </p>.
  * <p style="font-weight: bold">
  * ...
  * </p>
+ * }
+ * </pre>
  * Such rules are applied to the element's content and then to the element itself until none of the rules more apply.
  * Having applied all the rules to an element, it will have a style attribute with one or more properties. Other rules
- * strip the element they apply to, replacing it by style properties on the contents, e.g. <dir>
+ * strip the element they apply to, replacing it by style properties on the contents, e.g. 
+ * <pre> 
+ * {@code 
+ * <dir>
  * <li>
  * <p>
  * ...</li>
  * </dir>.
  * <p style="margin-left 1em">
- * ... These rules are applied to an element before processing its content and replace the current element by the first
+ * ... 
+ * }
+ * </pre>
+ * These rules are applied to an element before processing its content and replace the current element by the first
  * element in the exposed content. After applying both sets of rules, you can replace the style attribute by a class
  * value and style rule in the document head. To support this, an association of styles and class names is built. A
  * naive approach is to rely on string matching to test when two property lists are the same. A better approach would be
@@ -623,7 +633,7 @@ public class Clean
      * Used to strip font start and end tags.
      * @param element original node
      * @param pnode passed in as array to allow modification. pnode[0] will contain the final node
-     * @todo remove the pnode parameter and make it a return value
+     * TODO remove the pnode parameter and make it a return value
      */
     private void discardContainer(Node element, Node[] pnode)
     {
@@ -1649,7 +1659,7 @@ public class Clean
     }
 
     /**
-     * simplifies <b><b>... </b> ... </b> etc.
+     * simplifies {@literal <b><b>... </b> ... </b>} etc.
      * @param node root Node
      */
     public void nestedEmphasis(Node node)

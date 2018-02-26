@@ -169,7 +169,8 @@ public class Configuration implements Serializable
 
     /**
      * treatment of doctype: omit.
-     * @todo should be an enumeration DocTypeMode
+     * TODO should be an enumeration DocTypeMode
+     * 
      */
     public static final int DOCTYPE_OMIT = 0;
 
@@ -195,7 +196,7 @@ public class Configuration implements Serializable
 
     /**
      * Keep last duplicate attribute.
-     * @todo should be an enumeration DupAttrMode
+     * TODO should be an enumeration DupAttrMode
      */
     public static final int KEEP_LAST = 0;
 
@@ -696,7 +697,7 @@ public class Configuration implements Serializable
     private String outCharEncoding = "ASCII";
 
     /**
-     * Avoid mapping values > 127 to entities.
+     * Avoid mapping values &gt; 127 to entities.
      */
     protected boolean rawOut;
 

@@ -121,7 +121,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 2 getImplementation() Not implemented. Throws NOT_SUPPORTED_ERR.
+     * TODO DOM level 2 getImplementation() Not implemented. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#getImplementation
      */
     public org.w3c.dom.DOMImplementation getImplementation()
@@ -170,7 +170,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 2 createDocumentFragment() Not implemented. Throws NOT_SUPPORTED_ERR.
+     * TODO DOM level 2 createDocumentFragment() Not implemented. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#createDocumentFragment
      */
     public org.w3c.dom.DocumentFragment createDocumentFragment()
@@ -209,7 +209,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 2 createCDATASection() Not supported. Throws NOT_SUPPORTED_ERR.
+     * TODO DOM level 2 createCDATASection() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#createCDATASection
      */
     public org.w3c.dom.CDATASection createCDATASection(String data) throws DOMException
@@ -219,7 +219,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 2 createProcessingInstruction() Not supported. Throws NOT_SUPPORTED_ERR.
+     * TODO DOM level 2 createProcessingInstruction() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#createProcessingInstruction
      */
     public org.w3c.dom.ProcessingInstruction createProcessingInstruction(String target, String data)
@@ -245,7 +245,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 2 createEntityReference() Not supported. Throws NOT_SUPPORTED_ERR.
+     * TODO DOM level 2 createEntityReference() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#createEntityReference
      */
     public org.w3c.dom.EntityReference createEntityReference(String name) throws DOMException
@@ -263,7 +263,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 2 importNode() Not supported. Throws NOT_SUPPORTED_ERR.
+     * TODO DOM level 2 importNode() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#importNode(org.w3c.dom.Node, boolean)
      */
     public org.w3c.dom.Node importNode(org.w3c.dom.Node importedNode, boolean deep) throws org.w3c.dom.DOMException
@@ -272,7 +272,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 2 createAttributeNS() Not supported. Throws NOT_SUPPORTED_ERR.
+     * TODO DOM level 2 createAttributeNS() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#createAttributeNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.Attr createAttributeNS(String namespaceURI, String qualifiedName)
@@ -282,7 +282,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 2 createElementNS() Not supported. Throws NOT_SUPPORTED_ERR.
+     * TODO DOM level 2 createElementNS() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#createElementNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.Element createElementNS(String namespaceURI, String qualifiedName)
@@ -292,7 +292,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 2 getElementsByTagNameNS() Not supported. Throws NOT_SUPPORTED_ERR.
+     * TODO DOM level 2 getElementsByTagNameNS() Not supported. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#getElementsByTagNameNS(java.lang.String, java.lang.String)
      */
     public org.w3c.dom.NodeList getElementsByTagNameNS(String namespaceURI, String localName)
@@ -301,7 +301,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 2 getElementById() Not implemented. Returns null.
+     * TODO DOM level 2 getElementById() Not implemented. Returns null.
      * @see org.w3c.dom.Document#getElementById(java.lang.String)
      */
     public org.w3c.dom.Element getElementById(String elementId)
@@ -310,7 +310,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 3 adoptNode() Not implemented.
+     * TODO DOM level 3 adoptNode() Not implemented.
      * @see org.w3c.dom.Document#adoptNode(org.w3c.dom.Node)
      */
     public org.w3c.dom.Node adoptNode(org.w3c.dom.Node source) throws DOMException
@@ -319,7 +319,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 3 getDocumentURI() Not implemented. Returns null.
+     * TODO DOM level 3 getDocumentURI() Not implemented. Returns null.
      * @see org.w3c.dom.Document#getDocumentURI()
      */
     public String getDocumentURI()
@@ -328,7 +328,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 3 getDomConfig() Not implemented. Returns null.
+     * TODO DOM level 3 getDomConfig() Not implemented. Returns null.
      * @see org.w3c.dom.Document#getDomConfig()
      */
     public DOMConfiguration getDomConfig()
@@ -337,7 +337,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 3 getInputEncoding() Not implemented. Returns null.
+     * TODO DOM level 3 getInputEncoding() Not implemented. Returns null.
      * @see org.w3c.dom.Document#getInputEncoding()
      */
     public String getInputEncoding()
@@ -346,7 +346,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 3 getStrictErrorChecking() Not implemented. Returns true.
+     * TODO DOM level 3 getStrictErrorChecking() Not implemented. Returns true.
      * @see org.w3c.dom.Document#getStrictErrorChecking()
      */
     public boolean getStrictErrorChecking()
@@ -355,7 +355,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 3 getXmlEncoding() Not implemented. Returns null.
+     * TODO DOM level 3 getXmlEncoding() Not implemented. Returns null.
      * @see org.w3c.dom.Document#getXmlEncoding()
      */
     public String getXmlEncoding()
@@ -364,7 +364,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 3 getXmlStandalone() Not implemented. Returns false.
+     * TODO DOM level 3 getXmlStandalone() Not implemented. Returns false.
      * @see org.w3c.dom.Document#getXmlStandalone()
      */
     public boolean getXmlStandalone()
@@ -373,7 +373,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 3 getXmlVersion() Not implemented. Always returns "1.0".
+     * TODO DOM level 3 getXmlVersion() Not implemented. Always returns "1.0".
      * @see org.w3c.dom.Document#getXmlVersion()
      */
     public String getXmlVersion()
@@ -384,7 +384,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 3 normalizeDocument() Not implemented. Do nothing.
+     * TODO DOM level 3 normalizeDocument() Not implemented. Do nothing.
      * @see org.w3c.dom.Document#normalizeDocument()
      */
     public void normalizeDocument()
@@ -393,7 +393,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 3 renameNode() Not implemented. Throws NOT_SUPPORTED_ERR.
+     * TODO DOM level 3 renameNode() Not implemented. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.Document#renameNode(org.w3c.dom.Node, java.lang.String, java.lang.String)
      */
     public org.w3c.dom.Node renameNode(org.w3c.dom.Node n, String namespaceURI, String qualifiedName)
@@ -403,7 +403,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 3 setDocumentURI() Not implemented. Do nothing.
+     * TODO DOM level 3 setDocumentURI() Not implemented. Do nothing.
      * @see org.w3c.dom.Document#setDocumentURI(java.lang.String)
      */
     public void setDocumentURI(String documentURI)
@@ -412,7 +412,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 3 setStrictErrorChecking() Not implemented. Do nothing.
+     * TODO DOM level 3 setStrictErrorChecking() Not implemented. Do nothing.
      * @see org.w3c.dom.Document#setStrictErrorChecking(boolean)
      */
     public void setStrictErrorChecking(boolean strictErrorChecking)
@@ -421,7 +421,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 3 setXmlStandalone() Not implemented. Do nothing.
+     * TODO DOM level 3 setXmlStandalone() Not implemented. Do nothing.
      * @see org.w3c.dom.Document#setXmlStandalone(boolean)
      */
     public void setXmlStandalone(boolean xmlStandalone) throws DOMException
@@ -430,7 +430,7 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     }
 
     /**
-     * @todo DOM level 3 setXmlVersion() Not implemented. Do nothing.
+     * TODO DOM level 3 setXmlVersion() Not implemented. Do nothing.
      * @see org.w3c.dom.Document#setXmlVersion(java.lang.String)
      */
     public void setXmlVersion(String xmlVersion) throws DOMException

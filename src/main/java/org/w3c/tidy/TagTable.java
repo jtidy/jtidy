@@ -749,7 +749,7 @@ public final class TagTable {
     protected Dict tagSection;
 
     /**
-     * summary tag. Defines a visible heading for a <details> element
+     * summary tag. Defines a visible heading for a &lt;details&gt; element
      */
     protected Dict tagSummary;
 
@@ -795,12 +795,13 @@ public final class TagTable {
     protected Dict tagEmbed;
 
     /**
-     * audio tag. Defines sources for <video> and <audio>
+     * audio tag. Defines sources for &lt;video&gt; and &lt;audio&gt;
      */
     protected Dict tagSource;
 
     /**
-     * audio tag. Defines tracks for <video> and <audio>
+     * audio tag. Defines tracks for &lt;video&gt; and &lt;audio&gt;
+     * 
      */
     protected Dict tagTrack;
 

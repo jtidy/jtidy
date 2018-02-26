@@ -173,6 +173,9 @@ public class PPrint
      */
     private int count;
 
+    /**
+     * The slide content node.
+     */
     private Node slidecontent;
 
     /**
@@ -190,8 +193,9 @@ public class PPrint
     }
 
     /**
-     * @param ind
-     * @return
+     * Wrap length.
+     * @param ind the wrap amount
+     * @return the total wrap amount
      */
     int cWrapLen(int ind)
     {
@@ -213,10 +217,11 @@ public class PPrint
     }
 
     /**
-     * return one less than the number of bytes used by the UTF-8 byte sequence. The Unicode char is returned in ch.
+     * Return one less than the number of bytes used by the UTF-8 byte sequence. 
+     * The Unicode char is returned in ch.
      * @param str points to the UTF-8 byte sequence
-     * @param start starting offset in str
-     * @param ch initialized to 1st byte, passed as an array to allow modification
+     * @param start starting offset in string
+     * @param ch initialised to 1st byte, passed as an array to allow modification
      * @return one less that the number of bytes used by UTF-8 char
      */
     public static int getUTF8(byte[] str, int start, int[] ch)
@@ -248,11 +253,11 @@ public class PPrint
     }
 
     /**
-     * store char c as UTF-8 encoded byte stream.
-     * @param buf
-     * @param start
-     * @param c
-     * @return
+     * Store char c as UTF-8 encoded byte stream.
+     * @param buf the buffer
+     * @param start the start offset
+     * @param c the char
+     * @return the current position
      */
     public static int putUTF8(byte[] buf, int start, int c)
     {
@@ -273,6 +278,11 @@ public class PPrint
         return start;
     }
 
+    /**
+     * Add char at index.
+     * @param c the char
+     * @param index the index
+     */
     private void addC(int c, int index)
     {
         if (index + 1 >= lbufsize)
@@ -301,9 +311,9 @@ public class PPrint
     }
 
     /**
-     * Adds an ascii String.
+     * Adds an ASCII String.
      * @param str String to be added
-     * @param index actual line lenght
+     * @param index actual line length
      * @return final line length
      */
     private int addAsciiString(String str, int index)
@@ -339,9 +349,13 @@ public class PPrint
         return index + len;
     }
 
+   
+    
+     
     /**
-     * @param fout
-     * @param indent
+     * Wrap line.
+     * @param fout where to write output
+     * @param indent the indent amount
      */
     private void wrapLine(Out fout, int indent)
     {
@@ -402,10 +416,12 @@ public class PPrint
         wraphere = 0;
     }
 
+    
     /**
-     * @param fout
-     * @param indent
-     * @param inString
+     * Wrap attribute value.
+     * @param fout where to write output
+     * @param indent the indent amount
+     * @param inString value to wrap
      */
     private void wrapAttrVal(Out fout, int indent, boolean inString)
     {
@@ -462,9 +478,12 @@ public class PPrint
         wraphere = 0;
     }
 
+    
+    
     /**
-     * @param fout
-     * @param indent
+     * Flush the line.
+     * @param fout where to write output
+     * @param indent the indent amount
      */
     public void flushLine(Out fout, int indent)
     {
@@ -498,8 +517,9 @@ public class PPrint
     }
 
     /**
-     * @param fout
-     * @param indent
+     * Conditional flush the line.
+     * @param fout where to write output
+     * @param indent the indent amount
      */
     public void condFlushLine(Out fout, int indent)
     {
@@ -533,8 +553,9 @@ public class PPrint
     }
 
     /**
-     * @param c
-     * @param mode
+     * Print char.
+     * @param c the char to print
+     * @param mode the mode to use
      */
     private void printChar(int c, short mode)
     {
@@ -943,15 +964,17 @@ public class PPrint
         addC(c, linelen++);
     }
 
+    
     /**
-     * The line buffer is uint not char so we can hold Unicode values unencoded. The translation to UTF-8 is deferred to
+     * The line buffer is uint not char so we can hold unicode values un-encoded. 
+     * The translation to UTF-8 is deferred to
      * the outc routine called to flush the line buffer.
-     * @param fout
-     * @param mode
-     * @param indent
-     * @param textarray
-     * @param start
-     * @param end
+     * @param fout where to write output
+     * @param mode the mode to use
+     * @param indent the indent amount
+     * @param textarray the text
+     * @param start offset to start from
+     * @param end offset to read up to (exclusive)
      */
     private void printText(Out fout, short mode, int indent, byte[] textarray, int start, int end)
     {
@@ -985,7 +1008,7 @@ public class PPrint
     }
 
     /**
-     * @param str
+     * @param str the string to print
      */
     private void printString(String str)
     {
@@ -995,12 +1018,17 @@ public class PPrint
         }
     }
 
+   
+    
+    
+    
     /**
-     * @param fout
-     * @param indent
-     * @param value
-     * @param delim
-     * @param wrappable
+     * Print the attribute value.
+     * @param fout where to write output
+     * @param indent the indent amount
+     * @param value the value
+     * @param attr the delimiter
+     * @param wrappable wrappable or not
      */
     private void printAttrValue(Out fout, int indent, String value, int delim, boolean wrappable)
     {
@@ -1163,11 +1191,14 @@ public class PPrint
         addC(delim, linelen++);
     }
 
+   
+    
     /**
-     * @param fout
-     * @param indent
-     * @param node
-     * @param attr
+     * Print the attribute.
+     * @param fout where to write output
+     * @param indent the indent amount
+     * @param node the node to use
+     * @param attr the attribute value
      */
     private void printAttribute(Out fout, int indent, Node node, AttVal attr)
     {
@@ -1244,11 +1275,14 @@ public class PPrint
         }
     }
 
+   
+    
     /**
-     * @param fout
-     * @param indent
-     * @param node
-     * @param attr
+     * Print the attributes.
+     * @param fout where to write output
+     * @param indent the indent amount
+     * @param node the node to use
+     * @param attr the attribute value
      */
     private void printAttrs(Out fout, int indent, Node node, AttVal attr)
     {
@@ -1332,12 +1366,15 @@ public class PPrint
         return afterSpace(node.parent);
     }
 
+   
+    
     /**
-     * @param lexer
-     * @param fout
-     * @param mode
-     * @param indent
-     * @param node
+     * Print the tag.
+     * @param lexer the Lexer to use
+     * @param fout where to write output
+     * @param mode the mode to use
+     * @param indent the indent amount
+     * @param node the node to use
      */
     private void printTag(Lexer lexer, Out fout, short mode, int indent, Node node)
     {
@@ -1399,9 +1436,10 @@ public class PPrint
     }
 
     /**
-     * @param mode
-     * @param indent
-     * @param node
+     * Print the end tag.
+     * @param mode the mode to use
+     * @param indent the indent amount
+     * @param node the node to use
      */
     private void printEndTag(short mode, int indent, Node node)
     {
@@ -1429,10 +1467,13 @@ public class PPrint
         addC('>', linelen++);
     }
 
+   
+    
     /**
-     * @param fout
-     * @param indent
-     * @param node
+     * Print comment.
+     * @param fout where to write output
+     * @param indent the indent amount
+     * @param node the node to use
      */
     private void printComment(Out fout, int indent, Node node)
     {
@@ -1464,11 +1505,14 @@ public class PPrint
         }
     }
 
-    /**
-     * @param fout
-     * @param indent
-     * @param lexer
-     * @param node
+    
+    
+     /**
+     * Print document type.
+     * @param fout where to write output
+     * @param indent the indent amount
+     * @param lexer the Lexer to use
+     * @param node the node to use
      */
     private void printDocType(Out fout, int indent, Lexer lexer, Node node)
     {
@@ -1550,10 +1594,14 @@ public class PPrint
         condFlushLine(fout, indent);
     }
 
+   
+    
+    
     /**
-     * @param fout
-     * @param indent
-     * @param node
+     * Pretty print processing instruction.
+     * @param fout where to write output
+     * @param indent the indent amount
+     * @param node the node to use
      */
     private void printPI(Out fout, int indent, Node node)
     {
@@ -1577,11 +1625,12 @@ public class PPrint
         condFlushLine(fout, indent);
     }
 
+   
     /**
      * Pretty print the xml declaration.
-     * @param fout
-     * @param indent
-     * @param node
+     * @param fout where to write output
+     * @param indent the indent amount
+     * @param node the node to use
      */
     private void printXmlDecl(Out fout, int indent, Node node)
     {
@@ -1608,11 +1657,12 @@ public class PPrint
         condFlushLine(fout, indent);
     }
 
+  
     /**
-     * note ASP and JSTE share <% ... %> syntax.
-     * @param fout
-     * @param indent
-     * @param node
+     * Note ASP and JSTE share <% ... %> syntax.
+     * @param fout where to write output
+     * @param indent the indent amount
+     * @param node the node to use
      */
     private void printAsp(Out fout, int indent, Node node)
     {
@@ -1636,11 +1686,13 @@ public class PPrint
         this.configuration.wraplen = savewraplen;
     }
 
+   
+    
     /**
      * JSTE also supports <# ... #> syntax
-     * @param fout
-     * @param indent
-     * @param node
+     * @param fout where to write output
+     * @param indent the indent amount
+     * @param node the node to use
      */
     private void printJste(Out fout, int indent, Node node)
     {
@@ -1664,11 +1716,12 @@ public class PPrint
         this.configuration.wraplen = savewraplen;
     }
 
+
     /**
      * PHP is based on XML processing instructions.
-     * @param fout
-     * @param indent
-     * @param node
+     * @param fout where to write output
+     * @param indent the indent amount
+     * @param node the node to use
      */
     private void printPhp(Out fout, int indent, Node node)
     {
@@ -1693,9 +1746,9 @@ public class PPrint
     }
 
     /**
-     * @param fout
-     * @param indent
-     * @param node
+     * @param fout where to write output
+     * @param indent the indent amount
+     * @param node the node to use
      */
     private void printCDATA(Out fout, int indent, Node node)
     {
@@ -1731,9 +1784,9 @@ public class PPrint
     }
 
     /**
-     * @param fout
-     * @param indent
-     * @param node
+     * @param fout where to write output
+     * @param indent the indent amount
+     * @param node the node to use
      */
     private void printSection(Out fout, int indent, Node node)
     {
@@ -1766,7 +1819,7 @@ public class PPrint
 
     /**
      * Is the current node inside HEAD?
-     * @param node Node
+     * @param node the node to use
      * @return <code>true</code> if node is inside an HEAD tag
      */
     private boolean insideHead(Node node)
@@ -1856,11 +1909,11 @@ public class PPrint
      *         ]]>
      * </pre>
      * 
-     * @param fout
-     * @param mode
-     * @param indent
-     * @param lexer
-     * @param node
+     * @param fout where to write output
+     * @param mode the mode
+     * @param indent the indent amount
+     * @param lexer the Lexer to use
+     * @param node the node to use
      */
     private void printScriptStyle(Out fout, short mode, int indent, Lexer lexer, Node node)
     {
@@ -2041,10 +2094,10 @@ public class PPrint
 
     /**
      * Print just the content of the body element. Useful when you want to reuse material from other documents.
-     * @param fout
-     * @param lexer
-     * @param root
-     * @param xml
+     * @param fout where to write output
+     * @param lexer the Lexer to use
+     * @param root the root node
+     * @param xml whether to write xml or not
      */
     void printBody(Out fout, Lexer lexer, Node root, boolean xml)
     {
@@ -2068,11 +2121,11 @@ public class PPrint
     }
 
     /**
-     * @param fout
-     * @param mode
-     * @param indent
-     * @param lexer
-     * @param node
+     * @param fout where to write output
+     * @param mode the mode to use
+     * @param indent the indent amount
+     * @param lexer the Lexer to use
+     * @param node the node to use
      */
     public void printTree(Out fout, short mode, int indent, Lexer lexer, Node node)
     {
@@ -2365,11 +2418,11 @@ public class PPrint
     }
 
     /**
-     * @param fout
-     * @param mode
-     * @param indent
-     * @param lexer
-     * @param node
+     * @param fout where to write output
+     * @param mode the mode to use
+     * @param indent the indent amount
+     * @param lexer the Lexer to use
+     * @param node the node to use
      */
     public void printXMLTree(Out fout, short mode, int indent, Lexer lexer, Node node)
     {
@@ -2537,8 +2590,8 @@ public class PPrint
     }
 
     /**
-     * @param fout
-     * @param indent
+     * @param fout where to write output
+     * @param indent the indent amount
      */
     private void printNavBar(Out fout, int indent)
     {
@@ -2583,13 +2636,14 @@ public class PPrint
     }
 
     /**
-     * Called from printTree to print the content of a slide from the node slidecontent. On return slidecontent points
-     * to the node starting the next slide or null. The variables slide and count are used to customise the navigation
+     * Called from printTree to print the content of a slide from the node slide content. 
+     * On return slide content points to the node starting the next slide or null. 
+     * The variables slide and count are used to customise the navigation
      * bar.
-     * @param fout
-     * @param mode
-     * @param indent
-     * @param lexer
+     * @param fout where to write output 
+     * @param mode the mode to use
+     * @param indent the indent amount
+     * @param lexer the Lexer to use
      */
     public void printSlide(Out fout, short mode, int indent, Lexer lexer)
     {
@@ -2719,9 +2773,9 @@ public class PPrint
 
     /**
      * Add meta element for page transition effect, this works on IE but not NS.
-     * @param lexer
-     * @param root
-     * @param duration
+     * @param lexer the Lexer instance to use
+     * @param root the root node
+     * @param duration transition duration
      */
     public void addTransitionEffect(Lexer lexer, Node root, double duration)
     {

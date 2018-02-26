@@ -61,7 +61,8 @@ import java.util.Map;
  * Maps between Java and IANA character encoding names. Also handles encoding alias used in tidy c.
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
- * @see http://www.iana.org/assignments/character-sets
+ * @see <a href="http://www.iana.org/assignments/character-sets">iana character-sets</a>
+
  */
 public abstract class EncodingNameMapper
 {

@@ -84,7 +84,7 @@ public class DOMProcessingInstructionImpl extends DOMNodeImpl implements org.w3c
     }
 
     /**
-     * @todo DOM level 2 getTarget() Not implemented. Returns null.
+     * TODO DOM level 2 getTarget() Not implemented. Returns null.
      * @see org.w3c.dom.ProcessingInstruction#getTarget
      */
     public String getTarget()

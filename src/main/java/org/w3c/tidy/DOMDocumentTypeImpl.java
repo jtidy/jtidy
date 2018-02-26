@@ -107,7 +107,7 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
     }
 
     /**
-     * @todo DOM level 2 getEntities() Not implemented. Returns null.
+     * TODO DOM level 2 getEntities() Not implemented. Returns null.
      * @see org.w3c.dom.DocumentType#getEntities()
      */
     public org.w3c.dom.NamedNodeMap getEntities()
@@ -116,7 +116,7 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
     }
 
     /**
-     * @todo DOM level 2 getNotations() Not implemented. Returns null.
+     * TODO DOM level 2 getNotations() Not implemented. Returns null.
      * @see org.w3c.dom.DocumentType#getNotations()
      */
     public org.w3c.dom.NamedNodeMap getNotations()
@@ -125,7 +125,7 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
     }
 
     /**
-     * @todo DOM level 2 getPublicId() Not implemented. Returns null.
+     * TODO DOM level 2 getPublicId() Not implemented. Returns null.
      * @see org.w3c.dom.DocumentType#getPublicId()
      */
     public String getPublicId()
@@ -134,7 +134,7 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
     }
 
     /**
-     * @todo DOM level 2 getSystemId() Not implemented. Returns null.
+     * TODO DOM level 2 getSystemId() Not implemented. Returns null.
      * @see org.w3c.dom.DocumentType#getSystemId()
      */
     public String getSystemId()
@@ -143,7 +143,7 @@ public class DOMDocumentTypeImpl extends DOMNodeImpl implements org.w3c.dom.Docu
     }
 
     /**
-     * @todo DOM level 2 getInternalSubset() Not implemented. Returns null.
+     * TODO DOM level 2 getInternalSubset() Not implemented. Returns null.
      * @see org.w3c.dom.DocumentType#getInternalSubset()
      */
     public String getInternalSubset()

@@ -95,7 +95,7 @@ public final class StreamInFactory
     /**
      * Returns the appropriate StreamIn implementation.
      * @param config configuration instance
-     * @param stream input stream
+     * @param reader the reader to read from
      * @return StreamIn instance
      */
     public static StreamIn getStreamIn(Configuration config, Reader reader)

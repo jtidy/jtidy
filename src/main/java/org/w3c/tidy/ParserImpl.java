@@ -172,9 +172,10 @@ public final class ParserImpl
     }
 
     /**
-     * @param lexer
-     * @param node
-     * @param mode
+     * Parse tag.
+     * @param lexer the Lexer to use
+     * @param node the node to use
+     * @param mode the mode to use
      */
     protected static void parseTag(Lexer lexer, Node node, short mode)
     {
@@ -204,10 +205,11 @@ public final class ParserImpl
     }
 
     /**
-     * Move node to the head, where element is used as starting point in hunt for head. Normally called during parsing.
-     * @param lexer
-     * @param element
-     * @param node
+     * Move node to the head, where element is used as starting point in hunt for head. 
+     * Normally called during parsing.
+     * @param lexer the Lexer to use
+     * @param element the element to use
+     * @param node the node to use
      */
     protected static void moveToHead(Lexer lexer, Node element, Node node)
     {
@@ -3356,6 +3358,8 @@ public final class ParserImpl
 
     /**
      * HTML is the top level element.
+     * @param lexer the Lexer to use
+     * @return the document node
      */
     public static Node parseDocument(Lexer lexer)
     {
@@ -3492,7 +3496,10 @@ public final class ParserImpl
     }
 
     /**
-     * XML documents.
+     * Parse XML element.
+     * @param lexer the Lexer to use
+     * @param element the element to parse
+     * @param mode the mode to use
      */
     public static void parseXMLElement(Lexer lexer, Node element, short mode)
     {
@@ -3564,6 +3571,12 @@ public final class ParserImpl
         }
     }
 
+    
+    /**
+     * Parse xml document.
+     * @param lexer the Lexer to use
+     * @return the document node
+     */
     public static Node parseXMLDocument(Lexer lexer)
     {
         Node node, document, doctype;

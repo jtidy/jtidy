@@ -829,7 +829,7 @@ public class Node
     {
         Node node = lexer.newNode();
         node.start = lexer.lexsize;
-        node.textarray = element.textarray; // @todo check it
+        node.textarray = element.textarray; // TODO check it
         lexer.addByte('<');
 
         if (element.type == END_TAG)
@@ -894,9 +894,10 @@ public class Node
     }
 
     /**
-     * This maps <code>&lt;p> hello &lt;em> world &lt;/em></code> to <code>&lt;p> hello &lt;em> world &lt;/em></code>.
-     * Trims initial space, by moving it before the start tag, or if this element is the first in parent's content, then
-     * by discarding the space.
+     * This maps <code>&lt;p&gt; hello &lt;em&gt; world &lt;/em&gt;</code> to 
+     * <code>&lt;p&gt; hello &lt;em&gt; world &lt;/em&gt;</code>.
+     * Trims initial space, by moving it before the start tag, or if this element 
+     * is the first in parent's content, then by discarding the space.
      * @param lexer Lexer
      * @param element parent node
      * @param text text node

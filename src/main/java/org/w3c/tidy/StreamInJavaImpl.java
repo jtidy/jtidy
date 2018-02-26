@@ -122,13 +122,13 @@ public class StreamInJavaImpl implements StreamIn
 
     /**
      * Instantiates a new StreamInJavaImpl.
-     * @param stream
-     * @param encoding
-     * @param tabsize
-     * @throws UnsupportedEncodingException
+     * @param stream the stream to read from
+     * @param encoding the streams text encoding
+     * @param tabsize the tab size
+     * @throws UnsupportedEncodingException if encoding not supported
      */
-    protected StreamInJavaImpl(InputStream stream, String encoding, int tabsize) throws UnsupportedEncodingException
-    {
+    protected StreamInJavaImpl(InputStream stream, String encoding, int tabsize) 
+            throws UnsupportedEncodingException {
         reader = new InputStreamReader(stream, encoding);
         this.pushed = false;
         this.tabsize = tabsize;
@@ -139,9 +139,8 @@ public class StreamInJavaImpl implements StreamIn
 
     /**
      * Instantiates a new StreamInJavaImpl.
-     * @param stream
-     * @param encoding
-     * @param tabsize
+     * @param reader the reader
+     * @param tabsize the tab size
      */
     protected StreamInJavaImpl(Reader reader, int tabsize)
     {
@@ -156,6 +155,7 @@ public class StreamInJavaImpl implements StreamIn
     /**
      * @see org.w3c.tidy.StreamIn#readCharFromStream()
      */
+    @Override
     public int readCharFromStream()
     {
         int c;
@@ -170,7 +170,7 @@ public class StreamInJavaImpl implements StreamIn
         }
         catch (IOException e)
         {
-            // @todo how to handle?
+            // TODO how to handle?
             endOfStream = true;
             return END_OF_STREAM;
         }
@@ -181,6 +181,7 @@ public class StreamInJavaImpl implements StreamIn
     /**
      * @see org.w3c.tidy.StreamIn#readChar()
      */
+    @Override
     public int readChar()
     {
         int c;
@@ -260,6 +261,7 @@ public class StreamInJavaImpl implements StreamIn
     /**
      * @see org.w3c.tidy.StreamIn#ungetChar(int)
      */
+    @Override
     public void ungetChar(int c)
     {
         this.pushed = true;
@@ -282,6 +284,7 @@ public class StreamInJavaImpl implements StreamIn
     /**
      * @see org.w3c.tidy.StreamIn#isEndOfStream()
      */
+    @Override
     public boolean isEndOfStream()
     {
         return endOfStream;
@@ -291,6 +294,7 @@ public class StreamInJavaImpl implements StreamIn
      * Getter for <code>curcol</code>.
      * @return Returns the curcol.
      */
+    @Override
     public int getCurcol()
     {
         return this.curcol;
@@ -300,6 +304,7 @@ public class StreamInJavaImpl implements StreamIn
      * Getter for <code>curline</code>.
      * @return Returns the curline.
      */
+    @Override
     public int getCurline()
     {
         return this.curline;
@@ -308,6 +313,7 @@ public class StreamInJavaImpl implements StreamIn
     /**
      * @see org.w3c.tidy.StreamIn#setLexer(org.w3c.tidy.Lexer)
      */
+    @Override
     public void setLexer(Lexer lexer)
     {
         // unused in the java implementation

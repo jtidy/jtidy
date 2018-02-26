@@ -457,7 +457,7 @@ public class TidyWarningBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [552861] : &lt;td with=""> not recognized.
+     * test for Tidy [552861] : &lt;td with=""&gt; not recognized.
      * @throws Exception any exception generated during the test
      */
     public void test552861() throws Exception

@@ -92,7 +92,7 @@ public class JTidyBugsTest extends TidyTestCase
     }
 
     /**
-     * test for JTidy [508245]: Do not convert the & or &lt; to Entity Ref. Actually is "Tidy fails in completing
+     * test for JTidy [508245]: Do not convert the &amp; or &lt; to Entity Ref. Actually is "Tidy fails in completing
      * unclosed tags"
      * @throws Exception any exception generated during the test
      */

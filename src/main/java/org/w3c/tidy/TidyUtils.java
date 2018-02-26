@@ -787,7 +787,7 @@ public final class TidyUtils
      * @param tocaps convert to caps
      * @param xmlTags use xml tags? If true no change will be performed
      * @return folded char
-     * @todo check the use of xmlTags parameter
+     * TODO check the use of xmlTags parameter
      */
     public static char foldCase(char c, boolean tocaps, boolean xmlTags)
     {

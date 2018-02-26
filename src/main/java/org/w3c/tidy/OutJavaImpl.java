@@ -114,7 +114,7 @@ public class OutJavaImpl implements Out
         }
         catch (IOException e)
         {
-            // @todo throws exception
+            // TODO throws exception
             System.err.println("OutJavaImpl.outc: " + e.getMessage());
         }
     }
@@ -130,7 +130,7 @@ public class OutJavaImpl implements Out
         }
         catch (IOException e)
         {
-            // @todo throws exception
+            // TODO throws exception
             System.err.println("OutJavaImpl.outc: " + e.getMessage());
         }
     }
@@ -146,7 +146,7 @@ public class OutJavaImpl implements Out
         }
         catch (IOException e)
         {
-            // @todo throws exception
+            // TODO throws exception
             System.err.println("OutJavaImpl.newline: " + e.getMessage());
         }
     }

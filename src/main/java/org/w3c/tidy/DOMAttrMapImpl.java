@@ -142,7 +142,7 @@ public class DOMAttrMapImpl implements org.w3c.dom.NamedNodeMap
     }
 
     /**
-     * @todo DOM level 2 setNamedItem() Not implemented. Throws NOT_SUPPORTED_ERR.
+     * TODO DOM level 2 setNamedItem() Not implemented. Throws NOT_SUPPORTED_ERR.
      * @see org.w3c.dom.NamedNodeMap#setNamedItem
      */
     public org.w3c.dom.Node setNamedItem(org.w3c.dom.Node arg) throws DOMException

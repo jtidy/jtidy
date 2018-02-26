@@ -120,7 +120,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [427820] : indent config options ignored for &lt;BR>. [fixed]
+     * test for Tidy [427820] : indent config options ignored for &lt;BR&gt;. [fixed]
      * @throws Exception any exception generated during the test
      */
     public void test427820() throws Exception
@@ -167,7 +167,7 @@ public class TidyOutputBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [427826] : Script source needs escaping/CDATA section.
-     * @todo HIGH priority
+     * TODO HIGH priority
      * @throws Exception any exception generated during the test
      */
     public void test427826() throws Exception
@@ -186,7 +186,7 @@ public class TidyOutputBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [427833] : Uppercase &amp;#X; escape sequences ignored.
-     * @todo high priority
+     * TODO high priority
      * @throws Exception any exception generated during the test
      */
     public void test427833() throws Exception
@@ -286,7 +286,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [431889] : The "alt-text:" and "doctype: &lt;fpi>" options do not work when specified in a config
+     * test for Tidy [431889] : The "alt-text:" and "doctype: &lt;fpi&gt;" options do not work when specified in a config
      * file with a quoted string parameter.
      * @throws Exception any exception generated during the test
      */
@@ -359,7 +359,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [433360] : Tags with missing > can't be repaired.
+     * test for Tidy [433360] : Tags with missing &gt; can't be repaired.
      * @throws Exception any exception generated during the test
      */
     public void test433360() throws Exception
@@ -625,7 +625,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [470663] : Unterminated tags in &lt;head>confuse pars.
+     * test for Tidy [470663] : Unterminated tags in &lt;head&gt;confuse pars.
      * @throws Exception any exception generated during the test
      */
     public void test470663() throws Exception
@@ -739,7 +739,7 @@ public class TidyOutputBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [503436] : Detect duplicate attribute specifications in XML docs.
-     * @todo HIGH PRIORITY.
+     * TODO HIGH PRIORITY.
      * @throws Exception any exception generated during the test
      */
     public void test503436() throws Exception
@@ -757,7 +757,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [505770] : Unclosed %lt;option> tag causing problems.
+     * test for Tidy [505770] : Unclosed %lt;option&gt; tag causing problems.
      * @throws Exception any exception generated during the test
      */
     public void test505770() throws Exception
@@ -839,7 +839,7 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
-     * test for Tidy [533233] : Extra newline around inline &lt;script>.
+     * test for Tidy [533233] : Extra newline around inline &lt;script&gt;
      * @throws Exception any exception generated during the test
      */
     public void test533233() throws Exception
@@ -1029,7 +1029,7 @@ public class TidyOutputBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [678268] : --output-xhtml produces bad xml.
-     * @todo HIGH PRIORITY.
+     * TODO HIGH PRIORITY.
      * @throws Exception any exception generated during the test
      */
     public void test678268() throws Exception
@@ -1048,7 +1048,7 @@ public class TidyOutputBugsTest extends TidyTestCase
 
     /**
      * test for Tidy [695408] : Empty spans getting dropped, even if they have attrs.
-     * @todo HIGH PRIORITY.
+     * TODO HIGH PRIORITY.
      * @throws Exception any exception generated during the test
      */
     public void test695408() throws Exception

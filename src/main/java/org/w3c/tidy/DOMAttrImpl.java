@@ -158,7 +158,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
     }
 
     /**
-     * @todo DOM level 2 getChildNodes() Not implemented. Returns an empty NodeList.
+     * TODO DOM level 2 getChildNodes() Not implemented. Returns an empty NodeList.
      * @see org.w3c.dom.Node#getChildNodes()
      */
     public org.w3c.dom.NodeList getChildNodes()
@@ -169,7 +169,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
     }
 
     /**
-     * @todo DOM level 2 getFirstChild() Not implemented. Returns null.
+     * TODO DOM level 2 getFirstChild() Not implemented. Returns null.
      * @see org.w3c.dom.Node#getFirstChild()
      */
     public org.w3c.dom.Node getFirstChild()
@@ -178,7 +178,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
     }
 
     /**
-     * @todo DOM level 2 getLastChild() Not implemented. Returns null.
+     * TODO DOM level 2 getLastChild() Not implemented. Returns null.
      * @see org.w3c.dom.Node#getLastChild()
      */
     public org.w3c.dom.Node getLastChild()
@@ -213,7 +213,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
     }
 
     /**
-     * @todo DOM level 2 getOwnerDocument() Not implemented. Returns null.
+     * TODO DOM level 2 getOwnerDocument() Not implemented. Returns null.
      * @see org.w3c.dom.Node#getOwnerDocument()
      */
     public org.w3c.dom.Document getOwnerDocument()
@@ -277,7 +277,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
     }
 
     /**
-     * @todo DOM level 2 getOwnerElement() Not implemented. Returns null.
+     * TODO DOM level 2 getOwnerElement() Not implemented. Returns null.
      * @see org.w3c.dom.Attr#getOwnerElement()
      */
     public org.w3c.dom.Element getOwnerElement()
@@ -286,7 +286,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
     }
 
     /**
-     * @todo DOM level 3 getSchemaTypeInfo() Not implemented. Returns null.
+     * TODO DOM level 3 getSchemaTypeInfo() Not implemented. Returns null.
      * @see org.w3c.dom.Attr#getSchemaTypeInfo()
      */
     public TypeInfo getSchemaTypeInfo()

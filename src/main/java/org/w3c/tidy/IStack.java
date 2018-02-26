@@ -57,9 +57,9 @@ package org.w3c.tidy;
  * Inline stack node.
  * <p>
  * Mosaic handles inlines via a separate stack from other elements We duplicate this to recover from inline markup
- * errors such as: &lt;i>italic text &lt;p> more italic text&lt;/b> normal text which for compatibility with Mosaic is
- * mapped to: &lt;i>italic text&lt;/i> &lt;p> &lt;i>more italic text&lt;/i> normal text Note that any inline end tag
- * pop's the effect of the current inline start tag, so that&lt;/b> pop's &lt;i>in the above example.
+ * errors such as: &lt;i&gt;italic text &lt;p&gt; more italic text&lt;/b&gt; normal text which for compatibility with Mosaic is
+ * mapped to: &lt;i&gt;italic text&lt;/i&gt; &lt;p&gt; &lt;i&gt;more italic text&lt;/i&gt; normal text Note that any inline end tag
+ * pop's the effect of the current inline start tag, so that&lt;/b&gt; pop's &lt;i&gt;in the above example.
  * </p>
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)

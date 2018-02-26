@@ -93,7 +93,7 @@ public class DOMTextImpl extends DOMCharacterDataImpl implements org.w3c.dom.Tex
     }
 
     /**
-     * @todo DOM level 2 splitText() Not supported. Throws NO_MODIFICATION_ALLOWED_ERR.
+     * TODO DOM level 2 splitText() Not supported. Throws NO_MODIFICATION_ALLOWED_ERR.
      * @see org.w3c.dom.Text#splitText(int)
      */
     public org.w3c.dom.Text splitText(int offset) throws DOMException
@@ -102,7 +102,7 @@ public class DOMTextImpl extends DOMCharacterDataImpl implements org.w3c.dom.Tex
     }
 
     /**
-     * @todo DOM level 3 getWholeText() Not implemented. Returns null.
+     * TODO DOM level 3 getWholeText() Not implemented. Returns null.
      * @see org.w3c.dom.Text#getWholeText()
      */
     public String getWholeText()
@@ -111,7 +111,7 @@ public class DOMTextImpl extends DOMCharacterDataImpl implements org.w3c.dom.Tex
     }
 
     /**
-     * @todo DOM level 3 isElementContentWhitespace() Not implemented. Returns false.
+     * TODO DOM level 3 isElementContentWhitespace() Not implemented. Returns false.
      * @see org.w3c.dom.Text#isElementContentWhitespace()
      */
     public boolean isElementContentWhitespace()
@@ -120,7 +120,7 @@ public class DOMTextImpl extends DOMCharacterDataImpl implements org.w3c.dom.Tex
     }
 
     /**
-     * @todo DOM level 3 replaceWholeText() Not implemented. Returns the same node.
+     * TODO DOM level 3 replaceWholeText() Not implemented. Returns the same node.
      * @see org.w3c.dom.Text#isElementContentWhitespace()
      */
     public Text replaceWholeText(String content) throws DOMException

@@ -359,7 +359,7 @@ public class Tidy implements Serializable
     {
         if (!(doc instanceof DOMDocumentImpl))
         {
-            // @todo should we inform users that tidy can't print a generic Document or change the method signature?
+            // TODO should we inform users that tidy can't print a generic Document or change the method signature?
             return;
         }
 
@@ -375,7 +375,7 @@ public class Tidy implements Serializable
     {
         if (!(node instanceof DOMNodeImpl))
         {
-            // @todo should we inform users than tidy can't print a generic Node or change the method signature?
+            // TODO should we inform users than tidy can't print a generic Node or change the method signature?
             return;
         }
 
@@ -1821,9 +1821,9 @@ public class Tidy implements Serializable
 
     /**
      * <code>assume-xml-procins</code> This option specifies if Tidy should change the parsing of processing
-     * instructions to require ?> as the terminator rather than >. This option is automatically set if the input is in
-     * XML.
-     * @param xmlPIs <code>true</code> if tidy should expect a ?> at the end of processing instructions
+     * instructions to require ?&gt; as the terminator rather than &gt;. 
+     * This option is automatically set if the input is in XML.
+     * @param xmlPIs <code>true</code> if tidy should expect a ?&gt; at the end of processing instructions
      * @see Configuration#xmlPIs
      */
     public void setXmlPIs(boolean xmlPIs)
@@ -1833,9 +1833,9 @@ public class Tidy implements Serializable
 
     /**
      * <code>assume-xml-procins</code> This option specifies if Tidy should change the parsing of processing
-     * instructions to require ?> as the terminator rather than >. This option is automatically set if the input is in
-     * XML.
-     * @return <code>true</code> if tidy will expect a ?> at the end of processing instructions
+     * instructions to require ?&gt; as the terminator rather than &gt;. 
+     * This option is automatically set if the input is in XML.
+     * @return <code>true</code> if tidy will expect a ?&gt; at the end of processing instructions
      * @see Configuration#xmlPIs
      */
     public boolean getXmlPIs()
@@ -1874,8 +1874,10 @@ public class Tidy implements Serializable
     }
 
     /**
-     * <code>enclose-block-text</code>- if true text in blocks is wrapped in &lt;p&gt;'s. return <code>true</code>
+     * <code>enclose-block-text</code>- if true text in blocks is wrapped in &lt;p&gt;'s. 
+     * return <code>true</code>
      * if tidy should will text text in blocks in &lt;p&gt;'s.
+     * @return if tidy should wrap text in blocks
      * @see Configuration#encloseBlockText
      */
     public boolean getEncloseBlockText()
@@ -2175,7 +2177,7 @@ public class Tidy implements Serializable
 
     /**
      * <code>trim-empty-elements</code>- trim empty elements.
-     * @param trim-empty-elements true = trim empty elements
+     * @param trimEmpty trim empty elements or not
      * @see Configuration#trimEmpty
      */
     public void setTrimEmptyElements(boolean trimEmpty)
@@ -2252,7 +2254,7 @@ public class Tidy implements Serializable
     /**
      * <code>keep-time</code>- if true last modified time is preserved.
      * @param keepFileTimes <code>true</code> if tidy should preserved last modified time in input file.
-     * @todo <strong>this is NOT supported at this time. </strong>
+     * TODO <strong>this is NOT supported at this time. </strong>
      * @see Configuration#keepFileTimes
      */
     public void setKeepFileTimes(boolean keepFileTimes)
@@ -2263,7 +2265,7 @@ public class Tidy implements Serializable
     /**
      * <code>keep-time</code>- if true last modified time is preserved.
      * @return <code>true</code> if tidy will preserved last modified time in input file.
-     * @todo <strong>this is NOT supported at this time. </strong>
+     * TODO <strong>this is NOT supported at this time. </strong>
      * @see Configuration#keepFileTimes
      */
     public boolean getKeepFileTimes()
@@ -2272,9 +2274,10 @@ public class Tidy implements Serializable
     }
 
     /**
-     * <code>output-raw</code>- avoid mapping values > 127 to entities. This has the same effect of specifying a
+     * <code>output-raw</code>- avoid mapping values &gt; 127 to entities. 
+     * This has the same effect of specifying a
      * "raw" encoding in the original version of tidy.
-     * @param rawOut avoid mapping values > 127 to entities
+     * @param rawOut avoid mapping values &gt; 127 to entities
      * @see Configuration#rawOut
      */
     public void setRawOut(boolean rawOut)
@@ -2283,8 +2286,8 @@ public class Tidy implements Serializable
     }
 
     /**
-     * <code>output-raw</code>- avoid mapping values > 127 to entities.
-     * @return <code>true</code> if tidy will not map values > 127 to entities
+     * <code>output-raw</code>- avoid mapping values &gt; 127 to entities.
+     * @return <code>true</code> if tidy will not map values &gt; 127 to entities
      * @see Configuration#rawOut
      */
     public boolean getRawOut()

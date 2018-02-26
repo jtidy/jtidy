@@ -520,6 +520,9 @@ public class DOMNodeImpl implements org.w3c.dom.Node
 
     /**
      * DOM2 - not implemented.
+     * @param feature feature to check
+     * @param version the version to check
+     * @return is feature for version supported
      * @see #isSupported(java.lang.String, java.lang.String)
      */
     public boolean supports(String feature, String version)
@@ -579,7 +582,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     }
 
     /**
-     * @todo DOM level 3 compareDocumentPosition() Not implemented.
+     * TODO DOM level 3 compareDocumentPosition() Not implemented.
      * @see org.w3c.dom.Node#compareDocumentPosition(org.w3c.dom.Node)
      */
     public short compareDocumentPosition(org.w3c.dom.Node other) throws DOMException
@@ -588,7 +591,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     }
 
     /**
-     * @todo DOM level 3 getBaseURI() Not implemented. Returns null.
+     * TODO DOM level 3 getBaseURI() Not implemented. Returns null.
      * @see org.w3c.dom.Node#getBaseURI()
      */
     public String getBaseURI()
@@ -597,7 +600,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     }
 
     /**
-     * @todo DOM level 3 getFeature() Not implemented. Returns null.
+     * TODO DOM level 3 getFeature() Not implemented. Returns null.
      * @see org.w3c.dom.Node#getFeature(java.lang.String, java.lang.String)
      */
     public Object getFeature(String feature, String version)
@@ -606,7 +609,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     }
 
     /**
-     * @todo DOM level 3 getTextContent() Not implemented. Returns null.
+     * TODO DOM level 3 getTextContent() Not implemented. Returns null.
      * @see org.w3c.dom.Node#getTextContent()
      */
     public String getTextContent() throws DOMException
@@ -615,7 +618,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     }
 
     /**
-     * @todo DOM level 3 getUserData() Not implemented. Returns null.
+     * TODO DOM level 3 getUserData() Not implemented. Returns null.
      * @see org.w3c.dom.Node#getUserData(java.lang.String)
      */
     public Object getUserData(String key)
@@ -632,7 +635,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     }
 
     /**
-     * @todo DOM level 3 isEqualNode() Not implemented. Returns false.
+     * TODO DOM level 3 isEqualNode() Not implemented. Returns false.
      * @see org.w3c.dom.Node#isEqualNode(org.w3c.dom.Node)
      */
     public boolean isEqualNode(org.w3c.dom.Node arg)
@@ -641,7 +644,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     }
 
     /**
-     * @todo DOM level 3 isSameNode() Not implemented. Returns false.
+     * TODO DOM level 3 isSameNode() Not implemented. Returns false.
      * @see org.w3c.dom.Node#isSameNode(org.w3c.dom.Node)
      */
     public boolean isSameNode(org.w3c.dom.Node other)
@@ -666,7 +669,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     }
 
     /**
-     * @todo DOM level 3 setTextContent() Not implemented. Throws NO_MODIFICATION_ALLOWED_ERR
+     * TODO DOM level 3 setTextContent() Not implemented. Throws NO_MODIFICATION_ALLOWED_ERR
      * @see org.w3c.dom.Node#setTextContent(java.lang.String)
      */
     public void setTextContent(String textContent) throws DOMException
@@ -675,7 +678,7 @@ public class DOMNodeImpl implements org.w3c.dom.Node
     }
 
     /**
-     * @todo DOM level 3 setUserData() Not implemented. Returns null.
+     * TODO DOM level 3 setUserData() Not implemented. Returns null.
      * @see org.w3c.dom.Node#setUserData(java.lang.String, java.lang.Object, org.w3c.dom.UserDataHandler)
      */
     public Object setUserData(String key, Object data, UserDataHandler handler)
