@@ -39,11 +39,6 @@
     <licenses>
         <license/>
     </licenses>
-    <scm>
-        <connection>scm:git@github.com:jtidy/jtidy.git</connection>
-        <developerConnection>scm:git@github.com:jtidy/jtidy.git</developerConnection>
-        <url>https://github.com/jtidy/jtidy</url>
-    </scm>
     <organization>
         <name>jtidy</name>
         <url>https://github.com/jtidy</url>
@@ -190,10 +185,6 @@
             <plugin>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>2.20.1</version>
-            </plugin>
-            <plugin>
-                <artifactId>maven-changelog-plugin</artifactId>
-                <version>2.3</version>
             </plugin>
             <plugin>
                 <artifactId>maven-clover-plugin</artifactId>
