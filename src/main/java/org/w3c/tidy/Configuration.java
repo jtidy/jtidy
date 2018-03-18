@@ -83,72 +83,84 @@ public class Configuration implements Serializable
      * character encoding = RAW.
      * @deprecated use <code>Tidy.setRawOut(true)</code> for raw output
      */
+    @Deprecated
     public static final int RAW = 0;
 
     /**
      * character encoding = ASCII.
      * @deprecated
      */
+    @Deprecated
     public static final int ASCII = 1;
 
     /**
      * character encoding = LATIN1.
      * @deprecated
      */
+    @Deprecated
     public static final int LATIN1 = 2;
 
     /**
      * character encoding = UTF8.
      * @deprecated
      */
+    @Deprecated
     public static final int UTF8 = 3;
 
     /**
      * character encoding = ISO2022.
      * @deprecated
      */
+    @Deprecated
     public static final int ISO2022 = 4;
 
     /**
      * character encoding = MACROMAN.
      * @deprecated
      */
+    @Deprecated
     public static final int MACROMAN = 5;
 
     /**
      * character encoding = UTF16LE.
      * @deprecated
      */
+    @Deprecated
     public static final int UTF16LE = 6;
 
     /**
      * character encoding = UTF16BE.
      * @deprecated
      */
+    @Deprecated
     public static final int UTF16BE = 7;
 
     /**
      * character encoding = UTF16.
      * @deprecated
      */
+    @Deprecated
     public static final int UTF16 = 8;
 
     /**
      * character encoding = WIN1252.
      * @deprecated
      */
+    @Deprecated
     public static final int WIN1252 = 9;
 
     /**
      * character encoding = BIG5.
      * @deprecated
      */
+    @Deprecated
     public static final int BIG5 = 10;
 
     /**
      * character encoding = SHIFTJIS.
      * @deprecated
      */
+    @Deprecated
     public static final int SHIFTJIS = 11;
 
     /**
@@ -343,6 +355,7 @@ public class Configuration implements Serializable
      * style sheet for slides.
      * @deprecated does nothing
      */
+    @Deprecated
     protected String slidestyle;
 
     /**
@@ -1137,6 +1150,7 @@ public class Configuration implements Serializable
      * @param encoding The outCharEncoding to set.
      * @deprecated use setOutCharEncodingName(String)
      */
+    @Deprecated
     protected void setOutCharEncoding(int encoding)
     {
         setOutCharEncodingName(convertCharEncoding(encoding));
@@ -1147,6 +1161,7 @@ public class Configuration implements Serializable
      * @param encoding The inCharEncoding to set.
      * @deprecated use setInCharEncodingName(String)
      */
+    @Deprecated
     protected void setInCharEncoding(int encoding)
     {
         setInCharEncodingName(convertCharEncoding(encoding));
