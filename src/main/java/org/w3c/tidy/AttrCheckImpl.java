@@ -253,7 +253,7 @@ public final class AttrCheckImpl
         public void check(Lexer lexer, Node node, AttVal attval)
         {
             char c;
-            StringBuffer dest;
+            StringBuilder dest;
             boolean escapeFound = false;
             boolean backslashFound = false;
             int i = 0;
@@ -292,7 +292,7 @@ public final class AttrCheckImpl
             // non-ascii chars found, fix them
             if (lexer.configuration.fixUri && escapeFound)
             {
-                dest = new StringBuffer();
+                dest = new StringBuilder();
 
                 for (i = 0; i < p.length(); ++i)
                 {
