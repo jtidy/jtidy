@@ -509,7 +509,7 @@ public final class AttrCheckImpl
 
             String p = attval.value;
 
-            if (p.length() == 0 || (!Character.isDigit(p.charAt(0)) && !('%' == p.charAt(0))))
+            if (p.length() == 0 || (!Character.isDigit(p.charAt(0)) && '%' != p.charAt(0)))
             {
                 lexer.report.attrError(lexer, node, attval, Report.BAD_ATTRIBUTE_VALUE);
             }
