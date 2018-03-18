@@ -269,7 +269,7 @@ public class AttVal extends Object implements Cloneable
 
         }
         else if (!lexer.configuration.xmlTags
-            && !(node.tag == null)
+            && node.tag != null
             && this.asp == null
             && !(node.tag != null && (TidyUtils.toBoolean(node.tag.versions & Dict.VERS_PROPRIETARY))))
         {
