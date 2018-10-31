@@ -4,7 +4,6 @@ jdk:
   - oraclejdk8
   - oraclejdk9
   - openjdk8
-  - openjdk11
 
 jobs:
   include:
