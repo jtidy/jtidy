@@ -74,7 +74,7 @@ public class Dict
     /**
      * Content model: empty.
      */
-    public static final int CM_EMPTY = (1 << 0);
+    public static final int CM_EMPTY = (1);
 
     /**
      * Content model: html.

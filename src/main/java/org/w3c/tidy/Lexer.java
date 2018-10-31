@@ -2457,7 +2457,7 @@ public class Lexer
                         continue;
                     }
 
-                    end_comment : while (true)
+                    while (true)
                     {
                         c = this.in.readChar();
 
@@ -2518,7 +2518,7 @@ public class Lexer
                         // if '-' then look for '>' to end the comment
                         if (c != '-')
                         {
-                            break end_comment;
+                            break;
                         }
 
                     }

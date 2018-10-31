@@ -1593,7 +1593,6 @@ public final class ParserImpl
 
                 // discard unexpected tags
                 lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
-                continue;
             }
 
             if (!((element.tag.model & Dict.CM_OPT) != 0))
@@ -2491,7 +2490,6 @@ public final class ParserImpl
                 }
 
                 lexer.report.warning(lexer, element, node, Report.DISCARDING_UNEXPECTED);
-                continue;
             }
 
             if (!((element.tag.model & Dict.CM_OPT) != 0))

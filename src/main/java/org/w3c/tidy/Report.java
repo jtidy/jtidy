@@ -831,7 +831,7 @@ public final class Report
     {
         try
         {
-            System.err.println(MessageFormat.format(res.getString("unknown_option"), new Object[]{option}));
+            System.err.println(MessageFormat.format(res.getString("unknown_option"), option));
         }
         catch (MissingResourceException e)
         {
@@ -848,7 +848,7 @@ public final class Report
     {
         try
         {
-            System.err.println(MessageFormat.format(res.getString("bad_argument"), new Object[]{value, key}));
+            System.err.println(MessageFormat.format(res.getString("bad_argument"), value, key));
         }
         catch (MissingResourceException e)
         {
@@ -868,16 +868,14 @@ public final class Report
             // Change formatting to be parsable by GNU Emacs
             if (lexer.configuration.emacs)
             {
-                return MessageFormat.format(res.getString("emacs_format"), new Object[]{
-                    this.currentFile,
+                return MessageFormat.format(res.getString("emacs_format"), this.currentFile,
                     lexer.lines,
-                    lexer.columns})
+                    lexer.columns)
                     + " ";
             }
             // traditional format
-            return MessageFormat.format(res.getString("line_column"), new Object[]{
-                lexer.lines,
-                lexer.columns});
+            return MessageFormat.format(res.getString("line_column"), lexer.lines,
+                lexer.columns);
 
         }
         catch (MissingResourceException e)

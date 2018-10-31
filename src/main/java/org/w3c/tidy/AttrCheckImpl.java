@@ -54,7 +54,6 @@
 package org.w3c.tidy;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 
@@ -833,7 +832,6 @@ public final class AttrCheckImpl
             if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
-                return;
             }
             else if (lexer.configuration.tt.isAnchorElement(node))
             {
@@ -1095,7 +1093,6 @@ public final class AttrCheckImpl
             if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
-                return;
             }
         }
     }

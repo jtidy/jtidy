@@ -55,6 +55,8 @@
 package org.w3c.tidy;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+
 
 /**
  * Utility class with handy methods, mainly for String handling or for reproducing c behaviours.
@@ -635,14 +637,7 @@ public final class TidyUtils
      */
     public static byte[] getBytes(String str)
     {
-        try
-        {
-            return str.getBytes("UTF8");
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            throw new Error("String to UTF-8 conversion failed: " + e.getMessage());
-        }
+        return str.getBytes(StandardCharsets.UTF_8);
     }
 
     /**
@@ -654,11 +649,8 @@ public final class TidyUtils
      * @return same as <code>new String(bytes, offset, length, "UTF8")</code>
      */
     public static String getString(final byte[] bytes, final int offset, final int length) {
-        try {
-            return length == 0 ? null : new String(bytes, offset, Math.min(length, bytes.length - offset), "UTF8");
-        } catch (UnsupportedEncodingException e) {
-            throw new Error("UTF-8 to string conversion failed: " + e.getMessage());
-        }
+        return length == 0 ? null : new String(bytes, offset, Math.min(length, bytes.length - offset),
+            StandardCharsets.UTF_8);
     }
 
     /**

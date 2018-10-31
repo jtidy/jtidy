@@ -524,7 +524,6 @@ public class TidyTestCase extends TestCase
         {
             assertEquals("Wrong output, file comparison failed at line [" + (i - 1) + "]", testLine, tidyLine);
         }
-        return;
     }
 
     /**

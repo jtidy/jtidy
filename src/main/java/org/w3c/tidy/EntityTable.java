@@ -54,7 +54,6 @@
 package org.w3c.tidy;
 
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Map;
 
 

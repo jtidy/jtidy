@@ -63,7 +63,7 @@ import org.w3c.dom.Attr;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public class AttVal extends Object implements Cloneable
+public class AttVal implements Cloneable
 {
 
     /**
