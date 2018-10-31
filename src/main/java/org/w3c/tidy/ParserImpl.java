@@ -3450,9 +3450,9 @@ public final class ParserImpl
         // search attributes for xml:space
         for (attribute = element.attributes; attribute != null; attribute = attribute.next)
         {
-            if (attribute.attribute.equals("xml:space"))
+            if ("xml:space".equals(attribute.attribute))
             {
-                return attribute.value.equals("preserve");
+                return "preserve".equals(attribute.value);
             }
         }
 

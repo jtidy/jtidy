@@ -966,7 +966,7 @@ public class Configuration implements Serializable
     /**
      * A configuration option.
      */
-    static class Flag implements Comparable
+    static class Flag implements Comparable<Flag>
     {
 
         /**
@@ -1077,9 +1077,9 @@ public class Configuration implements Serializable
         /**
          * @see java.lang.Comparable#compareTo(java.lang.Object)
          */
-        public int compareTo(Object o)
+        public int compareTo(Flag o)
         {
-            return this.name.compareTo(((Flag) o).name);
+            return this.name.compareTo(o.name);
         }
 
     }
