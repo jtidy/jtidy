@@ -1861,9 +1861,8 @@ public class Lexer
 
                     /* if javascript insert backslash before / */
                     if (container.isJavaScript()) {
-                        for (int i = lexsize; i > start-1; --i) {
-                            lexbuf[i] = lexbuf[i-1];
-                        }
+                        if (lexsize - start - 1 >= 0)
+                            System.arraycopy(lexbuf, start - 1, lexbuf, start, lexsize - start - 1);
                         lexbuf[start-1] = '\\';
                         lexsize++;
                     }

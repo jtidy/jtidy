@@ -471,10 +471,10 @@ public class TidyTestCase extends TestCase
         if (log.isDebugEnabled())
         {
             StringBuffer message = new StringBuffer();
-            message.append("Testing [" + fileName + "]");
+            message.append("Testing [").append(fileName).append("]");
             if (configurationFile != null)
             {
-                message.append(" using configuration file [" + configFileName + "]");
+                message.append(" using configuration file [").append(configFileName).append("]");
             }
             log.debug(message.toString());
         }
