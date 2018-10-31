@@ -768,14 +768,9 @@ public final class ParserImpl
                     break;
                 }
 
-                iswhitenode = false;
-
-                if (node.type == Node.TEXT_NODE
+                iswhitenode = node.type == Node.TEXT_NODE
                     && node.end <= node.start + 1
-                    && node.textarray[node.start] == (byte) ' ')
-                {
-                    iswhitenode = true;
-                }
+                    && node.textarray[node.start] == (byte) ' ';
 
                 // deal with comments etc.
                 if (Node.insertMisc(body, node))
@@ -3457,12 +3452,7 @@ public final class ParserImpl
         {
             if (attribute.attribute.equals("xml:space"))
             {
-                if (attribute.value.equals("preserve"))
-                {
-                    return true;
-                }
-
-                return false;
+                return attribute.value.equals("preserve");
             }
         }
 
@@ -3485,12 +3475,8 @@ public final class ParserImpl
         }
 
         // kludge for XSL docs
-        if ("xsl:text".equalsIgnoreCase(element.element))
-        {
-            return true;
-        }
+        return "xsl:text".equalsIgnoreCase(element.element);
 
-        return false;
     }
 
     /**

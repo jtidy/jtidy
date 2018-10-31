@@ -1031,7 +1031,7 @@ public class PPrint
      * @param fout      where to write output
      * @param indent    the indent amount
      * @param value     the value
-     * @param attr      the delimiter
+     * @param delim      the delimiter
      * @param wrappable wrappable or not
      */
     private void printAttrValue(Out fout, int indent, String value, int delim, boolean wrappable)
@@ -1357,10 +1357,7 @@ public class PPrint
             {
                 c = (prev.textarray[prev.end - 1]) & 0xFF; // Convert to unsigned.
 
-                if (c == 160 || c == ' ' || c == '\n')
-                {
-                    return true;
-                }
+                return c == 160 || c == ' ' || c == '\n';
             }
 
             return false;

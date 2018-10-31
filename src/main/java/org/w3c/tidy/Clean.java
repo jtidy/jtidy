@@ -2074,12 +2074,7 @@ public class Clean
         }
 
         // search for substring "margin-top: 0"
-        if (!attval.value.contains("margin-bottom: 0"))
-        {
-            return false;
-        }
-
-        return true;
+        return attval.value.contains("margin-bottom: 0");
     }
 
     /**
@@ -2115,10 +2110,7 @@ public class Clean
 
                 PPrint.getUTF8(lexer.lexbuf, node.start, c);
 
-                if (c[0] == 160)
-                {
-                    return true;
-                }
+                return c[0] == 160;
             }
         }
 

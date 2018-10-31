@@ -83,7 +83,7 @@ public class TidyBugsTest extends TidyTestCase
      * HTML; "(null)" is reported instead.
      * @throws Exception any exception generated during the test
      */
-    public void test431895() throws Exception
+    public void test431895()
     {
         URL inputURL = getClass().getClassLoader().getResource("431895.html");
         // set up error log

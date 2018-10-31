@@ -3951,12 +3951,7 @@ public class Lexer
             return false;
         }
 
-        if (element.getAttrByName("id") != null || element.getAttrByName("name") != null)
-        {
-            return false;
-        }
-
-        return true;
+        return element.getAttrByName("id") == null && element.getAttrByName("name") == null;
     }
 
     /**
@@ -4016,12 +4011,8 @@ public class Lexer
             return true;
         }
 
-        if (node.tag == null
-            || !TidyUtils.toBoolean(node.tag.model & (Dict.CM_INLINE | Dict.CM_NEW)))
-        {
-            return false;
-        }
-        return true;
+        return node.tag != null
+            && TidyUtils.toBoolean(node.tag.model & (Dict.CM_INLINE | Dict.CM_NEW));
     }
 
     /**

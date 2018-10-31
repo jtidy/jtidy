@@ -885,10 +885,7 @@ public class Node
             {
                 return true;
             }
-            if (this.end == this.start + 1 && lexer.lexbuf[this.end - 1] == ' ')
-            {
-                return true;
-            }
+            return this.end == this.start + 1 && lexer.lexbuf[this.end - 1] == ' ';
         }
         return false;
     }
@@ -1503,11 +1500,6 @@ public class Node
             return true;
         }
 
-        if (TidyUtils.toBoolean(this.tag.model & Dict.CM_EMPTY))
-        {
-            return false;
-        }
-
-        return true;
+        return !TidyUtils.toBoolean(this.tag.model & Dict.CM_EMPTY);
     }
 }
