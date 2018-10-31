@@ -17,5 +17,4 @@ jobs:
   include:
     - stage: SonarQube Scan
       script:
-        - 'if [ $TRAVIS_PULL_REQUEST = "false" ]; then sonar-scanner; fi' # sonar only on non-PRs
-        - sonar-scanner
+        - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then sonar-scanner; fi' # sonar only on non-PRs
