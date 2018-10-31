@@ -59,7 +59,7 @@ package org.w3c.tidy;
  * straight forward to transform this to use CSS. Some rules replace some of the children of an element by style
  * properties on the element, e.g.
  * <pre>
- * {@code 
+ * {@code
  * <p>
  * <b>... </b>
  * </p>.
@@ -70,16 +70,16 @@ package org.w3c.tidy;
  * </pre>
  * Such rules are applied to the element's content and then to the element itself until none of the rules more apply.
  * Having applied all the rules to an element, it will have a style attribute with one or more properties. Other rules
- * strip the element they apply to, replacing it by style properties on the contents, e.g. 
- * <pre> 
- * {@code 
+ * strip the element they apply to, replacing it by style properties on the contents, e.g.
+ * <pre>
+ * {@code
  * <dir>
  * <li>
  * <p>
  * ...</li>
  * </dir>.
  * <p style="margin-left 1em">
- * ... 
+ * ...
  * }
  * </pre>
  * These rules are applied to an element before processing its content and replace the current element by the first
@@ -87,6 +87,7 @@ package org.w3c.tidy;
  * value and style rule in the document head. To support this, an association of styles and class names is built. A
  * naive approach is to rely on string matching to test when two property lists are the same. A better approach would be
  * to first sort the properties before matching.
+ *
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @author Fabrizio Giustina
@@ -107,6 +108,7 @@ public class Clean
 
     /**
      * Instantiates a new Clean.
+     *
      * @param tagTable tag table instance
      */
     public Clean(TagTable tagTable)
@@ -116,8 +118,9 @@ public class Clean
 
     /**
      * Insert a css style property.
+     *
      * @param props StyleProp instance
-     * @param name property name
+     * @param name  property name
      * @param value property value
      * @return StyleProp containin the given property
      */
@@ -177,7 +180,8 @@ public class Clean
 
     /**
      * Create sorted linked list of properties from style string.
-     * @param prop StyleProp
+     *
+     * @param prop  StyleProp
      * @param style style string
      * @return StyleProp with given style
      */
@@ -250,6 +254,7 @@ public class Clean
 
     /**
      * Create a css property.
+     *
      * @param props StyleProp
      * @return css property as String
      */
@@ -286,7 +291,8 @@ public class Clean
 
     /**
      * Creates a string with merged properties.
-     * @param style css style
+     *
+     * @param style    css style
      * @param property css properties
      * @return merged string
      */
@@ -302,21 +308,25 @@ public class Clean
 
     /**
      * Generates a new css class name.
+     *
      * @param lexer Lexer
      * @return generated css class
      */
-    private String gensymClass(final Lexer lexer) {
-    	String pfx = lexer.configuration.cssPrefix;
-        if (pfx == null) {
-        	pfx = "c";
+    private String gensymClass(final Lexer lexer)
+    {
+        String pfx = lexer.configuration.cssPrefix;
+        if (pfx == null)
+        {
+            pfx = "c";
         }
         return pfx + ++classNum;
     }
 
     /**
      * Finds a css style.
-     * @param lexer Lexer
-     * @param tag tag name
+     *
+     * @param lexer      Lexer
+     * @param tag        tag name
      * @param properties css properties
      * @return style string
      */
@@ -340,8 +350,9 @@ public class Clean
     /**
      * Find style attribute in node, and replace it by corresponding class attribute. Search for class in style
      * dictionary otherwise gensym new class and add to dictionary. Assumes that node doesn't have a class attribute.
+     *
      * @param lexer Lexer
-     * @param node node with a style attribute
+     * @param node  node with a style attribute
      */
     private void style2Rule(Lexer lexer, Node node)
     {
@@ -373,9 +384,10 @@ public class Clean
 
     /**
      * Adds a css rule for color.
-     * @param lexer Lexer
+     *
+     * @param lexer    Lexer
      * @param selector css selector
-     * @param color color value
+     * @param color    color value
      */
     private void addColorRule(Lexer lexer, String selector, String color)
     {
@@ -390,7 +402,7 @@ public class Clean
 
     /**
      * Move presentation attribs from body to style element.
-     * 
+     *
      * <pre>
      * background="foo" . body { background-image: url(foo) }
      * bgcolor="foo" . body { background-color: foo }
@@ -399,9 +411,9 @@ public class Clean
      * vlink="foo" . :visited { color: foo }
      * alink="foo" . :active { color: foo }
      * </pre>
-     * 
+     *
      * @param lexer Lexer
-     * @param body body node
+     * @param body  body node
      */
     private void cleanBodyAttrs(Lexer lexer, Node body)
     {
@@ -492,8 +504,9 @@ public class Clean
 
     /**
      * Check deprecated attributes in body tag.
+     *
      * @param lexer Lexer
-     * @param doc document root node
+     * @param doc   document root node
      * @return <code>true</code> is the body doesn't contain deprecated attributes, false otherwise.
      */
     private boolean niceBody(Lexer lexer, Node doc)
@@ -519,8 +532,9 @@ public class Clean
 
     /**
      * Create style element using rules from dictionary.
+     *
      * @param lexer Lexer
-     * @param doc root node
+     * @param doc   root node
      */
     private void createStyleElement(Lexer lexer, Node doc)
     {
@@ -580,6 +594,7 @@ public class Clean
 
     /**
      * Ensure bidirectional links are consistent.
+     *
      * @param node root node
      */
     private void fixNodeLinks(Node node)
@@ -612,6 +627,7 @@ public class Clean
 
     /**
      * Used to strip child of node when the node has one and only one child.
+     *
      * @param node parent node
      */
     private void stripOnlyChild(Node node)
@@ -631,9 +647,10 @@ public class Clean
 
     /**
      * Used to strip font start and end tags.
+     *
      * @param element original node
-     * @param pnode passed in as array to allow modification. pnode[0] will contain the final node
-     * TODO remove the pnode parameter and make it a return value
+     * @param pnode   passed in as array to allow modification. pnode[0] will contain the final node
+     *                TODO remove the pnode parameter and make it a return value
      */
     private void discardContainer(Node element, Node[] pnode)
     {
@@ -700,7 +717,8 @@ public class Clean
 
     /**
      * Add style property to element, creating style attribute as needed and adding ; delimiter.
-     * @param node node
+     *
+     * @param node     node
      * @param property property added to node
      */
     private void addStyleProperty(Node node, String property)
@@ -737,6 +755,7 @@ public class Clean
      * Create new string that consists of the combined style properties in s1 and s2. To merge property lists, we build
      * a linked list of property/values and insert properties into the list in order, merging values for the same
      * property name.
+     *
      * @param s1 first property
      * @param s2 second property
      * @return merged properties
@@ -754,7 +773,8 @@ public class Clean
 
     /**
      * Merge class attributes from 2 nodes.
-     * @param node Node
+     *
+     * @param node  Node
      * @param child Child node
      */
     private void mergeClasses(Node node, Node child)
@@ -798,7 +818,8 @@ public class Clean
 
     /**
      * Merge style from 2 nodes.
-     * @param node Node
+     *
+     * @param node  Node
      * @param child Child node
      */
     private void mergeStyles(Node node, Node child)
@@ -846,6 +867,7 @@ public class Clean
 
     /**
      * Map a % font size to a named font size.
+     *
      * @param size size in %
      * @return font size name
      */
@@ -902,6 +924,7 @@ public class Clean
 
     /**
      * Adds a font-family style.
+     *
      * @param node Node
      * @param face font face
      */
@@ -912,6 +935,7 @@ public class Clean
 
     /**
      * Adds a font size style.
+     *
      * @param node Node
      * @param size font size
      */
@@ -953,7 +977,8 @@ public class Clean
 
     /**
      * Adds a font color style.
-     * @param node Node
+     *
+     * @param node  Node
      * @param color color value
      */
     private void addFontColor(Node node, String color)
@@ -963,7 +988,8 @@ public class Clean
 
     /**
      * Adds an align style.
-     * @param node Node
+     *
+     * @param node  Node
      * @param align align value
      */
     private void addAlign(Node node, String align)
@@ -974,8 +1000,9 @@ public class Clean
 
     /**
      * Add style properties to node corresponding to the font face, size and color attributes.
+     *
      * @param node font tag
-     * @param av attribute list for node
+     * @param av   attribute list for node
      */
     private void addFontStyles(Node node, AttVal av)
     {
@@ -1002,8 +1029,9 @@ public class Clean
 
     /**
      * Symptom: <code>&lt;p align=center></code>. Action: <code>&lt;p style="text-align: center"></code>.
+     *
      * @param lexer Lexer
-     * @param node node with center attribute. Will be modified to use css style.
+     * @param node  node with center attribute. Will be modified to use css style.
      */
     private void textAlign(Lexer lexer, Node node)
     {
@@ -1035,25 +1063,28 @@ public class Clean
             prev = av;
         }
     }
-    
+
     /*
 	    Symptom: <table bgcolor="red">
 	    Action: <table style="background-color: red">
 	*/
-	private void tableBgColor(final Node node) {
-	    final AttVal attr = node.getAttrByName("bgcolor");
-	    if (null != attr) {
-	        node.removeAttribute(attr);
-	        addStyleProperty(node, "background-color: " + attr.value);
-	    }
-	}
+    private void tableBgColor(final Node node)
+    {
+        final AttVal attr = node.getAttrByName("bgcolor");
+        if (null != attr)
+        {
+            node.removeAttribute(attr);
+            addStyleProperty(node, "background-color: " + attr.value);
+        }
+    }
 
     /**
      * Symptom: <code>&lt;dir>&lt;li></code> where <code>&lt;li></code> is only child. Action: coerce
      * <code>&lt;dir> &lt;li></code> to <code>&lt;div></code> with indent. The clean up rules use the pnode argument
      * to return the next node when the original node has been deleted.
+     *
      * @param lexer Lexer
-     * @param node dir tag
+     * @param node  dir tag
      * @return <code>true</code> if a dir tag has been coerced to a div
      */
     private boolean dir2Div(Lexer lexer, Node node)
@@ -1098,15 +1129,16 @@ public class Clean
 
     /**
      * Symptom:
-     * 
+     *
      * <pre>
      * &lt;center>
      * </pre>.
      * <p>
      * Action: replace <code>&lt;center></code> by <code>&lt;div style="text-align: center"></code>
      * </p>
+     *
      * @param lexer Lexer
-     * @param node center tag
+     * @param node  center tag
      * @param pnode pnode[0] is the same as node, passed in as an array to allow modification
      * @return <code>true</code> if a center tag has been replaced by a div
      */
@@ -1186,8 +1218,9 @@ public class Clean
     /**
      * Symptom: <code>&lt;div>&lt;div>...&lt;/div>&lt;/div></code> Action: merge the two divs. This is useful after
      * nested &lt;dir>s used by Word for indenting have been converted to &lt;div>s.
+     *
      * @param lexer Lexer
-     * @param node first div
+     * @param node  first div
      * @return true if the divs have been merged
      */
     private boolean mergeDivs(Lexer lexer, Node node)
@@ -1231,8 +1264,9 @@ public class Clean
      * </li>
      * </ul>
      * Action: discard outer list.
+     *
      * @param lexer Lexer
-     * @param node Node
+     * @param node  Node
      * @param pnode passed in as array to allow modifications.
      * @return <code>true</code> if nested lists have been found and replaced
      */
@@ -1319,33 +1353,35 @@ public class Clean
     /**
      * Symptom: the only child of a block-level element is a presentation element such as B, I or FONT. Action: add
      * style "font-weight: bold" to the block and strip the &lt;b>element, leaving its children. example:
-     * 
+     *
      * <pre>
      * &lt;p>
      * &lt;b>&lt;font face="Arial" size="6">Draft Recommended Practice&lt;/font>&lt;/b>
      * &lt;/p>
      * </pre>
-     * 
+     * <p>
      * becomes:
-     * 
+     *
      * <pre>
      * &lt;p style="font-weight: bold; font-family: Arial; font-size: 6">
      * Draft Recommended Practice
      * &lt;/p>
      * </pre>
-     * 
+     *
      * <p>
      * This code also replaces the align attribute by a style attribute. However, to avoid CSS problems with Navigator
      * 4, this isn't done for the elements: caption, tr and table
      * </p>
+     *
      * @param lexer Lexer
-     * @param node parent node
+     * @param node  parent node
      * @return <code>true</code> if the child node has been removed
      */
     private boolean blockStyle(Lexer lexer, Node node)
     {
-    	/* check for bgcolor */
-        if (node.tag == tt.tagTable || node.tag == tt.tagTd || node.tag == tt.tagTh || node.tag == tt.tagTr) {
+        /* check for bgcolor */
+        if (node.tag == tt.tagTable || node.tag == tt.tagTd || node.tag == tt.tagTh || node.tag == tt.tagTr)
+        {
             tableBgColor(node);
         }
         Node child;
@@ -1405,8 +1441,9 @@ public class Clean
     /**
      * If the node has only one b, i, or font child remove the child node and add the appropriate style attributes to
      * parent.
+     *
      * @param lexer Lexer
-     * @param node parent node
+     * @param node  parent node
      * @param pnode passed as an array to allow modifications
      * @return <code>true</code> if child node has been stripped, replaced by style attributes.
      */
@@ -1460,8 +1497,9 @@ public class Clean
     /**
      * Replace font elements by span elements, deleting the font element's attributes and replacing them by a single
      * style attribute.
+     *
      * @param lexer Lexer
-     * @param node font tag
+     * @param node  font tag
      * @param pnode passed as an array to allow modifications
      * @return <code>true</code> if a font tag has been dropped and replaced by style attributes
      */
@@ -1515,8 +1553,9 @@ public class Clean
 
     /**
      * Applies all matching rules to a node.
+     *
      * @param lexer Lexer
-     * @param node original node
+     * @param node  original node
      * @return cleaned up node
      */
     private Node cleanNode(Lexer lexer, Node node)
@@ -1590,8 +1629,9 @@ public class Clean
      * Special case: if the current node is destroyed by CleanNode() lower in the tree, this node and its parent no
      * longer exist. So we must jump back up the CreateStyleProperties() call stack until we have a valid node
      * reference.
+     *
      * @param lexer Lexer
-     * @param node Node
+     * @param node  Node
      * @param prepl passed in as array to allow modifications
      * @return cleaned Node
      */
@@ -1622,8 +1662,9 @@ public class Clean
 
     /**
      * Find style attribute in node content, and replace it by corresponding class attribute.
+     *
      * @param lexer Lexer
-     * @param node parent node
+     * @param node  parent node
      */
     private void defineStyleRules(Lexer lexer, Node node)
     {
@@ -1644,8 +1685,9 @@ public class Clean
 
     /**
      * Clean an html tree.
+     *
      * @param lexer Lexer
-     * @param doc root node
+     * @param doc   root node
      */
     public void cleanTree(Lexer lexer, Node doc)
     {
@@ -1653,7 +1695,7 @@ public class Clean
         repl[0] = doc;
         doc = createStyleProperties(lexer, doc, repl);
 
-        if (doc!= null && lexer.configuration.makeClean)
+        if (doc != null && lexer.configuration.makeClean)
         {
             defineStyleRules(lexer, doc);
             createStyleElement(lexer, doc);
@@ -1662,6 +1704,7 @@ public class Clean
 
     /**
      * simplifies {@literal <b><b>... </b> ... </b>} etc.
+     *
      * @param node root Node
      */
     public void nestedEmphasis(Node node)
@@ -1696,6 +1739,7 @@ public class Clean
 
     /**
      * Replace i by em and b by strong.
+     *
      * @param node root Node
      */
     public void emFromI(Node node)
@@ -1725,6 +1769,7 @@ public class Clean
     /**
      * Some people use dir or ul without an li to indent the content. The pattern to look for is a list with a single
      * implicit li. This is recursively replaced by an implicit blockquote.
+     *
      * @param node root Node
      */
     public void list2BQ(Node node)
@@ -1754,6 +1799,7 @@ public class Clean
     /**
      * Replace implicit blockquote by div with an indent taking care to reduce nested blockquotes to a single div with
      * the indent set to match the nesting depth.
+     *
      * @param node root Node
      */
     public void bQ2Div(Node node)
@@ -1806,6 +1852,7 @@ public class Clean
 
     /**
      * Find the enclosing table cell for the given node.
+     *
      * @param node Node
      * @return enclosing cell node
      */
@@ -1825,13 +1872,14 @@ public class Clean
 
     /**
      * node is <code>&lt;![if ...]&gt;</code> prune up to <code>&lt;![endif]&gt;</code>.
+     *
      * @param lexer Lexer
-     * @param node Node
+     * @param node  Node
      * @return cleaned up Node
      */
     public Node pruneSection(Lexer lexer, Node node)
     {
-        for (;;)
+        for (; ; )
         {
 
             // FG: commented out - don't add &nbsp; to empty cells
@@ -1877,8 +1925,9 @@ public class Clean
 
     /**
      * Drop if/endif sections inserted by word2000.
+     *
      * @param lexer Lexer
-     * @param node Node root node
+     * @param node  Node root node
      */
     public void dropSections(Lexer lexer, Node node)
     {
@@ -1911,6 +1960,7 @@ public class Clean
 
     /**
      * Remove word2000 attributes from node.
+     *
      * @param node node to cleanup
      */
     public void purgeWord2000Attributes(Node node)
@@ -1936,10 +1986,10 @@ public class Clean
 
             if (attr.attribute != null
                 && (attr.attribute.equals("class")
-                    || attr.attribute.equals("style")
-                    || attr.attribute.equals("lang")
-                    || attr.attribute.startsWith("x:") || ((attr.attribute.equals("height") || attr.attribute
-                    .equals("width")) && //
+                || attr.attribute.equals("style")
+                || attr.attribute.equals("lang")
+                || attr.attribute.startsWith("x:") || ((attr.attribute.equals("height") || attr.attribute
+                .equals("width")) && //
                 (node.tag == this.tt.tagTd || node.tag == this.tt.tagTr || node.tag == this.tt.tagTh))))
             {
                 if (prev != null)
@@ -1961,8 +2011,9 @@ public class Clean
 
     /**
      * Word2000 uses span excessively, so we strip span out.
+     *
      * @param lexer Lexer
-     * @param span Node span
+     * @param span  Node span
      * @return cleaned node
      */
     public Node stripSpan(Lexer lexer, Node span)
@@ -2012,8 +2063,9 @@ public class Clean
 
     /**
      * Map non-breaking spaces to regular spaces.
+     *
      * @param lexer Lexer
-     * @param node Node
+     * @param node  Node
      */
     private void normalizeSpaces(Lexer lexer, Node node)
     {
@@ -2055,6 +2107,7 @@ public class Clean
 
     /**
      * Used to hunt for hidden preformatted sections.
+     *
      * @param node checked node
      * @return <code>true</code> if the node has a "margin-top: 0" or "margin-bottom: 0" style
      */
@@ -2079,8 +2132,9 @@ public class Clean
 
     /**
      * Does element have a single space as its content?
+     *
      * @param lexer Lexer
-     * @param node checked node
+     * @param node  checked node
      * @return <code>true</code> if the element has a single space as its content
      */
     boolean singleSpace(Lexer lexer, Node node)
@@ -2121,8 +2175,9 @@ public class Clean
      * This is a major clean up to strip out all the extra stuff you get when you save as web page from Word 2000. It
      * doesn't yet know what to do with VML tags, but these will appear as errors unless you declare them as new tags,
      * such as o:p which needs to be declared as inline.
+     *
      * @param lexer Lexer
-     * @param node node to clean up
+     * @param node  node to clean up
      */
     public void cleanWord2000(Lexer lexer, Node node)
     {
@@ -2131,7 +2186,6 @@ public class Clean
 
         while (node != null)
         {
-
             // get rid of Word's xmlns attributes
             if (node.tag == tt.tagHtml)
             {
@@ -2142,7 +2196,6 @@ public class Clean
                 }
                 lexer.configuration.tt.freeAttrs(node);
             }
-
             // fix up preformatted sections by looking for a sequence of paragraphs with zero top/bottom margin
             if (node.tag == tt.tagP)
             {
@@ -2171,11 +2224,6 @@ public class Clean
                         pre.insertNodeAtEnd(node);
                         stripSpan(lexer, node);
                         node = next;
-                    }
-
-                    if (node == null)
-                    {
-                        break;
                     }
                 }
             }
@@ -2308,6 +2356,7 @@ public class Clean
 
     /**
      * Check if the current document is a converted Word document.
+     *
      * @param root root Node
      * @return <code>true</code> if the document has been geenrated by Microsoft Word.
      */
@@ -2323,51 +2372,46 @@ public class Clean
             return true;
         }
 
-        // search for <meta name="GENERATOR" content="Microsoft ...">
         head = root.findHEAD(tt);
-
-        if (head != null)
+        if (head == null)
         {
-            for (node = head.content; node != null; node = node.next)
+            // no HEAD, no <meta name="GENERATOR" content="Microsoft ...">
+            return false;
+        }
+        // search for <meta name="GENERATOR" content="Microsoft ...">
+        for (node = head.content; node != null; node = node.next)
+        {
+            if (node.tag != tt.tagMeta)
             {
-                if (node.tag != tt.tagMeta)
-                {
-                    continue;
-                }
-
-                attval = node.getAttrByName("name");
-
-                if (attval == null || attval.value == null)
-                {
-                    continue;
-                }
-
-                if (!"generator".equals(attval.value))
-                {
-                    continue;
-                }
-
-                attval = node.getAttrByName("content");
-
-                if (attval == null || attval.value == null)
-                {
-                    continue;
-                }
-
-                if (attval.value.contains("Microsoft"))
-                {
-                    return true;
-                }
+                continue;
+            }
+            attval = node.getAttrByName("name");
+            if (attval == null || attval.value == null)
+            {
+                continue;
+            }
+            if (!"generator".equals(attval.value))
+            {
+                continue;
+            }
+            attval = node.getAttrByName("content");
+            if (attval == null || attval.value == null)
+            {
+                continue;
+            }
+            if (attval.value.contains("Microsoft"))
+            {
+                return true;
             }
         }
-
         return false;
     }
 
     /**
      * Where appropriate move object elements from head to body.
+     *
      * @param lexer Lexer
-     * @param html html node
+     * @param html  html node
      */
     static void bumpObject(Lexer lexer, Node html)
     {
