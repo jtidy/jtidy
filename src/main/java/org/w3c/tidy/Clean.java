@@ -992,6 +992,8 @@ public class Clean
                 case "color":
                     addFontColor(node, av.value);
                     break;
+                default:
+                    break;
             }
 
             av = av.next;

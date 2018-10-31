@@ -1095,8 +1095,7 @@ public final class TagTable {
                     case Dict.TAGTYPE_EMPTY:
                         if ((curDictEntry.versions == Dict.VERS_PROPRIETARY)
                             && ((curDictEntry.model & Dict.CM_EMPTY) == Dict.CM_EMPTY)
-                            && // (curDictEntry.parser == ParseBlock) &&
-                            (curDictEntry != tagWbr))
+                            && (curDictEntry != tagWbr))
                         {
                             tagNames.add(curDictEntry.name);
                         }
@@ -1106,8 +1105,7 @@ public final class TagTable {
                     case Dict.TAGTYPE_INLINE:
                         if ((curDictEntry.versions == Dict.VERS_PROPRIETARY)
                             && ((curDictEntry.model & Dict.CM_INLINE) == Dict.CM_INLINE)
-                            && // (curDictEntry.parser == ParseInline) &&
-                            (curDictEntry != tagBlink)
+                            && (curDictEntry != tagBlink)
                             && (curDictEntry != tagNobr)
                             && (curDictEntry != tagWbr))
                         {
@@ -1132,6 +1130,8 @@ public final class TagTable {
                         {
                             tagNames.add(curDictEntry.name);
                         }
+                        break;
+                    default:
                         break;
                 }
             }
