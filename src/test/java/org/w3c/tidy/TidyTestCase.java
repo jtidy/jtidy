@@ -20,14 +20,14 @@
  *  have been possible without all of you.
  *
  *  COPYRIGHT NOTICE:
- * 
+ *
  *  This software and documentation is provided "as is," and
  *  the copyright holders and contributing author(s) make no
  *  representations or warranties, express or implied, including
  *  but not limited to, warranties of merchantability or fitness
  *  for any particular purpose or that the use of the software or
  *  documentation will not infringe any third party patents,
- *  copyrights, trademarks or other rights. 
+ *  copyrights, trademarks or other rights.
  *
  *  The copyright holders and contributing author(s) will not be
  *  liable for any direct, indirect, special or consequential damages
@@ -43,7 +43,7 @@
  *     not be misrepresented as being the original source.
  *  3. This Copyright notice may not be removed or altered from any
  *     source or altered source distribution.
- * 
+ *
  *  The copyright holders and contributing author(s) specifically
  *  permit, without fee, and encourage the use of this source code
  *  as a component for supporting the Hypertext Markup Language in
@@ -135,6 +135,7 @@ public class TidyTestCase extends TestCase
 
     /**
      * Instantiate a new Test case.
+     *
      * @param name test name
      */
     public TidyTestCase(String name)
@@ -170,6 +171,7 @@ public class TidyTestCase extends TestCase
      * ".cfg" extension is found is used as configuration file for the test, otherwise the default config will be used.
      * If a file with the same name, but with the ".out" extension is found, tidy will the result with the content of
      * such file.
+     *
      * @param fileName input file name
      * @throws Exception any exception generated during the test
      */
@@ -244,6 +246,7 @@ public class TidyTestCase extends TestCase
 
     /**
      * Parse an existing msg file and assert that content is identical to current output.
+     *
      * @param messagesFile URL to mesage file
      * @throws Exception any exception generated during the test
      */
@@ -264,11 +267,11 @@ public class TidyTestCase extends TestCase
         // assert size
         if (expectedMsgs.size() != tidyMsgs.size())
         {
-            StringBuffer messagesAsString = new StringBuffer();
+            StringBuilder messagesAsString = new StringBuilder();
 
-            for (Iterator iter = tidyMsgs.iterator(); iter.hasNext();)
+            for (Object tidyMsg : tidyMsgs)
             {
-                TidyMessage message = (TidyMessage) iter.next();
+                TidyMessage message = (TidyMessage) tidyMsg;
                 messagesAsString.append("\n");
                 messagesAsString.append(message.getMessage());
             }
@@ -332,6 +335,7 @@ public class TidyTestCase extends TestCase
     /**
      * Basic test for DOM parser. Test is set up using [fileName.cfg] configuration if the file exists. Calls
      * tidy.parseDOM and returns the Document to the caller.
+     *
      * @param fileName input file name
      * @return parsed Document
      * @throws Exception any exception generated during the test
@@ -356,10 +360,11 @@ public class TidyTestCase extends TestCase
 
     /**
      * assert generated output and test file are equals.
-     * @param tidyOutput tidy output as string
+     *
+     * @param tidyOutput  tidy output as string
      * @param correctFile URL used to load the file for comparison
      * @throws FileNotFoundException if test file is not found
-     * @throws IOException in reading file
+     * @throws IOException           in reading file
      */
     protected void assertEquals(String tidyOutput, URL correctFile) throws FileNotFoundException, IOException
     {
@@ -397,6 +402,7 @@ public class TidyTestCase extends TestCase
 
     /**
      * Utility method: assert no warnings were reported in the last tidy run.
+     *
      * @param expectedNumber expected number of warnings.
      */
     protected void assertWarnings(int expectedNumber)
@@ -410,6 +416,7 @@ public class TidyTestCase extends TestCase
 
     /**
      * Utility method: assert no errors were reported in the last tidy run.
+     *
      * @param expectedNumber expected number of errors.
      */
     protected void assertErrors(int expectedNumber)
@@ -423,13 +430,14 @@ public class TidyTestCase extends TestCase
 
     /**
      * Utility method: asserts a given String can be found in the error log.
+     *
      * @param expectedString expected String in error log.
      */
     protected void assertLogContains(String expectedString)
     {
         String logString = this.errorLog.toString();
 
-        if (logString.indexOf(expectedString) == -1)
+        if (!logString.contains(expectedString))
         {
             fail("Test failed, expected [" + expectedString + "] couldn't be found in error log.");
         }
@@ -437,13 +445,14 @@ public class TidyTestCase extends TestCase
 
     /**
      * Utility method: asserts a given String can't be found in the error log.
+     *
      * @param expectedString expected String in error log.
      */
     protected void assertLogDoesntContains(String expectedString)
     {
         String logString = this.errorLog.toString();
 
-        if (logString.indexOf(expectedString) != -1)
+        if (logString.contains(expectedString))
         {
             fail("Test failed, [" + expectedString + "] was found in error log.");
         }
@@ -451,6 +460,7 @@ public class TidyTestCase extends TestCase
 
     /**
      * set up the tidy instance.
+     *
      * @param fileName input file name (needed to determine configuration file name)
      * @throws IOException in reading configuration file
      */
@@ -470,11 +480,11 @@ public class TidyTestCase extends TestCase
         // debug runing test info
         if (log.isDebugEnabled())
         {
-            StringBuffer message = new StringBuffer();
-            message.append("Testing [" + fileName + "]");
+            StringBuilder message = new StringBuilder();
+            message.append("Testing [").append(fileName).append("]");
             if (configurationFile != null)
             {
-                message.append(" using configuration file [" + configFileName + "]");
+                message.append(" using configuration file [").append(configFileName).append("]");
             }
             log.debug(message.toString());
         }
@@ -502,7 +512,8 @@ public class TidyTestCase extends TestCase
     /**
      * Diff between two buffered readers. If comparison fails an AssertionFailedException is thrown with the line
      * number, actual and expected output. Content is tested to be identical (same wrapping).
-     * @param tidyOutput reader for tidy generated output
+     *
+     * @param tidyOutput  reader for tidy generated output
      * @param correctFile reader for test file
      * @throws IOException in reading from readers
      */
@@ -516,7 +527,7 @@ public class TidyTestCase extends TestCase
             testLine = correctFile.readLine();
             i++;
         }
-        while ((tidyLine != null) && (testLine != null) && (tidyLine.equals(testLine)));
+        while ((tidyLine != null) && (tidyLine.equals(testLine)));
         tidyOutput.close();
         correctFile.close();
 
@@ -524,15 +535,15 @@ public class TidyTestCase extends TestCase
         {
             assertEquals("Wrong output, file comparison failed at line [" + (i - 1) + "]", testLine, tidyLine);
         }
-        return;
     }
 
     /**
      * Run TIDY_EXECUTABLE to produce an output file. Used to generates output files using tidy c for comparison with
      * jtidy. A file ".out" will be written in the same folder of the input file.
-     * @param inputFileName input file for tidy.
+     *
+     * @param inputFileName         input file for tidy.
      * @param configurationFileName configuration file name (default if there is no not test-specific file).
-     * @param runIt if true the output is generated using tidy, if false simply output the command line.
+     * @param runIt                 if true the output is generated using tidy, if false simply output the command line.
      */
     private void generateOutputUsingTidyC(String inputFileName, String configurationFileName, boolean runIt)
     {
@@ -576,6 +587,7 @@ public class TidyTestCase extends TestCase
 
     /**
      * Utility method to clean up file path returned by URLs.
+     *
      * @param fileName file name as given by URL.getFile()
      * @return String fileName
      */
@@ -604,7 +616,7 @@ public class TidyTestCase extends TestCase
         /**
          * Parsed messages.
          */
-        private List messages = new ArrayList();
+        private List<TidyMessage> messages = new ArrayList<>();
 
         /**
          * Error code for the current message.
@@ -684,28 +696,29 @@ public class TidyTestCase extends TestCase
 
             switch (parsePosition)
             {
-                case 1 :
+                case 1:
                     this.code = Integer.parseInt(new String(ch, start, length));
                     break;
-                case 2 :
+                case 2:
                     this.level = Integer.parseInt(new String(ch, start, length));
                     break;
-                case 3 :
+                case 3:
                     this.line = Integer.parseInt(new String(ch, start, length));
                     break;
-                case 4 :
+                case 4:
                     this.column = Integer.parseInt(new String(ch, start, length));
                     break;
-                case 5 :
+                case 5:
                     textbuffer.append(new String(ch, start, length));
                     break;
-                default :
+                default:
                     break;
             }
         }
 
         /**
          * Returns the list of parsed messages.
+         *
          * @return List containing TidyMessage elements
          */
         public List getMessages()

@@ -54,7 +54,6 @@
 package org.w3c.tidy;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 
@@ -772,7 +771,7 @@ public final class AttrCheckImpl
             String p = attval.value;
             char s = p.charAt(0);
 
-            if (p.length() == 0 || !Character.isLetter(p.charAt(0)))
+            if (!Character.isLetter(p.charAt(0)))
             {
                 if (lexer.isvoyager && (TidyUtils.isXMLLetter(s) || s == '_' || s == ':'))
                 {
@@ -833,7 +832,6 @@ public final class AttrCheckImpl
             if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
-                return;
             }
             else if (lexer.configuration.tt.isAnchorElement(node))
             {
@@ -861,7 +859,7 @@ public final class AttrCheckImpl
         /**
          * valid html colors.
          */
-        private static final Map COLORS = new HashMap();
+        private static final Map<String, String> COLORS = new HashMap<>();
 
         static
         {
@@ -888,7 +886,6 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            boolean hexUppercase = true;
             boolean invalid = false;
             boolean found = false;
 
@@ -900,11 +897,9 @@ public final class AttrCheckImpl
 
             String given = attval.value;
 
-            Iterator colorIter = COLORS.entrySet().iterator();
-
-            while (colorIter.hasNext())
+            for (Object o : COLORS.entrySet())
             {
-                Map.Entry color = (Map.Entry) colorIter.next();
+                Map.Entry color = (Map.Entry) o;
 
                 if (given.charAt(0) == '#')
                 {
@@ -962,7 +957,7 @@ public final class AttrCheckImpl
                         }
                     }
                     // convert hex letters to uppercase
-                    if (!invalid && hexUppercase)
+                    if (!invalid)
                     {
                         for (int i = 1; i < 7; ++i)
                         {
@@ -1097,7 +1092,6 @@ public final class AttrCheckImpl
             if (attval.value == null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.MISSING_ATTR_VALUE);
-                return;
             }
         }
     }

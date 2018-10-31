@@ -320,7 +320,7 @@ public class JTidyTaskTest extends TestCase
             reader.close();
 
             // output file should not contain "generator"
-            assertTrue("Configured parameter doesn't have effect on output.", output.indexOf("generator") == -1);
+            assertTrue("Configured parameter doesn't have effect on output.", !output.contains("generator"));
         }
         catch (IOException e)
         {
@@ -355,7 +355,7 @@ public class JTidyTaskTest extends TestCase
             reader.close();
 
             // output file should not contain "generator"
-            assertTrue("Configured parameter doesn't have effect on output.", output.indexOf("generator") == -1);
+            assertTrue("Configured parameter doesn't have effect on output.", !output.contains("generator"));
         }
         catch (IOException e)
         {
@@ -440,7 +440,9 @@ public class JTidyTaskTest extends TestCase
         try
         {
             task
-                .processFile(new File(testDir, "non/existing/file.html"), new File(tempDir, "non/existing/output.html"));
+                .processFile(
+                    new File(testDir, "non/existing/file.html"),
+                    new File(tempDir, "non/existing/output.html"));
             fail("Expected BuildException not thrown");
         }
         catch (BuildException e)

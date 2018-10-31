@@ -802,7 +802,7 @@ public class ReportTest extends TestCase
             -1,
             lexer,
             "num_warnings",
-            new Object[]{new Integer(0), new Integer(33)},
+            new Object[]{0, 33},
             TidyMessage.Level.SUMMARY);
         assertEquals("no warnings, 33 errors were found!", message);
     }

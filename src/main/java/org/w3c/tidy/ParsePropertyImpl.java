@@ -53,7 +53,6 @@
  */
 package org.w3c.tidy;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -155,7 +154,7 @@ public final class ParsePropertyImpl
                 configuration.report.badArgument(value, option);
                 i = -1;
             }
-            return new Integer(i);
+            return i;
         }
 
         /**
@@ -240,7 +239,7 @@ public final class ParsePropertyImpl
                 return "";
             }
 
-            return ((Boolean) value).booleanValue() ? "yes" : "no";
+            return (Boolean) value ? "yes" : "no";
         }
     }
 
@@ -255,7 +254,7 @@ public final class ParsePropertyImpl
          */
         public Object parse(String value, String option, Configuration configuration)
         {
-            return (((Boolean) BOOL.parse(value, option, configuration)).booleanValue() ? Boolean.FALSE : Boolean.TRUE);
+            return ((Boolean) BOOL.parse(value, option, configuration) ? Boolean.FALSE : Boolean.TRUE);
         }
 
         /**
@@ -284,7 +283,7 @@ public final class ParsePropertyImpl
                 return "";
             }
 
-            return ((Boolean) value).booleanValue() ? "no" : "yes";
+            return (Boolean) value ? "no" : "yes";
         }
     }
 
@@ -495,11 +494,10 @@ public final class ParsePropertyImpl
                 return "";
             }
 
-            StringBuffer buffer = new StringBuffer();
-            Iterator iterator = tagList.iterator();
-            while (iterator.hasNext())
+            StringBuilder buffer = new StringBuilder();
+            for (Object aTagList : tagList)
             {
-                buffer.append(iterator.next());
+                buffer.append(aTagList);
                 buffer.append(" ");
             }
 
@@ -641,7 +639,7 @@ public final class ParsePropertyImpl
                 configuration.report.badArgument(value, option);
                 dupAttr = -1;
             }
-            return new Integer(dupAttr);
+            return dupAttr;
         }
 
         /**
@@ -670,7 +668,7 @@ public final class ParsePropertyImpl
                 return "";
             }
 
-            int intValue = ((Integer) value).intValue();
+            int intValue = (Integer) value;
             String stringValue;
 
             switch (intValue)

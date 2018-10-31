@@ -63,7 +63,7 @@ import org.w3c.dom.Attr;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public class AttVal extends Object implements Cloneable
+public class AttVal implements Cloneable
 {
 
     /**
@@ -193,10 +193,8 @@ public class AttVal extends Object implements Cloneable
     public boolean isBoolAttribute()
     {
         Attribute attr = this.dict;
-        if (attr != null && attr.getAttrchk() == AttrCheckImpl.BOOL)
-          return true;
- 
-        return false;
+        return attr != null && attr.getAttrchk() == AttrCheckImpl.BOOL;
+
     }
 
     /**
@@ -268,10 +266,10 @@ public class AttVal extends Object implements Cloneable
             }
 
         }
-        else if (!lexer.configuration.xmlTags
-            && node.tag != null
-            && this.asp == null
-            && !(node.tag != null && (TidyUtils.toBoolean(node.tag.versions & Dict.VERS_PROPRIETARY))))
+        else if (!lexer.configuration.xmlTags &&
+            node.tag != null &&
+            this.asp == null &&
+            !TidyUtils.toBoolean(node.tag.versions & Dict.VERS_PROPRIETARY))
         {
             lexer.report.attrError(lexer, node, this, Report.UNKNOWN_ATTRIBUTE);
         }

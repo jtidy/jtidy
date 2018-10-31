@@ -351,7 +351,7 @@ public class Lexer
     /**
      * stack.
      */
-    protected Stack istack;
+    protected Stack<IStack> istack;
 
     /**
      * start of frame.
@@ -391,7 +391,7 @@ public class Lexer
     /**
      * node list.
      */
-    private List nodeList;
+    private List<Node> nodeList;
 
     /**
      * Instantiates a new Lexer.
@@ -411,7 +411,7 @@ public class Lexer
         this.insert = -1;
         this.istack = new Stack();
         this.configuration = configuration;
-        this.nodeList = new Vector();
+        this.nodeList = new Vector<>();
     }
 
     /**
@@ -513,9 +513,9 @@ public class Lexer
     protected void updateNodeTextArrays(byte[] oldtextarray, byte[] newtextarray)
     {
         Node node;
-        for (int i = 0; i < this.nodeList.size(); i++)
+        for (Object aNodeList : this.nodeList)
         {
-            node = (Node) (this.nodeList.get(i));
+            node = (Node) aNodeList;
             if (node.textarray == oldtextarray)
             {
                 node.textarray = newtextarray;
@@ -994,7 +994,7 @@ public class Lexer
                 {
                     attval = node.getAttrByName("name");
 
-                    if (attval != null && attval.value != null && "generator".equalsIgnoreCase(attval.value))
+                    if (attval != null && "generator".equalsIgnoreCase(attval.value))
                     {
                         attval = node.getAttrByName("content");
 
@@ -1229,14 +1229,13 @@ public class Lexer
     {
         String fpi = " ";
         String sysid = "";
-        String namespace = XHTML_NAMESPACE;
         String dtdsub = null;
         Node doctype;
         int dtdlen = 0;
 
         doctype = root.findDocType();
 
-        fixHTMLNameSpace(root, namespace); // #427839 - fix by Evan Lenz 05 Sep 00
+        fixHTMLNameSpace(root, XHTML_NAMESPACE); // #427839 - fix by Evan Lenz 05 Sep 00
 
         if (this.configuration.docTypeMode == Configuration.DOCTYPE_OMIT)
         {
@@ -1861,9 +1860,8 @@ public class Lexer
 
                     /* if javascript insert backslash before / */
                     if (container.isJavaScript()) {
-                        for (int i = lexsize; i > start-1; --i) {
-                            lexbuf[i] = lexbuf[i-1];
-                        }
+                        if (lexsize - start - 1 >= 0)
+                            System.arraycopy(lexbuf, start - 1, lexbuf, start, lexsize - start - 1);
                         lexbuf[start-1] = '\\';
                         lexsize++;
                     }
@@ -2458,7 +2456,7 @@ public class Lexer
                         continue;
                     }
 
-                    end_comment : while (true)
+                    do
                     {
                         c = this.in.readChar();
 
@@ -2517,13 +2515,9 @@ public class Lexer
                         addCharToLexer(c);
 
                         // if '-' then look for '>' to end the comment
-                        if (c != '-')
-                        {
-                            break end_comment;
-                        }
-
+                        // otherwise continue to look for -->
                     }
-                    // otherwise continue to look for -->
+                    while (c == '-');
                     this.lexbuf[this.lexsize - 2] = (byte) '=';
                     continue;
 
@@ -4022,13 +4016,8 @@ public class Lexer
             return true;
         }
 
-        if (node.tag == null
-            || node.tag == this.configuration.tt.tagP
-            || !TidyUtils.toBoolean(node.tag.model & (Dict.CM_INLINE | Dict.CM_NEW)))
-        {
-            return false;
-        }
-        return true;
+        return node.tag != null
+            && TidyUtils.toBoolean(node.tag.model & (Dict.CM_INLINE | Dict.CM_NEW));
     }
 
     /**

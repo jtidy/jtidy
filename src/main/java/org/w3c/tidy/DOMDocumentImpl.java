@@ -157,16 +157,12 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     public org.w3c.dom.Element createElement(String tagName) throws DOMException
     {
         Node node = new Node(Node.START_END_TAG, null, 0, 0, tagName, this.tt);
-        if (node != null)
+        if (node.tag == null) // Fix Bug 121206
         {
-            if (node.tag == null) // Fix Bug 121206
-            {
-                node.tag = TagTable.XML_TAGS;
-            }
-            return (org.w3c.dom.Element) node.getAdapter();
+            node.tag = TagTable.XML_TAGS;
         }
+        return (org.w3c.dom.Element) node.getAdapter();
 
-        return null;
     }
 
     /**
@@ -185,12 +181,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     {
         byte[] textarray = TidyUtils.getBytes(data);
         Node node = new Node(Node.TEXT_NODE, textarray, 0, textarray.length);
-        if (node != null)
-        {
-            return (org.w3c.dom.Text) node.getAdapter();
-        }
+        return (org.w3c.dom.Text) node.getAdapter();
 
-        return null;
     }
 
     /**
@@ -200,12 +192,8 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     {
         byte[] textarray = TidyUtils.getBytes(data);
         Node node = new Node(Node.COMMENT_TAG, textarray, 0, textarray.length);
-        if (node != null)
-        {
-            return (org.w3c.dom.Comment) node.getAdapter();
-        }
+        return (org.w3c.dom.Comment) node.getAdapter();
 
-        return null;
     }
 
     /**
@@ -235,13 +223,9 @@ public class DOMDocumentImpl extends DOMNodeImpl implements org.w3c.dom.Document
     public org.w3c.dom.Attr createAttribute(String name) throws DOMException
     {
         AttVal av = new AttVal(null, null, '"', name, null);
-        if (av != null)
-        {
-            av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(av);
-            return av.getAdapter();
-        }
+        av.dict = AttributeTable.getDefaultAttributeTable().findAttribute(av);
+        return av.getAdapter();
 
-        return null;
     }
 
     /**

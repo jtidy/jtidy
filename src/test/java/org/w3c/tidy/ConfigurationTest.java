@@ -119,175 +119,175 @@ public class ConfigurationTest extends TestCase
         assertEquals("alt", tidy.getAltText());
 
         tidy.setAsciiChars(false);
-        assertEquals(false, tidy.getAsciiChars());
+        assertFalse(tidy.getAsciiChars());
 
         tidy.setBreakBeforeBR(true);
-        assertEquals(true, tidy.getBreakBeforeBR());
+        assertTrue(tidy.getBreakBeforeBR());
 
         tidy.setBurstSlides(true);
-        assertEquals(true, tidy.getBurstSlides());
+        assertTrue(tidy.getBurstSlides());
 
         tidy.setDropEmptyParas(false);
-        assertEquals(false, tidy.getDropEmptyParas());
+        assertFalse(tidy.getDropEmptyParas());
 
         tidy.setDropFontTags(true);
-        assertEquals(true, tidy.getDropFontTags());
+        assertTrue(tidy.getDropFontTags());
 
         tidy.setDropProprietaryAttributes(true);
-        assertEquals(true, tidy.getDropProprietaryAttributes());
+        assertTrue(tidy.getDropProprietaryAttributes());
 
         tidy.setEmacs(true);
-        assertEquals(true, tidy.getEmacs());
+        assertTrue(tidy.getEmacs());
 
         tidy.setEncloseBlockText(true);
-        assertEquals(true, tidy.getEncloseBlockText());
+        assertTrue(tidy.getEncloseBlockText());
 
         tidy.setEncloseText(true);
-        assertEquals(true, tidy.getEncloseText());
+        assertTrue(tidy.getEncloseText());
 
         tidy.setEscapeCdata(true);
-        assertEquals(true, tidy.getEscapeCdata());
+        assertTrue(tidy.getEscapeCdata());
 
         tidy.setFixBackslash(true);
-        assertEquals(true, tidy.getFixBackslash());
+        assertTrue(tidy.getFixBackslash());
 
         tidy.setFixComments(true);
-        assertEquals(true, tidy.getFixComments());
+        assertTrue(tidy.getFixComments());
 
         tidy.setFixUri(true);
-        assertEquals(true, tidy.getFixUri());
+        assertTrue(tidy.getFixUri());
 
         tidy.setForceOutput(true);
-        assertEquals(true, tidy.getForceOutput());
+        assertTrue(tidy.getForceOutput());
 
         tidy.setHideComments(true);
-        assertEquals(true, tidy.getHideComments());
+        assertTrue(tidy.getHideComments());
 
         tidy.setHideEndTags(true);
-        assertEquals(true, tidy.getHideEndTags());
+        assertTrue(tidy.getHideEndTags());
 
         tidy.setIndentAttributes(true);
-        assertEquals(true, tidy.getIndentAttributes());
+        assertTrue(tidy.getIndentAttributes());
 
         tidy.setIndentCdata(true);
-        assertEquals(true, tidy.getIndentCdata());
+        assertTrue(tidy.getIndentCdata());
 
         tidy.setIndentContent(true);
-        assertEquals(true, tidy.getIndentContent());
+        assertTrue(tidy.getIndentContent());
 
         tidy.setJoinClasses(true);
-        assertEquals(true, tidy.getJoinClasses());
+        assertTrue(tidy.getJoinClasses());
 
         tidy.setJoinStyles(true);
-        assertEquals(true, tidy.getJoinStyles());
+        assertTrue(tidy.getJoinStyles());
 
         tidy.setKeepFileTimes(true);
-        assertEquals(true, tidy.getKeepFileTimes());
+        assertTrue(tidy.getKeepFileTimes());
 
         tidy.setLiteralAttribs(true);
-        assertEquals(true, tidy.getLiteralAttribs());
+        assertTrue(tidy.getLiteralAttribs());
 
         tidy.setLogicalEmphasis(true);
-        assertEquals(true, tidy.getLogicalEmphasis());
+        assertTrue(tidy.getLogicalEmphasis());
 
         tidy.setLowerLiterals(true);
-        assertEquals(true, tidy.getLowerLiterals());
+        assertTrue(tidy.getLowerLiterals());
 
         tidy.setMakeBare(true);
-        assertEquals(true, tidy.getMakeBare());
+        assertTrue(tidy.getMakeBare());
 
         tidy.setMakeClean(true);
-        assertEquals(true, tidy.getMakeClean());
+        assertTrue(tidy.getMakeClean());
 
         tidy.setNumEntities(true);
-        assertEquals(true, tidy.getNumEntities());
+        assertTrue(tidy.getNumEntities());
 
         tidy.setOnlyErrors(true);
-        assertEquals(true, tidy.getOnlyErrors());
+        assertTrue(tidy.getOnlyErrors());
 
         tidy.setPrintBodyOnly(true);
-        assertEquals(true, tidy.getPrintBodyOnly());
+        assertTrue(tidy.getPrintBodyOnly());
 
         tidy.setQuiet(true);
-        assertEquals(true, tidy.getQuiet());
+        assertTrue(tidy.getQuiet());
 
         tidy.setQuoteAmpersand(true);
-        assertEquals(true, tidy.getQuoteAmpersand());
+        assertTrue(tidy.getQuoteAmpersand());
 
         tidy.setQuoteMarks(true);
-        assertEquals(true, tidy.getQuoteMarks());
+        assertTrue(tidy.getQuoteMarks());
 
         tidy.setQuoteNbsp(true);
-        assertEquals(true, tidy.getQuoteNbsp());
+        assertTrue(tidy.getQuoteNbsp());
 
         tidy.setRawOut(true);
-        assertEquals(true, tidy.getRawOut());
+        assertTrue(tidy.getRawOut());
 
         tidy.setReplaceColor(true);
-        assertEquals(true, tidy.getReplaceColor());
+        assertTrue(tidy.getReplaceColor());
 
         tidy.setShowWarnings(true);
-        assertEquals(true, tidy.getShowWarnings());
+        assertTrue(tidy.getShowWarnings());
 
         tidy.setSmartIndent(true);
-        assertEquals(true, tidy.getSmartIndent());
+        assertTrue(tidy.getSmartIndent());
 
         tidy.setTidyMark(true);
-        assertEquals(true, tidy.getTidyMark());
+        assertTrue(tidy.getTidyMark());
 
         tidy.setTrimEmptyElements(true);
-        assertEquals(true, tidy.getTrimEmptyElements());
+        assertTrue(tidy.getTrimEmptyElements());
 
         tidy.setUpperCaseAttrs(true);
-        assertEquals(true, tidy.getUpperCaseAttrs());
+        assertTrue(tidy.getUpperCaseAttrs());
 
         tidy.setUpperCaseTags(true);
-        assertEquals(true, tidy.getUpperCaseTags());
+        assertTrue(tidy.getUpperCaseTags());
 
         tidy.setWord2000(true);
-        assertEquals(true, tidy.getWord2000());
+        assertTrue(tidy.getWord2000());
 
         tidy.setWrapAsp(true);
-        assertEquals(true, tidy.getWrapAsp());
+        assertTrue(tidy.getWrapAsp());
 
         tidy.setWrapAttVals(true);
-        assertEquals(true, tidy.getWrapAttVals());
+        assertTrue(tidy.getWrapAttVals());
 
         tidy.setWrapJste(true);
-        assertEquals(true, tidy.getWrapJste());
+        assertTrue(tidy.getWrapJste());
 
         tidy.setWrapPhp(true);
-        assertEquals(true, tidy.getWrapPhp());
+        assertTrue(tidy.getWrapPhp());
 
         tidy.setWrapScriptlets(true);
-        assertEquals(true, tidy.getWrapScriptlets());
+        assertTrue(tidy.getWrapScriptlets());
 
         tidy.setWrapSection(true);
-        assertEquals(true, tidy.getWrapSection());
+        assertTrue(tidy.getWrapSection());
 
         tidy.setWraplen(5);
         assertEquals(5, tidy.getWraplen());
 
         tidy.setWriteback(true);
-        assertEquals(true, tidy.getWriteback());
+        assertTrue(tidy.getWriteback());
 
         tidy.setXHTML(true);
-        assertEquals(true, tidy.getXHTML());
+        assertTrue(tidy.getXHTML());
 
         tidy.setXmlOut(true);
-        assertEquals(true, tidy.getXmlOut());
+        assertTrue(tidy.getXmlOut());
 
         tidy.setXmlPi(true);
-        assertEquals(true, tidy.getXmlPi());
+        assertTrue(tidy.getXmlPi());
 
         tidy.setXmlPIs(true);
-        assertEquals(true, tidy.getXmlPIs());
+        assertTrue(tidy.getXmlPIs());
 
         tidy.setXmlSpace(true);
-        assertEquals(true, tidy.getXmlSpace());
+        assertTrue(tidy.getXmlSpace());
 
         tidy.setXmlTags(true);
-        assertEquals(true, tidy.getXmlTags());
+        assertTrue(tidy.getXmlTags());
 
         tidy.setTabsize(5);
         assertEquals(5, tidy.getTabsize());

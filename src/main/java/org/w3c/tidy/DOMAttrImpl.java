@@ -20,14 +20,14 @@
  *  have been possible without all of you.
  *
  *  COPYRIGHT NOTICE:
- * 
+ *
  *  This software and documentation is provided "as is," and
  *  the copyright holders and contributing author(s) make no
  *  representations or warranties, express or implied, including
  *  but not limited to, warranties of merchantability or fitness
  *  for any particular purpose or that the use of the software or
  *  documentation will not infringe any third party patents,
- *  copyrights, trademarks or other rights. 
+ *  copyrights, trademarks or other rights.
  *
  *  The copyright holders and contributing author(s) will not be
  *  liable for any direct, indirect, special or consequential damages
@@ -43,7 +43,7 @@
  *     not be misrepresented as being the original source.
  *  3. This Copyright notice may not be removed or altered from any
  *     source or altered source distribution.
- * 
+ *
  *  The copyright holders and contributing author(s) specifically
  *  permit, without fee, and encourage the use of this source code
  *  as a component for supporting the Hypertext Markup Language in
@@ -59,6 +59,7 @@ import org.w3c.dom.TypeInfo;
 
 /**
  * Tidy implementation of org.w3c.dom.DOMAttrImpl.
+ *
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @author Fabrizio Giustina
@@ -74,6 +75,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
 
     /**
      * instantiates a new DOMAttrImpl which wraps the given AttVal.
+     *
      * @param adaptee wrapped AttVal
      */
     protected DOMAttrImpl(AttVal adaptee)
@@ -159,6 +161,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
 
     /**
      * TODO DOM level 2 getChildNodes() Not implemented. Returns an empty NodeList.
+     *
      * @see org.w3c.dom.Node#getChildNodes()
      */
     public org.w3c.dom.NodeList getChildNodes()
@@ -170,6 +173,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
 
     /**
      * TODO DOM level 2 getFirstChild() Not implemented. Returns null.
+     *
      * @see org.w3c.dom.Node#getFirstChild()
      */
     public org.w3c.dom.Node getFirstChild()
@@ -179,6 +183,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
 
     /**
      * TODO DOM level 2 getLastChild() Not implemented. Returns null.
+     *
      * @see org.w3c.dom.Node#getLastChild()
      */
     public org.w3c.dom.Node getLastChild()
@@ -214,6 +219,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
 
     /**
      * TODO DOM level 2 getOwnerDocument() Not implemented. Returns null.
+     *
      * @see org.w3c.dom.Node#getOwnerDocument()
      */
     public org.w3c.dom.Document getOwnerDocument()
@@ -223,6 +229,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
 
     /**
      * Not supported.
+     *
      * @see org.w3c.dom.Node#insertBefore(org.w3c.dom.Node, org.w3c.dom.Node)
      */
     public org.w3c.dom.Node insertBefore(org.w3c.dom.Node newChild, org.w3c.dom.Node refChild) throws DOMException
@@ -232,6 +239,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
 
     /**
      * Not supported.
+     *
      * @see org.w3c.dom.Node#replaceChild(org.w3c.dom.Node, org.w3c.dom.Node)
      */
     public org.w3c.dom.Node replaceChild(org.w3c.dom.Node newChild, org.w3c.dom.Node oldChild) throws DOMException
@@ -241,6 +249,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
 
     /**
      * Not supported.
+     *
      * @see org.w3c.dom.Node#removeChild(org.w3c.dom.Node)
      */
     public org.w3c.dom.Node removeChild(org.w3c.dom.Node oldChild) throws DOMException
@@ -250,6 +259,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
 
     /**
      * Not supported.
+     *
      * @see org.w3c.dom.Node#appendChild(org.w3c.dom.Node)
      */
     public org.w3c.dom.Node appendChild(org.w3c.dom.Node newChild) throws DOMException
@@ -278,6 +288,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
 
     /**
      * TODO DOM level 2 getOwnerElement() Not implemented. Returns null.
+     *
      * @see org.w3c.dom.Attr#getOwnerElement()
      */
     public org.w3c.dom.Element getOwnerElement()
@@ -287,6 +298,7 @@ public class DOMAttrImpl extends DOMNodeImpl implements org.w3c.dom.Attr, Clonea
 
     /**
      * TODO DOM level 3 getSchemaTypeInfo() Not implemented. Returns null.
+     *
      * @see org.w3c.dom.Attr#getSchemaTypeInfo()
      */
     public TypeInfo getSchemaTypeInfo()

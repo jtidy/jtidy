@@ -20,14 +20,14 @@
  *  have been possible without all of you.
  *
  *  COPYRIGHT NOTICE:
- * 
+ *
  *  This software and documentation is provided "as is," and
  *  the copyright holders and contributing author(s) make no
  *  representations or warranties, express or implied, including
  *  but not limited to, warranties of merchantability or fitness
  *  for any particular purpose or that the use of the software or
  *  documentation will not infringe any third party patents,
- *  copyrights, trademarks or other rights. 
+ *  copyrights, trademarks or other rights.
  *
  *  The copyright holders and contributing author(s) will not be
  *  liable for any direct, indirect, special or consequential damages
@@ -43,7 +43,7 @@
  *     not be misrepresented as being the original source.
  *  3. This Copyright notice may not be removed or altered from any
  *     source or altered source distribution.
- * 
+ *
  *  The copyright holders and contributing author(s) specifically
  *  permit, without fee, and encourage the use of this source code
  *  as a component for supporting the Hypertext Markup Language in
@@ -54,12 +54,12 @@
 package org.w3c.tidy;
 
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Map;
 
 
 /**
  * Entity hash table.
+ *
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @author Fabrizio Giustina
@@ -333,7 +333,7 @@ public final class EntityTable
     /**
      * Entity map.
      */
-    private Map entityHashtable = new Hashtable();
+    private Map<String, Entity> entityHashtable = new Hashtable<>();
 
     /**
      * use getDefaultEntityTable to get an entity table instance.
@@ -345,26 +345,29 @@ public final class EntityTable
 
     /**
      * installs an entity.
+     *
      * @param ent entity
      * @return installed Entity
      */
     private Entity install(Entity ent)
     {
-        return (Entity) this.entityHashtable.put(ent.getName(), ent);
+        return this.entityHashtable.put(ent.getName(), ent);
     }
 
     /**
      * Lookup an entity by its name.
+     *
      * @param name entity name
      * @return entity
      */
     public Entity lookup(String name)
     {
-        return (Entity) this.entityHashtable.get(name);
+        return this.entityHashtable.get(name);
     }
 
     /**
      * Returns the entity code for the given entity name.
+     *
      * @param name entity name
      * @return entity code or 0 for unknown entity names
      */
@@ -415,6 +418,7 @@ public final class EntityTable
 
     /**
      * Returns the entity name for the given entity code.
+     *
      * @param code entity code
      * @return entity name or null for unknown entity codes
      */
@@ -422,10 +426,9 @@ public final class EntityTable
     {
         String name = null;
         Entity ent;
-        Iterator en = this.entityHashtable.values().iterator();
-        while (en.hasNext())
+        for (Object o : this.entityHashtable.values())
         {
-            ent = (Entity) en.next();
+            ent = (Entity) o;
             if (ent.getCode() == code)
             {
                 name = ent.getName();
@@ -437,6 +440,7 @@ public final class EntityTable
 
     /**
      * Returns the default entity table instance.
+     *
      * @return entity table instance
      */
     public static EntityTable getDefaultEntityTable()
@@ -444,9 +448,9 @@ public final class EntityTable
         if (defaultEntityTable == null)
         {
             defaultEntityTable = new EntityTable();
-            for (int i = 0; i < entities.length; i++)
+            for (Entity entity : entities)
             {
-                defaultEntityTable.install(entities[i]);
+                defaultEntityTable.install(entity);
             }
         }
         return defaultEntityTable;
