@@ -516,7 +516,7 @@ public class TidyTestCase extends TestCase
             testLine = correctFile.readLine();
             i++;
         }
-        while ((tidyLine != null) && (testLine != null) && (tidyLine.equals(testLine)));
+        while ((tidyLine != null) && (tidyLine.equals(testLine)));
         tidyOutput.close();
         correctFile.close();
 

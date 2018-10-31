@@ -233,12 +233,11 @@ public class PPrint
 
         // first byte "str[0]" is passed in separately from the
         // rest of the UTF-8 byte sequence starting at "str[1]"
-        byte[] successorBytes = str;
 
         boolean err = EncodingUtils.decodeUTF8BytesToChar(
             n,
             TidyUtils.toUnsigned(str[start]),
-            successorBytes,
+            str,
             null,
             bytes,
             start + 1);

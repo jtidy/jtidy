@@ -193,10 +193,8 @@ public class AttVal implements Cloneable
     public boolean isBoolAttribute()
     {
         Attribute attr = this.dict;
-        if (attr != null && attr.getAttrchk() == AttrCheckImpl.BOOL)
-          return true;
- 
-        return false;
+        return attr != null && attr.getAttrchk() == AttrCheckImpl.BOOL;
+
     }
 
     /**

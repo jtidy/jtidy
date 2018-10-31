@@ -321,7 +321,7 @@ public class Node
 
         for (attr = this.attributes; attr != null; attr = attr.next)
         {
-            if (name != null && attr.attribute != null && attr.attribute.equals(name))
+            if (attr.attribute != null && attr.attribute.equals(name))
             {
                 break;
             }
@@ -1058,7 +1058,7 @@ public class Node
      */
     public boolean isElement()
     {
-        return (this.type == START_TAG || this.type == START_END_TAG ? true : false);
+        return (this.type == START_TAG || this.type == START_END_TAG);
     }
 
     /**

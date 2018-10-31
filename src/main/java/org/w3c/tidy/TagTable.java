@@ -1193,8 +1193,7 @@ public final class TagTable {
      * @return a new anchor element
      */
     Anchor newAnchor() {
-        Anchor a = new Anchor();
-        return a;
+        return new Anchor();
     }
 
     /**
