@@ -19,7 +19,7 @@ public class TestMessageListener implements TidyMessageListener
     /**
      * Contains all the received TidyMessages.
      */
-    private List received = new ArrayList();
+    private List<TidyMessage> received = new ArrayList<>();
 
     /**
      * Instantiate a new messag listener for the given test file.

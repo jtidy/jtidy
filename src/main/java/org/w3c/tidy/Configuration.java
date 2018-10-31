@@ -220,7 +220,7 @@ public class Configuration implements Serializable
      * Map containg all the valid configuration options and the related parser. Tag entry contains String(option
      * name)-Flag instance.
      */
-    private static final Map OPTIONS = new HashMap();
+    private static final Map<String, Flag> OPTIONS = new HashMap<>();
 
     /**
      * serial version UID for this class.
@@ -908,7 +908,7 @@ public class Configuration implements Serializable
             Flag configItem;
 
             // sort configuration options
-            List values = new ArrayList(OPTIONS.values());
+            List<Flag> values = new ArrayList<>(OPTIONS.values());
             Collections.sort(values);
 
             for (Object value : values)

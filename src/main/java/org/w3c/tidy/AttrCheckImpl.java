@@ -859,7 +859,7 @@ public final class AttrCheckImpl
         /**
          * valid html colors.
          */
-        private static final Map COLORS = new HashMap();
+        private static final Map<String, String> COLORS = new HashMap<>();
 
         static
         {

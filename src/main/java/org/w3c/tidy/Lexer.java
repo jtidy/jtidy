@@ -351,7 +351,7 @@ public class Lexer
     /**
      * stack.
      */
-    protected Stack istack;
+    protected Stack<IStack> istack;
 
     /**
      * start of frame.
@@ -391,7 +391,7 @@ public class Lexer
     /**
      * node list.
      */
-    private List nodeList;
+    private List<Node> nodeList;
 
     /**
      * Instantiates a new Lexer.

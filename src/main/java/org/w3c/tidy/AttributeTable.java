@@ -324,7 +324,7 @@ public class AttributeTable
     /**
      * Map containing all the installed attributes.
      */
-    private Map attributeHashtable = new Hashtable();
+    private Map<String, Attribute> attributeHashtable = new Hashtable<>();
 
     /**
      * lookup an installed Attribute.
@@ -333,7 +333,7 @@ public class AttributeTable
      */
     public Attribute lookup(String name)
     {
-        return (Attribute) this.attributeHashtable.get(name);
+        return this.attributeHashtable.get(name);
     }
 
     /**
@@ -343,7 +343,7 @@ public class AttributeTable
      */
     public Attribute install(Attribute attr)
     {
-        return (Attribute) this.attributeHashtable.put(attr.getName(), attr);
+        return this.attributeHashtable.put(attr.getName(), attr);
     }
 
     /**

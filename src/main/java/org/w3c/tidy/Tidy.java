@@ -87,7 +87,7 @@ public class Tidy implements Serializable
     /**
      * Alias for configuration options accepted in command line.
      */
-    private static final Map CMDLINE_ALIAS = new HashMap();
+    private static final Map<String, String> CMDLINE_ALIAS = new HashMap<>();
 
     static
     {

@@ -603,7 +603,7 @@ public class TidyTestCase extends TestCase
         /**
          * Parsed messages.
          */
-        private List messages = new ArrayList();
+        private List<TidyMessage> messages = new ArrayList<>();
 
         /**
          * Error code for the current message.
@@ -643,7 +643,7 @@ public class TidyTestCase extends TestCase
         /**
          * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
          */
-        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
+        public void startElement(String uri, String localName, String qName, Attributes attributes)
         {
             if ("message".equals(qName))
             {
@@ -660,7 +660,7 @@ public class TidyTestCase extends TestCase
         /**
          * @see org.xml.sax.ContentHandler#endElement(String, String, String)
          */
-        public void endElement(String uri, String localName, String qName) throws SAXException
+        public void endElement(String uri, String localName, String qName)
         {
             if ("message".equals(qName))
             {
@@ -674,7 +674,7 @@ public class TidyTestCase extends TestCase
         /**
          * @see org.xml.sax.ContentHandler#characters(char[], int, int)
          */
-        public void characters(char[] ch, int start, int length) throws SAXException
+        public void characters(char[] ch, int start, int length)
         {
             if (!intag)
             {

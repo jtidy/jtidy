@@ -832,7 +832,7 @@ public final class TagTable {
     /**
      * hashTable containing tags.
      */
-    private Map tagHashtable = new Hashtable();
+    private Map<String, Dict> tagHashtable = new Hashtable<>();
 
     /**
      * Instantiates a new tag table with known tags.
@@ -1081,7 +1081,7 @@ public final class TagTable {
      * @return List containing all the user-defined tag names
      */
     List findAllDefinedTag(short tagType) {
-        List tagNames = new ArrayList();
+        List<String> tagNames = new ArrayList<>();
 
         for (Object o : tagHashtable.values())
         {
