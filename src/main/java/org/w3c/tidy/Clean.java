@@ -981,17 +981,17 @@ public class Clean
     {
         while (av != null)
         {
-            if (av.attribute.equals("face"))
+            switch (av.attribute)
             {
-                addFontFace(node, av.value);
-            }
-            else if (av.attribute.equals("size"))
-            {
-                addFontSize(node, av.value);
-            }
-            else if (av.attribute.equals("color"))
-            {
-                addFontColor(node, av.value);
+                case "face":
+                    addFontFace(node, av.value);
+                    break;
+                case "size":
+                    addFontSize(node, av.value);
+                    break;
+                case "color":
+                    addFontColor(node, av.value);
+                    break;
             }
 
             av = av.next;
@@ -2066,13 +2066,13 @@ public class Clean
         }
 
         // search for substring "margin-top: 0"
-        if (attval.value.indexOf("margin-top: 0") == -1)
+        if (!attval.value.contains("margin-top: 0"))
         {
             return false;
         }
 
         // search for substring "margin-top: 0"
-        if (attval.value.indexOf("margin-bottom: 0") == -1)
+        if (!attval.value.contains("margin-bottom: 0"))
         {
             return false;
         }
@@ -2238,7 +2238,7 @@ public class Clean
                 if (attr != null
                     && attr.value != null
                     && ((attr.value.equals("MsoListBullet") || attr.value.equals("MsoListNumber")) //
-                    || (atrStyle != null && (atrStyle.value.indexOf("mso-list:") != -1)))) // 463066 - fix by Joel
+                    || (atrStyle != null && (atrStyle.value.contains("mso-list:"))))) // 463066 - fix by Joel
                 // Shafer 19 Sep 01
                 {
                     Dict listType = tt.tagUl;
@@ -2360,7 +2360,7 @@ public class Clean
                     continue;
                 }
 
-                if (attval.value.indexOf("Microsoft") != -1)
+                if (attval.value.contains("Microsoft"))
                 {
                     return true;
                 }

@@ -760,26 +760,25 @@ public class Tidy implements Serializable
                 }
 
                 // "exclusive" options
-                if (argName.equals("help") || argName.equals("h") || argName.equals("?"))
+                switch (argName)
                 {
-                    this.report.helpText(new PrintWriter(System.out, true));
-                    return 0;
-                }
-                else if (argName.equals("help-config"))
-                {
-                    configuration.printConfigOptions(new PrintWriter(System.out, true), false);
-                    return 0;
-                }
-                else if (argName.equals("show-config"))
-                {
-                    configuration.adjust(); // ensure config is self-consistent
-                    configuration.printConfigOptions(errout, true);
-                    return 0;
-                }
-                else if (argName.equals("version") || argName.equals("v"))
-                {
-                    this.report.showVersion(errout);
-                    return 0;
+                    case "help":
+                    case "h":
+                    case "?":
+                        this.report.helpText(new PrintWriter(System.out, true));
+                        return 0;
+                    case "help-config":
+                        configuration.printConfigOptions(new PrintWriter(System.out, true), false);
+                        return 0;
+                    case "show-config":
+                        configuration.adjust(); // ensure config is self-consistent
+
+                        configuration.printConfigOptions(errout, true);
+                        return 0;
+                    case "version":
+                    case "v":
+                        this.report.showVersion(errout);
+                        return 0;
                 }
 
                 // optional value for non boolean options
@@ -917,10 +916,6 @@ public class Tidy implements Serializable
             try
             {
                 parse(null, file, System.out);
-            }
-            catch (FileNotFoundException fnfe)
-            {
-                this.report.unknownFile(this.errout, file);
             }
             catch (IOException ioe)
             {
@@ -1581,7 +1576,7 @@ public class Tidy implements Serializable
     {
         configuration.dropProprietaryAttributes = dropProprietaryAttributes;
     }
-    
+
     /**
      * <code>drop-proprietary-tags</code>- discard proprietary tags.
      * @param dropProprietaryTags <code>true</code> if tidy should discard proprietary tags
@@ -1601,7 +1596,7 @@ public class Tidy implements Serializable
     {
         return configuration.dropProprietaryAttributes;
     }
-    
+
     /**
      * <code>drop-proprietary-tags</code>- discard proprietary tags.
      * @return <code>true</code> if tidy will discard proprietary tags
@@ -1821,7 +1816,7 @@ public class Tidy implements Serializable
 
     /**
      * <code>assume-xml-procins</code> This option specifies if Tidy should change the parsing of processing
-     * instructions to require ?&gt; as the terminator rather than &gt;. 
+     * instructions to require ?&gt; as the terminator rather than &gt;.
      * This option is automatically set if the input is in XML.
      * @param xmlPIs <code>true</code> if tidy should expect a ?&gt; at the end of processing instructions
      * @see Configuration#xmlPIs
@@ -1833,7 +1828,7 @@ public class Tidy implements Serializable
 
     /**
      * <code>assume-xml-procins</code> This option specifies if Tidy should change the parsing of processing
-     * instructions to require ?&gt; as the terminator rather than &gt;. 
+     * instructions to require ?&gt; as the terminator rather than &gt;.
      * This option is automatically set if the input is in XML.
      * @return <code>true</code> if tidy will expect a ?&gt; at the end of processing instructions
      * @see Configuration#xmlPIs
@@ -1874,7 +1869,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * <code>enclose-block-text</code>- if true text in blocks is wrapped in &lt;p&gt;'s. 
+     * <code>enclose-block-text</code>- if true text in blocks is wrapped in &lt;p&gt;'s.
      * return <code>true</code>
      * if tidy should will text text in blocks in &lt;p&gt;'s.
      * @return if tidy should wrap text in blocks
@@ -2274,7 +2269,7 @@ public class Tidy implements Serializable
     }
 
     /**
-     * <code>output-raw</code>- avoid mapping values &gt; 127 to entities. 
+     * <code>output-raw</code>- avoid mapping values &gt; 127 to entities.
      * This has the same effect of specifying a
      * "raw" encoding in the original version of tidy.
      * @param rawOut avoid mapping values &gt; 127 to entities

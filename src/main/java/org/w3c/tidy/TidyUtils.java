@@ -227,9 +227,9 @@ public final class TidyUtils
     static boolean isInValuesIgnoreCase(String[] validValues, String valueToCheck)
     {
         int len = validValues.length;
-        for (int j = 0; j < len; j++)
+        for (String validValue : validValues)
         {
-            if (validValues[j].equalsIgnoreCase(valueToCheck))
+            if (validValue.equalsIgnoreCase(valueToCheck))
             {
                 return true;
             }

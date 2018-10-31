@@ -403,21 +403,20 @@ public class JTidyTask extends Task
 
         mapper.setTo(this.destdir.getAbsolutePath());
 
-        Iterator iterator = filesets.iterator();
-        while (iterator.hasNext())
+        for (Object fileset : filesets)
         {
-            FileSet fileSet = (FileSet) iterator.next();
+            FileSet fileSet = (FileSet) fileset;
             DirectoryScanner directoryScanner = fileSet.getDirectoryScanner(getProject());
             String[] sourceFiles = directoryScanner.getIncludedFiles();
             File inputdir = directoryScanner.getBasedir();
 
             mapper.setFrom(inputdir.getAbsolutePath());
 
-            for (int j = 0; j < sourceFiles.length; j++)
+            for (String sourceFile : sourceFiles)
             {
-                String[] mapped = mapper.mapFileName(sourceFiles[j]);
+                String[] mapped = mapper.mapFileName(sourceFile);
 
-                processFile(new File(inputdir, sourceFiles[j]), new File(this.destdir, mapped[0]));
+                processFile(new File(inputdir, sourceFile), new File(this.destdir, mapped[0]));
             }
         }
     }

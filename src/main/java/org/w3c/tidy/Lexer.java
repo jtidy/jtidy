@@ -513,9 +513,9 @@ public class Lexer
     protected void updateNodeTextArrays(byte[] oldtextarray, byte[] newtextarray)
     {
         Node node;
-        for (int i = 0; i < this.nodeList.size(); i++)
+        for (Object aNodeList : this.nodeList)
         {
-            node = (Node) (this.nodeList.get(i));
+            node = (Node) aNodeList;
             if (node.textarray == oldtextarray)
             {
                 node.textarray = newtextarray;

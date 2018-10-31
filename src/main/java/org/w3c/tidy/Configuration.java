@@ -786,11 +786,10 @@ public class Configuration implements Serializable
      */
     private void parseProps()
     {
-        Iterator iterator = properties.keySet().iterator();
 
-        while (iterator.hasNext())
+        for (Object o : properties.keySet())
         {
-            String key = (String) iterator.next();
+            String key = (String) o;
             Flag flag = (Flag) OPTIONS.get(key);
             if (flag == null)
             {
@@ -806,16 +805,7 @@ public class Configuration implements Serializable
                 {
                     flag.getLocation().set(this, value);
                 }
-                catch (IllegalArgumentException e)
-                {
-                    throw new RuntimeException("IllegalArgumentException during config initialization for field "
-                        + key
-                        + "with value ["
-                        + value
-                        + "]: "
-                        + e.getMessage());
-                }
-                catch (IllegalAccessException e)
+                catch (IllegalArgumentException | IllegalAccessException e)
                 {
                     throw new RuntimeException("IllegalArgumentException during config initialization for field "
                         + key
@@ -922,11 +912,9 @@ public class Configuration implements Serializable
             List values = new ArrayList(OPTIONS.values());
             Collections.sort(values);
 
-            Iterator iterator = values.iterator();
-
-            while (iterator.hasNext())
+            for (Object value : values)
             {
-                configItem = (Flag) iterator.next();
+                configItem = (Flag) value;
 
                 errout.write(configItem.getName());
                 errout.write(pad, 0, 28 - configItem.getName().length());

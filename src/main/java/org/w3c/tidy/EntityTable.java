@@ -422,10 +422,9 @@ public final class EntityTable
     {
         String name = null;
         Entity ent;
-        Iterator en = this.entityHashtable.values().iterator();
-        while (en.hasNext())
+        for (Object o : this.entityHashtable.values())
         {
-            ent = (Entity) en.next();
+            ent = (Entity) o;
             if (ent.getCode() == code)
             {
                 name = ent.getName();
@@ -444,9 +443,9 @@ public final class EntityTable
         if (defaultEntityTable == null)
         {
             defaultEntityTable = new EntityTable();
-            for (int i = 0; i < entities.length; i++)
+            for (Entity entity : entities)
             {
-                defaultEntityTable.install(entities[i]);
+                defaultEntityTable.install(entity);
             }
         }
         return defaultEntityTable;

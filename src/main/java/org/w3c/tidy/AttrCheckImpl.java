@@ -900,11 +900,9 @@ public final class AttrCheckImpl
 
             String given = attval.value;
 
-            Iterator colorIter = COLORS.entrySet().iterator();
-
-            while (colorIter.hasNext())
+            for (Object o : COLORS.entrySet())
             {
-                Map.Entry color = (Map.Entry) colorIter.next();
+                Map.Entry color = (Map.Entry) o;
 
                 if (given.charAt(0) == '#')
                 {

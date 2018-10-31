@@ -839,8 +839,9 @@ public final class TagTable {
      * Instantiates a new tag table with known tags.
      */
     protected TagTable() {
-        for (int i = 0; i < TAGS.length; i++) {
-            install(TAGS[i]);
+        for (Dict TAG : TAGS)
+        {
+            install(TAG);
         }
         tagHtml = lookup("html");
         tagHead = lookup("head");
@@ -1083,18 +1084,21 @@ public final class TagTable {
     List findAllDefinedTag(short tagType) {
         List tagNames = new ArrayList();
 
-        Iterator iterator = tagHashtable.values().iterator();
-        while (iterator.hasNext()) {
-            Dict curDictEntry = (Dict) iterator.next();
+        for (Object o : tagHashtable.values())
+        {
+            Dict curDictEntry = (Dict) o;
 
-            if (curDictEntry != null) {
-                switch (tagType) {
+            if (curDictEntry != null)
+            {
+                switch (tagType)
+                {
                     // defined tags can be empty + inline
                     case Dict.TAGTYPE_EMPTY:
                         if ((curDictEntry.versions == Dict.VERS_PROPRIETARY)
-                                && ((curDictEntry.model & Dict.CM_EMPTY) == Dict.CM_EMPTY)
-                                && // (curDictEntry.parser == ParseBlock) &&
-                                (curDictEntry != tagWbr)) {
+                            && ((curDictEntry.model & Dict.CM_EMPTY) == Dict.CM_EMPTY)
+                            && // (curDictEntry.parser == ParseBlock) &&
+                            (curDictEntry != tagWbr))
+                        {
                             tagNames.add(curDictEntry.name);
                         }
                         break;
@@ -1102,11 +1106,12 @@ public final class TagTable {
                     // defined tags can be empty + inline
                     case Dict.TAGTYPE_INLINE:
                         if ((curDictEntry.versions == Dict.VERS_PROPRIETARY)
-                                && ((curDictEntry.model & Dict.CM_INLINE) == Dict.CM_INLINE)
-                                && // (curDictEntry.parser == ParseInline) &&
-                                (curDictEntry != tagBlink)
-                                && (curDictEntry != tagNobr)
-                                && (curDictEntry != tagWbr)) {
+                            && ((curDictEntry.model & Dict.CM_INLINE) == Dict.CM_INLINE)
+                            && // (curDictEntry.parser == ParseInline) &&
+                            (curDictEntry != tagBlink)
+                            && (curDictEntry != tagNobr)
+                            && (curDictEntry != tagWbr))
+                        {
                             tagNames.add(curDictEntry.name);
                         }
                         break;
@@ -1114,16 +1119,18 @@ public final class TagTable {
                     // defined tags can be empty + block
                     case Dict.TAGTYPE_BLOCK:
                         if ((curDictEntry.versions == Dict.VERS_PROPRIETARY)
-                                && ((curDictEntry.model & Dict.CM_BLOCK) == Dict.CM_BLOCK)
-                                && (curDictEntry.getParser() == ParserImpl.BLOCK)) {
+                            && ((curDictEntry.model & Dict.CM_BLOCK) == Dict.CM_BLOCK)
+                            && (curDictEntry.getParser() == ParserImpl.BLOCK))
+                        {
                             tagNames.add(curDictEntry.name);
                         }
                         break;
 
                     case Dict.TAGTYPE_PRE:
                         if ((curDictEntry.versions == Dict.VERS_PROPRIETARY)
-                                && ((curDictEntry.model & Dict.CM_BLOCK) == Dict.CM_BLOCK)
-                                && (curDictEntry.getParser() == ParserImpl.PRE)) {
+                            && ((curDictEntry.model & Dict.CM_BLOCK) == Dict.CM_BLOCK)
+                            && (curDictEntry.getParser() == ParserImpl.PRE))
+                        {
                             tagNames.add(curDictEntry.name);
                         }
                         break;

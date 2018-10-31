@@ -264,11 +264,11 @@ public class TidyTestCase extends TestCase
         // assert size
         if (expectedMsgs.size() != tidyMsgs.size())
         {
-            StringBuffer messagesAsString = new StringBuffer();
+            StringBuilder messagesAsString = new StringBuilder();
 
-            for (Iterator iter = tidyMsgs.iterator(); iter.hasNext();)
+            for (Object tidyMsg : tidyMsgs)
             {
-                TidyMessage message = (TidyMessage) iter.next();
+                TidyMessage message = (TidyMessage) tidyMsg;
                 messagesAsString.append("\n");
                 messagesAsString.append(message.getMessage());
             }
@@ -429,7 +429,7 @@ public class TidyTestCase extends TestCase
     {
         String logString = this.errorLog.toString();
 
-        if (logString.indexOf(expectedString) == -1)
+        if (!logString.contains(expectedString))
         {
             fail("Test failed, expected [" + expectedString + "] couldn't be found in error log.");
         }
@@ -443,7 +443,7 @@ public class TidyTestCase extends TestCase
     {
         String logString = this.errorLog.toString();
 
-        if (logString.indexOf(expectedString) != -1)
+        if (logString.contains(expectedString))
         {
             fail("Test failed, [" + expectedString + "] was found in error log.");
         }
@@ -470,7 +470,7 @@ public class TidyTestCase extends TestCase
         // debug runing test info
         if (log.isDebugEnabled())
         {
-            StringBuffer message = new StringBuffer();
+            StringBuilder message = new StringBuilder();
             message.append("Testing [").append(fileName).append("]");
             if (configurationFile != null)
             {

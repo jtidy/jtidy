@@ -431,9 +431,9 @@ public class AttributeTable
         if (defaultAttributeTable == null)
         {
             defaultAttributeTable = new AttributeTable();
-            for (int i = 0; i < ATTRS.length; i++)
+            for (Attribute ATTR : ATTRS)
             {
-                defaultAttributeTable.install(ATTRS[i]);
+                defaultAttributeTable.install(ATTR);
             }
             attrHref = defaultAttributeTable.lookup("href");
             attrSrc = defaultAttributeTable.lookup("src");

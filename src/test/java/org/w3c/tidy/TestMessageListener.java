@@ -45,7 +45,7 @@ public class TestMessageListener implements TidyMessageListener
      */
     public String messagesToXml()
     {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         buffer.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n");
         buffer.append("<!-- expected messages for test ");
@@ -53,10 +53,9 @@ public class TestMessageListener implements TidyMessageListener
         buffer.append("-->\n");
 
         buffer.append("<messages>\n");
-        Iterator iterator = received.iterator();
-        while (iterator.hasNext())
+        for (Object aReceived : received)
         {
-            TidyMessage msg = (TidyMessage) iterator.next();
+            TidyMessage msg = (TidyMessage) aReceived;
             buffer.append("  <message>\n");
 
             buffer.append("    <code>");
