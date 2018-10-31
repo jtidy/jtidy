@@ -771,7 +771,7 @@ public final class AttrCheckImpl
             String p = attval.value;
             char s = p.charAt(0);
 
-            if (p.length() == 0 || !Character.isLetter(p.charAt(0)))
+            if (!Character.isLetter(p.charAt(0)))
             {
                 if (lexer.isvoyager && (TidyUtils.isXMLLetter(s) || s == '_' || s == ':'))
                 {
@@ -886,7 +886,6 @@ public final class AttrCheckImpl
          */
         public void check(Lexer lexer, Node node, AttVal attval)
         {
-            boolean hexUppercase = true;
             boolean invalid = false;
             boolean found = false;
 
@@ -958,7 +957,7 @@ public final class AttrCheckImpl
                         }
                     }
                     // convert hex letters to uppercase
-                    if (!invalid && hexUppercase)
+                    if (!invalid)
                     {
                         for (int i = 1; i < 7; ++i)
                         {

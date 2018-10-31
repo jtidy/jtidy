@@ -1056,7 +1056,13 @@ public class Configuration implements Serializable
          */
         public boolean equals(Object obj)
         {
-            return this.name.equals(((Flag) obj).name);
+            if (this == obj) {
+                return true;
+            }
+            if (obj instanceof Flag) {
+                return this.name.equals(((Flag) obj).name);
+            }
+            return false;
         }
 
         /**
