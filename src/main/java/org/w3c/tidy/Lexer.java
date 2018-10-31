@@ -351,7 +351,7 @@ public class Lexer
     /**
      * stack.
      */
-    protected Stack istack;
+    protected Stack<IStack> istack;
 
     /**
      * start of frame.
@@ -391,7 +391,7 @@ public class Lexer
     /**
      * node list.
      */
-    private List nodeList;
+    private List<Node> nodeList;
 
     /**
      * Instantiates a new Lexer.
@@ -409,9 +409,9 @@ public class Lexer
         this.versions = (Dict.VERS_ALL | Dict.VERS_PROPRIETARY);
         this.doctype = Dict.VERS_UNKNOWN;
         this.insert = -1;
-        this.istack = new Stack();
+        this.istack = new Stack<>();
         this.configuration = configuration;
-        this.nodeList = new Vector();
+        this.nodeList = new Vector<>();
     }
 
     /**
@@ -513,9 +513,9 @@ public class Lexer
     protected void updateNodeTextArrays(byte[] oldtextarray, byte[] newtextarray)
     {
         Node node;
-        for (int i = 0; i < this.nodeList.size(); i++)
+        for (Object aNodeList : this.nodeList)
         {
-            node = (Node) (this.nodeList.get(i));
+            node = (Node) aNodeList;
             if (node.textarray == oldtextarray)
             {
                 node.textarray = newtextarray;
@@ -994,7 +994,7 @@ public class Lexer
                 {
                     attval = node.getAttrByName("name");
 
-                    if (attval != null && attval.value != null && "generator".equalsIgnoreCase(attval.value))
+                    if (attval != null && "generator".equalsIgnoreCase(attval.value))
                     {
                         attval = node.getAttrByName("content");
 
@@ -1033,7 +1033,7 @@ public class Lexer
         return !(TidyUtils.findBadSubString("SYSTEM", s, s.length())
             || TidyUtils.findBadSubString("PUBLIC", s, s.length())
             || TidyUtils.findBadSubString("//DTD", s, s.length())
-            || TidyUtils.findBadSubString("//W3C", s, s.length()) 
+            || TidyUtils.findBadSubString("//W3C", s, s.length())
             || TidyUtils.findBadSubString("//EN", s, s.length()));
     }
 
@@ -1229,14 +1229,13 @@ public class Lexer
     {
         String fpi = " ";
         String sysid = "";
-        String namespace = XHTML_NAMESPACE;
         String dtdsub = null;
         Node doctype;
         int dtdlen = 0;
 
         doctype = root.findDocType();
 
-        fixHTMLNameSpace(root, namespace); // #427839 - fix by Evan Lenz 05 Sep 00
+        fixHTMLNameSpace(root, XHTML_NAMESPACE); // #427839 - fix by Evan Lenz 05 Sep 00
 
         if (this.configuration.docTypeMode == Configuration.DOCTYPE_OMIT)
         {
@@ -1765,7 +1764,7 @@ public class Lexer
         while ((c = this.in.readChar()) != StreamIn.END_OF_STREAM) {
         	addCharToLexer(c);
         	txtend = lexsize;
-        	
+
             if (state == CDATA_INTERMEDIATE) {
             	if (c != '<') {
                     if (isEmpty && !TidyUtils.isWhite((char) c)) {
@@ -1861,9 +1860,8 @@ public class Lexer
 
                     /* if javascript insert backslash before / */
                     if (container.isJavaScript()) {
-                        for (int i = lexsize; i > start-1; --i) {
-                            lexbuf[i] = lexbuf[i-1];
-                        }
+                        if (lexsize - start - 1 >= 0)
+                            System.arraycopy(lexbuf, start - 1, lexbuf, start, lexsize - start - 1);
                         lexbuf[start-1] = '\\';
                         lexsize++;
                     }
@@ -2458,7 +2456,7 @@ public class Lexer
                         continue;
                     }
 
-                    end_comment : while (true)
+                    do
                     {
                         c = this.in.readChar();
 
@@ -2517,13 +2515,9 @@ public class Lexer
                         addCharToLexer(c);
 
                         // if '-' then look for '>' to end the comment
-                        if (c != '-')
-                        {
-                            break end_comment;
-                        }
-
+                        // otherwise continue to look for -->
                     }
-                    // otherwise continue to look for -->
+                    while (c == '-');
                     this.lexbuf[this.lexsize - 2] = (byte) '=';
                     continue;
 
@@ -3324,11 +3318,11 @@ public class Lexer
                 {
                 	int q = c;
                     report.attrError(this, this.token, null, Report.UNEXPECTED_QUOTEMARK);
-                    
+
                     /* handle <input onclick=s("btn1")> and <a title=foo""">...</a> */
                     /* this doesn't handle <a title=foo"/> which browsers treat as  */
                     /* 'foo"/' nor  <a title=foo" /> which browser treat as 'foo"'  */
-                    
+
                     c = in.readChar();
                     if (c == '>') {
                     	addCharToLexer(q);
@@ -3684,8 +3678,8 @@ public class Lexer
     }
 
     /**
-     * Push a copy of an in-line node onto stack but don't push if implicit or 
-     * OBJECT or APPLET (implicit tags are ones generated from the istack). 
+     * Push a copy of an in-line node onto stack but don't push if implicit or
+     * OBJECT or APPLET (implicit tags are ones generated from the istack).
      * One issue arises with pushing in-lines when the tag is already pushed. For instance:
      * <code>&lt;p&gt;&lt;em&gt; text &lt;p&gt;&lt;em&gt;more text</code> Shouldn't be mapped to
      * <code>&lt;p&gt;&lt;em&gt; text &lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;em&gt;&lt;em&gt; more text &lt;/em&gt;&lt;/em&gt;</code>
@@ -3811,12 +3805,12 @@ public class Lexer
     }
 
     /**
-     * This has the effect of inserting "missing" in-line elements around the contents 
+     * This has the effect of inserting "missing" in-line elements around the contents
      * of block-level elements such as P, TD, TH, DIV, PRE etc. This procedure is
      * called at the start of ParseBlock. When the in-line stack is not empty, as
-     * will be the case in: <code>&lt;i&gt;&lt;h1&gt;italic heading&lt;/h1&gt;&lt;/i&gt;</code> 
-     * which is then treated as equivalent to 
-     * <code>&lt;h1&gt;&lt;i&gt;italic heading&lt;/i&gt;&lt;/h1&gt;</code> 
+     * will be the case in: <code>&lt;i&gt;&lt;h1&gt;italic heading&lt;/h1&gt;&lt;/i&gt;</code>
+     * which is then treated as equivalent to
+     * <code>&lt;h1&gt;&lt;i&gt;italic heading&lt;/i&gt;&lt;/h1&gt;</code>
      * This is implemented by setting the Lexer into a mode where it gets tokens from
      * the in-line stack rather than from the input stream.
      * @param node original node
@@ -3957,12 +3951,7 @@ public class Lexer
             return false;
         }
 
-        if (element.getAttrByName("id") != null || element.getAttrByName("name") != null)
-        {
-            return false;
-        }
-
-        return true;
+        return element.getAttrByName("id") == null && element.getAttrByName("name") == null;
     }
 
     /**
@@ -4022,13 +4011,8 @@ public class Lexer
             return true;
         }
 
-        if (node.tag == null
-            || node.tag == this.configuration.tt.tagP
-            || !TidyUtils.toBoolean(node.tag.model & (Dict.CM_INLINE | Dict.CM_NEW)))
-        {
-            return false;
-        }
-        return true;
+        return node.tag != null
+            && TidyUtils.toBoolean(node.tag.model & (Dict.CM_INLINE | Dict.CM_NEW));
     }
 
     /**

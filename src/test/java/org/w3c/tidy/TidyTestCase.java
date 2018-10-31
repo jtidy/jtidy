@@ -80,7 +80,6 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 
@@ -264,11 +263,11 @@ public class TidyTestCase extends TestCase
         // assert size
         if (expectedMsgs.size() != tidyMsgs.size())
         {
-            StringBuffer messagesAsString = new StringBuffer();
+            StringBuilder messagesAsString = new StringBuilder();
 
-            for (Iterator iter = tidyMsgs.iterator(); iter.hasNext();)
+            for (Object tidyMsg : tidyMsgs)
             {
-                TidyMessage message = (TidyMessage) iter.next();
+                TidyMessage message = (TidyMessage) tidyMsg;
                 messagesAsString.append("\n");
                 messagesAsString.append(message.getMessage());
             }
@@ -429,7 +428,7 @@ public class TidyTestCase extends TestCase
     {
         String logString = this.errorLog.toString();
 
-        if (logString.indexOf(expectedString) == -1)
+        if (!logString.contains(expectedString))
         {
             fail("Test failed, expected [" + expectedString + "] couldn't be found in error log.");
         }
@@ -443,7 +442,7 @@ public class TidyTestCase extends TestCase
     {
         String logString = this.errorLog.toString();
 
-        if (logString.indexOf(expectedString) != -1)
+        if (logString.contains(expectedString))
         {
             fail("Test failed, [" + expectedString + "] was found in error log.");
         }
@@ -470,11 +469,11 @@ public class TidyTestCase extends TestCase
         // debug runing test info
         if (log.isDebugEnabled())
         {
-            StringBuffer message = new StringBuffer();
-            message.append("Testing [" + fileName + "]");
+            StringBuilder message = new StringBuilder();
+            message.append("Testing [").append(fileName).append("]");
             if (configurationFile != null)
             {
-                message.append(" using configuration file [" + configFileName + "]");
+                message.append(" using configuration file [").append(configFileName).append("]");
             }
             log.debug(message.toString());
         }
@@ -516,7 +515,7 @@ public class TidyTestCase extends TestCase
             testLine = correctFile.readLine();
             i++;
         }
-        while ((tidyLine != null) && (testLine != null) && (tidyLine.equals(testLine)));
+        while ((tidyLine != null) && (tidyLine.equals(testLine)));
         tidyOutput.close();
         correctFile.close();
 
@@ -524,7 +523,6 @@ public class TidyTestCase extends TestCase
         {
             assertEquals("Wrong output, file comparison failed at line [" + (i - 1) + "]", testLine, tidyLine);
         }
-        return;
     }
 
     /**
@@ -604,7 +602,7 @@ public class TidyTestCase extends TestCase
         /**
          * Parsed messages.
          */
-        private List messages = new ArrayList();
+        private List<TidyMessage> messages = new ArrayList<>();
 
         /**
          * Error code for the current message.
@@ -644,7 +642,7 @@ public class TidyTestCase extends TestCase
         /**
          * @see org.xml.sax.ContentHandler#startElement(String, String, String, org.xml.sax.Attributes)
          */
-        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
+        public void startElement(String uri, String localName, String qName, Attributes attributes)
         {
             if ("message".equals(qName))
             {
@@ -661,7 +659,7 @@ public class TidyTestCase extends TestCase
         /**
          * @see org.xml.sax.ContentHandler#endElement(String, String, String)
          */
-        public void endElement(String uri, String localName, String qName) throws SAXException
+        public void endElement(String uri, String localName, String qName)
         {
             if ("message".equals(qName))
             {
@@ -675,7 +673,7 @@ public class TidyTestCase extends TestCase
         /**
          * @see org.xml.sax.ContentHandler#characters(char[], int, int)
          */
-        public void characters(char[] ch, int start, int length) throws SAXException
+        public void characters(char[] ch, int start, int length)
         {
             if (!intag)
             {

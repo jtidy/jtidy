@@ -63,6 +63,7 @@ import java.text.NumberFormat;
  * Pretty print parse tree. Block-level and unknown elements are printed on new lines and their contents indented 2
  * spaces Inline elements are printed inline. Inline content is wrapped on spaces (except in attribute values or
  * preformatted text, after start tags and before end tags.
+ *
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
  * @author Andy Quick <a href="mailto:ac.quick@sympatico.ca">ac.quick@sympatico.ca </a> (translation to Java)
  * @author Fabrizio Giustina
@@ -185,6 +186,7 @@ public class PPrint
 
     /**
      * Instantiates a new PPrint.
+     *
      * @param configuration configuration
      */
     public PPrint(Configuration configuration)
@@ -194,6 +196,7 @@ public class PPrint
 
     /**
      * Wrap length.
+     *
      * @param ind the wrap amount
      * @return the total wrap amount
      */
@@ -217,11 +220,12 @@ public class PPrint
     }
 
     /**
-     * Return one less than the number of bytes used by the UTF-8 byte sequence. 
+     * Return one less than the number of bytes used by the UTF-8 byte sequence.
      * The Unicode char is returned in ch.
-     * @param str points to the UTF-8 byte sequence
+     *
+     * @param str   points to the UTF-8 byte sequence
      * @param start starting offset in string
-     * @param ch initialised to 1st byte, passed as an array to allow modification
+     * @param ch    initialised to 1st byte, passed as an array to allow modification
      * @return one less that the number of bytes used by UTF-8 char
      */
     public static int getUTF8(byte[] str, int start, int[] ch)
@@ -233,12 +237,11 @@ public class PPrint
 
         // first byte "str[0]" is passed in separately from the
         // rest of the UTF-8 byte sequence starting at "str[1]"
-        byte[] successorBytes = str;
 
         boolean err = EncodingUtils.decodeUTF8BytesToChar(
             n,
             TidyUtils.toUnsigned(str[start]),
-            successorBytes,
+            str,
             null,
             bytes,
             start + 1);
@@ -254,9 +257,10 @@ public class PPrint
 
     /**
      * Store char c as UTF-8 encoded byte stream.
-     * @param buf the buffer
+     *
+     * @param buf   the buffer
      * @param start the start offset
-     * @param c the char
+     * @param c     the char
      * @return the current position
      */
     public static int putUTF8(byte[] buf, int start, int c)
@@ -280,7 +284,8 @@ public class PPrint
 
     /**
      * Add char at index.
-     * @param c the char
+     *
+     * @param c     the char
      * @param index the index
      */
     private void addC(int c, int index)
@@ -312,7 +317,8 @@ public class PPrint
 
     /**
      * Adds an ASCII String.
-     * @param str String to be added
+     *
+     * @param str   String to be added
      * @param index actual line length
      * @return final line length
      */
@@ -349,12 +355,10 @@ public class PPrint
         return index + len;
     }
 
-   
-    
-     
     /**
      * Wrap line.
-     * @param fout where to write output
+     *
+     * @param fout   where to write output
      * @param indent the indent amount
      */
     private void wrapLine(Out fout, int indent)
@@ -416,11 +420,11 @@ public class PPrint
         wraphere = 0;
     }
 
-    
     /**
      * Wrap attribute value.
-     * @param fout where to write output
-     * @param indent the indent amount
+     *
+     * @param fout     where to write output
+     * @param indent   the indent amount
      * @param inString value to wrap
      */
     private void wrapAttrVal(Out fout, int indent, boolean inString)
@@ -478,11 +482,10 @@ public class PPrint
         wraphere = 0;
     }
 
-    
-    
     /**
      * Flush the line.
-     * @param fout where to write output
+     *
+     * @param fout   where to write output
      * @param indent the indent amount
      */
     public void flushLine(Out fout, int indent)
@@ -518,7 +521,8 @@ public class PPrint
 
     /**
      * Conditional flush the line.
-     * @param fout where to write output
+     *
+     * @param fout   where to write output
      * @param indent the indent amount
      */
     public void condFlushLine(Out fout, int indent)
@@ -554,7 +558,8 @@ public class PPrint
 
     /**
      * Print char.
-     * @param c the char to print
+     *
+     * @param c    the char to print
      * @param mode the mode to use
      */
     private void printChar(int c, short mode)
@@ -730,15 +735,17 @@ public class PPrint
                 {
                     switch (c)
                     {
-                        case 0xFE63 :
-                        case 0xFE68 :
-                        case 0x3030 :
-                        case 0x30FB :
-                        case 0xFF3F :
-                        case 0xFF5B :
-                        case 0xFF5D :
+                        case 0xFE63:
+                        case 0xFE68:
+                        case 0x3030:
+                        case 0x30FB:
+                        case 0xFF3F:
+                        case 0xFF5B:
+                        case 0xFF5D:
                             wraphere = linelen + 2;
                             breakable = true;
+                        default:
+                            break;
                     }
                 }
                 // but break before a left punctuation
@@ -752,38 +759,38 @@ public class PPrint
                     {
                         switch (c)
                         {
-                            case 0x2018 :
-                            case 0x2039 :
-                            case 0x2045 :
-                            case 0x207D :
-                            case 0x208D :
-                            case 0x2329 :
-                            case 0x3008 :
-                            case 0x300A :
-                            case 0x300C :
-                            case 0x300E :
-                            case 0x3010 :
-                            case 0x3014 :
-                            case 0x3016 :
-                            case 0x3018 :
-                            case 0x301A :
-                            case 0x301D :
-                            case 0xFD3E :
-                            case 0xFE35 :
-                            case 0xFE37 :
-                            case 0xFE39 :
-                            case 0xFE3B :
-                            case 0xFE3D :
-                            case 0xFE3F :
-                            case 0xFE41 :
-                            case 0xFE43 :
-                            case 0xFE59 :
-                            case 0xFE5B :
-                            case 0xFE5D :
-                            case 0xFF08 :
-                            case 0xFF3B :
-                            case 0xFF5B :
-                            case 0xFF62 :
+                            case 0x2018:
+                            case 0x2039:
+                            case 0x2045:
+                            case 0x207D:
+                            case 0x208D:
+                            case 0x2329:
+                            case 0x3008:
+                            case 0x300A:
+                            case 0x300C:
+                            case 0x300E:
+                            case 0x3010:
+                            case 0x3014:
+                            case 0x3016:
+                            case 0x3018:
+                            case 0x301A:
+                            case 0x301D:
+                            case 0xFD3E:
+                            case 0xFE35:
+                            case 0xFE37:
+                            case 0xFE39:
+                            case 0xFE3B:
+                            case 0xFE3D:
+                            case 0xFE3F:
+                            case 0xFE41:
+                            case 0xFE43:
+                            case 0xFE59:
+                            case 0xFE5B:
+                            case 0xFE5D:
+                            case 0xFF08:
+                            case 0xFF3B:
+                            case 0xFF5B:
+                            case 0xFF62:
                                 wraphere--;
                         }
                     }
@@ -841,18 +848,18 @@ public class PPrint
             {
                 switch (c)
                 {
-                    case 0x2013 : // en dash
-                    case 0x2014 : // em dash
+                    case 0x2013: // en dash
+                    case 0x2014: // em dash
                         c = '-';
                         break;
-                    case 0x2018 : // left single quotation mark
-                    case 0x2019 : // right single quotation mark
-                    case 0x201A : // single low-9 quotation mark
+                    case 0x2018: // left single quotation mark
+                    case 0x2019: // right single quotation mark
+                    case 0x201A: // single low-9 quotation mark
                         c = '\'';
                         break;
-                    case 0x201C : // left double quotation mark
-                    case 0x201D : // right double quotation mark
-                    case 0x201E : // double low-9 quotation mark
+                    case 0x201C: // left double quotation mark
+                    case 0x201D: // right double quotation mark
+                    case 0x201E: // double low-9 quotation mark
                         c = '"';
                         break;
                 }
@@ -964,17 +971,17 @@ public class PPrint
         addC(c, linelen++);
     }
 
-    
     /**
-     * The line buffer is uint not char so we can hold unicode values un-encoded. 
+     * The line buffer is uint not char so we can hold unicode values un-encoded.
      * The translation to UTF-8 is deferred to
      * the outc routine called to flush the line buffer.
-     * @param fout where to write output
-     * @param mode the mode to use
-     * @param indent the indent amount
+     *
+     * @param fout      where to write output
+     * @param mode      the mode to use
+     * @param indent    the indent amount
      * @param textarray the text
-     * @param start offset to start from
-     * @param end offset to read up to (exclusive)
+     * @param start     offset to start from
+     * @param end       offset to read up to (exclusive)
      */
     private void printText(Out fout, short mode, int indent, byte[] textarray, int start, int end)
     {
@@ -1018,16 +1025,13 @@ public class PPrint
         }
     }
 
-   
-    
-    
-    
     /**
      * Print the attribute value.
-     * @param fout where to write output
-     * @param indent the indent amount
-     * @param value the value
-     * @param attr the delimiter
+     *
+     * @param fout      where to write output
+     * @param indent    the indent amount
+     * @param value     the value
+     * @param delim      the delimiter
      * @param wrappable wrappable or not
      */
     private void printAttrValue(Out fout, int indent, String value, int delim, boolean wrappable)
@@ -1191,14 +1195,13 @@ public class PPrint
         addC(delim, linelen++);
     }
 
-   
-    
     /**
      * Print the attribute.
-     * @param fout where to write output
+     *
+     * @param fout   where to write output
      * @param indent the indent amount
-     * @param node the node to use
-     * @param attr the attribute value
+     * @param node   the node to use
+     * @param attr   the attribute value
      */
     private void printAttribute(Out fout, int indent, Node node, AttVal attr)
     {
@@ -1275,14 +1278,13 @@ public class PPrint
         }
     }
 
-   
-    
     /**
      * Print the attributes.
-     * @param fout where to write output
+     *
+     * @param fout   where to write output
      * @param indent the indent amount
-     * @param node the node to use
-     * @param attr the attribute value
+     * @param node   the node to use
+     * @param attr   the attribute value
      */
     private void printAttrs(Out fout, int indent, Node node, AttVal attr)
     {
@@ -1333,6 +1335,7 @@ public class PPrint
     /**
      * Line can be wrapped immediately after inline start tag provided if follows a text node ending in a space, or it
      * parent is an inline element that that rule applies to. This behaviour was reverse engineered from Netscape 3.0
+     *
      * @param node current Node
      * @return <code>true</code> if the current char follows a space
      */
@@ -1354,10 +1357,7 @@ public class PPrint
             {
                 c = (prev.textarray[prev.end - 1]) & 0xFF; // Convert to unsigned.
 
-                if (c == 160 || c == ' ' || c == '\n')
-                {
-                    return true;
-                }
+                return c == 160 || c == ' ' || c == '\n';
             }
 
             return false;
@@ -1366,15 +1366,14 @@ public class PPrint
         return afterSpace(node.parent);
     }
 
-   
-    
     /**
      * Print the tag.
-     * @param lexer the Lexer to use
-     * @param fout where to write output
-     * @param mode the mode to use
+     *
+     * @param lexer  the Lexer to use
+     * @param fout   where to write output
+     * @param mode   the mode to use
      * @param indent the indent amount
-     * @param node the node to use
+     * @param node   the node to use
      */
     private void printTag(Lexer lexer, Out fout, short mode, int indent, Node node)
     {
@@ -1437,9 +1436,10 @@ public class PPrint
 
     /**
      * Print the end tag.
-     * @param mode the mode to use
+     *
+     * @param mode   the mode to use
      * @param indent the indent amount
-     * @param node the node to use
+     * @param node   the node to use
      */
     private void printEndTag(short mode, int indent, Node node)
     {
@@ -1467,13 +1467,12 @@ public class PPrint
         addC('>', linelen++);
     }
 
-   
-    
     /**
      * Print comment.
-     * @param fout where to write output
+     *
+     * @param fout   where to write output
      * @param indent the indent amount
-     * @param node the node to use
+     * @param node   the node to use
      */
     private void printComment(Out fout, int indent, Node node)
     {
@@ -1505,14 +1504,13 @@ public class PPrint
         }
     }
 
-    
-    
-     /**
+    /**
      * Print document type.
-     * @param fout where to write output
+     *
+     * @param fout   where to write output
      * @param indent the indent amount
-     * @param lexer the Lexer to use
-     * @param node the node to use
+     * @param lexer  the Lexer to use
+     * @param node   the node to use
      */
     private void printDocType(Out fout, int indent, Lexer lexer, Node node)
     {
@@ -1594,14 +1592,12 @@ public class PPrint
         condFlushLine(fout, indent);
     }
 
-   
-    
-    
     /**
      * Pretty print processing instruction.
-     * @param fout where to write output
+     *
+     * @param fout   where to write output
      * @param indent the indent amount
-     * @param node the node to use
+     * @param node   the node to use
      */
     private void printPI(Out fout, int indent, Node node)
     {
@@ -1625,12 +1621,12 @@ public class PPrint
         condFlushLine(fout, indent);
     }
 
-   
     /**
      * Pretty print the xml declaration.
-     * @param fout where to write output
+     *
+     * @param fout   where to write output
      * @param indent the indent amount
-     * @param node the node to use
+     * @param node   the node to use
      */
     private void printXmlDecl(Out fout, int indent, Node node)
     {
@@ -1657,12 +1653,12 @@ public class PPrint
         condFlushLine(fout, indent);
     }
 
-  
     /**
      * Note ASP and JSTE share <% ... %> syntax.
-     * @param fout where to write output
+     *
+     * @param fout   where to write output
      * @param indent the indent amount
-     * @param node the node to use
+     * @param node   the node to use
      */
     private void printAsp(Out fout, int indent, Node node)
     {
@@ -1686,13 +1682,12 @@ public class PPrint
         this.configuration.wraplen = savewraplen;
     }
 
-   
-    
     /**
      * JSTE also supports <# ... #> syntax
-     * @param fout where to write output
+     *
+     * @param fout   where to write output
      * @param indent the indent amount
-     * @param node the node to use
+     * @param node   the node to use
      */
     private void printJste(Out fout, int indent, Node node)
     {
@@ -1716,12 +1711,12 @@ public class PPrint
         this.configuration.wraplen = savewraplen;
     }
 
-
     /**
      * PHP is based on XML processing instructions.
-     * @param fout where to write output
+     *
+     * @param fout   where to write output
      * @param indent the indent amount
-     * @param node the node to use
+     * @param node   the node to use
      */
     private void printPhp(Out fout, int indent, Node node)
     {
@@ -1746,9 +1741,9 @@ public class PPrint
     }
 
     /**
-     * @param fout where to write output
+     * @param fout   where to write output
      * @param indent the indent amount
-     * @param node the node to use
+     * @param node   the node to use
      */
     private void printCDATA(Out fout, int indent, Node node)
     {
@@ -1784,9 +1779,9 @@ public class PPrint
     }
 
     /**
-     * @param fout where to write output
+     * @param fout   where to write output
      * @param indent the indent amount
-     * @param node the node to use
+     * @param node   the node to use
      */
     private void printSection(Out fout, int indent, Node node)
     {
@@ -1819,6 +1814,7 @@ public class PPrint
 
     /**
      * Is the current node inside HEAD?
+     *
      * @param node the node to use
      * @return <code>true</code> if node is inside an HEAD tag
      */
@@ -1839,8 +1835,9 @@ public class PPrint
     /**
      * Is text node and already ends w/ a newline? Used to pretty print CDATA/PRE text content. If it already ends on a
      * newline, it is not necessary to print another before printing end tag.
+     *
      * @param lexer Lexer
-     * @param node text node
+     * @param node  text node
      * @return text indent
      */
     private int textEndsWithNewline(Lexer lexer, Node node)
@@ -1866,8 +1863,9 @@ public class PPrint
 
     /**
      * Does the current node contain a CDATA section?
+     *
      * @param lexer Lexer
-     * @param node Node
+     * @param node  Node
      * @return <code>true</code> if node contains a CDATA section
      */
     static boolean hasCDATA(Lexer lexer, Node node)
@@ -1889,7 +1887,7 @@ public class PPrint
 
     /**
      * Print script and style elements. For XHTML, wrap the content as follows:
-     * 
+     *
      * <pre>
      *     JavaScript:
      *         //&lt;![CDATA[
@@ -1908,12 +1906,12 @@ public class PPrint
      *             content
      *         ]]>
      * </pre>
-     * 
-     * @param fout where to write output
-     * @param mode the mode
+     *
+     * @param fout   where to write output
+     * @param mode   the mode
      * @param indent the indent amount
-     * @param lexer the Lexer to use
-     * @param node the node to use
+     * @param lexer  the Lexer to use
+     * @param node   the node to use
      */
     private void printScriptStyle(Out fout, short mode, int indent, Lexer lexer, Node node)
     {
@@ -2022,9 +2020,9 @@ public class PPrint
 
         if (!lexer.configuration.indentContent && node.next != null
 
-        && !((node.tag != null && TidyUtils.toBoolean(node.tag.model & Dict.CM_INLINE))
+            && !((node.tag != null && TidyUtils.toBoolean(node.tag.model & Dict.CM_INLINE))
 
-        || node.type != Node.TEXT_NODE
+            || node.type != Node.TEXT_NODE
 
         ))
         {
@@ -2036,6 +2034,7 @@ public class PPrint
 
     /**
      * Should tidy indent the give tag?
+     *
      * @param node actual node
      * @return <code>true</code> if line should be indented
      */
@@ -2094,10 +2093,11 @@ public class PPrint
 
     /**
      * Print just the content of the body element. Useful when you want to reuse material from other documents.
-     * @param fout where to write output
+     *
+     * @param fout  where to write output
      * @param lexer the Lexer to use
-     * @param root the root node
-     * @param xml whether to write xml or not
+     * @param root  the root node
+     * @param xml   whether to write xml or not
      */
     void printBody(Out fout, Lexer lexer, Node root, boolean xml)
     {
@@ -2121,11 +2121,11 @@ public class PPrint
     }
 
     /**
-     * @param fout where to write output
-     * @param mode the mode to use
+     * @param fout   where to write output
+     * @param mode   the mode to use
      * @param indent the indent amount
-     * @param lexer the Lexer to use
-     * @param node the node to use
+     * @param lexer  the Lexer to use
+     * @param node   the node to use
      */
     public void printTree(Out fout, short mode, int indent, Lexer lexer, Node node)
     {
@@ -2418,11 +2418,11 @@ public class PPrint
     }
 
     /**
-     * @param fout where to write output
-     * @param mode the mode to use
+     * @param fout   where to write output
+     * @param mode   the mode to use
      * @param indent the indent amount
-     * @param lexer the Lexer to use
-     * @param node the node to use
+     * @param lexer  the Lexer to use
+     * @param node   the node to use
      */
     public void printXMLTree(Out fout, short mode, int indent, Lexer lexer, Node node)
     {
@@ -2558,6 +2558,7 @@ public class PPrint
     /**
      * Split parse tree by h2 elements and output to separate files. Counts number of h2 children (if any) belonging to
      * node.
+     *
      * @param node root node
      * @return number of slides (number of h2 elements)
      */
@@ -2590,7 +2591,7 @@ public class PPrint
     }
 
     /**
-     * @param fout where to write output
+     * @param fout   where to write output
      * @param indent the indent amount
      */
     private void printNavBar(Out fout, int indent)
@@ -2636,14 +2637,15 @@ public class PPrint
     }
 
     /**
-     * Called from printTree to print the content of a slide from the node slide content. 
-     * On return slide content points to the node starting the next slide or null. 
+     * Called from printTree to print the content of a slide from the node slide content.
+     * On return slide content points to the node starting the next slide or null.
      * The variables slide and count are used to customise the navigation
      * bar.
-     * @param fout where to write output 
-     * @param mode the mode to use
+     *
+     * @param fout   where to write output
+     * @param mode   the mode to use
      * @param indent the indent amount
-     * @param lexer the Lexer to use
+     * @param lexer  the Lexer to use
      */
     public void printSlide(Out fout, short mode, int indent, Lexer lexer)
     {
@@ -2773,8 +2775,9 @@ public class PPrint
 
     /**
      * Add meta element for page transition effect, this works on IE but not NS.
-     * @param lexer the Lexer instance to use
-     * @param root the root node
+     *
+     * @param lexer    the Lexer instance to use
+     * @param root     the root node
      * @param duration transition duration
      */
     public void addTransitionEffect(Lexer lexer, Node root, double duration)
@@ -2792,15 +2795,12 @@ public class PPrint
             head.insertNodeAtStart(meta);
         }
     }
-    
-    
-   
-    
 
     /**
      * Creates slides from h2.
+     *
      * @param lexer Lexer
-     * @param root root node
+     * @param root  root node
      */
     public void createSlides(Lexer lexer, Node root)
     {
@@ -2846,35 +2846,40 @@ public class PPrint
             ++slide;
         }
     }
-    
-    
-     /**
+
+    /**
      * Create the slides output directory if necessary.
+     *
      * @return the path to the directory created or null if not set
      */
-    private File createSlidesDir() {
+    private File createSlidesDir()
+    {
         final String path = System.getProperty("org.jtidy.slides.dir");
-        if (path == null || path.isEmpty()) return null;
+        if (path == null || path.isEmpty())
+            return null;
         final File d = new File(path);
         d.mkdirs();
-        return d; 
+        return d;
     }
-    
-    
+
     /**
      * Create slide file name with optional parent directory.
+     *
      * @param parent the parent directory to use or null for working directory
-     * @param frm the number format to use for file name
+     * @param frm    the number format to use for file name
      * @return file instance
      */
-    private File createSlideFile(final File parent, final NumberFormat frm) {
+    private File createSlideFile(final File parent, final NumberFormat frm)
+    {
         final String fname = "slide" + frm.format(slide) + ".html";
-        if (parent == null) {
+        if (parent == null)
+        {
             return new File(fname);
-        } else {
+        }
+        else
+        {
             return new File(parent, fname);
         }
     }
-    
 
 }

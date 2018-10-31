@@ -1,16 +1,20 @@
+dist: trusty
+sudo: required
+
 language: java
-sudo: true
 jdk:
   - oraclejdk8
   - oraclejdk9
+  - openjdk8
+
+addons:
+  sonarcloud:
+    organization: jtidy-github
+    token:
+      secure: jpBEsJEcotUiJoLLVzoXwICY287wf/Tt4BGg6nQOIM10iF5XlUrdPFJoSwLAAnmkjXlcAczLcdqCqq9m4GtNB3TNW591ScO/H685E3mT4Iureea+1Nycw9S96EEoQRCeV0Lbo9cxc6iLWbOibtXfslJs3nZyIl1y+GiS3k0vAjzKbLEI/mvUSbJZYSDU+w6RtOFITW+td78O4Q/qtOOsjIoJDJUJ8jAiw8HpWkGQ/ko16by+JX57Wt8qNfQuy0f20xn7NnorK+mYStZ367g/QZa1z4ago/CwkuZ7MhS6yHwUNzYUPSK36KwLkU5oG2UYMnCQCA6xQo4vhXfOwpiV8PVFX33JDU0s3DbBc0cumyDAkrKDyCkZRcLLCk6nSv2E87eXugixJS9WwP8LB29dKiYBPrHI5eNlYoEjHhJoO37CsFtkVBwR80JxvvcPkYeDkvhfyj4omj4+ZWVX2UIB27PVoxOhsea0WdttxPSlzPhtLIBarJPAYQhWcTQxUkmUr+AGvMHzsFkmXFiHPBk6swY4eT8LlG7pbz1t59foAUDm19XHCnBfug9yjiEugw0sag7b6BcHPfo89zuiYR5t+s5xn2Noec7etcox0DBtbP/ojIFKowSy2T6m0PrYNw0+0Ud96qNjplesmLSjtQGCmPuOQbYwMmRhKCxYeVgaNYY=
 
 jobs:
   include:
     - stage: SonarQube Scan
-      addons:
-        sonarcloud:
-          organization: jtidy-github
-          token:
-            secure: jpBEsJEcotUiJoLLVzoXwICY287wf/Tt4BGg6nQOIM10iF5XlUrdPFJoSwLAAnmkjXlcAczLcdqCqq9m4GtNB3TNW591ScO/H685E3mT4Iureea+1Nycw9S96EEoQRCeV0Lbo9cxc6iLWbOibtXfslJs3nZyIl1y+GiS3k0vAjzKbLEI/mvUSbJZYSDU+w6RtOFITW+td78O4Q/qtOOsjIoJDJUJ8jAiw8HpWkGQ/ko16by+JX57Wt8qNfQuy0f20xn7NnorK+mYStZ367g/QZa1z4ago/CwkuZ7MhS6yHwUNzYUPSK36KwLkU5oG2UYMnCQCA6xQo4vhXfOwpiV8PVFX33JDU0s3DbBc0cumyDAkrKDyCkZRcLLCk6nSv2E87eXugixJS9WwP8LB29dKiYBPrHI5eNlYoEjHhJoO37CsFtkVBwR80JxvvcPkYeDkvhfyj4omj4+ZWVX2UIB27PVoxOhsea0WdttxPSlzPhtLIBarJPAYQhWcTQxUkmUr+AGvMHzsFkmXFiHPBk6swY4eT8LlG7pbz1t59foAUDm19XHCnBfug9yjiEugw0sag7b6BcHPfo89zuiYR5t+s5xn2Noec7etcox0DBtbP/ojIFKowSy2T6m0PrYNw0+0Ud96qNjplesmLSjtQGCmPuOQbYwMmRhKCxYeVgaNYY=
       script:
-        - mvn sonar:sonar
+        - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then sonar-scanner; fi' # sonar only on non-PRs

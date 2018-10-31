@@ -99,7 +99,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>missing_endtag_for</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageMissingEndtagFor() throws Exception
+    public void testGetMessageMissingEndtagFor()
     {
         String message = this.report.getMessage(
             -1,
@@ -114,7 +114,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>missing_endtag_before</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageMissingEndtagBefore() throws Exception
+    public void testGetMessageMissingEndtagBefore()
     {
         String message = this.report.getMessage(
             -1,
@@ -129,7 +129,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>discarding_unexpected</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageDiscardingUnexpected() throws Exception
+    public void testGetMessageDiscardingUnexpected()
     {
         String message = this.report.getMessage(
             -1,
@@ -144,7 +144,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>nested_emphasis</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageNestedEmphasis() throws Exception
+    public void testGetMessageNestedEmphasis()
     {
         String message = this.report.getMessage(
             -1,
@@ -159,7 +159,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>coerce_to_endtag</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageCoerceToEndtag() throws Exception
+    public void testGetMessageCoerceToEndtag()
     {
         String message = this.report.getMessage(
             -1,
@@ -174,7 +174,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>non_matching_endtag</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageNonMatchingEndtag() throws Exception
+    public void testGetMessageNonMatchingEndtag()
     {
         String message = this.report.getMessage(
             -1,
@@ -189,7 +189,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>tag_not_allowed_in</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageTagNonAllowedIn() throws Exception
+    public void testGetMessageTagNonAllowedIn()
     {
         String message = this.report.getMessage(
             -1,
@@ -204,7 +204,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>doctype_after_tags</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageDoctypeAfterTags() throws Exception
+    public void testGetMessageDoctypeAfterTags()
     {
         String message = this.report.getMessage(-1, lexer, "doctype_after_tags", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: <!DOCTYPE> isn't allowed after elements", message);
@@ -214,7 +214,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>missing_starttag</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageMissingStarttag() throws Exception
+    public void testGetMessageMissingStarttag()
     {
         String message = this.report.getMessage(
             -1,
@@ -229,7 +229,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>using_br_inplace_of</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageUsingBrInPlaceOf() throws Exception
+    public void testGetMessageUsingBrInPlaceOf()
     {
         String message = this.report.getMessage(
             -1,
@@ -244,7 +244,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>inserting_tag</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageInsertingTag() throws Exception
+    public void testGetMessageInsertingTag()
     {
         String message = this.report.getMessage(
             -1,
@@ -259,7 +259,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>cant_be_nested</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageCantBeNested() throws Exception
+    public void testGetMessageCantBeNested()
     {
         String message = this.report.getMessage(
             -1,
@@ -274,7 +274,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>proprietary_element</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageProprietaryElement() throws Exception
+    public void testGetMessageProprietaryElement()
     {
         String message = this.report.getMessage(
             -1,
@@ -289,7 +289,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>obsolete_element</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageObsoleteElement() throws Exception
+    public void testGetMessageObsoleteElement()
     {
         String message = this.report.getMessage(
             -1,
@@ -304,7 +304,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>replacing_element</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageReplacingElement() throws Exception
+    public void testGetMessageReplacingElement()
     {
         String message = this.report.getMessage(
             -1,
@@ -319,7 +319,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>trim_empty_element</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageTrimEmptyElement() throws Exception
+    public void testGetMessageTrimEmptyElement()
     {
         String message = this.report.getMessage(
             -1,
@@ -334,7 +334,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>missing_title_element</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageMissingTitleElement() throws Exception
+    public void testGetMessageMissingTitleElement()
     {
         String message = this.report.getMessage(-1, lexer, "missing_title_element", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: inserting missing 'title' element", message);
@@ -344,7 +344,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>illegal_nesting</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageIllegalNesting() throws Exception
+    public void testGetMessageIllegalNesting()
     {
         String message = this.report.getMessage(
             -1,
@@ -359,7 +359,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>noframes_content</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageNoframesContent() throws Exception
+    public void testGetMessageNoframesContent()
     {
         String message = this.report.getMessage(
             -1,
@@ -374,7 +374,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>inconsistent_version</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageInconsistentVersion() throws Exception
+    public void testGetMessageInconsistentVersion()
     {
         String message = this.report.getMessage(-1, lexer, "inconsistent_version", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: html doctype doesn't match content", message);
@@ -384,7 +384,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>malformed_doctype</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageMalformedDoctype() throws Exception
+    public void testGetMessageMalformedDoctype()
     {
         String message = this.report.getMessage(-1, lexer, "malformed_doctype", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: expected \"html PUBLIC\" or \"html SYSTEM\"", message);
@@ -394,7 +394,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>content_after_body</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageContentAfterBody() throws Exception
+    public void testGetMessageContentAfterBody()
     {
         String message = this.report.getMessage(-1, lexer, "content_after_body", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: content occurs after end of body", message);
@@ -404,7 +404,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>malformed_comment</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageMalformedComment() throws Exception
+    public void testGetMessageMalformedComment()
     {
         String message = this.report.getMessage(-1, lexer, "malformed_comment", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: adjacent hyphens within comment", message);
@@ -414,7 +414,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>bad_comment_chars</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageBadCommentChars() throws Exception
+    public void testGetMessageBadCommentChars()
     {
         String message = this.report.getMessage(-1, lexer, "bad_comment_chars", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: expecting -- or >", message);
@@ -424,7 +424,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>bad_xml_comment</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageBadXmlComment() throws Exception
+    public void testGetMessageBadXmlComment()
     {
         String message = this.report.getMessage(-1, lexer, "bad_xml_comment", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: XML comments can't contain --", message);
@@ -434,7 +434,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>bad_cdata_content</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageBadCdataComment() throws Exception
+    public void testGetMessageBadCdataComment()
     {
         String message = this.report.getMessage(-1, lexer, "bad_cdata_content", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: '<' + '/' + letter not allowed here", message);
@@ -444,7 +444,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>inconsistent_namespace</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageInconsistentNamespace() throws Exception
+    public void testGetMessageInconsistentNamespace()
     {
         String message = this.report.getMessage(-1, lexer, "inconsistent_namespace", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: html namespace doesn't match content", message);
@@ -454,7 +454,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>dtype_not_upper_case</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageDtypeNotUpperCase() throws Exception
+    public void testGetMessageDtypeNotUpperCase()
     {
         String message = this.report.getMessage(-1, lexer, "dtype_not_upper_case", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: SYSTEM, PUBLIC, W3C, DTD, EN must be upper case", message);
@@ -464,7 +464,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>unexpected_end_of_file</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageUnexpectedEndOfFile() throws Exception
+    public void testGetMessageUnexpectedEndOfFile()
     {
         String message = this.report.getMessage(
             -1,
@@ -479,7 +479,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>suspected_missing_quote</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageSuspectedMissingQuote() throws Exception
+    public void testGetMessageSuspectedMissingQuote()
     {
         String message = this.report.getMessage(-1, lexer, "suspected_missing_quote", null, TidyMessage.Level.ERROR);
         assertEquals("line 12 column 34 - Error: missing quotemark for attribute value", message);
@@ -489,7 +489,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>duplicate_frameset</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageDuplicateFrameset() throws Exception
+    public void testGetMessageDuplicateFrameset()
     {
         String message = this.report.getMessage(-1, lexer, "duplicate_frameset", null, TidyMessage.Level.ERROR);
         assertEquals("line 12 column 34 - Error: repeated FRAMESET element", message);
@@ -499,7 +499,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>unknown_element</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageUnknownElement() throws Exception
+    public void testGetMessageUnknownElement()
     {
         String message = this.report.getMessage(
             -1,
@@ -514,7 +514,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>unexpected_endtag</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageUnexpectedEndtag() throws Exception
+    public void testGetMessageUnexpectedEndtag()
     {
         String message = this.report.getMessage(
             -1,
@@ -529,7 +529,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>unexpected_endtag_in</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageUnexpectedEndtagIn() throws Exception
+    public void testGetMessageUnexpectedEndtagIn()
     {
         String message = this.report.getMessage(
             -1,
@@ -544,7 +544,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>too_many_elements</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageTooManyElements() throws Exception
+    public void testGetMessageTooManyElements()
     {
         String message = this.report.getMessage(
             -1,
@@ -559,7 +559,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>too_many_elements_in</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageTooManyElementsIn() throws Exception
+    public void testGetMessageTooManyElementsIn()
     {
         String message = this.report.getMessage(
             -1,
@@ -574,7 +574,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>unknown_attribute</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageUnknownAttribute() throws Exception
+    public void testGetMessageUnknownAttribute()
     {
         String message = this.report.getMessage(
             -1,
@@ -589,7 +589,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>missing_attribute</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageMissingAttribute() throws Exception
+    public void testGetMessageMissingAttribute()
     {
         String message = this.report.getMessage(
             -1,
@@ -604,7 +604,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>missing_attr_value</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageMissingAttrValue() throws Exception
+    public void testGetMessageMissingAttrValue()
     {
         String message = this.report.getMessage(
             -1,
@@ -619,7 +619,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>missing_imagemap</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageMissingImagemap() throws Exception
+    public void testGetMessageMissingImagemap()
     {
         String message = this.report.getMessage(
             -1,
@@ -634,7 +634,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>bad_attribute_value</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageBadAttributeValue() throws Exception
+    public void testGetMessageBadAttributeValue()
     {
         String message = this.report.getMessage(
             -1,
@@ -649,7 +649,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>xml_attribute_value</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageXmlAttributeValue() throws Exception
+    public void testGetMessageXmlAttributeValue()
     {
         String message = this.report.getMessage(
             -1,
@@ -664,7 +664,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>unexpected_gt</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageUnexpectedGt() throws Exception
+    public void testGetMessageUnexpectedGt()
     {
         String message = this.report.getMessage(
             -1,
@@ -679,7 +679,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>unexpected_quotemark</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageUnexpectedQuotemark() throws Exception
+    public void testGetMessageUnexpectedQuotemark()
     {
         String message = this.report.getMessage(
             -1,
@@ -694,7 +694,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>repeated_attribute</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageRepeatedAttribute() throws Exception
+    public void testGetMessageRepeatedAttribute()
     {
         String message = this.report.getMessage(
             -1,
@@ -711,7 +711,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>proprietary_attr_value</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageProprietaryAttrValue() throws Exception
+    public void testGetMessageProprietaryAttrValue()
     {
         String message = this.report.getMessage(
             -1,
@@ -726,7 +726,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>proprietary_attribute</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageProprietaryAttribute() throws Exception
+    public void testGetMessageProprietaryAttribute()
     {
         String message = this.report.getMessage(
             -1,
@@ -741,7 +741,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>id_name_mismatch</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageIdNameMismatch() throws Exception
+    public void testGetMessageIdNameMismatch()
     {
         String message = this.report.getMessage(
             -1,
@@ -756,7 +756,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>missing_doctype</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageMissingDoctype() throws Exception
+    public void testGetMessageMissingDoctype()
     {
         String message = this.report.getMessage(-1, lexer, "missing_doctype", null, TidyMessage.Level.WARNING);
         assertEquals("line 12 column 34 - Warning: missing <!DOCTYPE> declaration", message);
@@ -766,7 +766,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>doctype_given</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageDoctypeGiven() throws Exception
+    public void testGetMessageDoctypeGiven()
     {
         String message = this.report.getMessage(
             -1,
@@ -781,7 +781,7 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>report_version</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageReportVersion() throws Exception
+    public void testGetMessageReportVersion()
     {
         String message = this.report.getMessage(
             -1,
@@ -796,13 +796,13 @@ public class ReportTest extends TestCase
      * test getMessage with the <code>xml_attribute_value</code> key.
      * @throws Exception any Exception generated during test
      */
-    public void testGetMessageNumWarning() throws Exception
+    public void testGetMessageNumWarning()
     {
         String message = this.report.getMessage(
             -1,
             lexer,
             "num_warnings",
-            new Object[]{new Integer(0), new Integer(33)},
+            new Object[]{0, 33},
             TidyMessage.Level.SUMMARY);
         assertEquals("no warnings, 33 errors were found!", message);
     }

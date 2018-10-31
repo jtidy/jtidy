@@ -979,7 +979,7 @@ public final class EncodingUtils
      * Getter callback: called to retrieve 1 or more additional UTF-8 bytes. The Getter callback can also unget if
      * necessary to re-synchronize the input stream.
      */
-    static interface GetBytes
+    interface GetBytes
     {
 
         /**
@@ -994,7 +994,7 @@ public final class EncodingUtils
     /**
      * Putter callbacks: called to store 1 or more additional UTF-8 bytes.
      */
-    static interface PutBytes
+    interface PutBytes
     {
 
         /**

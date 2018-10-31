@@ -63,7 +63,7 @@ import org.w3c.dom.Attr;
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
-public class AttVal extends Object implements Cloneable
+public class AttVal implements Cloneable
 {
 
     /**
@@ -193,10 +193,8 @@ public class AttVal extends Object implements Cloneable
     public boolean isBoolAttribute()
     {
         Attribute attr = this.dict;
-        if (attr != null && attr.getAttrchk() == AttrCheckImpl.BOOL)
-          return true;
- 
-        return false;
+        return attr != null && attr.getAttrchk() == AttrCheckImpl.BOOL;
+
     }
 
     /**

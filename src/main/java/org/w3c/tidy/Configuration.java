@@ -62,7 +62,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -221,7 +220,7 @@ public class Configuration implements Serializable
      * Map containg all the valid configuration options and the related parser. Tag entry contains String(option
      * name)-Flag instance.
      */
-    private static final Map OPTIONS = new HashMap();
+    private static final Map<String, Flag> OPTIONS = new HashMap<>();
 
     /**
      * serial version UID for this class.
@@ -786,11 +785,10 @@ public class Configuration implements Serializable
      */
     private void parseProps()
     {
-        Iterator iterator = properties.keySet().iterator();
 
-        while (iterator.hasNext())
+        for (Object o : properties.keySet())
         {
-            String key = (String) iterator.next();
+            String key = (String) o;
             Flag flag = (Flag) OPTIONS.get(key);
             if (flag == null)
             {
@@ -806,16 +804,7 @@ public class Configuration implements Serializable
                 {
                     flag.getLocation().set(this, value);
                 }
-                catch (IllegalArgumentException e)
-                {
-                    throw new RuntimeException("IllegalArgumentException during config initialization for field "
-                        + key
-                        + "with value ["
-                        + value
-                        + "]: "
-                        + e.getMessage());
-                }
-                catch (IllegalAccessException e)
+                catch (IllegalArgumentException | IllegalAccessException e)
                 {
                     throw new RuntimeException("IllegalArgumentException during config initialization for field "
                         + key
@@ -919,14 +908,12 @@ public class Configuration implements Serializable
             Flag configItem;
 
             // sort configuration options
-            List values = new ArrayList(OPTIONS.values());
+            List<Flag> values = new ArrayList<>(OPTIONS.values());
             Collections.sort(values);
 
-            Iterator iterator = values.iterator();
-
-            while (iterator.hasNext())
+            for (Object value : values)
             {
-                configItem = (Flag) iterator.next();
+                configItem = (Flag) value;
 
                 errout.write(configItem.getName());
                 errout.write(pad, 0, 28 - configItem.getName().length());
@@ -979,7 +966,7 @@ public class Configuration implements Serializable
     /**
      * A configuration option.
      */
-    static class Flag implements Comparable
+    static class Flag implements Comparable<Flag>
     {
 
         /**
@@ -1069,7 +1056,13 @@ public class Configuration implements Serializable
          */
         public boolean equals(Object obj)
         {
-            return this.name.equals(((Flag) obj).name);
+            if (this == obj) {
+                return true;
+            }
+            if (obj instanceof Flag) {
+                return this.name.equals(((Flag) obj).name);
+            }
+            return false;
         }
 
         /**
@@ -1084,9 +1077,9 @@ public class Configuration implements Serializable
         /**
          * @see java.lang.Comparable#compareTo(java.lang.Object)
          */
-        public int compareTo(Object o)
+        public int compareTo(Flag o)
         {
-            return this.name.compareTo(((Flag) o).name);
+            return this.name.compareTo(o.name);
         }
 
     }

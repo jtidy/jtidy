@@ -54,7 +54,6 @@
 package org.w3c.tidy;
 
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Map;
 
 
@@ -333,7 +332,7 @@ public final class EntityTable
     /**
      * Entity map.
      */
-    private Map entityHashtable = new Hashtable();
+    private Map<String, Entity> entityHashtable = new Hashtable<>();
 
     /**
      * use getDefaultEntityTable to get an entity table instance.
@@ -350,7 +349,7 @@ public final class EntityTable
      */
     private Entity install(Entity ent)
     {
-        return (Entity) this.entityHashtable.put(ent.getName(), ent);
+        return this.entityHashtable.put(ent.getName(), ent);
     }
 
     /**
@@ -360,7 +359,7 @@ public final class EntityTable
      */
     public Entity lookup(String name)
     {
-        return (Entity) this.entityHashtable.get(name);
+        return this.entityHashtable.get(name);
     }
 
     /**
@@ -422,10 +421,9 @@ public final class EntityTable
     {
         String name = null;
         Entity ent;
-        Iterator en = this.entityHashtable.values().iterator();
-        while (en.hasNext())
+        for (Object o : this.entityHashtable.values())
         {
-            ent = (Entity) en.next();
+            ent = (Entity) o;
             if (ent.getCode() == code)
             {
                 name = ent.getName();
@@ -444,9 +442,9 @@ public final class EntityTable
         if (defaultEntityTable == null)
         {
             defaultEntityTable = new EntityTable();
-            for (int i = 0; i < entities.length; i++)
+            for (Entity entity : entities)
             {
-                defaultEntityTable.install(entities[i]);
+                defaultEntityTable.install(entity);
             }
         }
         return defaultEntityTable;

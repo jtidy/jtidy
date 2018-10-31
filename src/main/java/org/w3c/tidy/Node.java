@@ -321,7 +321,7 @@ public class Node
 
         for (attr = this.attributes; attr != null; attr = attr.next)
         {
-            if (name != null && attr.attribute != null && attr.attribute.equals(name))
+            if (attr.attribute != null && attr.attribute.equals(name))
             {
                 break;
             }
@@ -885,10 +885,7 @@ public class Node
             {
                 return true;
             }
-            if (this.end == this.start + 1 && lexer.lexbuf[this.end - 1] == ' ')
-            {
-                return true;
-            }
+            return this.end == this.start + 1 && lexer.lexbuf[this.end - 1] == ' ';
         }
         return false;
     }
@@ -1058,7 +1055,7 @@ public class Node
      */
     public boolean isElement()
     {
-        return (this.type == START_TAG || this.type == START_END_TAG ? true : false);
+        return (this.type == START_TAG || this.type == START_END_TAG);
     }
 
     /**
@@ -1334,53 +1331,53 @@ public class Node
      */
     public String toString()
     {
-        String s = "";
+        StringBuilder s = new StringBuilder();
         Node n = this;
 
         while (n != null)
         {
-            s += "[Node type=";
-            s += NODETYPE_STRING[n.type];
-            s += ",element=";
+            s.append("[Node type=");
+            s.append(NODETYPE_STRING[n.type]);
+            s.append(",element=");
             if (n.element != null)
             {
-                s += n.element;
+                s.append(n.element);
             }
             else
             {
-                s += "null";
+                s.append("null");
             }
             if (n.type == TEXT_NODE || n.type == COMMENT_TAG || n.type == PROC_INS_TAG)
             {
-                s += ",text=";
+                s.append(",text=");
                 if (n.textarray != null && n.start <= n.end)
                 {
-                    s += "\"";
-                    s += TidyUtils.getString(n.textarray, n.start, n.end - n.start);
-                    s += "\"";
+                    s.append("\"");
+                    s.append(TidyUtils.getString(n.textarray, n.start, n.end - n.start));
+                    s.append("\"");
                 }
                 else
                 {
-                    s += "null";
+                    s.append("null");
                 }
             }
-            s += ",content=";
+            s.append(",content=");
             if (n.content != null)
             {
-                s += n.content.toString();
+                s.append(n.content.toString());
             }
             else
             {
-                s += "null";
+                s.append("null");
             }
-            s += "]";
+            s.append("]");
             if (n.next != null)
             {
-                s += ",";
+                s.append(",");
             }
             n = n.next;
         }
-        return s;
+        return s.toString();
     }
 
     /**
@@ -1503,11 +1500,6 @@ public class Node
             return true;
         }
 
-        if (TidyUtils.toBoolean(this.tag.model & Dict.CM_EMPTY))
-        {
-            return false;
-        }
-
-        return true;
+        return !TidyUtils.toBoolean(this.tag.model & Dict.CM_EMPTY);
     }
 }

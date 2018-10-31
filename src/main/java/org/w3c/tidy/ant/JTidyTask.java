@@ -20,14 +20,14 @@
  *  have been possible without all of you.
  *
  *  COPYRIGHT NOTICE:
- * 
+ *
  *  This software and documentation is provided "as is," and
  *  the copyright holders and contributing author(s) make no
  *  representations or warranties, express or implied, including
  *  but not limited to, warranties of merchantability or fitness
  *  for any particular purpose or that the use of the software or
  *  documentation will not infringe any third party patents,
- *  copyrights, trademarks or other rights. 
+ *  copyrights, trademarks or other rights.
  *
  *  The copyright holders and contributing author(s) will not be
  *  liable for any direct, indirect, special or consequential damages
@@ -43,7 +43,7 @@
  *     not be misrepresented as being the original source.
  *  3. This Copyright notice may not be removed or altered from any
  *     source or altered source distribution.
- * 
+ *
  *  The copyright holders and contributing author(s) specifically
  *  permit, without fee, and encourage the use of this source code
  *  as a component for supporting the Hypertext Markup Language in
@@ -64,7 +64,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -133,16 +132,16 @@ import org.w3c.tidy.Tidy;
  * <p>
  * Adds the following <code>typedef</code> to setup the JTidy task in your build.xml:
  * </p>
- * 
+ *
  * <pre>
  * &lt;taskdef name="tidy" classname="org.w3c.tidy.ant.JTidyTask"/&gt;
  * </pre>
- * 
+ *
  * <p>
  * This will work if JTidy jar is copied to ant lib directory. If you need to reference the jar elsewhere on the
  * filesystem you can add a nested classpath element:
  * </p>
- * 
+ *
  * <pre>
  * &lt;taskdef name="tidy" classname="org.w3c.tidy.ant.JTidyTask"&gt;
  *   &lt;classpath&gt;
@@ -150,16 +149,16 @@ import org.w3c.tidy.Tidy;
  *   &lt;/classpath&gt;
  * &lt;/taskdef&gt;
  * </pre>
- * 
+ *
  * <h3>Examples</h3>
- * 
+ *
  * <pre>
  * &lt;tidy destdir="out" properties="/path/to/tidy.properties"&gt;
  *   &lt;fileset dir="inputdir" /&gt;
  *   &lt;parameter name="drop-font-tags" value="true" /&gt;
  * &lt;/tidy&gt;
  * </pre>
- * 
+ *
  * @author Fabrizio Giustina
  * @version $Revision$ ($Author$)
  */
@@ -169,7 +168,7 @@ public class JTidyTask extends Task
     /**
      * Filesets.
      */
-    private List filesets = new ArrayList();
+    private final List<FileSet> filesets = new ArrayList<>();
 
     /**
      * Destination directory for output.
@@ -261,6 +260,7 @@ public class JTidyTask extends Task
 
     /**
      * Adds a fileset to be processed Fileset
+     *
      * @param fileSet file-set to add
      */
     public void addFileset(FileSet fileSet)
@@ -270,6 +270,7 @@ public class JTidyTask extends Task
 
     /**
      * Setter method for any property using the ant type Parameter.
+     *
      * @param prop Ant type Parameter
      */
     public void addConfiguredParameter(Parameter prop)
@@ -291,6 +292,7 @@ public class JTidyTask extends Task
 
     /**
      * Validates task parameters.
+     *
      * @throws BuildException if any invalid parameter is found
      */
     protected void validateParameters() throws BuildException
@@ -328,7 +330,8 @@ public class JTidyTask extends Task
 
     /**
      * Run the task.
-     * @exception BuildException The exception raised during task execution.
+     *
+     * @throws BuildException The exception raised during task execution.
      */
     public void execute() throws BuildException
     {
@@ -391,40 +394,31 @@ public class JTidyTask extends Task
     protected void executeSet()
     {
 
-        FileNameMapper mapper = null;
-        if (flatten)
-        {
-            mapper = new FlatFileNameMapper();
-        }
-        else
-        {
-            mapper = new IdentityMapper();
-        }
+        FileNameMapper mapper = flatten ? new FlatFileNameMapper() : new IdentityMapper();
 
         mapper.setTo(this.destdir.getAbsolutePath());
 
-        Iterator iterator = filesets.iterator();
-        while (iterator.hasNext())
+        for (FileSet fileSet : filesets)
         {
-            FileSet fileSet = (FileSet) iterator.next();
             DirectoryScanner directoryScanner = fileSet.getDirectoryScanner(getProject());
             String[] sourceFiles = directoryScanner.getIncludedFiles();
             File inputdir = directoryScanner.getBasedir();
 
             mapper.setFrom(inputdir.getAbsolutePath());
 
-            for (int j = 0; j < sourceFiles.length; j++)
+            for (String sourceFile : sourceFiles)
             {
-                String[] mapped = mapper.mapFileName(sourceFiles[j]);
+                String[] mapped = mapper.mapFileName(sourceFile);
 
-                processFile(new File(inputdir, sourceFiles[j]), new File(this.destdir, mapped[0]));
+                processFile(new File(inputdir, sourceFile), new File(this.destdir, mapped[0]));
             }
         }
     }
 
     /**
      * Run tidy on a file.
-     * @param inputFile input file
+     *
+     * @param inputFile  input file
      * @param outputFile output file
      */
     protected void processFile(File inputFile, File outputFile)
@@ -432,46 +426,24 @@ public class JTidyTask extends Task
 
         log("Processing " + inputFile.getAbsolutePath(), Project.MSG_DEBUG);
 
-        InputStream is;
-        OutputStream os;
-        try
+        try (InputStream is = new BufferedInputStream(new FileInputStream(inputFile)))
         {
-            is = new BufferedInputStream(new FileInputStream(inputFile));
+            if (!outputFile.getParentFile().mkdirs() || !outputFile.createNewFile())
+            {
+                log("Existing output file " + outputFile, Project.MSG_DEBUG);
+            }
+            try (OutputStream os = new BufferedOutputStream(new FileOutputStream(outputFile)))
+            {
+                tidy.parse(is, os);
+            }
+            catch (IOException e)
+            {
+                throw new BuildException("Unable to process destination file " + outputFile, e);
+            }
         }
         catch (IOException e)
         {
-            throw new BuildException("Unable to open file " + inputFile);
-        }
-
-        try
-        {
-            outputFile.getParentFile().mkdirs();
-            outputFile.createNewFile();
-            os = new BufferedOutputStream(new FileOutputStream(outputFile));
-        }
-        catch (IOException e)
-        {
-            throw new BuildException("Unable to open destination file " + outputFile, e);
-        }
-
-        tidy.parse(is, os);
-
-        try
-        {
-            is.close();
-        }
-        catch (IOException e1)
-        {
-            // ignore
-        }
-        try
-        {
-            os.flush();
-            os.close();
-        }
-        catch (IOException e1)
-        {
-            // ignore
+            throw new BuildException("Unable to open file " + inputFile, e);
         }
 
         // cleanup empty files
@@ -488,6 +460,5 @@ public class JTidyTask extends Task
                 + tidy.getParseErrors()
                 + " returned.");
         }
-
     }
 }

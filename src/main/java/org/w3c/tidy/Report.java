@@ -831,7 +831,7 @@ public final class Report
     {
         try
         {
-            System.err.println(MessageFormat.format(res.getString("unknown_option"), new Object[]{option}));
+            System.err.println(MessageFormat.format(res.getString("unknown_option"), option));
         }
         catch (MissingResourceException e)
         {
@@ -848,7 +848,7 @@ public final class Report
     {
         try
         {
-            System.err.println(MessageFormat.format(res.getString("bad_argument"), new Object[]{value, key}));
+            System.err.println(MessageFormat.format(res.getString("bad_argument"), value, key));
         }
         catch (MissingResourceException e)
         {
@@ -868,16 +868,14 @@ public final class Report
             // Change formatting to be parsable by GNU Emacs
             if (lexer.configuration.emacs)
             {
-                return MessageFormat.format(res.getString("emacs_format"), new Object[]{
-                    this.currentFile,
-                    new Integer(lexer.lines),
-                    new Integer(lexer.columns)})
+                return MessageFormat.format(res.getString("emacs_format"), this.currentFile,
+                    lexer.lines,
+                    lexer.columns)
                     + " ";
             }
             // traditional format
-            return MessageFormat.format(res.getString("line_column"), new Object[]{
-                new Integer(lexer.lines),
-                new Integer(lexer.columns)});
+            return MessageFormat.format(res.getString("line_column"), lexer.lines,
+                lexer.columns);
 
         }
         catch (MissingResourceException e)
@@ -917,7 +915,7 @@ public final class Report
                     "encoding_mismatch",
                     new Object[]{
                         lexer.configuration.getInCharEncodingName(),
-                        ParsePropertyImpl.CHAR_ENCODING.getFriendlyName(null, new Integer(c), lexer.configuration)},
+                        ParsePropertyImpl.CHAR_ENCODING.getFriendlyName(null, c, lexer.configuration)},
                     Level.WARNING);
             }
             else if ((code & ~DISCARDED_CHAR) == VENDOR_SPECIFIC_CHARS)
@@ -927,7 +925,7 @@ public final class Report
                     code,
                     lexer,
                     "invalid_char",
-                    new Object[]{new Integer(code & DISCARDED_CHAR), buf},
+                    new Object[]{code & DISCARDED_CHAR, buf},
                     Level.WARNING);
             }
             else if ((code & ~DISCARDED_CHAR) == INVALID_SGML_CHARS)
@@ -937,7 +935,7 @@ public final class Report
                     code,
                     lexer,
                     "invalid_char",
-                    new Object[]{new Integer(code & DISCARDED_CHAR), buf},
+                    new Object[]{code & DISCARDED_CHAR, buf},
                     Level.WARNING);
             }
             else if ((code & ~DISCARDED_CHAR) == INVALID_UTF8)
@@ -947,7 +945,7 @@ public final class Report
                     code,
                     lexer,
                     "invalid_utf8",
-                    new Object[]{new Integer(code & DISCARDED_CHAR), buf},
+                    new Object[]{code & DISCARDED_CHAR, buf},
                     Level.WARNING);
             }
 
@@ -958,7 +956,7 @@ public final class Report
                     code,
                     lexer,
                     "invalid_utf16",
-                    new Object[]{new Integer(code & DISCARDED_CHAR), buf},
+                    new Object[]{code & DISCARDED_CHAR, buf},
                     Level.WARNING);
 
             }
@@ -970,7 +968,7 @@ public final class Report
                     code,
                     lexer,
                     "invalid_ncr",
-                    new Object[]{new Integer(code & DISCARDED_CHAR), buf},
+                    new Object[]{code & DISCARDED_CHAR, buf},
                     Level.WARNING);
             }
 
@@ -1542,8 +1540,7 @@ public final class Report
                     encodingChoiche = 2;
                 }
 
-                printMessage(VENDOR_SPECIFIC_CHARS, lexer, "vendor_specific_chars_summary", new Object[]{new Integer(
-                    encodingChoiche)}, Level.SUMMARY);
+                printMessage(VENDOR_SPECIFIC_CHARS, lexer, "vendor_specific_chars_summary", new Object[]{encodingChoiche}, Level.SUMMARY);
             }
 
             if ((lexer.badChars & INVALID_SGML_CHARS) != 0 || (lexer.badChars & INVALID_NCR) != 0)
@@ -1559,8 +1556,7 @@ public final class Report
                     encodingChoiche = 2;
                 }
 
-                printMessage(INVALID_SGML_CHARS, lexer, "invalid_sgml_chars_summary", new Object[]{new Integer(
-                    encodingChoiche)}, Level.SUMMARY);
+                printMessage(INVALID_SGML_CHARS, lexer, "invalid_sgml_chars_summary", new Object[]{encodingChoiche}, Level.SUMMARY);
             }
 
             if ((lexer.badChars & INVALID_UTF8) != 0)
@@ -1688,7 +1684,7 @@ public final class Report
      */
     public void reportNumberOfSlides(PrintWriter errout, int count)
     {
-        printMessage(errout, "slides_found", new Object[]{new Integer(count)}, Level.SUMMARY);
+        printMessage(errout, "slides_found", new Object[]{count}, Level.SUMMARY);
     }
 
     /**
@@ -1730,7 +1726,7 @@ public final class Report
         if (doctype != null)
         {
 
-            StringBuffer doctypeBuffer = new StringBuffer();
+            StringBuilder doctypeBuffer = new StringBuilder();
             for (i = doctype.start; i < doctype.end; ++i)
             {
                 c = doctype.textarray[i];
@@ -1777,7 +1773,7 @@ public final class Report
             printMessage(
                 errout,
                 "num_warnings",
-                new Object[]{new Integer(lexer.warnings), new Integer(lexer.errors)},
+                new Object[]{(int) lexer.warnings, (int) lexer.errors},
                 Level.SUMMARY);
         }
         else
