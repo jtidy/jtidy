@@ -63,6 +63,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -281,6 +282,7 @@ public class JTidyTask extends Task
     /**
      * Initializes the task.
      */
+    @Override
     public void init()
     {
         super.init();
@@ -295,13 +297,13 @@ public class JTidyTask extends Task
      *
      * @throws BuildException if any invalid parameter is found
      */
-    protected void validateParameters() throws BuildException
+    protected void validateParameters()
     {
-        if (srcfile == null && filesets.size() == 0)
+        if (srcfile == null && filesets.isEmpty())
         {
             throw new BuildException("Specify at least srcfile or a fileset.");
         }
-        if (srcfile != null && filesets.size() > 0)
+        if (srcfile != null && !filesets.isEmpty())
         {
             throw new BuildException("You can't specify both srcfile and nested filesets.");
         }
@@ -333,7 +335,8 @@ public class JTidyTask extends Task
      *
      * @throws BuildException The exception raised during task execution.
      */
-    public void execute() throws BuildException
+    @Override
+    public void execute()
     {
         // validate
         validateParameters();
@@ -449,7 +452,14 @@ public class JTidyTask extends Task
         // cleanup empty files
         if (tidy.getParseErrors() > 0 && !tidy.getForceOutput())
         {
-            outputFile.delete();
+            try
+            {
+                Files.delete(outputFile.toPath());
+            }
+            catch (IOException e)
+            {
+                throw new BuildException("Failed trying to delete output file " + outputFile, e);
+            }
         }
 
         if (failonerror && tidy.getParseErrors() > 0)
