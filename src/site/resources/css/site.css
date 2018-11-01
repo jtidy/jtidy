@@ -1,6 +1,5 @@
 body {
   min-width: 600px;
-  width: 600px;
   width: auto !important;
   background-color: #ddd;
 }
@@ -52,7 +51,7 @@ body {
 
 .source pre {
   font-size: 8pt;
-  font-family: courier;
+  font-family: courier, monospace;
 }
 
 body,div,span,td,p,h2,h3 {
@@ -62,15 +61,6 @@ body,div,span,td,p,h2,h3 {
 
 table td,table th {
   font-size: 8pt;
-}
-
-table.bodyTable {
-  border-collapse: collapse;
-}
-
-table.bodyTable td,table.bodyTable th {
-  border: 1px solid #fff;
-  padding: 3px 5px 3px 5px;
 }
 
 #breadcrumbs {
@@ -97,9 +87,8 @@ h3 {
   background-color: transparent;
   color: #900;
   font-size: 10pt;
-  font-weight: bolder;
   padding-left: 0;
-  font-weight: light;
+  font-weight: lighter;
   font-family: "Trebuchet MS", arial, sans-serif;
   text-transform: capitalize;
   letter-spacing: 2px;
@@ -112,7 +101,6 @@ h3 {
   font-size: 10px;
   font-weight: 900;
   letter-spacing: 1px;
-  border: none;
   background-color: #fff;
   border: 1px solid #D2B48C;
 }
@@ -131,7 +119,6 @@ h3 {
   list-style-position: outside;
   font-size: 7.5pt !important;
   padding-left: 16px !important;
-  padding-left/**/: 2px !important;
 }
 
 #navcolumn a,#navcolumn strong {
@@ -179,10 +166,6 @@ h3 {
   margin-right: 20px !important;
 }
 
-#navcolumn li {
-  color: #fff;
-}
-
 #navcolumn li a.externalLink {
   background-image: none !important;
   padding: none;
@@ -213,11 +196,20 @@ table td.source {
 
 table td,table th {
   font-size: 8pt !important;
-  font-family: verdana;
+  font-family: verdana, sans-serif;
 }
 
 table th {
   font-weight: bold;
+}
+
+table.bodyTable {
+  border-collapse: collapse;
+}
+
+table.bodyTable td,table.bodyTable th {
+  border: 1px solid #fff;
+  padding: 3px 5px 3px 5px;
 }
 
 .collapsed {

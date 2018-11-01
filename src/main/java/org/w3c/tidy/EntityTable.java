@@ -53,7 +53,7 @@
  */
 package org.w3c.tidy;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -332,7 +332,7 @@ public final class EntityTable
     /**
      * Entity map.
      */
-    private Map<String, Entity> entityHashtable = new Hashtable<>();
+    private Map<String, Entity> entityMap = new HashMap<>();
 
     /**
      * use getDefaultEntityTable to get an entity table instance.
@@ -349,7 +349,7 @@ public final class EntityTable
      */
     private Entity install(Entity ent)
     {
-        return this.entityHashtable.put(ent.getName(), ent);
+        return this.entityMap.put(ent.getName(), ent);
     }
 
     /**
@@ -359,7 +359,7 @@ public final class EntityTable
      */
     public Entity lookup(String name)
     {
-        return this.entityHashtable.get(name);
+        return this.entityMap.get(name);
     }
 
     /**
@@ -421,7 +421,7 @@ public final class EntityTable
     {
         String name = null;
         Entity ent;
-        for (Object o : this.entityHashtable.values())
+        for (Object o : this.entityMap.values())
         {
             ent = (Entity) o;
             if (ent.getCode() == code)

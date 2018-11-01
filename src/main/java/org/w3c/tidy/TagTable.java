@@ -54,7 +54,7 @@
 package org.w3c.tidy;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -828,7 +828,7 @@ public final class TagTable
     /**
      * hashTable containing tags.
      */
-    private Map<String, Dict> tagHashtable = new Hashtable<>();
+    private Map<String, Dict> tagHashtable = new HashMap<>();
 
     /**
      * Instantiates a new tag table with known tags.
@@ -952,7 +952,7 @@ public final class TagTable
      */
     public Dict lookup(String name)
     {
-        return (Dict) tagHashtable.get(name);
+        return tagHashtable.get(name);
     }
 
     /**
@@ -963,7 +963,7 @@ public final class TagTable
      */
     public Dict install(Dict dict)
     {
-        Dict d = (Dict) tagHashtable.get(dict.name);
+        Dict d = tagHashtable.get(dict.name);
         if (d != null)
         {
             d.versions = dict.versions;
@@ -1094,49 +1094,41 @@ public final class TagTable
     List findAllDefinedTag(short tagType)
     {
         List<String> tagNames = new ArrayList<>();
-
-        for (Object o : tagHashtable.values())
+        for (Dict curDictEntry : tagHashtable.values())
         {
-            Dict curDictEntry = (Dict) o;
-            if (curDictEntry == null)
+            if (curDictEntry == null || (curDictEntry.versions != Dict.VERS_PROPRIETARY))
             {
                 continue;
             }
-
             switch (tagType)
             {
                 // defined tags can be empty + inline
                 case Dict.TAGTYPE_EMPTY:
-                    if (curDictEntry.versions == Dict.VERS_PROPRIETARY
-                        && (curDictEntry.model & Dict.CM_EMPTY) == Dict.CM_EMPTY
-                        && !curDictEntry.equals(tagWbr))
+                    if ((curDictEntry.model & Dict.CM_EMPTY) == Dict.CM_EMPTY && !curDictEntry.equals(tagWbr))
                     {
                         tagNames.add(curDictEntry.name);
                     }
                     break;
                 // defined tags can be empty + inline
                 case Dict.TAGTYPE_INLINE:
-                    if (curDictEntry.versions == Dict.VERS_PROPRIETARY
-                        && (curDictEntry.model & Dict.CM_INLINE) == Dict.CM_INLINE
-                        && !curDictEntry.equals(tagBlink)
-                        && !curDictEntry.equals(tagNobr)
-                        && !curDictEntry.equals(tagWbr))
+                    if ((curDictEntry.model & Dict.CM_INLINE) == Dict.CM_INLINE &&
+                        !curDictEntry.equals(tagBlink) &&
+                        !curDictEntry.equals(tagNobr) &&
+                        !curDictEntry.equals(tagWbr))
                     {
                         tagNames.add(curDictEntry.name);
                     }
                     break;
                 // defined tags can be empty + block
                 case Dict.TAGTYPE_BLOCK:
-                    if ((curDictEntry.versions == Dict.VERS_PROPRIETARY)
-                        && ((curDictEntry.model & Dict.CM_BLOCK) == Dict.CM_BLOCK)
-                        && (curDictEntry.getParser() == ParserImpl.BLOCK))
+                    if ((curDictEntry.model & Dict.CM_BLOCK) == Dict.CM_BLOCK &&
+                        curDictEntry.getParser() == ParserImpl.BLOCK)
                     {
                         tagNames.add(curDictEntry.name);
                     }
                     break;
                 case Dict.TAGTYPE_PRE:
-                    if ((curDictEntry.versions == Dict.VERS_PROPRIETARY)
-                        && ((curDictEntry.model & Dict.CM_BLOCK) == Dict.CM_BLOCK)
+                    if (((curDictEntry.model & Dict.CM_BLOCK) == Dict.CM_BLOCK)
                         && (curDictEntry.getParser() == ParserImpl.PRE))
                     {
                         tagNames.add(curDictEntry.name);
@@ -1146,7 +1138,6 @@ public final class TagTable
                     break;
             }
         }
-
         return tagNames;
     }
 
@@ -1176,10 +1167,9 @@ public final class TagTable
      */
     void removeAnchorByNode(Node node)
     {
-        Anchor delme = null;
-        Anchor found = null;
+        Anchor found;
         Anchor prev = null;
-        Anchor next = null;
+        Anchor next;
 
         for (found = anchorList; found != null; found = found.next)
         {
@@ -1195,17 +1185,11 @@ public final class TagTable
                 {
                     anchorList = next;
                 }
-
-                delme = found;
             }
             else
             {
                 prev = found;
             }
-        }
-        if (delme != null)
-        {
-            delme = null; // freeAnchor
         }
     }
 

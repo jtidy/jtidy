@@ -53,7 +53,7 @@
  */
 package org.w3c.tidy;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -324,7 +324,7 @@ public class AttributeTable
     /**
      * Map containing all the installed attributes.
      */
-    private Map<String, Attribute> attributeHashtable = new Hashtable<>();
+    private Map<String, Attribute> attributeMap = new HashMap<>();
 
     /**
      * lookup an installed Attribute.
@@ -333,7 +333,7 @@ public class AttributeTable
      */
     public Attribute lookup(String name)
     {
-        return this.attributeHashtable.get(name);
+        return this.attributeMap.get(name);
     }
 
     /**
@@ -343,7 +343,7 @@ public class AttributeTable
      */
     public Attribute install(Attribute attr)
     {
-        return this.attributeHashtable.put(attr.getName(), attr);
+        return this.attributeMap.put(attr.getName(), attr);
     }
 
     /**
