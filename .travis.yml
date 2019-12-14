@@ -6,7 +6,6 @@ jdk:
   - oraclejdk11
   - openjdk8
   - openjdk11
-  - openjdk-ea
 
 addons:
   sonarcloud:
