@@ -16,7 +16,7 @@ addons:
 jobs:
   include:
     - stage: Deploy
-      if: tag =~ ^v.*
+      if: tag =~ ^[0-9]+.*
       env:
         - secure: "PwojT+dbyGlOFUpOV2dqSBcbfGMs0AyZaxYrfkgbpNyEq2VEl7Ns3aQNn0ofn5MFStgXCtU0bS3J/ZUb1ufPIuREVmxD32OOMSB/jqr1J+/riyaHMVJmq0wIBpcm701gwgY1VYhWhv1tcHmPesziN704UuzvQwRNy9hnuHLz+aw/GzfjeubficOzReW4/TjNQA7bgsY+fiylW0E/fgIZWg5UcaeExZkhT+RvMDgiyk/g0Q4rW/YYlU+Ww53VwNaGIIRIzTAtMaLgZlmdTs80BBmVgdYeTwxVcpRole5Wmxxk1NZ+xdQLrumSm8z9FRiq85mYlByQBzdSfkNYbhI+o3SReDg3Vk1zccLwOwFheauLE+fJlXtY6sVZenSC0MhsrOAOxHtIyr4mcp3l6AuOQaHWQxhJ3FNoICn5XQauT6tM3fqqVcXLdy/KxiQpbxEGgE3O6H7S56YQEMLzjAnGtQuKZFRZPT7ULBIES5qIz05ZjmAkAXlG3nYfHHlxX6B7SiIoZ6GjmNWD3mNdcX7ZgJsRrQkrdpd7MjT0H7B0ydNqoM4J1AAfbp15NXvQu62uwzYgSxsQdq96DQ/PQYq3S9nG6m2xNFB98T8K8XEOITpXCznLC+SSeVPMSLEyFcrykM1cH5ificMcW0k07Qp0JmH5ZN+mCLpGWse2NKk7jus="
         - secure: "rmh6l+WGVnrIihHd6QSv5KA4PyPvYqa8OHJk8iQzSZXlfI+ZBHbXGG/MNmBXWUf+2s2T4MnNkcmbU+NAaI8EiIpeBxvTm5fhwFHEzqR7HCLFgODX1HvE0wJM2swvCEu+Lza8k61WaTl7jzcp55lZgUc7N5EUipW+eB81kbhr6fkBPt4IqUYoHtOhU2jdgMLUcssZf2KQnpTiNQ3zs+UQkCAmc+/bgQjEWmfr8foy8MMrLz1/8rvOrqdG73/8pfDYua7aykNgjmQcjUPR7fCx2JKnz3b9/yH+HbFqSNFC1i4ObtqK8+BRxB0rXdPP7cpydOUzkHQv+0587t3qHSkSS2eGxbvSF86qeev3rjsVhL3lqIqkIo2fOHHYdKNLeHIuDghRKIBGQ62x2uakkqdlfnJlLHgHuyHfhXqukUgbLWkd1dMASygfAg2iPQc0XXvh7a8IfIAlfvJdfFjUn4e6UWwueYWAO30bvdyWh3J6uK+U7k6+OevFXiVyfLMLQ8TLUSae+ilFkYgoeLUA+16AyeicB5aQWk9ewQ1FmOhBy9m6fJmMHLNeLwAji3wa7qMF8xT44EjksiVyqfmKT32f9VqMeSSBVLwp9D86xl3Y4iJPPc24tSmUZxIhAj/UvP7oHrYHZG7sMXekWVzl1MdCULegXvDV54e6tRjImXHpIYI="
@@ -36,6 +36,7 @@ jobs:
         - mvn versions:set -DnewVersion=${TRAVIS_TAG}
         - mvn clean deploy --settings settings.xml -DskipTests=true -B -U -Prelease
     - stage: SonarQube Scan
+      if: tag IS blank
       script:
         - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then sonar-scanner; fi' # sonar only on non-PRs
 
