@@ -83,8 +83,9 @@ import org.w3c.tidy.Tidy;
 /**
  * JTidy ant task.
  * <h3>Parameters</h3>
- * <table border="1"> <thead>
+ * <table border="1">
  * <caption>JTidy Ant Task</caption>
+ * <thead>
  * <tr>
  * <th>Attribute</th>
  * <th>Description</th>
