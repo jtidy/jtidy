@@ -12,7 +12,7 @@
       <activation>
         <activeByDefault>true</activeByDefault>
         <property>
-          <name>performRelease</name>
+          <name>release</name>
           <value>true</value>
         </property>
       </activation>
