@@ -28,6 +28,7 @@ jobs:
           secure: nU9hIbibh3INaCIHowyu+ePaBguumhtp+uv57T5sbS/e8lMFtu3uK0SAWF3PtBQ616TzJb7icYo6sUnlDYj/ihYUFk9WoS5IQ2hTOFFgN3X6LCjw2P+DS6dc9+sVS6EIDFpt+uqhaMmR+cHuUjfC032PolSZ6WXioKnDzYgPT4JTUDxrn3KEJH6w3xVP5MVVfpT+zfxpNgxfm3iNYxGYZ5ep0avbPcMUIcP12gs3ZLybfapgAFHyy0mAh0rKu908sjmUCShCYyzoM/f2J8YiPhVoHiABhh6dCDKw5RUR8ajZ6MXP1Iuxat2I7SyeKGlZnySrLKbi3vSgPfK1lRi4JVnGapm4rPUH+f/x0Vz6RP83N+wFXigZ28qSkqBtAcD0iEYCix9LPvK22iNeC34HNHKOE0Jon5cPJj4ZtqwCSvauV0JkfNaTbdQ/VummSgQLlc+zUf4+uY8jCZ1FDou6Et7G4AZEtKULHs9Jij58DZptC4ts8V5Hxr0/vz3zHROznGOcCuZ7k+cy7edTwkuL8yZNEjkWNBbguzyXYmY8eL+pzlVbRPQsCFmYe/Es+3mhKQrXn1gBCq3k8boOCRPH5sslBTvrGslgpvDZpmytE8LIGDLDytT/Pzr+H10K0EnM/uwIj1Oa9ejzASZL6JaUBZg/3jhnUOGlD2o8psEWD4A=
         file:
           - ${HOME}/build/jtidy/jtidy/target/jtidy-${TRAVIS_TAG}.jar
+          - ${HOME}/build/jtidy/jtidy/target/jtidy-${TRAVIS_TAG}-javadoc.jar
           - ${HOME}/build/jtidy/jtidy/target/jtidy-${TRAVIS_TAG}-sources.jar
           - ${HOME}/build/jtidy/jtidy/target/jtidy-${TRAVIS_TAG}-test-sources.jar
         on:
