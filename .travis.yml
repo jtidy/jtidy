@@ -9,7 +9,7 @@ jdk:
 
 env:
   global:
-    - MY_PV=1.0.2-SNAPSHOT
+    - PV=1.0.2-SNAPSHOT
 
 addons:
   sonarcloud:
