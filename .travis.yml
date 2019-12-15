@@ -7,6 +7,10 @@ jdk:
   - openjdk8
   - openjdk11
 
+env:
+  global:
+    - MY_PV=1.0.2-SNAPSHOT
+
 addons:
   sonarcloud:
     organization: jtidy-github
@@ -23,7 +27,13 @@ jobs:
         - secure: "ge4YG5C8X4c8igWyWLBLGvUYtdQqG1XcVU4biWSoGi3L0tKmxdPYLYZA82gVRe+UDKcKsiuwrH9BP8R/aw1qMzTA4xMQqlk5LFiwfLTmQ8QRYJzTA8TcpkT3S1cPBxjcOYPNia4GUfMtvsPeVepPwVi4MPXRbHyF2QlxH9mNg1hUr+qWQ3aZPw6k7jYtUPr9cs7DG7CKKqk7Pg9Cp4ZW7PZYEA7fiwBmqMT5J+MvwQxnxunAFfPhsQlxBBJu1Vc+dpXAvx6T7K6x87vcqr51gldGHTYWzRywZJ/Opo69Zl9Jv+d6pMe3CIFHkfMneECKgfaAH+w3wDwLQ0wKNTpk7FpPEXmSKo1xuATGh5/vqkiJrkTC7VgCaP5D2J12QflIfOPLafA7ikJfWEzgoccBn+d3jFkHEakdqh+Fh1s0ftLSTdpLtSzu56vBOV4kRE0+g8dv+8mEaQ5JqWQpyOMNHMtSS0a/PWJ1OGuFKWqMFuRPh0O0es0PXzRe2Y1FG/cdKuz+hU54od7lvqZqQPEaF1i8UaJ+T7YdRQRpm94HsEvBap48PL3ULrjq6rYd/q3Jf+vH7+UCHxengxt0UDiNDGfS/4vSvzbOFrYDcOXGV166FfG6Ldg9+CLtQHhhhzEmnZi19P6gQUlxdLnk/FYASYIDcz0+kgOAmzrVPlXw924="
         - secure: "VC+MLFtGnc25N0clZVCZ3/v6Qgt9sizkd4+JVoqTjdH+hccc3AiRRCB6U9btzkI6Xbd4ZincndwOSthWn5J7pn+sn6kdUWoNQWzVRm5hwkHp8tLmCZg8fhPsSpQ1cLfAKoZHJdWklv18jfqeQt+W8a36slq6sioj3t7C/hW8UyetSWhaJ6KL52U+j5Ry3meJzVjlblpLD0WNrP1C2dFHd9ut9gP9H+m3aZt7gzDqsLykVoGMCe7kxlp6vyeZHV1vzr/pSiUTy7UZUDfeSdFM4DS9llAzJ3WuQd8b1VHXmaB1t7NpXLcCW/nw+W1+RNeJzcumXYtIEDDisqDyBRw/Pb6HfQrkTv/OYjMxAZGmGRH19CeQElH88bqD57+mq7IcvTleAkj6GLiymeEUSAqIz/TtDzB1uQ0lGSj192svrsYy4R9icjlkXcYUNTnbqnqM148Rz5c3nYCLYiN7jIsfIE9G1A84Nbjy7jMEvMrBRLLsvWhnJKLnlyvqJcusXl1jCeotutP07vTOf9nfgaLBWrDQ5o/O/LU9cgZompSENdTOwtuVpC68R9Yqfmc/nIMqp/+i7gVoFUaiI/kj7MIvD9xladsiWSioJUnOGxK3Y7NaI0pIuS8VKT2XYDR9Lb60URz36TM7UpwadFFGL+vKYvUxBsDM3sftDvSZHOHuTdA="
       deploy:
-        provider: script
+        provider: releases
+        api_key:
+          secure: nU9hIbibh3INaCIHowyu+ePaBguumhtp+uv57T5sbS/e8lMFtu3uK0SAWF3PtBQ616TzJb7icYo6sUnlDYj/ihYUFk9WoS5IQ2hTOFFgN3X6LCjw2P+DS6dc9+sVS6EIDFpt+uqhaMmR+cHuUjfC032PolSZ6WXioKnDzYgPT4JTUDxrn3KEJH6w3xVP5MVVfpT+zfxpNgxfm3iNYxGYZ5ep0avbPcMUIcP12gs3ZLybfapgAFHyy0mAh0rKu908sjmUCShCYyzoM/f2J8YiPhVoHiABhh6dCDKw5RUR8ajZ6MXP1Iuxat2I7SyeKGlZnySrLKbi3vSgPfK1lRi4JVnGapm4rPUH+f/x0Vz6RP83N+wFXigZ28qSkqBtAcD0iEYCix9LPvK22iNeC34HNHKOE0Jon5cPJj4ZtqwCSvauV0JkfNaTbdQ/VummSgQLlc+zUf4+uY8jCZ1FDou6Et7G4AZEtKULHs9Jij58DZptC4ts8V5Hxr0/vz3zHROznGOcCuZ7k+cy7edTwkuL8yZNEjkWNBbguzyXYmY8eL+pzlVbRPQsCFmYe/Es+3mhKQrXn1gBCq3k8boOCRPH5sslBTvrGslgpvDZpmytE8LIGDLDytT/Pzr+H10K0EnM/uwIj1Oa9ejzASZL6JaUBZg/3jhnUOGlD2o8psEWD4A=
+        file:
+          - build/jtidy/jtidy/target/jtidy-${PV}.jar
+          - build/jtidy/jtidy/target/jtidy-${PV}-sources.jar
+          - build/jtidy/jtidy/target/jtidy-${PV}-test-sources.jar
         on:
           repo: jtidy/jtidy
           branch: master
