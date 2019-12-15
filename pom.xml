@@ -36,9 +36,35 @@
             <archive>http://sourceforge.net/mailarchive/forum.php?forum=jtidy-cvs</archive>
         </mailingList>
     </mailingLists>
+    <developers>
+        <developer>
+            <id>jtidy</id>
+            <name>JTidy Authors</name>
+            <email>noemail@jtidy</email>
+            <organization>JTidy</organization>
+        </developer>
+    </developers>
     <licenses>
-        <license/>
+        <license>
+            <name>Java HTML Tidy License</name>
+            <url>https://raw.githubusercontent.com/jtidy/jtidy/master/LICENSE.txt</url>
+            <distribution>repo</distribution>
+        </license>
     </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/jtidy/jtidy.git</connection>
+        <url>https://github.com/jtidy/jtidy</url>        
+    </scm>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
     <organization>
         <name>jtidy</name>
         <url>https://github.com/jtidy</url>
