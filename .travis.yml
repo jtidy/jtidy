@@ -44,6 +44,3 @@ jobs:
       if: tag IS blank
       script:
         - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then sonar-scanner; fi' # sonar only on non-PRs
-
-install:
-  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip -B -V
