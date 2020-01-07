@@ -36,3 +36,7 @@ home for JTidy.
 Thanks to all past authors and developers. Those of which who could be 
 found on Github have been invited to join this project. Along with those 
 that this repository was forked from.
+
+# Future
+
+We are looking for new contributors and project maintainers to maintain this project going forward.
