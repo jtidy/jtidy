@@ -39,4 +39,6 @@ that this repository was forked from.
 
 # Future
 
-We are looking for new contributors and project maintainers to maintain this project going forward.
+The project is looking for new contributors and project maintainers as it is currently unmaintained. 
+
+Checkout [v.Nu](https://github.com/validator) validator for a possible modern replacement.
