@@ -487,8 +487,9 @@ public class PPrint
      *
      * @param fout   where to write output
      * @param indent the indent amount
+     * @param shouldAddNewLine <code>true</code> to add new line after flush
      */
-    public void flushLine(Out fout, int indent)
+    public void flushLine(Out fout, int indent, boolean shouldAddNewLine)
     {
         int i;
 
@@ -513,12 +514,65 @@ public class PPrint
             }
         }
 
-        fout.newline();
+        if(shouldAddNewLine) {
+          fout.newline();
+        }
         linelen = 0;
         wraphere = 0;
         inAttVal = false;
     }
+    
+    /**
+     * Flush the line.
+     *
+     * @param fout   where to write output
+     * @param indent the indent amount
+     */
+    public void flushLine(Out fout, int indent)
+    {
+      flushLine(fout, indent, true);
+    }
 
+    /**
+     * Conditional flush the line.
+     *
+     * @param fout   where to write output
+     * @param indent the indent amount
+     * @param shouldAddNewLine <code>true</code> to add new line after flush
+     */
+    public void condFlushLine(Out fout, int indent, boolean shouldAddNewLine)
+    {
+        int i;
+
+        if (linelen > 0)
+        {
+            if (indent + linelen >= this.configuration.wraplen)
+            {
+                wrapLine(fout, indent);
+            }
+
+            if (!inAttVal || this.configuration.indentAttributes)
+            {
+                for (i = 0; i < indent; ++i)
+                {
+                    fout.outc(' ');
+                }
+            }
+
+            for (i = 0; i < linelen; ++i)
+            {
+                fout.outc(linebuf[i]);
+            }
+
+            if(shouldAddNewLine) {
+              fout.newline();
+            }
+            linelen = 0;
+            wraphere = 0;
+            inAttVal = false;
+        }
+    }
+    
     /**
      * Conditional flush the line.
      *
@@ -527,33 +581,7 @@ public class PPrint
      */
     public void condFlushLine(Out fout, int indent)
     {
-        int i;
-
-        if (linelen > 0)
-        {
-            if (indent + linelen >= this.configuration.wraplen)
-            {
-                wrapLine(fout, indent);
-            }
-
-            if (!inAttVal || this.configuration.indentAttributes)
-            {
-                for (i = 0; i < indent; ++i)
-                {
-                    fout.outc(' ');
-                }
-            }
-
-            for (i = 0; i < linelen; ++i)
-            {
-                fout.outc(linebuf[i]);
-            }
-
-            fout.newline();
-            linelen = 0;
-            wraphere = 0;
-            inAttVal = false;
-        }
+      condFlushLine(fout, indent, true);
     }
 
     /**
@@ -1429,11 +1457,32 @@ public class PPrint
         }
         else
         {
-            condFlushLine(fout, indent);
+            condFlushLine(fout, indent, !hasPreAncestor(node));
         }
 
     }
 
+    /**
+     * Check if the given node has a "pre" as ancestor.
+     * 
+     * @param node The note to check.
+     * @return  <code>true</code> if it has a pre note as ancestor.
+     */
+    private boolean hasPreAncestor(Node node) 
+    {
+      boolean hasPreParent = false;
+      Node parent = node.parent;
+      while (parent != null) {
+        if(parent.tag != null && parent.tag.getParser() == ParserImpl.PRE) {
+          hasPreParent = true;
+          break;
+        }
+        parent = parent.parent;
+      }
+      
+      return hasPreParent;
+    }
+    
     /**
      * Print the end tag.
      *
@@ -2233,16 +2282,16 @@ public class PPrint
                 indent = 0;
                 condFlushLine(fout, indent);
                 printTag(lexer, fout, mode, indent, node);
-                flushLine(fout, indent);
+                flushLine(fout, indent, false);
 
                 for (content = node.content; content != null; content = content.next)
                 {
                     printTree(fout, (short) (mode | PREFORMATTED | NOWRAP), indent, lexer, content);
                 }
 
-                condFlushLine(fout, indent);
+                condFlushLine(fout, indent, false);
                 printEndTag(mode, indent, node);
-                flushLine(fout, indent);
+                flushLine(fout, indent, false);
 
                 if (!this.configuration.indentContent && node.next != null)
                 {
