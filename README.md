@@ -37,6 +37,10 @@ Thanks to all past authors and developers. Those of which who could be
 found on Github have been invited to join this project. Along with those 
 that this repository was forked from.
 
+# License
+
+This project is licensed under the zlib/libpng license. More information is available in the LICENSE.txt file
+
 # Future
 
 The project is looking for new contributors and project maintainers as it is currently unmaintained. 
