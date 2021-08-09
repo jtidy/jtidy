@@ -76,6 +76,7 @@ public final class EntityTable
      * Known entities.
      */
     private static Entity[] entities = {
+    	new Entity("apos", 39),	
         new Entity("nbsp", 160),
         new Entity("iexcl", 161),
         new Entity("cent", 162),
