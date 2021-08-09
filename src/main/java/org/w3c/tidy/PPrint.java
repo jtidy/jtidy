@@ -1381,7 +1381,7 @@ public class PPrint
 
         if (prev != null)
         {
-            if (prev.type == Node.TEXT_NODE && prev.end > prev.start)
+            if (prev.type == Node.TEXT_NODE && prev.end > prev.start && prev.textarray != null)
             {
                 c = (prev.textarray[prev.end - 1]) & 0xFF; // Convert to unsigned.
 
