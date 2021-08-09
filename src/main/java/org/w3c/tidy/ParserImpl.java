@@ -707,6 +707,13 @@ public final class ParserImpl
 
             while ((node = lexer.getToken(mode)) != null)
             {
+              if (node.tag == null)
+              {
+              	if(!lexer.configuration.dropProprietaryTags) 
+              	{
+              		node.tag = new Dict(node.element, Dict.VERS_ALL, Dict.CM_BLOCK, ParserImpl.BLOCK, null);
+              	}
+              }
 
                 // #538536 Extra endtags not detected
                 if (node.tag == tt.tagHtml)
