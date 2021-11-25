@@ -334,7 +334,7 @@ public final class TagTable
         new Dict("output", Dict.VERS_XHTML11, Dict.CM_INLINE, ParserImpl.INLINE, null),
         new Dict("audio", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
         new Dict("video", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
-        new Dict("source", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
+        new Dict("source", Dict.VERS_HTML5,  (Dict.CM_BLOCK | Dict.CM_EMPTY), ParserImpl.EMPTY, null),
         new Dict("track", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
         new Dict("embed", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
         new Dict("picture", Dict.VERS_HTML5, Dict.CM_BLOCK, ParserImpl.BLOCK, null),
