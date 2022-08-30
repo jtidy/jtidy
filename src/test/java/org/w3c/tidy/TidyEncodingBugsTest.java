@@ -130,4 +130,13 @@ public class TidyEncodingBugsTest extends TidyTestCase
         executeTidyTest("688746.html");
     }
 
+    /**
+     * test for Tidy [#38] [https://github.com/jtidy/jtidy/issues/38]: Parsing of Unicode code points > 0xFFFF
+     * @throws Exception any exception generated during the test
+     */
+    public void testextensionb() throws Exception
+    {
+        executeTidyTest("extensionb.html");
+    }
+
 }
