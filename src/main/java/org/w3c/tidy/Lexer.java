@@ -125,6 +125,8 @@ public class Lexer
      * xhtml namespace.
      */
     private static final String XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
+    private static boolean illegalChar = false;
+    private static int[] illegalChars = new int[] {-1, -1};
 
     /**
      * lists all the known versions.
@@ -609,7 +611,23 @@ public class Lexer
                 || (c >= 0xE000 && c <= 0xFFFD) // Then high-range unicode.
             || (c >= 0x10000 && c <= 0x10FFFF)))
         {
-            return;
+            if (!illegalChar) {
+                if (illegalChars[0] == -1) {
+                    illegalChars[0] = c;
+                    return;
+                }
+                if (illegalChars[1] == -1) {
+                    illegalChars[1] = c;
+                    illegalChar = true;
+                }
+            }
+
+            if (illegalChar) {
+                int SURROGATE_OFFSET = 0x10000 - (0xD800 << 10) - 0xDC00;
+                c = (illegalChars[0] << 10) + illegalChars[1] + SURROGATE_OFFSET;
+                illegalChar = false;
+                illegalChars = new int[] {-1, -1};
+            }
         }
 
         int i = 0;
