@@ -80,6 +80,15 @@ public class JTidyWarningBugsTest extends TidyTestCase
     }
 
     /**
+     * test for JTidy accepting <code>canvas</code> elements.
+     * @throws Exception any exception generated during the test
+     */
+    public void testCanvas() throws Exception
+    {
+    	executeTidyTest("test-canvas.html");
+    }
+    
+    /**
      * test for JTidy [444834]: Silent Option.
      * @throws Exception any exception generated during the test
      */
