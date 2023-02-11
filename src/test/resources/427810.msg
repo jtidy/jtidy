@@ -27,13 +27,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
   <message>
     <code>21</code>
     <level>2</level>
-    <line>9</line>
-    <column>2</column>
-    <text><![CDATA[<wbr> is not approved by W3C]]></text>
-  </message>
-  <message>
-    <code>21</code>
-    <level>2</level>
     <line>10</line>
     <column>2</column>
     <text><![CDATA[<nobr> is not approved by W3C]]></text>
