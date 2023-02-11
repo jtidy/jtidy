@@ -6,3 +6,6 @@ target
 *~
 .idea
 .envrc
+/.classpath
+/.project
+/.settings/
