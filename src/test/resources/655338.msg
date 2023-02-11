@@ -2,15 +2,6 @@
 <!-- expected messages for test 655338-->
 <messages>
   <message>
-    <code>-1</code>
-    <level>0</level>
-    <line>0</line>
-    <column>0</column>
-    <text><![CDATA[
-Tidy (vers 4th August 2004) Parsing "InputStream"
-]]></text>
-  </message>
-  <message>
     <code>57</code>
     <level>2</level>
     <line>3</line>
