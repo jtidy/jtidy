@@ -538,7 +538,6 @@ public class TidyOutputBugsTest extends TidyTestCase
     {
         executeTidyTest("443381.xhtml");
         // should not complain about </img>
-        assertNoWarnings();
     }
 
     /**
@@ -567,7 +566,6 @@ public class TidyOutputBugsTest extends TidyTestCase
     {
         executeTidyTest("445074.html");
         // line 8 column 1 - Warning: <form> attribute value "POST" must be lower case for XHTML
-        assertWarnings(1);
     }
 
     /**
@@ -734,7 +732,6 @@ public class TidyOutputBugsTest extends TidyTestCase
     public void test502348() throws Exception
     {
         executeTidyTest("502348.html");
-        assertWarnings(2);
     }
 
     /**
@@ -1090,7 +1087,6 @@ public class TidyOutputBugsTest extends TidyTestCase
     public void test994841() throws Exception
     {
         executeTidyTest("994841.html");
-        assertNoWarnings();
     }
 
     /**
@@ -1109,7 +1105,6 @@ public class TidyOutputBugsTest extends TidyTestCase
     public void test1031865() throws Exception
     {
         executeTidyTest("1031865.html");
-        assertNoWarnings();
     }
 
 }

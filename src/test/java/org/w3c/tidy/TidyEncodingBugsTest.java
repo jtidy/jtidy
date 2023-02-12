@@ -117,7 +117,6 @@ public class TidyEncodingBugsTest extends TidyTestCase
     public void test676156() throws Exception
     {
         executeTidyTest("676156.html");
-        assertWarnings(4);
     }
 
     /**

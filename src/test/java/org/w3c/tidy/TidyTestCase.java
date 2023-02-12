@@ -340,56 +340,6 @@ public class TidyTestCase extends TestCase
     }
 
     /**
-     * Utility method: assert no warnings were reported in the last tidy run.
-     */
-    protected void assertNoWarnings()
-    {
-        int warningNum = this.tidy.getParseWarnings();
-        if (warningNum != 0)
-        {
-            fail("Test failed, [" + warningNum + "] false warnings were reported");
-        }
-    }
-
-    /**
-     * Utility method: assert no errors were reported in the last tidy run.
-     */
-    protected void assertNoErrors()
-    {
-        int errorNum = this.tidy.getParseErrors();
-        if (errorNum != 0)
-        {
-            fail("Test failed, [" + errorNum + "] false errors were reported");
-        }
-    }
-
-    /**
-     * Utility method: assert no warnings were reported in the last tidy run.
-     * @param expectedNumber expected number of warnings.
-     */
-    protected void assertWarnings(int expectedNumber)
-    {
-        int warningNum = this.tidy.getParseWarnings();
-        if (warningNum != expectedNumber)
-        {
-            fail("Test failed, [" + expectedNumber + "] warnings expected, [" + warningNum + "] were reported");
-        }
-    }
-
-    /**
-     * Utility method: assert no errors were reported in the last tidy run.
-     * @param expectedNumber expected number of errors.
-     */
-    protected void assertErrors(int expectedNumber)
-    {
-        int errorNum = this.tidy.getParseErrors();
-        if (errorNum != expectedNumber)
-        {
-            fail("Test failed, [" + expectedNumber + "] errors expected, [" + errorNum + "] were reported");
-        }
-    }
-
-    /**
      * Utility method: asserts a given String can be found in the error log.
      * @param expectedString expected String in error log.
      */

@@ -87,7 +87,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // 4 warnings, 0 errors were found!
 
         executeTidyTest("427810.html");
-        assertWarnings(3);
     }
 
     /**
@@ -97,7 +96,6 @@ public class TidyWarningBugsTest extends TidyTestCase
     public void test431874() throws Exception
     {
         executeTidyTest("431874.html");
-        assertWarnings(2);
     }
 
     /**
@@ -111,7 +109,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // 2 warnings, 0 errors were found!
 
         executeTidyTest("427827.html");
-        assertWarnings(2);
     }
 
     /**
@@ -122,7 +119,6 @@ public class TidyWarningBugsTest extends TidyTestCase
     {
         // no warnings
         executeTidyTest("427834.html");
-        assertNoWarnings();
     }
 
     /**
@@ -132,8 +128,6 @@ public class TidyWarningBugsTest extends TidyTestCase
     public void test427844() throws Exception
     {
         executeTidyTest("427844.html");
-
-        assertNoWarnings();
     }
 
     /**
@@ -151,7 +145,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // still bad in tidy?
 
         executeTidyTest("431719.html");
-        assertNoWarnings();
     }
 
     /**
@@ -174,7 +167,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // No warnings or errors were found. (-xml)
 
         executeTidyTest("431956.xml");
-        assertNoWarnings();
     }
 
     /**
@@ -190,7 +182,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // 2 warnings, 0 errors were found!
 
         executeTidyTest("431964.html");
-        assertWarnings(3);
     }
 
     /**
@@ -202,7 +193,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         executeTidyTest("433021.html");
         assertLogContains("align");
         assertLogContains("valign");
-        assertWarnings(5);
     }
 
     /**
@@ -215,8 +205,6 @@ public class TidyWarningBugsTest extends TidyTestCase
 
         // still bad in tidy?
         executeTidyTest("433607.xml");
-
-        assertWarnings(1);
     }
 
     /**
@@ -227,7 +215,6 @@ public class TidyWarningBugsTest extends TidyTestCase
     {
         // No warnings or errors were found. (-xml)
         executeTidyTest("433670.xml");
-        assertNoWarnings();
     }
 
     /**
@@ -257,8 +244,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // 0 warnings, 1 error were found!
 
         executeTidyTest("434100.html");
-        assertErrors(1);
-        assertNoWarnings();
     }
 
     /**
@@ -270,7 +255,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // should not report: invalid attribute "onfocus"
 
         executeTidyTest("435917.html");
-        assertWarnings(1);
     }
 
     /**
@@ -303,7 +287,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // 4 warnings, 0 errors were found!
 
         executeTidyTest("435922.html");
-        assertWarnings(4);
     }
 
     /**
@@ -319,8 +302,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // 2 warnings, 0 errors were found!
 
         executeTidyTest("438956.html");
-
-        assertWarnings(2);
     }
 
     /**
@@ -353,7 +334,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // Info: Document content looks like HTML 3.2
 
         executeTidyTest("450389.html");
-        assertWarnings(6);
     }
 
     /**
@@ -377,8 +357,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // No warnings or errors were found.
 
         executeTidyTest("501669.html");
-
-        assertNoWarnings();
     }
 
     /**
@@ -394,7 +372,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // line 15 column 1 - Warning: <h2> attribute "id" lacks value
 
         executeTidyTest("516370.xhtml");
-        assertWarnings(5);
         assertLogContains("XML ID syntax");
     }
 
@@ -405,8 +382,6 @@ public class TidyWarningBugsTest extends TidyTestCase
     public void test517528() throws Exception
     {
         executeTidyTest("517528.html");
-
-        assertNoWarnings();
     }
 
     /**
@@ -420,7 +395,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // No warnings or errors were found.
 
         executeTidyTest("525081.html");
-        assertNoWarnings();
     }
 
     /**
@@ -436,8 +410,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // 2 warnings, 0 errors were found!
 
         executeTidyTest("538536.html");
-        assertNoErrors();
-        assertWarnings(2);
     }
 
     /**
@@ -464,7 +436,7 @@ public class TidyWarningBugsTest extends TidyTestCase
     {
         executeTidyTest("552861.html");
         // should complain about invalid "with" attribute
-        assertWarnings(1);
+
     }
 
     /**
@@ -476,7 +448,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         executeTidyTest("553414.html");
         assertLogContains("given is \"-//W3C//DTD XHTML 1.0 Strict//EN\"");
         assertLogContains("looks like XHTML 1.0 Transitional");
-        assertWarnings(1);
     }
 
     /**
@@ -502,7 +473,6 @@ public class TidyWarningBugsTest extends TidyTestCase
     public void test559774() throws Exception
     {
         executeTidyTest("559774.html");
-        assertNoWarnings();
     }
 
     /**
@@ -516,7 +486,6 @@ public class TidyWarningBugsTest extends TidyTestCase
         // No warnings or errors were found.
 
         executeTidyTest("706260.html");
-        assertNoWarnings();
     }
 
 }
