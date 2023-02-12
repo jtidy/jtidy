@@ -125,8 +125,8 @@ public class Lexer
      * xhtml namespace.
      */
     private static final String XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
-    private static boolean illegalChar = false;
-    private static int[] illegalChars = new int[] {-1, -1};
+    
+    private int highSurrogate = 0;
 
     /**
      * lists all the known versions.
@@ -611,23 +611,27 @@ public class Lexer
                 || (c >= 0xE000 && c <= 0xFFFD) // Then high-range unicode.
             || (c >= 0x10000 && c <= 0x10FFFF)))
         {
-            if (!illegalChar) {
-                if (illegalChars[0] == -1) {
-                    illegalChars[0] = c;
-                    return;
-                }
-                if (illegalChars[1] == -1) {
-                    illegalChars[1] = c;
-                    illegalChar = true;
-                }
-            }
-
-            if (illegalChar) {
-                int SURROGATE_OFFSET = 0x10000 - (0xD800 << 10) - 0xDC00;
-                c = (illegalChars[0] << 10) + illegalChars[1] + SURROGATE_OFFSET;
-                illegalChar = false;
-                illegalChars = new int[] {-1, -1};
-            }
+        	if (0xD800 <= c && c <= 0xDBFF) {
+        		// A high surrogate char.
+        		highSurrogate = c - 0xD800;
+        		return;
+        	}
+        	else if (0xDC00 <= c && c <= 0xDFFF) {
+        		// A low surrogate char.
+        		int lowSurrogate = c - 0xDC00;
+        				
+        		c = 0x10000 + 1024 * highSurrogate + lowSurrogate;
+        		highSurrogate = 0;
+        	}
+        	else if (c == 0) {
+        		// Silently ignore.
+        		return;
+        	}
+        	else {
+        		// Invalid char.
+            	addErrorReplacement();
+        		return;
+        	}
         }
 
         int i = 0;
@@ -637,11 +641,8 @@ public class Lexer
         boolean err = EncodingUtils.encodeCharToUTF8Bytes(c, buf, null, count);
         if (err)
         {
-            // replacement char 0xFFFD encoded as UTF-8
-            buf[0] = (byte) 0xEF;
-            buf[1] = (byte) 0xBF;
-            buf[2] = (byte) 0xBD;
-            count[0] = 3;
+        	addErrorReplacement();
+        	return;
         }
 
         for (i = 0; i < count[0]; i++)
@@ -650,6 +651,15 @@ public class Lexer
         }
 
     }
+
+	/** 
+     * Adds an invalid character replacement char 0xFFFD encoded as UTF-8 to the buffer.
+	 */
+	private void addErrorReplacement() {
+		addByte((byte) 0xEF);
+		addByte((byte) 0xBF);
+		addByte((byte) 0xBD);
+	}
 
     /**
      * Adds a string to lexer buffer.
