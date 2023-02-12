@@ -88,7 +88,7 @@ import junit.framework.TestCase;
  * @author fgiust
  * @version $Revision$ ($Author$)
  */
-public class TidyTestCase extends TestCase
+public abstract class TidyTestCase extends TestCase
 {
 
     /**
