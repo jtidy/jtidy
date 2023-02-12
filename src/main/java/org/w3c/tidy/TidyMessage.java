@@ -153,6 +153,13 @@ public final class TidyMessage
         return this.message;
     }
 
+    @Override
+    public String toString() {
+    	return "Line " + getLine() + ", column " + getColumn() + ", " + 
+    		getLevel() + "(" + getErrorCode() + "): " + 
+			("\"" + getMessage().replaceAll("\\s*[\\r\\n]+\\s*", " ") + "\"");
+    }
+    
     /**
      * Message severity enumeration.
      * @author fgiust

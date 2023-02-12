@@ -282,14 +282,14 @@ public class TidyTestCase extends TestCase
             	messagesAsString.append("\nUnexpected messages:");
             	for (TidyMessage message : unexpected)
             	{
-            		messagesAsString.append("   \n" + "Level " + message.getLevel() + "(" + message.getErrorCode() + ") " + " line " + message.getLine() + ", column " + message.getColumn() + ": " + message.getMessage().replaceAll("\\s*[\\r\\n]+\\s*", " "));
+            		messagesAsString.append("   \n" + message);
             	}
             }
             if (!missing.isEmpty()) {
             	messagesAsString.append("\nMissing messages:");
             	for (TidyMessage message : missing)
             	{
-            		messagesAsString.append("   \n" + "Level " + message.getLevel() + "(" + message.getErrorCode() + ") " + " line " + message.getLine() + ", column " + message.getColumn() + ": " + message.getMessage().replaceAll("\\s*[\\r\\n]+\\s*", " "));
+            		messagesAsString.append("   \n" + message);
             	}
             }
             
