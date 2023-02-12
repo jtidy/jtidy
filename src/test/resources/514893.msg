@@ -20,7 +20,6 @@
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[no warnings or errors were found
-]]></text>
+    <text><![CDATA[no warnings or errors were found]]></text>
   </message>
 </messages>
