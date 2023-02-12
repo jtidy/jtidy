@@ -10,7 +10,7 @@ Below is a list of coding conventions that are specific to this project. Anythin
 should follow the official Sun Java Coding Conventions .
 
 ## Eclipse settings
-If you use Eclipse you can download and import this code formatter preference file. Import it from 
+If you use Eclipse you can download and import [the code formatter preference file](eclipse_formatter.xml). Import it from 
 `Window-> Preferences -> Java -> Code Style -> Code Formatter -> import`.
 
 ## Project specific coding conventions
@@ -93,7 +93,7 @@ Class variables should not have any prefix and must be referenced using the this
 public class SomeClass
 {
     private String someString;
-[...]
+
     public void someMethod()
     {
         logger.debug("Value = " + this.someString);
