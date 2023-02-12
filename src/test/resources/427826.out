@@ -15,16 +15,14 @@
 -->
 ]]>
 </script>
-<script type="text/javascript"
-      language='JavaScript'>
+<script type="text/javascript" language='JavaScript'>
 //<![CDATA[
   <!--
   alert("...");
   //-->
 //]]>
 </script>
-<script type="text/javascript"
-      language='JavaScript'>
+<script type="text/javascript" language='JavaScript'>
 //<![CDATA[
   function loop_de_loop()
   {
@@ -35,8 +33,7 @@
   }
 //]]>
 </script>
-<script type="text/javascript"
-      language='JavaScript'>
+<script type="text/javascript" language='JavaScript'>
 //<![CDATA[
   function round_again()
   {
@@ -48,9 +45,7 @@
 //]]>
 </script>
 </head>
-
 <body onload="isLessThan()">
-<p>If converted to XML/XHTML, the &lt; in the javascript source
-above causes problems for XML tools.</p>
+<p>If converted to XML/XHTML, the &lt; in the javascript source above causes problems for XML tools.</p>
 </body>
 </html>

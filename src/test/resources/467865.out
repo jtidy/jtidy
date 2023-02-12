@@ -5,6 +5,6 @@
 <title>[ #467865 ] un-nesting is incorrect</title>
 </head>
 <body>
-<p><b><tt>(</tt>foo</b> <i><tt>bar</tt></i>). ...</p>
+<p><b><tt>(</tt>foo</b> <i><tt>bar</tt></i>).  ...</p>
 </body>
 </html>

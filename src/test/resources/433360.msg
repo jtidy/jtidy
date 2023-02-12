@@ -35,9 +35,7 @@
     <line>0</line>
     <column>0</column>
     <text><![CDATA[This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-]]></text>
+using HTML Tidy to generate a tidied up version.]]></text>
   </message>
   <message>
     <code>8</code>
@@ -47,7 +45,6 @@ using HTML Tidy to generate a tidied up version.
     <text><![CDATA[You are recommended to use CSS to specify the font and
 properties such as its size and color. This will reduce
 the size of HTML files and make them easier to maintain
-compared with using <FONT> elements.
-]]></text>
+compared with using <FONT> elements.]]></text>
   </message>
 </messages>

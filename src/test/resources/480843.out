@@ -7,7 +7,7 @@
 </head>
 <body>
 <h2><a id="intro" name="intro">Introduction</a></h2>
-<h2 id="newintro"><a name="newintro">New
+<h2 id="newintro"><a id="newintro" name="newintro">New
 Introduction</a></h2>
 </body>
 </html>

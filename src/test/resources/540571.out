@@ -1,15 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>#540571 Inconsistent behaviour with span inline element</title>
-</head>
+  <head>
+    <title>#540571 Inconsistent behaviour with span inline element</title>
+  </head>
 
-<body>
-<h1><font color="red">Hello World</font></h1>
+  <body>
+    <h1><font color="red">Hello World</font></h1>
 
-<p>The font inline is moved so it becomes a child of the h1 element.</p>
+    <p>The font inline is moved so it becomes a child of the h1 element.</p>
 
-<h1><span color="red">Hello World</span></h1>
+    <h1>Hello World</h1>
 
-<p>The span inline is not moved so it becomes a child of the h1 element, which is inconsistent and does not correspond with current browser behaviour any more.</p>
-</body>
+    <p>The span inline is not moved so it becomes a child of the h1 element, which is inconsistent and does not correspond with current browser behaviour any more.</p>
+  </body>
 </html>

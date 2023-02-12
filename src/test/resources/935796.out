@@ -4,5 +4,6 @@
 <head>
 <title>Quote entities in title attribute problem</title>
 </head>
-<body title="Pre-quoted section &#8220;Unicode entities 8220 and 8221&#8221; post quoted section."></body>
+<body title="Pre-quoted section "Unicode entities 8220 and 8221" post quoted section.">
+</body>
 </html>

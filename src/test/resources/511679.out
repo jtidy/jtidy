@@ -7,8 +7,9 @@
 <table summary="No end tag for PRE">
 <tr>
 <td>
-<pre>
-<span class="foo">foo</span>
+<pre><span class="foo">foo</span>&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
 </pre></td>
 </tr>
 </table>

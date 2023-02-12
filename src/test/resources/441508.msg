@@ -9,13 +9,6 @@
     <text><![CDATA[missing <!DOCTYPE> declaration]]></text>
   </message>
   <message>
-    <code>49</code>
-    <level>2</level>
-    <line>4</line>
-    <column>1</column>
-    <text><![CDATA[<table> lacks "summary" attribute]]></text>
-  </message>
-  <message>
     <code>55</code>
     <level>2</level>
     <line>4</line>
@@ -30,18 +23,11 @@
     <text><![CDATA[missing <tr>]]></text>
   </message>
   <message>
-    <code>8</code>
-    <level>2</level>
-    <line>8</line>
+    <code>52</code>
+    <level>3</level>
+    <line>10</line>
     <column>-3</column>
-    <text><![CDATA[discarding unexpected </table>]]></text>
-  </message>
-  <message>
-    <code>7</code>
-    <level>2</level>
-    <line>9</line>
-    <column>-3</column>
-    <text><![CDATA[missing </table> before </body>]]></text>
+    <text><![CDATA[</html> missing '>' for end of tag]]></text>
   </message>
   <message>
     <code>111</code>
@@ -55,7 +41,15 @@
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[6 warnings, no errors were found!]]></text>
+    <text><![CDATA[3 warnings, 1 error were found!]]></text>
+  </message>
+  <message>
+    <code>-1</code>
+    <level>0</level>
+    <line>0</line>
+    <column>0</column>
+    <text><![CDATA[This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.]]></text>
   </message>
   <message>
     <code>4</code>
@@ -67,8 +61,7 @@ the table structure. It is very helpful for people using
 non-visual browsers. The scope and headers attributes for
 table cells are useful for specifying which headers apply
 to each table cell, enabling non-visual browsers to provide
-a meaningful context for each cell.
-]]></text>
+a meaningful context for each cell.]]></text>
   </message>
   <message>
     <code>112</code>
@@ -78,7 +71,6 @@ a meaningful context for each cell.
     <text><![CDATA[For further advice on how to make your pages accessible
 see "http://www.w3.org/WAI/GL". You may also want to try
 "http://www.cast.org/bobby/" which is a free Web-based
-service for checking URLs for accessibility.
-]]></text>
+service for checking URLs for accessibility.]]></text>
   </message>
 </messages>

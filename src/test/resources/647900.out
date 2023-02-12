@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 
 <html>
 <head>
@@ -6,7 +6,8 @@
 </head>
 
 <body>
-<table summary="Paragraph should follow table, not precede.">
+<table
+ summary="Paragraph should follow table, not precede.">
 <tr>
 <td>Table data</td>
 </tr>
@@ -14,14 +15,16 @@
 
 <p>A paragraph</p>
 
-<table summary="Same again.">
+<table
+ summary="Same again.">
 <tr>
 <th>Foo</th>
 </tr>
 
 <tr>
 <td>
-<table summary="Nested">
+<table
+ summary="Nested">
 <tr>
 <td>Foo</td>
 </tr>
@@ -32,13 +35,17 @@
 
 <p>Another paragraph</p>
 
-<form action="foo.cgi">
-<table summary="Bad form">
+<form
+ action="foo.cgi">
+<table
+ summary="Bad form">
 <tr>
-<td>Input: <input type="text"
-       name="foo"></td>
+<td>Input: <input
+ type="text"
+ name="foo"></td>
 
-<td></td>
+<td>
+</td>
 </tr>
 </table>
 

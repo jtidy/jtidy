@@ -2,34 +2,6 @@
 <!-- expected messages for test 427826-->
 <messages>
   <message>
-    <code>32</code>
-    <level>2</level>
-    <line>13</line>
-    <column>1</column>
-    <text><![CDATA['<' + '/' + letter not allowed here]]></text>
-  </message>
-  <message>
-    <code>8</code>
-    <level>2</level>
-    <line>14</line>
-    <column>-3</column>
-    <text><![CDATA[discarding unexpected </script>]]></text>
-  </message>
-  <message>
-    <code>32</code>
-    <level>2</level>
-    <line>38</line>
-    <column>3</column>
-    <text><![CDATA['<' + '/' + letter not allowed here]]></text>
-  </message>
-  <message>
-    <code>8</code>
-    <level>2</level>
-    <line>39</line>
-    <column>-3</column>
-    <text><![CDATA[discarding unexpected </script>]]></text>
-  </message>
-  <message>
     <code>28</code>
     <level>2</level>
     <line>1</line>
@@ -55,6 +27,6 @@
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[5 warnings, no errors were found!]]></text>
+    <text><![CDATA[1 warning, no errors were found!]]></text>
   </message>
 </messages>

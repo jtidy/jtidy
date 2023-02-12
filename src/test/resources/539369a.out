@@ -1,0 +1,15 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
+<html lang="en">
+<head>
+<title>[ 539369 ] Test &lt;/frameset&gt; inside &lt;noframes&gt;</title>
+</head>
+<frameset>
+<frame>
+<frame>
+<noframes>
+</noframes>
+<frameset>
+</frameset>
+</frameset>
+</html>
+

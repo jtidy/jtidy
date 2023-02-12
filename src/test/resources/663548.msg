@@ -9,20 +9,6 @@
     <text><![CDATA[missing <!DOCTYPE> declaration]]></text>
   </message>
   <message>
-    <code>32</code>
-    <level>2</level>
-    <line>16</line>
-    <column>4</column>
-    <text><![CDATA['<' + '/' + letter not allowed here]]></text>
-  </message>
-  <message>
-    <code>8</code>
-    <level>2</level>
-    <line>17</line>
-    <column>-3</column>
-    <text><![CDATA[discarding unexpected </script>]]></text>
-  </message>
-  <message>
     <code>111</code>
     <level>0</level>
     <line>1</line>
@@ -34,6 +20,6 @@
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[3 warnings, no errors were found!]]></text>
+    <text><![CDATA[1 warning, no errors were found!]]></text>
   </message>
 </messages>

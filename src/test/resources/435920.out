@@ -4,7 +4,7 @@
 <title>[ #435920 ] Space inserted before &lt;/td&gt; causes probs</title>
 </head>
 <body>
-bla
+bla 
 <table summary="none">
 <tr>
 <td><font>&nbsp;</font></td>

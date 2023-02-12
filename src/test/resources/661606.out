@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>[661606] Two bytes at the last line, w/ asian
+    options</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta http-equiv="content-type"
+content="txt/html; charset=shift_jis" /><style type="text/css">
+/*<![CDATA[*/
+ img.c1 {float: right; clear: left}
+/*]]>*/
+</style>
+  </head>
+
+  <body>
+    <h1 id="wxyz_0013"><a
+    href="wxyz0013.smil#wxyz_0013">18</a></h1>
+    <img src="images/18.jpg" alt="" width="50%" align="top"
+    class="c1" /> 
+
+    <p><span id="xwxy_001e">ぜんぶ　しっぱいして<br />
+    しまいました。</span><br />
+     <span id="xwxy_001f">「どうしよう…？｣</span></p>
+  </body>
+</html>

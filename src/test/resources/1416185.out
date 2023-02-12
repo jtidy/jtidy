@@ -1,0 +1,10 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
+<html>
+<head>
+<title>test</title>
+</head>
+<frameset>
+<frame name="a" src="a.htm">
+<frame name="b" src="b.htm">
+</frameset>
+</html>

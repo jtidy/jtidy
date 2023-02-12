@@ -16,13 +16,6 @@
     <text><![CDATA[trimming empty <p>]]></text>
   </message>
   <message>
-    <code>15</code>
-    <level>2</level>
-    <line>11</line>
-    <column>22</column>
-    <text><![CDATA[inserting implicit <a>]]></text>
-  </message>
-  <message>
     <code>8</code>
     <level>2</level>
     <line>11</line>
@@ -69,6 +62,6 @@
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[7 warnings, no errors were found!]]></text>
+    <text><![CDATA[6 warnings, no errors were found!]]></text>
   </message>
 </messages>

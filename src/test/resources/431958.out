@@ -1,9 +1,12 @@
+<!DOCTYPE html PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
 <html>
-<head>
-<title>[ #431958 ] Comments always indented</title>
-</head>
-<body>
-   <!--
-   -->
-</body>
+  <head>
+    <title>[ #431958 ] Comments always indented</title>
+  </head>
+
+  <body>
+    <!--
+       -->
+  </body>
 </html>

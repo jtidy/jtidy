@@ -3,8 +3,7 @@
 <head>
 <title>[ #427845 ] Doctypes are output on multiple lines</title>
 </head>
-<body> 
+<body>
 Use "--wrap 70" on the command line
 </body>
 </html>
-

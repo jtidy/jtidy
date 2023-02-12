@@ -9,13 +9,6 @@
     <text><![CDATA[missing <!DOCTYPE> declaration]]></text>
   </message>
   <message>
-    <code>17</code>
-    <level>2</level>
-    <line>2</line>
-    <column>1</column>
-    <text><![CDATA[inserting missing 'title' element]]></text>
-  </message>
-  <message>
     <code>52</code>
     <level>3</level>
     <line>4</line>
@@ -35,6 +28,13 @@
     <line>5</line>
     <column>16</column>
     <text><![CDATA[Warning: unescaped & which should be written as &amp;]]></text>
+  </message>
+  <message>
+    <code>17</code>
+    <level>2</level>
+    <line>9</line>
+    <column>8</column>
+    <text><![CDATA[inserting missing 'title' element]]></text>
   </message>
   <message>
     <code>111</code>

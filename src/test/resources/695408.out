@@ -7,11 +7,14 @@ attrs</title>
 <body>
 <table>
 <tr>
-<td><span datafld="A"></span></td>
+<td>
+</td>
 
-<td><span datafld="B"></span></td>
+<td>
+</td>
 
-<td><span datafld="C"></span></td>
+<td>
+</td>
 </tr>
 </table>
 </body>

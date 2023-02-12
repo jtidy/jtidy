@@ -16,230 +16,6 @@
     <text><![CDATA[<script> lacks "type" attribute]]></text>
   </message>
   <message>
-    <code>32</code>
-    <level>2</level>
-    <line>39</line>
-    <column>53</column>
-    <text><![CDATA['<' + '/' + letter not allowed here]]></text>
-  </message>
-  <message>
-    <code>4</code>
-    <level>2</level>
-    <line>39</line>
-    <column>57</column>
-    <text><![CDATA[Warning: unescaped & which should be written as &amp;]]></text>
-  </message>
-  <message>
-    <code>3</code>
-    <level>2</level>
-    <line>39</line>
-    <column>58</column>
-    <text><![CDATA[Warning: unescaped & or unknown entity "&parent.frames.length"]]></text>
-  </message>
-  <message>
-    <code>4</code>
-    <level>2</level>
-    <line>43</line>
-    <column>15</column>
-    <text><![CDATA[Warning: unescaped & which should be written as &amp;]]></text>
-  </message>
-  <message>
-    <code>3</code>
-    <level>2</level>
-    <line>43</line>
-    <column>16</column>
-    <text><![CDATA[Warning: unescaped & or unknown entity "&d.all"]]></text>
-  </message>
-  <message>
-    <code>4</code>
-    <level>2</level>
-    <line>43</line>
-    <column>47</column>
-    <text><![CDATA[Warning: unescaped & which should be written as &amp;]]></text>
-  </message>
-  <message>
-    <code>3</code>
-    <level>2</level>
-    <line>43</line>
-    <column>48</column>
-    <text><![CDATA[Warning: unescaped & or unknown entity "&i"]]></text>
-  </message>
-  <message>
-    <code>11</code>
-    <level>2</level>
-    <line>43</line>
-    <column>48</column>
-    <text><![CDATA[plain text isn't allowed in <head> elements]]></text>
-  </message>
-  <message>
-    <code>48</code>
-    <level>2</level>
-    <line>43</line>
-    <column>51</column>
-    <text><![CDATA[unknown attribute "i++)"]]></text>
-  </message>
-  <message>
-    <code>4</code>
-    <level>2</level>
-    <line>45</line>
-    <column>13</column>
-    <text><![CDATA[Warning: unescaped & which should be written as &amp;]]></text>
-  </message>
-  <message>
-    <code>3</code>
-    <level>2</level>
-    <line>45</line>
-    <column>14</column>
-    <text><![CDATA[Warning: unescaped & or unknown entity "&d.layers"]]></text>
-  </message>
-  <message>
-    <code>4</code>
-    <level>2</level>
-    <line>45</line>
-    <column>23</column>
-    <text><![CDATA[Warning: unescaped & which should be written as &amp;]]></text>
-  </message>
-  <message>
-    <code>3</code>
-    <level>2</level>
-    <line>45</line>
-    <column>24</column>
-    <text><![CDATA[Warning: unescaped & or unknown entity "&i"]]></text>
-  </message>
-  <message>
-    <code>52</code>
-    <level>3</level>
-    <line>45</line>
-    <column>24</column>
-    <text><![CDATA[<d.forms.length> missing '>' for end of tag]]></text>
-  </message>
-  <message>
-    <code>51</code>
-    <level>2</level>
-    <line>45</line>
-    <column>24</column>
-    <text><![CDATA[<d.forms.length> attribute "for(i" has invalid value "0;!x&&d.layers&&i"]]></text>
-  </message>
-  <message>
-    <code>22</code>
-    <level>3</level>
-    <line>45</line>
-    <column>24</column>
-    <text><![CDATA[<d.forms.length> is not recognized!]]></text>
-  </message>
-  <message>
-    <code>8</code>
-    <level>2</level>
-    <line>45</line>
-    <column>24</column>
-    <text><![CDATA[discarding unexpected <d.forms.length>]]></text>
-  </message>
-  <message>
-    <code>48</code>
-    <level>2</level>
-    <line>45</line>
-    <column>26</column>
-    <text><![CDATA[unknown attribute "i++)"]]></text>
-  </message>
-  <message>
-    <code>48</code>
-    <level>2</level>
-    <line>45</line>
-    <column>26</column>
-    <text><![CDATA[unknown attribute "x;"]]></text>
-  </message>
-  <message>
-    <code>48</code>
-    <level>2</level>
-    <line>45</line>
-    <column>26</column>
-    <text><![CDATA[unknown attribute "}"]]></text>
-  </message>
-  <message>
-    <code>48</code>
-    <level>2</level>
-    <line>45</line>
-    <column>26</column>
-    <text><![CDATA[unknown attribute "mm_swapimage()"]]></text>
-  </message>
-  <message>
-    <code>48</code>
-    <level>2</level>
-    <line>45</line>
-    <column>26</column>
-    <text><![CDATA[unknown attribute "{"]]></text>
-  </message>
-  <message>
-    <code>48</code>
-    <level>2</level>
-    <line>45</line>
-    <column>26</column>
-    <text><![CDATA[unknown attribute "//v3.0"]]></text>
-  </message>
-  <message>
-    <code>51</code>
-    <level>2</level>
-    <line>45</line>
-    <column>26</column>
-    <text><![CDATA[<d.layers.length> attribute "i,j" has invalid value "0,x,a=MM_swapImage.arguments;"]]></text>
-  </message>
-  <message>
-    <code>48</code>
-    <level>2</level>
-    <line>45</line>
-    <column>26</column>
-    <text><![CDATA[unknown attribute "array;"]]></text>
-  </message>
-  <message>
-    <code>52</code>
-    <level>3</level>
-    <line>45</line>
-    <column>26</column>
-    <text><![CDATA[<d.layers.length> missing '>' for end of tag]]></text>
-  </message>
-  <message>
-    <code>51</code>
-    <level>2</level>
-    <line>45</line>
-    <column>26</column>
-    <text><![CDATA[<d.layers.length> attribute "for(i" has invalid value "0;i"]]></text>
-  </message>
-  <message>
-    <code>22</code>
-    <level>3</level>
-    <line>45</line>
-    <column>26</column>
-    <text><![CDATA[<d.layers.length> is not recognized!]]></text>
-  </message>
-  <message>
-    <code>8</code>
-    <level>2</level>
-    <line>45</line>
-    <column>26</column>
-    <text><![CDATA[discarding unexpected <d.layers.length>]]></text>
-  </message>
-  <message>
-    <code>8</code>
-    <level>2</level>
-    <line>61</line>
-    <column>1</column>
-    <text><![CDATA[discarding unexpected </script>]]></text>
-  </message>
-  <message>
-    <code>11</code>
-    <level>2</level>
-    <line>63</line>
-    <column>1</column>
-    <text><![CDATA[</head> isn't allowed in <body> elements]]></text>
-  </message>
-  <message>
-    <code>11</code>
-    <level>2</level>
-    <line>65</line>
-    <column>2</column>
-    <text><![CDATA[<body> isn't allowed in <body> elements]]></text>
-  </message>
-  <message>
     <code>23</code>
     <level>2</level>
     <line>70</line>
@@ -891,6 +667,559 @@
     <text><![CDATA[trimming empty <span>]]></text>
   </message>
   <message>
+    <code>22</code>
+    <level>3</level>
+    <line>206</line>
+    <column>107</column>
+    <text><![CDATA[<o:p> is not recognized!]]></text>
+  </message>
+  <message>
+    <code>8</code>
+    <level>2</level>
+    <line>206</line>
+    <column>107</column>
+    <text><![CDATA[discarding unexpected <o:p>]]></text>
+  </message>
+  <message>
+    <code>8</code>
+    <level>2</level>
+    <line>206</line>
+    <column>108</column>
+    <text><![CDATA[discarding unexpected </o:p>]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>206</line>
+    <column>114</column>
+    <text><![CDATA[trimming empty <span>]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>206</line>
+    <column>121</column>
+    <text><![CDATA[trimming empty <p>]]></text>
+  </message>
+  <message>
+    <code>22</code>
+    <level>3</level>
+    <line>215</line>
+    <column>28</column>
+    <text><![CDATA[<o:p> is not recognized!]]></text>
+  </message>
+  <message>
+    <code>8</code>
+    <level>2</level>
+    <line>215</line>
+    <column>28</column>
+    <text><![CDATA[discarding unexpected <o:p>]]></text>
+  </message>
+  <message>
+    <code>8</code>
+    <level>2</level>
+    <line>215</line>
+    <column>28</column>
+    <text><![CDATA[discarding unexpected </o:p>]]></text>
+  </message>
+  <message>
+    <code>22</code>
+    <level>3</level>
+    <line>225</line>
+    <column>34</column>
+    <text><![CDATA[<o:p> is not recognized!]]></text>
+  </message>
+  <message>
+    <code>8</code>
+    <level>2</level>
+    <line>225</line>
+    <column>34</column>
+    <text><![CDATA[discarding unexpected <o:p>]]></text>
+  </message>
+  <message>
+    <code>8</code>
+    <level>2</level>
+    <line>225</line>
+    <column>34</column>
+    <text><![CDATA[discarding unexpected </o:p>]]></text>
+  </message>
+  <message>
+    <code>22</code>
+    <level>3</level>
+    <line>227</line>
+    <column>7</column>
+    <text><![CDATA[<o:p> is not recognized!]]></text>
+  </message>
+  <message>
+    <code>8</code>
+    <level>2</level>
+    <line>227</line>
+    <column>7</column>
+    <text><![CDATA[discarding unexpected <o:p>]]></text>
+  </message>
+  <message>
+    <code>8</code>
+    <level>2</level>
+    <line>227</line>
+    <column>8</column>
+    <text><![CDATA[discarding unexpected </o:p>]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>227</line>
+    <column>14</column>
+    <text><![CDATA[trimming empty <span>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>230</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>233</line>
+    <column>45</column>
+    <text><![CDATA[trimming empty <font>]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>278</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>279</line>
+    <column>61</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>280</line>
+    <column>20</column>
+    <text><![CDATA[trimming empty <div>]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>286</line>
+    <column>37</column>
+    <text><![CDATA[trimming empty <font>]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>300</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>300</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>301</line>
+    <column>63</column>
+    <text><![CDATA[trimming empty <font>]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>306</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>324</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>324</line>
+    <column>61</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>386</line>
+    <column>57</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>432</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>432</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>464</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>464</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>472</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>477</line>
+    <column>46</column>
+    <text><![CDATA[trimming empty <font>]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>510</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>510</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>545</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>545</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>572</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>572</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>586</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>586</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>620</line>
+    <column>9</column>
+    <text><![CDATA[trimming empty <b>]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>620</line>
+    <column>9</column>
+    <text><![CDATA[trimming empty <font>]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>649</line>
+    <column>6</column>
+    <text><![CDATA[trimming empty <dt>]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>649</line>
+    <column>6</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>650</line>
+    <column>53</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>8</code>
+    <level>2</level>
+    <line>652</line>
+    <column>-1</column>
+    <text><![CDATA[discarding unexpected </dt>]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>655</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>670</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>670</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>66</code>
+    <level>2</level>
+    <line>670</line>
+    <column>128</column>
+    <text><![CDATA[<a> Anchor "Magazines" already defined]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>675</line>
+    <column>30</column>
+    <text><![CDATA[trimming empty <font>]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>675</line>
+    <column>33</column>
+    <text><![CDATA[trimming empty <dt>]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>676</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>767</line>
+    <column>57</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>783</line>
+    <column>57</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>821</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>821</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>848</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>848</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>873</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>873</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>888</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>888</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>906</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>906</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>911</line>
+    <column>25</column>
+    <text><![CDATA[trimming empty <font>]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>918</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>918</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>27</code>
+    <level>2</level>
+    <line>931</line>
+    <column>6</column>
+    <text><![CDATA[content occurs after end of body]]></text>
+  </message>
+  <message>
+    <code>27</code>
+    <level>2</level>
+    <line>945</line>
+    <column>6</column>
+    <text><![CDATA[content occurs after end of body]]></text>
+  </message>
+  <message>
+    <code>27</code>
+    <level>2</level>
+    <line>951</line>
+    <column>2</column>
+    <text><![CDATA[content occurs after end of body]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>953</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>953</line>
+    <column>59</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
+    <code>66</code>
+    <level>2</level>
+    <line>953</line>
+    <column>114</column>
+    <text><![CDATA[<a> Anchor "Books" already defined]]></text>
+  </message>
+  <message>
+    <code>23</code>
+    <level>2</level>
+    <line>963</line>
+    <column>25</column>
+    <text><![CDATA[trimming empty <font>]]></text>
+  </message>
+  <message>
+    <code>12</code>
+    <level>2</level>
+    <line>977</line>
+    <column>3</column>
+    <text><![CDATA[missing <dd>]]></text>
+  </message>
+  <message>
+    <code>49</code>
+    <level>2</level>
+    <line>977</line>
+    <column>37</column>
+    <text><![CDATA[<img> lacks "alt" attribute]]></text>
+  </message>
+  <message>
     <code>111</code>
     <level>0</level>
     <line>1</line>
@@ -902,7 +1231,7 @@
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[196 warnings, 10 errors were found!]]></text>
+    <text><![CDATA[168 warnings, 6 errors were found!]]></text>
   </message>
   <message>
     <code>-1</code>

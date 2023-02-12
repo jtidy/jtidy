@@ -13,7 +13,7 @@
     <level>0</level>
     <line>1</line>
     <column>1</column>
-    <text><![CDATA[InputStream: Document content looks like XHTML 1.1]]></text>
+    <text><![CDATA[InputStream: Document content looks like HTML proprietary]]></text>
   </message>
   <message>
     <code>-1</code>

@@ -1,0 +1,12 @@
+<!DOCTYPE html PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html>
+<head>
+<title>[ 566542 ] parser hangs</title>
+<!-- This is a particularly horrid bit of markup.  Tidy should
+     probably throw up its hands and emit an error. -->
+</head>
+<body>
+<p>Identify the member disks with <b>ssaraid -H -lssa0 -n pdisk <i>[n]</i> -u -a use=member</b></p>
+<p><b>Identify the hot spare with ssaraid -H -lssa0 -n pdisk <i>[n]</i>-u -a use=spare</b></p>
+</body>
+</html>

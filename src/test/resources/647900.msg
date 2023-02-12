@@ -9,60 +9,11 @@
     <text><![CDATA[missing <!DOCTYPE> declaration]]></text>
   </message>
   <message>
-    <code>8</code>
-    <level>2</level>
-    <line>9</line>
-    <column>-1</column>
-    <text><![CDATA[discarding unexpected </table>]]></text>
-  </message>
-  <message>
-    <code>11</code>
-    <level>2</level>
-    <line>11</line>
-    <column>3</column>
-    <text><![CDATA[<p> isn't allowed in <tr> elements]]></text>
-  </message>
-  <message>
-    <code>8</code>
-    <level>2</level>
-    <line>13</line>
-    <column>3</column>
-    <text><![CDATA[discarding unexpected <table>]]></text>
-  </message>
-  <message>
     <code>12</code>
     <level>2</level>
     <line>19</line>
     <column>5</column>
     <text><![CDATA[missing <tr>]]></text>
-  </message>
-  <message>
-    <code>8</code>
-    <level>2</level>
-    <line>20</line>
-    <column>5</column>
-    <text><![CDATA[discarding unexpected </table>]]></text>
-  </message>
-  <message>
-    <code>8</code>
-    <level>2</level>
-    <line>21</line>
-    <column>-1</column>
-    <text><![CDATA[discarding unexpected </table>]]></text>
-  </message>
-  <message>
-    <code>11</code>
-    <level>2</level>
-    <line>23</line>
-    <column>3</column>
-    <text><![CDATA[<p> isn't allowed in <tr> elements]]></text>
-  </message>
-  <message>
-    <code>12</code>
-    <level>2</level>
-    <line>25</line>
-    <column>3</column>
-    <text><![CDATA[missing <td>]]></text>
   </message>
   <message>
     <code>8</code>
@@ -86,20 +37,6 @@
     <text><![CDATA[missing </form>]]></text>
   </message>
   <message>
-    <code>6</code>
-    <level>2</level>
-    <line>36</line>
-    <column>1</column>
-    <text><![CDATA[missing </table>]]></text>
-  </message>
-  <message>
-    <code>6</code>
-    <level>2</level>
-    <line>36</line>
-    <column>1</column>
-    <text><![CDATA[missing </table>]]></text>
-  </message>
-  <message>
     <code>111</code>
     <level>0</level>
     <line>1</line>
@@ -111,7 +48,7 @@
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[12 warnings, 1 error were found!]]></text>
+    <text><![CDATA[3 warnings, 1 error were found!]]></text>
   </message>
   <message>
     <code>113</code>
@@ -123,7 +60,6 @@ tags. HTML elements should be properly nested and form elements
 are no exception. For instance you should not place the <form>
 in one table cell and the </form> in another. If the <form> is
 placed before a table, the </form> cannot be placed inside the
-table! Note that one form can't be nested inside another!
-]]></text>
+table! Note that one form can't be nested inside another!]]></text>
   </message>
 </messages>

@@ -1,0 +1,11 @@
+<target name="help">
+  <echo>
+
+
+    *** Help message *** 
+
+
+    *** End of help message ***
+
+  </echo>
+</target>

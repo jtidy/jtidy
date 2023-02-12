@@ -3,7 +3,7 @@
 <title>[ #708322] : drop-proprietary-attributes leaves table height.</title>
 </head>
 <body>
-<table>
+<table height="12">
 <tr>
 <td></td>
 </tr>

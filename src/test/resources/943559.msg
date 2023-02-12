@@ -56,9 +56,7 @@
     <line>0</line>
     <column>0</column>
     <text><![CDATA[This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-]]></text>
+using HTML Tidy to generate a tidied up version.]]></text>
   </message>
   <message>
     <code>113</code>
@@ -70,7 +68,6 @@ tags. HTML elements should be properly nested and form elements
 are no exception. For instance you should not place the <form>
 in one table cell and the </form> in another. If the <form> is
 placed before a table, the </form> cannot be placed inside the
-table! Note that one form can't be nested inside another!
-]]></text>
+table! Note that one form can't be nested inside another!]]></text>
   </message>
 </messages>

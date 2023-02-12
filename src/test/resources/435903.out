@@ -10,11 +10,12 @@ function email()
 address=document.emailform.emailinput.value;
 location='http://www.cnn.com/EMAIL/index.html?'+address;
 }
-</script>
+        </script>
 <table>
 <tr>
 <td></td>
 </tr>
+<tr></tr>
 </table>
 </body>
 </html>

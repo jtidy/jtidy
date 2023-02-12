@@ -5,6 +5,6 @@
 <title>[ #467863 ] un-nest &lt;a&gt;</title>
 </head>
 <body>
-<a href="A">A</a> <a href="B">B</a> C
+<a href="A">A</a> <a href="B">B</a> C 
 </body>
 </html>

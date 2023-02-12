@@ -5,8 +5,7 @@
 </head>
 <body>
 <form action="something"><select name="one">
-<option value='AB        12345          xy'>opt1</option>
+<option value='AB 12345 xy'>opt1</option>
 </select></form>
 </body>
 </html>
-

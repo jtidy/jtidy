@@ -6,6 +6,6 @@
 <title>[ #431898 ] Tidy messes up X(HT)ML documents</title>
 </head>
 <body>
-<p><a href="&myURI;">Test</a></p>
+<p><a href="&amp;myURI;">Test</a></p>
 </body>
 </html>

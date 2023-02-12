@@ -7,7 +7,7 @@
   {
     return ( bar < baz ? true : false );
   }
-</script>
+  </script>
 </head>
 <body>
 <p>Does the script confuse Tidy?</p>

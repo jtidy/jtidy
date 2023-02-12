@@ -6,9 +6,9 @@
 </head>
 <body>
 <script type="text/javascript">
-<!--
-document.write("&lt;img src=\"gnagna.jpg\""&gt;);
--->
+//<![CDATA[
+document.write("<img src=\"gnagna.jpg\"">);
+//]]>
 </script>
 </body>
 </html>

@@ -4,9 +4,7 @@
 <title>[1039641] pre should not change the inside text</title>
 </head>
 <body>
-<pre>
-<a name="line1"></a><strong>1</strong>:
-<a name="line2"></a><strong>1</strong>:
-</pre>
-</body>
+<pre><a id="line1" name="line1"></a><strong>1</strong>:
+<a id="line2" name="line2"></a><strong>1</strong>:
+</pre></body>
 </html>

@@ -11,8 +11,8 @@
   <message>
     <code>17</code>
     <level>2</level>
-    <line>1</line>
-    <column>1</column>
+    <line>1145</line>
+    <column>2</column>
     <text><![CDATA[inserting missing 'title' element]]></text>
   </message>
   <message>

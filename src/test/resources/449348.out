@@ -6,8 +6,8 @@
 </head>
 <body>
 <p>Make this wrap at the end of the line12345678:
-white-<em>space</em><a href="joebob.html"><img alt="joebob" src=
-"joebob.gif" /></a></p>
+white-<em>space</em><a href="joebob.html"><img alt="joebob"
+src="joebob.gif" /></a></p>
 <p>This is long enough a wrap at the next line <em>text</em>
 ...</p>
 </body>

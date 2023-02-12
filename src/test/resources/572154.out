@@ -1,0 +1,8 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
+<html>
+<head>
+<title>[ 572154 ] frame element outside of a frameset causes infinite loop</title>
+</head>
+<frameset>
+</frameset>
+</html>

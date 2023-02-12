@@ -16,13 +16,6 @@
     <text><![CDATA[missing </a> before <h2>]]></text>
   </message>
   <message>
-    <code>15</code>
-    <level>2</level>
-    <line>6</line>
-    <column>19</column>
-    <text><![CDATA[inserting implicit <a>]]></text>
-  </message>
-  <message>
     <code>8</code>
     <level>2</level>
     <line>6</line>
@@ -55,6 +48,6 @@
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[6 warnings, no errors were found!]]></text>
+    <text><![CDATA[5 warnings, no errors were found!]]></text>
   </message>
 </messages>

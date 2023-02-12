@@ -1,0 +1,12 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
+<html lang="en">
+<head>
+<title>[ 539369 ] Infinite loop &lt;/frame&gt; after &lt;/frameset&gt;</title>
+</head>
+<frameset>
+<frame>
+<frame>
+<noframes>
+</noframes>
+</frameset>
+</html>
