@@ -56,6 +56,7 @@ package org.w3c.tidy;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.util.Set;
 
 
 /**
@@ -854,4 +855,16 @@ public final class TidyUtils
         }
         return true;
     }
+
+	/**
+	 * Whether the given set contains any element form the test set. 
+	 */
+	public static <T> boolean containsAny(Set<T> set, Set<T> test) {
+		for (T x : test) {
+			if (set.contains(x)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -243,7 +243,7 @@ public class AttVal implements Cloneable
         {
 
             // if attribute looks like <foo/> check XML is ok
-            if (TidyUtils.toBoolean(attr.getVersions() & Dict.VERS_XML))
+            if (attr.getVersions().contains(HtmlVersion.XML))
             {
                 if (!(lexer.configuration.xmlTags || lexer.configuration.xmlOut))
                 {
@@ -260,7 +260,7 @@ public class AttVal implements Cloneable
             {
                 attr.getAttrchk().check(lexer, node, this);
             }
-            else if (TidyUtils.toBoolean(this.dict.getVersions() & Dict.VERS_PROPRIETARY))
+            else if (TidyUtils.containsAny(this.dict.getVersions(), Dict.VERS_PROPRIETARY))
             {
                 lexer.report.attrError(lexer, node, this, Report.PROPRIETARY_ATTRIBUTE);
             }
@@ -269,7 +269,7 @@ public class AttVal implements Cloneable
         else if (!lexer.configuration.xmlTags
             && node.tag != null
             && this.asp == null
-            && !(node.tag != null && (TidyUtils.toBoolean(node.tag.versions & Dict.VERS_PROPRIETARY))))
+            && !(node.tag != null && (TidyUtils.containsAny(node.tag.versions, Dict.VERS_PROPRIETARY))))
         {
             lexer.report.attrError(lexer, node, this, Report.UNKNOWN_ATTRIBUTE);
         }

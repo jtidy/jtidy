@@ -53,6 +53,9 @@
  */
 package org.w3c.tidy;
 
+import java.util.Arrays;
+import java.util.EnumSet;
+
 /**
  * Tag dictionary node. If the document uses just HTML 2.0 tags and attributes described it as HTML 2.0 Similarly for
  * HTML 3.2 and the 3 flavors of HTML 4.0. If there are proprietary tags and attributes then describe it as HTML
@@ -184,106 +187,126 @@ public class Dict
     /**
      * Version: unknown.
      */
-    public static final short VERS_UNKNOWN = 0;
+    public static final EnumSet<HtmlVersion> VERS_UNKNOWN = EnumSet.of(HtmlVersion.UNKNOWN);
 
     /**
      * Version: html 2.0.
      */
-    public static final short VERS_HTML20 = 1;
+    public static final EnumSet<HtmlVersion> VERS_HTML20 = EnumSet.of(HtmlVersion.HTML20);
+    
+    /**
+     * All versions except HTML 2.0.
+     */
+    public static final EnumSet<HtmlVersion> NOT_HTML20 = allExcept(VERS_HTML20);
 
     /**
      * Version: html 3.2.
      */
-    public static final short VERS_HTML32 = 2;
+    public static final EnumSet<HtmlVersion> VERS_HTML32 = EnumSet.of(HtmlVersion.HTML32);
 
     /**
      * Version: html 4.0 strict.
      */
-    public static final short VERS_HTML40_STRICT = 4;
+    public static final EnumSet<HtmlVersion> VERS_HTML40_STRICT = EnumSet.of(HtmlVersion.HTML40_STRICT);
+    
+    /**
+     * All versions except html 4.0 strict.
+     */
+    public static final EnumSet<HtmlVersion> NOT_HTML40_STRICT = Dict.without(EnumSet.allOf(HtmlVersion.class), VERS_HTML40_STRICT);
 
     /**
      * Version: html 4.0 transitional.
      */
-    public static final short VERS_HTML40_LOOSE = 8;
+    public static final EnumSet<HtmlVersion> VERS_HTML40_LOOSE = EnumSet.of(HtmlVersion.HTML40_LOOSE);
 
     /**
      * Version: html 4.0 frameset.
      */
-    public static final short VERS_FRAMESET = 16;
+    public static final EnumSet<HtmlVersion> VERS_FRAMESET = EnumSet.of(HtmlVersion.FRAMESET);
+    
+    /**
+     * All HTML versions except HTML 4.0 frameset.
+     */
+    public static final EnumSet<HtmlVersion> NOT_FRAMESET = allExcept(VERS_FRAMESET);
 
     /**
      * Version: xml.
      */
-    public static final short VERS_XML = 32;
+    public static final EnumSet<HtmlVersion> VERS_XML = EnumSet.of(HtmlVersion.XML);
 
     /**
      * Version: netscape.
      */
-    public static final short VERS_NETSCAPE = 64;
+    public static final EnumSet<HtmlVersion> VERS_NETSCAPE = EnumSet.of(HtmlVersion.NETSCAPE);
 
     /**
      * Version: microsoft.
      */
-    public static final short VERS_MICROSOFT = 128;
+    public static final EnumSet<HtmlVersion> VERS_MICROSOFT = EnumSet.of(HtmlVersion.MICROSOFT);
 
     /**
      * Version: sun.
      */
-    public static final short VERS_SUN = 256;
+    public static final EnumSet<HtmlVersion> VERS_SUN = EnumSet.of(HtmlVersion.SUN);
 
     /**
      * Version: malformed.
      */
-    public static final short VERS_MALFORMED = 512;
+    public static final EnumSet<HtmlVersion> VERS_MALFORMED = EnumSet.of(HtmlVersion.MALFORMED);
 
     /**
      * Version: xhtml 1.1.
      */
-    public static final short VERS_XHTML11 = 1024;
+    public static final EnumSet<HtmlVersion> VERS_XHTML11 = EnumSet.of(HtmlVersion.XHTML11);
+    
+    /**
+     * All versions except XHTML 1.1.
+     */
+    public static final EnumSet<HtmlVersion> NOT_XHTML11 = allExcept(VERS_XHTML11);
 
     /**
      * Version: xhtml basic.
      */
-    public static final short VERS_BASIC = 2048;
+    public static final EnumSet<HtmlVersion> VERS_BASIC = EnumSet.of(HtmlVersion.BASIC);
     /**
      * Version: HTML 5.
      */
-    public static final short VERS_HTML5 = 4096;
+    public static final EnumSet<HtmlVersion> VERS_HTML5 = EnumSet.of(HtmlVersion.HTML5);
 
     /**
      * all tags and attributes are ok in proprietary version of HTML.
      */
-    public static final short VERS_PROPRIETARY = (VERS_NETSCAPE | VERS_MICROSOFT | VERS_SUN);
+    public static final EnumSet<HtmlVersion> VERS_PROPRIETARY = EnumSet.of(HtmlVersion.NETSCAPE, HtmlVersion.MICROSOFT, HtmlVersion.SUN);
 
     /**
      * tags/attrs in HTML4 but not in earlier version.
      */
-    public static final short VERS_HTML40 = (VERS_HTML40_STRICT | VERS_HTML40_LOOSE | VERS_FRAMESET);
+    public static final EnumSet<HtmlVersion> VERS_HTML40 = EnumSet.of(HtmlVersion.HTML5, HtmlVersion.HTML40_STRICT, HtmlVersion.HTML40_LOOSE, HtmlVersion.FRAMESET);
 
     /**
      * tags/attrs which are in all versions of HTML except strict.
      */
-    public static final short VERS_LOOSE = (VERS_HTML32 | VERS_HTML40_LOOSE | VERS_FRAMESET);
+    public static final EnumSet<HtmlVersion> VERS_LOOSE = EnumSet.of(HtmlVersion.HTML32, HtmlVersion.HTML40_LOOSE, HtmlVersion.FRAMESET);
 
     /**
      * tags/attrs in HTML 4 loose and frameset.
      */
-    public static final short VERS_IFRAME = (VERS_HTML40_LOOSE | VERS_FRAMESET);
+    public static final EnumSet<HtmlVersion> VERS_IFRAME = EnumSet.of(HtmlVersion.HTML40_LOOSE, HtmlVersion.FRAMESET);
 
     /**
      * tags/attrs in all versions from HTML 3.2 onwards.
      */
-    public static final short VERS_FROM32 = (VERS_HTML40_STRICT | VERS_LOOSE);
+    public static final EnumSet<HtmlVersion> VERS_FROM32 = combine(VERS_LOOSE, HtmlVersion.HTML5, HtmlVersion.HTML40_STRICT);
 
     /**
      * versions with on... attributes.
      */
-    public static final short VERS_EVENTS = (VERS_HTML40 | VERS_XHTML11);
+    public static final EnumSet<HtmlVersion> VERS_EVENTS = combine(VERS_HTML40, HtmlVersion.XHTML11);
 
     /**
      * tags/attrs in any version.
      */
-    public static final short VERS_ALL = (VERS_HTML20 | VERS_HTML32 | VERS_HTML40 | VERS_XHTML11 | VERS_BASIC);
+    public static final EnumSet<HtmlVersion> VERS_ALL = combine(VERS_HTML40, HtmlVersion.HTML20, HtmlVersion.HTML32, HtmlVersion.XHTML11, HtmlVersion.BASIC);
 
     /**
      * types of tags that the user can define: empty tag.
@@ -313,7 +336,7 @@ public class Dict
     /**
      * Version in which this tag is defined.
      */
-    protected short versions;
+    protected EnumSet<HtmlVersion> versions;
 
     /**
      * model (CM_* constants).
@@ -338,7 +361,7 @@ public class Dict
      * @param parser parser for this tag
      * @param chkattrs validator for this tag (can be null)
      */
-    public Dict(String name, short versions, int model, Parser parser, TagCheck chkattrs)
+    public Dict(String name, EnumSet<HtmlVersion> versions, int model, Parser parser, TagCheck chkattrs)
     {
         this.name = name;
         this.versions = versions;
@@ -347,7 +370,47 @@ public class Dict
         this.chkattrs = chkattrs;
     }
 
-    /**
+    /** 
+	 * All {@link HtmlVersion}s except the given ones.
+	 */
+	public static EnumSet<HtmlVersion> allExcept(EnumSet<HtmlVersion> except) {
+		EnumSet<HtmlVersion> result = EnumSet.allOf(HtmlVersion.class);
+		result.removeAll(except);
+		return result;
+	}
+
+	/** 
+	 * The combined set of literals.
+	 */
+	@SafeVarargs
+	public static <T extends Enum<T>> EnumSet<T> combine(EnumSet<T> set, T ...others) {
+		EnumSet<T> result = set.clone();
+		result.addAll(Arrays.asList(others));
+		return result;
+	}
+
+	/** 
+	 * The combined set of literals.
+	 */
+	public static <T extends Enum<T>> EnumSet<T> combine(EnumSet<T> set1, EnumSet<T> set2) {
+		EnumSet<T> result = set1.clone();
+		result.addAll(set2);
+		return result;
+	}
+	
+	/** 
+	 * The combined set of literals.
+	 */
+	@SafeVarargs
+	public static <T extends Enum<T>> EnumSet<T> combine(EnumSet<T> ...sets) {
+		EnumSet<T> result = sets[0].clone();
+		for (int n = 1, cnt = sets.length; n < cnt; n++) {
+			result.addAll(sets[n]);
+		}
+		return result;
+	}
+	
+	/**
      * Getter for <code>chkattrs</code>.
      * @return Returns the chkattrs.
      */
@@ -395,7 +458,7 @@ public class Dict
      * Getter for <code>versions</code>.
      * @return Returns the versions.
      */
-    public short getVersions()
+    public EnumSet<HtmlVersion> getVersions()
     {
         return this.versions;
     }
@@ -407,4 +470,13 @@ public class Dict
     {
         this.parser = parser;
     }
+
+	/** 
+	 * The set of literals in the given set reduced by the ones in the excluded set.
+	 */
+	public static EnumSet<HtmlVersion> without(EnumSet<HtmlVersion> set, EnumSet<HtmlVersion> excluded) {
+		EnumSet<HtmlVersion> result = set.clone();
+		result.removeAll(excluded);
+		return result;
+	}
 }
