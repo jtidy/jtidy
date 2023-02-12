@@ -55,8 +55,10 @@ package org.w3c.tidy;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -191,31 +193,35 @@ public abstract class TidyTestCase extends TestCase
 
         // existing file for comparison
         String outFileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".out";
-        URL outFile = getClass().getClassLoader().getResource(outFileName);
+        URL outURL = getClass().getClassLoader().getResource(outFileName);
 
         this.tidyOut = out.toString(tidy.getConfiguration().getOutCharEncodingName());
 
-        if (outFile != null)
+        if (outURL != null)
         {
             log.debug("Comparing file using [" + outFileName + "]");
-            assertEquals(this.tidyOut, outFile);
+            assertEquals(this.tidyOut, outURL);
+        }
+        else {
+        	String outputPath = makePath(inputURL, ".out");
+            log.debug("Output file doesn't exists, generating [" + outputPath + "] for reference.");
+            try (OutputStream reference = new FileOutputStream(new File(outputPath))) {
+            	reference.write(out.toByteArray());
+            }
         }
 
         // check messages
         String messagesFileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".msg";
-        URL messagesFile = getClass().getClassLoader().getResource(messagesFileName);
+        URL messagesURL = getClass().getClassLoader().getResource(messagesFileName);
 
         // save messages
-        if (messagesFile == null)
+        if (messagesURL == null)
         {
             if (log.isDebugEnabled())
             {
                 log.debug("Messages file doesn't exists, generating [" + messagesFileName + "] for reference");
             }
-            String inputFileName = inputURL.getFile();
-			String msgTarget = inputFileName.substring(0, inputFileName.lastIndexOf(".")) + ".msg";
-			String msgResource = msgTarget.replace("/target/test-classes/", "/src/test/resources/");
-			FileWriter fw = new FileWriter(msgResource);
+            FileWriter fw = new FileWriter(makePath(inputURL, ".msg"));
             fw.write(this.messageListener.messagesToXml());
             fw.close();
         }
@@ -226,9 +232,15 @@ public abstract class TidyTestCase extends TestCase
             {
                 log.debug("Comparing messages using [" + messagesFileName + "]");
             }
-            compareMsgXml(messagesFile);
+            compareMsgXml(messagesURL);
         }
     }
+
+	private String makePath(URL inputURL, String suffix) {
+		String inputFileName = inputURL.getFile();
+		String msgTarget = inputFileName.substring(0, inputFileName.lastIndexOf(".")) + suffix;
+		return msgTarget.replace("/target/test-classes/", "/src/test/resources/");
+	}
 
     /**
      * Parse an existing msg file and assert that content is identical to current output.
