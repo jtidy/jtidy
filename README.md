@@ -19,7 +19,13 @@ interface to the document that is being processed, which effectively
 makes you able to use JTidy as a DOM parser for real-world HTML.
 
 # History
-[JTidy project on SourceForge.net](https://sourceforge.net/projects/jtidy/)
+JTidy is a Java port of [HTML Tidy](http://www.w3.org/People/Raggett/tidy/), a HTML syntax checker and pretty printer.
+Like its non-Java cousin, JTidy can be used as a tool for cleaning up malformed and faulty HTML.
+In addition, JTidy provides a DOM interface to the document that is being processed, which effectively makes you able
+to use JTidy as a DOM parser for real-world HTML.
+
+JTidy was initially written by Andy Quick. The project has been maintained at sourceforge.net by Fabrizio Giustina from 
+2004 to 2010. Since the [JTidy project on SourceForge.net](https://sourceforge.net/projects/jtidy/)
 seemed to fall into disrepair years ago and had not been updated for years. 
 A few had forked it on Github.
 [William L. Thomson Jr.](https://github.com/wltjr) came along and 
