@@ -58,13 +58,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 
-import junit.framework.TestCase;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Parameter;
 import org.apache.tools.ant.util.FileUtils;
+
+import junit.framework.TestCase;
 
 
 /**
@@ -456,7 +456,7 @@ public class JTidyTaskTest extends TestCase
     {
         try
         {
-            task.processFile(new File(testDir, "ant/file1.html"), new File(tempDir, "///::non/existing/output.html"));
+            task.processFile(new File(testDir, "ant/file1.html"), new File("///::non/existing/output.html"));
             fail("Expected BuildException not thrown");
         }
         catch (BuildException e)
