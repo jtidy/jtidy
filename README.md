@@ -77,7 +77,7 @@ that this repository was forked from.
 # Contributing
 
 You are welcome to contribute issues and pull-request. Please have a look at the 
-[coding conventions](CodingConventions.md) and [test cases](TestCases.md).
+[coding conventions](docs/CodingConventions.md) and [test cases](docs/TestCases.md).
 
 # License
 
