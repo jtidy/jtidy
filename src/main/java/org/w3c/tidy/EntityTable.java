@@ -442,11 +442,19 @@ public final class EntityTable
     {
         if (defaultEntityTable == null)
         {
-            defaultEntityTable = new EntityTable();
-            for (Entity entity : entities)
+            synchronized(EntityTable.class)
             {
-                defaultEntityTable.install(entity);
+                if (defaultEntityTable == null) {
+                    EntityTable entityTable = new EntityTable();
+                    for (Entity entity : entities)
+                    {
+                        entityTable.install(entity);
+                    }
+                    defaultEntityTable = entityTable;
+                }
+
             }
+
         }
         return defaultEntityTable;
     }
