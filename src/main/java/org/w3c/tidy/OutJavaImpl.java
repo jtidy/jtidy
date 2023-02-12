@@ -110,7 +110,7 @@ public class OutJavaImpl implements Out
     {
         try
         {
-            writer.write(c);
+            writer.write(Character.toChars(c));
         }
         catch (IOException e)
         {
