@@ -566,7 +566,7 @@ public class Tidy implements Serializable
                 }
 
                 /* slides use transitional features */
-                lexer.versions.addAll(Dict.VERS_HTML40_LOOSE);
+                lexer.addVersions(Dict.VERS_HTML40_LOOSE);
 
                 // and patch up doctype to match
                 if (configuration.xHTML)

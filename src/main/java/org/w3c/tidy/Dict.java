@@ -281,7 +281,7 @@ public class Dict
     /**
      * tags/attrs in HTML4 but not in earlier version.
      */
-    public static final EnumSet<HtmlVersion> VERS_HTML40 = EnumSet.of(HtmlVersion.HTML40_STRICT, HtmlVersion.HTML40_LOOSE, HtmlVersion.FRAMESET);
+    public static final EnumSet<HtmlVersion> VERS_HTML40 = EnumSet.of(HtmlVersion.HTML5, HtmlVersion.HTML40_STRICT, HtmlVersion.HTML40_LOOSE, HtmlVersion.FRAMESET);
 
     /**
      * tags/attrs which are in all versions of HTML except strict.
@@ -296,7 +296,7 @@ public class Dict
     /**
      * tags/attrs in all versions from HTML 3.2 onwards.
      */
-    public static final EnumSet<HtmlVersion> VERS_FROM32 = combine(VERS_LOOSE, HtmlVersion.HTML40_STRICT);
+    public static final EnumSet<HtmlVersion> VERS_FROM32 = combine(VERS_LOOSE, HtmlVersion.HTML5, HtmlVersion.HTML40_STRICT);
 
     /**
      * versions with on... attributes.

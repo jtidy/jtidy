@@ -143,7 +143,9 @@ public class Lexer
         new W3CVersionInfo("HTML 3.2 Final", "XHTML 1.0 Transitional", VOYAGER_LOOSE, HtmlVersion.HTML32),
         new W3CVersionInfo("HTML 3.2 Draft", "XHTML 1.0 Transitional", VOYAGER_LOOSE, HtmlVersion.HTML32),
         new W3CVersionInfo("HTML 2.0", "XHTML 1.0 Strict", VOYAGER_STRICT, HtmlVersion.HTML20),
-        new W3CVersionInfo("HTML 4.01", "XHTML 1.1", VOYAGER_STRICT, HtmlVersion.XHTML11)};
+        new W3CVersionInfo("HTML 4.01", "XHTML 1.1", VOYAGER_STRICT, HtmlVersion.XHTML11),
+		new W3CVersionInfo("HTML5", null, null, HtmlVersion.HTML5)
+	};
 
     /**
      * getToken state: content.
@@ -293,7 +295,7 @@ public class Lexer
     /**
      * bit vector of HTML versions.
      */
-    protected EnumSet<HtmlVersion> versions;
+    private EnumSet<HtmlVersion> versions;
 
     /**
      * version as given by doctype (if any).
@@ -1080,8 +1082,8 @@ public class Lexer
         String str2;
 
         // if root tag for doctype isn't html give up now
-        str1 = TidyUtils.getString(this.lexbuf, doctype.start, 5);
-        if (!"html ".equalsIgnoreCase(str1))
+        str1 = TidyUtils.getString(this.lexbuf, doctype.start, 4);
+        if (!("html".equalsIgnoreCase(str1)))
         {
             return HtmlVersion.UNKNOWN;
         }
@@ -1109,6 +1111,10 @@ public class Lexer
             {
                 System.arraycopy(TidyUtils.getBytes("PUBLIC "), 0, this.lexbuf, doctype.start + 5, 6);
             }
+        }
+        else if (str1.trim().isEmpty())
+        {
+        	return HtmlVersion.HTML5;
         }
         else
         {
@@ -1471,6 +1477,14 @@ public class Lexer
                 }
 
                 break;
+
+            case HTML5 :
+            	if (versions.contains(HtmlVersion.HTML5))
+            	{
+            		return HtmlVersion.HTML5;
+            	}
+            	
+            	break;
             default :
                 // should never reach here
                 break;
@@ -4005,6 +4019,20 @@ public class Lexer
         this.insert = -1;
         this.inode = null;
     }
+
+	/** 
+	 * Remove all versions except the given ones from the set of possible versions.
+	 */
+	public void restrictVersionsTo(EnumSet<HtmlVersion> excludedVersions) {
+		this.versions.retainAll(excludedVersions);
+	}
+
+	/** 
+	 * Adds the given versions to the set of possible document versions.
+	 */
+	public void addVersions(EnumSet<HtmlVersion> possibleVersions) {
+		this.versions.addAll(possibleVersions);
+	}
 
     /**
      * Constraint the html version in the document to the given one. Everything is allowed in proprietary version of

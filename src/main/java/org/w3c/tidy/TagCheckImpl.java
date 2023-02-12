@@ -284,7 +284,7 @@ public final class TagCheckImpl
             if ((attval = node.getAttrByName("height")) != null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.PROPRIETARY_ATTRIBUTE);
-                lexer.versions.retainAll(Dict.VERS_PROPRIETARY);
+                lexer.restrictVersionsTo(Dict.VERS_PROPRIETARY);
             }
 
         }
