@@ -16,26 +16,6 @@
         <url>https://github.com/jtidy/jtidy/issues</url>
     </issueManagement>
     <inceptionYear>2000</inceptionYear>
-    <mailingLists>
-        <mailingList>
-            <name>JTidy User Mailing list</name>
-            <subscribe>http://lists.sourceforge.net/lists/listinfo/jtidy-user</subscribe>
-            <unsubscribe>http://lists.sourceforge.net/lists/listinfo/jtidy-user</unsubscribe>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum=jtidy-user</archive>
-        </mailingList>
-        <mailingList>
-            <name>JTidy Developer Mailing list</name>
-            <subscribe>http://lists.sourceforge.net/lists/listinfo/jtidy-devel</subscribe>
-            <unsubscribe>http://lists.sourceforge.net/lists/listinfo/jtidy-devel</unsubscribe>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum=jtidy-devel</archive>
-        </mailingList>
-        <mailingList>
-            <name>JTidy Cvs Mailing list</name>
-            <subscribe>http://lists.sourceforge.net/lists/listinfo/jtidy-cvs</subscribe>
-            <unsubscribe>http://lists.sourceforge.net/lists/listinfo/jtidy-cvs</unsubscribe>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum=jtidy-cvs</archive>
-        </mailingList>
-    </mailingLists>
     <developers>
         <developer>
             <id>jtidy</id>
