@@ -549,7 +549,7 @@ public final class AttrCheckImpl
         {
 
             // No target attribute in strict HTML versions
-            lexer.constrainVersion(~Dict.VERS_HTML40_STRICT);
+            lexer.constrainVersion(Dict.NOT_HTML40_STRICT);
 
             if (attval.value == null || attval.value.length() == 0)
             {
@@ -835,7 +835,7 @@ public final class AttrCheckImpl
             }
             else if (lexer.configuration.tt.isAnchorElement(node))
             {
-                lexer.constrainVersion(~Dict.VERS_XHTML11);
+                lexer.constrainVersion(Dict.NOT_XHTML11);
 
                 if (((old = lexer.configuration.tt.getNodeByAnchor(attval.value)) != null) && old != node)
                 {
@@ -1086,7 +1086,7 @@ public final class AttrCheckImpl
 
             if ("lang".equals(attval.attribute))
             {
-                lexer.constrainVersion(~Dict.VERS_XHTML11);
+                lexer.constrainVersion(Dict.NOT_XHTML11);
             }
 
             if (attval.value == null)

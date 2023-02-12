@@ -54,6 +54,7 @@
 package org.w3c.tidy;
 
 import java.io.PrintWriter;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
@@ -132,17 +133,17 @@ public class Lexer
      * lists all the known versions.
      */
     private static final Lexer.W3CVersionInfo[] W3CVERSION = {
-        new W3CVersionInfo("HTML 4.01", "XHTML 1.0 Strict", VOYAGER_STRICT, Dict.VERS_HTML40_STRICT),
-        new W3CVersionInfo("HTML 4.01 Transitional", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML40_LOOSE),
-        new W3CVersionInfo("HTML 4.01 Frameset", "XHTML 1.0 Frameset", VOYAGER_FRAMESET, Dict.VERS_FRAMESET),
-        new W3CVersionInfo("HTML 4.0", "XHTML 1.0 Strict", VOYAGER_STRICT, Dict.VERS_HTML40_STRICT),
-        new W3CVersionInfo("HTML 4.0 Transitional", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML40_LOOSE),
-        new W3CVersionInfo("HTML 4.0 Frameset", "XHTML 1.0 Frameset", VOYAGER_FRAMESET, Dict.VERS_FRAMESET),
-        new W3CVersionInfo("HTML 3.2", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML32),
-        new W3CVersionInfo("HTML 3.2 Final", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML32),
-        new W3CVersionInfo("HTML 3.2 Draft", "XHTML 1.0 Transitional", VOYAGER_LOOSE, Dict.VERS_HTML32),
-        new W3CVersionInfo("HTML 2.0", "XHTML 1.0 Strict", VOYAGER_STRICT, Dict.VERS_HTML20),
-        new W3CVersionInfo("HTML 4.01", "XHTML 1.1", VOYAGER_STRICT, Dict.VERS_XHTML11)};
+        new W3CVersionInfo("HTML 4.01", "XHTML 1.0 Strict", VOYAGER_STRICT, HtmlVersion.HTML40_STRICT),
+        new W3CVersionInfo("HTML 4.01 Transitional", "XHTML 1.0 Transitional", VOYAGER_LOOSE, HtmlVersion.HTML40_LOOSE),
+        new W3CVersionInfo("HTML 4.01 Frameset", "XHTML 1.0 Frameset", VOYAGER_FRAMESET, HtmlVersion.FRAMESET),
+        new W3CVersionInfo("HTML 4.0", "XHTML 1.0 Strict", VOYAGER_STRICT, HtmlVersion.HTML40_STRICT),
+        new W3CVersionInfo("HTML 4.0 Transitional", "XHTML 1.0 Transitional", VOYAGER_LOOSE, HtmlVersion.HTML40_LOOSE),
+        new W3CVersionInfo("HTML 4.0 Frameset", "XHTML 1.0 Frameset", VOYAGER_FRAMESET, HtmlVersion.FRAMESET),
+        new W3CVersionInfo("HTML 3.2", "XHTML 1.0 Transitional", VOYAGER_LOOSE, HtmlVersion.HTML32),
+        new W3CVersionInfo("HTML 3.2 Final", "XHTML 1.0 Transitional", VOYAGER_LOOSE, HtmlVersion.HTML32),
+        new W3CVersionInfo("HTML 3.2 Draft", "XHTML 1.0 Transitional", VOYAGER_LOOSE, HtmlVersion.HTML32),
+        new W3CVersionInfo("HTML 2.0", "XHTML 1.0 Strict", VOYAGER_STRICT, HtmlVersion.HTML20),
+        new W3CVersionInfo("HTML 4.01", "XHTML 1.1", VOYAGER_STRICT, HtmlVersion.XHTML11)};
 
     /**
      * getToken state: content.
@@ -292,12 +293,12 @@ public class Lexer
     /**
      * bit vector of HTML versions.
      */
-    protected short versions;
+    protected EnumSet<HtmlVersion> versions;
 
     /**
      * version as given by doctype (if any).
      */
-    protected int doctype;
+    protected HtmlVersion doctype;
 
     /**
      * set if html or PUBLIC is missing.
@@ -408,8 +409,8 @@ public class Lexer
         this.lines = 1;
         this.columns = 1;
         this.state = LEX_CONTENT;
-        this.versions = (Dict.VERS_ALL | Dict.VERS_PROPRIETARY);
-        this.doctype = Dict.VERS_UNKNOWN;
+        this.versions = Dict.combine(Dict.VERS_ALL, Dict.VERS_PROPRIETARY);
+        this.doctype = HtmlVersion.UNKNOWN;
         this.insert = -1;
         this.istack = new Stack<>();
         this.configuration = configuration;
@@ -940,38 +941,38 @@ public class Lexer
      * Choose what version to use for new doctype.
      * @return html version constant
      */
-    public short htmlVersion()
+    public HtmlVersion htmlVersion()
     {
-        if (TidyUtils.toBoolean(versions & Dict.VERS_HTML20))
+        if (versions.contains(HtmlVersion.HTML20))
         {
-            return Dict.VERS_HTML20;
+            return HtmlVersion.HTML20;
         }
 
         if (!(this.configuration.xmlOut | this.configuration.xmlTags | this.isvoyager)
-            && TidyUtils.toBoolean(versions & Dict.VERS_HTML32))
+            && versions.contains(HtmlVersion.HTML32))
         {
-            return Dict.VERS_HTML32;
+            return HtmlVersion.HTML32;
         }
-        if (TidyUtils.toBoolean(versions & Dict.VERS_XHTML11))
+        if (versions.contains(HtmlVersion.XHTML11))
         {
-            return Dict.VERS_XHTML11;
+            return HtmlVersion.XHTML11;
         }
-        if (TidyUtils.toBoolean(versions & Dict.VERS_HTML40_STRICT))
+        if (versions.contains(HtmlVersion.HTML40_STRICT))
         {
-            return Dict.VERS_HTML40_STRICT;
-        }
-
-        if (TidyUtils.toBoolean(versions & Dict.VERS_HTML40_LOOSE))
-        {
-            return Dict.VERS_HTML40_LOOSE;
+            return HtmlVersion.HTML40_STRICT;
         }
 
-        if (TidyUtils.toBoolean(versions & Dict.VERS_FRAMESET))
+        if (versions.contains(HtmlVersion.HTML40_LOOSE))
         {
-            return Dict.VERS_FRAMESET;
+            return HtmlVersion.HTML40_LOOSE;
         }
 
-        return Dict.VERS_UNKNOWN;
+        if (versions.contains(HtmlVersion.FRAMESET))
+        {
+            return HtmlVersion.FRAMESET;
+        }
+
+        return HtmlVersion.UNKNOWN;
     }
 
     /**
@@ -980,7 +981,7 @@ public class Lexer
      */
     public String htmlVersionName()
     {
-        short guessed;
+        HtmlVersion guessed;
         int j;
 
         guessed = apparentVersion();
@@ -1070,7 +1071,7 @@ public class Lexer
      * @param doctype doctype node
      * @return version code
      */
-    public short findGivenVersion(Node doctype)
+    public HtmlVersion findGivenVersion(Node doctype)
     {
         String p, s;
         int i, j;
@@ -1082,7 +1083,7 @@ public class Lexer
         str1 = TidyUtils.getString(this.lexbuf, doctype.start, 5);
         if (!"html ".equalsIgnoreCase(str1))
         {
-            return 0;
+            return HtmlVersion.UNKNOWN;
         }
 
         if (!checkDocTypeKeyWords(doctype))
@@ -1099,7 +1100,7 @@ public class Lexer
             {
                 System.arraycopy(TidyUtils.getBytes("SYSTEM"), 0, this.lexbuf, doctype.start + 5, 6);
             }
-            return 0; // unrecognized
+            return HtmlVersion.UNKNOWN; // unrecognized
         }
 
         if ("PUBLIC ".equalsIgnoreCase(str1))
@@ -1163,7 +1164,7 @@ public class Lexer
             }
         }
 
-        return 0;
+        return HtmlVersion.UNKNOWN;
     }
 
     /**
@@ -1277,24 +1278,24 @@ public class Lexer
         if (this.configuration.docTypeMode == Configuration.DOCTYPE_AUTO)
         {
             // see what flavor of XHTML this document matches
-            if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML40_STRICT))
+            if (versions.contains(HtmlVersion.HTML40_STRICT))
             {
                 // use XHTML strict
                 fpi = "-//W3C//DTD XHTML 1.0 Strict//EN";
                 sysid = VOYAGER_STRICT;
             }
-            else if (TidyUtils.toBoolean(this.versions & Dict.VERS_FRAMESET))
+            else if (versions.contains(HtmlVersion.FRAMESET))
             {
                 // use XHTML frames
                 fpi = "-//W3C//DTD XHTML 1.0 Frameset//EN";
                 sysid = VOYAGER_FRAMESET;
             }
-            else if (TidyUtils.toBoolean(this.versions & Dict.VERS_LOOSE))
+            else if (TidyUtils.containsAny(versions, Dict.VERS_LOOSE))
             {
                 fpi = "-//W3C//DTD XHTML 1.0 Transitional//EN";
                 sysid = VOYAGER_LOOSE;
             }
-            else if (TidyUtils.toBoolean(this.versions & Dict.VERS_XHTML11))
+            else if (versions.contains(HtmlVersion.XHTML11))
             {
                 // use XHTML 1.1
                 fpi = "-//W3C//DTD XHTML 1.1//EN";
@@ -1416,57 +1417,57 @@ public class Lexer
      * Return the html version used in document.
      * @return version code
      */
-    public short apparentVersion()
+    public HtmlVersion apparentVersion()
     {
         switch (this.doctype)
         {
-            case Dict.VERS_UNKNOWN :
+            case UNKNOWN :
                 return htmlVersion();
 
-            case Dict.VERS_HTML20 :
-                if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML20))
+            case HTML20 :
+                if (versions.contains(HtmlVersion.HTML20))
                 {
-                    return Dict.VERS_HTML20;
+                    return HtmlVersion.HTML20;
                 }
 
                 break;
 
-            case Dict.VERS_HTML32 :
-                if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML32))
+            case HTML32 :
+                if (versions.contains(HtmlVersion.HTML32))
                 {
-                    return Dict.VERS_HTML32;
+                    return HtmlVersion.HTML32;
                 }
 
                 break; // to replace old version by new
 
-            case Dict.VERS_HTML40_STRICT :
-                if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML40_STRICT))
+            case HTML40_STRICT :
+                if (versions.contains(HtmlVersion.HTML40_STRICT))
                 {
-                    return Dict.VERS_HTML40_STRICT;
+                    return HtmlVersion.HTML40_STRICT;
                 }
 
                 break;
 
-            case Dict.VERS_HTML40_LOOSE :
-                if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML40_LOOSE))
+            case HTML40_LOOSE :
+                if (versions.contains(HtmlVersion.HTML40_LOOSE))
                 {
-                    return Dict.VERS_HTML40_LOOSE;
+                    return HtmlVersion.HTML40_LOOSE;
                 }
 
                 break; // to replace old version by new
 
-            case Dict.VERS_FRAMESET :
-                if (TidyUtils.toBoolean(this.versions & Dict.VERS_FRAMESET))
+            case FRAMESET :
+                if (versions.contains(HtmlVersion.FRAMESET))
                 {
-                    return Dict.VERS_FRAMESET;
+                    return HtmlVersion.FRAMESET;
                 }
 
                 break;
 
-            case Dict.VERS_XHTML11 :
-                if (TidyUtils.toBoolean(this.versions & Dict.VERS_XHTML11))
+            case XHTML11 :
+                if (versions.contains(HtmlVersion.XHTML11))
                 {
-                    return Dict.VERS_XHTML11;
+                    return HtmlVersion.XHTML11;
                 }
 
                 break;
@@ -1494,7 +1495,7 @@ public class Lexer
     public boolean fixDocType(Node root)
     {
         Node doctype;
-        int guessed = Dict.VERS_HTML40_STRICT, i;
+        HtmlVersion guessed = HtmlVersion.HTML40_STRICT;
 
         if (this.badDoctype)
         {
@@ -1521,70 +1522,70 @@ public class Lexer
         {
             Node.discardElement(doctype);
             doctype = null;
-            guessed = Dict.VERS_HTML40_STRICT;
+            guessed = HtmlVersion.HTML40_STRICT;
         }
         else if (this.configuration.docTypeMode == Configuration.DOCTYPE_LOOSE)
         {
             Node.discardElement(doctype);
             doctype = null;
-            guessed = Dict.VERS_HTML40_LOOSE;
+            guessed = HtmlVersion.HTML40_LOOSE;
         }
         else if (this.configuration.docTypeMode == Configuration.DOCTYPE_AUTO)
         {
             if (doctype != null)
             {
-                if (this.doctype == Dict.VERS_UNKNOWN)
+                if (this.doctype == HtmlVersion.UNKNOWN)
                 {
                     return false;
                 }
 
                 switch (this.doctype)
                 {
-                    case Dict.VERS_UNKNOWN :
+                    case UNKNOWN :
                         return false;
 
-                    case Dict.VERS_HTML20 :
-                        if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML20))
+                    case HTML20 :
+                        if (versions.contains(HtmlVersion.HTML20))
                         {
                             return true;
                         }
 
                         break; // to replace old version by new
 
-                    case Dict.VERS_HTML32 :
-                        if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML32))
+                    case HTML32 :
+                        if (versions.contains(HtmlVersion.HTML32))
                         {
                             return true;
                         }
 
                         break; // to replace old version by new
 
-                    case Dict.VERS_HTML40_STRICT :
-                        if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML40_STRICT))
+                    case HTML40_STRICT :
+                        if (versions.contains(HtmlVersion.HTML40_STRICT))
                         {
                             return true;
                         }
 
                         break; // to replace old version by new
 
-                    case Dict.VERS_HTML40_LOOSE :
-                        if (TidyUtils.toBoolean(this.versions & Dict.VERS_HTML40_LOOSE))
+                    case HTML40_LOOSE :
+                        if (versions.contains(HtmlVersion.HTML40_LOOSE))
                         {
                             return true;
                         }
 
                         break; // to replace old version by new
 
-                    case Dict.VERS_FRAMESET :
-                        if (TidyUtils.toBoolean(this.versions & Dict.VERS_FRAMESET))
+                    case FRAMESET :
+                        if (versions.contains(HtmlVersion.FRAMESET))
                         {
                             return true;
                         }
 
                         break; // to replace old version by new
 
-                    case Dict.VERS_XHTML11 :
-                        if (TidyUtils.toBoolean(this.versions & Dict.VERS_XHTML11))
+                    case XHTML11 :
+                        if (versions.contains(HtmlVersion.XHTML11))
                         {
                             return true;
                         }
@@ -1602,7 +1603,7 @@ public class Lexer
             guessed = htmlVersion();
         }
 
-        if (guessed == Dict.VERS_UNKNOWN)
+        if (guessed == HtmlVersion.UNKNOWN)
         {
             return false;
         }
@@ -1661,7 +1662,7 @@ public class Lexer
                 addStringLiteral("\""); // #431889 - fix by Dave Bryan 04 Jan 2001
             }
         }
-        else if (guessed == Dict.VERS_HTML20)
+        else if (guessed == HtmlVersion.HTML20)
         {
             addStringLiteral("\"-//IETF//DTD HTML 2.0//EN\"");
         }
@@ -1669,7 +1670,7 @@ public class Lexer
         {
             addStringLiteral("\"-//W3C//DTD ");
 
-            for (i = 0; i < W3CVERSION.length; ++i)
+            for (int i = 0; i < W3CVERSION.length; ++i)
             {
                 if (guessed == W3CVERSION[i].code)
                 {
@@ -2426,7 +2427,7 @@ public class Lexer
                     {
                         constrainVersion(this.token.tag.versions);
 
-                        if (TidyUtils.toBoolean(this.token.tag.versions & Dict.VERS_PROPRIETARY))
+                        if (TidyUtils.containsAny(this.token.tag.versions, Dict.VERS_PROPRIETARY))
                         {
                             // #427810 - fix by Gary Deschaines 24 May 00
                             if (this.configuration.makeClean && (this.token.tag != this.configuration.tt.tagNobr && //
@@ -4010,11 +4011,30 @@ public class Lexer
      * HTML this is handled here rather than in the tag/attr dicts.
      * @param vers html version code
      */
-    void constrainVersion(int vers)
+    void constrainVersion(HtmlVersion vers)
     {
-        this.versions &= (vers | Dict.VERS_PROPRIETARY);
+    	boolean contains = versions.contains(vers);
+    	versions.retainAll(Dict.VERS_PROPRIETARY);
+		if (contains) {
+    		versions.add(vers);
+    	}
     }
 
+    /**
+     * Constraint the html version in the document to the given one. Everything is allowed in proprietary version of
+     * HTML this is handled here rather than in the tag/attr dicts.
+     * @param vers html version code
+     */
+    void constrainVersion(EnumSet<HtmlVersion> vers)
+    {
+    	if (vers.containsAll(Dict.VERS_PROPRIETARY)) {
+    		versions.retainAll(vers);
+    	} else {
+    		EnumSet<HtmlVersion> sum = Dict.combine(Dict.VERS_PROPRIETARY, vers);
+    		versions.retainAll(sum);
+    	}
+    }
+    
     /**
      * Is content acceptable for pre elements?
      * @param node content
@@ -4056,7 +4076,7 @@ public class Lexer
         /**
          * code.
          */
-        short code;
+        HtmlVersion code;
 
         /**
          * Instantiates a new W3CVersionInfo.
@@ -4065,7 +4085,7 @@ public class Lexer
          * @param profile VOYAGER_STRICT | VOYAGER_LOOSE | VOYAGER_FRAMESET
          * @param code unique code for this version info
          */
-        public W3CVersionInfo(String name, String voyagerName, String profile, short code)
+        public W3CVersionInfo(String name, String voyagerName, String profile, HtmlVersion code)
         {
             this.name = name;
             this.voyagerName = voyagerName;

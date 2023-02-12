@@ -53,6 +53,8 @@
  */
 package org.w3c.tidy;
 
+import java.util.EnumSet;
+
 /**
  * HTML attribute.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
@@ -81,7 +83,7 @@ public class Attribute
     /**
      * html versions for this attribute.
      */
-    private short versions;
+    private EnumSet<HtmlVersion> versions;
 
     /**
      * checker for the attribute.
@@ -94,7 +96,7 @@ public class Attribute
      * @param htmlVersions versions in which this attribute is supported
      * @param check AttrCheck instance
      */
-    public Attribute(String attributeName, short htmlVersions, AttrCheck check)
+    public Attribute(String attributeName, EnumSet<HtmlVersion> htmlVersions, AttrCheck check)
     {
         this.name = attributeName;
         this.versions = htmlVersions;
@@ -160,7 +162,7 @@ public class Attribute
      * @return html versions for this attribute.
      * @see Dict
      */
-    public short getVersions()
+    public EnumSet<HtmlVersion> getVersions()
     {
         return this.versions;
     }

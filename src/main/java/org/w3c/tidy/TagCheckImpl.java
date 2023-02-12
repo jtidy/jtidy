@@ -53,6 +53,8 @@
  */
 package org.w3c.tidy;
 
+import java.util.EnumSet;
+
 /**
  * Check HTML attributes implementation.
  * @author Dave Raggett <a href="mailto:dsr@w3.org">dsr@w3.org </a>
@@ -256,7 +258,7 @@ public final class TagCheckImpl
             }
 
             /* suppress warning for missing summary for HTML 2.0 and HTML 3.2 */
-            if (!hasSummary && lexer.doctype != Dict.VERS_HTML20 && lexer.doctype != Dict.VERS_HTML32)
+            if (!hasSummary && lexer.doctype != HtmlVersion.HTML20 && lexer.doctype != HtmlVersion.HTML32)
             {
                 lexer.badAccess |= Report.MISSING_SUMMARY;
 
@@ -282,7 +284,7 @@ public final class TagCheckImpl
             if ((attval = node.getAttrByName("height")) != null)
             {
                 lexer.report.attrError(lexer, node, attval, Report.PROPRIETARY_ATTRIBUTE);
-                lexer.versions &= Dict.VERS_PROPRIETARY;
+                lexer.versions.retainAll(Dict.VERS_PROPRIETARY);
             }
 
         }
@@ -295,7 +297,10 @@ public final class TagCheckImpl
     public static class CheckCaption implements TagCheck
     {
 
-        /**
+        private static final EnumSet<HtmlVersion> NEITHER_HTML20_NOR_HTML32 = 
+        		Dict.allExcept(Dict.combine(Dict.VERS_HTML20, Dict.VERS_HTML32));
+
+		/**
          * @see org.w3c.tidy.TagCheck#check(org.w3c.tidy.Lexer, org.w3c.tidy.Node)
          */
         public void check(Lexer lexer, Node node)
@@ -322,7 +327,7 @@ public final class TagCheckImpl
                 }
                 else if ("top".equalsIgnoreCase(value) || "bottom".equalsIgnoreCase(value))
                 {
-                    lexer.constrainVersion(~(Dict.VERS_HTML20 | Dict.VERS_HTML32));
+                    lexer.constrainVersion(NEITHER_HTML20_NOR_HTML32);
                 }
                 else
                 {
@@ -400,7 +405,7 @@ public final class TagCheckImpl
                 }
                 else if (attribute == AttributeTable.attrWidth || attribute == AttributeTable.attrHeight)
                 {
-                    lexer.constrainVersion(~Dict.VERS_HTML20);
+                    lexer.constrainVersion(Dict.NOT_HTML20);
                 }
             }
 
@@ -599,7 +604,7 @@ public final class TagCheckImpl
 
             if (node.getAttrByName("width") != null || node.getAttrByName("height") != null)
             {
-                lexer.constrainVersion(~Dict.VERS_HTML40_STRICT);
+                lexer.constrainVersion(Dict.NOT_HTML40_STRICT);
             }
         }
     }
