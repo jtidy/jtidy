@@ -66,14 +66,13 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import junit.framework.TestCase;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,6 +80,8 @@ import org.w3c.dom.Document;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.helpers.DefaultHandler;
+
+import junit.framework.TestCase;
 
 
 /**
@@ -225,8 +226,10 @@ public class TidyTestCase extends TestCase
             {
                 log.debug("Messages file doesn't exists, generating [" + messagesFileName + "] for reference");
             }
-            FileWriter fw = new FileWriter(inputURL.getFile().substring(0, inputURL.getFile().lastIndexOf("."))
-                + ".msg");
+            String inputFileName = inputURL.getFile();
+			String msgTarget = inputFileName.substring(0, inputFileName.lastIndexOf(".")) + ".msg";
+			String msgResource = msgTarget.replace("/target/test-classes/", "/src/test/resources/");
+			FileWriter fw = new FileWriter(msgResource);
             fw.write(this.messageListener.messagesToXml());
             fw.close();
         }
@@ -256,76 +259,42 @@ public class TidyTestCase extends TestCase
 
         MsgXmlHandler handler = new MsgXmlHandler();
         saxParser.parse(new InputSource(messagesFile.openStream()), handler);
-        List expectedMsgs = handler.getMessages();
+        Set<TidyMessage> expectedMsgs = new LinkedHashSet<>(handler.getMessages());
+        Set<TidyMessage> tidyMsgs = new LinkedHashSet<>(this.messageListener.getReceived());
 
-        List tidyMsgs = this.messageListener.getReceived();
-
-        // assert size
-        if (expectedMsgs.size() != tidyMsgs.size())
-        {
+        List<TidyMessage> unexpected = new ArrayList<>();
+        List<TidyMessage> missing = new ArrayList<>();
+        for (TidyMessage msg : tidyMsgs) {
+        	if (!expectedMsgs.contains(msg)) {
+        		unexpected.add(msg);
+        	}
+        }
+        for (TidyMessage msg : expectedMsgs) {
+        	if (!tidyMsgs.contains(msg)) {
+        		missing.add(msg);
+        	}
+        }
+        
+        if (!(unexpected.isEmpty() && missing.isEmpty())) {
             StringBuilder messagesAsString = new StringBuilder();
 
-            for (Object tidyMsg : tidyMsgs)
-            {
-                TidyMessage message = (TidyMessage) tidyMsg;
-                messagesAsString.append("\n");
-                messagesAsString.append(message.getMessage());
+            if (!unexpected.isEmpty()) {
+            	messagesAsString.append("\nUnexpected messages:");
+            	for (TidyMessage message : unexpected)
+            	{
+            		messagesAsString.append("   \n" + "Level " + message.getLevel() + "(" + message.getErrorCode() + ") " + " line " + message.getLine() + ", column " + message.getColumn() + ": " + message.getMessage().replaceAll("\\s*[\\r\\n]+\\s*", " "));
+            	}
             }
-
-            fail("Expected "
-                + expectedMsgs.size()
-                + " messages but got "
-                + tidyMsgs.size()
-                + ". Messages:"
-                + messagesAsString.toString());
+            if (!missing.isEmpty()) {
+            	messagesAsString.append("\nMissing messages:");
+            	for (TidyMessage message : missing)
+            	{
+            		messagesAsString.append("   \n" + "Level " + message.getLevel() + "(" + message.getErrorCode() + ") " + " line " + message.getLine() + ", column " + message.getColumn() + ": " + message.getMessage().replaceAll("\\s*[\\r\\n]+\\s*", " "));
+            	}
+            }
+            
+            fail("Messages differ: " + messagesAsString.toString());
         }
-
-        // compare messages
-        Iterator expectedMsgIt = expectedMsgs.iterator();
-        Iterator tidyMsgIt = tidyMsgs.iterator();
-        int count = 0;
-        while (tidyMsgIt.hasNext())
-        {
-            TidyMessage expectedOne = (TidyMessage) expectedMsgIt.next();
-            TidyMessage tidyOne = (TidyMessage) tidyMsgIt.next();
-
-            assertEquals("Error code for message [" + count + "] is different from expected", expectedOne
-                .getErrorCode(), tidyOne.getErrorCode());
-
-            assertEquals(
-                "Level for message [" + count + "] is different from expected",
-                expectedOne.getLevel(),
-                tidyOne.getLevel());
-
-            assertEquals("Line for message ["
-                + count
-                + "] is different from expected. Expected position: ["
-                + expectedOne.getLine()
-                + ":"
-                + expectedOne.getColumn()
-                + "] , current ["
-                + tidyOne.getLine()
-                + ":"
-                + tidyOne.getColumn()
-                + "]", expectedOne.getLine(), tidyOne.getLine());
-
-            assertEquals("Column for message ["
-                + count
-                + "] is different from expected. Expected position: ["
-                + expectedOne.getLine()
-                + ":"
-                + expectedOne.getColumn()
-                + "] , current ["
-                + tidyOne.getLine()
-                + ":"
-                + tidyOne.getColumn()
-                + "]", expectedOne.getColumn(), tidyOne.getColumn());
-
-            // don't assert text in respect for i18n
-
-            count++;
-        }
-
     }
 
     /**
@@ -706,7 +675,7 @@ public class TidyTestCase extends TestCase
          * Returns the list of parsed messages.
          * @return List containing TidyMessage elements
          */
-        public List getMessages()
+        public List<TidyMessage> getMessages()
         {
             return messages;
         }

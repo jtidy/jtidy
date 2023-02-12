@@ -53,6 +53,8 @@
  */
 package org.w3c.tidy;
 
+import java.util.Objects;
+
 /**
  * Message sent to listeners for validation errors/warnings and info.
  * @see Tidy#setMessageListener(TidyMessageListener)
@@ -276,5 +278,23 @@ public final class TidyMessage
             return super.hashCode();
         }
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(column, errorCode, level, line, message);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TidyMessage other = (TidyMessage) obj;
+		return column == other.column && errorCode == other.errorCode && Objects.equals(level, other.level)
+				&& line == other.line && Objects.equals(message, other.message);
+	}
 
 }

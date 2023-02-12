@@ -52,9 +52,8 @@ public class TestMessageListener implements TidyMessageListener
         buffer.append("-->\n");
 
         buffer.append("<messages>\n");
-        for (Object aReceived : received)
+        for (TidyMessage msg : received)
         {
-            TidyMessage msg = (TidyMessage) aReceived;
             buffer.append("  <message>\n");
 
             buffer.append("    <code>");
@@ -98,7 +97,7 @@ public class TestMessageListener implements TidyMessageListener
      * Returns the list of received messages.
      * @return Returns the received messages.
      */
-    public List getReceived()
+    public List<TidyMessage> getReceived()
     {
         return this.received;
     }
