@@ -51,6 +51,8 @@
     </organization>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <build>
         <plugins>
@@ -85,9 +87,6 @@
                 <version>3.7.0</version>
                 <configuration>
                     <showDeprecation>true</showDeprecation>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF8</encoding>
                 </configuration>
             </plugin>
             <plugin>
@@ -160,7 +159,7 @@
             <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.4.1</version>
                 <configuration>
                     <quiet>true</quiet>
                 </configuration>
@@ -213,7 +212,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.1.1</version>
+                        <version>3.4.1</version>
                         <configuration>
                             <failOnError>false</failOnError>
                             <additionalparam>-Xdoclint:none</additionalparam>
