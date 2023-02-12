@@ -649,8 +649,7 @@ public final class TidyUtils
      * @return same as <code>new String(bytes, offset, length, "UTF8")</code>
      */
     public static String getString(final byte[] bytes, final int offset, final int length) {
-        return length == 0 ? null : new String(bytes, offset, Math.min(length, bytes.length - offset),
-            StandardCharsets.UTF_8);
+        return new String(bytes, offset, Math.min(length, bytes.length - offset), StandardCharsets.UTF_8);
     }
 
     /**

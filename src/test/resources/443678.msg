@@ -2,15 +2,6 @@
 <!-- expected messages for test 443678-->
 <messages>
   <message>
-    <code>-1</code>
-    <level>0</level>
-    <line>0</line>
-    <column>0</column>
-    <text><![CDATA[
-Tidy (vers 4th August 2004) Parsing "InputStream"
-]]></text>
-  </message>
-  <message>
     <code>44</code>
     <level>2</level>
     <line>1</line>
@@ -39,11 +30,11 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <text><![CDATA[<script> lacks "type" attribute]]></text>
   </message>
   <message>
-    <code>32</code>
+    <code>6</code>
     <level>2</level>
     <line>12</line>
-    <column>5</column>
-    <text><![CDATA['<' + '/' + letter not allowed here]]></text>
+    <column>3</column>
+    <text><![CDATA[missing </script>]]></text>
   </message>
   <message>
     <code>49</code>
@@ -64,7 +55,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[6 warnings, no errors were found!
-]]></text>
+    <text><![CDATA[6 warnings, no errors were found!]]></text>
   </message>
 </messages>

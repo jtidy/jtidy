@@ -98,8 +98,7 @@ public class TidyEncodingBugsTest extends TidyTestCase
      */
     public void test658230() throws Exception
     {
-        throw new Exception("disabled");
-        // executeTidyTest("658230.html");
+        executeTidyTest("658230.html");
     }
 
     /**

@@ -2,13 +2,6 @@
 <!-- expected messages for test 427840-->
 <messages>
   <message>
-    <code>-1</code>
-    <level>0</level>
-    <line>0</line>
-    <column>0</column>
-    <text><![CDATA[Tidy (vers 26-set-2004) Parsing "InputStream"]]></text>
-  </message>
-  <message>
     <code>44</code>
     <level>2</level>
     <line>1</line>
@@ -37,13 +30,6 @@
     <text><![CDATA[trimming empty <span>]]></text>
   </message>
   <message>
-    <code>15</code>
-    <level>2</level>
-    <line>5</line>
-    <column>4</column>
-    <text><![CDATA[inserting implicit <span>]]></text>
-  </message>
-  <message>
     <code>8</code>
     <level>2</level>
     <line>6</line>
@@ -62,7 +48,7 @@
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[5 warnings, 1 error were found!]]></text>
+    <text><![CDATA[4 warnings, 1 error were found!]]></text>
   </message>
   <message>
     <code>-1</code>

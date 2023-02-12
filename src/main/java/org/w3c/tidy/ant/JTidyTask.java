@@ -325,7 +325,7 @@ public class JTidyTask extends Task
             throw new BuildException("srcfile can't be a directory.");
         }
 
-        if (properties != null && properties.isDirectory())
+        if (properties != null && ( !properties.exists() || properties.isDirectory()))
         {
             throw new BuildException("Invalid properties file specified: " + properties.getPath());
         }

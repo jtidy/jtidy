@@ -2,15 +2,6 @@
 <!-- expected messages for test 676205-->
 <messages>
   <message>
-    <code>-1</code>
-    <level>0</level>
-    <line>0</line>
-    <column>0</column>
-    <text><![CDATA[
-Tidy (vers 4th August 2004) Parsing "InputStream"
-]]></text>
-  </message>
-  <message>
     <code>44</code>
     <level>2</level>
     <line>3</line>
@@ -71,8 +62,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[8 warnings, no errors were found!
-]]></text>
+    <text><![CDATA[7 warnings, no errors were found!]]></text>
   </message>
   <message>
     <code>76</code>
@@ -82,8 +72,7 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <text><![CDATA[It is unlikely that vendor-specific, system-dependent encodings
 work widely enough on the World Wide Web; you should avoid using the 
 specified character encoding, instead you are recommended to
-use named entities, e.g. &trade;.
-]]></text>
+use named entities, e.g. &trade;.]]></text>
   </message>
   <message>
     <code>77</code>
@@ -93,8 +82,7 @@ use named entities, e.g. &trade;.
     <text><![CDATA[Character codes 128 to 159 (U+0080 to U+009F) are not allowed in HTML;
 even if they were, they would likely be unprintable control characters.
 Tidy assumed you wanted to refer to a character with the same byte value in the 
-specified encoding and replaced that reference with the Unicode equivalent.
-]]></text>
+specified encoding and replaced that reference with the Unicode equivalent.]]></text>
   </message>
   <message>
     <code>78</code>
@@ -109,8 +97,7 @@ those five- and six-byte sequences are illegal for the use of
 UTF-8 as a transformation of Unicode characters. ISO/IEC 10646
 does not allow mapping of unpaired surrogates, nor U+FFFE and U+FFFF
 (but it does allow other noncharacters). For more information please refer to
-http://www.unicode.org/unicode and http://www.cl.cam.ac.uk/~mgk25/unicode.html
-]]></text>
+http://www.unicode.org/unicode and http://www.cl.cam.ac.uk/~mgk25/unicode.html]]></text>
   </message>
   <message>
     <code>79</code>
@@ -120,8 +107,7 @@ http://www.unicode.org/unicode and http://www.cl.cam.ac.uk/~mgk25/unicode.html
     <text><![CDATA[Character codes for UTF-16 must be in the range: U+0000 to U+10FFFF.
 The definition of UTF-16 in Annex C of ISO/IEC 10646-1:2000 does not allow the
 mapping of unpaired surrogates. For more information please refer to
-http://www.unicode.org/unicode and http://www.cl.cam.ac.uk/~mgk25/unicode.html
-]]></text>
+http://www.unicode.org/unicode and http://www.cl.cam.ac.uk/~mgk25/unicode.html]]></text>
   </message>
   <message>
     <code>81</code>
@@ -135,8 +121,7 @@ HTML 4.01 section B.2.1 and XML 1.0 section 4.2.2. Some user agents
 use another algorithm to escape such URIs and some server-sided
 scripts depend on that. If you want to depend on that, you must
 escape the URI by your own. For more information please refer to
-http://www.w3.org/International/O-URL-and-ident.html
-]]></text>
+http://www.w3.org/International/O-URL-and-ident.html]]></text>
   </message>
   <message>
     <code>1</code>
@@ -146,8 +131,7 @@ http://www.w3.org/International/O-URL-and-ident.html
     <text><![CDATA[The alt attribute should be used to give a short description
 of an image; longer descriptions should be given with the
 longdesc attribute which takes a URL linked to the description.
-These measures are needed for people using non-graphical browsers.
-]]></text>
+These measures are needed for people using non-graphical browsers.]]></text>
   </message>
   <message>
     <code>112</code>
@@ -157,7 +141,6 @@ These measures are needed for people using non-graphical browsers.
     <text><![CDATA[For further advice on how to make your pages accessible
 see "http://www.w3.org/WAI/GL". You may also want to try
 "http://www.cast.org/bobby/" which is a free Web-based
-service for checking URLs for accessibility.
-]]></text>
+service for checking URLs for accessibility.]]></text>
   </message>
 </messages>

@@ -190,7 +190,7 @@ public class TidyWarningBugsTest extends TidyTestCase
         // 2 warnings, 0 errors were found!
 
         executeTidyTest("431964.html");
-        assertWarnings(2);
+        assertWarnings(3);
     }
 
     /**

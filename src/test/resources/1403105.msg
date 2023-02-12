@@ -2,25 +2,11 @@
 <!-- expected messages for test 1403105-->
 <messages>
   <message>
-    <code>-1</code>
-    <level>0</level>
-    <line>0</line>
-    <column>0</column>
-    <text><![CDATA[Tidy (vers 26-set-2004) Parsing "InputStream"]]></text>
-  </message>
-  <message>
     <code>44</code>
     <level>2</level>
     <line>1</line>
     <column>1</column>
     <text><![CDATA[missing <!DOCTYPE> declaration]]></text>
-  </message>
-  <message>
-    <code>17</code>
-    <level>2</level>
-    <line>1</line>
-    <column>1</column>
-    <text><![CDATA[inserting missing 'title' element]]></text>
   </message>
   <message>
     <code>7</code>
@@ -70,6 +56,13 @@
     <line>1</line>
     <column>13</column>
     <text><![CDATA[trimming empty <div>]]></text>
+  </message>
+  <message>
+    <code>17</code>
+    <level>2</level>
+    <line>1</line>
+    <column>13</column>
+    <text><![CDATA[inserting missing 'title' element]]></text>
   </message>
   <message>
     <code>111</code>

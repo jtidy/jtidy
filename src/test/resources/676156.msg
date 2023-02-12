@@ -2,15 +2,6 @@
 <!-- expected messages for test 676156-->
 <messages>
   <message>
-    <code>-1</code>
-    <level>0</level>
-    <line>0</line>
-    <column>0</column>
-    <text><![CDATA[
-Tidy (vers 4th August 2004) Parsing "InputStream"
-]]></text>
-  </message>
-  <message>
     <code>44</code>
     <level>2</level>
     <line>1</line>
@@ -25,18 +16,18 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <text><![CDATA[plain text isn't allowed in <head> elements]]></text>
   </message>
   <message>
-    <code>17</code>
-    <level>2</level>
-    <line>1</line>
-    <column>1</column>
-    <text><![CDATA[inserting missing 'title' element]]></text>
-  </message>
-  <message>
     <code>29</code>
     <level>2</level>
     <line>3</line>
     <column>22</column>
     <text><![CDATA[adjacent hyphens within comment]]></text>
+  </message>
+  <message>
+    <code>17</code>
+    <level>2</level>
+    <line>6</line>
+    <column>1</column>
+    <text><![CDATA[inserting missing 'title' element]]></text>
   </message>
   <message>
     <code>111</code>
@@ -50,7 +41,6 @@ Tidy (vers 4th August 2004) Parsing "InputStream"
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[4 warnings, no errors were found!
-]]></text>
+    <text><![CDATA[4 warnings, no errors were found!]]></text>
   </message>
 </messages>

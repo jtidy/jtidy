@@ -125,53 +125,54 @@ public class DOMCharacterDataImpl extends DOMNodeImpl implements org.w3c.dom.Cha
     }
 
     /**
-     * Not supported.
      * @see org.w3c.dom.CharacterData#setData
      */
-    public void setData(String data) throws DOMException
-    {
-        // NOT SUPPORTED
-        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+    public void setData(String data) throws DOMException {
+        setNodeValue(data);
     }
 
     /**
-     * Not supported.
      * @see org.w3c.dom.CharacterData#appendData
      */
-    public void appendData(String arg) throws DOMException
-    {
-        // NOT SUPPORTED
-        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+    public void appendData(String arg) throws DOMException {
+        setNodeValue(getNodeValue() + arg);
     }
 
     /**
-     * Not supported.
      * @see org.w3c.dom.CharacterData#insertData
      */
-    public void insertData(int offset, String arg) throws DOMException
-    {
-        // NOT SUPPORTED
-        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+    public void insertData(int offset, String arg) throws DOMException {
+        if (offset < adaptee.start || adaptee.start + offset >= adaptee.end) {
+            throw new DOMException(DOMException.INDEX_SIZE_ERR, "Invalid offset");
+        }
+        StringBuilder sb = new StringBuilder(getNodeValue());
+        sb.insert(offset, arg);
+        setData(sb.toString());
     }
 
     /**
-     * Not supported.
      * @see org.w3c.dom.CharacterData#deleteData
      */
-    public void deleteData(int offset, int count) throws DOMException
-    {
-        // NOT SUPPORTED
-        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+    public void deleteData(int offset, int count) throws DOMException {
+        if (count < 0) {
+            throw new DOMException(DOMException.INDEX_SIZE_ERR, "Invalid length");
+        }
+        if (offset < adaptee.start || adaptee.start + offset >= adaptee.end) {
+            throw new DOMException(DOMException.INDEX_SIZE_ERR, "Invalid offset");
+        }
+        StringBuilder sb = new StringBuilder(getNodeValue());
+        int end = offset + count;
+        if (end > adaptee.end) {
+            end = adaptee.end;
+        }
+        setData(sb.delete(offset, end).toString());
     }
 
     /**
-     * Not supported.
      * @see org.w3c.dom.CharacterData#replaceData
      */
-    public void replaceData(int offset, int count, String arg) throws DOMException
-    {
-        // NOT SUPPORTED
-        throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR, "Not supported");
+    public void replaceData(int offset, int count, String arg) throws DOMException {
+        deleteData(offset, count);
+        insertData(offset, arg);
     }
-
 }
