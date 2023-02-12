@@ -1106,5 +1106,14 @@ public class TidyOutputBugsTest extends TidyTestCase
     {
         executeTidyTest("1031865.html");
     }
+    
+    /**
+     * test for Tidy #47: Source element is an empty element.
+     * @throws Exception any exception generated during the test
+     */
+    public void testEmptySourceElement() throws Exception
+    {
+    	executeTidyTest("EmptySourceElement.html");
+    }
 
 }
