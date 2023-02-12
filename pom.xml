@@ -16,26 +16,6 @@
         <url>https://github.com/jtidy/jtidy/issues</url>
     </issueManagement>
     <inceptionYear>2000</inceptionYear>
-    <mailingLists>
-        <mailingList>
-            <name>JTidy User Mailing list</name>
-            <subscribe>http://lists.sourceforge.net/lists/listinfo/jtidy-user</subscribe>
-            <unsubscribe>http://lists.sourceforge.net/lists/listinfo/jtidy-user</unsubscribe>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum=jtidy-user</archive>
-        </mailingList>
-        <mailingList>
-            <name>JTidy Developer Mailing list</name>
-            <subscribe>http://lists.sourceforge.net/lists/listinfo/jtidy-devel</subscribe>
-            <unsubscribe>http://lists.sourceforge.net/lists/listinfo/jtidy-devel</unsubscribe>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum=jtidy-devel</archive>
-        </mailingList>
-        <mailingList>
-            <name>JTidy Cvs Mailing list</name>
-            <subscribe>http://lists.sourceforge.net/lists/listinfo/jtidy-cvs</subscribe>
-            <unsubscribe>http://lists.sourceforge.net/lists/listinfo/jtidy-cvs</unsubscribe>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum=jtidy-cvs</archive>
-        </mailingList>
-    </mailingLists>
     <developers>
         <developer>
             <id>jtidy</id>
@@ -71,6 +51,8 @@
     </organization>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <build>
         <plugins>
@@ -105,9 +87,6 @@
                 <version>3.7.0</version>
                 <configuration>
                     <showDeprecation>true</showDeprecation>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF8</encoding>
                 </configuration>
             </plugin>
             <plugin>
@@ -180,7 +159,7 @@
             <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.4.1</version>
                 <configuration>
                     <quiet>true</quiet>
                 </configuration>
@@ -233,7 +212,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.1.1</version>
+                        <version>3.4.1</version>
                         <configuration>
                             <failOnError>false</failOnError>
                             <additionalparam>-Xdoclint:none</additionalparam>
