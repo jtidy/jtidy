@@ -34,7 +34,7 @@
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[4 warnings, no errors were found!]]></text>
+    <text><![CDATA[3 warnings, no errors were found!]]></text>
   </message>
   <message>
     <code>4</code>

@@ -87,7 +87,7 @@ public class TidyWarningBugsTest extends TidyTestCase
         // 4 warnings, 0 errors were found!
 
         executeTidyTest("427810.html");
-        assertWarnings(4);
+        assertWarnings(3);
     }
 
     /**

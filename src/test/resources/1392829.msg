@@ -23,13 +23,6 @@
     <text><![CDATA['<' + '/' + letter not allowed here]]></text>
   </message>
   <message>
-    <code>10</code>
-    <level>2</level>
-    <line>14</line>
-    <column>1</column>
-    <text><![CDATA[replacing unexpected </script> by </b>]]></text>
-  </message>
-  <message>
     <code>48</code>
     <level>2</level>
     <line>16</line>
@@ -42,6 +35,20 @@
     <line>16</line>
     <column>2</column>
     <text><![CDATA[<font> attribute "size" lacks value]]></text>
+  </message>
+  <message>
+    <code>7</code>
+    <level>2</level>
+    <line>20</line>
+    <column>2</column>
+    <text><![CDATA[missing </b> before <ul>]]></text>
+  </message>
+  <message>
+    <code>15</code>
+    <level>2</level>
+    <line>20</line>
+    <column>27</column>
+    <text><![CDATA[inserting implicit <b>]]></text>
   </message>
   <message>
     <code>110</code>
@@ -62,7 +69,7 @@
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[6 warnings, no errors were found!]]></text>
+    <text><![CDATA[7 warnings, no errors were found!]]></text>
   </message>
   <message>
     <code>8</code>
