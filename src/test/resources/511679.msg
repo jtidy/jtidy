@@ -55,7 +55,6 @@
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[6 warnings, no errors were found!
-]]></text>
+    <text><![CDATA[6 warnings, no errors were found!]]></text>
   </message>
 </messages>

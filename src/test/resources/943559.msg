@@ -48,8 +48,7 @@
     <level>0</level>
     <line>0</line>
     <column>0</column>
-    <text><![CDATA[3 warnings, 1 error were found!
-]]></text>
+    <text><![CDATA[3 warnings, 1 error were found!]]></text>
   </message>
   <message>
     <code>-1</code>
