@@ -54,7 +54,6 @@
 package org.w3c.tidy;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -63,6 +62,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
@@ -129,11 +129,6 @@ public abstract class TidyTestCase extends TestCase
     protected Logger log = LoggerFactory.getLogger(getClass());
 
     /**
-     * write directly to out. Useful for debugging (but it will make the test fail!).
-     */
-    private boolean writeToOut;
-
-    /**
      * Instantiate a new Test case.
      * @param name test name
      */
@@ -183,16 +178,7 @@ public abstract class TidyTestCase extends TestCase
         URL inputURL = getClass().getClassLoader().getResource(fileName);
         assertNotNull("Can't find input file [" + fileName + "]", inputURL);
 
-        OutputStream out;
-        // out
-        if (!writeToOut)
-        {
-            out = new ByteArrayOutputStream();
-        }
-        else
-        {
-            out = System.out;
-        }
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         // go!
         this.tidy.parse(inputURL.openStream(), out);
@@ -207,7 +193,7 @@ public abstract class TidyTestCase extends TestCase
         String outFileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".out";
         URL outFile = getClass().getClassLoader().getResource(outFileName);
 
-        this.tidyOut = out.toString();
+        this.tidyOut = out.toString(tidy.getConfiguration().getOutCharEncodingName());
 
         if (outFile != null)
         {
@@ -335,7 +321,7 @@ public abstract class TidyTestCase extends TestCase
         String encodingName = tidy.getConfiguration().getOutCharEncodingName();
 
         diff(
-            new BufferedReader((new InputStreamReader(new ByteArrayInputStream(tidyOutput.getBytes()), encodingName))),
+            new BufferedReader(new StringReader(tidyOutput)),
             new BufferedReader(new InputStreamReader(new FileInputStream(correctFile.getPath()), encodingName)));
     }
 
