@@ -49,12 +49,24 @@
         <name>jtidy</name>
         <url>https://github.com/jtidy</url>
     </organization>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+		
+		<jtidy.date>${maven.build.timestamp}</jtidy.date>
+		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
+       </properties>
+	          
     <build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	
         <plugins>
             <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -81,6 +93,13 @@
                     </systemProperties>
                 </configuration>
             </plugin>
+
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.0</version>
+            </plugin>
+
             <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -116,6 +135,16 @@
                         </manifest>
                     </archive>
                 </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                
+	    		<configuration>
+	    			<mainClass>org.w3c.tidy.Tidy</mainClass>
+	    		</configuration>
             </plugin>
         </plugins>
     </build>

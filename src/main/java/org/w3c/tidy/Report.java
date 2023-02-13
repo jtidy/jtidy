@@ -80,11 +80,16 @@ public final class Report
     public static final String ACCESS_URL = "http://www.w3.org/WAI/GL";
 
     /**
+     * Release version.
+     */
+    public static final String RELEASE_VERSION;
+    
+    /**
      * Release date String.
      */
-    public static final String RELEASE_DATE_STRING = readReleaseDate();
+    public static final String RELEASE_DATE_STRING;
     
-    private static String readReleaseDate() {
+    static {
     	final Properties p = new Properties();
     	try {
 			final InputStream s = Report.class.getResourceAsStream("/jtidy.properties");
@@ -93,7 +98,8 @@ public final class Report
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to load jtidy.properties", e);
 		}
-		return p.getProperty("date");
+    	RELEASE_DATE_STRING = p.getProperty("date");
+    	RELEASE_VERSION = p.getProperty("version");
     }
 
     /**
@@ -787,7 +793,7 @@ public final class Report
      */
     public void showVersion(PrintWriter p)
     {
-        printMessage(p, "version_summary", new Object[]{RELEASE_DATE_STRING}, Level.SUMMARY);
+        printMessage(p, "version_summary", new Object[]{RELEASE_DATE_STRING, RELEASE_VERSION}, Level.SUMMARY);
     }
 
     /**
@@ -1788,7 +1794,7 @@ public final class Report
      */
     public void helpText(PrintWriter out)
     {
-        printMessage(out, "help_text", new Object[]{"Tidy", RELEASE_DATE_STRING}, Level.SUMMARY);
+        printMessage(out, "help_text", new Object[]{"Tidy", RELEASE_DATE_STRING, RELEASE_VERSION}, Level.SUMMARY);
     }
 
     /**
