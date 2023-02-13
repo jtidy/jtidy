@@ -2,20 +2,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.github.jtidy</groupId>
     <artifactId>jtidy</artifactId>
-    <name>JTidy</name>
     <version>1.0.3-SNAPSHOT</version>
+
+    <name>JTidy</name>
+    <url>https://github.com/jtidy/jtidy</url>
+    <inceptionYear>2000</inceptionYear>
     <description>
         JTidy is a Java port of HTML Tidy, a HTML syntax checker and pretty printer. Like its non-Java cousin, JTidy can be
         used as a tool for cleaning up malformed and faulty HTML. In addition, JTidy provides a DOM interface to the
         document that is being processed, which effectively makes you able to use JTidy as a DOM parser for real-world HTML.
     </description>
-    <url>https://github.com/jtidy/jtidy</url>
+
     <issueManagement>
         <url>https://github.com/jtidy/jtidy/issues</url>
     </issueManagement>
-    <inceptionYear>2000</inceptionYear>
+
     <developers>
         <developer>
             <id>jtidy</id>
@@ -24,6 +28,7 @@
             <organization>JTidy</organization>
         </developer>
     </developers>
+
     <licenses>
         <license>
             <name>Java HTML Tidy License</name>
@@ -31,10 +36,12 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <scm>
         <connection>scm:git:https://github.com/jtidy/jtidy.git</connection>
         <url>https://github.com/jtidy/jtidy</url>        
     </scm>
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -45,6 +52,7 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
+
     <organization>
         <name>jtidy</name>
         <url>https://github.com/jtidy</url>
@@ -57,7 +65,7 @@
 		
 		<jtidy.date>${maven.build.timestamp}</jtidy.date>
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
-       </properties>
+	</properties>
 	          
     <build>
 		<resources>
@@ -108,6 +116,7 @@
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clover-plugin</artifactId>
@@ -124,6 +133,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -255,6 +265,7 @@
                             </execution>
                         </executions>
                     </plugin>
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
@@ -270,6 +281,7 @@
                             </execution>
                         </executions>
                     </plugin>
+
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -281,6 +293,7 @@
                             <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
