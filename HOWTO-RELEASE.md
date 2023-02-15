@@ -1,5 +1,7 @@
 # How to release to Maven Central
 
+## Settings
+
 To prepare a release, you must have published a PGP signing key to a public key server like "keys.openpgp.org".
 
 You need an account at https://issues.sonatype.org/ with user-name and password to upload to a staging repository for 
@@ -20,17 +22,23 @@ The Sonatype account must be set up in your Maven settings file `~/.m2/settings.
 </settings>
 ```
 
-## Set stable version number
+## Preparation
 
-First, a new version number must be assigned to the project and everything must be committed to the repository. Its 
-best to switch to a new branch from `master` before. If anything goes wrong, this makes it easy to roll back the 
-changes without affecting the master branch.  
+Create and switch to a release branch from master. If anything goes wrong, this makes it easy to roll back the 
+changes without affecting the master branch.
+
+Update the project page with an announcement of the new version. At least, update the version number in the 
+Maven dependencies template on the home page.
+
+## Tag the new version
+
+A new version number must be assigned to the project and tagged in the repository. 
 
 ```
 mvn release:clean release:prepare
 ```
 
-## Create staging repository
+## Release to maven-central
 
 If the previous command completed without errors, the new release can be built and uploaded to maven-central.
 
@@ -38,5 +46,8 @@ If the previous command completed without errors, the new release can be built a
 mvn release:perform
 ```
 
-If this also worked fine, you can update the project page to announce the new version and merge your release branch 
-back to the master branch.
+## Create release on the GitHub page
+
+Merge your release branch back to the master branch to update the project home page. Create a new GitHub release,
+upload the artifacts `jar`, `javadoc`, `sources`, and `test-sources` to the release and create a description for the
+new release.
