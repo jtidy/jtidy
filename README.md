@@ -37,6 +37,17 @@ Run `java -jar jtidy.jar {options}` to access the JTidy command line interface.
 Detailed instructions on how to use the JTidy ant task can be found in `JTidyTask` JavaDoc.
 
 ## JTidy API
+
+To use JTidy embedded in your program, you best set up a Maven dependency to the official release at maven-central:
+
+```
+<dependency>
+    <groupId>com.github.jtidy</groupId>
+    <artifactId>jtidy</artifactId>
+    <version>1.0.3</version>
+</dependency>
+```
+
 The entry point for accessing JTidy functionalities is the `org.w3c.tidy.Tidy` class. This is a simple usage example:
 
 ```
