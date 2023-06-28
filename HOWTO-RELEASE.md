@@ -43,7 +43,7 @@ mvn release:clean release:prepare
 If the previous command completed without errors, the new release can be built and uploaded to maven-central.
 
 ```
-mvn release:perform
+mvn -P release release:perform
 ```
 
 ## Create release on the GitHub page
