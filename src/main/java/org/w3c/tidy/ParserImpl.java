@@ -65,7 +65,9 @@ import java.util.EnumSet;
 public final class ParserImpl
 {
 
-    /**
+    private static final int MAX_NESTING_LEVEL = 1000;
+
+	/**
      * parser for html.
      */
     public static final Parser HTML = new ParseHTML();
@@ -178,9 +180,15 @@ public final class ParserImpl
      * @param lexer the Lexer to use
      * @param node the node to use
      * @param mode the mode to use
+     * @param nestingLevel The current nesting level of the document. Extremely nested documents are considered an error. 
+     * @throws ExcessiveNesting When excessive nesting is detected.
      */
-    protected static void parseTag(Lexer lexer, Node node, short mode)
+    protected static void parseTag(Lexer lexer, Node node, short mode, int nestingLevel) throws ExcessiveNesting
     {
+    	if (nestingLevel > MAX_NESTING_LEVEL) {
+    		throw new ExcessiveNesting();
+    	}
+    	
         // Fix by GLP 2000-12-21. Need to reset insertspace if this
         // is both a non-inline and empty tag (base, link, meta, isindex, hr, area).
         if ((node.tag.model & Dict.CM_EMPTY) != 0)
@@ -203,7 +211,7 @@ public final class ParserImpl
             return;
         }
 
-        node.tag.getParser().parse(lexer, node, mode);
+        node.tag.getParser().parse(lexer, node, mode, nestingLevel + 1);
     }
 
     /**
@@ -212,8 +220,10 @@ public final class ParserImpl
      * @param lexer the Lexer to use
      * @param element the element to use
      * @param node the node to use
+     * @param nestingLevel The current nesting level of the document. Extremely nested documents are considered an error. 
+     * @throws ExcessiveNesting When excessive nesting is detected.
      */
-    protected static void moveToHead(Lexer lexer, Node element, Node node)
+    protected static void moveToHead(Lexer lexer, Node element, Node node, int nestingLevel) throws ExcessiveNesting
     {
         Node head;
         node.removeNode(); // make sure that node is isolated
@@ -240,7 +250,7 @@ public final class ParserImpl
 
             if (node.tag.getParser() != null)
             {
-                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
+                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE, nestingLevel);
             }
         }
         else
@@ -268,9 +278,10 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting When excessive nesting is detected.
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node html, short mode)
+        public void parse(Lexer lexer, Node html, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node, head;
             Node frameset = null;
@@ -314,7 +325,7 @@ public final class ParserImpl
 
             head = node;
             html.insertNodeAtEnd(head);
-            HEAD.parse(lexer, head, mode);
+            HEAD.parse(lexer, head, mode, nestingLevel);
 
             while (true)
             {
@@ -327,7 +338,7 @@ public final class ParserImpl
                         // implied body
                         node = lexer.inferredTag("body");
                         html.insertNodeAtEnd(node);
-                        BODY.parse(lexer, node, mode);
+                        BODY.parse(lexer, node, mode, nestingLevel);
                     }
 
                     return;
@@ -374,7 +385,7 @@ public final class ParserImpl
                             lexer.report.warning(lexer, html, noframes, Report.INSERTING_TAG);
                         }
 
-                        parseTag(lexer, noframes, mode);
+                        parseTag(lexer, noframes, mode, nestingLevel);
                         continue;
                     }
 
@@ -401,7 +412,7 @@ public final class ParserImpl
                     }
 
                     html.insertNodeAtEnd(node);
-                    parseTag(lexer, node, mode);
+                    parseTag(lexer, node, mode, nestingLevel);
 
                     // see if it includes a noframes element so that we can merge subsequent noframes elements
 
@@ -437,7 +448,7 @@ public final class ParserImpl
                         frameset.insertNodeAtEnd(noframes);
                     }
 
-                    parseTag(lexer, noframes, mode);
+                    parseTag(lexer, noframes, mode, nestingLevel);
                     continue;
                 }
 
@@ -445,7 +456,7 @@ public final class ParserImpl
                 {
                     if (node.tag != null && (node.tag.model & Dict.CM_HEAD) != 0)
                     {
-                        moveToHead(lexer, html, node);
+                        moveToHead(lexer, html, node, nestingLevel);
                         continue;
                     }
 
@@ -473,7 +484,7 @@ public final class ParserImpl
                     }
 
                     lexer.constrainVersion(Dict.VERS_FRAMESET);
-                    parseTag(lexer, noframes, mode);
+                    parseTag(lexer, noframes, mode, nestingLevel);
                     continue;
                 }
 
@@ -484,7 +495,7 @@ public final class ParserImpl
 
             // node must be body
             html.insertNodeAtEnd(node);
-            parseTag(lexer, node, mode);
+            parseTag(lexer, node, mode, nestingLevel);
             lexer.seenEndHtml = true;
         }
 
@@ -497,9 +508,10 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting When excessive nesting is detected.
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node head, short mode)
+        public void parse(Lexer lexer, Node head, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node;
             int hasTitle = 0;
@@ -577,7 +589,7 @@ public final class ParserImpl
                     }
 
                     head.insertNodeAtEnd(node);
-                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
+                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE, nestingLevel);
                     continue;
                 }
 
@@ -594,9 +606,9 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node title, short mode)
+        public void parse(Lexer lexer, Node title, short mode, int nestingLevel)
         {
             Node node;
 
@@ -665,9 +677,9 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node script, short mode) {
+        public void parse(Lexer lexer, Node script, short mode, int nestingLevel) {
             Node node = lexer.getCDATA(script);
             if (node != null) {
                 script.insertNodeAtEnd(node);
@@ -697,9 +709,10 @@ public final class ParserImpl
         		Dict.allExcept(Dict.combine(Dict.VERS_HTML40_STRICT, Dict.VERS_HTML20));
 
 		/**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting When excessive nesting is detected.
+		 * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node body, short mode)
+        public void parse(Lexer lexer, Node body, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node;
             boolean checkstack, iswhitenode;
@@ -761,7 +774,7 @@ public final class ParserImpl
                     if (node.type == Node.START_TAG)
                     {
                         body.insertNodeAtEnd(node);
-                        BLOCK.parse(lexer, node, mode);
+                        BLOCK.parse(lexer, node, mode, nestingLevel);
                         continue;
                     }
 
@@ -812,7 +825,7 @@ public final class ParserImpl
                         lexer.ungetToken();
                         para = lexer.inferredTag("p");
                         body.insertNodeAtEnd(para);
-                        parseTag(lexer, para, mode);
+                        parseTag(lexer, para, mode, nestingLevel);
                         mode = Lexer.MIXED_CONTENT;
                         continue;
                     }
@@ -875,7 +888,7 @@ public final class ParserImpl
 
                     if ((node.tag.model & Dict.CM_HEAD) != 0)
                     {
-                        moveToHead(lexer, body, node);
+                        moveToHead(lexer, body, node, nestingLevel);
                         continue;
                     }
 
@@ -977,7 +990,7 @@ public final class ParserImpl
                     }
 
                     body.insertNodeAtEnd(node);
-                    parseTag(lexer, node, mode);
+                    parseTag(lexer, node, mode, nestingLevel);
                     continue;
                 }
 
@@ -995,9 +1008,10 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting When excessive nesting is detected.
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node frameset, short mode)
+        public void parse(Lexer lexer, Node frameset, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node;
             TagTable tt = lexer.configuration.tt;
@@ -1029,7 +1043,7 @@ public final class ParserImpl
                 {
                     if (node.tag != null && (node.tag.model & Dict.CM_HEAD) != 0)
                     {
-                        moveToHead(lexer, frameset, node);
+                        moveToHead(lexer, frameset, node, nestingLevel);
                         continue;
                     }
                 }
@@ -1045,7 +1059,7 @@ public final class ParserImpl
                 {
                     frameset.insertNodeAtEnd(node);
                     lexer.excludeBlocks = false;
-                    parseTag(lexer, node, Lexer.MIXED_CONTENT);
+                    parseTag(lexer, node, Lexer.MIXED_CONTENT, nestingLevel);
                     continue;
                 }
                 else if (node.type == Node.START_END_TAG && (node.tag.model & Dict.CM_FRAMES) != 0)
@@ -1070,9 +1084,10 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting When excessive nesting is detected.
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node element, short mode)
+        public void parse(Lexer lexer, Node element, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node, parent;
             TagTable tt = lexer.configuration.tt;
@@ -1548,7 +1563,7 @@ public final class ParserImpl
 
                     if ((node.tag.model & Dict.CM_HEAD) != 0 && (node.tag.model & Dict.CM_BLOCK) == 0)
                     {
-                        moveToHead(lexer, element, node);
+                        moveToHead(lexer, element, node, nestingLevel);
                         continue;
                     }
 
@@ -1594,7 +1609,7 @@ public final class ParserImpl
                     }
 
                     element.insertNodeAtEnd(node);
-                    parseTag(lexer, node, mode);
+                    parseTag(lexer, node, mode, nestingLevel);
                     continue;
                 }
 
@@ -1617,7 +1632,7 @@ public final class ParserImpl
     public static class ParseList implements Parser
     {
 
-        public void parse(Lexer lexer, Node list, short mode)
+        public void parse(Lexer lexer, Node list, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node;
             Node parent;
@@ -1713,7 +1728,7 @@ public final class ParserImpl
 
                 // node should be <LI>
                 list.insertNodeAtEnd(node);
-                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
+                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE, nestingLevel);
             }
 
             if ((list.tag.model & Dict.CM_OBSOLETE) != 0)
@@ -1734,9 +1749,9 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node element, short mode)
+        public void parse(Lexer lexer, Node element, short mode, int nestingLevel)
         {
             if (lexer.isvoyager)
             {
@@ -1757,9 +1772,10 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting When excessive nesting is detected.
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node list, short mode)
+        public void parse(Lexer lexer, Node list, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node, parent;
             TagTable tt = lexer.configuration.tt;
@@ -1840,7 +1856,7 @@ public final class ParserImpl
                     }
 
                     // and parse contents of center
-                    parseTag(lexer, node, mode);
+                    parseTag(lexer, node, mode, nestingLevel);
 
                     // now create a new dl element
                     list = lexer.inferredTag("dl");
@@ -1878,7 +1894,7 @@ public final class ParserImpl
 
                 // node should be <DT> or <DD>
                 list.insertNodeAtEnd(node);
-                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
+                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE, nestingLevel);
             }
 
             lexer.report.warning(lexer, list, node, Report.MISSING_ENDTAG_FOR);
@@ -1894,9 +1910,10 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting 
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node pre, short mode)
+        public void parse(Lexer lexer, Node pre, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node;
             TagTable tt = lexer.configuration.tt;
@@ -1999,7 +2016,7 @@ public final class ParserImpl
                     }
 
                     pre.insertNodeAtEnd(node);
-                    parseTag(lexer, node, Lexer.PREFORMATTED);
+                    parseTag(lexer, node, Lexer.PREFORMATTED, nestingLevel);
                     continue;
                 }
 
@@ -2020,9 +2037,10 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting When excessive nesting is detected.
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node element, short mode)
+        public void parse(Lexer lexer, Node element, short mode, int nestingLevel) throws ExcessiveNesting
         {
             // element is node created by the lexer upon seeing the start tag, or by the parser when the start tag is
             // inferred.
@@ -2178,7 +2196,7 @@ public final class ParserImpl
                         lexer.ungetToken();
                         node = lexer.inferredTag("p");
                         element.insertNodeAtEnd(node);
-                        parseTag(lexer, node, Lexer.MIXED_CONTENT);
+                        parseTag(lexer, node, Lexer.MIXED_CONTENT, nestingLevel);
                         continue;
                     }
 
@@ -2299,7 +2317,7 @@ public final class ParserImpl
 
                         if ((node.tag.model & Dict.CM_HEAD) != 0)
                         {
-                            moveToHead(lexer, element, node);
+                            moveToHead(lexer, element, node, nestingLevel);
                             continue;
                         }
 
@@ -2353,7 +2371,7 @@ public final class ParserImpl
 
                         if ((node.tag.model & Dict.CM_HEAD) != 0)
                         {
-                            moveToHead(lexer, element, node);
+                            moveToHead(lexer, element, node, nestingLevel);
                             continue;
                         }
 
@@ -2486,6 +2504,7 @@ public final class ParserImpl
                     }
 
                     parseTag(lexer, node, Lexer.IGNORE_WHITESPACE // Lexer.MixedContent
+, nestingLevel
                     );
                     continue;
                 }
@@ -2527,9 +2546,10 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting When excessive nesting is detected.
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node table, short mode)
+        public void parse(Lexer lexer, Node table, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node, parent;
             int istackbase;
@@ -2580,7 +2600,7 @@ public final class ParserImpl
 
                         if (!(node.type == Node.TEXT_NODE)) // #427662 - was (!node.type == TextNode) - fix by Young
                         {
-                            parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
+                            parseTag(lexer, node, Lexer.IGNORE_WHITESPACE, nestingLevel);
                         }
 
                         lexer.exiled = false;
@@ -2588,7 +2608,7 @@ public final class ParserImpl
                     }
                     else if ((node.tag.model & Dict.CM_HEAD) != 0)
                     {
-                        moveToHead(lexer, table, node);
+                        moveToHead(lexer, table, node, nestingLevel);
                         continue;
                     }
                 }
@@ -2636,7 +2656,7 @@ public final class ParserImpl
                 {
                     table.insertNodeAtEnd(node);
 
-                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
+                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE, nestingLevel);
                     continue;
                 }
 
@@ -2658,9 +2678,10 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting When excessive nesting is detected.
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node colgroup, short mode)
+        public void parse(Lexer lexer, Node colgroup, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node, parent;
             TagTable tt = lexer.configuration.tt;
@@ -2733,7 +2754,7 @@ public final class ParserImpl
 
                 // node should be <COL>
                 colgroup.insertNodeAtEnd(node);
-                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
+                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE, nestingLevel);
             }
         }
 
@@ -2746,9 +2767,10 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting When excessive nesting is detected.
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node rowgroup, short mode)
+        public void parse(Lexer lexer, Node rowgroup, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node, parent;
             TagTable tt = lexer.configuration.tt;
@@ -2814,7 +2836,7 @@ public final class ParserImpl
                         // #427662 was (!node.type == TextNode) fix by Young 04 Aug 00
                         if (node.type != Node.TEXT_NODE)
                         {
-                            parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
+                            parseTag(lexer, node, Lexer.IGNORE_WHITESPACE, nestingLevel);
                         }
 
                         lexer.exiled = false;
@@ -2823,7 +2845,7 @@ public final class ParserImpl
                     else if ((node.tag.model & Dict.CM_HEAD) != 0)
                     {
                         lexer.report.warning(lexer, rowgroup, node, Report.TAG_NOT_ALLOWED_IN);
-                        moveToHead(lexer, rowgroup, node);
+                        moveToHead(lexer, rowgroup, node, nestingLevel);
                         continue;
                     }
                 }
@@ -2890,7 +2912,7 @@ public final class ParserImpl
 
                 // node should be <TR>
                 rowgroup.insertNodeAtEnd(node);
-                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
+                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE, nestingLevel);
             }
             Node.trimEmptyElement(lexer, rowgroup);
         }
@@ -2903,9 +2925,10 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting When excessive nesting is detected.
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node row, short mode)
+        public void parse(Lexer lexer, Node row, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node, parent;
             boolean excludeState;
@@ -3022,7 +3045,7 @@ public final class ParserImpl
 
                         if (node.type != Node.TEXT_NODE)
                         {
-                            parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
+                            parseTag(lexer, node, Lexer.IGNORE_WHITESPACE, nestingLevel);
                         }
 
                         lexer.exiled = false;
@@ -3031,7 +3054,7 @@ public final class ParserImpl
                     else if ((node.tag.model & Dict.CM_HEAD) != 0)
                     {
                         lexer.report.warning(lexer, row, node, Report.TAG_NOT_ALLOWED_IN);
-                        moveToHead(lexer, row, node);
+                        moveToHead(lexer, row, node, nestingLevel);
                         continue;
                     }
                 }
@@ -3046,7 +3069,7 @@ public final class ParserImpl
                 row.insertNodeAtEnd(node);
                 excludeState = lexer.excludeBlocks;
                 lexer.excludeBlocks = false;
-                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
+                parseTag(lexer, node, Lexer.IGNORE_WHITESPACE, nestingLevel);
                 lexer.excludeBlocks = excludeState;
 
                 // pop inline stack
@@ -3069,9 +3092,10 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting When excessive nesting is detected.
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node noframes, short mode)
+        public void parse(Lexer lexer, Node noframes, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node;
             TagTable tt = lexer.configuration.tt;
@@ -3128,7 +3152,7 @@ public final class ParserImpl
                 {
                     boolean seenbody = lexer.seenEndBody;
                     noframes.insertNodeAtEnd(node);
-                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE); // MixedContent
+                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE, nestingLevel); // MixedContent
 
                     if (seenbody)
                     {
@@ -3164,7 +3188,7 @@ public final class ParserImpl
                         }
                         noframes.insertNodeAtEnd(node);
                     }
-                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
+                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE, nestingLevel);
                     // MixedContent
                     continue;
                 }
@@ -3184,9 +3208,10 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting When excessive nesting is detected.
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node field, short mode)
+        public void parse(Lexer lexer, Node field, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node;
             TagTable tt = lexer.configuration.tt;
@@ -3212,7 +3237,7 @@ public final class ParserImpl
                     && (node.tag == tt.tagOption || node.tag == tt.tagOptgroup || node.tag == tt.tagScript))
                 {
                     field.insertNodeAtEnd(node);
-                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE);
+                    parseTag(lexer, node, Lexer.IGNORE_WHITESPACE, nestingLevel);
                     continue;
                 }
 
@@ -3232,9 +3257,9 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node field, short mode)
+        public void parse(Lexer lexer, Node field, short mode, int nestingLevel)
         {
             Node node;
             TagTable tt = lexer.configuration.tt;
@@ -3318,9 +3343,10 @@ public final class ParserImpl
     {
 
         /**
-         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short)
+         * @throws ExcessiveNesting When excessive nesting is detected.
+         * @see org.w3c.tidy.Parser#parse(org.w3c.tidy.Lexer, org.w3c.tidy.Node, short, int)
          */
-        public void parse(Lexer lexer, Node field, short mode)
+        public void parse(Lexer lexer, Node field, short mode, int nestingLevel) throws ExcessiveNesting
         {
             Node node;
             TagTable tt = lexer.configuration.tt;
@@ -3350,7 +3376,7 @@ public final class ParserImpl
                     }
 
                     field.insertNodeAtEnd(node);
-                    parseTag(lexer, node, Lexer.MIXED_CONTENT);
+                    parseTag(lexer, node, Lexer.MIXED_CONTENT, nestingLevel);
                     continue;
                 }
 
@@ -3421,7 +3447,11 @@ public final class ParserImpl
             }
 
             document.insertNodeAtEnd(html);
-            HTML.parse(lexer, html, (short) 0); // TODO?
+            try {
+				HTML.parse(lexer, html, (short) 0, 0);
+			} catch (ExcessiveNesting ex) {
+                lexer.report.error(lexer, null, node, Report.DOCUMENT_WITH_EXCESSIVE_NESTING);
+			}
             break;
         }
         
@@ -3429,7 +3459,11 @@ public final class ParserImpl
             /* a later check should complain if <body> is empty */
             html = lexer.inferredTag("html");
             lexer.root.insertNodeAtEnd(html);
-            HTML.parse(lexer, html, Lexer.IGNORE_WHITESPACE);
+            try {
+				HTML.parse(lexer, html, Lexer.IGNORE_WHITESPACE, 0);
+			} catch (ExcessiveNesting ex) {
+                lexer.report.error(lexer, null, node, Report.DOCUMENT_WITH_EXCESSIVE_NESTING);
+			}
         }
         
         if (lexer.root.findTITLE(lexer.configuration.tt) == null) {
