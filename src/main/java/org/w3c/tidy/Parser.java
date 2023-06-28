@@ -68,7 +68,9 @@ public interface Parser
      * @param lexer Lexer
      * @param node node created by the lexer upon seeing the start tag, or by the parser when the start tag is inferred
      * @param mode content mode
+     * @param nestingLevel The current nesting level of the document. Extremely nested documents are considered an error. 
+     * @throws ExcessiveNesting When excessive nesting is detected.
      */
-    void parse(Lexer lexer, Node node, short mode);
+    void parse(Lexer lexer, Node node, short mode, int nestingLevel) throws ExcessiveNesting;
 
 }

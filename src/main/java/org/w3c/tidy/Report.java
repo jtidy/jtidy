@@ -336,6 +336,11 @@ public final class Report
      * unexpected endag in.
      */
     public static final short UNEXPECTED_ENDTAG_IN = 47;
+    
+    /**
+     * excessive nesting that is considered a denial-of-service attack.
+     */
+    public static final short DOCUMENT_WITH_EXCESSIVE_NESTING = 48;
 
     /**
      * replacing element.
