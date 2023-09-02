@@ -431,24 +431,51 @@ public class JTidyTask extends Task
 
         log("Processing " + inputFile.getAbsolutePath(), Project.MSG_DEBUG);
 
-        try (InputStream is = new BufferedInputStream(new FileInputStream(inputFile)))
+        InputStream is = null;
+        FileInputStream fis = null;
+        try 
         {
+            fis = new FileInputStream(inputFile);
+            is = new BufferedInputStream(fis);
             if (!outputFile.getParentFile().mkdirs() || !outputFile.createNewFile())
             {
                 log("Existing output file " + outputFile, Project.MSG_DEBUG);
             }
-            try (OutputStream os = new BufferedOutputStream(new FileOutputStream(outputFile)))
+            
+            FileOutputStream fos = null;
+            OutputStream os = null;
+            try
             {
+                fos = new FileOutputStream(outputFile);
+                os = new BufferedOutputStream(fos);
                 tidy.parse(is, os);
             }
             catch (IOException e)
             {
                 throw new BuildException("Unable to process destination file " + outputFile, e);
+            } finally
+            {
+                if (os!=null)
+                   os.close();
+                if (fos!=null)
+                   fos.close();
             }
         }
         catch (IOException e)
         {
             throw new BuildException("Unable to open file " + inputFile, e);
+        } finally
+        {
+            try 
+            {
+            if (is!=null)
+              is.close();
+            if (fis!=null)
+              fis.close();
+            } catch (IOException e)
+            {
+              throw new BuildException("Unable to open file " + inputFile, e);
+            }
         }
 
         // cleanup empty files
