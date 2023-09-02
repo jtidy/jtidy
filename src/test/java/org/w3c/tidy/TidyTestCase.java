@@ -205,8 +205,13 @@ public abstract class TidyTestCase extends TestCase
         else {
         	String outputPath = makePath(inputURL, ".out");
             log.debug("Output file doesn't exists, generating [" + outputPath + "] for reference.");
-            try (OutputStream reference = new FileOutputStream(new File(outputPath))) {
+            OutputStream reference = new FileOutputStream(new File(outputPath));
+            try 
+            {
             	reference.write(out.toByteArray());
+            } finally
+            {
+               reference.close();
             }
         }
 
@@ -257,11 +262,11 @@ public abstract class TidyTestCase extends TestCase
 
         MsgXmlHandler handler = new MsgXmlHandler();
         saxParser.parse(new InputSource(messagesFile.openStream()), handler);
-        Set<TidyMessage> expectedMsgs = new LinkedHashSet<>(handler.getMessages());
-        Set<TidyMessage> tidyMsgs = new LinkedHashSet<>(this.messageListener.getReceived());
+        Set<TidyMessage> expectedMsgs = new LinkedHashSet<TidyMessage>(handler.getMessages());
+        Set<TidyMessage> tidyMsgs = new LinkedHashSet<TidyMessage>(this.messageListener.getReceived());
 
-        List<TidyMessage> unexpected = new ArrayList<>();
-        List<TidyMessage> missing = new ArrayList<>();
+        List<TidyMessage> unexpected = new ArrayList<TidyMessage>();
+        List<TidyMessage> missing = new ArrayList<TidyMessage>();
         for (TidyMessage msg : tidyMsgs) {
         	if (!expectedMsgs.contains(msg)) {
         		unexpected.add(msg);
@@ -519,7 +524,7 @@ public abstract class TidyTestCase extends TestCase
         /**
          * Parsed messages.
          */
-        private List<TidyMessage> messages = new ArrayList<>();
+        private List<TidyMessage> messages = new ArrayList<TidyMessage>();
 
         /**
          * Error code for the current message.

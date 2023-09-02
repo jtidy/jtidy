@@ -1008,19 +1008,17 @@ public class Clean
     {
         while (av != null)
         {
-            switch (av.attribute)
+            if (av.attribute.equals("face"))
             {
-                case "face":
                     addFontFace(node, av.value);
-                    break;
-                case "size":
+            } else
+            if (av.attribute.equals("size"))
+            {
                     addFontSize(node, av.value);
-                    break;
-                case "color":
+            } else
+            if (av.attribute.equals("color"))
+            {
                     addFontColor(node, av.value);
-                    break;
-                default:
-                    break;
             }
 
             av = av.next;

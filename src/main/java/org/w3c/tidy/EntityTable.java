@@ -333,7 +333,7 @@ public final class EntityTable
     /**
      * Entity map.
      */
-    private Map<String, Entity> entityMap = new HashMap<>();
+    private Map<String, Entity> entityMap = new HashMap<String, Entity>();
 
     /**
      * use getDefaultEntityTable to get an entity table instance.

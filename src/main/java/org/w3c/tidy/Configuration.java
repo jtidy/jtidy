@@ -220,7 +220,7 @@ public class Configuration implements Serializable
      * Map containg all the valid configuration options and the related parser. Tag entry contains String(option
      * name)-Flag instance.
      */
-    private static final Map<String, Flag> OPTIONS = new HashMap<>();
+    private static final Map<String, Flag> OPTIONS = new HashMap<String,Flag>();
 
     /**
      * serial version UID for this class.
@@ -804,7 +804,7 @@ public class Configuration implements Serializable
                 {
                     flag.getLocation().set(this, value);
                 }
-                catch (IllegalArgumentException | IllegalAccessException e)
+                catch (IllegalArgumentException e)
                 {
                     throw new RuntimeException("IllegalArgumentException during config initialization for field "
                         + key
@@ -812,6 +812,15 @@ public class Configuration implements Serializable
                         + value
                         + "]: "
                         + e.getMessage());
+                }
+                catch (IllegalAccessException e)
+                {
+                  throw new RuntimeException("IllegalArgumentException during config initialization for field "
+                      + key
+                      + "with value ["
+                      + value
+                      + "]: "
+                      + e.getMessage());
                 }
             }
         }
@@ -908,7 +917,7 @@ public class Configuration implements Serializable
             Flag configItem;
 
             // sort configuration options
-            List<Flag> values = new ArrayList<>(OPTIONS.values());
+            List<Flag> values = new ArrayList<Flag>(OPTIONS.values());
             Collections.sort(values);
 
             for (Object value : values)

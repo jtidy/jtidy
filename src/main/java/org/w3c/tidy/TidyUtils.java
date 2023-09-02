@@ -55,7 +55,6 @@
 package org.w3c.tidy;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.Set;
 
 
@@ -638,7 +637,16 @@ public final class TidyUtils
      */
     public static byte[] getBytes(String str)
     {
-        return str.getBytes(StandardCharsets.UTF_8);
+        try
+        {
+          return str.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e)
+        {
+          // Should never happen as UTF-8 is supported
+          // in standard JRE
+          e.printStackTrace();
+          return null;
+        }
     }
 
     /**
@@ -650,7 +658,15 @@ public final class TidyUtils
      * @return same as <code>new String(bytes, offset, length, "UTF8")</code>
      */
     public static String getString(final byte[] bytes, final int offset, final int length) {
-        return new String(bytes, offset, Math.min(length, bytes.length - offset), StandardCharsets.UTF_8);
+        try
+        {
+          return new String(bytes, offset, Math.min(length, bytes.length - offset), "UTF-8");
+        } catch (UnsupportedEncodingException e)
+        {
+          // Should never happen as UTF-8 is supported
+          e.printStackTrace();
+          return null;
+        }
     }
 
     /**

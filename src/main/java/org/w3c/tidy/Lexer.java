@@ -414,9 +414,9 @@ public class Lexer
         this.versions = Dict.combine(Dict.VERS_ALL, Dict.VERS_PROPRIETARY);
         this.doctype = HtmlVersion.UNKNOWN;
         this.insert = -1;
-        this.istack = new Stack<>();
+        this.istack = new Stack<IStack>();
         this.configuration = configuration;
-        this.nodeList = new Vector<>();
+        this.nodeList = new Vector<Node>();
     }
 
     /**

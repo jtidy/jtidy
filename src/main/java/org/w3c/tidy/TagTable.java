@@ -830,7 +830,7 @@ public final class TagTable
     /**
      * hashTable containing tags.
      */
-    private Map<String, Dict> tagHashtable = new HashMap<>();
+    private Map<String, Dict> tagHashtable = new HashMap<String,Dict>();
 
     /**
      * Instantiates a new tag table with known tags.
@@ -1097,7 +1097,7 @@ public final class TagTable
      */
     List findAllDefinedTag(short tagType)
     {
-        List<String> tagNames = new ArrayList<>();
+        List<String> tagNames = new ArrayList<String>();
         for (Dict curDictEntry : tagHashtable.values())
         {
             if (curDictEntry == null || (curDictEntry.versions != Dict.VERS_PROPRIETARY))

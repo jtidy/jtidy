@@ -70,7 +70,7 @@ public abstract class EncodingNameMapper
     /**
      * Map containing uppercase alias - {standard iana, standard java}.
      */
-    private static Map<String, String[]> encodingNameMap = new HashMap<>();
+    private static Map<String, String[]> encodingNameMap = new HashMap<String,String[]>();
 
     static
     {

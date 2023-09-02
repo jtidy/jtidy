@@ -324,7 +324,7 @@ public class AttributeTable
     /**
      * Map containing all the installed attributes.
      */
-    private Map<String, Attribute> attributeMap = new HashMap<>();
+    private Map<String, Attribute> attributeMap = new HashMap<String, Attribute>();
 
     /**
      * lookup an installed Attribute.

@@ -22,8 +22,12 @@ public class TestCVE_2023_34623 extends TestCase {
 	public void testDeepNesting() {
         String htmlData = deeplyNestedDoc();
         Tidy tidy = new Tidy();
-        try (StringReader stringReader = new StringReader(htmlData);){
+        StringReader stringReader = new StringReader(htmlData);
+        try {
         	tidy.parse(stringReader, System.out);
+        } finally
+        {
+            stringReader.close();
         }
         assertEquals(1, tidy.getParseErrors());
     }

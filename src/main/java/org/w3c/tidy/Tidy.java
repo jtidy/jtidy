@@ -88,7 +88,7 @@ public class Tidy implements Serializable
     /**
      * Alias for configuration options accepted in command line.
      */
-    private static final Map<String, String> CMDLINE_ALIAS = new HashMap<>();
+    private static final Map<String, String> CMDLINE_ALIAS = new HashMap<String, String>();
 
     static
     {
@@ -783,27 +783,29 @@ public class Tidy implements Serializable
                 }
 
                 // "exclusive" options
-                switch (argName)
+                if (argName.equals("help") || argName.equals("h") || argName.equals("?"))
                 {
-                    case "help":
-                    case "h":
-                    case "?":
-                        this.report.helpText(new PrintWriter(System.out, true));
-                        return 0;
-                    case "help-config":
-                        configuration.printConfigOptions(new PrintWriter(System.out, true), false);
-                        return 0;
-                    case "show-config":
-                        configuration.adjust(); // ensure config is self-consistent
+                    this.report.helpText(new PrintWriter(System.out, true));
+                    return 0;
+                } else
+                if (argName.equals("help-config"))
+                {
+                    configuration.printConfigOptions(new PrintWriter(System.out, true), false);
+                    return 0;
+                }
+                else
+                if (argName.equals("show-config"))
+                {
+                    configuration.adjust(); // ensure config is self-consistent
 
-                        configuration.printConfigOptions(errout, true);
-                        return 0;
-                    case "version":
-                    case "v":
-                        this.report.showVersion(errout);
-                        return 0;
-                    default:
-                        break;
+                    configuration.printConfigOptions(errout, true);
+                    return 0;
+                }
+                else
+                if (argName.equals("version") || argName.equals("v"))
+                {
+                    this.report.showVersion(errout);
+                    return 0;
                 }
 
                 // optional value for non boolean options

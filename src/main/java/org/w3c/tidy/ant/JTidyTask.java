@@ -171,7 +171,7 @@ public class JTidyTask extends Task
     /**
      * Filesets.
      */
-    private final List<FileSet> filesets = new ArrayList<>();
+    private final List<FileSet> filesets = new ArrayList<FileSet>();
 
     /**
      * Destination directory for output.
