@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.jtidy</groupId>
-    <artifactId>jtidy</artifactId>
+    <artifactId>jtidy-java6</artifactId>
     <version>1.0.4-SNAPSHOT</version>
 
     <name>JTidy</name>
