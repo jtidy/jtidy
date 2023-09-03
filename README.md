@@ -48,6 +48,16 @@ To use JTidy embedded in your program, you best set up a Maven dependency to the
 </dependency>
 ```
 
+If you require a Java-6-compatible version, you can use the back-ported artifact:
+
+```
+<dependency>
+    <groupId>com.github.jtidy</groupId>
+    <artifactId>jtidy-java6</artifactId>
+    <version>1.0.4</version>
+</dependency>
+```
+
 The entry point for accessing JTidy functionalities is the `org.w3c.tidy.Tidy` class. This is a simple usage example:
 
 ```
