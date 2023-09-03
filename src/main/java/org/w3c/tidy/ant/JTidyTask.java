@@ -481,14 +481,7 @@ public class JTidyTask extends Task
         // cleanup empty files
         if (tidy.getParseErrors() > 0 && !tidy.getForceOutput())
         {
-            try
-            {
-                Files.delete(outputFile.toPath());
-            }
-            catch (IOException e)
-            {
-                throw new BuildException("Failed trying to delete output file " + outputFile, e);
-            }
+        	outputFile.delete();
         }
 
         if (failonerror && tidy.getParseErrors() > 0)
