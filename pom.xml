@@ -4,7 +4,7 @@
 
     <groupId>com.github.jtidy</groupId>
     <artifactId>jtidy-java6</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5-SNAPSHOT</version>
 
     <name>JTidy</name>
     <url>https://github.com/jtidy/jtidy</url>
@@ -39,7 +39,7 @@
     <scm>
         <connection>scm:git:https://github.com/jtidy/jtidy.git</connection>
         <url>https://github.com/jtidy/jtidy</url>        
-      <tag>jtidy-java6-1.0.4</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <distributionManagement>
