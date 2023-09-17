@@ -74,6 +74,14 @@ public class TidyOutputBugsTest extends TidyTestCase
     }
 
     /**
+     * Test that JTidy accepts HTML 5 doctype.
+     */
+    public void testHtml5DocType() throws Exception
+    {
+    	executeTidyTest("html5-doctype.html");
+    }
+    
+    /**
      * test for Tidy [427812] : Reprocessing OBJECT removes PARAM.
      * @throws Exception any exception generated during the test
      */
