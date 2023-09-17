@@ -1605,6 +1605,11 @@ public class Lexer
                         }
 
                         break; // to replace old version by new
+
+                    case HTML5: 
+                    	if (versions.contains(HtmlVersion.HTML5)) {
+                    		return true;
+                    	}
                     default :
                         // should never reach here
                         break;
