@@ -51,3 +51,5 @@ mvn -P release release:perform
 Merge your release branch back to the master branch to update the project home page. Create a new GitHub release,
 upload the artifacts `jar`, `javadoc`, `sources`, and `test-sources` to the release and create a description for the
 new release.
+
+Check, whether the artifact has appeared in Maven-Central: https://repo.maven.apache.org/maven2/com/github/jtidy/jtidy/
