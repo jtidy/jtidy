@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTML 5 Doctype Test</title>
+</head>
+<body>
+<h1>This is a page with HTML 5 doctype.</h1>
+</body>
+</html>
