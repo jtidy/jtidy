@@ -44,7 +44,7 @@ To use JTidy embedded in your program, you best set up a Maven dependency to the
 <dependency>
     <groupId>com.github.jtidy</groupId>
     <artifactId>jtidy</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 </dependency>
 ```
 
