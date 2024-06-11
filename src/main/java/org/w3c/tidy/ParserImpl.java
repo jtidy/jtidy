@@ -65,8 +65,6 @@ import java.util.EnumSet;
 public final class ParserImpl
 {
 
-    private static final int MAX_NESTING_LEVEL = 1000;
-
 	/**
      * parser for html.
      */
@@ -185,7 +183,7 @@ public final class ParserImpl
      */
     protected static void parseTag(Lexer lexer, Node node, short mode, int nestingLevel) throws ExcessiveNesting
     {
-    	if (nestingLevel > MAX_NESTING_LEVEL) {
+    	if (nestingLevel > lexer.configuration.maxNesting) {
     		throw new ExcessiveNesting();
     	}
     	

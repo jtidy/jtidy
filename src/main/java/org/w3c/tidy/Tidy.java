@@ -2477,4 +2477,14 @@ public class Tidy implements Serializable
         return configuration.getOutCharEncodingName();
     }
 
+    /**
+     * <code>max-nesting</code> set the max nesting allowed in the document before throwing an error.
+     *
+     * @param maxNesting maximum nesting allowed in the document
+     * @see Configuration#maxNesting
+     */
+    public void setMaxNesting(int maxNesting)
+    {
+        configuration.maxNesting = maxNesting;
+    }
 }
