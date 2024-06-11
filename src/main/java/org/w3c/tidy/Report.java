@@ -1520,6 +1520,9 @@ public final class Report
                 printMessage(code, lexer, "unexpected_endtag", new Object[]{node.element}, Level.ERROR);
             }
         }
+        else if (code == DOCUMENT_WITH_EXCESSIVE_NESTING) {
+            printMessage(code, lexer, "document_with_excessive_nesting", null, Level.ERROR);
+        }
     }
 
     /**
