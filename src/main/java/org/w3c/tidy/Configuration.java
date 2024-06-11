@@ -233,6 +233,7 @@ public class Configuration implements Serializable
         addConfigOption(new Flag("wrap", "wraplen", ParsePropertyImpl.INT));
         addConfigOption(new Flag("show-errors", "showErrors", ParsePropertyImpl.INT));
         addConfigOption(new Flag("tab-size", "tabsize", ParsePropertyImpl.INT));
+        addConfigOption(new Flag("max-nesting", "maxNesting", ParsePropertyImpl.INT));
 
         addConfigOption(new Flag("wrap-attributes", "wrapAttVals", ParsePropertyImpl.BOOL));
         addConfigOption(new Flag("wrap-script-literals", "wrapScriptlets", ParsePropertyImpl.BOOL));
@@ -712,6 +713,11 @@ public class Configuration implements Serializable
      * Avoid mapping values &gt; 127 to entities.
      */
     protected boolean rawOut;
+
+    /**
+     * number of errors to put out.
+     */
+    protected int maxNesting = 1000;
 
     /**
      * configuration properties.
