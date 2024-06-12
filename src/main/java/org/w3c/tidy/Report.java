@@ -1523,6 +1523,9 @@ public final class Report
         else if (code == DOCUMENT_WITH_EXCESSIVE_NESTING) {
             printMessage(code, lexer, "document_with_excessive_nesting", null, Level.ERROR);
         }
+        else {
+            printMessage(code, lexer, "unknown_error", new Object[]{code}, Level.ERROR);
+        }
     }
 
     /**
