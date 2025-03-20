@@ -102,7 +102,7 @@ You are welcome to contribute issues and pull-request. Please have a look at the
 
 # License
 
-This project is licensed under the zlib/libpng license. More information is available in the LICENSE.txt file
+This project is licensed under the "Java HTML Tidy License" which is compatible with the [zlib/libpng license](https://en.wikipedia.org/wiki/Zlib_License). More information is available in the [LICENSE.txt](https://github.com/jtidy/jtidy/edit/master/LICENSE.txt) file
 
 # Future
 
